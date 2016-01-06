@@ -28,6 +28,7 @@ class WeatherPlugin
 
   def output
     cond = current_conditions
+    return if cond.nil?
     update = formatted_time(cond['observation_epoch'].to_i)
     puts header(cond)
     puts '---'
@@ -58,6 +59,10 @@ class WeatherPlugin
       )
     end
     data = @wxu.conditions_for(@loc)
+    if data['response'].key?('error')
+      puts data['response']['error']['type']
+      return nil
+    end
     data['current_observation']
   end
 
