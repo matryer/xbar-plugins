@@ -89,6 +89,7 @@ Special thanks to everyone who has contributed:
 - Jean Caillé - [http://jcaille.github.io](http://jcaille.github.io)
 - Carlson Orozco - [https://github.com/carlsonorozco](https://github.com/carlsonorozco)
 - Taylor Zane Glaeser - [https://www.taylorzane.com](https://www.taylorzane.com)
+- Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 
 ## Write your own
 
