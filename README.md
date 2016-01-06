@@ -30,6 +30,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 
 ####Lifestyle
 - Sleeping Time Cycles
+- Current Task Reminder
 
 ####Music
 - iTunes (shows current track information from iTunes)
@@ -89,6 +90,7 @@ Special thanks to everyone who has contributed:
 - Jean Caillé - [http://jcaille.github.io](http://jcaille.github.io)
 - Carlson Orozco - [https://github.com/carlsonorozco](https://github.com/carlsonorozco)
 - Taylor Zane Glaeser - [https://www.taylorzane.com](https://www.taylorzane.com)
+- Wiktor Mociun - [https://medium.com/@voter101](https://medium.com/@voter101)
 - Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 
 ## Write your own
