@@ -88,6 +88,7 @@ Special thanks to everyone who has contributed:
 - Jonathan Keith - [http://jonkeith.com](http://jonkeith.com)
 - Jean Caillé - [http://jcaille.github.io](http://jcaille.github.io)
 - Carlson Orozco - [https://github.com/carlsonorozco](https://github.com/carlsonorozco)
+- Taylor Zane Glaeser - [https://www.taylorzane.com](https://www.taylorzane.com)
 
 ## Write your own
 
