@@ -66,6 +66,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 ####Weather
 - forecast.io
 - Open Weather Map
+- Weather Underground
 
 ##Contributors
 
@@ -89,6 +90,7 @@ Special thanks to everyone who has contributed:
 - Jean Caillé - [http://jcaille.github.io](http://jcaille.github.io)
 - Carlson Orozco - [https://github.com/carlsonorozco](https://github.com/carlsonorozco)
 - Taylor Zane Glaeser - [https://www.taylorzane.com](https://www.taylorzane.com)
+- Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
 
 ## Write your own
 
