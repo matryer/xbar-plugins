@@ -35,4 +35,8 @@ end
 
 puts "HackerNews"
 puts "---"
-get_top_stories.map { |id| get_story_for_id(id) }.each { |story| output(story) }
+begin
+  get_top_stories.map { |id| get_story_for_id(id) }.each { |story| output(story) }
+rescue => e
+  puts "Content is currently unavailable. Please try resetting. | color=red"
+end
