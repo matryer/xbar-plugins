@@ -66,6 +66,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 ####Web
 - SAP version
 - StackOverflow
+- HackerNews Top Stories
 
 ####Weather
 - forecast.io
@@ -102,6 +103,7 @@ Special thanks to everyone who has contributed:
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
 - Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
+- Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
 
 ## Add your own plugin
 
