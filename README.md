@@ -31,6 +31,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 
 ####Finance
 - Stock tracker
+- hour_logger (money management for freelance work). [Download](https://github.com/udeyrishi/hour_logger).
 
 ####Lifestyle
 - Sleeping Time Cycles
