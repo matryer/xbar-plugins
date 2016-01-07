@@ -19,6 +19,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 ####Bitcoin
 - Bitstamp last BTC Price
 - Coinbase.com BTC Index
+- WinkDex BTC Index
 
 ####Developer
 - Homebrew available updates
@@ -94,6 +95,7 @@ Special thanks to everyone who has contributed:
 - Wiktor Mociun - [https://medium.com/@voter101](https://medium.com/@voter101)
 - Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
+- Baron Reznik [http://www.reznik.net](http://www.reznik.net)
 
 ## Write your own
 
