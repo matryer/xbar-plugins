@@ -22,6 +22,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Coinbase.com BTC Index
 
 ####Developer
+- GitHub notifications
 - Homebrew available updates
 - Jenkins build status
 - TravisCI check
@@ -102,6 +103,7 @@ Special thanks to everyone who has contributed:
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
 - Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
+- Daniel Khamsing - [https://github.com/dkhamsing](https://github.com/dkhamsing)
 
 ## Add your own plugin
 
