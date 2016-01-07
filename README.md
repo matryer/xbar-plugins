@@ -104,6 +104,7 @@ Special thanks to everyone who has contributed:
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
 - Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
 - Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)
+
 ## Add your own plugin
 
 To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins).
