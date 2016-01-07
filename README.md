@@ -27,6 +27,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - TravisCI check
 - Docker status (docker-machine and running containers status)
 - Xcode version
+- Github Notifications
 
 ####Finance
 - Stock tracker
