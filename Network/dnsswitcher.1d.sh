@@ -8,11 +8,6 @@
 
 # set your network service
 network_service="Wi-FI"
-tmp_dir="/tmp"
-dns_address_script_prefix="$tmp_dir/bitbar_dns_address_"
-
-switcher_script="bitbar_dns_switcher"
-switcher_script="$tmp_dir/$switcher_script"
 
 # add or remove list DNS below, then don't forget to make it enabled. see below
 google="8.8.8.8
@@ -43,6 +38,8 @@ enabled_dns_address=(google level3 opendns norton)
 
 echo "Switch DNS"
 echo "---"
+
+tmp_dir="/tmp"
 
 for dns_name in "${enabled_dns_address[@]}"
 do
