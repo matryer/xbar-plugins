@@ -25,6 +25,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Jenkins build status
 - TravisCI check
 - Docker status (docker-machine and running containers status)
+- Xcode version
 
 ####Finance
 - Stock tracker
@@ -96,6 +97,7 @@ Special thanks to everyone who has contributed:
 - Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
+- Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
 
 ## Write your own
 
