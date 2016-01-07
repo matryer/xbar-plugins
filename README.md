@@ -72,7 +72,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Open Weather Map
 - Weather Underground
 
-  * NOTE: Often this list isn't exhaustive as it's manually maintained, to see the latest plugins it is recommended that you browse around this repository.
+**NOTE**: Often this list isn't exhaustive as it's manually maintained, to see the latest plugins it is recommended that you browse around this repository.
 
 ##Contributors
 
