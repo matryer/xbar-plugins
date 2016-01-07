@@ -84,6 +84,7 @@ Special thanks to everyone who has contributed:
 - Dylan Evans - [https://github.com/whonut](https://github.com/whonut))
 - Daniel Seripap - [https://github.com/seripap](https://github.com/seripap)
 - Alexandre Espinosa Menor - [https://github.com/alexandregz](https://github.com/alexandregz)
+- Damien Lajarretie - [@dqms_output](https://twitter.com/dqms_output)
 - Dan Turkel - [https://danturkel.com/](https://danturkel.com/)
 - Marian Schubert - [https://github.com/maio](https://github.com/maio)
 - Stratos Xakoustos - [https://github.com/Stratouklos](https://github.com/Stratouklos)
