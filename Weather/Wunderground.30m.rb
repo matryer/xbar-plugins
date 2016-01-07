@@ -22,13 +22,13 @@ IMPERIAL = false
 class WeatherPlugin
   def initialize(apikey, location = 'autoip', imperial = false)
     @wxu = Wunderground.new(apikey)
+    @wxu.throws_exceptions = true
     @loc = location
     @imperial = imperial
   end
 
   def output
-    cond = current_conditions
-    return if cond.nil?
+    cond = with_api_error_handling { current_conditions }
     update = formatted_time(cond['observation_epoch'].to_i)
     puts header(cond)
     puts '---'
@@ -59,11 +59,21 @@ class WeatherPlugin
       )
     end
     data = @wxu.conditions_for(@loc)
-    if data['response'].key?('error')
-      puts data['response']['error']['type']
-      return nil
-    end
     data['current_observation']
+  end
+
+  def with_api_error_handling
+    yield
+  rescue Wunderground::MissingAPIKey => e
+    puts 'WU API Error'
+    puts '---'
+    puts 'Missing API key'
+    exit
+  rescue Wunderground::APIError => e
+    puts 'WU API Error'
+    puts '---'
+    puts e
+    exit
   end
 
   def header(cond)
