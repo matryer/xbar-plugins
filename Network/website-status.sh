@@ -5,13 +5,8 @@
 #
 # Gets the status of your website
 
-# HOW TO 
-# ==> REPLACE THE URL BELOW
-# 
-url='http://www.kemar.ch'
-#
-# ==> AND DON'T FORGET "chmod +x"
-#
+
+url='http://www.kemar.ch' # replace with your url
 
 code=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' $url)
 
