@@ -6,6 +6,7 @@
 # by Zack Katz (zack@katz.co)
 #
 # Fetch EDD sales for the day. Change your API domain, key, token, and currency as necessary.
+#
 # See http://docs.easydigitaldownloads.com/article/1135-edd-rest-api---stats for the API used
 # See http://docs.easydigitaldownloads.com/article/1131-edd-rest-api-introduction for general REST API info
 
@@ -34,13 +35,18 @@ def get_edd():
 
   return response
 
-edd_data = get_edd()
+try:
+  edd_data = get_edd()
 
-if edd_data is False:
-  print 'Could not get EDD response'
+  print 'Today: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['today'], float(edd_data['sales']['today']) )
+  print '---' # Show each of the next lines in a drop-down
+  print 'Current Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['current_month'], float(edd_data['sales']['current_month']) )
+  print 'Last Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['last_month'], float(edd_data['sales']['last_month']) )
+  print 'Total: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['totals'], float(edd_data['sales']['totals']) )
 
-print 'Today: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['today'], float(edd_data['sales']['today']) )
-print '---' # Show each of the next lines in a drop-down
-print 'Current Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['current_month'], float(edd_data['sales']['current_month']) )
-print 'Last Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['last_month'], float(edd_data['sales']['last_month']) )
-print 'Total: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['totals'], float(edd_data['sales']['totals']) )
+except Exception as inst:
+  print 'Error fetching stats'
+  print '---'
+  print type(inst)     # the exception instance
+  print inst.args      # arguments stored in .args
+  print inst
