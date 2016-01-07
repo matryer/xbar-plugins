@@ -60,7 +60,10 @@ def get_wx():
   if location is False:
     return False
 
-  wx = json.load(urllib2.urlopen('https://api.forecast.io/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
+  try:
+    wx = json.load(urllib2.urlopen('https://api.forecast.io/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
+  except urllib2.HTTPError:
+    return False
 
   if units == 'si':
     unit = 'C'
