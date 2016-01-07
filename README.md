@@ -2,9 +2,9 @@
 
 This repo contains scripts, programs and command-line tools that add functionality to [BitBar](https://github.com/matryer/bitbar#get-started).
 
-* [Available Plugins](#available-plugins)
-* [Contributors](#contributors)
-* [Add your own plugin](#add-you-own-plugin)
+* [Available Plugins](https://github.com/matryer/bitbar-plugins#available-plugins)
+* [Contributors](https://github.com/matryer/bitbar-plugins#contributors)
+* [Add your own plugin](https://github.com/matryer/bitbar-plugins#add-your-own-plugin)
 
 ### How to use them
 
