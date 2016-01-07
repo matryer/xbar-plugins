@@ -84,7 +84,7 @@ Special thanks to everyone who has contributed:
 - Bhagya Silva - [http://about.me/bhagyas](http://about.me/bhagyas)
 - Jason Tokoph - [http://jasontokoph.com](http://jasontokoph.com)
 - Trung Đinh Quang - [https://github.com/trungdq88](https://github.com/trungdq88)
-- Dylan Evans - [https://github.com/whonut](https://github.com/whonut))
+- Dylan Evans - [https://github.com/whonut](https://github.com/whonut)
 - Daniel Seripap - [https://github.com/seripap](https://github.com/seripap)
 - Alexandre Espinosa Menor - [https://github.com/alexandregz](https://github.com/alexandregz)
 - Damien Lajarretie - [@dqms_output](https://twitter.com/dqms_output)
