@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 #
 # Docker plugin
 # by Manoj Mahalingam (@manojlds)
@@ -6,7 +6,7 @@
 # Displays the status of docker machines and running containers
 
 
-export PATH='/usr/local/bin:/usr/bin:$PATH'
+export PATH="/usr/local/bin:/usr/bin:$PATH"
 echo "⚓️"
 echo "---"
 
@@ -17,11 +17,11 @@ if [ -z "$DOCKER_MACHINES" ]; then
 fi
 
 echo "${DOCKER_MACHINES}" | while read -r machine; do
-  STATUS=$(docker-machine status $machine)
-  COLOR="red"
-  if [[ "$STATUS" == "Running" ]]; then
+  STATUS=$(docker-machine status "$machine")
+  if [ "$STATUS" = "Running" ]; then
     echo "$machine | color=green"
-    eval $(docker-machine env $machine)
+    ENV=$(docker-machine env --shell sh "$machine")
+    eval "$ENV"
     CONTAINERS="$(docker ps --format "{{.Names}} ({{.Image}})")"
     if [ -z "$CONTAINERS" ]; then
       echo "No running containers"
