@@ -17,7 +17,7 @@ require 'wunderground'
 
 API_KEY = nil
 LOCATION = nil
-UNITS = nil
+IMPERIAL = nil
 
 class WeatherPlugin
   def initialize(apikey, location = 'autoip', imperial = false)
