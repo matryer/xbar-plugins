@@ -24,6 +24,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Homebrew available updates
 - Jenkins build status
 - TravisCI check
+- Docker status (docker-machine and running containers status)
 
 ####Finance
 - Stock tracker
@@ -94,6 +95,7 @@ Special thanks to everyone who has contributed:
 - Wiktor Mociun - [https://medium.com/@voter101](https://medium.com/@voter101)
 - Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
+- Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
 
 ## Write your own
 
