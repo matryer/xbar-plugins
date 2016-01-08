@@ -67,6 +67,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - SAP version
 - StackOverflow
 - HackerNews Top Stories
+- Reddit, Top/New Links in Subreddits
 
 ####Weather
 - forecast.io
