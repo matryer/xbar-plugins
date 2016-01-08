@@ -59,6 +59,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 #####Battery
 - Battery percentage for bluetooth Mouse
 - Battery percentage for bluetooth Keyboard
+- Battery cycles
 
 ####Time
 - Fuzzy clock
