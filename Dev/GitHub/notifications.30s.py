@@ -26,4 +26,5 @@ for notification in notifications:
     repo = notification['repository']['full_name']
     url = re.sub( '^https://api.github.com/repos/', 'https://github.com/', notification['subject']['url'] )
     url = re.sub( '/pulls/', '/pull/', url )
+    url = re.sub( '/commits/', '/commit/', url )
     print ( '%s: %s | refresh=true href=%s' % ( repo, title, url ) ).encode( 'utf-8' )
