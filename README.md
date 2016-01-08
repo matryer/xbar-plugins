@@ -8,7 +8,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 
 ### How to use them
 
-  * Just drop the plugin into your BitBar plugins folder
+  * Just drop the plugin into your BitBar plugins folder (if you have the repo, why not use the `Enabled` folder?)
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
   * Then choose `Reset` from the BitBar menus
 
@@ -20,6 +20,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 ####Bitcoin
 - Bitstamp last BTC Price
 - Coinbase.com BTC Index
+- WinkDex BTC Index
 
 ####Developer
 - Homebrew available updates
@@ -27,9 +28,12 @@ This repo contains scripts, programs and command-line tools that add functionali
 - TravisCI check
 - Docker status (docker-machine and running containers status)
 - Xcode version
+- Github Notifications
 
 ####Finance
 - Stock tracker
+- Currency tracker
+- hour_logger (money management for freelance work). [Visit hour_logger website](https://github.com/udeyrishi/hour_logger).
 
 ####Lifestyle
 - Sleeping Time Cycles
@@ -59,6 +63,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 #####Battery
 - Battery percentage for bluetooth Mouse
 - Battery percentage for bluetooth Keyboard
+- Battery percentage for bluetooth Trackpad
 - Battery cycles
 
 ####Time
@@ -67,13 +72,15 @@ This repo contains scripts, programs and command-line tools that add functionali
 ####Web
 - SAP version
 - StackOverflow
+- HackerNews Top Stories
+- Reddit, Top/New Links in Subreddits
 
 ####Weather
 - forecast.io
 - Open Weather Map
 - Weather Underground
 
-  * NOTE: Often this list isn't exhaustive as it's manually maintained, to see the latest plugins it is recommended that you browse around this repository.
+**NOTE**: Often this list isn't exhaustive as it's manually maintained, to see the latest plugins it is recommended that you browse around this repository.
 
 ##Contributors
 
@@ -82,7 +89,7 @@ Special thanks to everyone who has contributed:
 - Bhagya Silva - [http://about.me/bhagyas](http://about.me/bhagyas)
 - Jason Tokoph - [http://jasontokoph.com](http://jasontokoph.com)
 - Trung Đinh Quang - [https://github.com/trungdq88](https://github.com/trungdq88)
-- Dylan Evans - [https://github.com/whonut](https://github.com/whonut))
+- Dylan Evans - [https://github.com/whonut](https://github.com/whonut)
 - Daniel Seripap - [https://github.com/seripap](https://github.com/seripap)
 - Alexandre Espinosa Menor - [https://github.com/alexandregz](https://github.com/alexandregz)
 - Damien Lajarretie - [@dqms_output](https://twitter.com/dqms_output)
@@ -101,9 +108,12 @@ Special thanks to everyone who has contributed:
 - Wiktor Mociun - [https://medium.com/@voter101](https://medium.com/@voter101)
 - Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
+- Baron Reznik [http://www.reznik.net](http://www.reznik.net)
+- Steve Grosbois - [https://github.com/kwiky](https://github.com/kwiky)
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
 - Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
 - Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)
+- Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
 
 ## Add your own plugin
 
