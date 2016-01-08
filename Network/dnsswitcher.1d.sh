@@ -3,7 +3,7 @@
 # DNS Switcher
 # BitBar plugin
 #
-# by M Saiqul Haq 
+# by M Saiqul Haq
 
 
 # set your network service
@@ -35,12 +35,33 @@ norton="199.85.126.10
         199.85.127.30"
 
 enabled_dns_address=(google level3 opendns norton)
+selected_dns="Unknown"
 
-echo "Switch DNS"
+IFS=', ' read -r -a current_dns_address <<< "$(networksetup -getdnsservers $network_service | xargs)"
+
+for dns_name in "${enabled_dns_address[@]}"
+do
+    for current_dns in "${current_dns_address[@]}"
+    do
+    dns_option="$(eval echo \$${dns_name} | xargs)"
+        if [[ $dns_option == *"$current_dns"* ]]
+        then
+            selected_dns="$dns_name"
+        fi
+    done
+done
+
+if [[ $selected_dns == "Unknown" ]]
+then
+    echo "Unrecognized DNS"
+    echo "$(networksetup -getdnsservers $network_service)"
+else
+    echo "$selected_dns (DNS)"
+fi
+
 echo "---"
 
 tmp_dir="/tmp"
-
 for dns_name in "${enabled_dns_address[@]}"
 do
   switcher="$tmp_dir/bitbar_dns_switcher_${dns_name}"
@@ -50,6 +71,6 @@ networksetup -setdnsservers $network_service \$(echo \$dns_address)
 EOF
   chmod 700 $switcher
 
-  echo "$dns_name | bash=$switcher | terminal=true"
+  echo "$dns_name | bash=$switcher | terminal=true | refresh=true"
 done
 
