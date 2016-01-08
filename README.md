@@ -29,6 +29,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Docker status (docker-machine and running containers status)
 - Xcode version
 - Github Notifications
+- Semaphoreci project list
 
 ####Finance
 - Stock tracker
@@ -114,6 +115,7 @@ Special thanks to everyone who has contributed:
 - Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
 - Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)
 - Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
+- Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
 
 ## Add your own plugin
 
