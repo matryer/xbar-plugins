@@ -14,12 +14,13 @@ require 'json'
 # leave name_of_subreddit empty: ""
 #### #### ####
 SUBREDDITS = [
-  ["",            "/new"],
+  ["",            "/top"],
   ["r/AskReddit", "/top"],
 ]
 
+REDDIT = "https://www.reddit.com/"
 def to_json(subreddit, type)
-  url = "https://www.reddit.com/#{subreddit}#{type}.json"
+  url = "#{REDDIT}#{subreddit}#{type}.json"
   data = JSON.parse(Net::HTTP.get(URI(url)))
   data["subreddit_name"] = (subreddit.eql?("") ? "Front Page" : subreddit) + type
   data
@@ -31,7 +32,7 @@ def prettify(json)
     puts "NSFW | color=red"
   end
 
-  puts json["title"] + " | color=#337ab7 | href=" + json["permalink"]
+  puts json["title"] + " | color=#337ab7 | href=#{REDDIT}" + json["permalink"]
   puts "Score: #{json["score"]}, Comments: #{json["num_comments"]}"
 end
 
@@ -44,5 +45,6 @@ begin
               data["data"]["children"].each { |child| prettify(child["data"]) }
             end
 rescue => e
+  puts e
   puts "Content is currently unavailable. Please try resetting. | color=red"
 end
