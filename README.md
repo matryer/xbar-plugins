@@ -34,6 +34,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 ####Lifestyle
 - Sleeping Time Cycles
 - Current Task Reminder
+- Show TODO list and no. of items
 
 ####Music
 - iTunes (shows current track information from iTunes)
