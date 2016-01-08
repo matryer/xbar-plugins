@@ -69,6 +69,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 
 ####Time
 - Fuzzy clock
+- World clock
 
 ####Web
 - SAP version
