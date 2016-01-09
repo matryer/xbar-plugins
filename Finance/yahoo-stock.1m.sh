@@ -25,7 +25,6 @@ shuffle() {
 }
 shuffle
 
-
 s='http://download.finance.yahoo.com/d/quotes.csv?s=stock_symbol&f=l1'
 
 n=${#stock[@]}
@@ -33,5 +32,7 @@ n=$((n-1))
 
 for (( c=0; c<=$n; c++ ))
 do
+   echo -n $(date) >> stock_history.txt;  echo -n "  " >> stock_history.txt; echo -n ${stock[$c]} >> stock_history.txt; echo -n ":" >> stock_history.txt; curl -s echo ${s/stock_symbol/${stock[$c]}} >> stock_history.txt
 	echo -n ${stock[$c]}; echo -n ":"; curl -s echo ${s/stock_symbol/${stock[$c]}}
+
 done
