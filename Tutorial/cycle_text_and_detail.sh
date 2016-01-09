@@ -5,6 +5,7 @@
 # (commented out, of course):
 #
 # <bitbar.title>Cycle text and detail text</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Mat Ryer</bitbar.author>
 # <bitbar.author.github>matryer</bitbar.author.github>
 # <bitbar.desc>Example of how to include items that cycle in the top, and items that only appear in the dropdown.</bitbar.desc>
