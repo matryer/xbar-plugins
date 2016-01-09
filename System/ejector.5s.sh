@@ -37,6 +37,8 @@ if [ "$1" = 'ejectall' ]; then
     on error
         display notification "Unable to eject all disks." with title "Ejector"
     end try'
+
+    exit
 fi
 
 total_drive=0
