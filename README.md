@@ -62,13 +62,13 @@ This repo contains scripts, programs and command-line tools that add functionali
 - USB Device Info
 - Screen Lock
 - Mounted Disk Capacity
+- Power Status/source
 
 #####Battery
 - Battery percentage for bluetooth Mouse
 - Battery percentage for bluetooth Keyboard
 - Battery percentage for bluetooth Trackpad
 - Battery cycles
-
 ####Time
 - Fuzzy clock
 
@@ -120,6 +120,7 @@ Special thanks to everyone who has contributed:
 - Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
 - Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
 - Thameera Senanayaka - [http://thameera.com](http://thameera.com)
+- Jeff Beadles - [https://github.com/jeffbeadles](https://github.com/jeffbeadles)
 
 ## Add your own plugin
 
