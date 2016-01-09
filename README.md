@@ -62,7 +62,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Uptime
 - USB Device Info
 - Screen Lock
-- Mounted Disk Capacity
+- Ejector
 
 #####Battery
 - Battery percentage for bluetooth Mouse
