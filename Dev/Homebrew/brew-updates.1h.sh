@@ -11,12 +11,13 @@ exit_with_error() {
 
 /usr/local/bin/brew update > /dev/null || exit_with_error;
 
-UPDATES=`/usr/local/bin/brew outdated --verbose`;
+UPDATES=$(/usr/local/bin/brew outdated --verbose);
 
-UPDATE_COUNT=`echo "$UPDATES" | grep -v ^$ | wc -l | sed -e 's/^[[:space:]]*//'`;
+UPDATE_COUNT=$(echo "$UPDATES" | grep -c '[^[:space:]]');
 
-echo "↑$UPDATE_COUNT | bash=/usr/local/bin/brew param1=upgrade"
+echo "↑$UPDATE_COUNT | dropdown=false"
 echo "---";
 if [ -n "$UPDATES" ]; then
+  echo "Upgrade all | bash=/usr/local/bin/brew param1=upgrade"
   echo "$UPDATES" | awk '{print $0 " | bash=/usr/local/bin/brew param1=upgrade param2=" $1 }'
 fi
