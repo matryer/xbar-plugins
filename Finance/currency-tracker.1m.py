@@ -12,23 +12,23 @@ import json
 
 # Write here the currencies you want to see
 
-#Base comparaison currency
-currFrom="EUR"
-#Array of tracked currencies
-currTo=["CAD", "USD"]
+# Base comparaison currency
+currFrom = "EUR"
+# Array of tracked currencies
+currTo = ["CAD", "USD"]
 
 urlParamTo = currTo[0]
 if len(currTo) > 1:
     urlParamTo = ",".join(currTo)
 
-url="http://api.fixer.io/latest?base=" + currFrom  +"&symbols=" + urlParamTo
+url = "http://api.fixer.io/latest?base=" + currFrom + "&symbols=" + urlParamTo
 
-result=urllib2.urlopen(url).read()
+result = urllib2.urlopen(url).read()
 
-jsonCurr=json.loads(result)
+jsonCurr = json.loads(result)
 
-rates=jsonCurr["rates"]
-keys=rates.keys();
+rates = jsonCurr["rates"]
+keys = rates.keys()
 
 for key in reversed(keys):
 	print key + ": " + str(rates[key])
