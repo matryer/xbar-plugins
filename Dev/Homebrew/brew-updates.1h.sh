@@ -15,6 +15,8 @@ UPDATES=`/usr/local/bin/brew outdated --verbose`;
 
 UPDATE_COUNT=`echo "$UPDATES" | grep -v ^$ | wc -l | sed -e 's/^[[:space:]]*//'`;
 
-echo "↑$UPDATE_COUNT"
+echo "↑$UPDATE_COUNT | bash=/usr/local/bin/brew param1=upgrade"
 echo "---";
-echo "$UPDATES";
+if [ -n "$UPDATES" ]; then
+  echo "$UPDATES" | awk '{print $0 " | bash=/usr/local/bin/brew param1=upgrade param2=" $1 }'
+fi
