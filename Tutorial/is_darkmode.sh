@@ -10,8 +10,8 @@
 
 if [ $BitBarDarkMode ]; then
   # Mac has Dark Mode enabled.
-  echo "Dark"
+  echo "Dark | color=white"
 else
   # Mac does not have Dark Mode
-  echo "Light"
+  echo "Light | color=black"
 fi
