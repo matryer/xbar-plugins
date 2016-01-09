@@ -10,9 +10,9 @@ This repo contains scripts, programs and command-line tools that add functionali
 
   * Just drop the plugin into your BitBar plugins folder (if you have the repo, why not use the `Enabled` folder?)
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
-  * Then choose `Reset` from the BitBar menus
+  * Then choose `Reset` (or `Restart`) from the BitBar menus
 
-### Available Plugins (59)
+### Available Plugins (61)
 
 #### AWS
 - [elb](AWS/elb.30s.sh) `shell`
@@ -67,6 +67,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 #### Lifestyle
 - [Current Task](Lifestyle/current_task.1m.rb) `ruby`
 - [Sleepingtime](Lifestyle/sleepingtime.1m.sh) `shell`
+- [Todo](Lifestyle/todo.30s.sh) `shell`
 
 #### Music
 - [cmus](Music/cmus.10s.sh) `shell`
@@ -76,6 +77,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 
 #### Network
 - [Bandwidth](Network/bandwidth.1s.sh) `shell`
+- [Dnsswitcher](Network/dnsswitcher.1d.sh) `shell`
 - [External Ip](Network/external-ip.1h.sh) `shell`
 - [Internal Ip](Network/internal-ip.1h.sh) `shell`
 - [Ping](Network/ping.10s.sh) `shell`
@@ -163,6 +165,7 @@ Special thanks to everyone who has contributed:
 - Wiktor Mociun - [https://medium.com/@voter101](https://medium.com/@voter101)
 - Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
+- M Saiqul Haq - [https://github.com/saiqulhaq](https://github.com/saiqulhaq)
 - Baron Reznik [http://www.reznik.net](http://www.reznik.net)
 - Steve Grosbois - [https://github.com/kwiky](https://github.com/kwiky)
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
@@ -173,4 +176,4 @@ Special thanks to everyone who has contributed:
 
 ## Add your own plugin
 
-To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins).
+To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins)

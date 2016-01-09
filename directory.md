@@ -1,4 +1,4 @@
-### Available Plugins (59) 
+### Available Plugins (61) 
 
 #### AWS 
 - [elb](AWS/elb.30s.sh) `shell` 
@@ -53,6 +53,7 @@
 #### Lifestyle 
 - [Current Task](Lifestyle/current_task.1m.rb) `ruby` 
 - [Sleepingtime](Lifestyle/sleepingtime.1m.sh) `shell` 
+- [Todo](Lifestyle/todo.30s.sh) `shell` 
 
 #### Music 
 - [cmus](Music/cmus.10s.sh) `shell` 
@@ -62,6 +63,7 @@
 
 #### Network 
 - [Bandwidth](Network/bandwidth.1s.sh) `shell` 
+- [Dnsswitcher](Network/dnsswitcher.1d.sh) `shell` 
 - [External Ip](Network/external-ip.1h.sh) `shell` 
 - [Internal Ip](Network/internal-ip.1h.sh) `shell` 
 - [Ping](Network/ping.10s.sh) `shell` 
