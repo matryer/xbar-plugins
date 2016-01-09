@@ -51,6 +51,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - External IP
 - Internal IP
 - Ping
+- SSH
 - VPN connection checker
 
 ####System
