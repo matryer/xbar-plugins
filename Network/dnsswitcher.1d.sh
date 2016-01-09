@@ -56,7 +56,7 @@ then
     echo "Unrecognized DNS"
     echo "$(networksetup -getdnsservers $network_service)"
 else
-    echo "$selected_dns (DNS)"
+    echo "$selected_dns"
 fi
 
 echo "---"
