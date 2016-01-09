@@ -35,6 +35,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Stock tracker
 - Currency tracker
 - hour_logger (money management for freelance work). [Visit hour_logger website](https://github.com/udeyrishi/hour_logger).
+- Russian stock market tracker
 
 ####Lifestyle
 - Sleeping Time Cycles
@@ -119,6 +120,7 @@ Special thanks to everyone who has contributed:
 - Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)
 - Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
 - Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
+- Pavel Popov - [https://github.com/schmooser](https://github.com/schmooser)
 
 ## Add your own plugin
 
