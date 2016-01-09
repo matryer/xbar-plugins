@@ -122,4 +122,4 @@ Special thanks to everyone who has contributed:
 
 ## Add your own plugin
 
-To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins).
+To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins)
