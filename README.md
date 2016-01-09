@@ -12,7 +12,8 @@ This repo contains scripts, programs and command-line tools that add functionali
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
   * Then choose `Reset` (or `Restart`) from the BitBar menus
 
-### Available Plugins (61)
+### Available Plugins 
+61 plugins
 
 #### AWS
 - [elb](AWS/elb.30s.sh) `shell`

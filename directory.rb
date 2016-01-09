@@ -91,7 +91,8 @@ dir.each do |x|
   end
 end
 
-output = "### Available Plugins (#{count}) \n"
+output = "### Available Plugins \n"
+output << "#{count} plugins \n"
 output << temp
 
 puts "Writing to directory.md"

@@ -1,4 +1,5 @@
-### Available Plugins (61) 
+### Available Plugins 
+61 plugins 
 
 #### AWS 
 - [elb](AWS/elb.30s.sh) `shell` 
