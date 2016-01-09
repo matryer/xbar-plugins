@@ -77,6 +77,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - StackOverflow
 - HackerNews Top Stories
 - Reddit, Top/New Links in Subreddits
+- Twitch, list top streams by game and launch with [livestreamer](http://docs.livestreamer.io)
 
 ####Weather
 - forecast.io
