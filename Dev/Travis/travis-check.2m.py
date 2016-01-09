@@ -4,78 +4,134 @@
 # Chris Tomkins-Tinch
 # github.com/tomkinsc
 
+# Keith Cirkel
+# github.com/keithamus
+
 # Dependencies:
-#   travispy (pip install travispy)
-#
-#   a github auth key (https://github.com/settings/tokens/new)
-#     with the following permissions:
-#       * repo (for private repos)
-#       * public_repo
-#
-#   names of repositories you have access to
-#   (those appearing in your profile)
-#   Due to a travis API limitation, information about 
-#   public repos is not available unless you are
-#   a member. 
-#   See: https://github.com/travis-ci/travis-api/issues/195
+#   travis API key
 
-import random
-from travispy import TravisPy
+import json
+import urllib2
 
-GITHUB_AUTH_KEY = "MY_AUTH_TOKEN"
+# You need to set your TRAVIS_KEY to an API key for travis.
+# -- Please note that this IS NOT the 'Token' listed on the Travis CI website
+# -- Again, this is NOT the token on https://travis-ci.org/profile/your-name
+# The easiest way to get this key is to use the official travis client
+# (`gem install travis`), and run `travis_token`.
+TRAVIS_KEY = 'YOUR TRAVIS TOKEN (Run `travis token` to retreive it)'
 
-# note that if no branches are specified only information for the master branch is included
-repos_to_check = [
-    {"name":'account/repo-name', "branches":["master", "some-feature"]},
-]
+# If you don't want to check all repos, then specify the ones you do wish to
+# check here, and this plugin will only get the details of these repos.
+# If you do not specify the `repos_to_check` option - it will fetch all repos
+# available in your account.
+# If you do not include the 'branches' key, then only the master branch
+# will be checked.
+# repos_to_check = [
+#     {'name':'account/repo-name', 'branches':['master', 'some-feature']},
+# ]
+
+# If you set INCLUDE_PULL_REQUESTS to `True`, then this script will get the
+# status of both pull requests and commits. By default, it only gets the status
+# of commits (pushes).
+INCLUDE_PULL_REQUESTS = False
+
+# SUPER SECRET FEATURE!
+# Instead of listing the repos you want to check in an array above, you can
+# use a hidden feature of Travis v3 - stars. Repositories can be starred,
+# and if SECRET_FILTER_BY_STAR is set to `True` then this script will only
+# show the starred repositories.
+# How do you star a repository? As of writing Travis has no UI for it (check
+# their roadmap (http://next.travis-ci.com/) to see when it might be
+# implemented). The only way to star a repository right now, is to curl the
+# v3 api, like so:
+# curl -X POST https://api.travis-ci.org/repo/ACCOUNT%2FREPO/star -H "Accept: application/vnd.travis-ci.3+json" -H "Authorization: token YOUR_TOKEN"
+# (Pay particular attention to the headers, and replace
+# ACCOUNT, REPO and YOUR_TOKEN as necessary)
+SECRET_FILTER_BY_STAR = False
+
+# You may need to change the TRAVIS_URL if you're using travis enterprise or
+# private travis. For private travis, change the .org to .com
+TRAVIS_URL = 'http://api.travis-ci.org/'
 
 # ======================================
 
-SYMBOLS = {"green": u"✔︎", "red": u"✘", "yellow": u"❂"}
+SYMBOLS = {
+    'passed': u'✔︎',
+    'failed': u'✘',
+    'errored': u'⚠',
+    'cancelled': u' ⃠',
+}
+COLORS = {
+    'passed': 'green',
+    'failed': 'red',
+    'errored': 'yellow',
+    'cancelled': 'grey',
+}
+NO_SYMBOL = u'❂'
 
-try:
-    t = TravisPy.github_auth(GITHUB_AUTH_KEY)
-except:
-    print("Auth Error")
-    print("---")
-    raise
+
+def request(uri):
+    request = urllib2.Request(TRAVIS_URL + uri, headers={
+        'Authorization': 'token ' + TRAVIS_KEY,
+        'Accept': 'application/vnd.travis-ci.3+json'
+    })
+    response = urllib2.urlopen(request)
+    return json.load(response)
+
+
+def get_all_repos_for_account():
+    url = 'repos?repository.active=true&sort_by=name&limit=200'
+    if SECRET_FILTER_BY_STAR:
+        url += '&starred=true'
+    repos = request(url)
+    all_repos = []
+    for repo in repos['repositories']:
+        if repo and 'slug' in repo:
+            all_repos.append({'name': repo['slug']})
+
+    return all_repos
+
 
 def update_statuses(repos):
     output = []
+    fail_count = 0
 
-    output.append(u"{} All OK | color=green".format(SYMBOLS["green"]))
+    output.append(u'{} | color=green'.format(SYMBOLS['passed']))
+    output.append('---')
+
     for repo in repos:
-        status = {}
-        if "branches" in repo and len(repo["branches"]):
-            branch_list = repo["branches"]
+        if 'branches' in repo and len(repo['branches']):
+            branch_list = repo['branches']
         else:
-            branch_list = ["master"]
+            branch_list = ['master']
 
         for branch_name in branch_list:
-            try:
-                branch = t.branch(branch_name, repo["name"])
-            except:
-                print("Error")
-                print("---")
-                raise
+            url = 'repo/' + urllib2.quote(repo['name'], safe='') + '/builds?limit=1&branch.name=' + branch_name
+            if not INCLUDE_PULL_REQUESTS:
+                url += '&event_type=push'
+            build = request(url)
+            if 'builds' in build and len(build['builds']):
+                build = build['builds'][0]
+                color = 'color={}'.format(COLORS[build['state']]) if COLORS[build['state']] else ''
+                symbol = SYMBOLS[build['state']] or NO_SYMBOL
+                href = 'href=https://travis-ci.org/{}/builds/{}'.format(repo['name'], build['id'])
+                output_msg = u'{symbol} {repo_name} ({branch_name}) {status}'.format(symbol=symbol, repo_name=repo['name'], branch_name=branch_name, status=build['state'])
+                output.append(u'{} | {} {}'.format(output_msg, href, color))
+
+                if build['state'] != "passed":
+                    fail_count += 1
+
+    if fail_count > 0:
+        output[0] = u'{}{} | color=red'.format(SYMBOLS['failed'], fail_count)
+
+    for line in output:
+        print line.encode('utf-8')
 
 
-            output_msg = u"{symbol} {repo_name} ({branch_name}) {status}".format(symbol=SYMBOLS[branch.color],
-                                                                                 repo_name=repo["name"],
-                                                                                 branch_name=branch_name,
-                                                                                 status=branch.state)
+if __name__ == '__main__':
+    try:
+        repos_to_check
+    except NameError:
+        repos_to_check = get_all_repos_for_account()
 
-            if branch.color in ["red", "yellow"]:
-                output[0] = output_msg
-
-            href = "https://travis-ci.org/{}/builds/{}".format(repo["name"], int(branch.job_ids[0]) - 1)
-            output.append(output_msg + " | href={href} color={color}".format(href=href, color=branch.color))
-
-    print(output[0].encode("utf-8"))
-    print("---")
-    for msg in output[1:]:
-        print(msg.encode("utf-8"))
-
-
-if __name__ == "__main__":
     update_statuses(repos_to_check)
