@@ -4,7 +4,7 @@
 # <bitbar.author>Mat Ryer</bitbar.author>
 # <bitbar.author.github>matryer</bitbar.author.github>
 # <bitbar.desc>Text above --- will be cycled through in the menu bar, whereas text underneath will be visible only when you open the menu.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://camo.githubusercontent.com/5cec3248a9fc4eede235ead682a65f977577f670/68747470733a2f2f7261772e6769746875622e636f6d2f6d6174727965722f6269746261722f6d61737465722f446f63732f4269744261722d4578616d706c652d4d656e752e706e67</bitbar.image>
 
 echo one
 echo two
