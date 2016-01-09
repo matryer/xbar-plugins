@@ -4,7 +4,7 @@
 #
 
 todo_file="$HOME/.todo"
-count=$(wc -l "$todo_file" | awk '{print $1}')
+count=$(sed "/^\s*$/d" "$todo_file" | wc -l | awk '{print $1}')
 echo "Todos: $count"
 echo "---"
 cat "$todo_file"
