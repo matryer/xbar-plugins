@@ -3,10 +3,18 @@
 # Get current iTunes status with play/pause button
 #
 # based on Spotify script by Jason Tokoph (jason@tokoph.net), tweaked by Dan
-# Turkel (daturkel@gmail.com)
+# Turkel (daturkel@gmail.com) 
 #
 # Shows current track information from iTunes
 # 10 second refresh might be a little too quick. Tweak to your liking.
+
+# metadata
+# <bitbar.title>iTunes Now Playing</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Dan Turkel, Jason Tokoph</bitbar.author>
+# <bitbar.author.github>daturkel</bitbar.author.github>
+# <bitbar.desc>Display currently playing iTunes song. Play/pause, skip forward, skip backward.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/1Q81FL4.png</bitbar.image>
 
 if [ "$1" = 'launch' ]; then
   osascript -e 'tell application "iTunes" to activate'
