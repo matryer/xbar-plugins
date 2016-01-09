@@ -1,14 +1,16 @@
 #!/bin/bash
-
-# Real CPU Usage Chart (▁▃▃█▇▃)
-# BitBar plugin
 #
-# by Marian Schubert
+# <bitbar.title>Real CPU Usage Chart (▁▃▃█▇▃)</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Marian Schubert</bitbar.author>
+# <bitbar.author.github>maio</bitbar.author.github>
+# <bitbar.desc>Chart CPU usage over last minute.</bitbar.desc>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/18138/12124861/27f42162-b3e8-11e5-845e-38bec5433d03.png</bitbar.image>
+# <bitbar.dependencies>spark</bitbar.dependencies>
+#
 # Based on work by Mat Ryer and Tyler Bunnell
 #
 # This script requires https://github.com/holman/spark
-#
-# Calcualtes and displays real CPU usage chart.
 
 SPARK="/usr/local/bin/spark"
 
