@@ -4,7 +4,7 @@
 # <bitbar.version>1.0</bitbar.version>
 # <bitbar.author>Maxime Bertheau</bitbar.author>
 # <bitbar.author.github>maxoumime</bitbar.author.github>
-# <bitbar.desc>Keep an eye on the currencies you choose from your manu bar !</bitbar.desc>
+# <bitbar.desc>Keep an eye on the currencies you choose from your menu bar !</bitbar.desc>
 # <bitbar.image>http://nothingreally.botler.me/bitbar.currency-tracker.png</bitbar.image>
 
 import urllib2
