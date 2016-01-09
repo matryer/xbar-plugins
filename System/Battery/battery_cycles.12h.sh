@@ -23,9 +23,9 @@ echo "---"
 # No way to get the Macbook age from script directly
 
 color=green
-if [ $cycles -gt 1000 ]; then
+if [ "$cycles" -gt 1000 ]; then
     color=red
-elif [ $cycles -gt 750 ]; then
+elif [ "$cycles" -gt 750 ]; then
     color=orange
 fi
 
@@ -35,7 +35,7 @@ echo "Cycles: $cycles / 1000 | color=$color href='https://support.apple.com/en-u
 condition=$(system_profiler SPPowerDataType | grep "Condition" | sed -e 's/^.*: //')
 
 color=green
-if [ $condition != "Normal" ]; then
+if [ "$condition" != "Normal" ]; then
     color=red
 fi
 
