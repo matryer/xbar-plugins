@@ -10,7 +10,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 
   * Just drop the plugin into your BitBar plugins folder (if you have the repo, why not use the `Enabled` folder?)
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
-  * Then choose `Reset` from the BitBar menus
+  * Then choose `Reset` (or `Restart`) from the BitBar menus
 
 ###Available Plugins
 
