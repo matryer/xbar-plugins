@@ -119,6 +119,7 @@ Special thanks to everyone who has contributed:
 - Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)
 - Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
 - Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
+- Thameera Senanayaka - [http://thameera.com](http://thameera.com)
 
 ## Add your own plugin
 
