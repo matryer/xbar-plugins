@@ -1,20 +1,19 @@
 #!/bin/bash
 
-# Vpn checker
-# BitBar plugin
-#
-# by pldubouilh
-#
-# Simply checks the existence of tun0
+# <bitbar.title>VPN Checker</bitbar.title>
+# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.author>Pierre-Louis Dubouilh</bitbar.author>
+# <bitbar.author.github>pldubouilh</bitbar.author.github>
+# <bitbar.desc>Checks the availability of tun0. Also allows to kill a program on deconnection.</bitbar.desc>
 
 # From my infamous one-liner
 # ((ifconfig | grep tun0) || (killall Firefox))
 
+
 if [[ `ifconfig | grep tun0` ]]; then
 	echo "VPN Up | color=green"
+	ifconfig utun0 | grep inet | cut -d' ' -f 2
 else
-	#killall Firefox
 	echo "VPN Down | color=red"
+	#killall Firefox 2&> /dev/null
 fi
-
-
