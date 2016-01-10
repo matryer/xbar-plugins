@@ -13,6 +13,8 @@
 # <bitbar.author>Sebastian Winkler, Dan Turkel</bitbar.author>
 # <bitbar.author.github>sw82</bitbar.author.github>
 # <bitbar.desc>Display currently rating from iTunes song and modify it.</bitbar.desc>
+# <bitbar.image>http://www.mindfuckbox.com/wp-content/uploads/2016/01/iTunes_Rating.png</bitbar.image>
+
 
 if [ "$1" = 'launch' ]; then
   osascript -e 'tell application "iTunes" to activate'
