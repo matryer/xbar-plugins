@@ -1,11 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# <bitbar.title>TravisCI Check</bitbar.title>
+# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.author>Chris Tomkins-Tinch</bitbar.author>
+# <bitbar.author.github>tomkinsc</bitbar.author.github>
+# <bitbar.desc>This plugin displays the build status of repositories listed on TravisCI.</bitbar.desc>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/53064/12126193/a775fada-b3bd-11e5-9ae2-091c9c38b1da.png</bitbar.image>
+# <bitbar.dependencies>python</bitbar.dependencies>
+
 # Chris Tomkins-Tinch
 # github.com/tomkinsc
 
 # Keith Cirkel
 # github.com/keithamus
+
+# version history
+# 1.0
+#   initial commit
+# 1.1
+#   refactor by @keithamus to remove travispy dependency
 
 # Dependencies:
 #   travis API key
