@@ -5,11 +5,14 @@
 # <bitbar.author.github>kfdm</bitbar.author.github>
 # <bitbar.desc>Show your RescueTime productivity pulse in the status bar</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
+#
+# To install, you will want to generate an API key for rescue time and then store the
+# key in ~/Library/RescueTime.com/api.key
+# https://www.rescuetime.com/anapi/manage
+import json
 import os
-import math
-
-# Testing Hack
-import pip._vendor.requests as requests
+import urllib
+import urllib2
 
 API_KEY = os.path.expanduser('~/Library/RescueTime.com/api.key')
 
@@ -17,9 +20,16 @@ MAPPING = {
     2: 'Very Productive',
     1: 'Productive',
     0: 'Neutral',
-    -1: 'Unproductive',
-    -2: 'Very Unproductive'
+    -1: 'Distracting',
+    -2: 'Very Distracting'
 }
+
+
+def get(url, params):
+    '''Simple function to mimic the signature of requests.get'''
+    params = urllib.urlencode(params)
+    result = urllib2.urlopen(url + '?' + params).read()
+    return json.loads(result)
 
 if not os.path.exists(API_KEY):
     print('X')
@@ -29,17 +39,17 @@ if not os.path.exists(API_KEY):
 
 with open(API_KEY) as fp:
     key = fp.read().strip()
-    result = requests.get('https://www.rescuetime.com/anapi/data', params={
+    result = get('https://www.rescuetime.com/anapi/data', params={
+        'format': 'json',
         'key': key,
         'resolution_time': 'day',
         'restrict_begin': '2016-01-05',
         'restrict_end': '2016-01-05',
-        'format': 'json',
         'restrict_kind': 'productivity',
-    }).json()
-    pulse = requests.get('https://www.rescuetime.com/anapi/current_productivity_pulse.json', params={
+    })
+    pulse = get('https://www.rescuetime.com/anapi/current_productivity_pulse.json', params={
         'key': key,
-    }).json()
+    })
 
 print('%s | color=%s' % (pulse['pulse'], pulse['color']))
 print('---')
