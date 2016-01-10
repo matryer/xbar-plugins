@@ -2,9 +2,10 @@
 
 # Get current iTunes rating
 #
+# Sebastian Winkler
+#
 # based on iTunes script by Dan
 # Turkel (daturkel@gmail.com) 
-#
 
 # metadata
 # <bitbar.title>iTunes Rating</bitbar.title>
@@ -12,7 +13,6 @@
 # <bitbar.author>Sebastian Winkler, Dan Turkel</bitbar.author>
 # <bitbar.author.github>sw82</bitbar.author.github>
 # <bitbar.desc>Display currently rating from iTunes song and modify it.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/1Q81FL4.png</bitbar.image>
 
 if [ "$1" = 'launch' ]; then
   osascript -e 'tell application "iTunes" to activate'
