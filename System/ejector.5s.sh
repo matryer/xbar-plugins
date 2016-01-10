@@ -50,7 +50,7 @@ df -Hl | grep /Volumes/ |
 while IFS= read -r line; do
     drive=${line#*/Volumes/}
 
-    diskutil info /Volumes/"$drive" | grep -E 'File System Personality:|Volume Free Space:|Total Size:' | \
+    diskutil info /Volumes/"$drive" | grep -E 'Volume Free Space:|Total Size:' | \
     { while IFS= read -r detail; do
         if [[ "$detail" =~ "Volume Free Space:" ]]
         then
