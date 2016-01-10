@@ -64,7 +64,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Screen Lock
 - Mounted Disk Capacity
 - Power Status/source
-- Memmory usage
+- Memory usage
 
 #####Battery
 - Battery percentage for bluetooth Mouse
@@ -118,13 +118,13 @@ Special thanks to everyone who has contributed:
 - Steve Grosbois - [https://github.com/kwiky](https://github.com/kwiky)
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
 - Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
-- Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)m krishna R 
+- Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)
 - Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
 - Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
 - Thameera Senanayaka - [http://thameera.com](http://thameera.com)
 - Jeff Beadles - [https://github.com/jeffbeadles](https://github.com/jeffbeadles)
 - Gautam krishna R - [https://github.com/gautamkrishnar](https://github.com/gautamkrishnar)
-- 
+
 ## Add your own plugin
 
 To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins)
