@@ -86,7 +86,7 @@ def get_wx():
       'visibility': str(int(round(wx['currently']['visibility']))) + ' ' + distance_short,
       'pressure': str(wx['currently']['pressure']) + ' mb',
       'feels_like': str(int(round(wx['currently']['apparentTemperature']))) + '°' + unit,
-      'next_hour': str(wx['minutely']['summary']),
+      #'next_hour': str(wx['minutely']['summary']), #Forecast.io doesn't have this field, so this is throwing an error.
       'next_twentyfour_hours': str(wx['hourly']['summary']),
       'city': str(location['city']),
       'region': str(location['region'])
