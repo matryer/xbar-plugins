@@ -65,6 +65,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Ejector
 - Power Status/source
 - Memory usage
+- Trash Collector
 
 #####Battery
 - Battery percentage for bluetooth Mouse
