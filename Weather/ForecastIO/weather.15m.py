@@ -1,11 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Weather
-#
-# by Daniel Seripap (daniel@seripap.com)
-#
-# Forecast.io weather API
+# <bitbar.title>Weather</bitbar.title>
+# <bitbar.version>v1.3.0</bitbar.version>
+# <bitbar.author>Daniel Seripap</bitbar.author>
+# <bitbar.author.github>seripap</bitbar.author.github>
+# <bitbar.desc>Detailed weather plugin powered by forecast.io. Auto location lookup, needs API key from http://developer.forecast.io.</bitbar.desc>
+# <bitbar.image>https://daniel.seripap.com/content/images/2016/01/weather.png</bitbar.image>
+# <bitbar.dependencies>python</bitbar.dependencies>
 
 import json
 import urllib2
