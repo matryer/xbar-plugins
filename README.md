@@ -10,7 +10,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 
   * Just drop the plugin into your BitBar plugins folder (if you have the repo, why not use the `Enabled` folder?)
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
-  * Then choose `Reset` from the BitBar menus
+  * Then choose `Reset` (or `Restart`) from the BitBar menus
 
 ###Available Plugins
 
@@ -29,6 +29,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Docker status (docker-machine and running containers status)
 - Xcode version
 - Github Notifications
+- Semaphoreci project list
 
 ####Finance
 - Stock tracker
@@ -38,6 +39,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 ####Lifestyle
 - Sleeping Time Cycles
 - Current Task Reminder
+- Show TODO list and no. of items
 
 ####Music
 - iTunes (shows current track information from iTunes)
@@ -45,9 +47,11 @@ This repo contains scripts, programs and command-line tools that add functionali
 
 ####Network
 - Bandwidth Usage
+- DNS Switcher
 - External IP
 - Internal IP
 - Ping
+- SSH
 - VPN connection checker
 
 ####System
@@ -58,14 +62,16 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Uptime
 - USB Device Info
 - Screen Lock
-- Mounted Disk Capacity
+- Ejector
+- Power Status/source
+- Memory usage
+- Trash Collector
 
 #####Battery
 - Battery percentage for bluetooth Mouse
 - Battery percentage for bluetooth Keyboard
 - Battery percentage for bluetooth Trackpad
 - Battery cycles
-
 ####Time
 - Fuzzy clock
 
@@ -108,13 +114,18 @@ Special thanks to everyone who has contributed:
 - Wiktor Mociun - [https://medium.com/@voter101](https://medium.com/@voter101)
 - Srinivas Gorur-Shandilya - [http://srinivas.gs](http://srinivas.gs)
 - Adam Snodgrass - [https://github.com/asnodgrass](https://github.com/asnodgrass)
+- M Saiqul Haq - [https://github.com/saiqulhaq](https://github.com/saiqulhaq)
 - Baron Reznik [http://www.reznik.net](http://www.reznik.net)
 - Steve Grosbois - [https://github.com/kwiky](https://github.com/kwiky)
 - Manoj Mahalingam - [https://github.com/manojlds](https://github.com/manojlds)
 - Florian Hirschmann - [https://github.com/hirschfl](https://github.com/hirschfl)
 - Maxime Bertheau - [https://github.com/maxoumime](https://github.com/maxoumime)
 - Joe Canero - [https://github.com/caneroj1](https://github.com/caneroj1)
+- Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
+- Thameera Senanayaka - [http://thameera.com](http://thameera.com)
+- Jeff Beadles - [https://github.com/jeffbeadles](https://github.com/jeffbeadles)
+- Gautam krishna R - [https://github.com/gautamkrishnar](https://github.com/gautamkrishnar)
 
 ## Add your own plugin
 
-To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins).
+To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/bitbar#writing-plugins)

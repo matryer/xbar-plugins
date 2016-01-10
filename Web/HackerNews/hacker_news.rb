@@ -28,7 +28,7 @@ end
 
 def output(story)
   puts story["title"] + " | color=#337ab7 | href=" + story["url"]
-  puts "Comments: #{story["descendants"]} | color=black"
+  puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} | color=black"
   puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
   puts "---"
 end

@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Is BitBar?
-# BitBar plugin
-#
-# by Mat Ryer and Tyler Bunnell
+# <bitbar.title>Is BitBar?</bitbar.title>
+# <bitbar.author>Mat Ryer and Tyler Bunnell</bitbar.author>
+# <bitbar.desc>Example script showing use of $BITBAR environment variable</bitbar.desc>
 #
 # Example script showing how to let your scripts determine
 # whether they are expected to deliver BitBar output or not.
