@@ -1,11 +1,10 @@
 #!/bin/bash
-
-# Ejector is a plugin for BitBar that enables you to eject mounted drive easily.
-# BitBar plugin - https://github.com/carlsonorozco/ejector
 #
-# by Carlson Orozco
-#
-# Refresh every 5 seconds
+# <bitbar.title>Ejector</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Carlson Orozco</bitbar.author>
+# <bitbar.author.github>carlsonorozco</bitbar.author.github>
+# <bitbar.desc>Ejector is a plugin for BitBar that enables you to eject mounted drive easily.</bitbar.desc>
 
 about="About Ejector | color=red href=https://github.com/carlsonorozco/ejector"
 
