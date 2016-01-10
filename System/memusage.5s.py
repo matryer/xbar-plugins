@@ -7,6 +7,11 @@
 #
 # Shows the current system memmory usage
 # Use memusage.py python script to fetch data
+
+# <bitbar.title>memusage</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author> Gautam krishna R/bitbar.author>
+# <bitbar.desc>Shows the current system memmory usage.</bitbar.desc>
 import subprocess
 import re
 
