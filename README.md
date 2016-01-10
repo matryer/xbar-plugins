@@ -64,6 +64,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Screen Lock
 - Ejector
 - Power Status/source
+- Memory usage
 
 #####Battery
 - Battery percentage for bluetooth Mouse
@@ -122,6 +123,7 @@ Special thanks to everyone who has contributed:
 - Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
 - Thameera Senanayaka - [http://thameera.com](http://thameera.com)
 - Jeff Beadles - [https://github.com/jeffbeadles](https://github.com/jeffbeadles)
+- Gautam krishna R - [https://github.com/gautamkrishnar](https://github.com/gautamkrishnar)
 
 ## Add your own plugin
 
