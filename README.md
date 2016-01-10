@@ -36,6 +36,9 @@ This repo contains scripts, programs and command-line tools that add functionali
 - Currency tracker
 - hour_logger (money management for freelance work). [Visit hour_logger website](https://github.com/udeyrishi/hour_logger).
 
+####Games
+- Game turn status at [BOITEAJEUX](http://boiteajeux.net/)
+
 ####Lifestyle
 - Sleeping Time Cycles
 - Current Task Reminder
@@ -122,6 +125,7 @@ Special thanks to everyone who has contributed:
 - Goran Gajic - [https://github.com/gorangajic](https://github.com/gorangajic)
 - Thameera Senanayaka - [http://thameera.com](http://thameera.com)
 - Jeff Beadles - [https://github.com/jeffbeadles](https://github.com/jeffbeadles)
+- Justin Honold - [https://github.com/astrostl](https://github.com/astrostl)
 
 ## Add your own plugin
 
