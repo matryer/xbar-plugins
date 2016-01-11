@@ -30,7 +30,7 @@ warning=`grep "$WARNING" $TEMP_FILE | grep Warning | cut -d\> -f3 | cut -d\< -f1
 unknown=`grep "$UNKNOWN" $TEMP_FILE | grep Unknown | cut -d\> -f3 | cut -d\< -f1`
 
 # insert host down here 
-#echo "$down | color=purple href=https://$URL/nagios/cgi-bin/$DOWN"
-echo "$critial | color=red href=https://$URL/nagios/cgi-bin/$CRITICAL"
-echo "$warning | color=yellow href=https://$URL/nagios/cgi-bin/$WARNING"
-echo "$unknown | color=orange href=https://$URL/nagios/cgi-bin/$UNKNOWN"
+#echo "$down | color=purple href=https://$URL/nagios/cgi-bin/$STATUS/$DOWN"
+echo "$critial | color=red href=https://$URL/nagios/cgi-bin/$STATUS/$CRITICAL"
+echo "$warning | color=yellow href=https://$URL/nagios/cgi-bin/$STATUS/$WARNING"
+echo "$unknown | color=orange href=https://$URL/nagios/cgi-bin/$STATUS/$UNKNOWN"
