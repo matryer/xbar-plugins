@@ -49,9 +49,9 @@ function branchesOutput(branches) {
 
 function handleResponse(body) {
     var output = body.map(function(project){
-        return [project.owner, '/', project.name, ' | color=white href=', project.html_url,'\n', branchesOutput(project.branches)].join('');
+        return [project.owner, '/', project.name, ' | href=', project.html_url,'\n', branchesOutput(project.branches)].join('');
     }).join('\n---\n');
-    console.log(icon + '\n---\n ⚙ Semaphoreci | color=white href=https://semaphoreci.com/ \n---\n' + output);
+    console.log(icon + '\n---\n ⚙ Semaphoreci | href=https://semaphoreci.com/ \n---\n' + output);
 }
 
 https.get(url, function(res) {
