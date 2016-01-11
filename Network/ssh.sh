@@ -1,4 +1,4 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 #
 # Quickly SSH to your favorite hosts
 # The list of hosts are extracted from ~/.ssh/config
@@ -12,4 +12,4 @@
 
 echo "ssh"
 echo "---"
-awk '/^Host / {print $2" | bash=ssh param1="$2}' ~/.ssh/config
+awk  '/^Host / && !/\*/ {print $2" | bash=ssh param1="$2}' ~/.ssh/config
