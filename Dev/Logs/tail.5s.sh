@@ -12,6 +12,6 @@ LINES=15
 FILE="/Users/matryer/Desktop/testfile.txt"
 
 echo -n "↧ "
-echo $(basename $FILE)
+basename "$FILE"
 echo ---
-tail -n $LINES $FILE
+tail -n "$LINES" "$FILE"
