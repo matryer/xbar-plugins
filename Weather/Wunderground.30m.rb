@@ -14,6 +14,14 @@ require 'wunderground'
 #
 # Alternatively, you can modify the values below to avoid using a wrapper
 # script.
+#
+# <bitbar.title>Weather Underground plugin</bitbar.title>
+# <bitbar.version>v1.1.0</bitbar.title>
+# <bitbar.author>Adam Snodgrass</bitbar.author>
+# <bitbar.author.github>asnodgrass</bitbar.author>
+# <bitbar.desc>Current weather conditions from the Weather Underground (requires an API key). Supports automatic location by IP, and units are configurable (SI vs imperial).</bitbar.desc>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/6187908/12153864/55b3d5fa-b48a-11e5-95c8-b60be4fb1226.png</bitbar.image>
+# <bitbar.dependencies>Ruby,wunderground gem</bitbar.dependencies>
 
 API_KEY = nil
 LOCATION = 'autoip'
