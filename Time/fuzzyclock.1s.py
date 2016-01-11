@@ -33,13 +33,13 @@ def fuzzy_time(struct_time):
 
     # Split it into hours & minutes and rounding the minutes to make the time
     # 'fuzzy'. Use 12-hour clock.
-    hour = (struct_time.tm_hour % 12) if (struct_time.tm_hour % 12) else 12
+    hour = struct_time.tm_hour % 12
     minute = struct_time.tm_min + (struct_time.tm_sec / 60)
     rounded_min = round_to_nearest_five(minute)
 
     num_word = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
                 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
-                12: "twelve", 20: "twenty", 25: "twenty-five"}
+                0: "twelve", 20: "twenty", 25: "twenty-five"}
 
     # Work out what to display and display it.
     if rounded_min == 0:
