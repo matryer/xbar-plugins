@@ -9,10 +9,9 @@
 # From my infamous one-liner
 # ((ifconfig | grep tun0) || (killall Firefox))
 
-
 if [[ `ifconfig | grep tun0` ]]; then
 	echo "VPN Up | color=green"
-	ifconfig utun0 | grep inet | cut -d' ' -f 2
+	ifconfig utun0 2> /dev/null | grep inet | cut -d' ' -f 2 
 else
 	echo "VPN Down | color=red"
 	#killall Firefox 2&> /dev/null
