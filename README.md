@@ -23,7 +23,7 @@ To see a list of available plugins, visit https://getbitbar.com/
 
 ##Contributors
 
-Special thanks to everyone who has contributed https://getbitbar.com/contributors
+Special thanks to everyone who has contributed: https://getbitbar.com/contributors
 
 ## Add your own plugin
 
