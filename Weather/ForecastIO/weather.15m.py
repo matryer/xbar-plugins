@@ -89,7 +89,8 @@ def get_wx():
       'pressure': str(wx['currently']['pressure']) + ' mb',
       'feels_like': str(int(round(wx['currently']['apparentTemperature']))) + '°' + unit,
       #'next_hour': str(wx['minutely']['summary']), #Forecast.io doesn't have this field, so this is throwing an error.
-      'next_twentyfour_hours': str(wx['hourly']['summary']),
+      'next_twentyfour_hours': str((wx['hourly']['summary']).encode('utf8')) #else, one gets an error "UnicodeEncodeError: 'ascii' codec can't encode character u'\u2013' in position 3 2: ordinal not in range(128)" if there is a long dash in the description
+      #'next_twentyfour_hours': str(wx['hourly']['summary']),
       'city': str(location['city']),
       'region': str(location['region'])
     }
