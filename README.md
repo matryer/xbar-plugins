@@ -129,6 +129,7 @@ Special thanks to everyone who has contributed:
 - Jeff Beadles - [https://github.com/jeffbeadles](https://github.com/jeffbeadles)
 - Antoine Coetsier - [https://github.com/retrack](https://github.com/retrack)
 - Gautam krishna R - [https://github.com/gautamkrishnar](https://github.com/gautamkrishnar)
+- Antoine Coetsier - [https://github.com/retrack](https://github.com/retrack)
 
 ## Add your own plugin
 
