@@ -6,6 +6,10 @@ This repo contains scripts, programs and command-line tools that add functionali
 * [Contributors](https://github.com/matryer/bitbar-plugins#contributors)
 * [Add your own plugin](https://github.com/matryer/bitbar-plugins#add-your-own-plugin)
 
+### Reporting issues
+
+The best way to report an issue with a plugin is to find the plugin on https://getbitbar.com and click "Report issue". If possible, the author will be tagged in the issue - which greatly increases your chances of getting the issue looked at quickly.
+
 ### How to use them
 
   * Just drop the plugin into your BitBar plugins folder (if you have the repo, why not use the `Enabled` folder?)
