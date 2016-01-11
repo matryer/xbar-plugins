@@ -10,9 +10,9 @@
 
 ## set variables
 
-URL="{set your nagios url here}"  	# ie nagios.example.com
+URL="{set your nagios url here}"  			# ie nagios.example.com
 NAME="{username}" 					# username
-PASSWORD="{password}"				# password
+PASSWORD="{password}"					# password
 
 TEMP_FILE="/tmp/nagios.out"
 TAC="tac.cgi"
