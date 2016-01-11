@@ -9,7 +9,7 @@
 # <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Dev/Logs/tail.5s.sh</bitbar.abouturl>
 
 LINES=15
-FILE="/Users/matryer/Desktop/testfile.txt"
+FILE="path/to/file/to/tail"
 
 echo -n "↧ "
 basename "$FILE"
