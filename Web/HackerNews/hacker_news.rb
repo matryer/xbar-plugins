@@ -28,11 +28,15 @@ end
 
 def output(story)
   puts story["title"] + " | color=#337ab7 | href=" + story["url"]
-  puts "Comments: #{story["descendants"]} | color=black"
+  puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} | color=black"
   puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
   puts "---"
 end
 
 puts "HackerNews"
 puts "---"
-get_top_stories.map { |id| get_story_for_id(id) }.each { |story| output(story) }
+begin
+  get_top_stories.map { |id| get_story_for_id(id) }.each { |story| output(story) }
+rescue => e
+  puts "Content is currently unavailable. Please try resetting. | color=red"
+end

@@ -1,13 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env sh
 #
-# Docker plugin
+# <bitbar.title>Docker Status</bitbar.title>
+# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.author>Manoj Mahalingam</bitbar.author>
+# <bitbar.author.github>manojlds</bitbar.author.github>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/191378/12255368/1e671b32-b919-11e5-8166-6d975396f408.png</bitbar.image>
+# <bitbar.desc>Displays the status of docker machines and running containers</bitbar.desc>
+# <bitbar.dependencies>shell,docker,docker-machine</bitbar.dependencies>
+#
+# Docker status plugin
 # by Manoj Mahalingam (@manojlds)
 #
 # Displays the status of docker machines and running containers
 
-
-export PATH='/usr/local/bin:/usr/bin:$PATH'
-echo "⚓️"
+export PATH="/usr/local/bin:/usr/bin:$PATH"
+echo "⚓️ | dropdown=false"
 echo "---"
 
 DOCKER_MACHINES="$(docker-machine ls -q)"
@@ -17,21 +24,26 @@ if [ -z "$DOCKER_MACHINES" ]; then
 fi
 
 echo "${DOCKER_MACHINES}" | while read -r machine; do
-  STATUS=$(docker-machine status $machine)
-  COLOR="red"
-  if [[ "$STATUS" == "Running" ]]; then
-    echo "$machine | color=green"
-    eval $(docker-machine env $machine)
-    CONTAINERS="$(docker ps --format "{{.Names}} ({{.Image}})")"
+  STATUS=$(docker-machine status "$machine")
+  if [ "$STATUS" = "Running" ]; then
+    echo "$machine | color=green bash=$(which docker-machine) param1=stop param2=$machine terminal=false refresh=true"
+    ENV=$(docker-machine env --shell sh "$machine")
+    eval "$ENV"
+    CONTAINERS="$(docker ps --format "{{.Names}} ({{.Image}})|{{.ID}}")"
     if [ -z "$CONTAINERS" ]; then
       echo "No running containers"
     else
-      echo "${CONTAINERS}" | while read -r container; do
-        echo "🆙 $container | color=black"
+      LAST_CONTAINER=$(echo "$CONTAINERS" | tail -n1 )
+      echo "${CONTAINERS}" | while read -r CONTAINER; do
+        CONTAINER_ID=$(echo "$CONTAINER" | sed 's/.*|//')
+        CONTAINER_NAME=$(echo "$CONTAINER" | sed 's/|.*//')
+        SYM="├"
+        if [ "$CONTAINER" = "$LAST_CONTAINER" ]; then SYM="└"; fi
+        echo "$SYM $CONTAINER_NAME | color=green bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true"
       done
     fi
   else
-    echo "$machine (not running)"
+    echo "$machine (not running) | color=red bash=$(which docker-machine) param1=start param2=$machine terminal=false refresh=true"
   fi
   echo "---"
 done

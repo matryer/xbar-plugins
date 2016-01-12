@@ -7,6 +7,14 @@
 # Shows current track information from spotify
 # 10 second refresh might be a little too quick. Tweak to your liking.
 
+# metadata
+# <bitbar.title>Spotify Now Playing</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Jason Tokoph</bitbar.author>
+# <bitbar.author.github>jtokoph</bitbar.author.github>
+# <bitbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/y1SZwfq.png</bitbar.image>
+
 if [ "$1" = 'launch' ]; then
   osascript -e 'tell application "Spotify" to activate'
   exit
