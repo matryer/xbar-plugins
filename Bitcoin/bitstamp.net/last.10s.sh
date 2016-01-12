@@ -7,7 +7,7 @@
 # <bitbar.author>Damien Lajarretie</bitbar.author>
 # <bitbar.author.github>dlajarretie</bitbar.author.github>
 # <bitbar.desc>Shows last BTC price (in USD) on Bitstamp exchange.</bitbar.desc>
-# <bitbar.image>https://bitcoin.fr/public/divers/Bitstamp.png</bitbar.image>
+# <bitbar.image>http://i.imgur.com/aQCqOW6.png</bitbar.image>
 #
 # by Damien Lajarretie
 # Based on Coinbase bitbar plugin by Mat Ryer
