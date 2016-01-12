@@ -4,6 +4,7 @@
 # <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Manoj Mahalingam</bitbar.author>
 # <bitbar.author.github>manojlds</bitbar.author.github>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/191378/12255368/1e671b32-b919-11e5-8166-6d975396f408.png</bitbar.image>
 # <bitbar.desc>Displays the status of docker machines and running containers</bitbar.desc>
 # <bitbar.dependencies>shell,docker,docker-machine</bitbar.dependencies>
 #
