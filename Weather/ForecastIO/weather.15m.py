@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v1.3.0</bitbar.version>
+# <bitbar.version>v1.3.2</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by forecast.io. Auto location lookup, needs API key from http://developer.forecast.io.</bitbar.desc>
@@ -88,11 +88,10 @@ def get_wx():
       'visibility': str(int(round(wx['currently']['visibility']))) + ' ' + distance_short,
       'pressure': str(wx['currently']['pressure']) + ' mb',
       'feels_like': str(int(round(wx['currently']['apparentTemperature']))) + '°' + unit,
-      #'next_hour': str(wx['minutely']['summary']), #Forecast.io doesn't have this field, so this is throwing an error.
-      'next_twentyfour_hours': str((wx['hourly']['summary']).encode('utf8')) #else, one gets an error "UnicodeEncodeError: 'ascii' codec can't encode character u'\u2013' in position 3 2: ordinal not in range(128)" if there is a long dash in the description
-      #'next_twentyfour_hours': str(wx['hourly']['summary']),
+      'next_twentyfour_hours': str((wx['hourly']['summary']).encode('utf8')),
       'city': str(location['city']),
-      'region': str(location['region'])
+      'region': str(location['region']),
+      'loc': str(location['loc'])
     }
   except KeyError:
     return False
@@ -106,7 +105,7 @@ def render_wx():
     print 'Could not get weather'
     return False
 
-  print weather_data['icon'] + ' ' + weather_data['temperature']
+  print weather_data['icon'] + ' ' + weather_data['temperature'] + ' | href=http://forecast.io/#/f/' + weather_data['loc']
   print '---'
   print weather_data['city'] + ', ' + weather_data['region']
   print weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like']
