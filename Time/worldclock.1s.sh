@@ -8,9 +8,8 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Adam Snodgrass</bitbar.author>
 # <bitbar.author.github>asnodgrass</bitbar.author.github>
-# <bitbar.desc>Display current time in various timezones</bitbar.desc>
+# <bitbar.desc>Display current UTC time in the menu bar, with various timezones in the drop-down menu</bitbar.desc>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/6187908/12207887/464ff8b2-b617-11e5-9d61-787eed228552.png</bitbar.image>
-# <bitbar.dependencies>none</bitbar.dependencies>
 
 ZONES="Australia/Sydney Europe/Amsterdam America/New_York America/Los_Angeles"
 date -u +'%H:%M:%S UTC'
