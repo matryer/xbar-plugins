@@ -16,12 +16,12 @@ require 'wunderground'
 # script.
 #
 # <bitbar.title>Weather Underground plugin</bitbar.title>
-# <bitbar.version>v1.1.0</bitbar.title>
+# <bitbar.version>v1.2.0</bitbar.title>
 # <bitbar.author>Adam Snodgrass</bitbar.author>
 # <bitbar.author.github>asnodgrass</bitbar.author>
 # <bitbar.desc>Current weather conditions from the Weather Underground (requires an API key). Supports automatic location by IP, and units are configurable (SI vs imperial).</bitbar.desc>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/6187908/12153864/55b3d5fa-b48a-11e5-95c8-b60be4fb1226.png</bitbar.image>
-# <bitbar.dependencies>Ruby,wunderground gem</bitbar.dependencies>
+# <bitbar.dependencies>ruby,wunderground gem</bitbar.dependencies>
 
 API_KEY = nil
 LOCATION = 'autoip'
@@ -52,9 +52,14 @@ class WeatherPlugin
     puts "Pressure: #{pressure(cond)}"
     puts "Visibility: #{visibility(cond)}"
     puts "Winds: #{winds(cond)}"
+    puts '---'
     puts "Location: #{cond['observation_location']['full']}"
     puts "Station ID: #{cond['station_id']}"
     puts "Station Report: #{update}"
+    puts '---'
+    puts "Forecast | href=#{cond['forecast_url']}"
+    puts "Historical Data | href=#{cond['history_url']}"
+    puts "Station Location | href=#{gmaps_url(cond)}"
   end
 
   private
@@ -138,6 +143,15 @@ class WeatherPlugin
 
   def formatted_time(epoch)
     Time.at(epoch).strftime('%a, %d %b %Y %T %z')
+  end
+
+  def gmaps_url(cond)
+    format('http://maps.google.com/maps/place/%s,%s/@%s,%s,10z',
+      cond['observation_location']['latitude'],
+      cond['observation_location']['longitude'],
+      cond['observation_location']['latitude'],
+      cond['observation_location']['longitude']
+    )
   end
 
   def icon(cond)
