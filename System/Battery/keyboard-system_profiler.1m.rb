@@ -3,9 +3,10 @@
 # <bitbar.version>1.0</bitbar.version>
 # <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
 # <bitbar.author.github>alexandregz</bitbar.author.github>
-# <bitbar.desc>Show vagrant images running, from vagrant global-status command</bitbar.desc>
+# <bitbar.desc>Show battery percentage for Bluetooth Keyboard</bitbar.desc>
 #
 # command from https://github.com/matryer/bitbar-plugins/issues/84 by @keithamus
+# works fine with Apple Keyboard
 #
 
 require 'yaml'
