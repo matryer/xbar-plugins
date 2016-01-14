@@ -58,6 +58,7 @@ Special thanks to everyone who has contributed:
 - Thameera Senanayaka - [http://thameera.com](http://thameera.com)
 - Jeff Beadles - [https://github.com/jeffbeadles](https://github.com/jeffbeadles)
 - Gautam krishna R - [https://github.com/gautamkrishnar](https://github.com/gautamkrishnar)
+- Toni Hoffmann - [https://github.com/xremix](https://github.com/xremix)
 
 ## Add your own plugin
 
