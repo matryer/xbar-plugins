@@ -8,8 +8,9 @@
 # Gets the current internal IP address, and shows more information in
 # the details.
 
-ipconfig getifaddr en0; 
+ACTIVE_ADAPTER=`ifconfig | grep \^en | head -n1 | cut -d: -f1`
+ipconfig getifaddr $ACTIVE_ADAPTER;
 echo "---"
 echo "(Internal IP address)"
 echo "---"
-ifconfig en0
+ifconfig $ACTIVE_ADAPTER;
