@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Weather
-#
-# by Daniel Seripap (daniel@seripap.com)
-#
-# Simple weather. Change location ID to openweathermap.org location id
-# (http://openweathermap.org/city/5110302)
+# <bitbar.title>Weather - OpenWeatherMap</bitbar.title>
+# <bitbar.version>v1.0.0</bitbar.version>
+# <bitbar.author>Daniel Seripap</bitbar.author>
+# <bitbar.author.github>seripap</bitbar.author.github>
+# <bitbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</bitbar.desc>
+# <bitbar.image>https://daniel.seripap.com/content/images/2016/01/bitbar-openweather.png</bitbar.image>
+# <bitbar.dependencies>python</bitbar.dependencies>
 
 import json
 import urllib2
