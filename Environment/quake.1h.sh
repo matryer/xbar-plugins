@@ -5,7 +5,7 @@
 # <bitbar.author.github>aaronedell</bitbar.author.github>
 # <bitbar.desc>Displays the most significant earthquakes in the last 30 days from http://earthquake.usgs.gov </bitbar.desc>
 # <bitbar.image>http://i.imgur.com/lF8Qdpk.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>http://earthquake.usgs.gov</bitbar.abouturl>
 echo '🌎'
 echo '---'
