@@ -7,9 +7,8 @@
 # <bitbar.image></bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
-# INSTRUCTIONS: set baj_login=LOGIN and baj_password=PASSWORD in ~/.bitbar
-
-. ~/.bitbar
+baj_login=LOGIN
+baj_password=PASSWORD
 
 url="http://www.boiteajeux.net/gestion.php"
 data="pAction=login&password=${baj_password}&username=${baj_login}"
