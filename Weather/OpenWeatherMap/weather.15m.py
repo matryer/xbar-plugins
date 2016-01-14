@@ -16,13 +16,14 @@ from random import randint
 location = '5110302'
 api_key = '2de143494c0b295cca9337e1e96b00e0'
 units = 'imperial' # kelvin, metric, imperial
+lang = 'en'
 
 def get_wx():
 
   if api_key == "":
     return False
 
-  wx = json.load(urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?id=' + location + '&units=' + units + '&appid=' + api_key + "&v=" + str(randint(0,100))))
+  wx = json.load(urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?id=' + location + '&units=' + units + '&lang=' + lang + '&appid=' + api_key + "&v=" + str(randint(0,100))))
 
   if units == 'metric':
     unit = 'C'
@@ -34,7 +35,7 @@ def get_wx():
   try:
     weather_data = {
       'temperature': str(int(round(wx['main']['temp']))),
-      'condition': str(wx['weather'][0]['main']),
+      'condition': str(wx['weather'][0]['description']),
       'city': wx['name'],
       'unit': '°' + unit
     }
