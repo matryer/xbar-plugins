@@ -17,7 +17,8 @@ $ENV{'PATH'} = $ENV{'PATH'}.':/usr/local/bin';
 # action => [status1 from machine, status2, ...]
 my $actions_from_status = {
         up => ["saved", "poweroff", "aborted"],
-        suspend => ["running"]
+        suspend => ["running"],
+        resume => ["suspended"]
 };
 
 my $status = `vagrant global-status`;
@@ -44,9 +45,9 @@ if($status =~ /^\-{10,}\n(.*)\n\s+\n/sm) {
                 print "$i_id - $i_image ($i_provider) | color=black\n";
                 print "   $i_path\n";
 
-                print "   $i_status | color=$color ";
+                print "$i_status | color=$color ";
                 foreach my $action(keys(%{$actions_from_status})) {
-                        print " | bash=vagrant param1=$action param2=$i_id " if(grep $_ eq $i_status, @{$actions_from_status->{$action}});
+                        print "bash=vagrant param1=$action param2=$i_id terminal=true" if(grep $_ eq $i_status, @{$actions_from_status->{$action}});
                 }
                 print "\n";
                 print "---\n";
