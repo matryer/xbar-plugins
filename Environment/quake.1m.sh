@@ -10,7 +10,7 @@
 
 
 
-echo 'EarthQuakes'
+echo 'Earthquakes'
 echo '---'
 echo 'Data from http://earthquake.usgs.gov | color=green href=http://earthquake.usgs.gov'
 echo '---'
