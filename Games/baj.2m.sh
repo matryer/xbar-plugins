@@ -4,7 +4,7 @@
 # <bitbar.author>Justin Honold</bitbar.author>
 # <bitbar.author.github>astrostl</bitbar.author.github>
 # <bitbar.desc>Checks for active turns at http://boiteajeux.net every two minutes</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/1126471/12343875/45b78bbe-bafd-11e5-960f-33b77c5d3e41.png</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 baj_login=LOGIN
