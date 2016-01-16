@@ -4,11 +4,12 @@
 # <bitbar.a uthor>Allan Frese</bitbar.author>
 # <bitbar.author.github>frese</bitbar.author.github>
 # <bitbar.desc>Shows current pagerduty alert status.</bitbar.desc>
-# <bitbar.dependencies>ruby,curl</bitbar.dependencies>
+# <bitbar.dependencies>ruby (httparty gem)</bitbar.dependencies>
 
 require "json"
 require "pp"
 require "optparse"
+require "httparty"
 
 # Setup PagerDuty domain and user token
 TOKEN=""
@@ -42,11 +43,11 @@ class PagerDuty
         when "REASSIGN"
         when "SNOOZE"
         when "users"
-            out = %x(curl -s -H "Content-type: application/json" -H "Authorization: Token token=#{TOKEN}" -X GET -G \
-                     "https://#{DOMAIN}.pagerduty.com/api/v1/users")
+            out = HTTParty.get("https://#{DOMAIN}.pagerduty.com/api/v1/users",
+                               headers: {"Content-type" => "application/json", "Authorization" => "Token token=#{TOKEN}"})
 
-            puts "Output from curl: #{out}" if $verbose
-            usr = JSON.parse(out)
+            puts "Raw output: #{out}" if $verbose
+            usr = JSON.parse(out.body)
             usr['users'].each { |u|
                 puts "id: #{u['id']} - name: #{u['name']}"
             }
@@ -56,12 +57,12 @@ class PagerDuty
 
     def list_incidents
         begin
-            out = %x(curl -s -H "Content-type: application/json" -H "Authorization: Token token=#{TOKEN}" -X GET -G \
-                     --data-urlencode "status=triggered,acknowledged" \
-                     "https://#{DOMAIN}.pagerduty.com/api/v1/incidents")
+            out = HTTParty.get("https://#{DOMAIN}.pagerduty.com/api/v1/incidents",
+                               query:   { "status" => "triggered,acknowledged" },
+                               headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{TOKEN}"})
 
-            puts "Output from curl: #{out}" if $verbose
-            pd = JSON.parse(out)
+            puts "Raw output: #{out}" if $verbose
+            pd = JSON.parse(out.body)
 
             if pd['incidents'].empty?
                 puts "OK|color=green"
@@ -95,11 +96,12 @@ class PagerDuty
     end
 
     def update_incident(id, cmd)
-        out = %x(curl -s -H "Content-type: application/json" -H "Authorization: Token token=#{TOKEN}" -X PUT \
-                 -d '{"requester_id":"#{USERID}","incidents":[{"id":"#{id}","status":"#{cmd}"}]}' \
-                 "https://#{DOMAIN}.pagerduty.com/api/v1/incidents")
+        body = { requester_id: USERID, incidents: [{ id: id, status: cmd }] }
+        out = HTTParty.put("https://#{DOMAIN}.pagerduty.com/api/v1/incidents",
+                           body:  body.to_json,
+                           headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{TOKEN}"})
 
-        puts "Output from curl: #{out}" if $verbose
+        puts "Raw output: #{out}" if $verbose
         return out
     end
 
