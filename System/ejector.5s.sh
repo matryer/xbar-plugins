@@ -5,8 +5,8 @@
 # <bitbar.author>Carlson Orozco</bitbar.author>
 # <bitbar.author.github>carlsonorozco</bitbar.author.github>
 # <bitbar.desc>Ejector is a plugin for BitBar that enables you to eject mounted drive easily.</bitbar.desc>
-
-about="About Ejector | color=red href=https://github.com/carlsonorozco/ejector"
+# <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</bitbar.image>
+# <bitbar.abouturl>https://github.com/carlsonorozco/ejector</bitbar.abouturl>
 
 if [ "$1" = 'eject' ]; then
     status=$(diskutil eject /Volumes/"$2" | sed -e 's/\/Volumes\///g')
@@ -37,8 +37,6 @@ total_drive=$(find /Volumes -maxdepth 1 -type d | wc -l | tr -s '[:space:]' )
 
 if [ $((total_drive)) = 1 ]; then
     echo "⏏ | color=gray"
-    echo '---'
-    echo "$about"
     exit
 fi
 
@@ -68,6 +66,3 @@ done
 if [ $((total_drive)) -ge 3 ]; then
     echo "Eject All | color=red bash=$0 param1=ejectall terminal=false"
 fi
-
-echo '---'
-echo "$about"
