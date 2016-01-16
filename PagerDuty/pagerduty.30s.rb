@@ -11,10 +11,13 @@ require "pp"
 require "optparse"
 require "httparty"
 
-# Setup PagerDuty domain and user token
-TOKEN=""
-DOMAIN=""
-USERID=""
+# Read PagerDuty domain and user token
+#---------------------------------------
+# Create a configuration file ".pagerduty" in your HOME directory, with the following Content-type
+# TOKEN: <pagerduty-token>
+# DOMAIN: <your-pagerduty-domain>
+# USERID: <your-pager-duty-user-id>
+$config = YAML.load(File.read("#{ENV['HOME']}/.pagerduty"))
 
 class PagerDuty
 
@@ -43,8 +46,8 @@ class PagerDuty
         when "REASSIGN"
         when "SNOOZE"
         when "users"
-            out = HTTParty.get("https://#{DOMAIN}.pagerduty.com/api/v1/users",
-                               headers: {"Content-type" => "application/json", "Authorization" => "Token token=#{TOKEN}"})
+            out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/users",
+                               headers: {"Content-type" => "application/json", "Authorization" => "Token token=#{$config['TOKEN']}"})
 
             puts "Raw output: #{out}" if $verbose
             usr = JSON.parse(out.body)
@@ -57,9 +60,9 @@ class PagerDuty
 
     def list_incidents
         begin
-            out = HTTParty.get("https://#{DOMAIN}.pagerduty.com/api/v1/incidents",
+            out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/incidents",
                                query:   { "status" => "triggered,acknowledged" },
-                               headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{TOKEN}"})
+                               headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{$config['TOKEN']}"})
 
             puts "Raw output: #{out}" if $verbose
             pd = JSON.parse(out.body)
@@ -96,10 +99,10 @@ class PagerDuty
     end
 
     def update_incident(id, cmd)
-        body = { requester_id: USERID, incidents: [{ id: id, status: cmd }] }
-        out = HTTParty.put("https://#{DOMAIN}.pagerduty.com/api/v1/incidents",
+        body = { requester_id: $config['USERID'], incidents: [{ id: id, status: cmd }] }
+        out = HTTParty.put("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/incidents",
                            body:  body.to_json,
-                           headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{TOKEN}"})
+                           headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{$config['TOKEN']}"})
 
         puts "Raw output: #{out}" if $verbose
         return out
