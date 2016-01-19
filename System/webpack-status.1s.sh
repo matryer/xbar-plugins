@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # <bitbar.title>Webpack Status</bitbar.title>
-# <bitbar.version>v1.1.0</bitbar.version>
+# <bitbar.version>v1.1.2</bitbar.version>
 # <bitbar.author>Francesco Belladonna</bitbar.author>
 # <bitbar.author.github>Fire-Dragon-DoL</bitbar.author.github>
 # <bitbar.desc>Display the current status of webpack server compile: completed/ongoing/failed.</bitbar.desc>
@@ -14,7 +14,12 @@ color_yellow="◉ | color=#ffa500 dropdown=false"
 color_green="✔︎ | color=#008000 dropdown=false"
 
 webpack_status="/tmp/webpack-status"
-semaphore=`cat $webpack_status`
+
+semaphore=0
+
+if [ -f $webpack_status ]; then
+  semaphore=`cat $webpack_status`
+fi
 
 semaphore_color=$color_yellow
 
@@ -35,3 +40,5 @@ case $semaphore in
 esac
 
 echo "$semaphore_color"
+echo "---"
+echo "Clear Webpack Status | terminal=false bash=rm param1=-f param2='$webpack_status'"
