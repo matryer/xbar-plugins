@@ -26,24 +26,28 @@ fi
 echo "${DOCKER_MACHINES}" | while read -r machine; do
   STATUS=$(docker-machine status "$machine")
   if [ "$STATUS" = "Running" ]; then
-    echo "$machine | color=green bash=$(which docker-machine) param1=stop param2=$machine terminal=false refresh=true"
+    echo "🔵  $machine | bash=$(which docker-machine) param1=stop param2=$machine terminal=false refresh=true"
     ENV=$(docker-machine env --shell sh "$machine")
     eval "$ENV"
-    CONTAINERS="$(docker ps --format "{{.Names}} ({{.Image}})|{{.ID}}")"
+    CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
     if [ -z "$CONTAINERS" ]; then
       echo "No running containers"
     else
       LAST_CONTAINER=$(echo "$CONTAINERS" | tail -n1 )
       echo "${CONTAINERS}" | while read -r CONTAINER; do
-        CONTAINER_ID=$(echo "$CONTAINER" | sed 's/.*|//')
-        CONTAINER_NAME=$(echo "$CONTAINER" | sed 's/|.*//')
-        SYM="├"
-        if [ "$CONTAINER" = "$LAST_CONTAINER" ]; then SYM="└"; fi
-        echo "$SYM $CONTAINER_NAME | color=green bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true"
+        CONTAINER_NAME=$(echo "$CONTAINER" | awk -F"|" '{print $1}')
+        CONTAINER_ID=$(echo "$CONTAINER" | awk -F"|" '{print $2}')
+        CONTAINER_STATE=$(echo "$CONTAINER" | awk -F"|" '{print $3}')
+        SYM="├ 💻 "
+        if [ "$CONTAINER" = "$LAST_CONTAINER" ]; then SYM="└ 💻 "; fi
+        case "$CONTAINER_STATE" in
+          *Up*) echo "$SYM $CONTAINER_NAME | color=green bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
+          *Exited*) echo "$SYM $CONTAINER_NAME | color=red bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
+        esac
       done
     fi
   else
-    echo "$machine (not running) | color=red bash=$(which docker-machine) param1=start param2=$machine terminal=false refresh=true"
+    echo "🔴  $machine | bash=$(which docker-machine) param1=start param2=$machine terminal=false refresh=true"
   fi
   echo "---"
 done
