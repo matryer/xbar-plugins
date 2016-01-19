@@ -11,7 +11,7 @@
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"
 
-tmp_dir="/tmp/bitbar-clipboard-history"
+tmp_dir="/tmp/bitbar-clipboard-history_$USER"
 
 # Make sure temporary directory exists
 mkdir -p "$tmp_dir" &> /dev/null
