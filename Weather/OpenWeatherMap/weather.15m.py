@@ -23,7 +23,10 @@ def get_wx():
   if api_key == "":
     return False
 
-  wx = json.load(urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?id=' + location + '&units=' + units + '&lang=' + lang + '&appid=' + api_key + "&v=" + str(randint(0,100))))
+  try:
+    wx = json.load(urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?id=' + location + '&units=' + units + '&lang=' + lang + '&appid=' + api_key + "&v=" + str(randint(0,100))))
+  except urllib2.URLError:
+    return False
 
   if units == 'metric':
     unit = 'C'
