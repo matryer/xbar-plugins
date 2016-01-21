@@ -3,8 +3,11 @@
 # uptime
 # BitBar plugin
 #
-# by Mat Ryer
+# by Mat Ryer, Matteo Ferrando
 #
 # Shows details about the current uptime of the system.
 
-uptime | sed -n 1'p' | tr ',' '\n'
+INFO=`uptime`
+echo $INFO | tr "," " " | awk '{print "[ up "$3" days, "$5" ]"}'
+echo "---"
+echo $INFO | tr "," "\n" | tail -n 2
