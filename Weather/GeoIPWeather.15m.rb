@@ -65,7 +65,7 @@ def weather(zip_code, country)
   weather_uri =
     URI('http://api.openweathermap.org/data/2.5/weather' \
         "?zip=#{zip_code},#{country}" \
-        '&appid=2de143494c0b295cca9337e1e96b00e0' \
+        '&appid=8b4824b451d5db1612156837df880f55' \
         "#{temperature_unit}")
 
   weather_data = Net::HTTP.get(weather_uri)
