@@ -1,6 +1,15 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
+# <bitbar.title>GeoIPWeather</bitbar.title>
+# <bitbar.version>v0.1.1</bitbar.version>
+# <bitbar.author>Taylor Zane</bitbar.author>
+# <bitbar.author.github>taylorzane</bitbar.author.github>
+# <bitbar.desc>Your weather in the menu bar 🌤</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/vrT6vfb.png</bitbar.image>
+# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.abouturl>https://github.com/taylorzane</bitbar.abouturl>
+
 ### USER VARIABLES
 UNITS = 'F' # This can be: (F)ahrenheit, (C)elsius, (K)elvin
 
