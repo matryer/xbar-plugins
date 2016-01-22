@@ -12,6 +12,7 @@
 
 ### USER VARIABLES
 UNITS = 'F' # This can be: (F)ahrenheit, (C)elsius, (K)elvin
+API_KEY = '8b4824b451d5db1612156837df880f55' # you can also get your own at http://openweathermap.org/
 
 require 'json'
 require 'net/http'
@@ -74,7 +75,7 @@ def weather(zip_code, country)
   weather_uri =
     URI('http://api.openweathermap.org/data/2.5/weather' \
         "?zip=#{zip_code},#{country}" \
-        '&appid=8b4824b451d5db1612156837df880f55' \
+        "&appid=#{API_KEY}" \
         "#{temperature_unit}")
 
   weather_data = Net::HTTP.get(weather_uri)
