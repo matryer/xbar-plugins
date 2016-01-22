@@ -6,7 +6,7 @@
 # <bitbar.author.github>citoki</bitbar.author.github>
 # <bitbar.desc>This plugin will give some caffeine, with lots of sugar, to your Mac to stay awake.
 # Technically the commandline tool 'caffeinate' is executed.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://imgur.com/vsCWLwX</birtbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 if [ "$1" = 'sugar' ]; then
