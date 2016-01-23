@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 # <bitbar.title>Product Hunt - Today in Tech</bitbar.title>
 # <bitbar.version>v1.0.0</bitbar.version>
