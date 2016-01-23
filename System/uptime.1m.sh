@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# uptime
-# BitBar plugin
-#
-# by Mat Ryer, Matteo Ferrando
-#
-# Shows details about the current uptime of the system.
+# <bitbar.title>uptime</bitbar.title>
+# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.author>Matteo Ferrando</bitbar.author>
+# <bitbar.author.github>chamini2</bitbar.author.github>
+# <bitbar.desc>Show uptime command information.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/qaIxpJN.png</bitbar.image>
 
 INFO=`uptime`
 echo $INFO | awk -F'[ ,:\t\n]+' '{
