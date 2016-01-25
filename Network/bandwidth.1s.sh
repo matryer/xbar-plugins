@@ -5,7 +5,7 @@
 # <bitbar.author>Ant Cosentino</bitbar.author>
 # <bitbar.author.github>skibz</bitbar.author.github>
 # <bitbar.desc>Displays TX and RX bitrate of your main ethernet interface in the status bar and hides other interfaces in the context menu.</bitbar.desc>
-# <bitbar.dependencies>node</bitbar.dependencies>
+# <bitbar.dependencies>ifstat</bitbar.dependencies>
 
 export PATH="/usr/local/bin:${PATH}"
 INTERFACES=$(ifconfig -lu)
