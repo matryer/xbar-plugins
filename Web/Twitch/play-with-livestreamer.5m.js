@@ -16,14 +16,14 @@ var GAME = "Dota 2";
 var LIMIT = 10;
 var url = 'https://api.twitch.tv/kraken/streams/?limit=' + LIMIT + '&game=' + encodeURIComponent(GAME);
 var icon = '👾';
+var LIVESTREAMER_PATH = '/usr/local/bin/livestreamer';
 
 function handleResponse(body) {
     var output = body.streams.map(function(stream){
         var channel = stream.channel;
         var url = channel.url.replace('http://', '');
-        var command = '"livestreamer ' + url + ' best"';
         var status = channel.status.replace(/\|/g, '').substr(0,40) + '...';
-        return [status, '| size=9 \n', channel.display_name, ' - ', stream.viewers, ' | size=12 bash=', command, ' \n'].join('');
+        return [status, '| size=9 \n', channel.display_name, ' - ', stream.viewers, ' | size=12 terminal=false bash=' + LIVESTREAMER_PATH + ' param1=', url, ' param2=best\n'].join('');
     }).join('\n---\n');
     console.log(icon + '\n---\n' + output);
 }
@@ -39,4 +39,5 @@ https.get(url, function(res) {
         handleResponse(JSON.parse(body));
     });
 });
+
 
