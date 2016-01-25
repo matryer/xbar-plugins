@@ -37,7 +37,7 @@ function color(result) {
 
 function branchesOutput(branches) {
     return branches.map(function (branch){
-        if (branch.result === 'faield') {
+        if (branch.result === 'failed') {
             icon = '🔴';
         }
         return ['- ', branch.branch_name,' ',status(branch.result), ' | color=', color(branch.result), ' href=', branch.build_url].join('');
