@@ -1,19 +1,16 @@
 #!/usr/bin/env /usr/local/bin/node
 
-/*
- * author:
- *     Goran Gajic - https://github.com/gorangajic
- * screenshot:
- *     http://i.imgur.com/XEQQaxC.png
- * desc:
- *     list top 10 streams for Dota 2
- *     you can modify the game by changing GAME variable
- *     and limit by changing LIMIT variable
- *     and place it in AUTH_TOKEN varibale
- */
+// <bitbar.title>Twitch Livestreamer</bitbar.title>
+// <bitbar.version>v1.0</bitbar.version>
+// <bitbar.author>Goran Gajic</bitbar.author>
+// <bitbar.author.github>gorangajic</bitbar.author.github>
+// <bitbar.desc>list top 10 twitch streams for provided GAME, defaults to Dota 2</bitbar.desc>
+// <bitbar.dependencies>node.js, livestreamer</bitbar.dependencies>
+// <bitbar.image>http://i.imgur.com/XEQQaxC.png</bitbar.image>
 
-var GAME = "Dota 2";
-var LIMIT = 10;
+
+var GAME = "Dota 2"; // game you want to fetch streams for
+var LIMIT = 10; // streams limit
 var url = 'https://api.twitch.tv/kraken/streams/?limit=' + LIMIT + '&game=' + encodeURIComponent(GAME);
 var icon = '👾';
 var LIVESTREAMER_PATH = '/usr/local/bin/livestreamer';
