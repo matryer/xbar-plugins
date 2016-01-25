@@ -7,6 +7,7 @@
 # <bitbar.author.github>andjosh</bitbar.author.github>
 # <bitbar.desc>GitHub zen in your menu bar!</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
+# <bitbar.image>http://i.imgur.com/U4OHxDm.png</bitbar.image>
 
 import urllib2
 import os
