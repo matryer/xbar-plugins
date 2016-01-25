@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # <bitbar.title>Memory usage</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Gautam krishna R</bitbar.author>

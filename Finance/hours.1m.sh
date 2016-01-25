@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # hour_logger needs to be installed in /usr/local/bin
 # Download from: https://github.com/udeyrishi/hour_logger
 #
