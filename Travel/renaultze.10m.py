@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/opt/local/bin/python
 # -*- coding: utf-8 -*-
 #
 # <bitbar.title>Renault Zero Emission</bitbar.title>
