@@ -1,15 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-/*
- * author:
- *     Goran Gajic - https://github.com/gorangajic
- * screenshot:
- *     http://i.imgur.com/BxKV8jU.png
- * desc:
- *     list your projects from semaphoreci.com
- *     grab your token from https://semaphoreci.com/users/edit
- *     and place it in AUTH_TOKEN varibale
- */
+// <bitbar.title>Semaphore CI</bitbar.title>
+// <bitbar.version>v1.0</bitbar.version>
+// <bitbar.author>Goran Gajic</bitbar.author>
+// <bitbar.author.github>gorangajic</bitbar.author.github>
+// <bitbar.desc>List your project and their statuses, from semaphoreci.com</bitbar.desc>
+// <bitbar.dependencies>node.js</bitbar.dependencies>
+// <bitbar.image>http://i.imgur.com/tRd1clI.png</bitbar.image>
 
 var https = require('https');
 var AUTH_TOKEN = ''; // YOUR AUTH TOKEN
@@ -63,3 +60,4 @@ https.get(url, function(res) {
         handleResponse(JSON.parse(body));
     });
 });
+
