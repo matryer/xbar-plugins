@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # <bitbar.title>Caffeinate</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
+# <bitbar.version>v0.2</bitbar.version>
 # <bitbar.author>Steffen Froehlich</bitbar.author>
 # <bitbar.author.github>citoki</bitbar.author.github>
 # <bitbar.desc>This plugin will give some caffeine, with lots of sugar, to your Mac to stay awake.
 # Technically the commandline tool 'caffeinate' is executed.</bitbar.desc>
-# <bitbar.image>https://imgur.com/vsCWLwX</birtbar.image>
+# <bitbar.image>https://imgur.com/vsCWLwX</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 
