@@ -1,5 +1,5 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# coding=utf-8
 
 # <bitbar.title>Huobi last price plugin</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 # Display the current system time in a 'fuzzy' manner, rounding to the nearest
 # 5 minutes and using words.
@@ -53,7 +53,7 @@ def fuzzy_time(struct_time):
     elif rounded_min == 45:
         return "quarter to {hr}".format(hr=num_word[next_hour(hour)])
     else:
-        return "{min} to {hr}".format(min=num_word[60 - rounded_min],
+        return "{min} to {hr}".format(min=num_word[60-rounded_min],
                                       hr=num_word[next_hour(hour)])
 
 if __name__ == '__main__':

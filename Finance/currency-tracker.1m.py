@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Currency Tracker</bitbar.title>
 # <bitbar.version>1.0</bitbar.version>

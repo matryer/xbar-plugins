@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Google Finance Stock Ticker</bitbar.title>
 # <bitbar.version>1.4</bitbar.version>
