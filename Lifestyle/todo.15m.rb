@@ -32,9 +32,7 @@ puts "Do: #{lines.length}"
 
 puts "---"
 
-i = 0
 until @todo_file.eof() # Until end-of-file
-    i += 1
     color = nil
     line = @todo_file.readline().chomp
     @priorityLabels.each do |key| # If line contains priority label, display in priority color
