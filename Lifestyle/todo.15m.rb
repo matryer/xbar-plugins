@@ -37,7 +37,7 @@ until @todo_file.eof() # Until end-of-file
     i += 1
     color = nil
     line = @todo_file.readline().chomp
-    @priorityLabels.each do |key, value| # If line contains priority label, display in priority color
+    @priorityLabels.each do |key| # If line contains priority label, display in priority color
         color = @priorityColor if line.include?(key)
     end
     if color.nil? # If line contains no priority label, check for other label and if present display in chosen color
