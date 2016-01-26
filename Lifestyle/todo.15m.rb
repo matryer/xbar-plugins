@@ -1,18 +1,23 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>TodoColor</bitbar.title>
+# <bitbar.title>TodoColour</bitbar.title>
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Srdgh</bitbar.author>
 # <bitbar.author.github>Srdgh</bitbar.author.github>
 # <bitbar.desc>Todo list color-coded</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/eNl6QGh.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 @todo_file = File.open("#{Dir.home}/.todo") #todo file path
 
-@urgentColor = "red"
+# Add further priority labels here
+@priorityLabels = [ "+Urgent" ]
 
-# Customise here: label color-code (colors optimised for dark theme menubar)
+# Change priority color here
+@priorityColor = "red"
+
+# Customise label color-code here (these colors are optimised for a dark theme menubar)
 @labels = { 
     "+Work"=>"orange",
     "+Play"=>"yellow",
@@ -27,17 +32,16 @@ puts "Do: #{lines.length}"
 
 puts "---"
 
-i = 0
 until @todo_file.eof() # Until end-of-file
-    i += 1
     color = nil
     line = @todo_file.readline().chomp
-    if line.include?("+Urgent") #This line gives +Urgent priority over any other label
-        puts "#{line} | color=#{@urgentColor}\n" 
-    else
-        @labels.each do |key, value|
-            color = value if line.include?(key)
-        end
-        color.nil? ? puts("#{line}\n") : puts("#{line} | color=#{color}\n")
+    @priorityLabels.each do |key| # If line contains priority label, display in priority color
+        color = @priorityColor if line.include?(key)
     end
+    if color.nil? # If line contains no priority label, check for other label and if present display in chosen color
+        @labels.each do |key, value|
+        color = value if line.include?(key)
+        end
+    end    
+    color.nil? ? puts("#{line}\n") : puts("#{line} | color=#{color}\n") # If the line contains no label, display in default color
 end
