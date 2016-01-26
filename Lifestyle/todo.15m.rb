@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>TodoColor</bitbar.title>
+# <bitbar.title>TodoColour</bitbar.title>
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Srdgh</bitbar.author>
 # <bitbar.author.github>Srdgh</bitbar.author.github>
 # <bitbar.desc>Todo list color-coded</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/eNl6QGh.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 @todo_file = File.open("#{Dir.home}/.todo") #todo file path
