@@ -8,11 +8,12 @@
 # <bitbar.desc>Todo list color-coded</bitbar.desc>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
-@todo_file = File.open("$HOME/.todo") #todo file path
+@todo_file = File.open("#{Dir.home}/.todo") #todo file path
+
+@urgentColor = "red"
 
 # Customise here: label color-code (colors optimised for dark theme menubar)
-@Labels = { 
-    "+Urgent"=>"red",
+@labels = { 
     ""=>"orange",
     ""=>"yellow",
     ""=>"green",
@@ -29,13 +30,14 @@ puts "---"
 i = 0
 until @todo_file.eof() # Until end-of-file
     i += 1
+    color = nil
     line = @todo_file.readline().chomp
-    if line.include?("+Urgent") #These two lines give +Urgent priority over any other label
-        color = "red"
-    else    
-        @Labels.each do |key, value|
+    if line.include?("+Urgent") #This line gives +Urgent priority over any other label
+        puts "#{line} | color=#{@urgentColor}\n" 
+    else
+        @labels.each do |key, value|
             color = value if line.include?(key)
         end
+        color.nil? ? puts("#{line}\n") : puts("#{line} | color=#{color}\n")
     end
-puts "#{line} | color=#{color}\n"
 end
