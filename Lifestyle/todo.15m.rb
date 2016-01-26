@@ -14,12 +14,12 @@
 
 # Customise here: label color-code (colors optimised for dark theme menubar)
 @labels = { 
-    ""=>"orange",
-    ""=>"yellow",
-    ""=>"green",
-    ""=>"cadetblue",
-    ""=>"purple",
-    ""=>"violet"
+    "+Work"=>"orange",
+    "+Play"=>"yellow",
+    "+Family"=>"green",
+    "+Health"=>"cadetblue",
+    "+Code"=>"purple",
+    "+Admin"=>"violet"
     }
 
 lines = IO.readlines(@todo_file)
