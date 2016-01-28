@@ -10,91 +10,130 @@ require "json"
 require "pp"
 require "optparse"
 require "httparty"
+require "date"
 
-# Read PagerDuty domain and user token
-#---------------------------------------
-# Create a configuration file ".pagerduty" in your HOME directory, with the following Content-type
+#--------------------------------------------------------------------
+# Create a configuration file ".pagerduty" in your HOME directory
 # TOKEN: <pagerduty-token>
 # DOMAIN: <your-pagerduty-domain>
 # USERID: <your-pager-duty-user-id>
-$config = YAML.load(File.read("#{ENV['HOME']}/.pagerduty"))
+#--------------------------------------------------------------------
 
 class PagerDuty
 
     def main
-
-        # Init some defaults
-        $verbose = false
-        $id      = nil
-        $command = "GET"
-
-        OptionParser.new do |opt|
-            opt.banner = "Usage: #{$0} [options]"
-            opt.on("-a", "--ackowledge ID", "Acknowledge an incident") { |id| $command = "ACKOWLEDGE"; $id = id }
-            opt.on("-r", "--resolve ID", "Resolve an incident")        { |id| $command = "RESOLVE";    $id = id }
-            opt.on("-u", "--users", "list users along with their id")  { $command = "users" }
-            opt.on("-v", "--verbose" )                                 { $verbose = true }
-        end.parse!
-
-        case $command
-        when "GET"
-            list_incidents
-        when "ACKOWLEDGE"
-            update_incident($id, "acknowledged")
-        when "RESOLVE"
-            update_incident($id, "resolved")
-        when "REASSIGN"
-        when "SNOOZE"
-        when "users"
-            out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/users",
-                               headers: {"Content-type" => "application/json", "Authorization" => "Token token=#{$config['TOKEN']}"})
-
-            puts "Raw output: #{out}" if $verbose
-            usr = JSON.parse(out.body)
-            usr['users'].each { |u|
-                puts "id: #{u['id']} - name: #{u['name']}"
-            }
-        end
-
-    end
-
-    def list_incidents
         begin
-            out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/incidents",
-                               query:   { "status" => "triggered,acknowledged" },
-                               headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{$config['TOKEN']}"})
+            # Init some defaults
+            $verbose = false
+            $id      = nil
+            $command = "GET"
+            $color   = Hash.new
+            begin
+                $config  = YAML.load(File.read("#{ENV['HOME']}/.pagerduty"))
+            rescue
+                raise "Create a '.pagerduty' configuration file in your HOME directory"
+            end
+			if ENV['BitBarDarkMode'].nil?
+				$color['normal']       = 'black'
+				$color['triggered']    = 'red'
+				$color['acknowledged'] = 'yellow'
+				$color['resolved']     = 'green'
+			else
+				$color['normal']       = 'white'
+				$color['triggered']    = 'red'
+				$color['acknowledged'] = 'yellow'
+				$color['resolved']     = 'green'
+			end
 
-            puts "Raw output: #{out}" if $verbose
-            pd = JSON.parse(out.body)
+            OptionParser.new do |opt|
+                opt.banner = "Usage: #{$0} [options]"
+                opt.on("-a", "--ackowledge ID", "Acknowledge an incident") { |id| $command = "ACKOWLEDGE"; $id = id }
+                opt.on("-r", "--resolve ID", "Resolve an incident")        { |id| $command = "RESOLVE";    $id = id }
+                opt.on("-u", "--users", "list users along with their id")  { $command = "USERS" }
+                opt.on("-v", "--verbose" )                                 { $verbose = true }
+            end.parse!
 
-            if pd['incidents'].empty?
-                puts "OK|color=green"
-            else
-                s = pd['incidents'].count==1 ? "" : "s"
-                puts "#{pd['incidents'].count} Alert#{s}|color=red"
-                puts "---"
-                pd['incidents'].each { |incident|
-                    puts "-----------------------" if $verbose
-                    pp incident if $verbose
-                    color  = incident['urgency'].eql?("high") ? "red" : "yellow"
-                    status = incident['status'] #.eql?("triggered") ? "TRG" : "ACK"
-                    option = incident['status'].eql?("triggered") ? "-a" : "-r"
+            case $command
+            when "GET"
+                list_incidents
+            when "ACKOWLEDGE"
+                update_incident($id, "acknowledged")
+            when "RESOLVE"
+                update_incident($id, "resolved")
+            when "USERS"
+                out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/users",
+                                   headers: {"Content-type" => "application/json",
+                                             "Authorization" => "Token token=#{$config['TOKEN']}"})
 
-                    desc = "No description"
-                    desc = incident['trigger_summary_data']['subject'] if incident['trigger_summary_data'].include?('subject')
-                    desc = incident['trigger_summary_data']['description'] if incident['trigger_summary_data'].include?('description')
-                    desc = incident['incident_key'] if incident['incident_key'].length > 10
-
-                    bash = "#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}"
-                    puts "[#{incident['incident_number']}] #{desc} [#{status}]|color=#{color} bash=#{bash} terminal=false length=100"
+                log("output: #{out}")
+                usr = JSON.parse(out.body)
+                usr['users'].each { |u|
+                    puts "id: #{u['id']} - name: #{u['name']}"
                 }
             end
+
         rescue Exception => ex
             puts "ERR|color=purple"
             puts "---"
             puts ex.class
             puts ex.message
-            puts pd unless pd.nil?
+        end
+
+    end
+
+    def list_incidents
+        out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/incidents",
+                           timeout: 25,
+                           query:   { "since" => (Time.now-24*60*60).strftime("%Y-%m-%dT%H:%M:%S"),
+                                      "sort_by" => "created_on:desc" },
+                           headers: { "Content-type" => "application/json",
+                                      "Authorization" => "Token token=#{$config['TOKEN']}"})
+
+        pd = JSON.parse(out.body)
+        incidents = Array.new
+        @count = 0
+        @color = "yellow"
+        pd['incidents'].each { |i|
+            log("Incident: #{i}")
+            if i['status'].eql?("resolved")
+                @inc = nil
+                incidents.each { |i2| @inc = i2 if i2['incident_key'].eql?(i['incident_key']) }
+                if @inc.nil?
+                    i['count'] = 1
+                    incidents.push(i)
+                else
+                    @inc['count'] += 1
+                end
+            else
+                @count += 1
+                @color = "red" if i['status'].eql?("triggered")
+                i['count'] = 1
+                incidents.push(i)
+            end
+        }
+
+        if incidents.empty?
+            puts "OK|color=green"
+        else
+            puts @count>0 ? "#{@count} Alert#{@count==0 ? "" : "s"}|color=#{@color} dropdown=false" : "OK|color=green dropdown=false"
+            puts "---"
+            incidents.each { |incident|
+                log(incident.inspect)
+                urgency = incident['urgency'].eql?("high") ? "⚡" : ""
+                status  = incident['status']
+                color   = $color[status]
+                option  = incident['status'].eql?("triggered") ? "-a" : "-r"
+                count   = incident['count'] > 1 ? "(#{incident['count']})" : ""
+
+                desc = "No description"
+                desc = incident['trigger_summary_data']['subject'] if incident['trigger_summary_data'].include?('subject')
+                desc = incident['trigger_summary_data']['description'] if incident['trigger_summary_data'].include?('description')
+
+                bash = "bash=#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
+                puts "#{count}#{urgency} [#{incident['created_on'].split(/[TZ]/)[1]}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} terminal=false length=100"
+                puts "#{desc}|color=#{$color['normal']} length=100"
+                puts "---"
+            }
         end
     end
 
@@ -102,10 +141,16 @@ class PagerDuty
         body = { requester_id: $config['USERID'], incidents: [{ id: id, status: cmd }] }
         out = HTTParty.put("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/incidents",
                            body:  body.to_json,
-                           headers: { "Content-type" => "application/json", "Authorization" => "Token token=#{$config['TOKEN']}"})
+                           headers: { "Content-type" => "application/json",
+                                      "Authorization" => "Token token=#{$config['TOKEN']}"})
 
-        puts "Raw output: #{out}" if $verbose
+        log("output: #{out}")
         return out
+    end
+
+    def log(line)
+        return unless $verbose
+        puts line
     end
 
     self
