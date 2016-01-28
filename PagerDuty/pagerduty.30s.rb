@@ -115,7 +115,7 @@ class PagerDuty
         if incidents.empty?
             puts "OK|color=green"
         else
-            puts @count>0 ? "#{@count} Alert#{@count==0 ? "" : "s"}|color=#{@color} dropdown=false" : "OK|color=green dropdown=false"
+            puts @count>0 ? "#{@count} Alert#{@count==1 ? "" : "s"}|color=#{@color} dropdown=false" : "OK|color=green dropdown=false"
             puts "---"
             incidents.each { |incident|
                 log(incident.inspect)
