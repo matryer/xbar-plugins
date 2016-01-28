@@ -131,7 +131,7 @@ class PagerDuty
 
                 bash = "bash=#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
                 puts "#{count}#{urgency} [#{incident['created_on'].split(/[TZ]/)[1]}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} terminal=false length=100"
-                puts "#{desc}|color=#{$color['normal']} length=100"
+                puts "#{desc}|color=#{$color['normal']} size=11 length=100"
                 puts "---"
             }
         end
