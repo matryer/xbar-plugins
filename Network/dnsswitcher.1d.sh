@@ -7,7 +7,9 @@
 # <bitbar.version>v1.4</bitbar.version>
 # <bitbar.author>M Saiqul Haq</bitbar.author>
 # <bitbar.author.github>saiqulhaq</bitbar.author.github>
-# <bitbar.desc>Switch DNS to your defined DNS options</bitbar.desc>
+# <bitbar.desc>Switch DNS to your defined DNS options.</bitbar.desc>
+# <bitbar.image>http://oi66.tinypic.com/2yplm4h.jpg</bitbar.image>
+# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Network/dnsswitcher.1d.sh</bitbar.abouturl>
 
 
 # Configuration
