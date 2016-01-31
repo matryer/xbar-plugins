@@ -4,7 +4,7 @@
 # <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Carlson Orozco</bitbar.author>
 # <bitbar.author.github>carlsonorozco</bitbar.author.github>
-# <bitbar.desc>Ejector is a plugin for BitBar that enables you to eject mounted drive easily.</bitbar.desc>
+# <bitbar.desc>Ejector is a plugin for BitBar that enables you to eject all mounted disk / drive / installers / USB connected drives and volumes instantly.</bitbar.desc>
 # <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/carlsonorozco/ejector</bitbar.abouturl>
 
