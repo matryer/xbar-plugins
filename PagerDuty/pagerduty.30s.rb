@@ -36,7 +36,7 @@ class PagerDuty
 			if ENV['BitBarDarkMode'].nil?
 				$color['normal']       = 'black'
 				$color['triggered']    = 'red'
-				$color['acknowledged'] = 'yellow'
+				$color['acknowledged'] = 'orange'
 				$color['resolved']     = 'green'
 			else
 				$color['normal']       = 'white'
@@ -130,7 +130,7 @@ class PagerDuty
                 desc = incident['trigger_summary_data']['description'] if incident['trigger_summary_data'].include?('description')
 
                 bash = "bash=#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
-                puts "#{count}#{urgency} [#{incident['created_on'].split(/[TZ]/)[1]}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} terminal=false length=100"
+                puts "#{count}#{urgency} [#{incident['created_on'].split(/[TZ]/)[1]}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} refresh=true terminal=false length=100"
                 puts "#{desc}|color=#{$color['normal']} size=11 length=100"
                 puts "---"
             }
