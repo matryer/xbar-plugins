@@ -4,7 +4,7 @@
 # <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
 # <bitbar.author.github>alexandregz</bitbar.author.github>
 # <bitbar.desc>Show battery percentage for Bluetooth Mouse</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/IqjZMJg.png</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/IqjZMJg.png</bitbar.image>
 
 # works fine with Magic Mouse
 

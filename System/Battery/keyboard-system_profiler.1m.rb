@@ -4,6 +4,7 @@
 # <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
 # <bitbar.author.github>alexandregz</bitbar.author.github>
 # <bitbar.desc>Show battery percentage for Bluetooth Keyboard</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/1FlcPYx.png</bitbar.image>
 #
 # command from https://github.com/matryer/bitbar-plugins/issues/84 by @keithamus
 # works fine with Apple Keyboard
