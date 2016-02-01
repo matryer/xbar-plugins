@@ -5,6 +5,7 @@
 # <bitbar.author>alex_rockt</bitbar.author>
 # <bitbar.author.github>alex_rockt</bitbar.author.github>
 # <bitbar.desc>Shows the current bitcoin price for Bitcoins from Bitcoin.de.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/mP8Vec2.png</bitbar.image>
 # <bitbar.dependencies>none</bitbar.dependencies>
 
 DATA=$(curl -s "https://bitcoinapi.de/widget/current-btc-price/rate.json")
