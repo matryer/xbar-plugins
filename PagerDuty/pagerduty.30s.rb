@@ -13,10 +13,10 @@ require "httparty"
 require "date"
 
 #--------------------------------------------------------------------
-# Create a configuration file ".pagerduty" in your HOME directory
-# TOKEN: <pagerduty-token>
-# DOMAIN: <your-pagerduty-domain>
-# USERID: <your-pager-duty-user-id>
+# Set some configuration for PagerDuty
+$token  = ""
+$domain = ""
+$userid = ""
 #--------------------------------------------------------------------
 
 class PagerDuty
@@ -28,11 +28,7 @@ class PagerDuty
             $id      = nil
             $command = "GET"
             $color   = Hash.new
-            begin
-                $config  = YAML.load(File.read("#{ENV['HOME']}/.pagerduty"))
-            rescue
-                raise "Create a '.pagerduty' configuration file in your HOME directory"
-            end
+
 			if ENV['BitBarDarkMode'].nil?
 				$color['normal']       = 'black'
 				$color['triggered']    = 'red'
@@ -61,9 +57,9 @@ class PagerDuty
             when "RESOLVE"
                 update_incident($id, "resolved")
             when "USERS"
-                out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/users",
+                out = HTTParty.get("https://#{$domain}.pagerduty.com/api/v1/users",
                                    headers: {"Content-type" => "application/json",
-                                             "Authorization" => "Token token=#{$config['TOKEN']}"})
+                                             "Authorization" => "Token token=#{$token}"})
 
                 log("output: #{out}")
                 usr = JSON.parse(out.body)
@@ -82,12 +78,12 @@ class PagerDuty
     end
 
     def list_incidents
-        out = HTTParty.get("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/incidents",
+        out = HTTParty.get("https://#{$domain}.pagerduty.com/api/v1/incidents",
                            timeout: 25,
                            query:   { "since" => (Time.now-24*60*60).strftime("%Y-%m-%dT%H:%M:%S"),
                                       "sort_by" => "created_on:desc" },
                            headers: { "Content-type" => "application/json",
-                                      "Authorization" => "Token token=#{$config['TOKEN']}"})
+                                      "Authorization" => "Token token=#{$token}"})
 
         pd = JSON.parse(out.body)
         incidents = Array.new
@@ -138,11 +134,11 @@ class PagerDuty
     end
 
     def update_incident(id, cmd)
-        body = { requester_id: $config['USERID'], incidents: [{ id: id, status: cmd }] }
-        out = HTTParty.put("https://#{$config['DOMAIN']}.pagerduty.com/api/v1/incidents",
+        body = { requester_id: $userid, incidents: [{ id: id, status: cmd }] }
+        out = HTTParty.put("https://#{$domain}.pagerduty.com/api/v1/incidents",
                            body:  body.to_json,
                            headers: { "Content-type" => "application/json",
-                                      "Authorization" => "Token token=#{$config['TOKEN']}"})
+                                      "Authorization" => "Token token=#{$token}"})
 
         log("output: #{out}")
         return out
