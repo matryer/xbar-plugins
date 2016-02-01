@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 # <bitbar.title>PagerDuty</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
-# <bitbar.a uthor>Allan Frese</bitbar.author>
+# <bitbar.author>Allan Frese</bitbar.author>
 # <bitbar.author.github>frese</bitbar.author.github>
 # <bitbar.desc>Shows current pagerduty alert status.</bitbar.desc>
 # <bitbar.dependencies>ruby (httparty gem)</bitbar.dependencies>
