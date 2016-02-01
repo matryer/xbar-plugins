@@ -13,5 +13,6 @@
 # Dependencies: 
 #   speedtest-cli (https://github.com/sivel/speedtest-cli)
 
-OUTPUT=`~/bin/speedtest-cli --simple`
+# modify this path according your prefs
+OUTPUT=$(~/bin/speedtest-cli --simple)
 echo "$OUTPUT"
