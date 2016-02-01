@@ -97,7 +97,7 @@ class PagerDuty
             log("Incident: #{i}")
             if i['status'].eql?("resolved")
                 @inc = nil
-                incidents.each { |i2| @inc = i2 if i2['incident_key'].eql?(i['incident_key']) }
+                incidents.each { |i2| @inc = i2 if i2['incident_key'].eql?(i['incident_key']) and i2['status'].eql?("resolved") }
                 if @inc.nil?
                     i['count'] = 1
                     incidents.push(i)
