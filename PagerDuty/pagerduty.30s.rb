@@ -5,6 +5,7 @@
 # <bitbar.author.github>frese</bitbar.author.github>
 # <bitbar.desc>Shows current pagerduty alert status.</bitbar.desc>
 # <bitbar.dependencies>ruby (httparty gem)</bitbar.dependencies>
+# <bitbar.image>http://i.imgur.com/5onainp.png</bitbar.image>
 
 require "json"
 require "pp"
