@@ -6,6 +6,7 @@
 # <bitbar.author.github>skibz</bitbar.author.github>
 # <bitbar.desc>Displays TX and RX bitrate of your main ethernet interface in the status bar and hides other interfaces in the context menu.</bitbar.desc>
 # <bitbar.dependencies>ifstat</bitbar.dependencies>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/2462211/12748504/584bbcea-c9b3-11e5-8109-ad8fdcefdc75.png</bitbar.image>
 
 export PATH="/usr/local/bin:${PATH}"
 INTERFACES=$(ifconfig -lu)
