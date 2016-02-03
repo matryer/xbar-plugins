@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v1.3.0</bitbar.version>
+# <bitbar.version>v1.3.5</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by forecast.io. Auto location lookup, needs API key from http://developer.forecast.io.</bitbar.desc>
-# <bitbar.image>https://daniel.seripap.com/content/images/2016/01/weather.png</bitbar.image>
+# <bitbar.image>https://daniel.seripap.com/content/images/2016/01/bb-weather_v1-3-5-1.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 import json
@@ -23,8 +23,8 @@ def auto_loc_lookup():
     return False
 
 def calculate_bearing(degree):
-  cardinals = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N']
-  return cardinals[int(round(((degree + 11.25) % 360) / 22.5))]
+  cardinals = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
+  return cardinals[int(round(((6 * degree)) / 360))]
 
 def get_wx_icon(icon_code):
   if icon_code == 'clear-day':
@@ -88,10 +88,10 @@ def get_wx():
       'visibility': str(int(round(wx['currently']['visibility']))) + ' ' + distance_short,
       'pressure': str(wx['currently']['pressure']) + ' mb',
       'feels_like': str(int(round(wx['currently']['apparentTemperature']))) + '°' + unit,
-      #'next_hour': str(wx['minutely']['summary']), #Forecast.io doesn't have this field, so this is throwing an error.
-      'next_twentyfour_hours': str(wx['hourly']['summary']),
+      'next_hour': str((wx['minutely']['summary']).encode('utf8')),
       'city': str(location['city']),
-      'region': str(location['region'])
+      'region': str(location['region']),
+      'loc': str(location['loc'])
     }
   except KeyError:
     return False
@@ -105,10 +105,12 @@ def render_wx():
     print 'Could not get weather'
     return False
 
-  print weather_data['icon'] + ' ' + weather_data['temperature']
+  print weather_data['icon'] + ' ' + weather_data['temperature'] + ' | href=http://forecast.io/#/f/' + weather_data['loc']
   print '---'
   print weather_data['city'] + ', ' + weather_data['region']
   print weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like']
+  print '---'
+  print weather_data['next_hour']
   print 'Wind: ' + weather_data['wind'] + ' ' + weather_data['windBearing']
   print 'Humidity: ' + weather_data['humidity']
   print 'Dew Point: ' + weather_data['dewPoint']

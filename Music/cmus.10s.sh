@@ -6,6 +6,14 @@
 # based on Spotify script by Jason Tokoph (jason@tokoph.net)
 #
 # Choose to launch cmus in iTerm2 (version 2.9.20150414+ only) or Terminal
+#
+# Metadata:
+# <bitbar.title>Cmus Now Playing</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Michael Chris Lopez</bitbar.author>
+# <bitbar.author.github>mcchrish</bitbar.author.github>
+# <bitbar.desc>Displays currently playing song from cmus. Control cmus in menubar.</bitbar.desc>
+# <bitbar.image>https://i.imgur.com/qeZCB0a.png</bitbar.image>
 
 export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 
@@ -42,8 +50,8 @@ if [ $? -ne 0 ]; then
   echo "♫"
   echo "---"
   echo "cmus is not running"
-  echo "Launch cmus in iTerm | bash=$0 param1=launch-iterm terminal=false"
-  echo "Launch cmus in Terminal | bash=$0 param1=launch-terminal terminal=false"
+  echo "Launch cmus in iTerm | bash=$0 param1=launch-iterm terminal=false refresh=true"
+  echo "Launch cmus in Terminal | bash=$0 param1=launch-terminal terminal=false refresh=true"
   exit
 fi
 
@@ -74,7 +82,7 @@ track=$(cmus-remote -C "format_print %{title}")
 artist=$(cmus-remote -C "format_print %{artist}")
 album=$(cmus-remote -C "format_print %{album}")
 
-echo "$state_icon $track - $artist"
+echo "$state_icon $track - $artist | length=40"
 echo "---"
 
 case "$0" in
@@ -86,16 +94,16 @@ case "$0" in
   ;;
 esac
 
-echo "Track: $track | color=#333333"
-echo "Artist: $artist | color=#333333"
-echo "Album: $album | color=#333333"
+echo "Track: $track | color=#333333 length=40"
+echo "Artist: $artist | color=#333333 length=40"
+echo "Album: $album | color=#333333 length=40"
 
 echo "---"
 
 if [ "$state" = "playing" ]; then
-  echo "Pause | bash=$0 param1=playpause terminal=false"
-  echo "Previous | bash=$0 param1=previous terminal=false"
-  echo "Next | bash=$0 param1=next terminal=false"
+  echo "Pause | bash=$0 param1=playpause terminal=false refresh=true"
+  echo "Previous | bash=$0 param1=previous terminal=false refresh=true"
+  echo "Next | bash=$0 param1=next terminal=false refresh=true"
 else
-  echo "Play | bash=$0 param1=playpause terminal=false"
+  echo "Play | bash=$0 param1=playpause terminal=false refresh=true"
 fi

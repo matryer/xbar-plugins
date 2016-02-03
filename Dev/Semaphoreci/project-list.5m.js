@@ -1,15 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-/*
- * author:
- *     Goran Gajic - https://github.com/gorangajic
- * screenshot:
- *     http://i.imgur.com/BxKV8jU.png
- * desc:
- *     list your projects from semaphoreci.com
- *     grab your token from https://semaphoreci.com/users/edit
- *     and place it in AUTH_TOKEN varibale
- */
+// <bitbar.title>Semaphore CI</bitbar.title>
+// <bitbar.version>v1.0</bitbar.version>
+// <bitbar.author>Goran Gajic</bitbar.author>
+// <bitbar.author.github>gorangajic</bitbar.author.github>
+// <bitbar.desc>List your project and their statuses, from semaphoreci.com</bitbar.desc>
+// <bitbar.dependencies>node.js</bitbar.dependencies>
+// <bitbar.image>http://i.imgur.com/tRd1clI.png</bitbar.image>
 
 var https = require('https');
 var AUTH_TOKEN = ''; // YOUR AUTH TOKEN
@@ -40,7 +37,7 @@ function color(result) {
 
 function branchesOutput(branches) {
     return branches.map(function (branch){
-        if (branch.result === 'faield') {
+        if (branch.result === 'failed') {
             icon = '🔴';
         }
         return ['- ', branch.branch_name,' ',status(branch.result), ' | color=', color(branch.result), ' href=', branch.build_url].join('');
@@ -49,9 +46,9 @@ function branchesOutput(branches) {
 
 function handleResponse(body) {
     var output = body.map(function(project){
-        return [project.owner, '/', project.name, ' | color=white href=', project.html_url,'\n', branchesOutput(project.branches)].join('');
+        return [project.owner, '/', project.name, ' | href=', project.html_url,'\n', branchesOutput(project.branches)].join('');
     }).join('\n---\n');
-    console.log(icon + '\n---\n ⚙ Semaphoreci | color=white href=https://semaphoreci.com/ \n---\n' + output);
+    console.log(icon + '\n---\n ⚙ Semaphoreci | href=https://semaphoreci.com/ \n---\n' + output);
 }
 
 https.get(url, function(res) {
@@ -63,3 +60,4 @@ https.get(url, function(res) {
         handleResponse(JSON.parse(body));
     });
 });
+

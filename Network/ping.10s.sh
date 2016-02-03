@@ -5,7 +5,7 @@
 # It shows current ping to some servers at the top Menubar
 # This helps me to know my current connection speed
 #
-# Authors: (Trung Đinh Quang) trungdq88@gmail.com and (Grant Sherrick) https://github.com/thealmightygrant 
+# Authors: (Trung Đinh Quang) trungdq88@gmail.com and (Grant Sherrick) https://github.com/thealmightygrant
 
 MAX_PING=10000
 SITES=(google.com youtube.com wikipedia.org github.com imgur.com)
@@ -51,9 +51,11 @@ SD=$(echo "sqrt ( $AVG_DEVS )" | bc -l | awk '{printf "%d\n", $1}')
 COLOR="#cc3b3b"
 MSG="$AVG"'±'"$SD"'⚡'
 
-if [ $AVG -ge 1000 ]; then
+if [ $AVG -ge $MAX_PING ]; then
     COLOR="#acacac"
     MSG=" ☠ "
+elif [ $AVG -ge 1000 ] && [ $AVG -lt $MAX_PING ]; then
+    COLOR="#ff0101"
 elif [ $AVG -ge 600 ] && [ $AVG -lt 1000 ]; then
     COLOR="#cc673b"
 elif [ $AVG -ge 300 ] && [ $AVG -lt 600 ]; then
@@ -70,6 +72,13 @@ echo "$MSG | font=UbuntuMono-Bold color=$COLOR size=10"
 echo "---"
 SITE_INDEX=0
 while [ $SITE_INDEX -lt ${#SITES[@]} ]; do
-    echo "${SITES[$SITE_INDEX]}: ${PING_TIMES[$SITE_INDEX]} ms"
+    PING_TIME=${PING_TIMES[$SITE_INDEX]}
+    if [ $PING_TIME -eq $MAX_PING ]; then
+        PING_TIME="☠"
+    else
+        PING_TIME="$PING_TIME ms"
+    fi
+
+    echo "${SITES[$SITE_INDEX]}: $PING_TIME"
     SITE_INDEX=$(( $SITE_INDEX + 1 ))
 done
