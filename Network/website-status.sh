@@ -1,3 +1,4 @@
+#!/bin/bash
 # website-status
 # BitBar plugin
 #

@@ -16,7 +16,7 @@ require 'wunderground'
 # script.
 #
 # <bitbar.title>Weather Underground</bitbar.title>
-# <bitbar.version>v1.2.1</bitbar.version>
+# <bitbar.version>v1.2.2</bitbar.version>
 # <bitbar.author>Adam Snodgrass</bitbar.author>
 # <bitbar.author.github>asnodgrass</bitbar.author.github>
 # <bitbar.desc>Current weather conditions from the Weather Underground. Requires an API key from http://www.wunderground.com/weather/api. Supports automatic location by IP, and units are configurable (SI vs imperial).</bitbar.desc>
@@ -100,8 +100,8 @@ class WeatherPlugin
   end
 
   def pressure(cond)
-    abbrev = @imperial ? 'in/hg' : 'kPa'
-    pressure = @imperial ?  cond['pressure_in'] : pressure_to_kpa(cond)
+    abbrev = @imperial ? 'in/hg' : 'hPa'
+    pressure = @imperial ?  cond['pressure_in'] : cond['pressure_mb']
     format('%s %s, %s', pressure, abbrev, pressure_trend(cond))
   end
 
@@ -127,10 +127,6 @@ class WeatherPlugin
     end
 
     winds
-  end
-
-  def pressure_to_kpa(cond)
-    cond['pressure_mb'].to_f / 10
   end
 
   def pressure_trend(cond)

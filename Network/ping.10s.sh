@@ -51,9 +51,11 @@ SD=$(echo "sqrt ( $AVG_DEVS )" | bc -l | awk '{printf "%d\n", $1}')
 COLOR="#cc3b3b"
 MSG="$AVG"'±'"$SD"'⚡'
 
-if [ $AVG -ge 1000 ]; then
+if [ $AVG -ge $MAX_PING ]; then
     COLOR="#acacac"
     MSG=" ☠ "
+elif [ $AVG -ge 1000 ] && [ $AVG -lt $MAX_PING ]; then
+    COLOR="#ff0101"
 elif [ $AVG -ge 600 ] && [ $AVG -lt 1000 ]; then
     COLOR="#cc673b"
 elif [ $AVG -ge 300 ] && [ $AVG -lt 600 ]; then

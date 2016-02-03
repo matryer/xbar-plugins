@@ -4,7 +4,7 @@
 # <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
 # <bitbar.author.github>alexandregz</bitbar.author.github>
 # <bitbar.desc>Show vagrant images running, from vagrant global-status command</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/4YAFZC6.png</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/4YAFZC6.png</bitbar.image>
 #
 # "running" line run command "vagrant suspend"
 # "saved, poweroff, aborted" line run command "vagrant up"
