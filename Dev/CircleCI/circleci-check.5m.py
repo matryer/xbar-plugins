@@ -21,7 +21,7 @@
 from urllib import unquote
 import requests
 
-# You need to set your CIRCLECI_API_TOKEN to an API Token from CircleCI.
+# You need to set your CIRCLECI_API_TOKEN with an API Token from CircleCI.
 CIRCLECI_API_TOKEN = ''
 
 CIRCLECI_API_ENDPOINT = 'https://circleci.com/api/v1/'
@@ -34,50 +34,49 @@ SYMBOLS = {
     'timedout': u'⚠',
     'canceled': u' ⃠',
 }
+
 COLORS = {
     'success': 'green',
     'failed': 'red',
     'timedout': 'yellow',
     'canceled': 'grey',
 }
+
 NO_SYMBOL = u'❂'
 
 
 def request(uri):
-    if len(CIRCLECI_API_TOKEN) == 0:
-        raise ValueError("token can not be empty")
-
     url = CIRCLECI_API_ENDPOINT + uri + '?circle-token=' + CIRCLECI_API_TOKEN
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
     return r.json()
 
 
-def get_projects():
-    url = 'projects'
-    projects = request(url)
-    return projects
+def getRessource(ressource_name):
+    return request(ressource_name)
 
 
-def update_statuses(projects):
+def updateStatuses(projects):
     output = []
 
-    output.append(u'CircleCI')
+    output.append('CircleCI')
     output.append('---')
 
     for project in projects:
-        username = project['username']
-        reponame = project['reponame']
-        repohref = project['vcs_url']
-        output.append(u'{}/{} | href={}'.format(username, reponame, repohref))
+        user_name = project['username']
+        repo_name = project['reponame']
+        repo_href = project['vcs_url']
+        output.append(u'{}/{} | href={}'.format(user_name, repo_name, repo_href))
         branches = project['branches']
-        for branchname, branch in branches.iteritems():
+
+        for branch_name, branch in branches.iteritems():
             outcome = branch['recent_builds'][0]['outcome']
             color = 'color={}'.format(COLORS[outcome]) if COLORS[outcome] else ''
-            symbol = SYMBOLS[outcome] or NO_SYMBOL
-            branchhref = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(username, reponame, branchname)
-            output_msg = u' - {} {}'.format(symbol, unquote(branchname))
-            output.append(u'{} | {} {}'.format(output_msg, branchhref, color))
+            symbol = SYMBOLS.get(outcome, NO_SYMBOL)
+            branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, branch_name)
+            output_msg = u'- {} {}'.format(symbol, unquote(branch_name))
+            output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
+
         output.append('---')
 
     for line in output:
@@ -85,4 +84,7 @@ def update_statuses(projects):
 
 
 if __name__ == '__main__':
-    update_statuses(get_projects())
+    if len(CIRCLECI_API_TOKEN) == 0:
+        raise ValueError("token can not be empty")
+
+    updateStatuses(getRessource('projects'))
