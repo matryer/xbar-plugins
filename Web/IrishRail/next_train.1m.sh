@@ -3,7 +3,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Daniel Burke</bitbar.author>
 # <bitbar.author.github>dan.burke</bitbar.author.github>
-# <bitbar.desc>Short description of what your plugin does.</bitbar.desc>
+# <bitbar.desc>Retrieves next three trains at a particular station from Irish Rail</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/PRa5B1m.png</bitbar.image>
 # <bitbar.dependencies>bash,jq</bitbar.dependencies>
 # Depends on jq - https://stedolan.github.io/jq/
