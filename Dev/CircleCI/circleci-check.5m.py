@@ -6,6 +6,7 @@
 # <bitbar.author>Florent Segouin</bitbar.author>
 # <bitbar.author.github>fsegouin</bitbar.author.github>
 # <bitbar.desc>This plugin displays the build status of repositories listed on CircleCI.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/Qvdgb39.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 # Florent Segouin
