@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Shows last BTC price (in USD) on Bitfinex BTCUSD Order Book.
+# Shows (Ask, Bid, Mid, High, Low, Volume and Timestamp from Bitfinex REST API Ticker BTCUSD 
 #
-# <bitbar.title>Bitfinex BTCUSD last price plugin</bitbar.title>
+# <bitbar.title>Bitfinex REST API Ticker BTCUSD plugin</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Roberto Santacroce Martins</bitbar.author>
 # <bitbar.author.github>mileschet</bitbar.author.github>
-# <bitbar.desc>Shows last BTC price (in USD) on Bitfinex BTCUSD Order Book.</bitbar.desc>
-# <bitbar.image>http://imgur.com/AJU4wmc</bitbar.image>
+# <bitbar.desc>Shows (Ask, Bid, Mid, High, Low, Volume and Timestamp from Bitfinex REST API Ticker BTCUSD </bitbar.desc>
+# <bitbar.image>http://imgur.com/V8dABjz</bitbar.image>
 #
 # by Roberto Santacroce Martins
 # Based on Coinbase bitbar plugin by Mat Ryer
