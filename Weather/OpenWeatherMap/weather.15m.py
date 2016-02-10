@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather - OpenWeatherMap</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
+# <bitbar.version>v1.0.2</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</bitbar.desc>
@@ -38,7 +38,7 @@ def get_wx():
   try:
     weather_data = {
       'temperature': str(int(round(wx['main']['temp']))),
-      'condition': str(wx['weather'][0]['description']),
+      'condition': str(wx['weather'][0]['description'].encode('utf-8')),
       'city': wx['name'],
       'unit': '°' + unit
     }
