@@ -5,6 +5,7 @@
 # <bitbar.author>Johan Bloemberg</bitbar.author>
 # <bitbar.author.github>aequitas</bitbar.author.github>
 # <bitbar.desc>Show current number of running Virtualbox VM's. Allow to shut them all down.</bitbar.desc>
+# <bitbar.image>https://gist.githubusercontent.com/aequitas/7c57111556900aae6178/raw/76e4e457d700d31af6b2f32cbbb206ed1668b511/virtualbox.png</bitbar.image>
 
 vms="$(/usr/bin/VBoxManage list runningvms | cut -f2 -d\")"
 vms_count=$(echo "$vms" | wc -l)
