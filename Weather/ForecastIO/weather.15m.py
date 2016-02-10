@@ -22,6 +22,17 @@ def auto_loc_lookup():
   except urllib2.HTTPError:
     return False
 
+def full_country_name(country):
+  try:
+    countries = json.load(urllib2.urlopen('http://country.io/names.json'))
+    try:
+      if country in countries:
+        return countries[country]
+    except KeyError:
+      return country
+  except urllib2.HTTPError:
+    return False
+
 def calculate_bearing(degree):
   cardinals = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
   return cardinals[int(round(((6 * degree)) / 360))]
@@ -114,7 +125,7 @@ def get_wx():
     if 'city' in location and 'region' in location:
       if location['city'] == '' and location['region'] == '':
         if 'country' in location:
-          weather_data['country'] = location['country']
+          weather_data['country'] = full_country_name(location['country'])
       else:
         weather_data['city'] = str(location['city'])
         weather_data['region'] = str(location['region'])
