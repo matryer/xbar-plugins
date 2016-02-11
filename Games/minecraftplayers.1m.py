@@ -19,8 +19,8 @@ import json
 
 # Define your server ip address and port
 
-HOST = "37.187.134.28"
-PORT = 25583
+HOST = "IP ADDRESS"
+PORT = PORT
 
 
 def unpack_varint(s):
