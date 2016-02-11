@@ -7,7 +7,7 @@
 # <bitbar.desc>Allows for screenshots to be uploaded, saved, and added to the clipboard</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/51rg3EJ.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/memusage.5s.py</bitbar.abouturl>
+# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/screenshot.1d.py</bitbar.abouturl>
 
 import os, subprocess, tempfile, hashlib, requests, sys, platform, time
 from distutils.version import StrictVersion
@@ -67,6 +67,7 @@ def upload_image(upload):
         if token_response["error"]:
             raise Exception(token_response["error"])
 
+    time.sleep(token_response["token_valid_after_seconds"])
     image_response = requests.post("http://static.md/api/v2/upload/",
                                    data={"token": token_response["token"]},
                                    files={"image": open(upload, "rb")}).json()
