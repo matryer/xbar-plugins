@@ -20,7 +20,7 @@ import json
 # Define your server ip address and port
 
 HOST = "IP ADDRESS"
-PORT = 25565
+PORT = PORT
 
 
 def unpack_varint(s):
@@ -70,11 +70,16 @@ def get_info(host='localhost', port=25565):
 try:
     result = json.loads(get_info(host=HOST, port=PORT))
     if result['players']['online'] > 0:
-        print result['players']['online']
+        print "☑️ " + str(result['players']['online'])
         print "---"
         for player in result['players']['sample']:
             print player['name']
     else:
-        print result['players']['online']
+        print "🔘 " + str(result['players']['online'])
 except socket.error:
-    print "Connection error | color=red"
+    print "✖️"
+    print "---"
+    print "Connection error"
+
+print "---"
+print "Start Minecraft | bash=/usr/bin/open param1=-a param2=Minecraft terminal=false"
