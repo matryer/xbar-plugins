@@ -88,7 +88,7 @@ def get_wx():
       'visibility': str(int(round(wx['currently']['visibility']))) + ' ' + distance_short,
       'pressure': str(wx['currently']['pressure']) + ' mb',
       'feels_like': str(int(round(wx['currently']['apparentTemperature']))) + '°' + unit,
-      'next_hour': str((wx['minutely']['summary']).encode('utf8')),
+      'next_hour': str((wx['minutely']['summary']).encode('utf8')) if wx.get('minutely') else 'Hourly data not available',
       'city': str(location['city']),
       'region': str(location['region']),
       'loc': str(location['loc'])
