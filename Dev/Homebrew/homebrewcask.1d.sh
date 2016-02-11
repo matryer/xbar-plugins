@@ -5,7 +5,7 @@
 # <bitbar.author>Srdgh</bitbar.author>
 # <bitbar.author.github>srdgh</bitbar.author.github>
 # <bitbar.desc>List out-of-date apps i.e. apps for whch a newer Homebrew cask exists. Click menu item to install cask.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>http://i.imgur.com/a0OE9Mn.png?1</bitbar.image>
 
 brewcall=$(/usr/local/bin/brew cask ls -1 | sed 's/(!)//g' | xargs /usr/local/bin/brew cask info | grep -A 1 'Not installed' | sed -e 's_Not installed__g' -e 's_https://github\.com/caskroom/homebrew-cask/blob/master/Casks/__g' -e 's_\.rb__g')
 
