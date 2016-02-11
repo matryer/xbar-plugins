@@ -113,7 +113,6 @@ class Clipboard(Command):
 
     def execute(self):
         temp_path = tempfile.NamedTemporaryFile().name + ".png"
-        screenshot(temp_path)
         if not screenshot(temp_path):
             exit()
         os.system("osascript -e 'set the clipboard to POSIX file \"{}\"'".format(temp_path))
