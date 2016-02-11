@@ -54,12 +54,12 @@ fi
 suffix="..."
 track=`osascript -e 'tell application "Spotify" to name of current track as string'`;
 truncated_track=$track
-if [ ${#track} -gt 18 ];then
+if [ ${#track} -gt 20 ];then
   truncated_track=${track:0:18}$suffix
 fi
 artist=`osascript -e 'tell application "Spotify" to artist of current track as string'`;
 truncated_artist=$artist
-if [ ${#artist} -gt 18 ];then
+if [ ${#artist} -gt 20 ];then
   truncated_artist=${artist:0:18}$suffix
 fi
 album=`osascript -e 'tell application "Spotify" to album of current track as string'`;
