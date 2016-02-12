@@ -33,7 +33,7 @@ color_map = collections.OrderedDict([
     ('disabled', 'lightgray'),
     ('aborted' , 'lightgray'),
     ('notbuilt', 'lightgray'),
-    ('blue'    , 'black'),
+    ('blue'    ,  None), # leave default unspecified - black is picked in light mode, and white in dark mode
     ('yellow'  , 'yellow'),
     ('red'     , 'red'),
 ])
@@ -51,17 +51,20 @@ notify_val = 0
 def get_color(job):
     is_building = '_anime' in job['color']
     color_val = color_map.keys().index(job['color'].replace('_anime',''))
-    color = color_map[color_map.keys()[color_val]]
+    color = color_map.values()[color_val]
     return color, color_val, is_building
+
+def get_color_def(color):
+    return ('color=%s' % color) if color is not None else ''
 
 for job in req.json()['jobs']:
     color, color_val, is_building = get_color(job)
-    output += '%s%s|color=%s href=%s\n' % (IS_BUILDING_PREFIX if is_building else '',
-                                           job['name'], color, job['url'] + URL_SUFFIX)
+    output += '%s%s|%s href=%s\n' % (IS_BUILDING_PREFIX if is_building else '',
+                                     job['name'], get_color_def(color), job['url'] + URL_SUFFIX)
     notify_val = max(notify_val, color_val)
 
-bar_color = color_map[color_map.keys()[notify_val]]
+bar_color = color_map.values()[notify_val]
 
-print '%s|color=%s' % (BAR_TEXT, bar_color)
+print BAR_TEXT, '|', get_color_def(bar_color)
 print '---'
 print output
