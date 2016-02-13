@@ -22,7 +22,7 @@ birth = datetime(1994, 5,31, 12, 0, 0) #enter the day you were born here
 
 diff = death - datetime.now()
 remain = format(int(diff.total_seconds()/(3600*24)),' ,d')
-print ('~{0} days remaining'.format(remain))
+print '~{0} days remaining'.format(remain)
 
 print '---'
 
@@ -32,7 +32,7 @@ remainH = format(int(diff1.total_seconds()/(3600)),' ,d')
 print '~{0} hours remaining'.format(remainH)
 
 remainM = format(int(diff.total_seconds()/60),' ,d')
-print ('~{0} minutes remaining'.format(remainM))
+print '~{0} minutes remaining'.format(remainM)
 
 
 
