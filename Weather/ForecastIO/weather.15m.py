@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v2.0.0</bitbar.version>
+# <bitbar.version>v2.0.1</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by forecast.io with auto location lookup. Supports metric and imperial units. Needs API key from http://developer.forecast.io.</bitbar.desc>
@@ -27,9 +27,11 @@ def full_country_name(country):
     countries = json.load(urllib2.urlopen('http://country.io/names.json'))
     try:
       if country in countries:
-        return countries[country]
+        return countries[country].encode('UTF-8')
+      else:
+        return False
     except KeyError:
-      return country
+      return False
   except urllib2.HTTPError:
     return False
 
@@ -73,6 +75,9 @@ def get_wx():
   if location is False:
     return False
 
+  for locData in location:
+    locData.encode('utf-8')
+
   try:
     if 'loc' in location:
       wx = json.load(urllib2.urlopen('https://api.forecast.io/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
@@ -96,6 +101,7 @@ def get_wx():
 
     if 'currently' in wx:
       for item in wx['currently']:
+        item.encode('utf-8')
         if item == 'temperature':
           weather_data['temperature'] = str(int(round(wx['currently']['temperature']))) + '°' + unit
         elif item == 'icon':
@@ -120,12 +126,17 @@ def get_wx():
     if 'minutely' in wx:
       for item in wx['minutely']:
         if item == 'summary':
-          weather_data['next_hour'] = str((wx['minutely']['summary']).encode('utf8'))
+          weather_data['next_hour'] = str((wx['minutely']['summary']))
         
     if 'city' in location and 'region' in location:
       if location['city'] == '' and location['region'] == '':
         if 'country' in location:
-          weather_data['country'] = full_country_name(location['country'])
+            country = full_country_name(location['country'])
+
+            if country is False or location['country'] == '':
+              weather_data['country'] = 'See Full Forecast'
+            else: 
+              weather_data['country'] = country
       else:
         weather_data['city'] = str(location['city'])
         weather_data['region'] = str(location['region'])
