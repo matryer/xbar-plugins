@@ -12,8 +12,7 @@
 
 from datetime import datetime
 from datetime import timedelta
-from datetime import datetime
-from datetime import timedelta
+
 
 death = datetime(2081, 5,31, 12, 0, 0) #enter your estimated death year here (get the estimation here: https://www.myabaris.com/tools/life-expectancy-calculator-how-long-will-i-live/)
 birth = datetime(1994, 5,31, 12, 0, 0) #enter the day you were born here
