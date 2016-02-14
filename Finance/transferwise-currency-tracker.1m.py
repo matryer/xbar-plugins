@@ -6,6 +6,7 @@
 # <bitbar.author.github>andrewzk</bitbar.author.github>
 # <bitbar.desc>Keep an eye on Transferwise currency exchange rates</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
+# <bitbar.image>http://andrewzk.github.io/gh-pages/transferwise.png</bitbar.image>
 
 import urllib2
 import json
