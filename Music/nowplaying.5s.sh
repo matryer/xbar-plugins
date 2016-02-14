@@ -5,7 +5,7 @@
 # <bitbar.author>Adam Kenyon</bitbar.author>
 # <bitbar.author.github>adampk90</bitbar.author.github>
 # <bitbar.desc>Shows and controls the music that is now playing. Currently supports Spotify, iTunes, and Vox.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://pbs.twimg.com/media/CbKmTS7VAAA84VS.png:small</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
@@ -14,9 +14,9 @@ apps=(Spotify iTunes Vox)
 playing=""
 paused=""
 
-for i in ${apps[@]}; do
+for i in "${apps[@]}"; do
 	# is the app running?
-	app_state=`osascript -e "application \"$i\" is running"`
+	app_state=$(osascript -e "application \"$i\" is running")
 	
 	if [ "$?" != "0" ]; then
 		# just exit if there was an error determining the app's state
@@ -27,7 +27,7 @@ for i in ${apps[@]}; do
 	if [ "$app_state" = "true" ] && [ "$track" = "" ]; then
 		# yes, it's running
 		# is it playing music currently?
-		app_playing=`osascript -e "tell application \"$i\" to player state as string"`
+		app_playing=$(osascript -e "tell application \"$i\" to player state as string")
 		if [ "$app_playing" = "paused" ] || [ "$app_playing" = "0" ]; then
 			# nope, it's paused
 			paused="$i"
@@ -88,15 +88,15 @@ else
 	fi
 	
 	# output the track and artist
-	track=`osascript -e "tell application \"$app\" to $track_query"`
-	artist=`osascript -e "tell application \"$app\" to $artist_query"`
+	track=$(osascript -e "tell application \"$app\" to $track_query")
+	artist=$(osascript -e "tell application \"$app\" to $artist_query")
 
-	echo $track " | length=40"
+	echo "$track | length=40"
 	echo "---"
-	echo $artist
+	echo "$artist"
 
 	if [ "$playing" != "" ]; then
-		echo Now playing on $app "| color=gray bash=$0 param1=open param2=$app terminal=false"
+		echo "Now playing on $app | color=gray bash=$0 param1=open param2=$app terminal=false"
 		echo "---"
 		echo "⏸ Pause | bash=$0 param1=pause param2=$app refresh=true terminal=false"
 	else
@@ -109,6 +109,6 @@ fi
 
 # add an Open option for each service
 echo "---"
-for i in ${apps[@]}; do
+for i in "${apps[@]}"; do
 	echo "Open $i | bash=$0 param1=open param2=$i terminal=false"
 done
