@@ -6,6 +6,7 @@
 # <bitbar.author.github>iosdeveloper</bitbar.author.github>
 # <bitbar.desc>Lists available updates from the Mac App Store using mas-cli (https://github.com/argon/mas). Based on brew-updates.1h.sh</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/yPeXDAj.png</bitbar.image>
+# <bitbar.dependencies>mas</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/mas.1d.sh</bitbar.abouturl>
 
 UPDATES=$(/usr/local/bin/mas outdated);
