@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v2.0.1</bitbar.version>
+# <bitbar.version>v2.0.3</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by forecast.io with auto location lookup. Supports metric and imperial units. Needs API key from http://developer.forecast.io.</bitbar.desc>
@@ -101,13 +101,12 @@ def get_wx():
 
     if 'currently' in wx:
       for item in wx['currently']:
-        item.encode('utf-8')
         if item == 'temperature':
           weather_data['temperature'] = str(int(round(wx['currently']['temperature']))) + '°' + unit
         elif item == 'icon':
           weather_data['icon'] = get_wx_icon(str(wx['currently']['icon']))
         elif item == 'summary':
-          weather_data['condition'] = str(wx['currently']['summary'])
+          weather_data['condition'] = str(wx['currently']['summary'].encode('utf-8'))
         elif item == 'windSpeed':
           weather_data['wind'] = str(wx['currently']['windSpeed']) + ' ' + distance
         elif item == 'windBearing':
@@ -126,7 +125,7 @@ def get_wx():
     if 'minutely' in wx:
       for item in wx['minutely']:
         if item == 'summary':
-          weather_data['next_hour'] = str((wx['minutely']['summary']))
+          weather_data['next_hour'] = str((wx['minutely']['summary'].encode('utf-8')))
         
     if 'city' in location and 'region' in location:
       if location['city'] == '' and location['region'] == '':
@@ -138,8 +137,8 @@ def get_wx():
             else: 
               weather_data['country'] = country
       else:
-        weather_data['city'] = str(location['city'])
-        weather_data['region'] = str(location['region'])
+        weather_data['city'] = str(location['city'].encode('utf-8'))
+        weather_data['region'] = str(location['region'].encode('utf-8'))
 
     if 'loc' in location:
       weather_data['loc'] = str(location['loc'])
@@ -152,7 +151,9 @@ def get_wx():
 def render_wx():
 
   if api_key == '':
-    print 'Needs API key'
+    print 'No API key'
+    print '---'
+    print 'Get API Key | href=https://developer.forecast.io'
     return False
 
   weather_data = get_wx()
@@ -195,7 +196,5 @@ def render_wx():
   
   if 'pressure' in weather_data:
     print 'Pressure: ' + weather_data['pressure']
-
-  print "Powered by Forecast | href=http://forecast.io/"
 
 render_wx()
