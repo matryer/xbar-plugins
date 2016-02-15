@@ -196,4 +196,6 @@ def render_wx():
   if 'pressure' in weather_data:
     print 'Pressure: ' + weather_data['pressure']
 
+  print "Powered by Forecast | href=http://forecast.io/"
+
 render_wx()
