@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# <bitbar.title>GitHub pull-requests plugin</bitbar.title>
+# <bitbar.title>GitHub pull-requests</bitbar.title>
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Jasmin Begic</bitbar.author>
 # <bitbar.author.github>jasminb</bitbar.author.github>

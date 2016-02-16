@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>GitHub status plugin</bitbar.title>
+# <bitbar.title>GitHub status</bitbar.title>
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Brett Jones</bitbar.author>
 # <bitbar.author.github>blockloop</bitbar.author.github>

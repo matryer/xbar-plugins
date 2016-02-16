@@ -4,7 +4,7 @@
 # much simpler than stock plugin, no API key required
 # by http://srinivas.gs
 # 
-# <bitbar.title>stock price plugin</bitbar.title>
+# <bitbar.title>Stock price</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Srinivas Gorur-Shandilya</bitbar.author>
 # <bitbar.author.github>sg-s</bitbar.author.github>
