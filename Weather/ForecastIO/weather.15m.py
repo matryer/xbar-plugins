@@ -116,5 +116,7 @@ def render_wx():
   print 'Dew Point: ' + weather_data['dewPoint']
   print 'Visibility: ' + weather_data['visibility']
   print 'Pressure: ' + weather_data['pressure']
+  print "---"
+  print "Powered by Forecast | href=http://forecast.io/"
 
 render_wx()
