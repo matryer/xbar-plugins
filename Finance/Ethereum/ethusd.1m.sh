@@ -2,7 +2,7 @@
 
 # Shows last Ethereum price in USD.
 #
-# <bitbar.title>Ethereum last price plugin</bitbar.title>
+# <bitbar.title>Ethereum last price</bitbar.title>
 # <bitbar.version>0.1A</bitbar.version>
 # <bitbar.author>Nikita Zhavoronkov</bitbar.author>
 # <bitbar.author.github>Har01d</bitbar.author.github>
