@@ -28,7 +28,7 @@ quote_color="black"
 # <bitbar.author>Jan Groß</bitbar.author>
 # <bitbar.author.github>JanGross</bitbar.author.github>
 # <bitbar.desc>Displays a random quote from the selected category</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/lF8Qdpk.png</bitbar.image>
+# <bitbar.image>http://i.imgur.com/0yTkSta.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
