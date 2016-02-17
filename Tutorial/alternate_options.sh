@@ -7,4 +7,5 @@
 # <bitbar.desc>Example of how to include alternate items that replace the one before it when the Option key is pressed.</bitbar.desc>
 echo "Hello"
 echo "Option key is pressed | alternate=true"
+
 echo "Another"
