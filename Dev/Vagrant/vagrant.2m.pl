@@ -21,6 +21,9 @@ my $path = $ENV{PATH}.':/usr/local/bin';
 # This function allows me to run Apple Scripts
 sub osascript($) { system 'osascript', map { ('-e', $_) } split(/\n/, $_[0]); }
 
+
+
+
 # Locating the Vagrant binary
 foreach $a (split(/:/, $path)) {
 	if (-x $a."/vagrant") {
@@ -42,18 +45,21 @@ if (! defined $vagrant) {
 # $ARGV[1] : the path of the Vagrant environment
 # $ARGV[2] : the ID of the VM
 if ( ($#ARGV + 1) == 3) {
-	
+
 	my $title = "Vagrant machine #$ARGV[2]";
 	my $description = "";
 	my $newstatus = "unknown";
 
-	# Running the action
-	# TODO: fix the SSH action. 
-	# It must be run as detached with & otherwise the execution of the action will hang until the terminal 
-	# window is closed. But doing so sends the process to background and cannot be sent to foreground again. 
-	# I will try to find a solution ASAP
+	# Running the SSH action
 	if ($ARGV[0] eq 'ssh') {
-		system("cd $ARGV[1] && $vagrant ssh &");
+		
+		&osascript ('
+			tell application "Terminal"
+				if (count of windows) is 0 then reopen
+			  activate
+			  do script "cd '.$ARGV[1].' && vagrant ssh" in window 1
+			end tell
+		');
 		$description = "You are now connected to your Vagrant machine";
 	}
 	else {
@@ -116,9 +122,7 @@ foreach $a (@output) {
 		$content .= " $found[4] | size=11 \n";
 		$content .= "  | size=14 color=black \n";
 		
-		# SSH action is actually not working as it is run as detached. 
-		# No time to search for a solution yet. 
-		#$content .= "#️⃣ SSH $found[0] | size=12 bash=\"$me\" param1=ssh param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=true refresh=false \n";
+		$content .= "#️⃣ SSH $found[0] | size=12 bash=\"$me\" param1=ssh param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=false \n";
 		$content .= "🔄 Reload $found[0] | size=12 bash=\"$me\" param1=reload param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 		$content .= "🔽 Suspend $found[0] | size=12 bash=\"$me\" param1=suspend param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
