@@ -13,7 +13,7 @@ vms_count=$((vms_count))
 
 if test ! -z "$1"; then
     if test -z "$2"; then
-        echo $vms | xargs -I% /usr/bin/VBoxManage controlvm % $1
+        echo "$vms" | xargs -I% /usr/bin/VBoxManage controlvm % $1
     else
         /usr/bin/VBoxManage controlvm $2 $1
     fi
