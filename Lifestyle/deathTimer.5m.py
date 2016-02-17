@@ -35,7 +35,7 @@ print '~{0} minutes remaining'.format(remainM)
 
 
 
-birth = datetime(1994, 5,31, 12, 0, 0)
+
 total = death - birth
 diff = datetime.now() - birth
 totalF = format(int(total.total_seconds()/60),' ,d')
