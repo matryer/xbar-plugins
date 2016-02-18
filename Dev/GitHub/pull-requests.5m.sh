@@ -25,7 +25,7 @@ GITHUB_REPO=""
 GITHUB_REPO_OWNER=""
 
 # JavaScript used to parse result JSON and extract titile/url/submitter of pull request
-JS='if(prJson=JSON.parse(process.argv[1]),prJson.length>0)for(console.log("♣︎ " +prJson.length+" PRs "),console.log("---"),i=0;i<prJson.length;i++)console.log("▸ "+prJson[i].title+" ("+prJson[i].user.login+") | href="+prJson[i].html_url);"";'
+JS='if(prJson=JSON.parse(process.argv[1]),prJson.length>0)for(console.log("♣︎ "+prJson.length+" PRs"),console.log("---"),i=0;i<prJson.length;i++)console.log("▸ #"+prJson[i].number+" "+prJson[i].title+" ("+prJson[i].user.login+") | href="+prJson[i].html_url);"";'
 
 # Fetch and parse open pull request from GitHub
 node -pe "$JS" "$(curl -s -u $GITHUB_USER:$GITHUB_ACCESS_TOKEN $GITHUB_REPO_API/$GITHUB_REPO_OWNER/$GITHUB_REPO/pulls)"
