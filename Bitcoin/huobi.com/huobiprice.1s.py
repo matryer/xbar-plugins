@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# <bitbar.title>Huobi last price plugin</bitbar.title>
+# <bitbar.title>Huobi last price</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Sam Xie</bitbar.author>
 # <bitbar.author.github>mountain3th</bitbar.author.github>

@@ -13,8 +13,8 @@ require 'open-uri'
 require 'json'
 
 REPOS = [
-  'dkhamsing/awesome_bot',
-  'dkhamsing/open-source-ios-apps'
+  'matryer/bitbar',
+  'dkhamsing/awesome_bot'
 ]
 
 VERSION = '0.1.0'
@@ -41,23 +41,11 @@ def line(r, s)
   puts "#{r} #{CONFIG_SYMBOL} #{s} | href=#{repo_url}"
 end
 
-def separator
-  puts '---'
-end
-
-def version_title
-  puts "GitHub Watch #{VERSION}"
-end
-
 # bitbar output
 begin
 get_stars(REPOS).each_with_index { |s, i| line REPOS[i], s.to_s }
-separator
-version_title
 rescue => e
   puts "#{CONFIG_SYMBOL} | color=red"
   puts "Error: #{e}"
-  separator
-  version_title
   exit
 end

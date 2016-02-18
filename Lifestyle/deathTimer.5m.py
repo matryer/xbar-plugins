@@ -5,7 +5,7 @@
 # <bitbar.author>Thomas Wolfe</bitbar.author>
 # <bitbar.author.github>twolfe2</bitbar.author.github>
 # <bitbar.desc>Counts down how approximately how many days you have left to live</bitbar.desc>
-# <bitbar.image>http://imgur.com/2KjZaFb</bitbar.image>
+# <bitbar.image>http://i.imgur.com/2KjZaFb.jpg</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 
@@ -35,7 +35,7 @@ print '~{0} minutes remaining'.format(remainM)
 
 
 
-birth = datetime(1994, 5,31, 12, 0, 0)
+
 total = death - birth
 diff = datetime.now() - birth
 totalF = format(int(total.total_seconds()/60),' ,d')
