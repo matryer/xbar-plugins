@@ -13,8 +13,8 @@ require 'open-uri'
 require 'json'
 
 REPOS = [
-  'dkhamsing/awesome_bot',
-  'dkhamsing/open-source-ios-apps'
+  'matryer/bitbar',
+  'dkhamsing/awesome_bot'
 ]
 
 VERSION = '0.1.0'
