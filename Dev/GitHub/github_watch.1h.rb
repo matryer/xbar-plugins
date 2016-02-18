@@ -41,23 +41,11 @@ def line(r, s)
   puts "#{r} #{CONFIG_SYMBOL} #{s} | href=#{repo_url}"
 end
 
-def separator
-  puts '---'
-end
-
-def version_title
-  puts "GitHub Watch #{VERSION}"
-end
-
 # bitbar output
 begin
 get_stars(REPOS).each_with_index { |s, i| line REPOS[i], s.to_s }
-separator
-version_title
 rescue => e
   puts "#{CONFIG_SYMBOL} | color=red"
   puts "Error: #{e}"
-  separator
-  version_title
   exit
 end
