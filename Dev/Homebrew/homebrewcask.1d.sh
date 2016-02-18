@@ -9,16 +9,12 @@
 
 brewcall=$(/usr/local/bin/brew cask ls -1 | sed 's/(!)//g' | xargs /usr/local/bin/brew cask info | grep -A 1 'Not installed' | sed -e 's_Not installed__g' -e 's_https://github\.com/caskroom/homebrew-cask/blob/master/Casks/__g' -e 's_\.rb__g')
 
-brewnum=$(for line in $brewcall; do echo $line | grep "[a-z]" ; done | wc -w)
+brewnum=$(for line in $brewcall; do echo $line | grep "[a-z]" ; done | wc -w | xargs)
 
 echo "${brewnum}"
 echo "---"
 echo $brewnum "casks to update"
-if [[ "${brewnum}" -ne "0" ]]
-then 
-echo "Click item to install new version:"
-fi
-for line in $brewcall; do echo $line | grep "[a-z]" | sed 's/\(.*\)/& | bash=\"brew cask install &\" terminal=true refresh=/g' ; done
+for line in $brewcall; do echo $line | grep "[a-z]" | sed 's/\(.*\)/Update & | bash=\"brew cask install &\" terminal=true refresh=/g' ; done
 echo "---"
 echo "Brew Update | bash='brew update' terminal=true refresh="
 echo "Brew Upgrade | bash='brew upgrade' terminal=true refresh="
