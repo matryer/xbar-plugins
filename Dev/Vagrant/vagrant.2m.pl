@@ -4,7 +4,8 @@
 # <bitbar.author.github>axeloz</bitbar.author.github>
 # <bitbar.author>Axel</bitbar.author>
 # <bitbar.desc>Vagrant status checker.</bitbar.desc>
-#<bitbar.dependencies>perl,vagrant</bitbar.dependencies>
+# <bitbar.dependencies>perl,vagrant</bitbar.dependencies>
+# <bitbar.image>http://hpics.li/095023a</bitbar.image>
 
 use strict;
 use Cwd 'abs_path';
