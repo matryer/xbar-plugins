@@ -15,7 +15,7 @@ The best way to report an issue with a plugin is to find the plugin on https://g
 
   * Just drop the plugin into your BitBar plugins folder (if you have the repo, why not use the `Enabled` folder?)
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
-  * Then choose `Reset` (or `Restart`) from the BitBar menus
+  * Then choose `Restart all` from the BitBar menus
 
 ###Available Plugins
 
