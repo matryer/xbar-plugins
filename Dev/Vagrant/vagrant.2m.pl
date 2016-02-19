@@ -17,6 +17,9 @@ my $content;
 my $vagrant;
 my $running = 0;
 my $total = 0;
+
+# HACK as $PATH is incorrect when Bitbar run the script
+# Must add /usr/local/bin manually
 my $path = $ENV{PATH}.':/usr/local/bin';
 
 # This function allows me to run Apple Scripts
@@ -38,8 +41,8 @@ if (! defined $vagrant) {
 	exit 1;
 }
 
-# When script is call with 2 arguments
-# $ARGV[0] : the action (up, halt, suspend, resume)
+# When script is called with arguments
+# $ARGV[0] : the action (up, halt, suspend, resume, ssh)
 # $ARGV[1] : the path of the Vagrant environment
 # $ARGV[2] : the ID of the VM
 if ( ($#ARGV + 1) == 3) {
@@ -55,7 +58,7 @@ if ( ($#ARGV + 1) == 3) {
 			tell application "Terminal"
 				if (count of windows) is 0 then reopen
 			  activate
-			  do script "cd '.$ARGV[1].' && vagrant ssh" in window 1
+			  do script "cd '.$ARGV[1].' && vagrant ssh"
 			end tell
 		');
 		$description = "You are now connected to your Vagrant machine";
@@ -106,6 +109,7 @@ foreach $a (@output) {
 	}
 }
 
+
 # Looping in the list
 foreach $a (@output) {
 	# Triming spaces
@@ -127,7 +131,7 @@ foreach $a (@output) {
 		# Counting the running VMs
 		$running ++;
 
-		$content .= "✅ Machine $found[0] is running | size=14 color=green\n";
+		$content .= "✅ Machine #$found[0] is running | size=14 color=green\n";
 		$content .= " $found[4] | size=11 \n";
 		$content .= "  | size=14 color=black \n";
 		
@@ -138,22 +142,22 @@ foreach $a (@output) {
 	}
 	# This VM is currently saved
 	elsif ($found[3] eq 'saved') {
-		$content .= "📴 Machine $found[0] is suspended | size=14 color=orange\n";
+		$content .= "📴 Machine #$found[0] is suspended | size=14 color=orange\n";
 		$content .= " $found[4] | size=11 \n";
 		$content .= "  | size=14 color=black \n";
 		$content .= "▶️ Resume $found[0] | size=12 bash=\"$me\" param1=resume param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 	}
 	# This VM is currently powered off
-	elsif ($found[3] eq 'poweroff') {
-		$content .= "🚫 Machine $found[0] is stopped | size=14 color=red\n";
+	elsif ($found[3] eq 'poweroff' || $found[3] eq 'aborted') {
+		$content .= "🚫 Machine #$found[0] is stopped | size=14 color=red\n";
 		$content .= " $found[4] | size=11 \n";
 		$content .= "  | size=14 color=black \n";
 		$content .= "▶️ Start $found[0] | size=12 bash=\"$me\" param1=up param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 	}
 	# This VM is in an unknown state
 	else {
-		$content .= "❓ Machine $found[0] is ".$found[3]." | size=14 color=red\n";
+		$content .= "❓ Machine #$found[0] is ".$found[3]." | size=14 color=red\n";
 		$content .= " $found[4] | size=11 \n";
 		$content .= "  | size=14 color=black \n";
 		$content .= "This is an unknown state\n";
