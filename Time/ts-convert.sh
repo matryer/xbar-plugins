@@ -6,7 +6,7 @@
 # <bitbar.author.github>mpneuried</bitbar.author.github>
 # <bitbar.desc>This plugin converts timestamps from the clipboard to a date.
 # It's inspired by the original clipboard-base64-encoder plugin</bitbar.desc>
-# <bitbar.image></birtbar.image>
+# <bitbar.image>http://i.imgur.com/dXzJNOS.jpg?1</birtbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 # Hack for language not being set properly and unicode support
