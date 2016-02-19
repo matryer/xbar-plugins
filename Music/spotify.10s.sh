@@ -51,11 +51,21 @@ else
   state_icon="❚❚"
 fi
 
+suffix="..."
+trunc_length=20
 track=`osascript -e 'tell application "Spotify" to name of current track as string'`;
+truncated_track=$track
+if [ ${#track} -gt $trunc_length ];then
+  truncated_track=${track:0:$trunc_length-${#suffic}}$suffix
+fi
 artist=`osascript -e 'tell application "Spotify" to artist of current track as string'`;
+truncated_artist=$artist
+if [ ${#artist} -gt $trunc_length ];then
+  truncated_artist=${artist:0:$trunc_length-${#suffic}}$suffix
+fi
 album=`osascript -e 'tell application "Spotify" to album of current track as string'`;
 
-echo $state_icon $track - $artist
+echo $state_icon $truncated_track - $truncated_artist
 echo "---"
 
 case "$0" in

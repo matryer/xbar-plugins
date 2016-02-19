@@ -4,7 +4,8 @@
 # <bitbar.author.github>axeloz</bitbar.author.github>
 # <bitbar.author>Axel</bitbar.author>
 # <bitbar.desc>Vagrant status checker.</bitbar.desc>
-#<bitbar.dependencies>perl,vagrant</bitbar.dependencies>
+# <bitbar.dependencies>perl,vagrant</bitbar.dependencies>
+# <bitbar.image>https://i.imgur.com/Yzrcz9k.png</bitbar.image>
 
 use strict;
 use Cwd 'abs_path';
@@ -20,9 +21,6 @@ my $path = $ENV{PATH}.':/usr/local/bin';
 
 # This function allows me to run Apple Scripts
 sub osascript($) { system 'osascript', map { ('-e', $_) } split(/\n/, $_[0]); }
-
-
-
 
 # Locating the Vagrant binary
 foreach $a (split(/:/, $path)) {
@@ -96,6 +94,17 @@ if ( ($#ARGV + 1) == 3) {
 
 # Getting the list of all Vagrant VMs
 @output = `$vagrant global-status |tail -n +3`;
+
+# Checking whether there is at least one VM
+# TODO: clean this
+foreach $a (@output) {
+	if ($a =~ "There are no active") {
+		print "⚠️\n";
+		print "---\n";
+		print "There is no Vagrant VM yet.";
+		exit 1;		
+	}
+}
 
 # Looping in the list
 foreach $a (@output) {
