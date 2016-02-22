@@ -7,12 +7,15 @@
 # <bitbar.desc>Show the next sleeping cycles if we fell asleep in `falling_asleep` minutes.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/JTqosty.png</bitbar.image>
 
-# Time in minutes to fall asleep. The mean is 15 minutes
+# Time in minutes to fall asleep; the mean is 15 minutes
 falling_asleep=15
 
 # Range of cycles to show in the menu
-start_cycle=3
-end_cycle=9
+start_cycle=1
+end_cycle=7
+
+# The length of a cycle **in minutes**, standard value is 90
+length=90
 
 # Format with local time format (12 or 24 hours)
 format='%H:%M'
@@ -23,8 +26,8 @@ echo '---'
 
 for ((cy=start_cycle; cy<=end_cycle; cy++)); do
     # Add 1 hour and 30 minutes every cycle
-    h=$(((90 * cy) / 60))
-    m=$(((30 * cy) % 60))
+    h=$(((length * cy) / 60))
+    m=$(((length * cy) % 60))
 
     if [[ $cy -gt 1 ]]; then
         str="$cy cycles:"
