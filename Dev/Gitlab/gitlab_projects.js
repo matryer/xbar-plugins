@@ -74,7 +74,7 @@ function timeSince(time) {
   }
   interval = Math.floor(seconds / 60);
   if (interval > 1) {
-      return interval + "minutes";
+      return interval + " minutes";
   }
   return Math.floor(seconds) + " seconds";
 }
