@@ -1,10 +1,11 @@
-# memusage
-# BitBar plugin
-#
-# by Gautam krishna R
-#
-# Shows the current system memmory usage
-# Use memusage.py python script to fetch data
+#!/usr/bin/env python
+# <bitbar.title>Memory usage</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Gautam krishna R</bitbar.author>
+# <bitbar.author.github>gautamkrishnar</bitbar.author.github>
+# <bitbar.desc>Shows the current system memmory usage.</bitbar.desc>
+# <bitbar.dependencies>python</bitbar.dependencies>
+# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/memusage.5s.py</bitbar.abouturl>
 import subprocess
 import re
 

@@ -1,7 +1,12 @@
 #!/bin/bash
 
-# Chris Tomkins-Tinch
-# github.com/tomkinsc
+# <bitbar.title>Screen Lock</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Chris Tomkins-Tinch</bitbar.author>
+# <bitbar.author.github>tomkinsc</bitbar.author.github>
+# <bitbar.desc>This plugin displays a menu with an item to lock the screen with one click (lock or login screen).</bitbar.desc>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/53064/12120421/e515718c-b39e-11e5-830b-bebe1c6445fc.png</bitbar.image>
+# <bitbar.dependencies></bitbar.dependencies>
 
 if [ "$1" = 'lock' ]; then
   # To perform a sleep action

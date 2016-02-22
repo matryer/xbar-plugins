@@ -1,10 +1,11 @@
 #!/bin/bash
-# Requires: node, curl
 #
-#
-# Simple script that fetches list of open pull requests from GitHub
-# Author: Jasmin Begic
-#
+# <bitbar.title>GitHub pull-requests</bitbar.title>
+# <bitbar.version>v0.1</bitbar.version>
+# <bitbar.author>Jasmin Begic</bitbar.author>
+# <bitbar.author.github>jasminb</bitbar.author.github>
+# <bitbar.desc>Plugin shows currently open pull-requests on configured github repository. Items shown in the list are clickable (clicking the link opens up GitHub PR page).</bitbar.desc>
+# <bitbar.dependencies>node,curl</bitbar.dependencies>
 
 export PATH='/usr/local/bin:/usr/bin:$PATH'
 
@@ -24,8 +25,7 @@ GITHUB_REPO=""
 GITHUB_REPO_OWNER=""
 
 # JavaScript used to parse result JSON and extract titile/url/submitter of pull request
-JS='if(prJson=JSON.parse(process.argv[1]),prJson.length>0)for(console.log("♣︎ " +prJson.length+" PRs "),console.log("---"),i=0;i<prJson.length;i++)console.log("▸ "+prJson[i].title+" ("+prJson[i].user.login+") | href="+prJson[i].html_url);"";'
+JS='if(prJson=JSON.parse(process.argv[1]),prJson.length>0)for(console.log("♣︎ "+prJson.length+" PRs"),console.log("---"),i=0;i<prJson.length;i++)console.log("▸ #"+prJson[i].number+" "+prJson[i].title+" ("+prJson[i].user.login+") | href="+prJson[i].html_url);"";'
 
 # Fetch and parse open pull request from GitHub
 node -pe "$JS" "$(curl -s -u $GITHUB_USER:$GITHUB_ACCESS_TOKEN $GITHUB_REPO_API/$GITHUB_REPO_OWNER/$GITHUB_REPO/pulls)"
-
