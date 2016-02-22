@@ -36,8 +36,9 @@ var request = http.get(options, function (res) {
     for(var p in projects) {
       var P = projects[p];
 
+      var ta = timeago();
       var name = P.name;
-      var last_activity = timeSince(P.last_activity_at) + ' ago';
+      var last_activity = ta.ago(P.last_activity_at);
       var web_url = P.web_url;
 
       console.log(name + ' ⤏ ' + last_activity + ' | href="' + web_url + default_page + '" size=' + font_size);
@@ -49,33 +50,33 @@ var request = http.get(options, function (res) {
 request.end();
 
 
-function timeSince(time) {
+/* Source : https://github.com/digplan/time-ago */
+var timeago = function() {
 
-  var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," "))
+  var o = {
+    second: 1000,
+    minute: 60 * 1000,
+    hour: 60 * 1000 * 60,
+    day: 24 * 60 * 1000 * 60,
+    week: 7 * 24 * 60 * 1000 * 60,
+    month: 30 * 24 * 60 * 1000 * 60,
+    year: 365 * 24 * 60 * 1000 * 60
+  };
+  var obj = {};
 
-  var seconds = Math.floor((new Date() - date) / 1000);
-
-  var interval = Math.floor(seconds / 31536000);
-
-  if (interval > 1) {
-      return interval + " years";
+  obj.ago = function(nd) {
+    var r = Math.round,
+      pl = function(v, n) {
+        return n + ' ' + v + (n > 1 ? 's' : '') + ' ago'
+      },
+      ts = new Date().getTime() - new Date(nd).getTime(),
+      ii;
+    for (i in o) {
+      if (r(ts) < o[i]) return pl(ii || 'm', r(ts / (o[ii] || 1)))
+      ii = i;
+    }
+    return pl(i, r(ts / o[i]));
   }
-  interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-      return interval + " months";
-  }
-  interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-      return interval + " days";
-  }
-  interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-      return interval + " hours";
-  }
-  interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-      return interval + " minutes";
-  }
-  return Math.floor(seconds) + " seconds";
+  return obj;
 }
 
