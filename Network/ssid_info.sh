@@ -7,8 +7,8 @@
 # <bitbar.image>http://i.imgur.com/0kHyHnn.png</bitbar.image>
 
 # Get ssid and auth type 
-ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print $2}')
-auth=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ link auth/ {print $3}')
+ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
+auth=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ link auth/ {print substr($0, index($0, $3))}')
 
 color=green
 if [ "$auth" = "none" ]; then
