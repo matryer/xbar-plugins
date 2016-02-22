@@ -71,6 +71,9 @@ var timeago = function() {
       },
       ts = new Date().getTime() - new Date(nd).getTime(),
       ii;
+      if(ts < 0) {
+        return 'Just now';
+      }
     for (i in o) {
       if (r(ts) < o[i]) return pl(ii || 'm', r(ts / (o[ii] || 1)))
       ii = i;
