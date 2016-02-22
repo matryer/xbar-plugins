@@ -4,7 +4,7 @@
 # <bitbar.author>Örjan Berglin</bitbar.author>
 # <bitbar.author.github>orjanb</bitbar.author.github>
 # <bitbar.desc>Show the SSID of your current Wi-Fi connection. The SSID is green if the network is secure and red if it is an open network.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/35K7XnY.png</bitbar.image>
+# <bitbar.image>http://i.imgur.com/0kHyHnn.png</bitbar.image>
 
 # Get ssid and auth type 
 ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print $2}')
