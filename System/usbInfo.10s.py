@@ -18,9 +18,9 @@ def findDevices(itemList):
         elif 'Built-in_Device' in device and device['Built-in_Device'] == 'Yes':
             continue
         else:
-            print "Name:\t\t\t" + device['_name'] + '| color=white'
+            print "Name:\t\t\t" + device['_name'] + '| bash=/usr/bin/open param1="/Applications/Utilities/System Information.app" terminal=false'
             if 'manufacturer' in device:
-                print "Manufacturer:\t" + device['manufacturer'] + '| color=white'
+                print "Manufacturer:\t" + device['manufacturer'] + '| bash=/usr/bin/open param1="/Applications/Utilities/System Information.app" terminal=false'
             print '---'
 
 usbPlist = subprocess.check_output(['system_profiler', '-xml', 'SPUSBDataType'])

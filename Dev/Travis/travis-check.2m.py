@@ -89,9 +89,16 @@ def request(uri):
         'Authorization': 'token ' + TRAVIS_KEY,
         'Accept': 'application/vnd.travis-ci.3+json'
     })
-    response = urllib2.urlopen(request)
-    return json.load(response)
+    try:
+        response = urllib2.urlopen(request)
+        return json.load(response)
 
+    except:
+        print("travis-check error")
+        print("---")
+        print("Maybe you need to edit the plugin and set your access token?")
+        print(" (could also be an API/HTTP error)")
+        exit(1)
 
 def get_all_repos_for_account():
     url = 'repos?repository.active=true&sort_by=name&limit=200'
