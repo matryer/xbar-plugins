@@ -24,6 +24,17 @@ echo $INFO | awk -F'[ ,:\t\n]+' '
     }
 
     {
+        PLURAL = 1
+
+        SEP = ", "
+
+        DS = " day"
+        HS = " hr"
+        MS = " min"
+        SS = " sec"
+
+        ################################
+
         D = H = M = S = 0
 
         if (substr($5,0,1) == "d") {
@@ -51,28 +62,10 @@ echo $INFO | awk -F'[ ,:\t\n]+' '
             M = Q
         }
 
-        LONG = 1
-
-        if (LONG) {
-            SEP = ", "
-
-            DS = " day"
-            HS = " hr"
-            MS = " min"
-            SS = " sec"
-        } else {
-            SEP = " : "
-
-            DS = "d"
-            HS = "h"
-            MS = "m"
-            SS = "s"
-        }
-
-        MSG = "↑ " include(D, DS, SEP, LONG) \
-                   include(H, HS, SEP, LONG) \
-                   include(M, MS, SEP, LONG) \
-                   include(S, SS, SEP, LONG)
+        MSG = "↑ " include(D, DS, SEP, PLURAL) \
+                   include(H, HS, SEP, PLURAL) \
+                   include(M, MS, SEP, PLURAL) \
+                   include(S, SS, SEP, PLURAL)
 
         # remove the remaining SEP
         MSG = substr(MSG, 0, length(MSG) - length(SEP))
