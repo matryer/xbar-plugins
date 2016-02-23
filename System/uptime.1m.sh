@@ -1,36 +1,84 @@
 #!/bin/bash
 
 # <bitbar.title>uptime</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Matteo Ferrando</bitbar.author>
 # <bitbar.author.github>chamini2</bitbar.author.github>
 # <bitbar.desc>Show uptime command information.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/qaIxpJN.png</bitbar.image>
 
 INFO=`uptime`
-echo $INFO | awk -F'[ ,:\t\n]+' '{
-        msg = "↑ "
-        if ($5 == "day" || $5 == "days") {      # up for a day or more
-            msg = msg $4 $5 ", "
+echo $INFO | awk -F'[ ,:\t\n]+' '
+    function include(VAL, UNIT, SUFFIX, PLURAL) {
+        VAL = int(VAL)
 
-            n = $6
-            o = $7
+        if (PLURAL && VAL > 1) {
+            UNIT = UNIT"s"
+        }
+
+        if (VAL > 0) {
+            return (VAL UNIT SUFFIX)
         } else {
-            n = $4
-            o = $5
+            return ""
+        }
+    }
+
+    {
+        D = H = M = S = 0
+
+        if (substr($5,0,1) == "d") {
+        # up for a day or more
+            D = $4
+
+            P = $6
+            Q = $7
+        } else {
+            P = $4
+            Q = $5
         }
 
-        if (int(o) == 0) {                      # words evaluate to zero
-            msg = msg int(n)" "o
-        } else {                                # hh:mm format
-            msg = msg int(n)" hr"
-            if (n > 1) { msg = msg "s" }
+        if (int(Q) == 0) {
+        # words evaluate to zero
+        # exact times format, like `P = 55`, `Q = secs`
+            Q = substr(Q,0,1)
 
-            msg = msg ", " int(o) " min"
-            if (o > 1) { msg = msg "s" }
+            if (Q == "h") { H = P }
+            else if (Q == "m") { M = P }
+            else if (Q == "s") { S = P }
+        } else {
+        # hh:mm format, like `P = 4`, `Q = 20`
+            H = P
+            M = Q
         }
 
-        print "[", msg, "]"
+        LONG = 1
+
+        if (LONG) {
+            SEP = ", "
+
+            DS = " day"
+            HS = " hr"
+            MS = " min"
+            SS = " sec"
+        } else {
+            SEP = " : "
+
+            DS = "d"
+            HS = "h"
+            MS = "m"
+            SS = "s"
+        }
+
+        MSG = "↑ " include(D, DS, SEP, LONG) \
+                   include(H, HS, SEP, LONG) \
+                   include(M, MS, SEP, LONG) \
+                   include(S, SS, SEP, LONG)
+
+        # remove the remaining SEP
+        MSG = substr(MSG, 0, length(MSG) - length(SEP))
+
+        print "[", MSG, "] | size=12"
     }'
+
 echo "---"
 echo $INFO | tr "," "\n" | tail -n 2
