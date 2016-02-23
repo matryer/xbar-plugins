@@ -15,6 +15,6 @@ DOWNLOADS=$(ls -t "$DOWNLOADS_DIR")
 
 echo "Downloads"
 echo "---"
-echo "Download from URL… | bash='read -p Enter_URL: url && cd $DOWNLOADS_DIR && curl -L -# -O \$url; open' param1=bitbar://refreshPlugin?name=$FILENAME"
+echo "Download from URL… | bash='read -p Enter_URL: url && ( cd $DOWNLOADS_DIR && curl -L -# -O \$url ); open' param1=bitbar://refreshPlugin?name=$FILENAME"
 echo "---"
 echo "$DOWNLOADS" | awk -v DOWNLOADS_DIR="$DOWNLOADS_DIR" '{print $0" | bash=/usr/bin/open param1="DOWNLOADS_DIR"/"$0" terminal=false"}'
