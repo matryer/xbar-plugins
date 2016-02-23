@@ -9,20 +9,6 @@
 
 INFO=`uptime`
 echo $INFO | awk -F'[ ,:\t\n]+' '
-    function include(VAL, UNIT, SUFFIX, PLURAL) {
-        VAL = int(VAL)
-
-        if (PLURAL && VAL > 1) {
-            UNIT = UNIT"s"
-        }
-
-        if (VAL > 0) {
-            return (VAL UNIT SUFFIX)
-        } else {
-            return ""
-        }
-    }
-
     {
         PLURAL = 1
 
@@ -71,6 +57,19 @@ echo $INFO | awk -F'[ ,:\t\n]+' '
         MSG = substr(MSG, 0, length(MSG) - length(SEP))
 
         print "[", MSG, "] | size=12"
+    }
+    function include(VAL, UNIT, SUFFIX, PLURAL) {
+        VAL = int(VAL)
+
+        if (PLURAL && VAL > 1) {
+            UNIT = UNIT"s"
+        }
+
+        if (VAL > 0) {
+            return (VAL UNIT SUFFIX)
+        } else {
+            return ""
+        }
     }'
 
 echo "---"
