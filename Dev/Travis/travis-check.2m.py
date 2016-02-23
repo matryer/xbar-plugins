@@ -71,12 +71,14 @@ TRAVIS_URL = 'http://api.travis-ci.org/'
 
 SYMBOLS = {
     'passed': u'✔︎',
+    'created': u'✔︎',
     'failed': u'✘',
     'errored': u'⚠',
     'cancelled': u' ⃠',
 }
 COLORS = {
     'passed': 'green',
+    'created': 'green',
     'failed': 'red',
     'errored': 'yellow',
     'cancelled': 'grey',
