@@ -11,6 +11,7 @@ INFO=`uptime`
 echo $INFO | awk -F'[ ,:\t\n]+' '
     {
         PLURAL = 1
+        VERBOSE = 0
 
         SEP = ", "
 
@@ -49,8 +50,8 @@ echo $INFO | awk -F'[ ,:\t\n]+' '
         }
 
         MSG = "↑ " include(D, DS, SEP, PLURAL) \
-                   include(H, HS, SEP, PLURAL) \
-                   include(M, MS, SEP, PLURAL) \
+                   include(H, HS, SEP, PLURAL, (D > 0 && VERBOSE)) \
+                   include(M, MS, SEP, PLURAL, (D > 0 && VERBOSE)) \
                    include(S, SS, SEP, PLURAL)
 
         # remove the remaining SEP
@@ -58,17 +59,18 @@ echo $INFO | awk -F'[ ,:\t\n]+' '
 
         print "[", MSG, "] | size=12"
     }
-    function include(VAL, UNIT, SUFFIX, PLURAL) {
+
+    function include(VAL, UNIT, SUFFIX, PLURAL, VERBOSE) {
         VAL = int(VAL)
 
-        if (PLURAL && VAL > 1) {
+        if (PLURAL && VAL != 1) {
             UNIT = UNIT"s"
         }
 
-        if (VAL > 0) {
+        if (VAL > 0 || VERBOSE) {
             return (VAL UNIT SUFFIX)
         } else {
-            return ""
+            # return ""
         }
     }'
 
