@@ -12,7 +12,7 @@ brewcall=$(/usr/local/bin/brew cask ls -1 | sed 's/(!)//g' | xargs /usr/local/bi
 brewnum=$(for line in $brewcall; do echo $line | grep "[a-z]" ; done | wc -w | xargs)
 
 if [[ "${brewnum}" != "0" ]]; then
-echo "${brewnum}"
+echo "${brewnum} updates"
 echo "---"
 echo $brewnum "casks to update"
 for line in $brewcall; do echo $line | grep "[a-z]" | sed 's/\(.*\)/Update & | bash=\"brew cask install &\" terminal=true refresh=/g' ; done
