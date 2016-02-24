@@ -2,7 +2,7 @@
 
 # Shows last BTC price (in USD) on Bitstamp exchange.
 #
-# <bitbar.title>Bitstamp last price plugin</bitbar.title>
+# <bitbar.title>Bitstamp last price</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Damien Lajarretie</bitbar.author>
 # <bitbar.author.github>dlajarretie</bitbar.author.github>
