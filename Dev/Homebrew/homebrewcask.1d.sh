@@ -11,6 +11,7 @@ brewcall=$(/usr/local/bin/brew cask ls -1 | sed 's/(!)//g' | xargs /usr/local/bi
 
 brewnum=$(for line in $brewcall; do echo $line | grep "[a-z]" ; done | wc -w | xargs)
 
+if [[ "${brewnum}" != "0" ]]; then
 echo "${brewnum}"
 echo "---"
 echo $brewnum "casks to update"
@@ -18,4 +19,8 @@ for line in $brewcall; do echo $line | grep "[a-z]" | sed 's/\(.*\)/Update & | b
 echo "---"
 echo "Brew Update | bash='brew update' terminal=true refresh="
 echo "Brew Upgrade | bash='brew upgrade' terminal=true refresh="
+# Uncomment following lines to add the commands to the drop-down menu
+# echo "Brew Cleanup | bash='brew cleanup' terminal=true refresh="
+# echo "Brew Cask Cleanup | bash='brew cask cleanup' terminal=true refresh="
 echo "Refresh | refresh="
+fi
