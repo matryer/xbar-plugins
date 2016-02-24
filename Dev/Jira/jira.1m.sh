@@ -11,7 +11,7 @@
 # <bitbar.author>Nicolas Gehlert</bitbar.author>
 # <bitbar.author.github>ngehlert</bitbar.author.github>
 # <bitbar.desc>display all assigned tasks, all open stories and open blockers.</bitbar.desc>
-# <bitbar.image>http://imgur.com/HwBF2JX</bitbar.image>
+# <bitbar.image>http://i.imgur.com/HwBF2JX.png</bitbar.image>
 
 USER=""
 PASSWORD=""
