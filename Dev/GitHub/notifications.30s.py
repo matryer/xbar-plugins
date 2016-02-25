@@ -63,7 +63,7 @@ if is_github_defined:
         print ( u'GitHub \u2014 %s | color=%s href=https://github.com/notifications' % ( plural( 'notification', len( github_notifications ) ), active ) ).encode( 'utf-8' )
         print '\n'.join( github_notifications )
     else:
-        print ( u'GitHub \u2014 No new notifications | color=%s' % inactive ).encode( 'utf-8' )
+        print ( u'GitHub \u2014 No new notifications | color=%s href=https://github.com' % inactive ).encode( 'utf-8' )
 
 if is_github_enterprise_defined:
     if len( enterprise_notifications ):
