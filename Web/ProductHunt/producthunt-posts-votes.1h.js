@@ -1,13 +1,14 @@
 #!/usr/local/bin/node
-
-# <bitbar.title>ProductHunt Posts Votes Count</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Varun Malhotra</bitbar.author>
-# <bitbar.author.github>softvar</bitbar.author.github>
-# <bitbar.image></bitbar.image>
-# <bitbar.desc>ProductHunt Posts Votes count and Emoji notification 🔔  on change in votes count</bitbar.desc>
-# <bitbar.dependencies>node</bitbar.dependencies>
-# <bitbar.abouturl>http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html</bitbar.abouturl>
+/*
+* <bitbar.title>ProductHunt Posts Votes Count</bitbar.title>
+* <bitbar.version>v1.0</bitbar.version>
+* <bitbar.author>Varun Malhotra</bitbar.author>
+* <bitbar.author.github>softvar</bitbar.author.github>
+* <bitbar.image></bitbar.image>
+* <bitbar.desc>ProductHunt Posts Votes count and Emoji notification 🔔  on change in votes count</bitbar.desc>
+* <bitbar.dependencies>node</bitbar.dependencies>
+* <bitbar.abouturl>http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html</bitbar.abouturl>
+*/
 
 var https = require('https');
 var fs = require('fs');
