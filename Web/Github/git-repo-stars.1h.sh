@@ -1,17 +1,14 @@
 #!/usr/local/bin/node
 
-/* Github repos stars count and Emoji on change :)
-* BitBar plugin
-*
-* by Varun Malhotra
-* (c) 2015
-* LICENSE - MIT
-*
-* Blog - http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html
-*
-* Shows current stars count of each repo and 🔔 on change
-* 20 minutes refresh is just under the calls a day no-key api limit
-*/
+# <bitbar.title>Github Repo Stars</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Varun Malhotra</bitbar.author>
+# <bitbar.author.github>softvar</bitbar.author.github>
+# <bitbar.image>http://varunmalhotra.xyz/media/images/bitbar-plugin-github-repos-stars.png</bitbar.image>
+# <bitbar.desc>Github repos stars and Emoji notification 🔔 on change in stars count</bitbar.desc>
+# <bitbar.dependencies>node</bitbar.dependencies>
+# <bitbar.abouturl>http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html</bitbar.abouturl>
+
 
 
 // Configurable params
