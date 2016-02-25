@@ -12,13 +12,9 @@
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"
 
-PREFIX=""
-APPENDIX=""
-
-
 # user clicks on 'encodepaste'
 if [[ "$1" = "encodepaste" ]]; then
-  CONVERTED=$(echo -n "${PREFIX}$(pbpaste)${APPENDIX}" | xargs -I {} date -r {} +'%Y-%m-%d %H:%M:%S')
+  CONVERTED=$(date -r `pbpaste` +'%Y-%m-%d %H:%M:%S')
   $(echo -n "$CONVERTED" | pbcopy)
   osascript -e "display notification \"$CONVERTED\" with title \"DATE:\"" &> /dev/null
   exit
@@ -26,7 +22,7 @@ fi
 
 # user clicks on 'encoding'
 if [[ "$1" = "encode" ]]; then
-  CONVERTED=$(echo -n "${PREFIX}$(pbpaste)${APPENDIX}" | xargs -I {} date -r {} +'%Y-%m-%d %H:%M:%S')
+  CONVERTED=$(date -r `pbpaste` +'%Y-%m-%d %H:%M:%S')
   osascript -e "display notification \"$CONVERTED\" with title \"DATE:\"" &> /dev/null
   exit
 fi
@@ -34,7 +30,6 @@ fi
 # user clicks on 'now'
 if [[ "$1" = "now" ]]; then
   NOW=$(date +%s)
-
   $(echo -n "$NOW" | pbcopy)
   osascript -e "display notification \"$NOW\" with title \"Save to Clipboard:\"" &> /dev/null
   exit
