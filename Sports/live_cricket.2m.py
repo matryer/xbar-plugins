@@ -5,7 +5,7 @@
 # <bitbar.author>Anup Sam Abraham</bitbar.author>
 # <bitbar.author.github>anupsabraham</bitbar.author.github>
 # <bitbar.desc>Show live scores of cricket matches happening around the world using Cricinfo api. </bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>http://i.imgur.com/xiQTWZ4.png</bitbar.image>
 # <bitbar.dependencies>python, python-requests, beautifulsoup4</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 import requests
@@ -20,14 +20,14 @@ FAVORITE_CRICKET_TEAMS = [
     # Remember the name you put here has to match the one in the
     # rss feed provided by cricinfo.
     # If any match is not showing up in the plugin, take a look at the 
-    # rss feed. Find your team's and copy paste the teamname in the list
+    # rss feed. Find your team and copy paste the teamname in the list
     # If the match is still not showing up, the rss feed might have
     # changed. Then the regex needs to be changed ¯\_(ツ)_/¯
     'India', 
     'New Zealand',
     # 'Australia',
     'England',
-    '*',  # uncomment this if you want to track all the matches
+    # '*',  # uncomment this if you want to track all the matches
 ]
 TIME_DELTA = datetime.utcnow() - datetime.now()  # for converting gmt to local time
 
