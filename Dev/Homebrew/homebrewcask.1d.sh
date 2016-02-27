@@ -16,11 +16,13 @@ brewcasknum=$(for line in $brewcasklist; do echo $line | grep "[a-z]" ; done | w
 if [[ "${brewcasknum}" != "0" ]]; then
 if [[ "${brewcasknum}" == "1" ]]; then
 echo "🍺"
+echo "---"
+echo $brewcasknum "cask to update"
 else
 echo "🍻"
-fi
 echo "---"
 echo $brewcasknum "casks to update"
+fi
 for line in $brewcasklist; do echo $line | grep "[a-z]" | sed 's_\(.*\)_Update & | bash=\"brew cask install &\" terminal=true refresh=_g' ; done
 echo "---"
 # Uncomment following lines to add the commands to the drop-down menu
