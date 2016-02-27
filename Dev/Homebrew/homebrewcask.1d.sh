@@ -13,8 +13,12 @@ brewcasklist=$(/usr/local/bin/brew cask ls -1 | sed 's_(!)__g' | xargs /usr/loca
 
 brewcasknum=$(for line in $brewcasklist; do echo $line | grep "[a-z]" ; done | wc -w | xargs)
 
-if [[ "${brewnum}" != "0" ]]; then
-echo "${brewnum} updates"
+if [[ "${brewcasknum}" != "0" ]]; then
+if [[ "${brewcasknum}" == "1" ]]; then
+echo "🍺"
+else
+echo "🍻"
+fi
 echo "---"
 echo $brewcasknum "casks to update"
 for line in $brewcasklist; do echo $line | grep "[a-z]" | sed 's_\(.*\)_Update & | bash=\"brew cask install &\" terminal=true refresh=_g' ; done
