@@ -7,7 +7,7 @@
 # <bitbar.desc>List out-of-date apps i.e. apps for whch a newer Homebrew cask exists. Click menu item to install cask.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/kBf90TB.png?1</bitbar.image>
 
-brew update
+/usr/local/bin/brew update
 
 brewcall=$(/usr/local/bin/brew cask ls -1 | sed 's/(!)//g' | xargs /usr/local/bin/brew cask info | grep -A 1 'Not installed' | sed -e 's_Not installed__g' -e 's_https://github\.com/caskroom/homebrew-cask/blob/master/Casks/__g' -e 's_\.rb__g')
 
