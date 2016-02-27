@@ -19,9 +19,9 @@ echo "---"
 echo $brewnum "casks to update"
 for line in $brewcall; do echo $line | grep "[a-z]" | sed 's/\(.*\)/Update & | bash=\"brew cask install &\" terminal=true refresh=/g' ; done
 echo "---"
-echo "Brew Update | bash='brew update' terminal=true refresh="
-echo "Brew Upgrade | bash='brew upgrade' terminal=true refresh="
 # Uncomment following lines to add the commands to the drop-down menu
+# echo "Brew Update | bash='brew update' terminal=true refresh="
+echo "Brew Upgrade | bash='brew upgrade' terminal=true refresh="
 # echo "Brew Cleanup | bash='brew cleanup' terminal=true refresh="
 # echo "Brew Cask Cleanup | bash='brew cask cleanup' terminal=true refresh="
 echo "Refresh | refresh="
