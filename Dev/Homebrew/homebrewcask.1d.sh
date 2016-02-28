@@ -13,7 +13,7 @@ exit_with_error() {
   exit 1;
 }
 
-/usr/local/bin/brew update > /dev/null || exit_with_error; 
+/usr/local/bin/brew update &> /dev/null || exit_with_error; 
 
 brewcasklist=$(/usr/local/bin/brew cask ls -1 | sed 's_(!)__g' | xargs /usr/local/bin/brew cask info | grep -A 1 'Not installed' | sed -e 's_Not installed__g' -e 's_https://github\.com/caskroom/homebrew-cask/blob/master/Casks/__g' -e 's_\.rb__g')
 
