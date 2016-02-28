@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Is Dark Mode?
-# BitBar plugin
-#
-# by Dave Wikoff
-#
-# Example script showing how to let your scripts determine
-# whether Mac is in Dark Mode so you can adjust text colors
+# <bitbar.title>Is Dark Mode?</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Dave Wikoff</bitbar.author>
+# <bitbar.author.github>derimagia</bitbar.author.github>
+# <bitbar.desc>Example script showing how to let your scripts determine whether OSX is in Dark Mode so you can adjust appearance. Must restart Bitbar after changing setting.</bitbar.desc>
+# <bitbar.dependencies></bitbar.dependencies>
+# <bitbar.image>http://i.imgur.com/2ark3Bq.png</bitbar.image>
 
 if [ $BitBarDarkMode ]; then
-  # Mac has Dark Mode enabled.
+  # OSX has Dark Mode enabled.
   echo "Dark | color=white"
 else
-  # Mac does not have Dark Mode
+  # OSX does not have Dark Mode
   echo "Light | color=black"
 fi
