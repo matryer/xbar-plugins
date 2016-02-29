@@ -9,7 +9,7 @@
 # <bitbar.author>Stefan Rakel</bitbar.author>
 # <bitbar.author.github>ibutra</bitbar.author.github>
 # <bitbar.desc>Example of how to use the templateImage and image parameter</bitbar.desc>
-# <bitbar.image>http://imgur.com/Rva36NL</bitbar.image>
+# <bitbar.image>http://i.imgur.com/Rva36NL.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Tutorial/images.sh</bitbar.abouturl>
 #
 # Images defined in the templateImage parameter are used as NSImage with template set to true, allowing Mac OS X to apply appropriate styling for the Menubar to them. This is the recommended way of defining an image for BitBar.
