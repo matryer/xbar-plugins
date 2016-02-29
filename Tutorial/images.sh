@@ -1,10 +1,5 @@
 #!/bin/bash
-
-#
-# Include BitBar metadata like this at the top of the file
-# (commented out, of course):
-#
-# <bitbar.title>Show templateImages and imagesd</bitbar.title>
+# <bitbar.title>Show templateImages and images</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Stefan Rakel</bitbar.author>
 # <bitbar.author.github>ibutra</bitbar.author.github>
