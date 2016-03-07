@@ -23,17 +23,18 @@ from urllib import unquote
 import requests
 
 # You need to set your CIRCLECI_API_TOKEN with an API Token from CircleCI.
-CIRCLECI_API_TOKEN = ''
+CIRCLECI_API_TOKEN = 'cd50a3add6d307f372e8f2b0227bfa18fab6aaca'
 
 CIRCLECI_API_ENDPOINT = 'https://circleci.com/api/v1/'
 
 # ======================================
 
 SYMBOLS = {
-    'success': u'✔︎',
-    'failed': u'✘',
-    'timedout': u'⚠',
+    'success': u' ✔︎',
+    'failed': u' ✘',
+    'timedout': u' ⚠',
     'canceled': u' ⃠',
+    'no_tests': u' ☉',
 }
 
 COLORS = {
@@ -41,6 +42,7 @@ COLORS = {
     'failed': 'red',
     'timedout': 'yellow',
     'canceled': 'grey',
+    'no_tests': 'white',
 }
 
 NO_SYMBOL = u'❂'
