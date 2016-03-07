@@ -30,10 +30,11 @@ CIRCLECI_API_ENDPOINT = 'https://circleci.com/api/v1/'
 # ======================================
 
 SYMBOLS = {
-    'success': u'✔︎',
-    'failed': u'✘',
-    'timedout': u'⚠',
+    'success': u' ✔︎',
+    'failed': u' ✘',
+    'timedout': u' ⚠',
     'canceled': u' ⃠',
+    'no_tests': u' ☉',
 }
 
 COLORS = {
@@ -41,6 +42,7 @@ COLORS = {
     'failed': 'red',
     'timedout': 'yellow',
     'canceled': 'grey',
+    'no_tests': 'white',
 }
 
 NO_SYMBOL = u'❂'
