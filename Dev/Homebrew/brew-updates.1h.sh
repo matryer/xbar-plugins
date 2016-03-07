@@ -15,7 +15,7 @@ UPDATES=$(/usr/local/bin/brew outdated --verbose);
 
 UPDATE_COUNT=$(echo "$UPDATES" | grep -c '[^[:space:]]');
 
-echo "↑$UPDATE_COUNT | dropdown=false"
+echo "📦 $UPDATE_COUNT | dropdown=false"
 echo "---";
 if [ -n "$UPDATES" ]; then
   echo "Upgrade all | bash=/usr/local/bin/brew param1=upgrade terminal=false refresh=true"
