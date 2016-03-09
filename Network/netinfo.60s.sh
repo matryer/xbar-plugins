@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # <bitbar.title>Network Info</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.01</bitbar.version>
 # <bitbar.author>Raymond Kuiper</bitbar.author>
 # <bitbar.author.github>q1x</bitbar.author.github>
 # <bitbar.desc>Provides network status information about your Mac: Internal and external IPv4+IPv6 addresses, Whois information and Speedtest.net results.</bitbar.desc>
