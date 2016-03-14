@@ -41,8 +41,8 @@ COLORS = {
     'success': 'green',
     'failed': 'red',
     'timedout': 'yellow',
-    'canceled': 'grey',
-    'no_tests': 'white',
+    'canceled': 'orange',
+    'no_tests': 'black',
 }
 
 NO_SYMBOL = u'❂'
@@ -74,11 +74,12 @@ def updateStatuses(projects):
 
         for branch_name, branch in branches.iteritems():
             outcome = branch['recent_builds'][0]['outcome']
-            color = 'color={}'.format(COLORS[outcome]) if COLORS[outcome] else ''
-            symbol = SYMBOLS.get(outcome, NO_SYMBOL)
-            branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, branch_name)
-            output_msg = u'- {} {}'.format(symbol, unquote(branch_name))
-            output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
+            if not outcome in ['no_tests']:
+                color = 'color={}'.format(COLORS[outcome]) if COLORS[outcome] else ''
+                symbol = SYMBOLS.get(outcome, NO_SYMBOL)
+                branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, branch_name)
+                output_msg = u'- {} {}'.format(symbol, unquote(branch_name))
+                output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
 
         output.append('---')
 
