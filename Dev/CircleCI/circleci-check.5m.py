@@ -30,20 +30,24 @@ CIRCLECI_API_ENDPOINT = 'https://circleci.com/api/v1/'
 # ======================================
 
 SYMBOLS = {
-    'success': u'✔︎',
-    'failed': u'✘',
-    'timedout': u'⚠',
-    'canceled': u' ⃠',
+    'running': u' ▶',
+    'success': u' ✓',
+    'failed': u' ✗',
+    'timedout': u' ⚠',
+    'canceled': u' ⊝',
+    'no_tests': u' ',
 }
 
 COLORS = {
-    'success': 'green',
-    'failed': 'red',
-    'timedout': 'yellow',
-    'canceled': 'grey',
+    'running': '#61D3E5',
+    'success': '#39C988',
+    'failed': '#EF5B58',
+    'timedout': '#F3BA61',
+    'canceled': '#898989',
+    'no_tests': 'black',
 }
 
-NO_SYMBOL = u'❂'
+NO_SYMBOL = u' ❂'
 
 
 def request(uri):
@@ -67,16 +71,27 @@ def updateStatuses(projects):
         user_name = project['username']
         repo_name = project['reponame']
         repo_href = project['vcs_url']
-        output.append(u'{}/{} | href={}'.format(user_name, repo_name, repo_href))
         branches = project['branches']
+        output.append(u'{}/{} | href={}'.format(user_name, repo_name, repo_href))
 
-        for branch_name, branch in branches.iteritems():
-            outcome = branch['recent_builds'][0]['outcome']
-            color = 'color={}'.format(COLORS[outcome]) if COLORS[outcome] else ''
-            symbol = SYMBOLS.get(outcome, NO_SYMBOL)
-            branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, branch_name)
-            output_msg = u'- {} {}'.format(symbol, unquote(branch_name))
-            output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
+        for branch_name, branch in sorted(branches.iteritems()):
+            if branch['running_builds']:
+                status = branch['running_builds'][0]['status']
+                if not status in ['not_running']:
+                    color = 'color={}'.format(COLORS[status]) if COLORS[status] else ''
+                    symbol = SYMBOLS.get(status, NO_SYMBOL)
+                    branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, branch_name)
+                    output_msg = u'- {} {}'.format(symbol, unquote(branch_name))
+                    output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
+
+            if branch['recent_builds']:
+                outcome = branch['recent_builds'][0]['outcome']
+                if not outcome in ['no_tests']:
+                    color = 'color={}'.format(COLORS[outcome]) if COLORS[outcome] else ''
+                    symbol = SYMBOLS.get(outcome, NO_SYMBOL)
+                    branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, branch_name)
+                    output_msg = u'- {} {}'.format(symbol, unquote(branch_name))
+                    output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
 
         output.append('---')
 
