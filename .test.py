@@ -61,7 +61,7 @@ def check_file(file_full_path):
             match = re.search("<bitbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</bitbar.(?P<rho_tag>[^>]+)>", line)
             if match is not None:
                 if match.group('lho_tag') != match.group('rho_tag'):
-                    error('%s includes mismatched metatags: %s', (file_full_path, line))
+                    error('%s includes mismatched metatags: %s' % (file_full_path, line))
                 else:
                     metadata[match.group('lho_tag')] = match.group('value')
 
@@ -98,12 +98,12 @@ if len(files) == 0:
             dirs.remove(d)
 
 elif files[0] == '--pr':
-    output = subprocess.check_output('git diff --name-only upstream/master..HEAD | cat', shell=True)
+    output = subprocess.check_output('git diff --name-only origin/master..HEAD | cat', shell=True)
     files = output.strip().split('\n')
 
 for file in files:
     file_name, file_ext = os.path.splitext(file)
-    if any('.' in s for s in (file.split('/')[1:-1])) or file_ext == '.md':
+    if any(s[0] == '.' for s in (file.split('/')[1:])) or file_ext == '.md':
         debug('skipping file %s' % file)
     else:
         debug('checking file %s' % file)
