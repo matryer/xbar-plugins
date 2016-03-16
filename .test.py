@@ -73,8 +73,8 @@ def check_file(file_full_path):
         try:
             response = urllib2.urlopen(metadata['image'])
             response_content_type = response.info().getheader('Content-Type')
-            if response_content_type in allowed_image_content_types:
-                error('%s has bad content type: %s' % (file_full_path, response_content_type))
+            if response_content_type not in allowed_image_content_types:
+                error('%s image metadata has bad content type: %s' % (file_full_path, response_content_type))
         except:
             error('%s cannot fetch image' % file_full_path)
 
