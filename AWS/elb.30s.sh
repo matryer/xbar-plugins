@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Percentage of healthy EC2 instances behind an ELB
 #   Dropdown with healthy and unhealthy totals
@@ -16,7 +16,7 @@
 # Dependencies: 
 #   awscli (https://aws.amazon.com/cli/)
 
-export PATH='/usr/local/bin:/usr/bin:/bin:$PATH'
+export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 
 ## Required Configuration (must provide your own settings here)
 
@@ -45,19 +45,19 @@ if [ -z "$LOAD_BALANCER" ]; then
 fi
 
 # Fetch list of instance health statuses (InService or OutOfService)
-status=`aws --profile $AWS_CLI_PROFILE elb describe-instance-health --load-balancer-name $LOAD_BALANCER --query 'InstanceStates[*].[State]' --output text`
+status=$(aws --profile $AWS_CLI_PROFILE elb describe-instance-health --load-balancer-name $LOAD_BALANCER --query 'InstanceStates[*].[State]' --output text)
 
 # Total number of lines fetched
-total=`echo $status | tr ' ' '\n' | wc -l | xargs`
+total=$(echo "$status" | tr ' ' '\n' | wc -l | xargs)
 
 # Number of lines containing "In" (matches InService lines)
-in=`echo $status | tr ' ' '\n' | grep In | wc -l | xargs`
+in=$(echo "$status" | tr ' ' '\n' | grep -c In | xargs)
 
 # Number of lines containing "Out" (matches OutOfService lines)
-out=`echo $status | tr ' ' '\n' | grep Out | wc -l | xargs`
+out=$(echo "$status" | tr ' ' '\n' | grep -c Out | xargs)
 
 # Percentage calculation
-percent=`bc -l <<< "($in / $total) * 100" | xargs printf "%1.0f"`
+percent=$(bc -l <<< "($in / $total) * 100" | xargs printf "%1.0f")
 
 # Output
 echo "$MENU_BAR_PREFIX_LABEL $percent%"
