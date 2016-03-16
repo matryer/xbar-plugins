@@ -1,0 +1,10 @@
+- [ ] Changes are rebased on current master
+- [ ] There is an appropriate shebang line as the first line of the plugin
+- All required [plugin metadata](https://github.com/matryer/bitbar#metadata) is included in the plugin
+  - [ ] bitbar.title
+  - [ ] bitbar.version
+  - [ ] bitbar.author
+  - [ ] bitbar.author.github
+  - [ ] bitbar.image
+- [ ] The screenshot is an actual screenshot and not a logo
+- [ ] The plugin is executable (`chmod +x`)
