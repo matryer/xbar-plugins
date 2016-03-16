@@ -32,11 +32,12 @@ if [[ "$1" = "clear" ]]; then
   exit
 fi
 
+CLIPBOARD=`pbpaste`
 # Check to see if we have text on the clipboard
-if [ "$(pbpaste)" != "" ]; then
+if [ "$CLIPBOARD" != "" ]; then
 
   # Check if the current clipboard content is differnt from the previous
-  pbpaste | diff "$tmp_dir/item-current.pb" - &> /dev/null
+  echo "$CLIPBOARD" | diff "$tmp_dir/item-current.pb" - &> /dev/null
 
   # If so, the diff command will exit wit a non-zero status
   if [ "$?" != "0" ]; then
@@ -55,7 +56,7 @@ if [ "$(pbpaste)" != "" ]; then
     cp "$tmp_dir/item-current.pb" "$tmp_dir/item-1.pb" &> /dev/null
 
     # Save current value
-    pbpaste > "$tmp_dir/item-current.pb"
+    echo "$CLIPBOARD" > "$tmp_dir/item-current.pb"
   fi
 fi
 
@@ -87,11 +88,11 @@ if [[ -e "$tmp_dir/item-1.pb" ]]; then
       if (( $(cat "$tmp_dir/item-$i.pb" | wc -c) > 36 )); then
         content="$content..."
       fi
-      echo $(echo $content | sed "s/|/ /g") "|bash=$0 param1=copy param2=$i terminal=false"
+      echo $(echo $content | sed "s/|/ /g") "|bash=$0 param1=copy param2=$i refresh=true terminal=false"
     fi
   done
 
   echo "---"
 
-  echo "Clear History |bash=$0 param1=clear terminal=false "
+  echo "Clear History |bash=$0 param1=clear refresh=true terminal=false "
 fi
