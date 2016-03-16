@@ -1,0 +1,8 @@
+language: objective-c
+osx_image: xcode7.1
+before_install:
+  - sudo easy_install pyflakes
+  - gem install rubocop
+  - brew install shellcheck
+  - brew install node && npm install -g jshint
+script: '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./.test.py || ./.test.py --pr'
