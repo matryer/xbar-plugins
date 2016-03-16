@@ -6,7 +6,7 @@
 # <bitbar.author>Jordi Petit</bitbar.author>
 # <bitbar.author.github>jordi-petit</bitbar.author.github>
 # <bitbar.desc>This plugin displays a menu with two items to show or hide the desktop icons with one click.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>http://i.imgur.com/c3KYTAc.png</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 import sys, os
