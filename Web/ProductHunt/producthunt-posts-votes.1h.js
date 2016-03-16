@@ -87,7 +87,7 @@ function fetchPostVotes() {
                 // Voilla! someone upvoted your post on ProductHunt
                 if (oldData.toString() !== votes.toString()) {
                     displayInMenuBar = 'PH🔔| color=#da552f dropdown=false';
-                    displayInMenuBar += '\n---\n'
+                    displayInMenuBar += '\n---\n';
                 }
 
                 // Write all the votes count in the file
@@ -121,7 +121,7 @@ function getUserId(options) {
             }
             // Update userId
             userId = response.user.id;
-            console.log(userId)
+            console.log(userId);
             fetchPostVotes();
         });
     });
@@ -136,7 +136,7 @@ function getUserId(options) {
 checkIfFileExists();
 
 if (config.userId) {
-    userId = config.userId
+    userId = config.userId;
     fetchPostVotes();
 } else if (config.username) {
     // Since we need ProductHunt userId for fetching user related data, get userId

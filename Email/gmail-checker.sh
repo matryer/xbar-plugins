@@ -1,10 +1,11 @@
 #!/bin/sh
 
 # <bitbar.title>Gmail Checker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.0.1</bitbar.version>
 # <bitbar.author>Nadav Cohen</bitbar.author>
 # <bitbar.author.github>nadavc</bitbar.author.github>
 # <bitbar.desc>Checks gmail and displays inbox count</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/LYrIphK.png</bitbar.image>
 
 USERNAME=<gmail username>
 PASSWORD=<gmail password>

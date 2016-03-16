@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # <bitbar.title>Vagrant</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author.github>axeloz</bitbar.author.github>
