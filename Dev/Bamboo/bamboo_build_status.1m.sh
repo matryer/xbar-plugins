@@ -10,7 +10,7 @@
 #
 # Displays the status of a single Bamboo build
 # Runs 2 REST calls - one to find out if a build is currently runnning and another to get the last build status if one is not currently running
-# 
+#
 # CONFIGURATION
 # All of the below options must be filled in
 
@@ -18,17 +18,17 @@ USERNAME="YOUR_BAMBOO_USERNAME"
 PASSWORD="YOUR_BAMBOO_PASSWORD"
 SERVER="YOUR_BAMBOO_SERVER"
 PLAN="YOUR_BAMBOO_BUILD_PLAN"
-JQPATH="jq" 
+JQPATH="jq"
 
-# END CONFIGURATION 
+# END CONFIGURATION
 
-PLANRESULT=`curl -s --user $USERNAME:$PASSWORD  $SERVER/builds/rest/api/latest/plan/$PLAN.json\?os_authType\=basic`
-BUILDRESULT=`curl -s --user $USERNAME:$PASSWORD  $SERVER/builds/rest/api/latest/result/$PLAN/latest.json\?os_authType\=basic`
-ISBUILDING=`echo $PLANRESULT | $JQPATH '.isBuilding'`
+PLANRESULT=$(curl -s --user $USERNAME:$PASSWORD  $SERVER/builds/rest/api/latest/plan/$PLAN.json\?os_authType=basic)
+BUILDRESULT=$(curl -s --user $USERNAME:$PASSWORD  $SERVER/builds/rest/api/latest/result/$PLAN/latest.json\?os_authType=basic)
+ISBUILDING=$(echo "$PLANRESULT" | $JQPATH '.isBuilding')
 
-RELATIVETIME=`echo $BUILDRESULT | $JQPATH '.buildRelativeTime'`
-BUILDTIME=`echo $BUILDRESULT | $JQPATH '.buildDurationInSeconds'`
-TIME=`echo $BUILDRESULT | $JQPATH '.buildRelativeTime'`
+RELATIVETIME=$(echo "$BUILDRESULT" | $JQPATH '.buildRelativeTime')
+BUILDTIME=$(echo "$BUILDRESULT" | $JQPATH '.buildDurationInSeconds')
+#TIME=$(echo "$BUILDRESULT" | $JQPATH '.buildRelativeTime')
 
 if [ "$ISBUILDING" = "true" ]
 then
@@ -36,9 +36,9 @@ then
     echo "Building..."
     echo ---
 else
-    STATE=`echo $BUILDRESULT | $JQPATH '.state'`
-    # We display the exact state as displayed in the JSON data. 
-    echo ${STATE//\"/}
+    STATE=$(echo "$BUILDRESULT" | $JQPATH '.state')
+    # We display the exact state as displayed in the JSON data.
+    echo "${STATE//\"/}"
 fi
 
 echo ---
