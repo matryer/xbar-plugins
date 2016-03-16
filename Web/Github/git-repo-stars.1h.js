@@ -67,8 +67,8 @@ function getRepoStars(options) {
                 name = response[i].name;
                 output += '(' + response[i].stargazers_count + ')' + name + ' | length=15 href=' + response[i].html_url;
                 output += '\n---\n';
-                stars.push(response[i].stargazers_count)
-            };
+                stars.push(response[i].stargazers_count);
+            }
 
             var oldData;
             fs.readFile(config.filename, 'utf8', function (err, data) {
