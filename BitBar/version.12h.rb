@@ -21,7 +21,7 @@ require 'nokogiri'
 # create a new application at https://github.com/settings/developers and add client_id and client_secret here:
 # GITHUB_CLIENT_ID=""
 # GITHUB_CLIENT_SECRET=""
-# 
+#
 # then add the following query params to the github URL
 # ?client_id=#{GITHUB_CLIENT_ID}&client_secret=#{GITHUB_CLIENT_SECRET}
 
@@ -34,7 +34,7 @@ end
 def get_xml
   bitbar_path = `osascript -e 'tell application "System Events" to POSIX path of (file of process "BitBar" as alias)'`.chomp
   bitbar_path += "/Contents/Info.plist"
-  doc = File.open(bitbar_path) { |f| Nokogiri::XML(f) }
+  File.open(bitbar_path) { |f| Nokogiri::XML(f) }
 end
 
 def get_current_version(xml)
@@ -60,7 +60,7 @@ begin
     puts "---"
     puts "Download latest (#{latest_version}) | href=" + json_val["assets"][0]["browser_download_url"]
   end
-rescue => e
+rescue => _
   puts "BitBar Version Error | color=red"
   puts "---"
   puts "Content is currently unavailable. Please try resetting. | color=red"
