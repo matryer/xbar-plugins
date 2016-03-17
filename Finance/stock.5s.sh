@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# stock info plugin
-#
-# by clark
-# email:5200374@qq.com
-# use baidu stock api to monitor stock price
-# the price only show up in market time.
+# <bitbar.title>Stock Info</bitbar.title>
+# <bitbar.version>1.0</bitbar.version>
+# <bitbar.author>clark</bitbar.author>
+# <bitbar.author.github>flyingtimes</bitbar.author.github>
+# <bitbar.desc>use baidu stock api to monitor stock price. the price only show up in market time.</bitbar.desc>
+
 if [ "$(date +%H)" -lt 9 ]; then
   echo "not trade time|color=red"
   exit
