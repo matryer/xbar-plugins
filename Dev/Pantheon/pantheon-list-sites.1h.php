@@ -5,15 +5,17 @@
 // <bitbar.version>v1.0</bitbar.version>
 // <bitbar.author>Dave Wikoff</bitbar.author>
 // <bitbar.author.github>derimagia</bitbar.author.github>
-// <bitbar.desc>List all of your sites you are on in Pantheon.</bitbar.desc>
+// <bitbar.desc>List and manage all of your sites you are on in Pantheon.</bitbar.desc>
 // <bitbar.dependencies>php, terminus</bitbar.dependencies>
-// <bitbar.image>http://i.imgur.com/2ark3Bq.png</bitbar.image>
+// <bitbar.image>https://i.imgur.com/VYBizXY.png</bitbar.image>
+// <bitbar.abouturl>https://github.com/derimagia/pantheon-bitbar</bitbar.abouturl>
 
 define('TERMINUS_PATH', '/usr/local/bin/terminus');
 define('CONFIG_PATH', '/tmp/pantheon-list-sites-config.json');
+define('DEBUG_MODE', false);
 
 $php = PHP_BINARY;
-$script = $argv[0];
+$script = escapeshellarg($argv[0]);
 $directory = dirname(__FILE__);
 $html_filename = pathinfo(__FILE__, PATHINFO_FILENAME) . '.dynamic.html';
 $html_filepath = $directory . '/' . $html_filename;
@@ -35,10 +37,6 @@ if (!is_array($sites)) {
   echo 'Could not get site list. Did you auth using Terminus?';
   exit();
 }
-if (!getenv('TERMINUS_ENV')) {
-  putenv('TERMINUS_ENV=dev');
-}
-
 
 $symbolMap = [
   'dev' => '🔵',
@@ -56,9 +54,9 @@ $items = array(
 foreach ($sites as $site) {
   $items[] = ['title' => $site->name, 'bash' => $php, 'param1' => $script, 'param2' => 'pantheon_open_site', 'param3' => $site->name, 'param4' => $env_id, 'terminal' => 'false'];
   if ($site->framework === 'drupal') {
-    $items[] = ['title' => "$site->name -- 🔒", 'alternate' => 'true', 'bash' => $php, 'param1' => $script, 'param2' => 'drush_user_login', 'param3' => $site->name, 'param4' => $env_id, 'terminal' => 'false'];
+    $items[] = ['title' => "$site->name -- 🔒", 'alternate' => 'true', 'bash' => $php, 'param1' => $script, 'param2' => 'drush_user_login', 'param3' => $site->name, 'param4' => $env_id, 'terminal' => 'true'];
   }
-  $items[] = ['title' => '└ Pantheon Dashboard -- ⚡', 'bash' => $php, 'param1' => $script, 'param2' => 'pantheon_open_dashboard', 'param3' => $site->name, 'param4' => $env_id, 'terminal' => 'false'];
+  $items[] = ['title' => '└ Pantheon Dashboard -- ⚡', 'bash' => $php, 'param1' => $script, 'param2' => 'pantheon_open_dashboard', 'param3' => $site->name, 'param4' => $env_id, 'terminal' => 'true'];
   $items[] = '---';
 }
 
@@ -184,8 +182,6 @@ function drush($site_id, $env_id, $drush_command) {
   $remote_user = $alias['remote-user'];
   $ssh_options = $alias['ssh-options'] . ' -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"';
 
-  $drush_command .= ' --pipe';
-
   $command = escapeshellarg('drush ' . $drush_command);
   $command = 'ssh -T ' . $remote_user . '@' . $remote_host . ' ' . $ssh_options . ' ' . $command;
 
@@ -197,8 +193,21 @@ function drush($site_id, $env_id, $drush_command) {
  */
 function passthrough_return($command) {
   ob_start();
-  passthru($command . ' 2>/dev/null');
+
+  if (!DEBUG_MODE) {
+    $command = $command . ' 2>/dev/null';
+  }
+
+  passthru($command);
   $output = ob_get_clean();
+
+  if (DEBUG_MODE) {
+    echo "----- DEBUG [$command] -----\n";
+    echo "OUTPUT:\n";
+    var_dump($output);
+    echo "\n";
+  }
+
   return $output;
 }
 
