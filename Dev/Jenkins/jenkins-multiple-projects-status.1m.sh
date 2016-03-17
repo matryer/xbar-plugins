@@ -30,7 +30,7 @@ echo "---"
 for project in "${PROJECTS[@]}"
 do
   output="${project}: "
-  url="${SCHEMA}://${USER}:${TOKEN}@${BASE_URL}/job/$(echo ${project// /'%20'})/lastBuild/api/json?pretty=true"
+  url="${SCHEMA}://${USER}:${TOKEN}@${BASE_URL}/job/${project// /'%20'}/lastBuild/api/json?pretty=true"
   query=$(curl --insecure --silent "${url}")
 
   success=$(echo "${query}" | grep '"result"' | awk '{print $3}') # grep the "result" line

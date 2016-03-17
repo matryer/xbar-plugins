@@ -11,7 +11,7 @@
 #    ssh_askpass (https://github.com/markcarver/mac-ssh-askpass)
 
 
-HOST=<user@hostname>
+HOST="user@hostname"
 
 printf 'Redis: ' 
 RESULT=$(ssh $HOST "redis-cli INFO | grep -o '[0-9\.]*[A-Z]\s' | head -2")

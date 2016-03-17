@@ -53,7 +53,7 @@ function get(path) {
  */
 function handleResponse(repo, pullRequests) {
     console.log('↓⤸ ' + pullRequests.length + ' | dropdown=false');
-    console.log('---')
+    console.log('---');
     pullRequests.forEach(function(pr) {
         console.log(pr.pullRequestId + ': ' + pr.title + ' | href=' + repo._links.web.href + '/pullrequest/' + pr.pullRequestId);
     });
