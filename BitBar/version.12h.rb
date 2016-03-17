@@ -17,12 +17,16 @@ require 'net/http'
 require 'json'
 require 'nokogiri'
 
+# if you're seeing errors saying you've reached the API request limit you will need to
 # create a new application at https://github.com/settings/developers and add client_id and client_secret here:
-GITHUB_CLIENT_ID=""
-GITHUB_CLIENT_SECRET=""
+# GITHUB_CLIENT_ID=""
+# GITHUB_CLIENT_SECRET=""
+# 
+# then add the following query params to the github URL
+# ?client_id=#{GITHUB_CLIENT_ID}&client_secret=#{GITHUB_CLIENT_SECRET}
 
 def get_json
-  url = "https://api.github.com/repos/matryer/bitbar/releases/latest?client_id=#{GITHUB_CLIENT_ID}&client_secret=#{GITHUB_CLIENT_SECRET}"
+  url = "https://api.github.com/repos/matryer/bitbar/releases/latest"
   json_result = JSON.parse(Net::HTTP.get(URI(url)))
   json_result
 end
