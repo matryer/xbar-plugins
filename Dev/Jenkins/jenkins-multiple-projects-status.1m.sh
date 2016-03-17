@@ -1,4 +1,8 @@
 #!/bin/bash
+# <bitbar.title>Check status of Jenkins projects</bitbar.title>
+# <bitbar.author>Nocolas Roger</bitbar.author>
+# <bitbar.author.github>nicolasroger17</bitbar.author.github>
+
 SCHEMA="https"
 BASE_URL="jenkins-address.com"
 USER="username"

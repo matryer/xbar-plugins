@@ -1,4 +1,5 @@
 #!/bin/bash
+# <bitbar.title>Check status of single Jenkins project</bitbar.title>
 USER="username"
 PASS="pass"
 BASE_URL="my-jenkins.com"
