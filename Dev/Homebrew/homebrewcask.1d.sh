@@ -17,7 +17,7 @@ exit_with_error() {
 
 brewcasklist=$(/usr/local/bin/brew cask ls -1 | sed 's_(!)__g' | xargs /usr/local/bin/brew cask info | grep -A 1 'Not installed' | sed -e 's_Not installed__g' -e 's_https://github\.com/caskroom/homebrew-cask/blob/master/Casks/__g' -e 's_\.rb__g');
 
-brewcasknum=$(for line in $brewcasklist; do echo $line | grep "[a-z]" ; done | wc -w | xargs);
+brewcasknum=$(for line in $brewcasklist; do echo "$line" | grep "[a-z]" ; done | wc -w | xargs);
 
 if [[ "${brewcasknum}" != "0" ]]; then
 if [[ "${brewcasknum}" == "1" ]]; then
