@@ -9,7 +9,6 @@
 # <bitbar.dependencies>python</bitbar.dependencies>
 import urllib2
 import json
-import time
 
 #Stocks can be provided with just the symbol (AAPL) or exchange:symbol (NASDAQ:AAPL)
 stocks={"MSFT","AAPL","GOOGL","AMZN","ONDK"}

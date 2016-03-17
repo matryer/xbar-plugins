@@ -6,19 +6,19 @@
 # email:5200374@qq.com
 # use baidu stock api to monitor stock price
 # the price only show up in market time.
-if [ $(date +%H) -lt 9 ]; then
+if [ "$(date +%H)" -lt 9 ]; then
   echo "not trade time|color=red"
   exit
 fi
-if [ $(date +%H) -gt 15 ]; then
+if [ "$(date +%H)" -gt 15 ]; then
   echo "not trade time|color=red"
   exit
 fi
-if [ $(date +%w) -gt 5 ]; then
+if [ "$(date +%w)" -gt 5 ]; then
   echo "not trade time|color=red"
   exit
 fi
-if [ $(date +%w) -eq 0 ]; then
+if [ "$(date +%w)" -eq 0 ]; then
   echo "not trade time|color=red"
   exit
 fi
