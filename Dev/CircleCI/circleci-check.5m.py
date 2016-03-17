@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>CircleCI Check</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Florent Segouin</bitbar.author>
 # <bitbar.author.github>fsegouin</bitbar.author.github>
 # <bitbar.desc>This plugin displays the build status of repositories listed on CircleCI.</bitbar.desc>
@@ -18,6 +18,10 @@
 # version history
 # 1.0
 #   initial commit
+# 1.1
+#   - Update icons
+#   - Sort builds
+#   - Add running builds
 
 from urllib import unquote
 import requests
