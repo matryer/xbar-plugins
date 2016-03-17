@@ -15,7 +15,7 @@ required_shebangs = {
     '.rb': 'ruby$',
     '.js': 'node$',
     '.php': 'php$',
-    '.pl': 'perl$',
+    '.pl': 'perl( -[wW])?$',
     '.swift': 'swift$',
 }
 linter_command = {
