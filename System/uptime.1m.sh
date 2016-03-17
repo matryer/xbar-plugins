@@ -7,8 +7,8 @@
 # <bitbar.desc>Show uptime command information.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/qaIxpJN.png</bitbar.image>
 
-INFO=`uptime`
-echo $INFO | awk -F'[ ,:\t\n]+' '
+INFO=$(uptime)
+echo "$INFO" | awk -F'[ ,:\t\n]+' '
     {
         PLURAL = 1
         VERBOSE = 0
@@ -49,10 +49,10 @@ echo $INFO | awk -F'[ ,:\t\n]+' '
             M = Q
         }
 
-        MSG = "↑ " include(D, DS, SEP, PLURAL) \
-                   include(H, HS, SEP, PLURAL, (D > 0 && VERBOSE)) \
-                   include(M, MS, SEP, PLURAL, (D > 0 && VERBOSE)) \
-                   include(S, SS, SEP, PLURAL)
+        MSG = "↑ " include(D, DS, SEP, PLURAL)
+        MSG = MSG  include(H, HS, SEP, PLURAL, (D > 0 && VERBOSE))
+        MSG = MSG  include(M, MS, SEP, PLURAL, (D > 0 && VERBOSE))
+        MSG = MSG  include(S, SS, SEP, PLURAL)
 
         # remove the remaining SEP
         MSG = substr(MSG, 0, length(MSG) - length(SEP))
@@ -75,4 +75,4 @@ echo $INFO | awk -F'[ ,:\t\n]+' '
     }'
 
 echo "---"
-echo $INFO | tr "," "\n" | tail -n 2
+echo "$INFO" | tr "," "\n" | tail -n 2
