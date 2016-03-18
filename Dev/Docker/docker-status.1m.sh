@@ -38,7 +38,6 @@ function containers() {
 }
 
 DOCKER_MACHINES="$(docker-machine ls -q)"
-#DLITE="$(dlite ip)"
 DLITE="$(which dlite)"
 if test -z "$DOCKER_MACHINES" && test -z "$DLITE"; then
   echo "No docker machine or dlite found"
