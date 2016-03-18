@@ -17,10 +17,6 @@ export PATH="/usr/local/bin:/usr/bin:$PATH"
 echo "⚓️ | dropdown=false"
 echo "---"
 
-function command_exists () {
-    type "$1" &> /dev/null ;
-}
-
 function containers() {
   CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
   if [ -z "$CONTAINERS" ]; then
