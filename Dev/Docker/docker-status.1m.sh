@@ -17,6 +17,10 @@ export PATH="/usr/local/bin:/usr/bin:$PATH"
 echo "⚓️ | dropdown=false"
 echo "---"
 
+function command_exists () {
+    type "$1" &> /dev/null ;
+}
+
 function containers() {
   CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
   if [ -z "$CONTAINERS" ]; then
@@ -38,14 +42,22 @@ function containers() {
 }
 
 DOCKER_MACHINES="$(docker-machine ls -q)"
-DLITE="$(dlite ip)"
+#DLITE="$(dlite ip)"
+DLITE="$(which dlite)"
 if test -z "$DOCKER_MACHINES" && test -z "$DLITE"; then
   echo "No docker machine or dlite found"
   exit 0
 fi
 
 if [ -n "$DLITE" ]; then
-  containers
+  MACHINE="$(dlite ip)"
+  CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
+  if [ -z "$CONTAINERS" ]; then
+    echo "🔴  $MACHINE | bash=$(which dlite) param1=start terminal=false refresh=true"
+  else
+    echo "🔵  $MACHINE | bash=$(which dlite) param1=stop terminal=false refresh=true"
+    containers
+  fi
   exit 0
 fi
 
