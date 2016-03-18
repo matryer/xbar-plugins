@@ -74,7 +74,7 @@ echo "Album: $album | color=#333333"
 
 echo '---'
 
-if [ $state = "playing" ]; then
+if [ "$state" = "playing" ]; then
   echo "Pause | bash=$0 param1=playpause terminal=false"
   echo "Previous | bash=$0 param1=previous terminal=false"
   echo "Next | bash=$0 param1=next terminal=false"

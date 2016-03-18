@@ -50,7 +50,6 @@ class LastfmPlugin
   end
 
   def get_details_of_song(song)
-    output_array = []
     if song['nowplaying'] == 'true'
       icon = '▶'
       playing_string = 'Now Playing'

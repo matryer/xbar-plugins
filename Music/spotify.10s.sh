@@ -20,7 +20,7 @@ if [ "$1" = 'launch' ]; then
   exit
 fi
 
-if [ $(osascript -e 'application "Spotify" is running') = "false" ]; then
+if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
   echo "♫"
   echo "---"
   echo "Spotify is not running"
@@ -43,9 +43,9 @@ if [ "$1" = 'next' ]; then
   exit
 fi
 
-state=`osascript -e 'tell application "Spotify" to player state as string'`;
+state=$(osascript -e 'tell application "Spotify" to player state as string');
 
-if [ $state = "playing" ]; then
+if [ "$state" = "playing" ]; then
   state_icon="▶"
 else
   state_icon="❚❚"
@@ -53,19 +53,19 @@ fi
 
 suffix="..."
 trunc_length=20
-track=`osascript -e 'tell application "Spotify" to name of current track as string'`;
+track=$(osascript -e 'tell application "Spotify" to name of current track as string');
 truncated_track=$track
 if [ ${#track} -gt $trunc_length ];then
   truncated_track=${track:0:$trunc_length-${#suffic}}$suffix
 fi
-artist=`osascript -e 'tell application "Spotify" to artist of current track as string'`;
+artist=$(osascript -e 'tell application "Spotify" to artist of current track as string');
 truncated_artist=$artist
 if [ ${#artist} -gt $trunc_length ];then
   truncated_artist=${artist:0:$trunc_length-${#suffic}}$suffix
 fi
-album=`osascript -e 'tell application "Spotify" to album of current track as string'`;
+album=$(osascript -e 'tell application "Spotify" to album of current track as string');
 
-echo $state_icon $truncated_track - $truncated_artist
+echo "$state_icon $truncated_track - $truncated_artist"
 echo "---"
 
 case "$0" in
@@ -77,13 +77,13 @@ case "$0" in
   ;;
 esac
 
-echo Track: $track "| color=#333333"
-echo Artist: $artist "| color=#333333"
-echo Album: $album "| color=#333333"
+echo "Track: $track | color=#333333"
+echo "Artist: $artist | color=#333333"
+echo "Album: $album | color=#333333"
 
 echo '---'
 
-if [ $state = "playing" ]; then
+if [ "$state" = "playing" ]; then
   echo "Pause | bash=$0 param1=playpause terminal=false"
   echo "Previous | bash=$0 param1=previous terminal=false"
   echo "Next | bash=$0 param1=next terminal=false"

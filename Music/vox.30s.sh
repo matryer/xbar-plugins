@@ -12,7 +12,7 @@ if [ "$1" = 'launch' ]; then
   exit
 fi
 
-if [ $(osascript -e 'application "Vox" is running') = "false" ]; then
+if [ "$(osascript -e 'application "Vox" is running')" = "false" ]; then
   echo "♫"
   echo "---"
   echo "Vox is not running"
@@ -25,25 +25,25 @@ if [ "$1" = 'playpause' ]; then
   exit
 fi
 
-state=`osascript -e 'tell application "Vox" to set state to player state'`;
+state=$(osascript -e 'tell application "Vox" to set state to player state');
 
-if [ $state = "1" ]; then
+if [ "$state" = "1" ]; then
   state_icon="🎵"
 else
   state_icon="⚫"
 fi
 
-track=`osascript -e 'tell application "Vox" to set trackname to track'`;
-track=${track//|/-} 
-artist=`osascript -e 'tell application "Vox" to set artistname to artist'`;
-album=`osascript -e 'tell application "Vox" to set albumname to album'`;
-trackURL=`osascript -e 'tell application "Vox" to set state to trackURL'`;
+track=$(osascript -e 'tell application "Vox" to set trackname to track');
+track=${track//|/-}
+artist=$(osascript -e 'tell application "Vox" to set artistname to artist');
+album=$(osascript -e 'tell application "Vox" to set albumname to album');
+trackURL=$(osascript -e 'tell application "Vox" to set state to trackURL');
 
-if [[ $trackURL =~ "soundcloud" ]]
+if [[ $trackURL =~ soundcloud ]]
 then
-    echo $state_icon $track
+    echo "$state_icon $track"
 else
-    echo $state_icon $artist - $track [$album]
+    echo "$state_icon $artist - $track [$album]"
 fi
 
 echo "---"
@@ -57,7 +57,7 @@ case "$0" in
   ;;
 esac
 
-if [ $state = "1" ]; then
+if [ "$state" = "1" ]; then
   echo "❚❚ Pause | bash=$0 param1=playpause terminal=false"
 else
   echo "▶ Play | bash=$0 param1=playpause terminal=false"
