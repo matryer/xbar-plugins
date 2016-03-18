@@ -21,7 +21,7 @@ if [ "$1" = 'launch' ]; then
   exit
 fi
 
-if [ $(osascript -e 'application "iTunes" is running') = "false" ]; then
+if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
   echo "♫"
   echo "---"
   echo "iTunes is not running"
@@ -44,19 +44,19 @@ if [ "$1" = 'next' ]; then
   exit
 fi
 
-state=`osascript -e 'tell application "iTunes" to player state as string'`;
+state=$(osascript -e 'tell application "iTunes" to player state as string');
 
-if [ $state = "playing" ]; then
+if [ "$state" = "playing" ]; then
   state_icon="▶"
 else
   state_icon="❚❚"
 fi
 
-track=`osascript -e 'tell application "iTunes" to name of current track as string'`;
-artist=`osascript -e 'tell application "iTunes" to artist of current track as string'`;
-album=`osascript -e 'tell application "iTunes" to album of current track as string'`;
+track=$(osascript -e 'tell application "iTunes" to name of current track as string');
+artist=$(osascript -e 'tell application "iTunes" to artist of current track as string');
+album=$(osascript -e 'tell application "iTunes" to album of current track as string');
 
-echo $state_icon $track - $artist
+echo "$state_icon $track - $artist"
 echo "---"
 
 case "$0" in
@@ -68,9 +68,9 @@ case "$0" in
   ;;
 esac
 
-echo Track: $track "| color=#333333"
-echo Artist: $artist "| color=#333333"
-echo Album: $album "| color=#333333"
+echo "Track: $track | color=#333333"
+echo "Artist: $artist | color=#333333"
+echo "Album: $album | color=#333333"
 
 echo '---'
 
