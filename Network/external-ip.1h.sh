@@ -7,7 +7,7 @@
 #
 # Gets the current external IP address.
 
-EXTERNAL_IP=$(curl -s ipecho.net/plain)
+EXTERNAL_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 if [ "$1" = "copy" ]; then
   # Copy the IP to clipboard
