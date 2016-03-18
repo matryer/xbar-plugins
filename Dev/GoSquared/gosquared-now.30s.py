@@ -33,7 +33,7 @@ def get_visitors(site_token):
         response = urllib2.urlopen(request)
         response = json.load(response)
         return response['visitors']
-    except Exception as e:
+    except Exception:
         print 'Unable to load visitors. Check your site key(s).'
 
 sites = []

@@ -7,14 +7,15 @@ import subprocess
 import urllib2
 
 allowed_image_content_types = [ 'image/png', 'image/jpeg' ]
-required_metadata = [ 'author', 'author.github', 'title', 'image' ]
+required_metadata = [ 'author', 'author.github', 'title' ]
+recommended_metadata = [ 'image', 'desc', 'version' ]
 required_shebangs = {
     '.sh': '(bash|ksh|zsh|sh|fish)$',
     '.py': 'python(|2|3)$',
     '.rb': 'ruby$',
     '.js': 'node$',
     '.php': 'php$',
-    '.pl': 'perl$',
+    '.pl': 'perl( -[wW])?$',
     '.swift': 'swift$',
 }
 linter_command = {
@@ -30,6 +31,9 @@ error_count = 0
 def debug(s):
     if DEBUG:
         print "\033[1;44mDBG!\033[0;0m %s\n" % s
+
+def warn(s):
+    print "\033[1;43mWRN!\033[0;0m %s\n" % s
 
 def error(s):
     global error_count
@@ -67,7 +71,11 @@ def check_file(file_full_path):
 
     for key in required_metadata:
         if key not in metadata:
-            error('%s missing metadata for %s' % (file_full_path, key))
+            error('%s missing required metadata for %s' % (file_full_path, key))
+
+    for key in recommended_metadata:
+        if key not in metadata:
+            warn('%s missing recommended metadata for %s' % (file_full_path, key))
 
     if metadata.get('image', False):
         try:

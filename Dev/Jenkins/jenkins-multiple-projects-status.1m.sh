@@ -1,4 +1,8 @@
 #!/bin/bash
+# <bitbar.title>Check status of Jenkins projects</bitbar.title>
+# <bitbar.author>Nocolas Roger</bitbar.author>
+# <bitbar.author.github>nicolasroger17</bitbar.author.github>
+
 SCHEMA="https"
 BASE_URL="jenkins-address.com"
 USER="username"
@@ -30,7 +34,7 @@ echo "---"
 for project in "${PROJECTS[@]}"
 do
   output="${project}: "
-  url="${SCHEMA}://${USER}:${TOKEN}@${BASE_URL}/job/$(echo ${project// /'%20'})/lastBuild/api/json?pretty=true"
+  url="${SCHEMA}://${USER}:${TOKEN}@${BASE_URL}/job/${project// /'%20'}/lastBuild/api/json?pretty=true"
   query=$(curl --insecure --silent "${url}")
 
   success=$(echo "${query}" | grep '"result"' | awk '{print $3}') # grep the "result" line
