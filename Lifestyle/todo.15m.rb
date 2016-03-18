@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>Todo Colour</bitbar.title>
+# <bitbar.title>TodoColour</bitbar.title>
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Srdgh</bitbar.author>
 # <bitbar.author.github>Srdgh</bitbar.author.github>
-# <bitbar.desc>Todo list which integrates with todo.txt CLI. Color-code tasks (customisable). Mark tasks "done" simply by clicking on them in the menubar drop-down list.</bitbar.desc>
+# <bitbar.desc>Todo list with customisable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/eNl6QGh.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
