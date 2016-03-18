@@ -22,13 +22,13 @@ COOKIE_LOCATION="$HOME/.jira-cookie"
 function getJsonValue() {
   KEY=$1
   num=$2
-  awk -F"[,:}]" '{for(i=1;i<=NF;i++){if($i~/'$KEY'\042/){print $(i+1)}}}' | tr -d '"' | sed -n ${num}p
+  awk -F"[,:}]" '{for(i=1;i<=NF;i++){if($i~/'"$KEY"'\042/){print $(i+1)}}}' | tr -d '"' | sed -n "${num}"p
 }
 # stupid hack because json parsing in bash sucks :D find better solution later
 function getTextWithCommaJsonValue() {
   KEY=$1
   num=$2
-  awk -F"[:}]" '{for(i=1;i<=NF;i++){if($i~/'$KEY'\042/){print $(i+1)}}}' | tr -d '"' | sed -n ${num}p
+  awk -F"[:}]" '{for(i=1;i<=NF;i++){if($i~/'"$KEY"'\042/){print $(i+1)}}}' | tr -d '"' | sed -n "${num}"p
 }
 
 function echoAllIssues() {
@@ -36,27 +36,27 @@ function echoAllIssues() {
   numberOfTasks=$2
   color=$3
   i="1"
-  while [ $i -le $numberOfTasks ]
+  while [ $i -le "$numberOfTasks" ]
   do
     issues=$(echo "$json" | getTextWithCommaJsonValue summary $i)
     key=$(echo "$json" | getJsonValue key $i)
     url="${JIRA_BASE_URL}/browse/${key}"
-    echo $key: $issues "| bash=$0 param1=$url terminal=false color=$color"
+    echo "$key: $issues | bash=$0 param1=$url terminal=false color=$color"
     ((i+=1))
   done
 }
 
 function login() {
-  login=$(curl --insecure --silent -X POST -H "Content-Type: application/json" -H "X-Atlassian-Token: nocheck" -c ${COOKIE_LOCATION} --data "{\"username\":\"${USER}\",\"password\":\"${PASSWORD}\"}" "${JIRA_BASE_URL}/rest/auth/1/session")
+  curl --insecure --silent -X POST -H "Content-Type: application/json" -H "X-Atlassian-Token: nocheck" -c "${COOKIE_LOCATION}" --data "{\"username\":\"${USER}\",\"password\":\"${PASSWORD}\"}" "${JIRA_BASE_URL}/rest/auth/1/session"
 }
 
 function run() {
   recursive=$1
-  blocker=$(curl --insecure --silent -X GET -b ${COOKIE_LOCATION} -H "Content-Type: application/json" $JIRA_BASE_URL/rest/api/2/search?jql=sprint%20in%20openSprints\(\)AND%20priority=Blocker%20AND%20project=${PROJECT}%20AND%20status\!=done\&fields=summary)
+  blocker=$(curl --insecure --silent -X GET -b "${COOKIE_LOCATION}" -H "Content-Type: application/json" $JIRA_BASE_URL/rest/api/2/search?jql=sprint%20in%20openSprints\(\)AND%20priority=Blocker%20AND%20project=${PROJECT}%20AND%20status\!=done\&fields=summary)
 
-  assignedTasks=$(curl --insecure --silent -X GET -b ${COOKIE_LOCATION} -H "Content-Type: application/json" $JIRA_BASE_URL/rest/api/2/search?jql=assignee%20in\(currentUser\(\)\)AND%20sprint%20in%20openSprints\(\)AND%20status\!=done\&fields=summary)
+  assignedTasks=$(curl --insecure --silent -X GET -b "${COOKIE_LOCATION}" -H "Content-Type: application/json" $JIRA_BASE_URL/rest/api/2/search?jql=assignee%20in\(currentUser\(\)\)AND%20sprint%20in%20openSprints\(\)AND%20status\!=done\&fields=summary)
 
-  stories=$(curl  --insecure --silent -X GET -b ${COOKIE_LOCATION} -H "Content-Type: application/json" $JIRA_BASE_URL/rest/api/2/search?jql=sprint%20in%20openSprints\(\)%20AND%20issuetype=story%20AND%20project=${PROJECT}%20AND%20status\!=done\&fields=summary)
+  stories=$(curl  --insecure --silent -X GET -b "${COOKIE_LOCATION}" -H "Content-Type: application/json" $JIRA_BASE_URL/rest/api/2/search?jql=sprint%20in%20openSprints\(\)%20AND%20issuetype=story%20AND%20project=${PROJECT}%20AND%20status\!=done\&fields=summary)
 
   totalBlocker=$(echo "$blocker" | getJsonValue total 1)
   totalAssignedTasks=$(echo "$assignedTasks" | getJsonValue total 1)
@@ -64,7 +64,7 @@ function run() {
   if [[ -z "$totalBlocker" || -z "$totalAssignedTasks" || -z "$totalStories" ]]
     then
       # if data loading failed on the second attempt there is probably a bigger issue
-      if [[ recursive == true ]]
+      if [[ "$recursive" = true ]]
         then
           echo There seems to be a problem with the jira login. Check your configuration
           exit
@@ -74,24 +74,24 @@ function run() {
       run true
   fi
 
-  if [ $totalBlocker -gt 0 ]
+  if [ "$totalBlocker" -gt 0 ]
     then
-      echo Blocker: ${totalBlocker} "| color=#F44336"
+      echo "Blocker: ${totalBlocker} | color=#F44336"
     else
-      echo Tasks assigned: ${totalAssignedTasks} "| color=#333333"
+      echo "Tasks assigned: ${totalAssignedTasks} | color=#333333"
   fi
 
   echo "---"
 
-  echo Blocker: ${totalBlocker} "| color=#333333"
+  echo "Blocker: ${totalBlocker} | color=#333333"
   echoAllIssues "$blocker" "$totalBlocker" "#F44336"
   echo "---"
 
-  echo Tasks assigned: ${totalAssignedTasks} "| color=#333333"
+  echo "Tasks assigned: ${totalAssignedTasks} | color=#333333"
   echoAllIssues "$assignedTasks" "$totalAssignedTasks" "#333333"
   echo "---"
 
-  echo Open Stories: ${totalStories} "| color=#333333"
+  echo "Open Stories: ${totalStories} | color=#333333"
   echoAllIssues "$stories" "$totalStories" "#333333"
 
   exit
@@ -101,7 +101,7 @@ function run() {
 
 # opens jira issue page if one entry was clicked
 if [[ "$1" == http* ]]; then
-  open $1
+  open "$1"
   exit
 fi
 
