@@ -90,3 +90,6 @@ if [ "$state" = "playing" ]; then
 else
   echo "Play | bash=$0 param1=playpause terminal=false"
 fi
+
+echo '---'
+echo "Open Spotify | bash=$0 param1=launch terminal=false"
