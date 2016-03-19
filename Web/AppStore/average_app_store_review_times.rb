@@ -6,7 +6,7 @@
 # <bitbar.author>mfks17</bitbar.author>
 # <bitbar.author.github>mfks17</bitbar.author.github>
 # <bitbar.desc>Average App Store Review Times</bitbar.desc>
-# <bitbar.image>https://github.com/mfks17/bitbar-plugin-AppStore/blob/master/Screenshots/01.png</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/mfks17/bitbar-plugin-AppStore/master/Screenshots/01.png</bitbar.image>
 # <bitbar.dependencies>ruby, nokogiri</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/mfks17/bitbar-plugin-AppStore</bitbar.abouturl>
 
