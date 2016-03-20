@@ -21,13 +21,10 @@ echo -n 'Current location: '
 echo "$current_location"
 echo '---'
 echo 'Change to:'
-for location in $network_locations
+while IFS= read -r location;
 do
     if [ "${location}" != "${current_location}" ]
     then
-        echo "${location} | bash=$0 param1=$location terminal=false refresh=true"
+        echo "${location} | bash=\"$0\" param1=\"$location\" terminal=false refresh=true"
     fi
-done
-
-
-
+done <<< "$network_locations"
