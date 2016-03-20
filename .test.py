@@ -25,7 +25,7 @@ linter_command = {
     '.js': [ 'jshint' ],
     '.php': [ 'php', '-l' ],
     '.pl': [ 'perl', '-MO=Lint'],
-    '.swift': [ 'xcrun', '-sdk', 'macosx', 'swiftc' ],
+    '.swift': [ 'xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null' ],
 }
 error_count = 0
 def debug(s):
