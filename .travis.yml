@@ -5,4 +5,5 @@ before_install:
   - gem install rubocop --no-document
   - brew install shellcheck
   - brew install node && npm install -g jshint
+  - brew install cpanminus && sudo cpanm Mozilla::CA
 script: ./.test.py
