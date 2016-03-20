@@ -41,7 +41,7 @@ matches = 0
 list_links = []
 for data in soup.findAll('item'):
     if '*' not in FAVORITE_CRICKET_TEAMS:
-        regex_string = "(^(" + "|".join(FAVORITE_CRICKET_TEAMS) + ")( \d*\/\d*( \*)?)? *v)|(v *(" + "|".join(FAVORITE_CRICKET_TEAMS) + ")( \d*\/\d*( \*)?)?\s?$)"
+        regex_string = "(^(" + "|".join(FAVORITE_CRICKET_TEAMS) + ")( \d*(\/\d*)?( \*)?)? *v)|(v *(" + "|".join(FAVORITE_CRICKET_TEAMS) + ")( \d*(\/\d*)?( \*)?)?\s?$)"
         title_text = data.find('description').text
         if re.search(regex_string, title_text):
             matches += 1
@@ -53,7 +53,7 @@ for data in soup.findAll('item'):
         list_links.append(data.find('guid').text)
 
 if matches:
-    print 'Live:' + str(matches) + ' | dropdown=false'
+    print '🏏' + str(matches) + ' | dropdown=false'
     print '---'
     for match_html_url in list_links:
         match_url = match_html_url.split('.html')[0] + '.json'
@@ -71,31 +71,37 @@ if matches:
 
         if match_data['match']['international_class_card'] == "Test":
             test_match = True
+        elif match_data['match']['general_class_card'] == "First-class":
+            test_match = True
         else:
             test_match = False
 
         # get innings data
         remaining_balls = None
         required_runrate = None
-        for innings in match_data['innings']:
-            if teams[innings['batting_team_id']]['score']:
-                # if its a test match and this is the second innings
-                # of the team add '&'' before adding the score
-                teams[innings['batting_team_id']]['score'] += ' & '
-            innings_score = innings['runs'] + '/' + innings['wickets'] + ' (' + \
-                                innings['overs'] + ' ov)'
-            if innings['live_current'] == '1':
-                innings_score += '*'
-            teams[innings['batting_team_id']]['score'] += innings_score
-            if innings['live_current'] == '1':
-                batting_team = teams[innings['batting_team_id']]['name']
-                lead = innings['lead']
-                # my guess is that the below two lines should throw error
-                # for test matches. Lets see
-                if not test_match:
-                    remaining_balls = match_data['live']['innings']['remaining_balls']
-                    required_runrate = match_data['live']['innings']['required_run_rate']
-                break
+        if match_data['innings']:
+            match_started = True
+            for innings in match_data['innings']:
+                if teams[innings['batting_team_id']]['score']:
+                    # if its a test match and this is the second innings
+                    # of the team add '&'' before adding the score
+                    teams[innings['batting_team_id']]['score'] += ' & '
+                innings_score = innings['runs'] + '/' + innings['wickets'] + ' (' + \
+                                    innings['overs'] + ' ov)'
+                if innings['live_current'] == '1':
+                    innings_score += '*'
+                teams[innings['batting_team_id']]['score'] += innings_score
+                if innings['live_current'] == '1':
+                    batting_team = teams[innings['batting_team_id']]['name']
+                    lead = innings['lead']
+                    # my guess is that the below two lines should throw error
+                    # for test matches. Lets see
+                    if not test_match:
+                        remaining_balls = match_data['live']['innings']['remaining_balls']
+                        required_runrate = match_data['live']['innings']['required_run_rate']
+                    break
+        else:
+            match_started = False
 
         # get the scores of batsmen at crease
         batsmen = []
@@ -164,11 +170,19 @@ if matches:
             'status_text': " color=blue ",
             'batsman_score': " size=12 color=black "
         }
-        for team_id, each_team in teams.iteritems():
-            if each_team['score']:
-                print each_team['name'] + ': ' + each_team['score'] + ' |' + print_params['team_name']
-            else:
-                print each_team['name'] + ': Yet to bat |' + print_params['team_name']
+        if match_started:
+            for team_id, each_team in teams.iteritems():
+                if each_team['score']:
+                    print each_team['name'] + ': ' + each_team['score'] + ' |' + print_params['team_name']
+                else:
+                    print each_team['name'] + ': Yet to bat |' + print_params['team_name']
+        else:
+            match_desc = ""
+            for team_data in match_data['team']:
+                if match_desc:
+                    match_desc += " vs "
+                match_desc += team_data['team_name']
+            print match_desc + ' | ' +print_params['team_name']
 
         print status_text + ' | href=' + match_html_url + print_params['status_text']
         for batsman in batsmen:
@@ -176,6 +190,6 @@ if matches:
         print '---'
 else:
     # no matches are live
-    print '-'
+    print '🏏'
     print '---'
     print 'No matches live'
