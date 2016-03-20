@@ -7,7 +7,7 @@
 # <bitbar.author>Roberto Santacroce Martins</bitbar.author>
 # <bitbar.author.github>mileschet</bitbar.author.github>
 # <bitbar.desc>Shows (Ask, Bid, Mid, High, Low, Volume and Timestamp from Bitfinex REST API Ticker BTCUSD </bitbar.desc>
-# <bitbar.image>http://imgur.com/V8dABjz</bitbar.image>
+# <bitbar.image>http://i.imgur.com/V8dABjz.png</bitbar.image>
 #
 # by Roberto Santacroce Martins
 # Based on Coinbase bitbar plugin by Mat Ryer
@@ -21,5 +21,5 @@ echo -n "Low "; echo "$RESULT" | egrep -o '"low":"[0-9]+(\.)?([0-9]{0,2}")?' | s
 echo -n "Mid "; echo "$RESULT" | egrep -o '"mid":"[0-9]+(\.)?([0-9]{0,2}")?' | sed 's/"mid"://' | sed 's/\"//g'
 echo -n "High "; echo "$RESULT" | egrep -o '"high":"[0-9]+(\.)?([0-9]{0,2}")?' | sed 's/"high"://' | sed 's/\"//g'
 echo -n "Vol "; echo "$RESULT" | egrep -o '"volume":"[0-9]+(\.)?([0-9]{0,8}")?' | sed 's/"volume"://' | sed 's/\"//g'
-TIMESTAMP=$(echo $RESULT | egrep -o '"timestamp":"[0-9]+' | sed 's/"timestamp"://' | sed 's/\"//g')
-echo -n "Updated At "; date -r $TIMESTAMP +"%F %T"
+TIMESTAMP=$(echo "$RESULT" | egrep -o '"timestamp":"[0-9]+' | sed 's/"timestamp"://' | sed 's/\"//g')
+echo -n "Updated At "; date -r "$TIMESTAMP" +"%F %T"
