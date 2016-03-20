@@ -118,9 +118,9 @@ def check_file(file_full_path):
             passed('%s linted successfully with "%s"' % (file_full_path, " ".join(list(linter_command[file_extension]))))
 
 def boolean_string(string):
-    if string.lower() == "true":
-        return True
-    return False
+    if string.lower() == "false":
+        return False
+    return True
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
