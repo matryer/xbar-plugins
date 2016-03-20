@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
+
 # <bitbar.title>Live Cricket Scores</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Anup Sam Abraham</bitbar.author>
@@ -8,11 +9,12 @@
 # <bitbar.image>http://i.imgur.com/xiQTWZ4.png</bitbar.image>
 # <bitbar.dependencies>python, python-requests, beautifulsoup4</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
-import requests
+
 import re
 from datetime import datetime
 from time import tzname
 
+import requests
 from bs4 import BeautifulSoup
 
 FAVORITE_CRICKET_TEAMS = [
@@ -166,9 +168,9 @@ if matches:
 
         # print teams and score
         print_params = {
-            'team_name': " size=14 color=black ",
+            'team_name': " size=14 ",
             'status_text': " color=blue ",
-            'batsman_score': " size=12 color=black "
+            'batsman_score': " size=12 "
         }
         if match_started:
             for team_id, each_team in teams.iteritems():
