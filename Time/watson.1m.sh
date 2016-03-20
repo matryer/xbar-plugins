@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Watson Status
 #
@@ -16,7 +16,7 @@
 #   watson (http://tailordev.github.io/Watson/)
 
 # get the status text
-status=`/usr/local/bin/watson status`
+status=$(/usr/local/bin/watson status)
 
 # show watson
 if [[ "$status" == "No project started" ]]
@@ -26,14 +26,14 @@ then
 fi
 
 # get the project name
-project=`echo "$status" | awk '{printf "⏱ %s", $2}'`
+project=$(echo "$status" | awk '{printf "⏱ %s", $2}')
 
 # get the started time and uppercase the sentence
-started=`echo "$status" | grep -E -o 'started (.*) \('`
-started="$(tr '[:lower:]' '[:upper:]' <<< ${started:0:1})${started:1}"
+started=$(echo "$status" | grep -E -o 'started (.*) \(')
+started="$(tr '[:lower:]' '[:upper:]' <<< "${started:0:1}")${started:1}"
 
 # get the tags
-tags=`echo "$status" | awk '{printf "Tags: %s\n", $3}'`
+tags=$(echo "$status" | awk '{printf "Tags: %s\n", $3}')
 
 # main
 echo "$project"
