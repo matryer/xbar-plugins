@@ -12,13 +12,13 @@ current_location=$(networksetup -getcurrentlocation)
 network_locations=$(networksetup -listlocations) 
 
 if [ ! -z "$1" ]; then
-  networksetup -switchtolocation $1
+  networksetup -switchtolocation "$1"
 fi
 
 echo "📍 $current_location"
 echo '---'
 echo -n 'Current location: '
-echo $current_location
+echo "$current_location"
 echo '---'
 echo 'Change to:'
 for location in $network_locations

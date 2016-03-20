@@ -31,7 +31,7 @@ def get_notifications( api_key, api_url = 'https://api.github.com' ):
             response = urllib2.urlopen( request )
             notifications = json.load( response )
             return map(format_notification, notifications)
-        except Exception as e:
+        except Exception:
             return []
     else:
         return []

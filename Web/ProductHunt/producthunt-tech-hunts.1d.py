@@ -23,7 +23,7 @@ def get_token():
         response = urllib2.urlopen(request, data)
         response = json.load(response)
         return response['access_token']
-    except Exception as e:
+    except Exception:
         print ':('
 
 def get_posts():
@@ -37,7 +37,7 @@ def get_posts():
         response = urllib2.urlopen(request)
         response = json.load(response)
         return map(format_posts, response['posts'])
-    except Exception as e:
+    except Exception:
         print ':('
 
 def format_posts(post):

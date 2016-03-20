@@ -16,7 +16,7 @@ TEMPERATURE=$(/usr/local/bin/smc -k TC0P -r | sed 's/.*bytes \(.*\))/\1/' |sed '
 TEMP_INTEGER=${TEMPERATURE%.*}
 
 if $FAHRENHEIT ; then
-  TEMP_INTEGER=$((${TEMP_INTEGER}*9/5+32))
+  TEMP_INTEGER=$((TEMP_INTEGER*9/5+32))
   LABEL="°f"
 else
   LABEL="°c"
