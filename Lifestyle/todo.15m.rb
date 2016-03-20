@@ -5,12 +5,12 @@
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Srdgh</bitbar.author>
 # <bitbar.author.github>Srdgh</bitbar.author.github>
-# <bitbar.desc>Todo list with customisable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list.</bitbar.desc>
+# <bitbar.desc>Todo list which integrates with todo.txt CLI. Color-code tasks (customisable). Mark tasks "done" simply by clicking on them in the menubar drop-down list.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/eNl6QGh.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 # Change to your todo directory path
-todo_directory = "/Users/alexanderbarker/Code/CLI/todo.txt_cli-2.9/"
+todo_directory = "#{Dir.home}/todo"
 
 # Add further priority labels here
 priority_labels = [ "+Urgent" ]
@@ -20,20 +20,20 @@ priority_color = "red"
 
 # Customise label color-code here (these colors are optimised for a dark theme menubar)
 labels = {
-  "+Write" => "orange",
-  "+Wedding" => "yellow",
-  "+Shopping" => "lightgreen",
-  "+Reports" => "cadetblue",
-  "+Admin" => "purple",
-  "+DoS" => "violet",
-  "+Mark" => "darkgreen"
+  "+Work"=>"orange",
+  "+Play"=>"yellow",
+  "+Family"=>"green",
+  "+Health"=>"cadetblue",
+  "+Code"=>"purple",
+  "+Admin"=>"violet"
   }
 
 todo_file = File.open("#{todo_directory}todo.txt")
 todo_script = ("#{todo_directory}todo.sh")
 
 lines = IO.readlines(todo_file)
-puts "#{lines.length} | color=lightgreen"
+
+puts "Do: #{lines.length}"
 
 puts "---"
 
