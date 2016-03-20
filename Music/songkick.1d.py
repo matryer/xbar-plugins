@@ -19,7 +19,7 @@ def get_events():
         response = urllib2.urlopen(request)
         response = json.load(response)
         return map(format_events, response['resultsPage']['results']['event'])
-    except Exception as e:
+    except Exception:
         print ':('
 
 def format_events(event):

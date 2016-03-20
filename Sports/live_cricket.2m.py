@@ -10,7 +10,7 @@
 # <bitbar.abouturl></bitbar.abouturl>
 import requests
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 from time import tzname
 
 from bs4 import BeautifulSoup

@@ -39,6 +39,7 @@ SYMBOLS = {
     'failed': u' ✗',
     'timedout': u' ⚠',
     'canceled': u' ⊝',
+    'scheduled': u' ⋯',
     'no_tests': u' ',
 }
 
@@ -48,6 +49,7 @@ COLORS = {
     'failed': '#EF5B58',
     'timedout': '#F3BA61',
     'canceled': '#898989',
+    'scheduled': '#AC7DD3',
     'no_tests': 'black',
 }
 

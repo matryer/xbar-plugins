@@ -14,7 +14,7 @@ export LANG="${LANG:-en_US.UTF-8}"
 
 # user clicks on 'encodepaste'
 if [[ "$1" = "encodepaste" ]]; then
-  CONVERTED=$(date -r `pbpaste` +'%Y-%m-%d %H:%M:%S')
+  CONVERTED=$(date -r "$(pbpaste)" +'%Y-%m-%d %H:%M:%S')
   echo -n "$CONVERTED" | pbcopy
   osascript -e "display notification \"$CONVERTED\" with title \"DATE:\"" &> /dev/null
   exit
@@ -22,7 +22,7 @@ fi
 
 # user clicks on 'encoding'
 if [[ "$1" = "encode" ]]; then
-  CONVERTED=$(date -r `pbpaste` +'%Y-%m-%d %H:%M:%S')
+  CONVERTED=$(date -r "$(pbpaste)" +'%Y-%m-%d %H:%M:%S')
   osascript -e "display notification \"$CONVERTED\" with title \"DATE:\"" &> /dev/null
   exit
 fi

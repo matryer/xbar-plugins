@@ -24,15 +24,15 @@ echo "$INFO" | awk -F'[ ,:\t\n]+' '
 
         D = H = M = S = 0
 
-        if (substr($5,0,1) == "d") {
+        if (substr($6,0,1) == "d") {
         # up for a day or more
-            D = $4
+            D = $5
 
-            P = $6
-            Q = $7
+            P = $7
+            Q = $8
         } else {
-            P = $4
-            Q = $5
+            P = $5
+            Q = $6
         }
 
         if (int(Q) == 0) {

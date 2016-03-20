@@ -5,7 +5,7 @@
 # <bitbar.author>Maxime Bertheau</bitbar.author>
 # <bitbar.author.github>maxoumime</bitbar.author.github>
 # <bitbar.desc>Keep an eye on the currencies you choose from your menu bar !</bitbar.desc>
-# <bitbar.image>http://nothingreally.botler.me/bitbar.currency-tracker.png</bitbar.image>
+# <bitbar.image>https://nothingreally.botler.me/bitbar.currency-tracker.png</bitbar.image>
 
 import urllib2
 import json
