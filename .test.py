@@ -28,9 +28,14 @@ linter_command = {
 }
 error_count = 0
 def debug(s):
-    global DEBUG
-    if DEBUG:
+    global args
+    if args.debug:
         print "\033[1;44mDBG!\033[0;0m %s\n" % s
+
+def passed(s):
+    global args
+    if args.verbose:
+        print "\033[1;42mPASS\033[0;0m %s\n" % s
 
 def warn(s):
     print "\033[1;43mWRN!\033[0;0m %s\n" % s
@@ -46,6 +51,8 @@ def check_file(file_full_path):
     if not required_shebangs.get(file_extension, False):
         error("%s unrecognized file extension" % file_full_path)
         return
+    else:
+        passed("%s has a recognized file extension" % file_full_path)
 
     if not os.access(file_full_path, os.R_OK):
         error("%s not readable" % file_full_path)
@@ -53,6 +60,9 @@ def check_file(file_full_path):
 
     if not os.access(file_full_path, os.X_OK):
         error("%s not executable" % file_full_path)
+    else:
+        passed("%s is executable" % file_full_path)
+
 
     metadata = {}
     with open(file_full_path, "r") as fp:
@@ -60,6 +70,9 @@ def check_file(file_full_path):
         shebang_re = required_shebangs.get(file_extension, '')
         if first_line[0:3] != '#!/' or re.search(shebang_re, first_line) is None:
             error("%s has incorrect shebang.\n  Got %s\n  Wanted %s" % (file_full_path, first_line, shebang_re))
+        else:
+            passed("%s has a good shebang (%s)" % (file_full_path, first_line))
+
 
         for line in fp:
             match = re.search("<bitbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</bitbar.(?P<rho_tag>[^>]+)>", line)
@@ -72,10 +85,14 @@ def check_file(file_full_path):
     for key in required_metadata:
         if key not in metadata:
             error('%s missing required metadata for %s' % (file_full_path, key))
+        else:
+            passed('%s has required metadata for %s (%s)' % (file_full_path, key, metadata[key]))
 
     for key in recommended_metadata:
         if key not in metadata:
             warn('%s missing recommended metadata for %s' % (file_full_path, key))
+        else:
+            passed('%s has recommended metadata for %s (%s)' % (file_full_path, key, metadata[key]))
 
     if metadata.get('image', False):
         try:
@@ -83,6 +100,8 @@ def check_file(file_full_path):
             response_content_type = response.info().getheader('Content-Type')
             if response_content_type not in allowed_image_content_types:
                 error('%s image metadata has bad content type: %s' % (file_full_path, response_content_type))
+            else:
+                passed('%s image content type looks good: %s' % (file_full_path, response_content_type))
         except Exception:
             warn('%s cannot fetch image: %s' % (file_full_path, metadata['image']))
 
@@ -95,6 +114,8 @@ def check_file(file_full_path):
         except subprocess.CalledProcessError as cpe:
             error('%s failed linting with "%s", please correct the following:' % (file_full_path, " ".join(list(linter_command[file_extension]))))
             print cpe.output
+        else:
+            passed('%s linted successfully with "%s"' % (file_full_path, " ".join(list(linter_command[file_extension]))))
 
 def boolean_string(string):
     if string.lower() == "true":
@@ -102,12 +123,15 @@ def boolean_string(string):
     return False
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--pr', action='store', default=os.environ.get('TRAVIS_PULL_REQUEST', "False"), type=boolean_string, nargs='?', const="True")
-parser.add_argument('--debug', action='store_true')
+parser.add_argument(
+    '--pr', action='store', nargs='?', const="True",
+    default=os.environ.get('TRAVIS_PULL_REQUEST', "False"),
+    type=boolean_string,
+    help='Run tests on changes from the root branch to HEAD.  verbose is implied!')
+parser.add_argument('--verbose', '-v', action='store_true', help='Turn on success and other non-critical messages')
+parser.add_argument('--debug', action='store_true', help='Turn on debug messages')
 parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
-
-DEBUG=args.debug
 
 if args.pr:
     output = subprocess.check_output(['git', 'diff', '--name-only', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
@@ -116,6 +140,7 @@ if args.pr:
         exit(0)
     else:
         args.files = output.split('\n')
+    args.verbose = True
 elif not args.files:
     for root, dirs, files_in_folder in os.walk("."):
         for _file in files_in_folder:
