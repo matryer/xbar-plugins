@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>TodoColour</bitbar.title>
+# <bitbar.title>Todo Colour</bitbar.title>
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Srdgh</bitbar.author>
 # <bitbar.author.github>Srdgh</bitbar.author.github>
