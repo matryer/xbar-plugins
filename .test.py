@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-DEBUG = False
 import re
 import os
 import sys
@@ -30,6 +29,7 @@ linter_command = {
 }
 error_count = 0
 def debug(s):
+    global DEBUG
     if DEBUG:
         print "\033[1;44mDBG!\033[0;0m %s\n" % s
 
@@ -97,8 +97,11 @@ def check_file(file_full_path):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--pr', action='store_const', default=os.environ.get('TRAVIS_PULL_REQUEST', False), const=True)
+parser.add_argument('--debug', action='store_true')
 parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
+
+DEBUG=args.debug
 
 if args.pr:
     output = subprocess.check_output(['git', 'diff', '--name-only', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')])
