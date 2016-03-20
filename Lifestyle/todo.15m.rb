@@ -19,7 +19,7 @@ priority_labels = [ "+Urgent" ]
 priority_color = "red"
 
 # Customise label color-code here (these colors are optimised for a dark theme menubar)
-labels = { 
+labels = {
   "+Work" => "orange",
   "+Play" => "yellow",
   "+Family" => "green",
@@ -43,7 +43,7 @@ until todo_file.eof() # Until end-of-file
   line = todo_file.readline().chomp
   priority_labels.each do |priority_label|
     if line.include?(priority_label) # If line contains priority label, display in priority color
-      line_color = priority_color 
+      line_color = priority_color
     else # If line contains no priority label, cycle through labels hash, and if line contains a label display in corresponding color
       labels.each { |label, label_color| line_color = label_color if line.include?(label) }
     end
