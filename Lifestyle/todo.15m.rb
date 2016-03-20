@@ -32,6 +32,7 @@
 @todo_script = ("#{@todo_directory}/todo.sh")
 
 lines = IO.readlines(@todo_file)
+
 puts "Do: #{lines.length}"
 
 puts "---"
