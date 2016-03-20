@@ -7,7 +7,7 @@
 # <bitbar.desc>List available updates from Emacs package</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/SBlrP2t.png</bitbar.image>
 # <bitbar.dependencies>emacs</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Dev/emacs-package-updates.1d.sh</bitbar.abouturl>
+# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Dev/Emacs/emacs-package-updates.1d.sh</bitbar.abouturl>
 
 EMACS=$(which emacs)
 
