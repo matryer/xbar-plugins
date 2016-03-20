@@ -7,11 +7,11 @@
 # <bitbar.author.github>chiisaihayashi</bitbar.author.github>
 # <bitbar.desc>Today's task in your menu bar!</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>http://imgur.com/zXbovPP</bitbar.image>
+# <bitbar.image>http://i.imgur.com/zXbovPP.png</bitbar.image>
 
-import urllib, urllib2, os
-import json, sys
-import datetime, locale
+import urllib, urllib2
+import json
+import datetime
 
 api_key = ''
 url = 'https://todoist.com/API/v6/sync'
