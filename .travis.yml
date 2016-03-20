@@ -5,4 +5,4 @@ before_install:
   - gem install rubocop
   - brew install shellcheck
   - brew install node && npm install -g jshint
-script: '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./.test.py || ./.test.py --pr'
+script: ./.test.py

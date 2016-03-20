@@ -5,6 +5,7 @@ import os
 import sys
 import subprocess
 import urllib2
+import argparse
 
 allowed_image_content_types = [ 'image/png', 'image/jpeg' ]
 required_metadata = [ 'author', 'author.github', 'title' ]
@@ -94,28 +95,31 @@ def check_file(file_full_path):
         if lint_exit_code > 0:
             error('%s failed linting, see above errors' % file_full_path)
 
-files = sys.argv[1:]
-if len(files) == 0:
+parser = argparse.ArgumentParser()
+parser.add_argument('--pr', action='store_const', default=os.environ.get('TRAVIS_PULL_REQUEST', False), const=True)
+parser.add_argument('files', nargs=argparse.REMAINDER)
+args = parser.parse_args()
+
+if args.pr:
+    output = subprocess.check_output(['git', 'diff', '--name-only', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')])
+    args.files = output.strip().split('\n')
+elif not args.files:
     for root, dirs, files_in_folder in os.walk("."):
-        for file in files_in_folder:
-            files.append(os.path.join(root, file).strip())
+        for _file in files_in_folder:
+            args.files.append(os.path.join(root, _file).strip())
 
         skip = [d for d in dirs if d.startswith(".")]
         for d in skip:
             debug('skipping directory %s' % d)
             dirs.remove(d)
 
-elif files[0] == '--pr':
-    output = subprocess.check_output('git diff --name-only origin/master..HEAD | cat', shell=True)
-    files = output.strip().split('\n')
-
-for file in files:
-    file_name, file_ext = os.path.splitext(file)
-    if any(s[0] == '.' for s in (file.split('/')[1:])) or file_ext == '.md':
-        debug('skipping file %s' % file)
+for _file in args.files:
+    file_name, file_ext = os.path.splitext(_file)
+    if any(s[0] == '.' for s in (_file.split('/')[1:])) or file_ext == '.md':
+        debug('skipping file %s' % _file)
     else:
-        debug('checking file %s' % file)
-        check_file(os.path.join(os.getcwd(), file))
+        debug('checking file %s' % _file)
+        check_file(os.path.join(os.getcwd(), _file))
 
 if error_count > 0:
     error('failed with %i errors' % error_count)
