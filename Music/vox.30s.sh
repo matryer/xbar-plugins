@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# <bitbar.title>Vox</bitbar.title>
+# <bitbar.author>Daniel Kay</bitbar.author>
+# <bitbar.author.github>jessor</bitbar.author.github>
+# <bitbar.desc>Get current track info from Vox status with play/pause button</bitbar.desc>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/480451/12141683/ee53ea2a-b471-11e5-8429-ada2ef579883.png</bitbar.image>
+#
 # Get current Vox status with play/pause button
 #
 # by Daniel Kay (daniel@enthusiasm.cc)
