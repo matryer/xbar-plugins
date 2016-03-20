@@ -91,9 +91,11 @@ def check_file(file_full_path):
         command = list(linter_command[file_extension])
         command.append(file_full_path)
         debug('running %s' % command)
-        lint_exit_code = subprocess.call(command)
-        if lint_exit_code > 0:
-            error('%s failed linting, see above errors' % file_full_path)
+        try:
+            output = subprocess.check_output(command, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as cpe:
+            error('%s failed linting with "%s", please correct the following:' % (file_full_path, " ".join(list(linter_command[file_extension]))))
+            print cpe.output
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--pr', action='store_const', default=os.environ.get('TRAVIS_PULL_REQUEST', False), const=True)
