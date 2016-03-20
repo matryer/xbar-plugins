@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import re
 import os
-import sys
 import subprocess
 import urllib2
 import argparse
@@ -84,7 +83,7 @@ def check_file(file_full_path):
             response_content_type = response.info().getheader('Content-Type')
             if response_content_type not in allowed_image_content_types:
                 error('%s image metadata has bad content type: %s' % (file_full_path, response_content_type))
-        except Exception as e:
+        except Exception:
             warn('%s cannot fetch image: %s' % (file_full_path, metadata['image']))
 
     if linter_command.get(file_extension, False):
@@ -92,7 +91,7 @@ def check_file(file_full_path):
         command.append(file_full_path)
         debug('running %s' % command)
         try:
-            output = subprocess.check_output(command, stderr=subprocess.STDOUT)
+            subprocess.check_output(command, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as cpe:
             error('%s failed linting with "%s", please correct the following:' % (file_full_path, " ".join(list(linter_command[file_extension]))))
             print cpe.output
