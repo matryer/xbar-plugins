@@ -18,4 +18,4 @@ else
 fi
 
 echo '---'
-echo 👁 $(/usr/libexec/ApplicationFirewall/socketfilterfw --getstealthmode)
+echo "👁 $(/usr/libexec/ApplicationFirewall/socketfilterfw --getstealthmode)"

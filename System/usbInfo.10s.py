@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
-# USB Device Details
-# BitBar plugin
-#
-# by Raemond Bergstrom-Wood
-#
-# Displays the device details user input usb devices
+# <bitbar.title>USB Device Details</bitbar.title>
+# <bitbar.author>Raemond Bergstrom-Wood</bitbar.author>
+# <bitbar.author.github>RaemondBW</bitbar.author.github>
+# <bitbar.desc>Displays the device details user input usb devices</bitbar.desc>
 
 print "USB"
 print '---'
