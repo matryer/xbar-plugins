@@ -96,8 +96,13 @@ def check_file(file_full_path):
             error('%s failed linting with "%s", please correct the following:' % (file_full_path, " ".join(list(linter_command[file_extension]))))
             print cpe.output
 
+def boolean_string(string):
+    if string.lower() == "true":
+        return True
+    return False
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--pr', action='store_const', default=os.environ.get('TRAVIS_PULL_REQUEST', False), const=True)
+parser.add_argument('--pr', action='store', default=os.environ.get('TRAVIS_PULL_REQUEST', "False"), type=boolean_string, nargs='?', const="True")
 parser.add_argument('--debug', action='store_true')
 parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
@@ -105,8 +110,12 @@ args = parser.parse_args()
 DEBUG=args.debug
 
 if args.pr:
-    output = subprocess.check_output(['git', 'diff', '--name-only', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')])
-    args.files = output.strip().split('\n')
+    output = subprocess.check_output(['git', 'diff', '--name-only', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
+    if not output:
+        warn('No changed files in this PR... weird...')
+        exit(0)
+    else:
+        args.files = output.split('\n')
 elif not args.files:
     for root, dirs, files_in_folder in os.walk("."):
         for _file in files_in_folder:
