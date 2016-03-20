@@ -10,45 +10,46 @@
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 # Change to your todo directory path
-todo_directory = "#{Dir.home}/todo"
+@todo_directory = "#{Dir.home}/todo"
 
 # Add further priority labels here
-priority_labels = [ "+Urgent" ]
+@priorityLabels = [ "+Urgent" ]
 
 # Change priority color here
-priority_color = "red"
+@priorityColor = "red"
 
 # Customise label color-code here (these colors are optimised for a dark theme menubar)
-labels = { 
-  "+Work" => "orange",
-  "+Play" => "yellow",
-  "+Family" => "green",
-  "+Health" => "cadetblue",
-  "+Code" => "purple",
-  "+Admin" => "violet"
-  }
+@labels = { 
+    "+Work"=>"orange",
+    "+Play"=>"yellow",
+    "+Family"=>"green",
+    "+Health"=>"cadetblue",
+    "+Code"=>"purple",
+    "+Admin"=>"violet"
+    }
 
-todo_file = File.open("#{todo_directory}/todo.txt")
-todo_script = ("#{todo_directory}/todo.sh")
+@todo_file = File.open("#{@todo_directory}/todo.txt")
+@todo_script = ("#{@todo_directory}/todo.sh")
 
-lines = IO.readlines(todo_file)
+lines = IO.readlines(@todo_file)
 puts "Do: #{lines.length}"
 
 puts "---"
 
-linenumber = 0
-until todo_file.eof() # Until end-of-file
-  linenumber += 1
-  line_color = ""
-  line = todo_file.readline().chomp
-  priority_labels.each do |priority_label|
-    if line.include?(priority_label) # If line contains priority label, display in priority color
-      line_color = priority_color 
-    else # If line contains no priority label, cycle through labels hash, and if line contains a label display in corresponding color
-      labels.each { |label, label_color| line_color = label_color if line.include?(label) }
+@linenumber = 0
+until @todo_file.eof() # Until end-of-file
+    @linenumber += 1
+    color = nil
+    line = @todo_file.readline().chomp
+    @priorityLabels.each do |key| # If line contains priority label, display in priority color
+        color = @priorityColor if line.include?(key)
     end
-  end
-  line_color.empty? ? puts("#{line} | bash=#{todo_script} param1=do param2=#{linenumber} terminal=false refresh=\n") : puts("#{line} | color=#{line_color} bash=#{todo_script} param1=do param2=#{linenumber} terminal=false refresh=\n") # If the line contains no label, display in default color. Otherwise, in chosen color. Clicking line launches bash script: 'todo.sh do (linenumber)'.
+    if color.nil? # If line contains no priority label, check for other label and if present display in chosen color
+        @labels.each do |key, value|
+        color = value if line.include?(key)
+        end
+    end    
+    color.nil? ? puts("#{line} | bash=#{@todo_script} param1=do param2=#{@linenumber} terminal=false refresh=\n") : puts("#{line} | color=#{color} bash=#{@todo_script} param1=do param2=#{@linenumber} terminal=false refresh=\n") # If the line contains no label, display in default color
 end
 puts "---"
 puts "Click an item to mark 'done'"
