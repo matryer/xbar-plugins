@@ -5,7 +5,7 @@
 # <bitbar.author>Axel</bitbar.author>
 # <bitbar.desc>Gmail unread emails checker.</bitbar.desc>
 # <bitbar.dependencies>perl,gmail</bitbar.dependencies>
-# <bitbar.image>https://imgur.com/gYYJB7U</bitbar.image>
+# <bitbar.image>https://i.imgur.com/gYYJB7U.png</bitbar.image>
 
 use strict;
 use LWP::Simple;
