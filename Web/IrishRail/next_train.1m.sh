@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # <bitbar.title>Irish Rail Trains</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Daniel Burke</bitbar.author>

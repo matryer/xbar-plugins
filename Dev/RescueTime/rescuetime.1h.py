@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python2
 # <bitbar.title>RescueTime</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Paul Traylor</bitbar.author>

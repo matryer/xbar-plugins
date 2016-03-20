@@ -69,7 +69,7 @@ class PagerDuty
                 }
             end
 
-        rescue Exception => ex
+        rescue StandardError => ex
             puts "ERR|color=purple"
             puts "---"
             puts ex.class

@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
+# <bitbar.title>Hacker News</bitbar.title>
+# <bitbar.author>Joe Canero</bitbar.author>
+# <bitbar.author.github>caneroj1</bitbar.author.github>
+# <bitbar.image>https://i.imgur.com/bghlATz.png</bitbar.image>
+
 require 'net/http'
 require 'json'
 
@@ -37,6 +42,6 @@ puts "HackerNews"
 puts "---"
 begin
   get_top_stories.map { |id| get_story_for_id(id) }.each { |story| output(story) }
-rescue => e
+rescue => _
   puts "Content is currently unavailable. Please try resetting. | color=red"
 end

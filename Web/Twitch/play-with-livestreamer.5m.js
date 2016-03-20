@@ -28,7 +28,7 @@ function handleResponse(body) {
 
 var https = require('https');
 https.get(url, function(res) {
-    var body = ''
+    var body = '';
     res.on('data', function(data) {
         body += data;
     });
@@ -36,5 +36,3 @@ https.get(url, function(res) {
         handleResponse(JSON.parse(body));
     });
 });
-
-
