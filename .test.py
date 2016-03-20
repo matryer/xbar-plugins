@@ -134,7 +134,7 @@ parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
 if args.pr:
-    output = subprocess.check_output(['git', 'diff', '--name-only', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
+    output = subprocess.check_output(['git', 'diff', '--name-status', '--diff-filter=ACMR', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
     if not output:
         warn('No changed files in this PR... weird...')
         exit(0)
