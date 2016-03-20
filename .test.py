@@ -120,7 +120,10 @@ elif not args.files:
 
 for _file in args.files:
     file_name, file_ext = os.path.splitext(_file)
-    if any(s[0] == '.' for s in (_file.split('/')[1:])) or file_ext == '.md':
+    components = _file.split('/')
+    if components[0] == ".":
+        del components[0]
+    if any(s[0] == '.' for s in components) or file_ext == '.md':
         debug('skipping file %s' % _file)
     else:
         debug('checking file %s' % _file)
