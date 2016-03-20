@@ -35,8 +35,12 @@ fi
 if [ "$1" = "speedtest" ]; then
   # test if speedtest-cli is found
   if [[ "$(which speedtest-cli)" != "" ]]; then
-     # Perform a speedtest
-     speedtest-cli --simple --share > "$SPEEDTEST" && notify "Speedtest is finished" || notify "Speedtest failed"
+    # Perform a speedtest
+    if speedtest-cli --simple --share > "$SPEEDTEST"; then
+      notify "Speedtest is finished"
+    else
+      notify "Speedtest failed"
+    fi
   else
      notify "Speedtest-cli not found!"
   fi
@@ -48,7 +52,7 @@ EXTERNAL_IP4=$(curl --connect-timeout 3 -s http://v4.ipv6-test.com/api/myip.php 
 EXTERNAL_IP6=$(curl --connect-timeout 3 -s http://v6.ipv6-test.com/api/myip.php || echo None)
 
 # Perform whois lookup on the external IPv4 address.
-[[ "$EXTERNAL_IP4" == "None" ]] && WHOIS="" || WHOIS=$(whois $EXTERNAL_IP4 | awk '/descr: / {$1=""; print $0 }' | head -n 1)
+[[ "$EXTERNAL_IP4" == "None" ]] && WHOIS="" || WHOIS=$(whois "$EXTERNAL_IP4" | awk '/descr: / {$1=""; print $0 }' | head -n 1)
 
 # Find interfaces
 INTERFACES=$(ifconfig | grep UP | egrep -o '(^en[0-9]*|^utun[0-9]*)' | sort -n)
@@ -81,7 +85,7 @@ fi
 echo "---"
 for INT in $INTERFACES; do
      echo "$INT:"
-     ifconfig $INT | awk "/ether/ { print \"MAC: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 }; /inet / { print \"IPv4: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 };  /inet6/ { print \"IPv6: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 }" | sed -e 's/%utun[0-9]*//g' -e 's/%en[0-9]*//g' | sort
+     ifconfig "$INT" | awk "/ether/ { print \"MAC: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 }; /inet / { print \"IPv4: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 };  /inet6/ { print \"IPv6: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 }" | sed -e 's/%utun[0-9]*//g' -e 's/%en[0-9]*//g' | sort
      echo "---"
 done
 
