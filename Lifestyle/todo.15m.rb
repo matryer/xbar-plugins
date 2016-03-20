@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>TodoColor</bitbar.title>
+# <bitbar.title>Todo Colour</bitbar.title>
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Srdgh</bitbar.author>
 # <bitbar.author.github>Srdgh</bitbar.author.github>
@@ -20,12 +20,12 @@ priority_color = "red"
 
 # Customise label color-code here (these colors are optimised for a dark theme menubar)
 labels = {
-  "+Work"=>"orange",
-  "+Play"=>"yellow",
-  "+Family"=>"green",
-  "+Health"=>"cadetblue",
-  "+Code"=>"purple",
-  "+Admin"=>"violet"
+  "+Work" => "orange",
+  "+Play" => "yellow",
+  "+Family" => "green",
+  "+Health" => "cadetblue",
+  "+Code" => "purple",
+  "+Admin" => "violet"
   }
 
 todo_file = File.open("#{todo_directory}todo.txt")
