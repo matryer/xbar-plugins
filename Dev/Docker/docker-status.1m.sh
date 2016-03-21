@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # <bitbar.title>Docker Status</bitbar.title>
 # <bitbar.version>v1.1</bitbar.version>
