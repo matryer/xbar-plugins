@@ -49,7 +49,7 @@ until todo_file.eof() # Until end-of-file
       labels.each { |label, label_color| line_color = label_color if line.include?(label) }
     end
   end
-  line_color.empty? ? puts("#{line} | bash=#{todo_script} param1=do param2=#{line_number} terminal=false refresh=\n") : puts("#{line} | color=#{line_color} bash=#{todo_script} param1=do param2=#{linenumber} terminal=false refresh=\n") # If the line contains no label, display in default color. Otherwise, in chosen color. Clicking line launches bash script: 'todo.sh do (linenumber)'.
+  line_color.empty? ? puts("#{line} | bash=#{todo_script} param1=do param2=#{line_number} terminal=false refresh=\n") : puts("#{line} | color=#{line_color} bash=#{todo_script} param1=do param2=#{line_number} terminal=false refresh=\n") # If the line contains no label, display in default color. Otherwise, in chosen color. Clicking line launches bash script: 'todo.sh do (line_number)'.
 end
 puts "---"
 puts "Click an item to mark 'done'"
