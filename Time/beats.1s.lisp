@@ -6,7 +6,7 @@
 ; <bitbar.author.github>queitsch</bitbar.author.github>
 ; <bitbar.desc>Displays Swatch .beats time.</bitbar.desc>
 ; <bitbar.dependencies>clisp</bitbar.dependencies>
-; <bitbar.image>http://imgur.com/W0iKDfu</bitbar.image>
+; <bitbar.image>http://i.imgur.com/W0iKDfu.png</bitbar.image>
 
 (format t "~A" ;print without quotes
 	(concatenate 'string
