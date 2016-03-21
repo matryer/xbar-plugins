@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # <bitbar.title>Docker Status</bitbar.title>
 # <bitbar.version>v1.1</bitbar.version>
@@ -17,37 +17,58 @@ export PATH="/usr/local/bin:/usr/bin:$PATH"
 echo "⚓️ | dropdown=false"
 echo "---"
 
+function containers() {
+  CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
+  if [ -z "$CONTAINERS" ]; then
+    echo "No running containers"
+  else
+    LAST_CONTAINER=$(echo "$CONTAINERS" | tail -n1 )
+    echo "${CONTAINERS}" | while read -r CONTAINER; do
+      CONTAINER_NAME=$(echo "$CONTAINER" | awk -F"|" '{print $1}')
+      CONTAINER_ID=$(echo "$CONTAINER" | awk -F"|" '{print $2}')
+      CONTAINER_STATE=$(echo "$CONTAINER" | awk -F"|" '{print $3}')
+      SYM="├ 💻 "
+      if [ "$CONTAINER" = "$LAST_CONTAINER" ]; then SYM="└ 💻 "; fi
+      case "$CONTAINER_STATE" in
+        *Up*) echo "$SYM $CONTAINER_NAME | color=green bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
+        *Exited*) echo "$SYM $CONTAINER_NAME | color=red bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
+      esac
+    done
+  fi
+}
+
 DOCKER_MACHINES="$(docker-machine ls -q)"
-if [ -z "$DOCKER_MACHINES" ]; then
-  echo "No docker machine found"
+DLITE="$(which dlite)"
+if test -z "$DOCKER_MACHINES" && test -z "$DLITE"; then
+  echo "No docker machine or dlite found"
   exit 0
 fi
 
-echo "${DOCKER_MACHINES}" | while read -r machine; do
-  STATUS=$(docker-machine status "$machine")
-  if [ "$STATUS" = "Running" ]; then
-    echo "🔵  $machine | bash=$(which docker-machine) param1=stop param2=$machine terminal=false refresh=true"
-    ENV=$(docker-machine env --shell sh "$machine")
-    eval "$ENV"
-    CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
-    if [ -z "$CONTAINERS" ]; then
-      echo "No running containers"
-    else
-      LAST_CONTAINER=$(echo "$CONTAINERS" | tail -n1 )
-      echo "${CONTAINERS}" | while read -r CONTAINER; do
-        CONTAINER_NAME=$(echo "$CONTAINER" | awk -F"|" '{print $1}')
-        CONTAINER_ID=$(echo "$CONTAINER" | awk -F"|" '{print $2}')
-        CONTAINER_STATE=$(echo "$CONTAINER" | awk -F"|" '{print $3}')
-        SYM="├ 💻 "
-        if [ "$CONTAINER" = "$LAST_CONTAINER" ]; then SYM="└ 💻 "; fi
-        case "$CONTAINER_STATE" in
-          *Up*) echo "$SYM $CONTAINER_NAME | color=green bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
-          *Exited*) echo "$SYM $CONTAINER_NAME | color=red bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
-        esac
-      done
-    fi
+if [ -n "$DLITE" ]; then
+  MACHINE="$(dlite ip)"
+  CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
+  if [ -z "$CONTAINERS" ]; then
+    echo "🔴  $MACHINE | bash=$(which dlite) param1=start terminal=false refresh=true"
   else
-    echo "🔴  $machine | bash=$(which docker-machine) param1=start param2=$machine terminal=false refresh=true"
+    echo "🔵  $MACHINE | bash=$(which dlite) param1=stop terminal=false refresh=true"
+    containers
   fi
-  echo "---"
-done
+  exit 0
+fi
+
+if [ -n "$DOCKER_MACHINES" ]; then
+  echo "${DOCKER_MACHINES}" | while read -r machine; do
+    STATUS=$(docker-machine status "$machine")
+    if [ "$STATUS" = "Running" ]; then
+      echo "🔵  $machine | bash=$(which docker-machine) param1=stop param2=$machine terminal=false refresh=true"
+      ENV=$(docker-machine env --shell sh "$machine")
+      eval "$ENV"
+      containers
+    else
+      echo "🔴  $machine | bash=$(which docker-machine) param1=start param2=$machine terminal=false refresh=true"
+    fi
+    echo "---"
+  done
+fi
+
+
