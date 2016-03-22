@@ -33,7 +33,7 @@ end
 
 def output(story)
   begin
-    puts "#{story["title"]} | href=#{story["urls"]} color=#337ab7"
+    puts "#{story["title"]} | href=#{story["url"]} color=#337ab7"
     puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black"
     puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
   rescue => exception
