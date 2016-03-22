@@ -32,9 +32,13 @@ def interpolate(score)
 end
 
 def output(story)
-  puts story["title"] + " | color=#337ab7 | href=" + story["url"]
-  puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} | color=black"
-  puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
+  begin
+    puts "#{story["title"]} | href=#{story["url"]} color=#337ab7"
+    puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black"
+    puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
+  rescue => exception
+    puts "An error occured: " + exception.to_s
+  end
   puts "---"
 end
 
