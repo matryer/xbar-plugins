@@ -8,7 +8,7 @@
 require 'net/http'
 require 'json'
 
-NUMBER_OF_STORIES = 10
+NUMBER_OF_STORIES = 5
 MAX_SCORE = 300
 
 def get_top_stories
