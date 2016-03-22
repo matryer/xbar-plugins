@@ -8,7 +8,7 @@
 require 'net/http'
 require 'json'
 
-NUMBER_OF_STORIES = 5
+NUMBER_OF_STORIES = 10
 MAX_SCORE = 300
 
 def get_top_stories
@@ -32,9 +32,13 @@ def interpolate(score)
 end
 
 def output(story)
-  puts story["title"] + " | color=#337ab7 | href=" + story["url"]
-  puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} | color=black"
-  puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
+  begin
+    puts "#{story["title"]} | href=#{story["urls"]} color=#337ab7"
+    puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black"
+    puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
+  rescue => exception
+    puts "An error occured: " + exception.to_s
+  end
   puts "---"
 end
 
