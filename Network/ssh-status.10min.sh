@@ -23,12 +23,12 @@ for host in "${HOSTS[@]}"; do
     body="$body\n☀️ $host is up | color=green bash=ssh param1=$host"
   else
     body="$body\n⛈ $host looks down from here | color=red bash=ssh param1=$host"
-    errors=$(($errors + 1))
+    errors=$((errors + 1))
   fi
   body="$body\n---"
 done
 
 echo -n "$head"
-[ "$errors" -eq 0 ] || echo -n " ($((${#HOSTS[@]}-$errors))/${#HOSTS[@]}) | color=red"
+[ "$errors" -eq 0 ] || echo -n " ($((${#HOSTS[@]} - errors))/${#HOSTS[@]}) | color=red"
 echo -e "\n---"
 echo -e "$body"
