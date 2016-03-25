@@ -1,7 +1,7 @@
 #!/usr/local/bin/ruby
 # coding: utf-8
 
-# <bitbar.title>Redmine</bitbar.title>
+# <bitbar.title>Redmine Show My Task</bitbar.title>
 # <bitbar.version>v1.0.0</bitbar.version>
 # <bitbar.author>hikouki</bitbar.author>
 # <bitbar.author.github>hikouki</bitbar.author.github>
