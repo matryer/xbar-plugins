@@ -62,7 +62,7 @@ begin
     projects[project_id][:trackers][tracker_id][:issues][status_id].push(v)
   end
 
-  puts "🐈 #{issues.count}"
+  puts issues.empty? ? "✦ | color=#7d7d7d" : "✦ 5 | color=#EE6557"
   puts "---"
   puts "Redmine | color=black href=#{redmine_url}"
   puts "---"
