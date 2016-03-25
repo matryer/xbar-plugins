@@ -37,13 +37,13 @@ begin
   result = JSON.parse(res.body, symbolize_names: true)
   issues = result[:issues]
 
-  projects = Hash.new do |h, k|
+  projects = Hash.new do | h, k |
     h[k] = {
       issues_count: 0,
-      trackers: Hash.new do |h, k|
-        h[k] = {
+      trackers: Hash.new do | h1, k1 |
+        h1[k1] = {
           name: "tracker name.",
-          issues: Hash.new {|h,k| h[k] = []}
+          issues: Hash.new {| h2, k2 | h2[k2] = []}
         }
       end
     }
@@ -67,15 +67,15 @@ begin
   puts "Redmine | color=black href=#{redmine_url}"
   puts "---"
 
-  projects.each do | k, project |
+  projects.each do | _, project |
     puts "#{project[:name]}: #{project[:issues_count]} | size=11"
-    project[:trackers].each do | k, tracker |
+    project[:trackers].each do | _, tracker |
       puts "➠ #{tracker[:name]} | color=#33BFDB size=11"
-      tracker[:issues].each do | k, status |
+      tracker[:issues].each do | _, status |
         puts "[#{status.first[:status][:name]}] | color=#58BE89 size=11"
         status.each do | issue |
           prefix = status.last == issue ? "└" : "├"
-          puts "##{issue[:id]} #{issue[:subject]} | color=black href=#{redmine_url}/issues/#{issue[:id]} size=11"
+          puts "#{prefix} ##{issue[:id]} #{issue[:subject]} | color=black href=#{redmine_url}/issues/#{issue[:id]} size=11"
         end
       end
     end
