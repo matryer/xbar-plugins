@@ -7,60 +7,56 @@
 # <bitbar.author.github>anupsabraham</bitbar.author.github>
 # <bitbar.desc>Show live scores of cricket matches happening around the world using Cricinfo api. </bitbar.desc>
 # <bitbar.image>http://i.imgur.com/xiQTWZ4.png</bitbar.image>
-# <bitbar.dependencies>python, python-requests, beautifulsoup4</bitbar.dependencies>
+# <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
 import re
+import urllib2
+import json
 from datetime import datetime
 from time import tzname
 
-import requests
-from bs4 import BeautifulSoup
 
 FAVORITE_CRICKET_TEAMS = [
     # Update the list with the names of all your favorite teams.
-    # Remember the name you put here has to match the one in the
-    # rss feed provided by cricinfo.
     # If any match is not showing up in the plugin, take a look at the 
-    # rss feed. Find your team and copy paste the teamname in the list
-    # If the match is still not showing up, the rss feed might have
-    # changed. Then the regex needs to be changed ¯\_(ツ)_/¯
+    # json feed. Find your team and copy paste the teamname in the list
     'India', 
     'New Zealand',
-    # 'Australia',
+    'Australia',
     'England',
     # '*',  # uncomment this if you want to track all the matches
 ]
 TIME_DELTA = datetime.utcnow() - datetime.now()  # for converting gmt to local time
 
-# fetch the rss feed listing all the matches
-url = 'http://static.cricinfo.com/rss/livescores.xml'
-xml_data = requests.get(url)
-soup = BeautifulSoup(xml_data.text,'lxml')
+# fetch the json feed listing all the matches
+cricinfo_base_url = "http://www.espncricinfo.com"
+summary_url = cricinfo_base_url + '/netstorage/summary.json'
+summary_response = urllib2.urlopen(summary_url)
+summary_data = json.load(summary_response)
 
 # fetch the url for matches that needs to be shown in the plugin
 matches = 0
+live_matches = 0
 list_links = []
-for data in soup.findAll('item'):
-    if '*' not in FAVORITE_CRICKET_TEAMS:
-        regex_string = "(^(" + "|".join(FAVORITE_CRICKET_TEAMS) + ")( \d*(\/\d*)?( \*)?)? *v)|(v *(" + "|".join(FAVORITE_CRICKET_TEAMS) + ")( \d*(\/\d*)?( \*)?)?\s?$)"
-        title_text = data.find('description').text
-        if re.search(regex_string, title_text):
-            matches += 1
-            # append the match url to a list
-            list_links.append(data.find('guid').text)
-    else:
-        # wildcard added. All matches should be tracked
+for match_number, match in summary_data['matches'].iteritems():
+    team_names = [match['team1_name'], match['team2_name']]
+    if "*" in FAVORITE_CRICKET_TEAMS or (set(FAVORITE_CRICKET_TEAMS) & set(team_names)):
+        # At least one team in the favorite team list is playing
         matches += 1
-        list_links.append(data.find('guid').text)
+        if match['live_match'] == "Y":
+            live_matches += 1
+        list_links.append(cricinfo_base_url + match['url'])
 
 if matches:
     print '🏏' + str(matches) + ' | dropdown=false'
     print '---'
+    print "%s/%s matches live" % (live_matches, matches)
+    print "---"
     for match_html_url in list_links:
         match_url = match_html_url.split('.html')[0] + '.json'
-        sc = requests.get(match_url)
-        match_data = sc.json()
+        match_data_response = urllib2.urlopen(match_url)
+        match_data = json.load(match_data_response)
 
         # get team_data
         teams = {
