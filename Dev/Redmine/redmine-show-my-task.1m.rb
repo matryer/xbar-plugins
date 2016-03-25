@@ -23,7 +23,7 @@ token = ENV["REDMINE_ACCESS_TOKEN"] || ''
 # launchctl setenv REDMINE_URL https://redmine.xxxx.com
 redmine_url = ENV["REDMINE_URL"] || ''
 
-uri = URI.parse("#{redmine_url}/issues.json?key=#{token}&status_id=open&assigned_to_id=me")
+uri = URI.parse("#{redmine_url}/issues.json?key=#{token}&limit=100&status_id=open&assigned_to_id=me")
 
 begin
   http = Net::HTTP.new(uri.host, uri.port)
@@ -62,7 +62,8 @@ begin
     projects[project_id][:trackers][tracker_id][:issues][status_id].push(v)
   end
 
-  puts issues.empty? ? "✦ | color=#7d7d7d" : "✦ #{issues.count} | color=#EE6557"
+  issue_total_count = result[:total_count] > 99 ? '99+' : result[:total_count]
+  puts issues.empty? ? "✦ | color=#7d7d7d" : "✦ #{issue_total_count}"
   puts "---"
   puts "Redmine | color=black href=#{redmine_url}"
   puts "---"
