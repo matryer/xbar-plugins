@@ -16,7 +16,7 @@ import json
 atpworldtour_base_url = "http://www.atpworldtour.com"
 inital_scores_url = atpworldtour_base_url + "/en/-/ajax/Scores/GetInitialScores"
 
-nbsp = "&nbsp;"
+nbsp = "&nbsp;"  # for stripping &nbsp; from data
 team_keys = ['TeamOne', 'TeamTwo']
 set_key_names = ['SetOne', 'SetTwo', 'SetThree', 'SetFour', 'SetFive']
 
@@ -25,7 +25,7 @@ initial_scores_data = json.load(inital_scores_response)
 
 tournaments = initial_scores_data['liveScores']['Tournaments']
 
-match_info = []
+final_matches_list = []
 for each_tournament in tournaments:
     matches = each_tournament['Matches']
     for match in matches:
@@ -62,12 +62,15 @@ for each_tournament in tournaments:
         
         set_lead = [0,0]
         if not match['MatchInfo'].strip():
+            # if matchinfo is not present in the json response, generate a match info
+            # Calculate the total number of sets won by each team/player
             for x in xrange(5):
                 if len(teams[0]['set_score_list']) > x and len(teams[0]['set_score_list']) > x:
-                    if (teams[0]['set_score_list'][x] - 2) >= teams[1]['set_score_list'][x] - 2 and teams[0]['set_score_list'][x] >= 6:
+                    if (teams[0]['set_score_list'][x] - 2) >= teams[1]['set_score_list'][x] and teams[0]['set_score_list'][x] >= 6:
                         set_lead[0] += 1
                     elif (teams[1]['set_score_list'][x] - 2) >= teams[0]['set_score_list'][x] and teams[1]['set_score_list'][x] >= 6:
                         set_lead[1] += 1
+
             if set_lead[0] > set_lead[1]:
                 match_data['info'] = "%s leads by %s set%s to %s" %(teams[0]['player_name'], set_lead[0], "s" if set_lead[0] > 1 else "", set_lead[1])
             elif set_lead[1] > set_lead[0]:
@@ -81,12 +84,12 @@ for each_tournament in tournaments:
             
         match_data['url'] = atpworldtour_base_url + match['StatsLink']
         match_data['team_data'] = teams
-        match_info.append(match_data)
+        final_matches_list.append(match_data)
 
-if match_info:
-    print "🎾%s" % len(match_info)
+if final_matches_list:
+    print "🎾%s" % len(final_matches_list)
     print "---"
-    for match in match_info:
+    for match in final_matches_list:
         print match['info'] + " | size=15 color=blue href=" + match['url']
         for team in match['team_data']:
             print team['score'] + " " + team['player_name'] + " | size=13"
