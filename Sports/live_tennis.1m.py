@@ -1,6 +1,15 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
+# <bitbar.title>Live Tennis Scores</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Anup Sam Abraham</bitbar.author>
+# <bitbar.author.github>anupsabraham</bitbar.author.github>
+# <bitbar.desc>Show live scores for tennis matches using ATP World Tour api</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/5kOPKVv.png</bitbar.image>
+# <bitbar.dependencies></bitbar.dependencies>
+# <bitbar.abouturl></bitbar.abouturl>
+
 import urllib2
 import json
 
