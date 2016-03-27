@@ -29,12 +29,12 @@ echo "🍻"
 echo "---"
 echo "$brewcasknum casks to update"
 fi
-for line in $brewcasklist; do echo "$line" | grep "[a-z]" | sed 's_\(.*\)_Update & | bash=\"brew cask install &\" terminal=true refresh=_g' ; done
+for line in $brewcasklist; do echo "$line" | grep "[a-z]" | sed 's_\(.*\)_& | bash=brew param1=cask param2=install param3=& terminal=true refresh=_g' ; done
 echo "---"
 # Uncomment following lines to add the commands to the drop-down menu
-# echo "Brew Update | bash='brew update' terminal=true refresh="
-echo "Brew Upgrade | bash='brew upgrade' terminal=true refresh="
-# echo "Brew Cleanup | bash='brew cleanup' terminal=true refresh="
-# echo "Brew Cask Cleanup | bash='brew cask cleanup' terminal=true refresh="
+# echo "Brew Update | bash=brew param1=update terminal=true refresh="
+echo "Brew Upgrade | bash=brew param1=upgrade terminal=true refresh="
+# echo "Brew Cleanup | bash=brew param1=cleanup terminal=true refresh="
+# echo "Brew Cask Cleanup | bash=brew param1=cask param2=cleanup terminal=true refresh="
 echo "Refresh | refresh="
 fi
