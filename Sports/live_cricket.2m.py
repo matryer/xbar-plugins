@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Live Cricket Scores</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Anup Sam Abraham</bitbar.author>
 # <bitbar.author.github>anupsabraham</bitbar.author.github>
 # <bitbar.desc>Show live scores of cricket matches happening around the world using Cricinfo api. </bitbar.desc>
@@ -10,6 +10,9 @@
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
+import os
+import sys
+import getopt
 import re
 import urllib2
 import json
@@ -17,16 +20,41 @@ from datetime import datetime
 from time import tzname
 
 
-FAVORITE_CRICKET_TEAMS = [
-    # Update the list with the names of all your favorite teams.
-    # If any match is not showing up in the plugin, take a look at the 
-    # json feed. Find your team and copy paste the teamname in the list
-    'India', 
-    'New Zealand',
-    'Australia',
-    'England',
-    # '*',  # uncomment this if you want to track all the matches
-]
+FAVORITE_TEAMS_FILE = "/var/tmp/bitbar_cricket.data"
+
+if len(sys.argv) > 1:
+    opts, args = getopt.getopt(sys.argv[1:], "i:d:", [])
+    for opt, arg in opts:
+        if opt == "-i":
+            # this is for inserting the team name into our file
+            with open(FAVORITE_TEAMS_FILE, "a") as f:
+                f.write(arg+"\n")
+
+        elif opt == "-d":
+            # this option is for deleting a team name from the file
+            if os.path.exists(FAVORITE_TEAMS_FILE):
+                with open(FAVORITE_TEAMS_FILE, "r") as f:
+                    current_teamnames = [x.strip() for x in f.readlines()]
+                    if arg in current_teamnames:
+                        current_teamnames.remove(arg)
+                with open(FAVORITE_TEAMS_FILE, "w") as f:
+                    f.writelines([x+"\n" for x in current_teamnames])
+    exit()
+
+if os.path.exists(FAVORITE_TEAMS_FILE):
+    with open(FAVORITE_TEAMS_FILE, "r") as f:
+        favorite_teams = [x.strip() for x in f.readlines()]
+else:
+    # create an empty file if it doesn't exist
+    open(FAVORITE_TEAMS_FILE, "a").close()
+    favorite_teams = []
+
+untracked_teams = []
+if "*" in favorite_teams:
+    track_all_teams = True
+else:
+    track_all_teams = False
+
 TIME_DELTA = datetime.utcnow() - datetime.now()  # for converting gmt to local time
 
 # fetch the json feed listing all the matches
@@ -40,8 +68,12 @@ matches = 0
 live_matches = 0
 list_links = []
 for match_number, match in summary_data['matches'].iteritems():
+    if match['team1_name'] not in favorite_teams:
+        untracked_teams.append(match['team1_name'])
+    if match['team2_name'] not in favorite_teams:
+        untracked_teams.append(match['team2_name'])
     team_names = [match['team1_name'], match['team2_name']]
-    if "*" in FAVORITE_CRICKET_TEAMS or (set(FAVORITE_CRICKET_TEAMS) & set(team_names)):
+    if track_all_teams or (set(favorite_teams) & set(team_names)):
         # At least one team in the favorite team list is playing
         matches += 1
         if match['live_match'] == "Y":
@@ -61,9 +93,9 @@ if matches:
         # get team_data
         teams = {
             x['team_id']: {
-                'name': x['team_abbreviation'], 
+                'name': x['team_short_name'],
                 'score': ''
-            } 
+            }
             for x in match_data['team']
         }
 
@@ -105,7 +137,7 @@ if matches:
         batsmen = []
         for batsman in match_data['live']['batting']:
             # get batsman name from team info
-            # That's right. The live batsman name is not in this 
+            # That's right. The live batsman name is not in this
             # dictionary. Have to go through each players of each team
             # in the match_data to fetch the batsman's name
             batsman_name = ''
@@ -120,7 +152,7 @@ if matches:
             if batsman['live_current_name'] == 'striker':
                 batsman_score += '*'
             batsmen.append(batsman_name + ': ' + batsman_score)
-        
+
         # get the match status.
         match_status = match_data['live']['status']
         if test_match:
@@ -191,3 +223,25 @@ else:
     print '🏏'
     print '---'
     print 'No matches live'
+    print "---"
+
+print "Favorite Teams | color=green"
+print "--Click on any to remove from favorites"
+print "-----"
+if favorite_teams:
+    for each_team in favorite_teams:
+        print "--%s | terminal=false bash=\"%s\" param1=\"-d\" param2=\"%s\" refresh=true" % (
+            each_team if each_team != "*" else "TRACK ALL TEAMS",
+            sys.argv[0],
+            each_team
+        )
+else:
+    print "--You don't have any favorite teams set"
+
+print "Other Teams | color=red"
+print "--Click on any to add to favorites"
+print "-----"
+for each_team in untracked_teams:
+    print "--%s | terminal=false bash=\"%s\" param1=\"-i\" param2=\"%s\" refresh=true" % (each_team, sys.argv[0], each_team)
+if not track_all_teams:
+    print "--TRACK ALL TEAMS | terminal=false bash=\"%s\" param1=\"-i\" param2=\"*\" refresh=true" % sys.argv[0]
