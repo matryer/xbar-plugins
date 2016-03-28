@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # <bitbar.title>Emacs Package Updates</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Takashi Masuda</bitbar.author>
 # <bitbar.author.github>masutaka</bitbar.author.github>
 # <bitbar.desc>List available updates from Emacs package</bitbar.desc>
@@ -9,6 +9,11 @@
 # <bitbar.dependencies>emacs</bitbar.dependencies>
 
 EMACS=$(which emacs)
+
+exit_with_error() {
+  echo "🐮err | color=red";
+  exit 1;
+}
 
 cat <<EOE > /tmp/emacs-package-updates.el
 (require 'package)
@@ -34,4 +39,4 @@ cat <<EOE > /tmp/emacs-package-updates.el
 	     (my-package-version pkg-desc))))
 EOE
 
-$EMACS -Q --batch -l /tmp/emacs-package-updates.el 2>&1 | sed -ne '/🐮/,$p'
+($EMACS -Q --batch -l /tmp/emacs-package-updates.el 2>&1 || exit_with_error) | sed -ne '/🐮/,$p'
