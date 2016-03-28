@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>GitHub status</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
+# <bitbar.version>v0.2</bitbar.version>
 # <bitbar.author>Brett Jones</bitbar.author>
 # <bitbar.author.github>blockloop</bitbar.author.github>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/3022496/12325555/a4b2bd9a-ba90-11e5-8254-9de54c2c6847.png</bitbar.image>
@@ -30,7 +30,7 @@ else:
     print("GH: 𝙭 | color=red")
 
 print("---")
-print(obj["body"])
+print(obj["body"] + " | href=https://status.github.com/")
 
 # convert UTC to local
 utc_date = datetime.strptime(obj["created_on"], '%Y-%m-%dT%H:%M:%SZ')
