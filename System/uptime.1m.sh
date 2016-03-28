@@ -7,7 +7,8 @@
 # <bitbar.desc>Show uptime command information.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/qaIxpJN.png</bitbar.image>
 
-INFO=$(uptime)
+# the `sed` command removes the occasional leading whitespace
+INFO=$(uptime | sed 's/^ *//g')
 echo "$INFO" | awk -F'[ ,:\t\n]+' '
     {
         PLURAL = 1
@@ -23,16 +24,15 @@ echo "$INFO" | awk -F'[ ,:\t\n]+' '
         ################################
 
         D = H = M = S = 0
-
-        if (substr($6,0,1) == "d") {
+        if (substr($5,0,1) == "d") {
         # up for a day or more
-            D = $5
+            D = $4
 
-            P = $7
-            Q = $8
+            P = $6
+            Q = $7
         } else {
-            P = $5
-            Q = $6
+            P = $4
+            Q = $5
         }
 
         if (int(Q) == 0) {
