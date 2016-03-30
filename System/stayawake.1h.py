@@ -6,7 +6,7 @@
 # <bitbar.author>Christoph Russ</bitbar.author>
 # <bitbar.author.github>christophruss</bitbar.author.github>
 # <bitbar.desc>Keep your computer awake with a single click.</bitbar.desc>
-# <bitbar.image>https://imgur.com/pkqXw8x</bitbar.image>
+# <bitbar.image>http://i.imgur.com/pkqXw8x.jpg</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
