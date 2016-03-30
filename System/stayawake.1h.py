@@ -6,16 +6,15 @@
 # <bitbar.author>Christoph Russ</bitbar.author>
 # <bitbar.author.github>christophruss</bitbar.author.github>
 # <bitbar.desc>Keep your computer awake with a single click.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://imgur.com/pkqXw8x</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
 import sys
-import time
 import subprocess
 
 def run_detached(cmd):
-    p = subprocess.Popen(cmd, shell=False,
+    subprocess.Popen(cmd, shell=False,
         stdin=None, stdout=None, stderr=None, close_fds=True)
 
 if len(sys.argv) > 1:
