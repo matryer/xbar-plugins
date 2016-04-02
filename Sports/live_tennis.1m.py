@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Live Tennis Scores</bitbar.title>
@@ -65,11 +65,20 @@ for each_tournament in tournaments:
             # if matchinfo is not present in the json response, generate a match info
             # Calculate the total number of sets won by each team/player
             for x in xrange(5):
-                if len(teams[0]['set_score_list']) > x and len(teams[0]['set_score_list']) > x:
-                    if (teams[0]['set_score_list'][x] - 2) >= teams[1]['set_score_list'][x] and teams[0]['set_score_list'][x] >= 6:
-                        set_lead[0] += 1
-                    elif (teams[1]['set_score_list'][x] - 2) >= teams[0]['set_score_list'][x] and teams[1]['set_score_list'][x] >= 6:
-                        set_lead[1] += 1
+                if len(teams[0]['set_score_list']) > x:
+                    team1_games = teams[0]['set_score_list'][x]
+                    team2_games = teams[1]['set_score_list'][x]
+                    if x == 4:
+                        # if 5th set, there should be a 2 game difference to be the winner
+                        if team1_games >= 6 and team2_games < 5:
+                            set_lead[0] += 1
+                        elif team2_games >= 6 and team1_games < 5:
+                            set_lead[1] += 1
+                    else:
+                        if (team1_games >= 6 and team2_games < 5) or team1_games >= 7:
+                            set_lead[0] += 1
+                        elif (team2_games >= 6 and team1_games < 5) or team2_games >= 7:
+                            set_lead[1] += 1
 
             if set_lead[0] > set_lead[1]:
                 match_data['info'] = "%s leads by %s set%s to %s" %(teams[0]['player_name'], set_lead[0], "s" if set_lead[0] > 1 else "", set_lead[1])
