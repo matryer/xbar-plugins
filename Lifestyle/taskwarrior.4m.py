@@ -81,7 +81,7 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
 
     table_head = content_lines[0]
 
-    total_number_of_tasks = content_lines[-1]
+    #total_number_of_tasks = content_lines[-1]
 
     content_formatting = ' | size=12 font=Courier'
 
