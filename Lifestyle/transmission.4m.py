@@ -50,17 +50,15 @@ def check_transmission(argv):
     host_pswd = keyring.get_password("transmission-bitbar", host_user)
 
     if 'slowdown' in argv:
-        slowdown_result = subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -as', shell=True)
-        #print slowdown_result
+        subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -as', shell=True)
         exit()
     elif 'speedup' in argv:
-        speedup_result = subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -AS', shell=True)
-        #print speedup_result
+        subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -AS', shell=True)
         exit()
     elif 'pause' in argv:
-        pause_result = subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -t ' + argv[-1] + ' -S', shell=True)
+        subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -t ' + argv[-1] + ' -S', shell=True)
     elif 'resume' in argv:
-        resume_result = subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -t ' + argv[-1] + ' -s', shell=True)
+        subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -t ' + argv[-1] + ' -s', shell=True)
 
     session_info = subprocess.check_output(remote_bin+' '+host_ip+':'+host_port+' --auth '+host_user+':'+host_pswd+' -si -st', shell=True)
     session_info_lines = session_info.split('\n')
