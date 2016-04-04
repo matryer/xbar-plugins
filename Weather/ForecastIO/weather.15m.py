@@ -15,9 +15,9 @@ from random import randint
 
 def internet_on():
     try:
-        response=urllib2.urlopen('http://sunet.se',timeout=1)
+        urllib2.urlopen('http://sunet.se',timeout=1)
         return True
-    except urllib2.URLError as err: pass
+    except urllib2.URLError: pass
     return False
 
 api_key = '' # get yours at https://developer.forecast.io
