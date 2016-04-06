@@ -34,7 +34,7 @@ function changeStatus {
 
 function batteryLow {
 	LOW=True
-    changeStatus "Battery Low" $BATTERY% "Blow"
+    changeStatus "Battery Low" "$BATTERY"% "Blow"
 }
 
 function batteryNormal {
@@ -44,15 +44,15 @@ function batteryNormal {
 
 function batteryHigh {
 	HIGH=True
-    changeStatus "Battery high" $BATTERY% "Blow"
+    changeStatus "Battery high" "$BATTERY"% "Blow"
 }
 
 # Logic
-if [ $BATTERY -le $POR_LOW ] && [ $LOW = False ]; then
+if [ "$BATTERY" -le $POR_LOW ] && [ $LOW = False ]; then
 	batteryLow
-elif [ $BATTERY -ge $POR_HIGH ] && [ $HIGH = False ]; then
+elif [ "$BATTERY" -ge $POR_HIGH ] && [ $HIGH = False ]; then
 	batteryHigh
-elif [ $BATTERY -le $POR_HIGH ] && [ $BATTERY -ge $POR_LOW ]; then
+elif [ "$BATTERY" -le $POR_HIGH ] && [ "$BATTERY" -ge $POR_LOW ]; then
 	batteryNormal
 fi
 
@@ -60,7 +60,7 @@ fi
 echo "$LOW|$HIGH" > "$SAVE_LOCATION";
 
 # View battery
-if [ $TYPE = 'AC' ]; then
+if [ "$TYPE" = "AC" ]; then
 	echo $AC $BATTERY%
 else
 	if [ $HIGH = True ] || [ $LOW = True ]; then
