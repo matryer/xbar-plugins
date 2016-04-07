@@ -6,9 +6,9 @@
 # <bitbar.author>impshum</bitbar.author>
 # <bitbar.author.github>impshum</bitbar.author.github>
 # <bitbar.desc>Displays current Dogecoin price from Cryptonator plus a few quick links.</bitbar.desc>
-# <bitbar.image>http://imgur.com/sJHMlxc</bitbar.image>
+# <bitbar.image>http://imgur.com/yz467di</bitbar.image>
 #
-# by impshum 
+# by impshum
 
 from urllib import urlopen
 url = urlopen('https://www.cryptonator.com/api/ticker/gbp-doge').read()
