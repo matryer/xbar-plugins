@@ -4,6 +4,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Andros Fenollosa</bitbar.author>
 # <bitbar.author.github>tanrax</bitbar.author.github>
+# <bitbar.image>https://programadorwebvalencia.com/wp-content/uploads/2016/04/Screen-Shot-2016-04-05-at-12.47.25.jpg</bitbar.image>
 # <bitbar.desc>Shows power percentaje and notice when you load</bitbar.desc>
 
 # Variables
