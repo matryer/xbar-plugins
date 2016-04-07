@@ -61,11 +61,11 @@ echo "$LOW|$HIGH" > "$SAVE_LOCATION";
 
 # View battery
 if [ "$TYPE" = "AC" ]; then
-	echo $AC $BATTERY%
+	echo $AC "$BATTERY"%
 else
 	if [ $HIGH = True ] || [ $LOW = True ]; then
-			echo $BAD $BATTERY%
+			echo $BAD "$BATTERY"%
 		else 
-			echo $BATTERY%
+			echo "$BATTERY"%
 	fi
 fi
