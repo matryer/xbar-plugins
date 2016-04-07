@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v2.0.3</bitbar.version>
+# <bitbar.version>v2.0.4</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by forecast.io with auto location lookup. Supports metric and imperial units. Needs API key from http://developer.forecast.io.</bitbar.desc>
@@ -15,7 +15,7 @@ from random import randint
 
 def internet_on():
     try:
-        urllib2.urlopen('http://sunet.se',timeout=1)
+        urllib2.urlopen('http://forecast.io',timeout=1)
         return True
     except urllib2.URLError: pass
     return False
