@@ -26,39 +26,39 @@ function readAccessToken() {
     } catch (e) {}
 }
 
+function handleResponse(body) {
+    var streamByGame = {};
+    body.streams.forEach(function(stream) {
+        if (!streamByGame[stream.channel.game]) {
+            streamByGame[stream.channel.game] = [];
+        }
+
+        streamByGame[stream.channel.game].push(stream);
+    });
+
+    var outputs = [];
+
+    for (game in streamByGame) {
+        outputs.push(['', game, '| size=10 \n', streamByGame[game].map(function(stream) {
+            var channel = stream.channel;
+            var url = channel.url.replace('http://',    '');
+            return  [channel.display_name, ' | size=12 terminal=false bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('') +
+                    ['[', stream.viewers, '] ', channel.status, '| size=12 alternate=true length=30 bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('');
+        }).join('')].join(''));
+    }
+
+    console.log(
+        icon + ' ' +
+        (body.streams.length > 0 ? body.streams.length : '') +
+        '\n---\n' +
+        outputs.join('\n---\n'));
+}
+
 if (ACCESS_TOKEN) {
-    var urlHost = 'api.twitch.tv'
-    var urlPath = '/kraken/streams/followed?stream_type=live'
+    var urlHost = 'api.twitch.tv';
+    var urlPath = '/kraken/streams/followed?stream_type=live';
     var icon = '👾';
     var STATUS_LENGTH = 25;
-
-    function handleResponse(body) {
-        var streamByGame = {};
-        for(stream of body.streams) {
-            if (!streamByGame[stream.channel.game]) {
-                streamByGame[stream.channel.game] = [];
-            }
-
-            streamByGame[stream.channel.game].push(stream);
-        }
-
-        var outputs = [];
-
-        for (game in streamByGame) {
-            outputs.push(['', game, '| size=10 \n', streamByGame[game].map(function(stream) {
-                var channel = stream.channel;
-                var url = channel.url.replace('http://',    '');
-                return  [channel.display_name, ' | size=12 terminal=false bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('') +
-                        ['[', stream.viewers, '] ', channel.status, '| size=12 alternate=true length=30 bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('');
-            }).join('')].join(''));
-        }
-
-        console.log(
-            icon + ' ' +
-            (body.streams.length > 0 ? body.streams.length : '') +
-            '\n---\n' +
-            outputs.join('\n---\n'));
-    }
 
     require('https').get({
         hostname: urlHost,
