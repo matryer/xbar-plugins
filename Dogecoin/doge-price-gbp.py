@@ -6,7 +6,7 @@
 # <bitbar.author>impshum</bitbar.author>
 # <bitbar.author.github>impshum</bitbar.author.github>
 # <bitbar.desc>Displays current Dogecoin price from Cryptonator plus a few quick links.</bitbar.desc>
-# <bitbar.image>http://imgur.com/yz467di</bitbar.image>
+# <bitbar.image>http://i.imgur.com/yz467di.png</bitbar.image>
 #
 # by impshum
 
