@@ -26,6 +26,13 @@ function readAccessToken() {
     } catch (e) {}
 }
 
+function outputForStream(stream) {
+    var channel = stream.channel;
+    var url = channel.url.replace('http://',    '');
+    return  [channel.display_name, ' | size=12 terminal=false bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('') +
+            ['[', stream.viewers, '] ', channel.status, '| size=12 alternate=true length=30 bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('');
+}
+
 function handleResponse(body) {
     var streamByGame = {};
     body.streams.forEach(function(stream) {
@@ -38,13 +45,8 @@ function handleResponse(body) {
 
     var outputs = [];
 
-    for (game in streamByGame) {
-        outputs.push(['', game, '| size=10 \n', streamByGame[game].map(function(stream) {
-            var channel = stream.channel;
-            var url = channel.url.replace('http://',    '');
-            return  [channel.display_name, ' | size=12 terminal=false bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('') +
-                    ['[', stream.viewers, '] ', channel.status, '| size=12 alternate=true length=30 bash=' + LIVESTREAMER_PATH + ' param1=', url, '\n'].join('');
-        }).join('')].join(''));
+    for (var game in streamByGame) {
+        outputs.push(['', game, '| size=10 \n', streamByGame[game].map(outputForStream).join('')].join(''));
     }
 
     console.log(
