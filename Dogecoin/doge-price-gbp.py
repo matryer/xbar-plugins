@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # coding=utf-8
 #
-# <bitbar.title>Dogecoin Ticker (£GBP)</bitbar.title>
+# <bitbar.title>Dogecoin Ticker (£1GBP)</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>impshum</bitbar.author>
 # <bitbar.author.github>impshum</bitbar.author.github>
-# <bitbar.desc>Displays current Dogecoin price from Cryptonator plus a few quick links.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/yz467di.png</bitbar.image>
+# <bitbar.desc>Displays current Dogecoin price for £1 from Cryptonator</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/V88QxfV.jpg</bitbar.image>
 #
 # by impshum
 
@@ -17,13 +17,9 @@ import json
 result = json.loads(url)
 
 def flow():
-    if result['ticker']['change'] < 0:
-        print (' £1 = Ð%.0f | image=iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAyQACAALwzISXAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AQHACkSBTjB+AAAALNJREFUOMvVk70NAjEMhb87WYiGBZAQU7ABNSVSWpZgEEagsJDoKBELUCEKFuBuCKTw0xyQC0lICe5i+/k9/wT+3opUUJQhcAUqa8I5ZQT4tANwioGTCkQZA9vmOQE2oUJFhL0DXBz33RpKUfCLfLTQJMx9IlEWuQr6QB3prGtNS1lwiMvEYo7ekNsKRBkB+y+rH1hDFVOwy7ids+gbVzrsM6CXeYDTF85xroB1ZoHb73ymB5RhJkpZTihGAAAAAElFTkSuQmCC color=#000000'% float(result['ticker']['price']))
+    if result['ticker']['change'] > '0':
+        print (' Ð%.0f | image=iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAyQACAALwzISXAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AQHACkSBTjB+AAAALNJREFUOMvVk70NAjEMhb87WYiGBZAQU7ABNSVSWpZgEEagsJDoKBELUCEKFuBuCKTw0xyQC0lICe5i+/k9/wT+3opUUJQhcAUqa8I5ZQT4tANwioGTCkQZA9vmOQE2oUJFhL0DXBz33RpKUfCLfLTQJMx9IlEWuQr6QB3prGtNS1lwiMvEYo7ekNsKRBkB+y+rH1hDFVOwy7ids+gbVzrsM6CXeYDTF85xroB1ZoHb73ymB5RhJkpZTihGAAAAAElFTkSuQmCC color=#000000'% float(result['ticker']['price']))
     else:
-        print (' £1 = Ð%.0f | image=iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QABACnAADQ9FZaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AQHACQ1FZwK3gAAAMRJREFUOMvNkjEKAjEQRZ+jKNjYKh5AbzCdjVcQj+BFPIKlp7EMeAJrUbASQVCEr80uG9cNbqe/Cgn/5WUI/DqNfBHM+kCzbs+lPUAr2pwBq5qABbB+M8gszkDvS/kOdAG5VBgEM4ApsP0CGLukjxlEoA0wSZR3Lo0qhxhZDIBDAmDA0wsBLD51CZeOwLKivHbprZx6AkAHuEXbD5fawYwywMqAzOKeDTTPvKqcTGZBMLsGs0utn5gADYEHcKp9e9ni//MCDtNCE3qjsIwAAAAASUVORK5CYII= color=#000000'% float(result['ticker']['price']))
+        print (' Ð%.0f | image=iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QABACnAADQ9FZaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AQHACQ1FZwK3gAAAMRJREFUOMvNkjEKAjEQRZ+jKNjYKh5AbzCdjVcQj+BFPIKlp7EMeAJrUbASQVCEr80uG9cNbqe/Cgn/5WUI/DqNfBHM+kCzbs+lPUAr2pwBq5qABbB+M8gszkDvS/kOdAG5VBgEM4ApsP0CGLukjxlEoA0wSZR3Lo0qhxhZDIBDAmDA0wsBLD51CZeOwLKivHbprZx6AkAHuEXbD5fawYwywMqAzOKeDTTPvKqcTGZBMLsGs0utn5gADYEHcKp9e9ni//MCDtNCE3qjsIwAAAAASUVORK5CYII= color=#000000'% float(result['ticker']['price']))
 
 flow()
-print "---"
-print " ⬳ Reddit | href=https://reddit.com/r/dogecoin color=#000000 image=iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAA69JREFUWAntlVuMTVcYx49RTOtOg7RxiboMjdSl8UIiCEK1kb4QniYSEvEgJEIToqhIkNSLJppIhIwi8eBBQuLSF2RUhHkZg0TQmUlrRuNeSvv7zdnrZJ1tmwxzPNU/+Z31rW9961t7r/XtdXK5/7s6lmgDepCnNzzMyNcB3yxYBpOgAZqgpFpBtn/hGuyBShgGLr4THAv8jf01lFTVZAsLxG1j4m+mXQ7bkr7+TlAS+aYuegsGwgLYBTUQHmY9dtAFDP2jg6O97bok4daMRIuTsaO01lt/+DPxabdbnnEt+EZjMrL1xGfROW5rkWofhJJoHFlMeKWVbJ8zdjaJe0ZrkXaDdsu33wE+wNo2ZHPRzuk4k7RFTp4BU8G3/gz6QbhHfIg/oA5+g9NwEh5Dm9WXyLngN9onmTWWdh88AReJeUD/DtyEJojHtD3vn6EClPm/AfN/DEVaRS9exCc/DiHpU+wjsAQmQDmkpc8HXgrGOsf5L8CvIM7v2Epo0SJ+DfSGqoKLSV/fXfDhesCbyqt5NcS7YzG6hsVo/oWQu5x05tBOgfCk+7HfZmGmFcmtPwQu+BdYQx6DfdfOPYd78An4xg6sgbhAtWeDN9pXqTG6BY3H8mKqhC4Fbz7XFvrm9sZ0dx7AP5Crh5cQztzCiRenm9sETg78oDMl38qEIeYUdpxHO+yENWKcRZzzCg2TrNx0hVpc1keIsfUMP4JYnm8coz05DsB2l50b4jY7/iGcAZ2/QFrWQZgQt71SgZcy4mamYuweS+JO0JaX8WPR+Zmo2nxT9Huf3oEiT/4ut6BieXSx6uj8GjsS+2rSer88/SDpuPUqLpy8J/9bSeMbTgRvuh8hrV04mmEe3Ibt4NGlFb4si7AgE7u95wued2O44zfAtYZAQQ5cBwemFbzFhn+tXxa7Mnt+in5mWVqA0zXOZQ3OTwZv0Vqtae3F4eSfYGh6kP4osA6MSdcMrtxw8Igcnw6vqAOesIgFNDIV4SQLzwTiOXtk1dAIwe+llq7+Cfh+T2K20b5WnRk5DCZ7BKuhHIIGYGwFKzksaOsfTg18D/0gqBvGRngGxu2GMmhVBnwHYVIDtklGg7sU1BVjMAyC+CGN8b73TcOWP8ZeDvF8uhmOFm/+p4LGm+pbCBPdxgvgfVEP4fPtjv0pWAd+Uf1BuTNV4H/ITXgrDWXWBvCfK97219n+r3hXuIs+VKsKb9ZqUDTYF/sLGAHWg2fsg7gTHpW14YOmb0lc75W9A/8BDN0ZjEFzPsQAAAAASUVORK5CYII="
-print " ⬳ Tipbot | href=https://dogetipbot.com color=#000000 image=iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAApNJREFUWAntlk2IjlEUxx+GxteCvaYpW8ViFiMLI2VBs2LCSlM28pGyUUpKsUNEk83UNBbKithYsEBZSZFS9BaRlDAz1Pj8/d+5Zzpdz33mznifeTdO/br3nvu/557nfr1vUeTZSmRjcCBDfhDNrQzdrCUXGPELBitG7guaQxWaOXctYOQV+AEDJVF24fsJJ0r6WuZaSKQRmIRtLur24DvnfLVVO4h8Db5BX0D1YdAqzcr8gC5GnoLlGREWoemHCVCMZXADtAUzmcYchzexUHv4e57YYZNrT838apivrnJ6Lp+An0ynXKJWssdPYPVUAtZfe9n2BHSac2wLIvEKRkDvQJl14twL3XAH7kK27UZpt2CnG6W3XU/wU9AVUuDpQ0TdTKt5D8bhGSjWfjBLxbf+IiV4j+JkUK2jVOCNoe2LzaFvbXCepnznBKXxtQU9sAY2OLGv6mGyQG9DxwovCHV7wLy2TCe5PqADXqrxHWzprfRbMET/R7gET6ABSyE2JfAaHsNl+AQaY+ZXwOaZ1L5pFQbA7rwNsPIwlYuwHpRAH+jtj20CxybQWdFWnYUjEJvNo3dhsTqVjf/iuC1NK8xWwGI121qBttr/BHQAdRWOgvYkZbrbx2BJShD5dUj1DjyP/GpeD77VlC9U1528Cg/Broc/lLiLUbgJ3YHbGe1hNN7sEGqO+6A5e7UCDwISpB4jfbmuWQNkX0F/ThsgK2uXvRVT6qI4T6W5Ekog11Yh7Ali1ZVAVftD0FYWuQloT/U3amsUraodb0E0dKqZm4AOlL64aln9BNqSM96RqucmoNM8mAryL/62P0SpFZjpXZjLR+ve/2U+gS+ut9fV66h+LgvaifMR2GNUV6kHr/kzrCT+ADz6vA9yM7nIAAAAAElFTkSuQmCC"
-print " ⬳ Charts | href=https://coinplorer.com/Charts/GBP/DOGE color=#000000 image=iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAixJREFUWAntl80rRUEYxse3xMq3yFbyWSRfpSQ7WYgNf4AkC3tb/gObm27Z+QNEomxkYcPWxu4uZEOREp6n5q23MXPOJOfejbeeZs47H79n5sw5515jShxlJeBXgdkKtUEtWRtYA2QOardAQhsh4T6inmk0Y/Y76CsgtmUeSSZOyzPHG/MExm2AU/itgcrAhG6a8+egVbfBXhcC+cT0FFrvoZ7EXsYQfgCF7j/zWylz/Ggm/AXiYLoPmQjBaXwYkoO5jHp0aLisymciCd5paXIwp2PpPrjPRAy8Q5loijEwiU6y7QJ1S+5EL+S759x2WfkK6jkoOnzwT4w+gVwT756cC/9AnzwUFSH4uh29i9I1oa99cLbn7fjEgvBnSE/IlQtcBodMaPgYOnPlMldeBofKGDg/KHV2AteEhrPLEiTw1B2YQOeklfPx6YdGoHPINaHhPHB9ULSBNDgfGb5AFiEa4Gq0iW1c69PObR+CogzEwgnVBlwTaDZcudzzKAMxcH7NCPMZYO4QYmg486kG+ObagRogCQ7cgPZtYg/lgK2Hii7bsImyItTJl6cBfhCubaOGywGr9Q38qxwN8NTPQzQhK+djdgRlHvLDgib4ZeLhIZynm6c+8+AOSBBOKOGDksy6lB0gpwa6gPiiKVroHeCTUFQ4V6kNFG3VGvRvQP6jcVeqoQW1Pa+oH0OjULfKX6H+Bs2qHP/jXUIzkH58z3BdD41DEg+o3MhFyctvMWvumramcAYAAAAASUVORK5CYII="
