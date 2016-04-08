@@ -72,18 +72,15 @@ hexle32() {
 # v5 supports alpha channel.
 make_bmp_header() {
     headertype=$1
-    pixoffset=54
     headerbytes=40
     comp="00"
-
     if [ "$headertype" -eq 5 ]; then
-        pixoffset=138
         headerbytes=124
         comp="03"
     fi
-
+    pixoffset=$((headerbytes + 14))
     pixbytes=$((width * height * 4))
-    filebytes=$((pixbytes + 54))
+    filebytes=$((pixbytes + pixoffset))
         
     # Common bits for version 1 and 5
     bmp+=(
@@ -92,7 +89,7 @@ make_bmp_header() {
         00 00                   # reserved
         00 00                   # reserved
         $(hexle32 $pixoffset)   # offset of pixel data
-        $(hexle32 $headerbytes) # remaining bytes in header (40 bytes)
+        $(hexle32 $headerbytes) # remaining bytes in header
         $(hexle32 $width)       # width
         $(hexle32 $height)      # height
         01 00                   # 1 color plane
