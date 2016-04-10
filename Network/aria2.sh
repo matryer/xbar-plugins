@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #
 # Quickly aria2c
-# The list of hosts are extracted from ~/.ssh/config
 #
 # <bitbar.title>aria2c</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
