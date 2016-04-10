@@ -15,7 +15,7 @@ solaredge_site_id = ""
 solaredge_api_key = ""
 
 # Optional. Set to 0 to disable. Total panel DC watt capacity
-system_wattage = 3840
+system_wattage = 0
 
 # Optional. Set to 0 to disable. Find CO2 lbs/MWh for your subregion in the PDF linked below.
 # (Use the "Non-baseload output emission rates" figure for your subregion)
