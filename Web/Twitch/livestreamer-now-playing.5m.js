@@ -325,15 +325,14 @@ function outputForStream(stream) {
     }
 
     var startLivestreamer = [
-        'terminal=false bash=',
-        LIVESTREAMER_PATH,
-        ' param1=',
-        channel.url.replace('http://', '')].join('');
-
+        'terminal=false bash=', LIVESTREAMER_PATH,
+        ' param1=', channel.url.replace('http://', '')].join('');
+    var openChat = [
+        'href=https://twitch.tv/', channel.name,'/chat?popout='].join('');
     // TODO work out where to put channel status
     return  [channel.display_name, ' | ', startLivestreamer, '\n',
              '--', '📺 livestream | ', startLivestreamer, '\n',
-             '--', '👥 chat | href=https://twitch.tv/', channel.name,'/chat?popout= \n',
+             '--', '👥 chat | ', openChat, '\n',
              '-----\n',
              // '--', channel.status, '| size=11 length=30 \n',
              '--', '👤 ', stream.viewers, ', live for ', timeLive, '| size=10\n'].join('');
@@ -355,11 +354,13 @@ function handleResponse(body) {
         outputs.push([game, '| size=10 \n', streamByGame[game].map(outputForStream).join('')].join(''));
     }
 
-    console.log(
-        (body.streams.length > 0 ? body.streams.length : '') +
-        '|image="'+ TWITCH_ICON_36_RETINA + '"' +
-        '\n---\n' +
-        outputs.join('\n---\n'));
+    if (body.streams.length === 0) {
+        console.log('|templateImage="'+ TWITCH_ICON_36_RETINA + '"\n');
+    } else {
+        console.log(body.streams.length + '|image="'+ TWITCH_ICON_36_RETINA + '"\n');
+    }
+
+    console.log('---\n' + outputs.join('\n---\n'));
 }
 
 if (ACCESS_TOKEN) {
