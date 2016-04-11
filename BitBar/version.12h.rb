@@ -27,8 +27,22 @@ require 'resolv'
 # ?client_id=#{GITHUB_CLIENT_ID}&client_secret=#{GITHUB_CLIENT_SECRET}
 
 def get_json
-  url = "https://api.github.com/repos/matryer/bitbar/releases/latest"
-  json_result = JSON.parse(Net::HTTP.get(URI(url)))
+  url = URI("https://api.github.com/repos/matryer/bitbar/releases/latest")
+  json_result = nil
+  sleep_time = 0.5
+  sleep_until = 16 # sleep 5x (0,5 * 2 ^ 5 == 16)
+  while json_result.nil?
+    begin
+      json_result = JSON.parse(Net::HTTP.get(url))
+    rescue => e
+      sleep_time *= 2
+      if sleep_time < sleep_until
+        sleep sleep_time
+      else
+        throw e
+      end
+    end
+  end
   json_result
 end
 
@@ -48,28 +62,9 @@ def get_current_version(xml)
   current_version
 end
 
-def is_connected
-  dns_resolver = Resolv::DNS.new()
-  begin
-    dns_resolver.getaddress("google.com")
-    true
-  rescue Resolv::ResolvError => _
-    false
-  end
-end
-
-def await_connection
-  sleep_time = 0.5
-  max_sleeps = 16 # sleep 5x
-  while !is_connected && sleep_time <= max_sleeps
-    sleep sleep_time *= 2
-  end
-end
-
 begin
-  await_connection
-  current_version = get_current_version(get_xml)
   json_val = get_json
+  current_version = get_current_version(get_xml)
   latest_version = json_val["tag_name"]
   outdated = Gem::Version.new(current_version) < Gem::Version.new(latest_version.sub!("v", ""))
   color = outdated ? "red" : "green"
@@ -83,5 +78,5 @@ begin
 rescue => _
   puts "BitBar Version Error | color=red"
   puts "---"
-  puts "Content is currently unavailable. Please try resetting. | color=red"
+  puts "Content is currently unavailable. Please try resetting or check your internet connection. | color=red"
 end
