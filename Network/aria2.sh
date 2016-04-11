@@ -7,7 +7,6 @@
 # <bitbar.author>cnsworder</bitbar.author>
 # <bitbar.author.github>cnsworder</bitbar.author.github>
 # <bitbar.desc>Quickly aria2c</bitbar.desc>
-#
 
 echo "aria2c"
 echo "---"
