@@ -10,7 +10,7 @@
 
 echo "aria2c"
 echo "---"
-count=$(ps aux | grep "aria2c" | grep -v -c "grep")
+count=$(pgrep "aria2c")
 if ((count < 1)); then
     echo 'not running | bash=aria2c param1="-D --enable-rpc --rpc-allow-origin-all --rpc-listen-all -c -x 10 -s 10"'
 else
