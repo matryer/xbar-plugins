@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # <bitbar.title>BitBar Version</bitbar.title>
-# <bitbar.version>v0.1.0</bitbar.version>
+# <bitbar.version>v0.2.0</bitbar.version>
 # <bitbar.author>Olivier Tille</bitbar.author>
 # <bitbar.author.github>oliviernt</bitbar.author.github>
 # <bitbar.image>http://i.imgur.com/9BrFhSJ.png</bitbar.image>
@@ -16,6 +16,7 @@
 require 'net/http'
 require 'json'
 require 'nokogiri'
+require 'resolv'
 
 # if you're seeing errors saying you've reached the API request limit you will need to
 # create a new application at https://github.com/settings/developers and add client_id and client_secret here:
@@ -47,7 +48,26 @@ def get_current_version(xml)
   current_version
 end
 
+def is_connected
+  dns_resolver = Resolv::DNS.new()
+  begin
+    dns_resolver.getaddress("google.com")
+    true
+  rescue Resolv::ResolvError => e
+    false
+  end
+end
+
+def await_connection
+  sleep_time = 0.5
+  max_sleeps = 16 # sleep 5x
+  while !is_connected && sleep_time <= max_sleeps
+    sleep sleep_time *= 2
+  end
+end
+
 begin
+  await_connection
   current_version = get_current_version(get_xml)
   json_val = get_json
   latest_version = json_val["tag_name"]
