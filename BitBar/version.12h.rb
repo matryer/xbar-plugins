@@ -53,7 +53,7 @@ def is_connected
   begin
     dns_resolver.getaddress("google.com")
     true
-  rescue Resolv::ResolvError => e
+  rescue Resolv::ResolvError => _
     false
   end
 end
