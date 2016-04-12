@@ -16,7 +16,6 @@
 require 'net/http'
 require 'json'
 require 'nokogiri'
-require 'resolv'
 
 # if you're seeing errors saying you've reached the API request limit you will need to
 # create a new application at https://github.com/settings/developers and add client_id and client_secret here:
