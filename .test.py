@@ -5,7 +5,7 @@ import subprocess
 import urllib2
 import argparse
 
-allowed_image_content_types = [ 'image/png', 'image/jpeg' ]
+allowed_image_content_types = [ 'image/png', 'image/jpeg', 'image/gif' ]
 required_metadata = [ 'author', 'author.github', 'title' ]
 recommended_metadata = [ 'image', 'desc', 'version' ]
 required_shebangs = {
