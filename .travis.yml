@@ -6,4 +6,5 @@ before_install:
   - brew install shellcheck
   - brew install node && npm install -g jshint
   - brew install cpanminus && sudo cpanm Mozilla::CA
+  - brew install clisp
 script: ./.test.py

@@ -16,6 +16,7 @@ required_shebangs = {
     '.php': 'php$',
     '.pl': 'perl( -[wW])?$',
     '.swift': 'swift$',
+    '.lisp': 'clisp$',
 }
 linter_command = {
     '.sh': [ 'shellcheck' ],
@@ -25,6 +26,7 @@ linter_command = {
     '.php': [ 'php', '-l' ],
     '.pl': [ 'perl', '-MO=Lint'],
     '.swift': [ 'xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null' ],
+    '.lisp': [ 'clisp' ],
 }
 error_count = 0
 def debug(s):
