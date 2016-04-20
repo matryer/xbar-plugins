@@ -5,7 +5,7 @@
 # <bitbar.author>DE</bitbar.author>
 # <bitbar.author.github>destroy-everything</bitbar.author.github>
 # <bitbar.desc>Shows countdown to next F1 event normalised to UTC.</bitbar.desc>
-# <bitbar.image>http://imgur.com/3232EJx</bitbar.image>
+# <bitbar.image>http://i.imgur.com/3232EJx.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 #SETUP INSTRUCTIONS
