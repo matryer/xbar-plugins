@@ -52,7 +52,6 @@ end
 def get_story_for_id(id)
   url = "https://hacker-news.firebaseio.com/v0/item/#{id}.json?"
   JSON.parse(Net::HTTP.get(URI(url)))
-rescue
 end
 
 def append_to_store(store, h)
