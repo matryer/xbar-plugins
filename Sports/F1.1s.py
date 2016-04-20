@@ -5,7 +5,7 @@
 # <bitbar.author>DE</bitbar.author>
 # <bitbar.author.github>destroy-everything</bitbar.author.github>
 # <bitbar.desc>Shows countdown to next F1 event normalised to UTC.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>http://imgur.com/3232EJx</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 #SETUP INSTRUCTIONS
@@ -29,9 +29,8 @@ calfile = "/Users/C5066492/Documents/BitBarPlugins/cal/f1-calendar2016.ics"
 ###################################################
 ###################################################
 
-from icalendar import Calendar, Event
+from icalendar import Calendar
 from datetime import datetime
-import tempfile, os
 import pytz
 import re
 #import urllib2
