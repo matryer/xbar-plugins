@@ -90,14 +90,14 @@ end
 begin
   data_store = store
 
+  data_store.each_with_index do |s, i|
+    data_store.delete_at(i) if elapsed(s) > TIME_OUT_SECONDS
+  end
+
   story_ids.each do |id|
     unless story_persisted?(data_store, id)
       data_store = append_to_store(data_store, get_story_for_id(id))
     end
-  end
-
-  data_store.each_with_index do |s, i|
-    data_store.delete_at(i) if elapsed(s) > TIME_OUT_SECONDS
   end
 
   write_to(data_store)
