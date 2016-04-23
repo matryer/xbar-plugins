@@ -97,7 +97,7 @@ def print_title(title)
   if title.length > TITLE_LIMIT
     puts "🍊  #{title[0..TITLE_LIMIT]}..."
   else
-    puts "🍊# #{title}"
+    puts "🍊  #{title}"
   end
 end
 
