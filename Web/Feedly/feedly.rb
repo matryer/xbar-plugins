@@ -21,7 +21,7 @@ def get_json_by_feedly_api(url)
 
   req['Authorization'] = "Bearer #{FEEDLY_AUTH_TOKEN}"
 
-  res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |_| _.request(req) }
+  res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
   JSON.parse(res.body)
 end
 
@@ -39,13 +39,13 @@ end
 def output(item)
   puts "#{item['title']} | href=#{item['originId']}"
 rescue => e
-  puts "An error occured: #{e.to_s}"
+  puts "An error occured: #{e}"
 end
 
 puts 'Feedly'
 puts '---'
 begin
-  feedly_feeds.each { |_| output(_) }
-rescue => e
+  feedly_feeds.each { |item| output(item) }
+rescue
   puts 'Content is currently unavailable. Please try resetting. | color=red'
 end
