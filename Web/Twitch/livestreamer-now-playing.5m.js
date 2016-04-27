@@ -1,11 +1,11 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Twitch Following</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
+// <bitbar.version>v1.5</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
-// <bitbar.desc>Shows the live channels that you follow and lets you watc them with livestreamer. Based on play-with-livestreamer</bitbar.desc>
-// <bitbar.image>https://i.imgur.com/PznEQCt.png</bitbar.image>
+// <bitbar.desc>Shows which channels you follow are live, what they're playing, for how long etc. Lets you watch them with livestreamer and open the chat in your browser. Based on the play-with-livestreamer bitbar plugin. Requires a Twitch account.</bitbar.desc>
+// <bitbar.image>https://i.imgur.com/dhscE7r.png</bitbar.image>
 // <bitbar.dependencies>node, livestreamer</bitbar.dependencies>
 
 var LIVESTREAMER_PATH = '/usr/local/bin/livestreamer';
