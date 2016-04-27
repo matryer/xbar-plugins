@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 # coding: utf-8
 
 # <bitbar.title>Redmine Show My Task</bitbar.title>
