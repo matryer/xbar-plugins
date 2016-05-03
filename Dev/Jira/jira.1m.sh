@@ -7,7 +7,7 @@
 #
 # metadata
 # <bitbar.title>jira</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Nicolas Gehlert</bitbar.author>
 # <bitbar.author.github>ngehlert</bitbar.author.github>
 # <bitbar.desc>display all tasks that are assigned to you. There are currently two sorting options. Either by type (e.g. Task, Story, Block) or by status (in progress, resolved, ...).</bitbar.desc>
