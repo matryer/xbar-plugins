@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v2.0.3</bitbar.version>
+# <bitbar.version>v2.0.4</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by forecast.io with auto location lookup. Supports metric and imperial units. Needs API key from http://developer.forecast.io.</bitbar.desc>
@@ -12,6 +12,13 @@
 import json
 import urllib2
 from random import randint
+
+def internet_on():
+    try:
+        urllib2.urlopen('http://forecast.io',timeout=1)
+        return True
+    except urllib2.URLError: pass
+    return False
 
 api_key = '' # get yours at https://developer.forecast.io
 units = '' # change to si for metric, default is imperial
@@ -88,7 +95,7 @@ def get_wx():
 
   if units == 'si':
     unit = 'C'
-    distance = 'km/h'
+    distance = 'm/s'
     distance_short = 'km'
   else:
     unit = 'F'
@@ -126,7 +133,7 @@ def get_wx():
       for item in wx['minutely']:
         if item == 'summary':
           weather_data['next_hour'] = str((wx['minutely']['summary'].encode('utf-8')))
-        
+
     if 'city' in location and 'region' in location:
       if location['city'] == '' and location['region'] == '':
         if 'country' in location:
@@ -134,7 +141,7 @@ def get_wx():
 
             if country is False or location['country'] == '':
               weather_data['country'] = 'See Full Forecast'
-            else: 
+            else:
               weather_data['country'] = country
       else:
         weather_data['city'] = str(location['city'].encode('utf-8'))
@@ -165,7 +172,7 @@ def render_wx():
   if 'icon' in weather_data and 'temperature' in weather_data:
     print weather_data['icon'] + ' ' + weather_data['temperature']
   else:
-    print 'N/A'  
+    print 'N/A'
 
   print '---'
 
@@ -176,28 +183,30 @@ def render_wx():
 
   if 'condition' in weather_data and 'feels_like' in weather_data:
     print weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like']
-  
+
   print '---'
-  
+
   if 'next_hour' in weather_data:
     print weather_data['next_hour']
-  
+
   if 'wind' in weather_data and 'windBearing' in weather_data:
     print 'Wind: ' + weather_data['wind'] + ' ' + weather_data['windBearing']
-  
+
   if 'humidity' in weather_data:
     print 'Humidity: ' + weather_data['humidity']
-  
+
   if 'dewPoint' in weather_data:
     print 'Dew Point: ' + weather_data['dewPoint']
-  
+
   if 'visibility' in weather_data:
     print 'Visibility: ' + weather_data['visibility']
-  
+
   if 'pressure' in weather_data:
     print 'Pressure: ' + weather_data['pressure']
 
   print '---'
   print 'Powered by Forecast | href=http://forecast.io'
 
-render_wx()
+
+if internet_on():
+    render_wx()

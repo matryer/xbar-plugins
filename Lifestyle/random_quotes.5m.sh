@@ -34,9 +34,9 @@ quote_color="black"
 
 mkdir -p ~/BitBar_quotes
 curl -s $cat_url > ~/BitBar_quotes/quotes
-line_c=$(cat ~/BitBar_quotes/quotes | wc -l)
-line=$(jot -r 1  2 $line_c)
-quote=$(tail -n+$line ~/BitBar_quotes/quotes | head -n1)
+line_c=$(wc -l ~/BitBar_quotes/quotes)
+line=$(jot -r 1  2 "$line_c")
+quote=$(tail -n+"$line" ~/BitBar_quotes/quotes | head -n1)
 echo "$quote | color=$quote_color length=$max_chars"
 echo "---"
 echo "$quote | color=$quote_color size=20"

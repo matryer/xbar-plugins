@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather - OpenWeatherMap</bitbar.title>

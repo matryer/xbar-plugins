@@ -31,16 +31,28 @@ def get_notifications( api_key, api_url = 'https://api.github.com' ):
             response = urllib2.urlopen( request )
             notifications = json.load( response )
             return map(format_notification, notifications)
-        except Exception as e:
+        except Exception:
             return []
     else:
         return []
 
+def get_release_url( release ):
+    try:
+        request = urllib2.Request( release, headers = { 'Authorization': 'token ' + github_api_key } )
+        response = urllib2.urlopen( request )
+        return json.load( response )['html_url']
+    except Exception:
+        return release
+
 def format_notification( notification ):
     title = notification['subject']['title']
     repo = notification['repository']['full_name']
-    url = re.sub( 'api\.|api/v3/|repos/', '', notification['subject']['url'] )
-    url = re.sub( '(pull|commit)s', ur'\1', url )
+    url = notification['subject']['url']
+    if 'releases/' in url:
+        url = get_release_url( url )
+    else:
+        url = re.sub( 'api\.|api/v3/|repos/', '', notification['subject']['url'] )
+        url = re.sub( '(pull|commit)s', ur'\1', url )
     return ( '%s: %s | length=90 refresh=true href=%s' % ( repo, title, url ) ).encode( 'utf-8' )
 
 def plural( word, n ):
@@ -63,7 +75,7 @@ if is_github_defined:
         print ( u'GitHub \u2014 %s | color=%s href=https://github.com/notifications' % ( plural( 'notification', len( github_notifications ) ), active ) ).encode( 'utf-8' )
         print '\n'.join( github_notifications )
     else:
-        print ( u'GitHub \u2014 No new notifications | color=%s' % inactive ).encode( 'utf-8' )
+        print ( u'GitHub \u2014 No new notifications | color=%s href=https://github.com' % inactive ).encode( 'utf-8' )
 
 if is_github_enterprise_defined:
     if len( enterprise_notifications ):

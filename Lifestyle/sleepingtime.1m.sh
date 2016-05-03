@@ -34,5 +34,5 @@ for ((cy=start_cycle; cy<=end_cycle; cy++)); do
     else
         str="$cy cycle: "
     fi
-    echo "$str `date -v+${h}H -v+${m}M -v+${falling_asleep}M +${format}`"
+    echo "$str $(date -v+${h}H -v+${m}M -v+${falling_asleep}M +${format})"
 done

@@ -3,7 +3,10 @@
 
 # Easy Digital Downloads
 #
-# by Zack Katz (zack@katz.co)
+# <bitbar.title>Easy Digital Downloads</bitbar.title>
+# <bitbar.author>Zack Katz (zack@katz.co)</bitbar.author>
+# <bitbar.author.github>zackkatz</bitbar.author.github>
+# <bitbar.image></bitbar.image>
 #
 # Fetch EDD sales for the day. Change your API domain, key, token, and currency as necessary.
 #

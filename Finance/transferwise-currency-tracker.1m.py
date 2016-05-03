@@ -27,6 +27,6 @@ req.add_header('X-Authorization-key', TRANSFERWISE_KEY)
 
 result = json.loads(urllib2.urlopen(req).read())['transferwiseRate']
 
-print "{}: {}".format(currency_to, result)
+print "{}: {:.2f}".format(currency_to, result)
 print "---"
 print "From: {}".format(currency_from)

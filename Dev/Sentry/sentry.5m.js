@@ -7,6 +7,8 @@
 // <bitbar.desc>Shows your most recent error reports from Sentry (https://getsentry.com)</bitbar.desc>
 // <bitbar.dependencies>node.js</bitbar.dependencies>
 // <bitbar.image>http://i.imgur.com/GdEXQfY.png</bitbar.image>
+
+// jshint asi:true
 var https = require('https')
 
 /* EDIT HERE */
@@ -22,7 +24,7 @@ var TITLE = [ORGANIZATION + '/' + PROJECT, '@', 'Sentry'].join(' ')
 
 function statusColor (issue) {
   var status = issue.status
-  var isAssigned = issue.assignedTo != null
+  var isAssigned = issue.assignedTo !== null
   if (status === 'resolved' || status === 'muted') {
     return 'green'
   }
