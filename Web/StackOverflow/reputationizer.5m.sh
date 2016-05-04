@@ -27,7 +27,9 @@ fi
 # get reputation from api
 NEWREP=$(curl -s --compressed "$URI" | egrep -o '"reputation":*([0-9])+' | sed 's/"reputation"://')
 
-if [ "$NEWREP" -gt "$OLDREP" ] ; then
+if [ -z "$OLDREP" ] || [ -z "$NEWREP" ] ; then
+  echo ❓
+elif [ "$NEWREP" -gt "$OLDREP" ] ; then
   echo 👍
 elif [ "$OLDREP" -gt "$NEWREP" ] ; then
   echo 👎
