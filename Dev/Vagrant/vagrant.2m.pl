@@ -12,6 +12,8 @@ use Cwd 'abs_path';
 
 my @output;
 my @found;
+my $machinePath;
+my $readablePath;
 my $me = abs_path($0);
 my $content;
 my $vagrant;
@@ -53,7 +55,7 @@ if ( ($#ARGV + 1) == 3) {
 
 	# Running the SSH action
 	if ($ARGV[0] eq 'ssh') {
-		
+		$ARGV[1] =~ s/\\/\\\\/g; # extra escape; escape from osascript and do script
 		&osascript ('
 			tell application "Terminal"
 				if (count of windows) is 0 then reopen
@@ -126,39 +128,42 @@ foreach $a (@output) {
 	# Exploding row on spaces
 	@found = split / /, $a;
 
+	$machinePath  = join("\\ ", @found[4..$#found]);
+	$readablePath = join(" ", @found[4..$#found]);
+
 	# This VM is currently running
 	if ($found[3] eq 'running') {
 		# Counting the running VMs
 		$running ++;
 
 		$content .= "✅ Machine #$found[0] is running | size=14 color=green\n";
-		$content .= " $found[4] | size=11 \n";
+		$content .= " $readablePath | size=11 \n";
 		$content .= "  | size=14 color=black \n";
-		
-		$content .= "#️⃣ SSH $found[0] | size=12 bash=\"$me\" param1=ssh param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=false \n";
-		$content .= "🔄 Reload $found[0] | size=12 bash=\"$me\" param1=reload param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
-		$content .= "🔽 Suspend $found[0] | size=12 bash=\"$me\" param1=suspend param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
-		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
+
+		$content .= "#️⃣ SSH $found[0] | size=12 bash=\"$me\" param1=ssh param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=false \n";
+		$content .= "🔄 Reload $found[0] | size=12 bash=\"$me\" param1=reload param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
+		$content .= "🔽 Suspend $found[0] | size=12 bash=\"$me\" param1=suspend param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
+		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 	}
 	# This VM is currently saved
 	elsif ($found[3] eq 'saved') {
 		$content .= "📴 Machine #$found[0] is suspended | size=14 color=orange\n";
-		$content .= " $found[4] | size=11 \n";
+		$content .= " $readablePath | size=11 \n";
 		$content .= "  | size=14 color=black \n";
-		$content .= "▶️ Resume $found[0] | size=12 bash=\"$me\" param1=resume param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
-		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
+		$content .= "▶️ Resume $found[0] | size=12 bash=\"$me\" param1=resume param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
+		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 	}
 	# This VM is currently powered off
 	elsif ($found[3] eq 'poweroff' || $found[3] eq 'aborted') {
 		$content .= "🚫 Machine #$found[0] is stopped | size=14 color=red\n";
-		$content .= " $found[4] | size=11 \n";
+		$content .= " $readablePath | size=11 \n";
 		$content .= "  | size=14 color=black \n";
-		$content .= "▶️ Start $found[0] | size=12 bash=\"$me\" param1=up param2=\"".$found[4]."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
+		$content .= "▶️ Start $found[0] | size=12 bash=\"$me\" param1=up param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 	}
 	# This VM is in an unknown state
 	else {
 		$content .= "❓ Machine #$found[0] is ".$found[3]." | size=14 color=red\n";
-		$content .= " $found[4] | size=11 \n";
+		$content .= " $machinePath | size=11 \n";
 		$content .= "  | size=14 color=black \n";
 		$content .= "This is an unknown state\n";
 	}
