@@ -146,7 +146,7 @@ foreach $a (@output) {
 		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 	}
 	# This VM is currently saved
-	elsif ($found[3] eq 'saved') {
+	elsif ($found[3] eq 'saved' || $found[3] eq 'suspended') {
 		$content .= "📴 Machine #$found[0] is suspended | size=14 color=orange\n";
 		$content .= " $readablePath | size=11 \n";
 		$content .= "  | size=14 color=black \n";
@@ -154,7 +154,11 @@ foreach $a (@output) {
 		$content .= "⏬ Stop $found[0] | size=12 bash=\"$me\" param1=halt param2=\"".$machinePath."\" param3=\"".$found[0]."\" terminal=false refresh=true \n";
 	}
 	# This VM is currently powered off
-	elsif ($found[3] eq 'poweroff' || $found[3] eq 'aborted') {
+	elsif ($found[3] eq 'poweroff' || $found[3] eq 'aborted' || ($found[3] eq 'not' && $found[4] eq "running")) {
+		if ($found[3] eq 'not' && $found[4] eq "running") {
+			$machinePath  = join("\\ ", @found[5..$#found]);
+			$readablePath = join(" ", @found[5..$#found]);
+		}
 		$content .= "🚫 Machine #$found[0] is stopped | size=14 color=red\n";
 		$content .= " $readablePath | size=11 \n";
 		$content .= "  | size=14 color=black \n";
