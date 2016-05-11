@@ -1,4 +1,4 @@
-# BitBar Plugins [![Slack Status](https://getbitbar.herokuapp.com/badge.svg)](https://getbitbar.herokuapp.com/)
+# BitBar Plugins [![Build Status](https://travis-ci.org/matryer/bitbar-plugins.svg?branch=master)](https://travis-ci.org/matryer/bitbar-plugins) [![Slack Status](https://getbitbar.herokuapp.com/badge.svg)](https://getbitbar.herokuapp.com/)
 
 This repo contains scripts, programs and command-line tools that add functionality to [BitBar](https://github.com/matryer/bitbar#get-started).
 
