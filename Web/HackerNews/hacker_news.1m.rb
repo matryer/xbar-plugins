@@ -6,6 +6,7 @@
 # <bitbar.image>http://i.imgur.com/JuanUqk.png</bitbar.image>
 # <bitbar.dependencies>Ruby</bitbar.dependencies>
 # <bitbar.desc>HackerRank news with changing titles and persistence..</bitbar.desc>
+# <bitbar.version>1.0</bitbar.version>
 
 # ~~Briefly~~
 # Stores fecthed ids & news data in a .txt file

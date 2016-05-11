@@ -1,7 +1,10 @@
 #!/bin/bash
-# <bitbar.title>Check status of Jenkins projects</bitbar.title>
+# <bitbar.title>Multiple Jenkins Status</bitbar.title>
+# <bitbar.desc>Check status of multiple Jenkins projects</bitbar.desc>
 # <bitbar.author>Nocolas Roger</bitbar.author>
 # <bitbar.author.github>nicolasroger17</bitbar.author.github>
+# <bitbar.version>1</bitbar.version>
+
 
 SCHEMA="https"
 BASE_URL="jenkins-address.com"

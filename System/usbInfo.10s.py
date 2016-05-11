@@ -4,6 +4,7 @@
 # <bitbar.author>Raemond Bergstrom-Wood</bitbar.author>
 # <bitbar.author.github>RaemondBW</bitbar.author.github>
 # <bitbar.desc>Displays the device details user input usb devices</bitbar.desc>
+# <bitbar.version>1.0</bitbar.version>
 
 print "USB"
 print '---'

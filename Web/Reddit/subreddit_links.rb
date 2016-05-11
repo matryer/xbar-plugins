@@ -4,6 +4,7 @@
 # <bitbar.author>Joe Canero</bitbar.author>
 # <bitbar.author.github>caneroj1</bitbar.author.github>
 # <bitbar.image>https://i.imgur.com/3ZDUdNH.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
 
 require 'net/http'
 require 'json'

@@ -3,6 +3,7 @@
 # <bitbar.author>DJ Adams</bitbar.author>
 # <bitbar.author.github>qmacro</bitbar.author.github>
 # <bitbar.image>https://i.imgur.com/5GVxySB.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
 
 # OpenUI5 Latest Version Display
 # BitBar plugin

@@ -7,6 +7,7 @@
 # <bitbar.author>Bruce Steedman</bitbar.author>
 # <bitbar.author.github>MatzFan</bitbar.author.github>
 # <bitbar.image>https://i.imgur.com/0XHs8R0.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
 #
 # by Bruce Steedman
 #

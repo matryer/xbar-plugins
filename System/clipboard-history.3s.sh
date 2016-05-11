@@ -4,6 +4,7 @@
 # <bitbar.author>Jason Tokoph (jason@tokoph.net)</bitbar.author>
 # <bitbar.author.github>jtokoph</bitbar.author.github>
 # <bitbar.desc>Tracks up to 10 clipboard items.
+# <bitbar.version>1.0</bitbar.version>
 # Clicking on a previous item will copy it back to the clipboard.
 # Clicking "Clear history" will remove history files from the filesystem.</bitbar.desc>
 
