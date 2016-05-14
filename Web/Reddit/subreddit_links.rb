@@ -37,7 +37,7 @@ def to_json(subreddit, type)
   @http.add_field('User-Agent', USER_AGENT)
  
   res = Net::HTTP.start(uri.host, DEFAULT_PORT) do |http| 
-    response = http.request(@http)
+    http.request(@http)
   end
  
   data = JSON.parse(res.body)
