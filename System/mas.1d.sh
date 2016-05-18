@@ -9,15 +9,19 @@
 # <bitbar.dependencies>mas</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/mas.1d.sh</bitbar.abouturl>
 
-UPDATES=$(/usr/local/bin/mas outdated);
-
-UPDATE_COUNT=$(echo "$UPDATES" | grep -c '[^[:space:]]');
-
 if test $UPDATE_COUNT -gt 0; then
-  echo "↓$UPDATE_COUNT | dropdown=false"
-  echo "---";
-  if [ -n "$UPDATES" ]; then
-    echo "Upgrade all | bash=/usr/local/bin/mas param1=upgrade terminal=false refresh=true"
-    echo "$UPDATES" | awk '{itemIdentifier = $1; $1 = ""; print $0 " | bash=/usr/local/bin/mas param1=install param2=" itemIdentifier " terminal=false refresh=true"; }'
+  UPDATES=$(/usr/local/bin/mas outdated);
+
+  UPDATE_COUNT=$(echo "$UPDATES" | grep -c '[^[:space:]]');
+
+  if test $UPDATE_COUNT -gt 0; then
+    echo "↓$UPDATE_COUNT | dropdown=false"
+    echo "---";
+    if [ -n "$UPDATES" ]; then
+      echo "Upgrade all | bash=/usr/local/bin/mas param1=upgrade terminal=false refresh=true"
+      echo "$UPDATES" | awk '{itemIdentifier = $1; $1 = ""; print $0 " | bash=/usr/local/bin/mas param1=install param2=" itemIdentifier " terminal=false refresh=true"; }'
+    fi
   fi
+else
+  echo "`mas` not installed"
 fi
