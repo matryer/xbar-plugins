@@ -117,6 +117,6 @@ begin
   end
 
   entries.each { |e| print(e) }
-rescue StandartError => msg
+rescue StandardError => msg
   puts 'Error occured, please refresh bitbar! >' + msg.to_s
 end
