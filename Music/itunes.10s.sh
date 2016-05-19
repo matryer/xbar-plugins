@@ -73,13 +73,12 @@ end try
 
 if [ "$state" = "playing" ]; then
   state_icon="▶️"
-  echo "$state_icon $track - $artist | color=green size=10"
   
 else
   state_icon="⏸"
-  echo "$state_icon $track - $artist | color=green size=10"
 fi
 
+echo "$state_icon $track - $artist | color=green size=10"
 echo "---"
 
 case "$0" in
