@@ -9,10 +9,10 @@
 # <bitbar.dependencies>mas</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/mas.1d.sh</bitbar.abouturl>
 
-if test `which /usr/local/bin/mas` 2> /dev/null; then
+if test "$(which /usr/local/bin/mas)" 2> /dev/null; then
   UPDATES=$(/usr/local/bin/mas outdated);
   UPDATE_COUNT=$(echo "$UPDATES" | grep -c '[^[:space:]]');
-  if test $UPDATE_COUNT -gt 0; then
+  if test "$UPDATE_COUNT" -gt 0; then
     echo "↓$UPDATE_COUNT | dropdown=false"
     echo "---";
     if [ -n "$UPDATES" ]; then
