@@ -50,7 +50,7 @@ function fixedIssues(body) {
           matches.forEach(function(match) {
             var num = match.split("#")[1];
             arr.push(num);
-          })
+          });
         }
       });
     }
