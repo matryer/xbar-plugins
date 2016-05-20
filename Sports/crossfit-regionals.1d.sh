@@ -24,12 +24,12 @@ echo "---"
 for region in "${!regions[@]}"; do
     echo ${regions[$region]}
 
-    curl -s http://games.crossfit.com/scores/leaderboard.php?year=${YEAR}\&division=201\&regional=${region}\&numberperpage=3 | grep 'games.crossfit.com/athlete' | sed "s/.*_top\">\(.*\)<\/a><\/td>/-- \\1/g"
+    curl -s http://games.crossfit.com/scores/leaderboard.php?year="${YEAR}"\&division=201\&regional="${region}"\&numberperpage=3 | grep 'games.crossfit.com/athlete' | sed "s/.*_top\">\(.*\)<\/a><\/td>/-- \\1/g"
     echo "--"
 
-    curl -s http://games.crossfit.com/scores/leaderboard.php?year=${YEAR}\&division=101\&regional=${region}\&numberperpage=3 | grep 'games.crossfit.com/athlete' | sed "s/.*_top\">\(.*\)<\/a><\/td>/-- \\1/g"
+    curl -s http://games.crossfit.com/scores/leaderboard.php?year="${YEAR}"\&division=101\&regional="${region}"\&numberperpage=3 | grep 'games.crossfit.com/athlete' | sed "s/.*_top\">\(.*\)<\/a><\/td>/-- \\1/g"
     echo "--"
 
-    curl -s http://games.crossfit.com/scores/leaderboard.php?year=${YEAR}\&division=301\&regional=${region}\&numberperpage=3 | grep 'games.crossfit.com/team' | sed "s/.*_top\">\(.*\)<\/a><\/td>/-- \\1/g"
+    curl -s http://games.crossfit.com/scores/leaderboard.php?year="${YEAR}"\&division=301\&regional="${region}"\&numberperpage=3 | grep 'games.crossfit.com/team' | sed "s/.*_top\">\(.*\)<\/a><\/td>/-- \\1/g"
 
 done
