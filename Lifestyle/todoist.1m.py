@@ -28,7 +28,11 @@ try:
     j = json.loads(r.read())
     items = j['Items']
     for item in items:
-        if item['date_string'] == today:
-            print(comment + item['content'])
+      if item['due_date'] != None:
+        due_item = item['due_date'].split()
+        due_day = due_item[1] + " " + due_item[2]
+        if due_day == today:
+          print(comment + item['content'])
+
 finally:
     r.close()
