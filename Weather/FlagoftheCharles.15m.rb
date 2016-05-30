@@ -12,25 +12,24 @@ require 'nokogiri'
 require 'open-uri'
 
 
-CBI_PAGE = 'http://www.community-boating.org/about-us/weather-information/'
+CBI_WEATHER_PAGE = 'http://www.community-boating.org/about-us/weather-information/'
 HOBO_WEATHER_PAGE = 'https://www.hobolink.com/p/0cdac4a6910cef5a8883deb005d73ae1'
+MUCH_BETTER_CBI_FLAG_PAGE = 'https://portal2.community-boating.org/pls/apex/CBI_PROD.FLAG_JS'
 
 hobo_html = Nokogiri.HTML(open(HOBO_WEATHER_PAGE))
-cbi_html = Nokogiri.HTML(open(CBI_PAGE))
+# cbi_html = Nokogiri.HTML(open(CBI_WEATHER_PAGE))
+cbi_html = Nokogiri.HTML(open(MUCH_BETTER_CBI_FLAG_PAGE))
 
 ## Get the flag color. ⚑!
-
-# The CBI website generates their flag icons inline with some mysterious javascript.
-# Luckily for us, they set the constant in a <script> in the <head>.
-flag_elem = cbi_html.at('script:contains("var FLAG_COLOR")').text.strip
+flag_elem = cbi_html.css('body').text
 	# => var FLAG_COLOR='c';
+
+# First, et only the actual single-letter var, ie c, G, Y, R
+FLAG_VAR = flag_elem.scan(/"([^"]*)"/)[0][0]
+# puts "#{FLAG_VAR}"
 
 # This is how CBI decides what color the flag is. We'll do the same. 
 # <script type="text/javascript">switch(FLAG_COLOR){case"G":document.write("<img src='http://www.community-boating.org/wp-content/themes/communityboating/images/green-flag.png' width='32' height='35' alt='green flag'> ");break;case"Y":document.write("<img src='http://www.community-boating.org/wp-content/themes/communityboating/images/yellow-flag.png' width='32' height='35' alt='yellow flag'> ");break;case"R":document.write("<img src='http://www.community-boating.org/wp-content/themes/communityboating/images/red-flag.png' width='32' height='35' alt='red flag'> ");break;default:document.write("<a href='http://www.community-boating.org/about-us/weather-information/'><img src='http://www.community-boating.org/wp-content/themes/communityboating/images/burgee.png' id='cbi-burgee' width='45' height='31'></a> ");}</script>
-
-# First, et only the actual single-letter var, ie c, G, Y, R
-FLAG_VAR = flag_elem.scan(/'([^']*)'/)
-
 case FLAG_VAR
 when 'R'
 	ICON_SHAPE = '⚑'
@@ -73,7 +72,7 @@ puts "Rain: #{stats['Rain:']} in"
 puts "Air Temp: #{stats['Air Temp:']} F"
 puts "Water Temp: #{stats['Water Temp:']} F"
 puts '---'
-puts "CBI Weather Information | href=#{CBI_PAGE}"
+puts "CBI Weather Information | href=#{CBI_WEATHER_PAGE}"
 
 
 # Some relevant(?) icons.
