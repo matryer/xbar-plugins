@@ -5,20 +5,39 @@
 # <bitbar.author>Isaac</bitbar.author>
 # <bitbar.author.github>irstacks</bitbar.author.github>
 # <bitbar.desc>Shows Boston's current Community Boating, Inc flag and related weather information.</bitbar.desc>
-# <bitbar.image>http://www.community-boating.org/wp-content/themes/communityboating/images/burgee.png</bitbar.image>
+# <bitbar.image>http://imgur.com/gQ3suo0</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 require 'nokogiri'
 require 'open-uri'
+require 'openssl'
 
-
+# We'll provide a link to this. 
 CBI_WEATHER_PAGE = 'http://www.community-boating.org/about-us/weather-information/'
-HOBO_WEATHER_PAGE = 'https://www.hobolink.com/p/0cdac4a6910cef5a8883deb005d73ae1'
-MUCH_BETTER_CBI_FLAG_PAGE = 'https://portal2.community-boating.org/pls/apex/CBI_PROD.FLAG_JS'
 
-hobo_html = Nokogiri.HTML(open(HOBO_WEATHER_PAGE))
-# cbi_html = Nokogiri.HTML(open(CBI_WEATHER_PAGE))
-cbi_html = Nokogiri.HTML(open(MUCH_BETTER_CBI_FLAG_PAGE))
+# Grab weather statistics from here (wind speed, etc)
+HOBO_WEATHER_PAGE = 'https://www.hobolink.com/p/0cdac4a6910cef5a8883deb005d73ae1'
+
+# This is apparently where they put a js one-liners with their current flag status. 
+CBI_FLAG_JS_PAGE = 'https://portal2.community-boating.org/pls/apex/CBI_PROD.FLAG_JS'
+
+# Got an error once: 'Back-end server at capacity', which would be a 503(?). 
+# However, visiting the page in the browser didn't generate an error, and once I did, the plugin worked again.
+# Cookie thingey? SSL thingey? 
+# The below is a hacky attempt at avoiding or at least better reporting the error.
+flag_js_page = open(CBI_FLAG_JS_PAGE)
+if flag_js_page.status[0] == '200'
+	cbi_html = Nokogiri.HTML(open(CBI_FLAG_JS_PAGE))
+else 
+	flag_js_page_no_ssl = open(CBI_FLAG_JS_PAGE, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+	if flag_js_page_no_ssl.status[0] == '200'
+		cbi_html = Nokogiri.HTML(open(CBI_FLAG_JS_PAGE))
+	else
+		puts "! | color=red"
+		puts "---"
+		puts "#{flag_js_page}"
+	end
+end
 
 ## Get the flag color. ⚑!
 flag_elem = cbi_html.css('body').text
@@ -47,6 +66,7 @@ end
 
 
 ## Get the weather. 
+hobo_weather_html = Nokogiri.HTML(open(HOBO_WEATHER_PAGE))
 
 stats = {}
 # => {"Wind Speed:"=>"3.4", "Gust Speed:"=>"10.2", "Wind Direction:"=>"NNE 20", "Rain:"=>"0.00", "Air Temp:"=>"48.41", "Water Temp:"=>"52.86", "Pressure:"=>"29.880", "PAR:"=>"384", "RH:"=>"99.00", "Dew Point:"=>"48.15", "Battery:"=>"4.415"}
@@ -54,7 +74,7 @@ stats = {}
 units = {}
 # => {"Wind Speed:"=>"mph", "Gust Speed:"=>"mph", "Wind Direction:"=>"°", "Rain:"=>"in", "Air Temp:"=>"°F", "Water Temp:"=>"°F", "Pressure:"=>"inHg", "PAR:"=>"uE", "RH:"=>"%", "Dew Point:"=>"°F", "Battery:"=>"V"}
 
-hobo_html.css('.latest-conditions-info').each do |con|
+hobo_weather_html.css('.latest-conditions-info').each do |con|
 	_label = con.css('span.latest-conditions-info-label')[0].text
 	_reading = con.css('span.latest-conditions-info-reading')[0].text
 	_units = con.css('span.latest-conditions-info-units')[0].text
