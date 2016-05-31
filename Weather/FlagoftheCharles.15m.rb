@@ -27,11 +27,11 @@ CBI_FLAG_JS_PAGE = 'https://portal2.community-boating.org/pls/apex/CBI_PROD.FLAG
 # The below is a hacky attempt at avoiding or at least better reporting the error.
 flag_js_page = open(CBI_FLAG_JS_PAGE)
 if flag_js_page.status[0] == '200'
-	cbi_html = Nokogiri.HTML(open(CBI_FLAG_JS_PAGE))
+	cbi_html = Nokogiri.HTML(flag_js_page)
 else 
 	flag_js_page_no_ssl = open(CBI_FLAG_JS_PAGE, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
 	if flag_js_page_no_ssl.status[0] == '200'
-		cbi_html = Nokogiri.HTML(open(CBI_FLAG_JS_PAGE))
+		cbi_html = Nokogiri.HTML(flag_js_page_no_ssl)
 	else
 		puts "! | color=red"
 		puts "---"
