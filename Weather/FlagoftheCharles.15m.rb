@@ -75,11 +75,12 @@ units = {}
 # => {"Wind Speed:"=>"mph", "Gust Speed:"=>"mph", "Wind Direction:"=>"°", "Rain:"=>"in", "Air Temp:"=>"°F", "Water Temp:"=>"°F", "Pressure:"=>"inHg", "PAR:"=>"uE", "RH:"=>"%", "Dew Point:"=>"°F", "Battery:"=>"V"}
 
 hobo_weather_html.css('.latest-conditions-info').each do |con|
-	_label = con.css('span.latest-conditions-info-label')[0].text
-	_reading = con.css('span.latest-conditions-info-reading')[0].text
-	_units = con.css('span.latest-conditions-info-units')[0].text
-	stats[_label] = _reading
-	units[_label] = _units
+	label = con.css('span.latest-conditions-info-label')[0].text
+	reading = con.css('span.latest-conditions-info-reading')[0].text
+	units = con.css('span.latest-conditions-info-units')[0].text
+	
+	stats[label] = reading
+	units[label] = units
 end
 
 
