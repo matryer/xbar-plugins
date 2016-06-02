@@ -12,6 +12,8 @@ require 'nokogiri'
 require 'open-uri'
 require 'openssl'
 
+# SPARK='/usr/local/Cellar/spark/1.0.1/bin/spark'
+
 # We'll provide a link to this. 
 CBI_WEATHER_PAGE = 'http://www.community-boating.org/about-us/weather-information/'
 
@@ -77,18 +79,20 @@ units = {}
 hobo_weather_html.css('.latest-conditions-info').each do |con|
 	label = con.css('span.latest-conditions-info-label')[0].text
 	reading = con.css('span.latest-conditions-info-reading')[0].text
-	units = con.css('span.latest-conditions-info-units')[0].text
+	unit_value = con.css('span.latest-conditions-info-units')[0].text
 	
 	stats[label] = reading
-	units[label] = units
+	units[label] = unit_value
 end
+
+# sparky = %x(/usr/local/Cellar/spark/1.0.1/bin/spark "#{stats['Wind Speed:']}" "#{stats['Gust Speed:']}").to_s.strip! # return string
 
 
 ## Put put. 
 
 puts "#{ICON_SHAPE} | color=#{COLOR}"
 puts '---'
-puts "#{stats['Wind Speed:']}/#{stats['Gust Speed:']}#{units['Wind Speed:']} ☇ #{stats['Wind Direction:']}"
+puts "#{stats['Wind Speed:']}/#{stats['Gust Speed:']}#{units['Wind Speed:']} ☇ #{stats['Wind Direction:']}" # #{sparky} 
 puts "Rain: #{stats['Rain:']} in"
 puts "Air Temp: #{stats['Air Temp:']} F"
 puts "Water Temp: #{stats['Water Temp:']} F"
