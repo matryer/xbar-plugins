@@ -5,7 +5,7 @@
 # <bitbar.author>Isaac</bitbar.author>
 # <bitbar.author.github>irstacks</bitbar.author.github>
 # <bitbar.desc>Shows Boston's current Community Boating, Inc flag and related weather information.</bitbar.desc>
-# <bitbar.image>http://imgur.com/gQ3suo0</bitbar.image>
+# <bitbar.image>http://i.imgur.com/gQ3suo0.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 require 'nokogiri'
