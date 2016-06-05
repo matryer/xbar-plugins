@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # <bitbar.title>Bluetooth Inspector</bitbar.title>
-# <bitbar.version>0.1.2</bitbar.version>
+# <bitbar.version>0.1.3</bitbar.version>
 # <bitbar.author>Ryan Scott Lewis</bitbar.author>
 # <bitbar.author.github>RyanScottLewis</bitbar.author.github>
 # <bitbar.desc>Show bluetooth information for all connected bluetooth devices using the `system_profiler` binary.</bitbar.desc>
@@ -260,13 +260,6 @@ module BluetoothInspector
       get_or_set_attribute(__method__, arguments)
     end
 
-    # Get/set the color of the device.
-    #
-    # @return [nil, String]
-    def shortname(*arguments)
-      get_or_set_attribute(__method__, arguments)
-    end
-
     # Get/set whether the device is shown within the bar.
     #
     # @return [Boolean]
@@ -379,7 +372,7 @@ module BluetoothInspector
     # @return [<Device>]
     def device(value, &block)
       value = value.to_s
-      device = devices.find { |device| device.name == value || device.shortname == value }
+      device = devices.find { |device| d.name == value || d.shortname == value }
 
       run_device_block_if_needed(device, &block)
 
