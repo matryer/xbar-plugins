@@ -372,7 +372,7 @@ module BluetoothInspector
     # @return [<Device>]
     def device(value, &block)
       value = value.to_s
-      device = devices.find { |device| d.name == value || d.shortname == value }
+      device = devices.find { |d| d.name == value || d.shortname == value }
 
       run_device_block_if_needed(device, &block)
 
