@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # <bitbar.title>Wikipedia On This Day</bitbar.title>
 # <bitbar.version>0.1.0</bitbar.version>
-# <bitbar.author>Ryan Scott Lewis <ryanscottlewis@gmailc.om></bitbar.author>
+# <bitbar.author>Ryan Scott Lewis</bitbar.author>
 # <bitbar.author.github>RyanScottLewis</bitbar.author.github>
 # <bitbar.desc>Display Wikipedia On This Day information.</bitbar.desc>
 # <bitbar.dependencies>ruby (wikipedia, wikicloth, nokogiri rubygems)</bitbar.dependencies>
@@ -45,4 +45,3 @@ lines.each { |line| puts(line) }
 # * Sort by date
 # * Date format
 # * Strip references: "[1]", etc
-
