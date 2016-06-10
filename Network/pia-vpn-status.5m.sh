@@ -9,7 +9,7 @@
 # <bitbar.abouturl>https://github.com/parvez/bitbar-plugins</bitbar.abouturl>
 #
 # by Parvez
-pia=`curl --silent https://www.privateinternetaccess.com/pages/whats-my-ip/| tr -d "\n" | grep -o '<div class="topheader">.* curl' | sed -e 's/<[^>]*>//g' | /usr/local/bin/gsed -e 's/  \+/\n/g'`;
+pia=$(curl --silent https://www.privateinternetaccess.com/pages/whats-my-ip/| tr -d "\n" | grep -o '<div class="topheader">.* curl' | sed -e 's/<[^>]*>//g' | /usr/local/bin/gsed -e 's/  \+/\n/g');
 if [[ $pia == *"You are protected by PIA"* ]]
 then
   echo "✅";
