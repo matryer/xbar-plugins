@@ -60,8 +60,15 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
 
     for output_line in output_lines:
         output_line = output_line.strip()
-        if len(output_line) > 0:
-            content_lines.append(output_line)
+        if not output_line:
+            continue
+        # When looking for 'active' or 'next' tasks, we want to look only at
+        # lines that start with a digit or a -. Other line are likely extra
+        # data like annotations from bugwarrior sync
+        content_id = output_line.split()[0].strip()
+        if not content_id.isdigit() and content_id not in ['--', '-', 'ID']:
+            continue
+        content_lines.append(output_line)
 
     content_count = len(content_lines[2:-1])
 
