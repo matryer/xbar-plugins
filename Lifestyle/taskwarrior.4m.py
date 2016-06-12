@@ -65,7 +65,7 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
         # When looking for 'active' or 'next' tasks, we want to look only at
         # lines that start with a digit or a -. Other line are likely extra
         # data like annotations from bugwarrior sync
-        content_id = output_line.split()[0].strip()
+        content_id = output_line.split()[0]
         if not content_id.isdigit() and content_id not in ['--', '-', 'ID']:
             continue
         content_lines.append(output_line)
