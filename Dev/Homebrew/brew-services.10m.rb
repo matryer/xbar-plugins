@@ -94,7 +94,7 @@ started = services[:started]
 menus = services[:menus].join("\n")
 all = ""
 if total > 0
-"""
+  all = """
 All
 --Start #{plural(total - started)} | #{service("start", "--all")}
 --Stop #{plural(started)} | #{service("stop", "--all")}
