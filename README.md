@@ -1,4 +1,4 @@
-# BitBar Plugins [![Slack Status](https://getbitbar.herokuapp.com/badge.svg)](https://getbitbar.herokuapp.com/)
+# BitBar Plugins [![Build Status](https://travis-ci.org/matryer/bitbar-plugins.svg?branch=master)](https://travis-ci.org/matryer/bitbar-plugins) [![Slack Status](https://getbitbar.herokuapp.com/badge.svg)](https://getbitbar.herokuapp.com/)
 
 This repo contains scripts, programs and command-line tools that add functionality to [BitBar](https://github.com/matryer/bitbar#get-started).
 
@@ -9,13 +9,13 @@ This repo contains scripts, programs and command-line tools that add functionali
 
 ### Reporting issues
 
-The best way to report an issue with a plugin is to find the plugin on https://getbitbar.com and click "Report issue". If possible, the author will be tagged in the issue - which greatly increases your chances of getting the issue looked at quickly.
+The best way to report an issue with a plugin is to find the plugin on https://getbitbar.com and click "Open issue". If possible, the author will be tagged in the issue - which greatly increases your chances of getting the issue looked at quickly.
 
 ### How to use them
 
   * Just drop the plugin into your BitBar plugins folder (if you have the repo, why not use the `Enabled` folder?)
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
-  * Then choose `Restart all` from the BitBar menus
+  * Then choose `Refresh all` from the BitBar menus
 
 ###Available Plugins
 

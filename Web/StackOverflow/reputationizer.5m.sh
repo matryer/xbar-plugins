@@ -7,6 +7,7 @@
 # <bitbar.author>Bruce Steedman</bitbar.author>
 # <bitbar.author.github>MatzFan</bitbar.author.github>
 # <bitbar.image>https://i.imgur.com/0XHs8R0.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
 #
 # by Bruce Steedman
 #
@@ -27,7 +28,9 @@ fi
 # get reputation from api
 NEWREP=$(curl -s --compressed "$URI" | egrep -o '"reputation":*([0-9])+' | sed 's/"reputation"://')
 
-if [ "$NEWREP" -gt "$OLDREP" ] ; then
+if [ -z "$OLDREP" ] || [ -z "$NEWREP" ] ; then
+  echo ❓
+elif [ "$NEWREP" -gt "$OLDREP" ] ; then
   echo 👍
 elif [ "$OLDREP" -gt "$NEWREP" ] ; then
   echo 👎

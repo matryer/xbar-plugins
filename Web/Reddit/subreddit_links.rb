@@ -4,6 +4,7 @@
 # <bitbar.author>Joe Canero</bitbar.author>
 # <bitbar.author.github>caneroj1</bitbar.author.github>
 # <bitbar.image>https://i.imgur.com/3ZDUdNH.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
 
 require 'net/http'
 require 'json'
@@ -23,10 +24,23 @@ SUBREDDITS = [
   ["r/AskReddit", "/top"],
 ]
 
+# Feel free to make the user agent your username
+# It looks like reddit just requires the user agent to be
+# something unique and not generic.
+USER_AGENT = "bitbar-user-agent"
 REDDIT = "https://www.reddit.com/"
+DEFAULT_PORT = 80
+
 def to_json(subreddit, type)
-  url = "#{REDDIT}#{subreddit}#{type}.json"
-  data = JSON.parse(Net::HTTP.get(URI(url)))
+  uri = URI.parse("#{REDDIT}#{subreddit}#{type}.json")
+  @http = Net::HTTP::Get.new(uri)
+  @http.add_field('User-Agent', USER_AGENT)
+ 
+  res = Net::HTTP.start(uri.host, DEFAULT_PORT) do |http| 
+    http.request(@http)
+  end
+ 
+  data = JSON.parse(res.body)
   data["subreddit_name"] = (subreddit.eql?("") ? "Front Page" : subreddit) + type
   data
 end

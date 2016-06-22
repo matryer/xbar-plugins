@@ -4,6 +4,7 @@
 # <bitbar.author>Jason Tokoph (jason@tokoph.net)</bitbar.author>
 # <bitbar.author.github>jtokoph</bitbar.author.github>
 # <bitbar.desc>Tracks up to 10 clipboard items.
+# <bitbar.version>1.0</bitbar.version>
 # Clicking on a previous item will copy it back to the clipboard.
 # Clicking "Clear history" will remove history files from the filesystem.</bitbar.desc>
 
@@ -84,7 +85,7 @@ if [[ -e "$tmp_dir/item-1.pb" ]]; then
   do
     if [ -e "$tmp_dir/item-$i.pb" ]; then
       content="$(head -c 36 "$tmp_dir/item-$i.pb")"
-      if (( $(wc -c "$tmp_dir/item-$i.pb") > 36 )); then
+      if (( $(wc -c "$tmp_dir/item-$i.pb" | awk '{print $1}') > 36 )); then
         content="$content..."
       fi
       echo "${content//|/ }|bash=$0 param1=copy param2=$i refresh=true terminal=false"
