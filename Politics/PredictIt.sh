@@ -25,7 +25,7 @@ echo "---"
 
 getData () {
     market=$1
-    curl -H "Accept: application/xml" -kfs "https://www.predictit.org/api/marketdata/ticker/$market" -X GET  | xmllint --format - > /private/tmp/$market.$$.xml 2>/dev/null
+    curl -H "Accept: application/xml" -kfs "https://www.predictit.org/api/marketdata/ticker/$market" -X GET  | xmllint --format - > "/private/tmp/$market.$$.xml" 2>/dev/null
     Description=$(xpath "/private/tmp/$market.$$.xml" 'MarketData/Name' 2>/dev/null| awk -F\> '{print $2}'|awk -F\< '{print $1}' 2>/dev/null)
     echo "$Description"
     IDsInPol=$(xpath "/private/tmp/$market.$$.xml" 'MarketData/Contracts' 2>/dev/null|grep -i "<ID>"| awk -F\> '{print $2}'|awk -F\< '{print $1}' 2>/dev/null)
