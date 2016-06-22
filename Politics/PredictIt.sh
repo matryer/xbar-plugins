@@ -7,6 +7,7 @@
 # <bitbar.title>Political Outcome Predictions</bitbar.title> 
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Todd Houle</bitbar.author>
+# <bitbar.image>http://i.imgur.com/WVAdSsD.png</bitbar.image>
 # <bitbar.author.github>tmhoule</bitbar.author.github>
 # <bitbar.desc>Displays predictions from PredictIt (who will win elections,etc.) No API key or accounts needed. Watch Trumps chance of winning the election right from your menu bar.</bitbar.desc>
 
