@@ -2,31 +2,39 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v2.0.4</bitbar.version>
+# <bitbar.version>v3.0.0</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by forecast.io with auto location lookup. Supports metric and imperial units. Needs API key from http://developer.forecast.io.</bitbar.desc>
-# <bitbar.image>https://daniel.seripap.com/content/images/2016/01/bb-weather_v1-3-5-1.png</bitbar.image>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/683200/16276583/ff267f36-387c-11e6-9fd0-fc57b459e967.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 import json
 import urllib2
+import base64
 from random import randint
 
-def internet_on():
-    try:
-        urllib2.urlopen('http://forecast.io',timeout=1)
-        return True
-    except urllib2.URLError: pass
-    return False
-
 api_key = '' # get yours at https://developer.forecast.io
-units = '' # change to si for metric, default is imperial
+units = '' # set to si for metric, leave blank for imperial
 
 def auto_loc_lookup():
   try:
-    return json.load(urllib2.urlopen('http://ipinfo.io/json'))
-  except urllib2.HTTPError:
+    location = urllib2.urlopen('http://ipinfo.io/json')
+    return json.load(location)
+  except urllib2.URLError:
+    return False
+
+def get_image(loc):
+  try:
+    image = {}
+    location = loc.split(',');
+    url = 'http://forecast.io/atlas/precipitation.png?latitude=' +  location[0] + '&longitude=' +  location[1] + '&theta=0&phi=-30&zoom=0.05&width=320&height=213&border_scale=0.75&label_stroke_col=FFFFFFCC&label_scale=1&label_count=2&city_label=1'
+    opener = urllib2.build_opener()
+    opener.addheaders = [('Referer', 'http://forecast.io/atlas/')]
+    image['url'] = url
+    image['encoded'] = base64.b64encode(opener.open(url).read())
+    return image
+  except urllib2.URLError:
     return False
 
 def full_country_name(country):
@@ -39,7 +47,7 @@ def full_country_name(country):
         return False
     except KeyError:
       return False
-  except urllib2.HTTPError:
+  except urllib2.URLError:
     return False
 
 def calculate_bearing(degree):
@@ -149,6 +157,7 @@ def get_wx():
 
     if 'loc' in location:
       weather_data['loc'] = str(location['loc'])
+      weather_data['image'] = get_image(location['loc']);
 
   except KeyError:
     return False
@@ -158,15 +167,17 @@ def get_wx():
 def render_wx():
 
   if api_key == '':
-    print 'No API key'
+    print 'Missing API key'
     print '---'
-    print 'Get API Key | href=https://developer.forecast.io'
+    print 'Get an API Key | href=https://developer.forecast.io'
     return False
 
   weather_data = get_wx()
 
   if weather_data is False:
-    print 'Could not get weather'
+    print '--'
+    print '---'
+    print 'Could not get weather data at this time'
     return False
 
   if 'icon' in weather_data and 'temperature' in weather_data:
@@ -183,6 +194,10 @@ def render_wx():
 
   if 'condition' in weather_data and 'feels_like' in weather_data:
     print weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like']
+
+  if 'image' in weather_data:
+    if weather_data['image']['encoded']:
+      print '| href=' + weather_data['image']['url'] + '| image=' + weather_data['image']['encoded'] 
 
   print '---'
 
@@ -207,6 +222,4 @@ def render_wx():
   print '---'
   print 'Powered by Forecast | href=http://forecast.io'
 
-
-if internet_on():
-    render_wx()
+render_wx()
