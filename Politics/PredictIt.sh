@@ -2,13 +2,9 @@
 #Todd Houle
 #Jun2016
 
-#known issue: if last contract contains only one element and useImages are set to true, then link and image will not appear on last element.
-# This is an issue with BitBar v2b4 & v2b5 that does not occur in v1.9.1
-
-#Instructions: At the bottom of the script, add a getData line with the contract you'd like to follow. You can get the contract name by looking at the PredictIt page and entering they 'symbol' on that page end the end of this script.
+#Instructions: At the bottom of the script, add a getData line with the contract or market you'd like to follow. You can get the contract name by looking at the PredictIt page and entering they 'symbol' on that page end the end of this script.
 
 # <bitbar.title>Political Outcome Predictions</bitbar.title> 
-# <bitbar.image>https://github.com/tmhoule/bitbar-plugins/blob/master/Politics/PIMenu.png</bitbar.image>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Todd Houle</bitbar.author>
 # <bitbar.author.github>tmhoule</bitbar.author.github>
