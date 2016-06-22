@@ -17,7 +17,7 @@ import json
 import urllib2
 import calendar
 import datetime
-from datetime import date, timedelta
+from datetime import timedelta
 
 domain = 'https://domain.co'
 api_key = 'yourAPIkey'
