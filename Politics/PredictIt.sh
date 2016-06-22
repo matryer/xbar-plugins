@@ -1,23 +1,23 @@
-#!/bin/bash                                                                                                                                                                                                                                                                      
-#Todd Houle                                                                                                                                                                                                                                                                      
-#Jun2016                                                                                                                                                                                                                                                                         
+#!/bin/bash
+#Todd Houle
+#Jun2016
 
-#known issue: if last contract contains only one element and useImages are set to true, then link and image will not appear on last element.                                                                                                                                     
+#known issue: if last contract contains only one element and useImages are set to true, then link and image will not appear on last element.
 # This is an issue with BitBar v2b4 & v2b5 that does not occur in v1.9.1
 
 #Instructions: At the bottom of the script, add a getData line with the contract you'd like to follow. You can get the contract name by looking at the PredictIt page and entering they 'symbol' on that page end the end of this script.
 
-# <bitbar.title>Political Outcome Predictions</bitbar.title>                                                                                                                                                                                                                     
-# <bitbar.version>v1.0</bitbar.version>                                                                                                                                                                                                                                          
-# <bitbar.author>Todd Houle</bitbar.author>                                                                                                                                                                                                                                      
-# <bitbar.author.github>tmhoule</bitbar.author.github>                                                                                                                                                                                                                           
-# <bitbar.desc>Displays predictions from PredictIt (who will win elections,etc.) No API key or accounts needed. Watch Trumps chance of winning the election right from your menu bar.</bitbar.desc>                                                                              
+# <bitbar.title>Political Outcome Predictions</bitbar.title> 
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Todd Houle</bitbar.author>
+# <bitbar.author.github>tmhoule</bitbar.author.github>
+# <bitbar.desc>Displays predictions from PredictIt (who will win elections,etc.) No API key or accounts needed. Watch Trumps chance of winning the election right from your menu bar.</bitbar.desc>
 
-#Show images in menu.  Comment out one of the lines below.                                                                                                                                                                                                                       
+#Show images in menu.  Comment out one of the lines below.
 useImages=true
 #useImages=false                                                                                                                                                                                                                                                                 
 
-#must be this percent or higher to show in menu                                                                                                                                                                                                                                  
+#must be this percent or higher to show in menu
 cutoff=5
 
 echo "PI"
@@ -48,7 +48,6 @@ getData () {
     rm "/private/tmp/$market.$$.xml"
 }
 
-getData NOFLYNOBUY.2016
 getData DNOM16
 getData RNOM16
 getData USPREZ16
