@@ -117,6 +117,9 @@ if check_files.count > 0
   puts "\n---\n#{@output}"
 else
   puts " | image=#{ICON_UNDETERMINED}"
+  puts "---"
+  puts "Create configuration files in #{CONFIG_DIR} | color=black bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
+  puts "Click here to learn how to write configurations | color=black href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
 end
 
 puts "---\nRefresh... | refresh=true"
