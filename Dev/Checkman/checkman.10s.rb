@@ -86,32 +86,37 @@ def parse_output(check_name, check_output)
 end
 
 global_status = true
-Dir["#{CONFIG_DIR}/*"].each do |checkfile|
-  check = File.open(checkfile).read
-  check.each_line do |line|
-    case line.strip
-    when /^#-(.+)/
-      @output += "#{$1.strip}| size=12\n"
-    when '#-'
-      @output += "---\n"
-    when /^#.*/, ''
-    else
-      item = line.split(":", 2)
-      cmd = item[1].strip.split(" ", 2)
-      output = `#{plugin_path cmd[0]} #{cmd[1]} 2>/dev/null`
-      global_status &= parse_output item[0], output
+check_files = Dir["#{CONFIG_DIR}/*"]
+if check_files.count > 0
+  check_files.each do |checkfile|
+    check = File.open(checkfile).read
+    check.each_line do |line|
+      case line.strip
+      when /^#-(.+)/
+        @output += "#{$1.strip}| size=12\n"
+      when '#-'
+        @output += "---\n"
+      when /^#.*/, ''
+      else
+        item = line.split(":", 2)
+        cmd = item[1].strip.split(" ", 2)
+        output = `#{plugin_path cmd[0]} #{cmd[1]} 2>/dev/null`
+        global_status &= parse_output item[0], output
+      end
     end
+    @output += "---\n"
   end
-  @output += "---\n"
-end
 
-if @failed > 0
-  print "#{@failed} | image=#{ICON_FAIL}"
-elsif @undetermined > 0
-  print "#{@undetermined} | image=#{ICON_UNDETERMINED}"
+  if @failed > 0
+    print "#{@failed} | image=#{ICON_FAIL}"
+  elsif @undetermined > 0
+    print "#{@undetermined} | image=#{ICON_UNDETERMINED}"
+  else
+    print " | image=#{ICON_OK}"
+  end
+  puts "\n---\n#{@output}"
 else
-  print " | image=#{ICON_OK}"
+  puts " | image=#{ICON_UNDETERMINED}"
 end
-puts "\n---\n#{@output}"
 
 puts "---\nRefresh... | refresh=true"
