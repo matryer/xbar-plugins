@@ -64,6 +64,8 @@ NO_DIM=" bash=/bin/true terminal=false "
 def help
   puts " | image=#{ICON_UNDETERMINED}"
   puts "---"
+  puts "Checkman Simulator v0.1| #{NO_DIM}"
+  puts "---"
   puts "No configuration files found in #{CONFIG_DIR} | bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
   puts "Click here to learn how to write configuration files... | href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
   puts "---\nRefresh... | refresh=true"
