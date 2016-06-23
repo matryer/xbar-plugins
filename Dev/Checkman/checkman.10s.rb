@@ -49,6 +49,11 @@ ICONS = {
   },
 }
 
+# TODO: What is the parameter to prevent the line to be dimmed? This is
+# the only way I could figure out
+# NO_DIM=" bash=/bin/true terminal=false "
+NO_DIM=" bash=/bin/true terminal=false "
+
 @output = ""
 @failed = 0
 @undetermined = 0
@@ -56,8 +61,8 @@ ICONS = {
 def help
   puts " | image=#{ICON_UNDETERMINED}"
   puts "---"
-  puts "No configuration files found in #{CONFIG_DIR} | color=black bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
-  puts "Click here to learn how to write configuration files... | color=black href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
+  puts "No configuration files found in #{CONFIG_DIR} | bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
+  puts "Click here to learn how to write configuration files... | href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
   puts "---\nRefresh... | refresh=true"
   exit
 end
@@ -73,21 +78,21 @@ end
 
 def parse_output(check_name, check_output)
   if check_output.strip == ""
-    @output += "#{check_name}|color=black image= #{ICON_UNDETERMINED} \n"
+    @output += "#{check_name}| #{NO_DIM} image= #{ICON_UNDETERMINED} \n"
     @undetermined += 1
     return false
   end
   r = JSON.parse(check_output)
   icon = ICONS[r["result"].to_s.to_sym][(!!r["changing"]).to_s.to_sym]
-  @output += "#{check_name}|color=black image=#{icon}"
-  @output += " href=#{r['url']}" unless r['url'].nil?
+  @output += "#{check_name}| image=#{icon} "
+  @output += r['url'].nil? ? NO_DIM : "href=#{r['url']}"
   @output += "\n"
   @failed += 1 unless r["result"]
   unless r["info"].nil?
     r["info"].each do |i|
       if i[1] != ""
-        @output += "--#{i[0]}: #{i[1]} | color=black"
-        @output += " href=#{i[1]}" if i[0].downcase == "url"
+        @output += "--#{i[0]}: #{i[1]}"
+        @output += "| href=#{i[1]}" if i[0].downcase == "url"
         @output += "\n"
       else
         @output += "-----\n"
@@ -120,10 +125,10 @@ check_files.each do |checkfile|
   @output += "---\n"
 end
 
-if @failed > 0
-  print "#{@failed} | image=#{ICON_FAIL}"
-elsif @undetermined > 0
+if @undetermined > 0
   print "#{@undetermined} | image=#{ICON_UNDETERMINED}"
+elsif @failed > 0
+    print "#{@failed} | image=#{ICON_FAIL}"
 else
   print " | image=#{ICON_OK}"
 end
