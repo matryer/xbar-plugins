@@ -70,7 +70,9 @@ def parse_output(check_name, check_output)
   end
   r = JSON.parse(check_output)
   icon = ICONS[r["result"].to_s.to_sym][(!!r["changing"]).to_s.to_sym]
-  @output += "#{check_name}|image=#{icon} \n"
+  @output += "#{check_name}|color=black image=#{icon}"
+  @output += " href=#{r['url']}" unless r['url'].nil?
+  @output += "\n"
   @failed += 1 unless r["result"]
   unless r["info"].nil?
     r["info"].each do |i|
@@ -119,7 +121,7 @@ else
   puts " | image=#{ICON_UNDETERMINED}"
   puts "---"
   puts "Create configuration files in #{CONFIG_DIR} | color=black bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
-  puts "Click here to learn how to write configurations | color=black href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
+  puts "Click here to learn how to write configuration files... | color=black href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
 end
 
 puts "---\nRefresh... | refresh=true"
