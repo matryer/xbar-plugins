@@ -53,6 +53,15 @@ ICONS = {
 @failed = 0
 @undetermined = 0
 
+def help
+  puts " | image=#{ICON_UNDETERMINED}"
+  puts "---"
+  puts "No configuration files found in #{CONFIG_DIR} | color=black bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
+  puts "Click here to learn how to write configuration files... | color=black href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
+  puts "---\nRefresh... | refresh=true"
+  exit
+end
+
 def plugin_path(plugin)
   FileUtils.mkdir_p(CHECKS_DIR)
   plugin_path = "#{CHECKS_DIR}/#{plugin}"
@@ -80,6 +89,8 @@ def parse_output(check_name, check_output)
         @output += "--#{i[0]}: #{i[1]} | color=black"
         @output += " href=#{i[1]}" if i[0].downcase == "url"
         @output += "\n"
+      else
+        @output += "-----\n"
       end
     end
   end
@@ -87,41 +98,35 @@ def parse_output(check_name, check_output)
   r["result"]
 end
 
-global_status = true
 check_files = Dir["#{CONFIG_DIR}/*"]
-if check_files.count > 0
-  check_files.each do |checkfile|
-    check = File.open(checkfile).read
-    check.each_line do |line|
-      case line.strip
-      when /^#-(.+)/
-        @output += "#{$1.strip}| size=12\n"
-      when '#-'
-        @output += "---\n"
-      when /^#.*/, ''
-      else
-        item = line.split(":", 2)
-        cmd = item[1].strip.split(" ", 2)
-        output = `(#{plugin_path cmd[0]} #{cmd[1]}) 2>/dev/null`
-        global_status &= parse_output item[0], output
-      end
-    end
-    @output += "---\n"
-  end
+help if check_files.count == 0
 
-  if @failed > 0
-    print "#{@failed} | image=#{ICON_FAIL}"
-  elsif @undetermined > 0
-    print "#{@undetermined} | image=#{ICON_UNDETERMINED}"
-  else
-    print " | image=#{ICON_OK}"
+check_files.each do |checkfile|
+  check = File.open(checkfile).read
+  check.each_line do |line|
+    case line.strip
+    when /^#-(.+)/
+      @output += "#{$1.strip}| size=12\n"
+    when '#-'
+      @output += "---\n"
+    when /^#.*/, ''
+    else
+      item = line.split(":", 2)
+      cmd = item[1].strip.split(" ", 2)
+      output = `(#{plugin_path cmd[0]} #{cmd[1]}) 2>/dev/null`
+      parse_output item[0], output
+    end
   end
-  puts "\n---\n#{@output}"
-else
-  puts " | image=#{ICON_UNDETERMINED}"
-  puts "---"
-  puts "Create configuration files in #{CONFIG_DIR} | color=black bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
-  puts "Click here to learn how to write configuration files... | color=black href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
+  @output += "---\n"
 end
+
+if @failed > 0
+  print "#{@failed} | image=#{ICON_FAIL}"
+elsif @undetermined > 0
+  print "#{@undetermined} | image=#{ICON_UNDETERMINED}"
+else
+  print " | image=#{ICON_OK}"
+end
+puts "\n---\n#{@output}"
 
 puts "---\nRefresh... | refresh=true"
