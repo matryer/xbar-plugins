@@ -100,7 +100,7 @@ if check_files.count > 0
       else
         item = line.split(":", 2)
         cmd = item[1].strip.split(" ", 2)
-        output = `#{plugin_path cmd[0]} #{cmd[1]} 2>/dev/null`
+        output = `(#{plugin_path cmd[0]} #{cmd[1]}) 2>/dev/null`
         global_status &= parse_output item[0], output
       end
     end
