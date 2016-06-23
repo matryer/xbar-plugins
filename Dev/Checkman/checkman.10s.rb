@@ -49,6 +49,8 @@ ICONS = {
   },
 }
 
+PRIORITY_ORDER = [ICON_OK, ICON_OK_CHANGING, ICON_FAIL, ICON_FAIL_CHANGING, ICON_UNDETERMINED, ICON_UNDETERMINED_CHANGING]
+
 # TODO: What is the parameter to prevent the line to be dimmed? This is
 # the only way I could figure out
 # NO_DIM=" bash=/bin/true terminal=false "
@@ -57,6 +59,7 @@ NO_DIM=" bash=/bin/true terminal=false "
 @output = ""
 @failed = 0
 @undetermined = 0
+@aggregated_status = ICON_OK
 
 def help
   puts " | image=#{ICON_UNDETERMINED}"
@@ -80,7 +83,7 @@ def parse_output(check_name, check_output)
   if check_output.strip == ""
     @output += "#{check_name}| #{NO_DIM} image= #{ICON_UNDETERMINED} \n"
     @undetermined += 1
-    return false
+    return ICON_UNDETERMINED
   end
   r = JSON.parse(check_output)
   icon = ICONS[r["result"].to_s.to_sym][(!!r["changing"]).to_s.to_sym]
@@ -100,7 +103,7 @@ def parse_output(check_name, check_output)
     end
   end
 
-  r["result"]
+  icon
 end
 
 check_files = Dir["#{CONFIG_DIR}/*"]
@@ -119,19 +122,21 @@ check_files.each do |checkfile|
       item = line.split(":", 2)
       cmd = item[1].strip.split(" ", 2)
       output = `(#{plugin_path cmd[0]} #{cmd[1]}) 2>/dev/null`
-      parse_output item[0], output
+      icon = parse_output item[0], output
+      if PRIORITY_ORDER.index(icon) > PRIORITY_ORDER.index(@aggregated_status)
+        @aggregated_status = icon
+      end
     end
   end
   @output += "---\n"
 end
 
 if @undetermined > 0
-  print "#{@undetermined} | image=#{ICON_UNDETERMINED}"
+  print @undetermined
 elsif @failed > 0
-    print "#{@failed} | image=#{ICON_FAIL}"
-else
-  print " | image=#{ICON_OK}"
+    print @failed
 end
-puts "\n---\n#{@output}"
+puts " | image=#{@aggregated_status}"
+puts "---\n#{@output}"
 
 puts "---\nRefresh... | refresh=true"
