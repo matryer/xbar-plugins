@@ -18,7 +18,7 @@ ICON="iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAAAXNSR0IArs4c6QAAAAlwSFlzAA
 def icon(str="", ok=true)
   msg = "#{str} | image=#{ICON} dropdown=false\n"
   msg += "#{str} | image=#{ICON} dropdown=false color=red\n" unless ok
-  msg += "---"
+  msg + "---"
 end
 
 def status
