@@ -26,7 +26,7 @@ require 'json'
 require 'fileutils'
 require 'open-uri'
 
-CHECKS_DIR="/tmp/bitbar-checkman-plugins/"
+CHECKS_DIR="#{ENV['HOME']}/.bitbar-checkman-plugins/"
 CHECKS_URL="https://raw.githubusercontent.com/cppforlife/checkman/master/scripts/"
 CONFIG_DIR="#{ENV['HOME']}/Checkman/"
 
