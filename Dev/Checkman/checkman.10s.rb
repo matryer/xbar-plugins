@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
 # <bitbar.title>Checkman Simulator</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
+# <bitbar.version>v0.1.1</bitbar.version>
 # <bitbar.author>Deluan Quintao</bitbar.author>
 # <bitbar.author.github>deluan</bitbar.author.github>
-# <bitbar.desc>This plugin reuses Checkman's configurations and plugins, so you don't need to install it :)</bitbar.desc>
+# <bitbar.desc>This plugin reuses Checkman's configurations and plugins, so you don't need to install it :) It has checks for: HTTP, GoCD, Concourse, Jenkins, Travis, Semaphore, Codeship, CircleCI, Airbrake, GitHub, Pivotal Tracker, TDDium and SnapCI, and you can even create your own plugins to leverage Checkman's streamlined UI and configuration files. More info: https://gist.github.com/deluan/3f6fa6bcff2a355ae89181bb15590b88#file-readme-md</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/irmlsOX.jpg</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cppforlife/checkman</bitbar.abouturl>
+# <bitbar.abouturl>https://gist.github.com/deluan/3f6fa6bcff2a355ae89181bb15590b88#file-readme-md</bitbar.abouturl>
 
 # This plugin simulates Checkman functionality, allowing you to use all its
 # plugins and creating checks in external files. It downloads Checkman's plugins
@@ -51,10 +51,8 @@ ICONS = {
 
 PRIORITY_ORDER = [ICON_OK, ICON_OK_CHANGING, ICON_FAIL, ICON_FAIL_CHANGING, ICON_UNDETERMINED, ICON_UNDETERMINED_CHANGING]
 
-# TODO: What is the parameter to prevent the line to be dimmed? This is
-# the only way I could figure out
-# NO_DIM=" bash=/bin/true terminal=false "
-NO_DIM=" bash=/bin/true terminal=false "
+DARK_MODE=`defaults read -g AppleInterfaceStyle 2> /dev/null`.strip
+NO_DIM = " color=#{DARK_MODE == 'Dark' ? 'white' : 'black'} "
 
 @output = ""
 @failed = 0
@@ -64,7 +62,7 @@ NO_DIM=" bash=/bin/true terminal=false "
 def help
   puts " | image=#{ICON_UNDETERMINED}"
   puts "---"
-  puts "Checkman Simulator v0.1| #{NO_DIM}"
+  puts "Checkman Simulator v0.1.1| #{NO_DIM}"
   puts "---"
   puts "No configuration files found in #{CONFIG_DIR} | bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
   puts "Click here to learn how to write configuration files... | href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
@@ -95,9 +93,9 @@ def parse_output(check_name, check_output)
   @failed += 1 unless r["result"]
   unless r["info"].nil?
     r["info"].each do |i|
-      if i[1] != ""
-        @output += "--#{i[0]}: #{i[1]}"
-        @output += "| href=#{i[1]}" if i[0].downcase == "url"
+      if i[0] != '-'
+        @output += "--#{i[0]}: #{i[1]} | #{NO_DIM}"
+        @output += "href=#{i[1]}" if i[0].downcase == "url"
         @output += "\n"
       else
         @output += "-----\n"
