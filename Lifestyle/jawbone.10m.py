@@ -4,9 +4,10 @@
 # <bitbar.author.github>dettmering</bitbar.author.github>
 # <bitbar.title>Get steps and sleep duration from your Jawbone UP</bitbar.title>
 # <bitbar.version>1.0</bitbar.version>
-#
-# Get today's steps and sleep duration from your Jawbone UP!
-#
+# <bitbar.desc>Get today's steps and sleep duration from your Jawbone UP!</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/JtguThL.png</bitbar.image>
+# <bitbar.dependencies>python</bitbar.dependencies>
+# <bitbar.abouturl>http://tilldettmering.com/</bitbar.abouturl>
 
 import json
 import urllib2
