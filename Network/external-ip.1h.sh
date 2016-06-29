@@ -9,7 +9,7 @@ EXTERNAL_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 if [ "$1" = "copy" ]; then
   # Copy the IP to clipboard
-  echo "$EXTERNAL_IP" | pbcopy
+  echo -n "$EXTERNAL_IP" | pbcopy
 fi
 
 echo "$EXTERNAL_IP"
