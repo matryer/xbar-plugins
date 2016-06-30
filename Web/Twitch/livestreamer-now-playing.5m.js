@@ -342,7 +342,12 @@ function endOutput() {
 
 function handleResponse(body) {
     var streamByGame = {};
-    body.streams.forEach(function(stream) {
+
+    var onlineStreams = body.streams.filter(function(stream) {
+        return !stream.is_playlist;
+    });
+
+    onlineStreams.forEach(function(stream) {
         if (!streamByGame[stream.channel.game]) {
             streamByGame[stream.channel.game] = [];
         }
@@ -356,10 +361,10 @@ function handleResponse(body) {
         outputs.push([game, '| size=10 \n', streamByGame[game].map(outputForStream).join('')].join(''));
     }
 
-    if (body.streams.length === 0) {
+    if (onlineStreams.length === 0) {
         console.log('|templateImage="'+ TWITCH_ICON_36_RETINA + '"\n');
     } else {
-        console.log(body.streams.length + '|image="'+ TWITCH_ICON_36_RETINA + '"\n');
+        console.log(onlineStreams.length + '|image="'+ TWITCH_ICON_36_RETINA + '"\n');
     }
 
     console.log('---\n' + outputs.join('\n---\n'));
