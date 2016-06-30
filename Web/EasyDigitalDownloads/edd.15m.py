@@ -15,6 +15,9 @@
 
 import json
 import urllib2
+import calendar
+import datetime
+from datetime import timedelta
 
 domain = 'https://domain.co'
 api_key = 'yourAPIkey'
@@ -41,11 +44,21 @@ def get_edd():
 try:
   edd_data = get_edd()
 
+  # Get how many days have passed this month
+  now = datetime.datetime.now()
+  days_so_far = now.day
+
+  # Get how many days there were last month
+  last_month = now.replace(day=1) - timedelta(days=1)
+  days_last_month = calendar.monthrange(last_month.year, last_month.month)[1]
+
   print 'Today: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['today'], float(edd_data['sales']['today']) )
   print '---' # Show each of the next lines in a drop-down
-  print 'Current Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['current_month'], float(edd_data['sales']['current_month']) )
+  print 'Current Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['current_month'], float(edd_data['sales']['current_month']))
+  print '${0:,.2f} daily average, ${1:,.2f} ASP'.format( float( edd_data['earnings']['current_month'] / days_so_far ), float(edd_data['earnings']['current_month'] / int(edd_data['sales']['current_month'])))
   print 'Last Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['last_month'], float(edd_data['sales']['last_month']) )
-  print 'Total: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['totals'], float(edd_data['sales']['totals']) )
+  print '${0:,.2f} daily average, ${1:,.2f} ASP'.format( float(edd_data['earnings']['last_month'] / days_last_month), float(edd_data['earnings']['last_month'] / int(edd_data['sales']['last_month'])))
+  print 'Total: ${0:,.2f} from {1:,.0f} sales'.format(edd_data['earnings']['totals'], float(edd_data['sales']['totals']))
 
 except Exception as inst:
   print 'Error fetching stats'

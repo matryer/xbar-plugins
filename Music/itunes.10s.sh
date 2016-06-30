@@ -22,7 +22,7 @@ if [ "$1" = 'launch' ]; then
 fi
 
 if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
-  echo "♫"
+  echo "♫ | color=green size=10"
   echo "---"
   echo "iTunes is not running"
   echo "Launch iTunes | bash=$0 param1=launch terminal=false"
@@ -46,17 +46,39 @@ fi
 
 state=$(osascript -e 'tell application "iTunes" to player state as string');
 
+track=$(osascript -e'
+try
+tell application "iTunes" to name of current track as string
+on error errText
+  "no track selected"
+end try
+');
+
+artist=$(osascript -e'
+try
+	tell application "iTunes" to artist of current track as string
+on error errText
+    ""
+end try
+');
+
+
+album=$(osascript -e'
+try
+	tell application "iTunes" to album of current track as string
+on error errText
+    ""
+end try
+');
+
 if [ "$state" = "playing" ]; then
-  state_icon="▶"
+  state_icon="▶️"
+  
 else
-  state_icon="❚❚"
+  state_icon="⏸"
 fi
 
-track=$(osascript -e 'tell application "iTunes" to name of current track as string');
-artist=$(osascript -e 'tell application "iTunes" to artist of current track as string');
-album=$(osascript -e 'tell application "iTunes" to album of current track as string');
-
-echo "$state_icon $track - $artist"
+echo "$state_icon $track - $artist | color=green size=10"
 echo "---"
 
 case "$0" in
@@ -68,16 +90,16 @@ case "$0" in
   ;;
 esac
 
-echo "Track: $track | color=#333333"
-echo "Artist: $artist | color=#333333"
-echo "Album: $album | color=#333333"
+echo "Track: $track |  color=green size=10"
+echo "Artist: $artist | color=green size=10"
+echo "Album: $album | color=green size=10"
 
 echo '---'
 
 if [ "$state" = "playing" ]; then
-  echo "Pause | bash=$0 param1=playpause terminal=false"
-  echo "Previous | bash=$0 param1=previous terminal=false"
-  echo "Next | bash=$0 param1=next terminal=false"
+  echo "Pause | bash=$0 param1=playpause terminal=false refresh=true color=green size=10"
+  echo "Previous | bash=$0 param1=previous terminal=false refresh=true color=green size=10"
+  echo "Next | bash=$0 param1=next terminal=false refresh=true color=green size=10"
 else
-  echo "Play | bash=$0 param1=playpause terminal=false"
+  echo "Play | bash=$0 param1=playpause terminal=false refresh=true color=green size=10"
 fi
