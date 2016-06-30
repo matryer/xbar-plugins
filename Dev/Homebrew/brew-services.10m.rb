@@ -27,6 +27,13 @@ BREW_SERVICES_LINK = "https://github.com/Homebrew/homebrew-services"
 
 REFRESH = "---\nRefresh | refresh=true"
 
+if BAR_COLORS
+  DARK_MODE=`defaults read -g AppleInterfaceStyle 2> /dev/null`.strip
+  RESET_COLOR = DARK_MODE == 'Dark' ? "\e[37m" : "\e[30m"
+else
+  RESET_COLOR = "\e[37m"
+end
+
 if !File.exist?(BREW)
   puts [
     "Homebrew not installed | color=red",
@@ -47,7 +54,7 @@ if !File.exist?(BREW_SERVICES)
 end
 
 def green(string)
-  "\e[1m\e[32m#{string}\e[37m"
+  "\e[1m\e[32m#{string}#{RESET_COLOR}"
 end
 
 def service(command, name)
