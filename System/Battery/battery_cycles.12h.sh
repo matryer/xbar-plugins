@@ -4,7 +4,7 @@
 # <bitbar.author>Maxime Bertheau</bitbar.author>
 # <bitbar.author.github>maxoumime</bitbar.author.github>
 # <bitbar.desc>Get your battery cycles and condition on the menu bar !</bitbar.desc>
-# <bitbar.image>http://nothingreally.botler.me/bitbar.battery-cycles.png</bitbar.image>
+# <bitbar.image>https://nothingreally.botler.me/bitbar.battery-cycles.png</bitbar.image>
 
 # Get cycles number
 cycles=$(system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}')

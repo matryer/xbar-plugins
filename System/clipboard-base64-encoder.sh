@@ -19,7 +19,7 @@ APPENDIX=""
 
 # user clicks on 'encoding'
 if [[ "$1" = "encode" ]]; then
-  $(echo -n "$(echo -n "${PREFIX}$(pbpaste)${APPENDIX}" | base64)" | pbcopy)
+  echo -n "$(echo -n "${PREFIX}$(pbpaste)${APPENDIX}" | base64)" | pbcopy
   osascript -e "display notification \"Clipboard entry encoded with BASE64\" with title \"BitBar Clipboard BASE64-Encoder\"" &> /dev/null
   exit
 fi

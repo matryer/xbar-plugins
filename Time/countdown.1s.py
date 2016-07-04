@@ -8,7 +8,7 @@
 # <bitbar.image>https://cloud.githubusercontent.com/assets/7404532/12356787/ae62636c-bba4-11e5-8ff8-6a1eaffcbfc2.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
-from datetime import datetime, time
+from datetime import datetime
 
 # Set date in format using this format: yyyy-mm-dd hh:mm:ss
 DATE = '2017-12-31 00:00:00'

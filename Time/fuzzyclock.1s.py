@@ -1,16 +1,16 @@
 #!/usr/bin/python
 
-# Display the current system time in a 'fuzzy' manner, rounding to the nearest
-# 5 minutes and using words.
-#
-# by Dylan Evans (dylan@physicynicism.com)
+# <bitbar.title>Fuzzy Clock</bitbar.title>
+# <bitbar.author>Dylan Evans</bitbar.author>
+# <bitbar.author.github>whonut</bitbar.author.github>
+# <bitbar.desc>Display the current system time in a 'fuzzy' manner, rounding to the nearest 5 minutes and using words.</bitbar.desc>
+# <bitbar.version>1.0</bitbar.version>
 #
 # 1 second refresh rate may be overkill. Wording & formatting of the time may
 # also be easily altered below.
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 from time import localtime
-from math import floor
 
 
 def round_to_nearest_five(n):
