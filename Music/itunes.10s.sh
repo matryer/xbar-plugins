@@ -113,9 +113,7 @@ on error errText
 end try
 ');
 
-if [ -f "$tmp_file" ]; then
-    base64img=$(base64 < "$tmp_file")
-else
+if [ ! -f "$tmp_file" ]; then
     osascript -e'
     try
         tell application "iTunes"
@@ -139,16 +137,21 @@ else
         set eof outFile to 0
         write srcBytes to outFile
         close access outFile
+        tell application "Image Events"
+            set resImg to open tmpName
+            scale resImg to size 200
+            save resImg
+            close resImg
+        end tell
+        tmpName
     on error errText
         ""
     end try
     '
+fi
 
-    if [ -f $tmp_file ]; then
-    if [ -f "$tmp_file" ]; then
-        sips --resampleWidth 200 "$tmp_file" &> /dev/null
-        base64img=$(base64 < "$tmp_file")
-    fi
+if [ -f "$tmp_file" ]; then
+    base64img=$(base64 < "$tmp_file")
 fi
 
 if [ "$state" = "playing" ]; then
@@ -162,7 +165,9 @@ if [ "$track" != "no track selected" ]; then
 else
     echo "♫ ◼︎ | color=$COLOR0 size=12"
 fi
+
 echo "---"
+
 if [ "$state" = "playing" ]; then
   echo "𝝞𝝞 Pause | bash=$0 param1=playpause terminal=false refresh=true color=$COLOR0"
   echo "« Previous | bash=$0 param1=previous terminal=false refresh=true color=$COLOR0"
@@ -170,7 +175,9 @@ if [ "$state" = "playing" ]; then
 else
   echo "▶︎ Play | bash=$0 param1=playpause terminal=false refresh=true color=$COLOR0"
 fi
+
 echo "---"
+
 case "$0" in
   *\ * )
    echo "Your script path"
@@ -183,9 +190,11 @@ esac
 if [ "$track" != "no track selected" ] && [ "$base64img" != "" ]; then
     echo "| image=$base64img bash=$0 param1=open terminal=false"
 fi
+
 if [ "$track" != "no track selected" ]; then
     echo "$track | color=$COLOR1"
     echo "$artist | color=$COLOR2"
     echo "$album | size=12 color=$COLOR3 length=30"
 fi
+
 echo '---'
