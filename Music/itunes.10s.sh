@@ -2,21 +2,28 @@
 
 # Get current iTunes status with play/pause button
 #
-# based on Spotify script by Jason Tokoph (jason@tokoph.net), tweaked by Dan
-# Turkel (daturkel@gmail.com) 
+# based on Spotify script by Jason Tokoph (jason@tokoph.net),
+# tweaked by Dan Turkel (daturkel@gmail.com),
+# additionally tweaked by Aleš Farčnik (@alesf)
 #
 # Shows current track information from iTunes
 # 10 second refresh might be a little too quick. Tweak to your liking.
 
 # metadata
 # <bitbar.title>iTunes Now Playing</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Dan Turkel, Jason Tokoph</bitbar.author>
+# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.author>Dan Turkel, Jason Tokoph, Aleš Farčnik</bitbar.author>
 # <bitbar.author.github>daturkel</bitbar.author.github>
-# <bitbar.desc>Display currently playing iTunes song. Play/pause, skip forward, skip backward.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/1Q81FL4.png</bitbar.image>
+# <bitbar.desc>Display currently playing iTunes song with artwork. Play/pause, skip forward, skip backward.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/lBfoFdY.png</bitbar.image>
 
 if [ "$1" = 'launch' ]; then
+  osascript -e 'tell application "iTunes" to activate'
+  exit
+fi
+
+if [ "$1" = 'open' ]; then
+  osascript -e 'tell application "iTunes" to reopen'
   osascript -e 'tell application "iTunes" to activate'
   exit
 fi
@@ -44,6 +51,19 @@ if [ "$1" = 'next' ]; then
   exit
 fi
 
+BitBarDarkMode=${BitBarDarkMode}
+if [ "$BitBarDarkMode" ]; then
+  COLOR0="#666666"
+  COLOR1="#ffffff"
+  COLOR2="#666666"
+  COLOR3="#333333"
+else
+  COLOR0="#333333"
+  COLOR1="#000000"
+  COLOR2="#666666"
+  COLOR3="#999999"
+fi
+
 state=$(osascript -e 'tell application "iTunes" to player state as string');
 
 track=$(osascript -e'
@@ -62,7 +82,6 @@ on error errText
 end try
 ');
 
-
 album=$(osascript -e'
 try
 	tell application "iTunes" to album of current track as string
@@ -71,35 +90,101 @@ on error errText
 end try
 ');
 
-if [ "$state" = "playing" ]; then
-  state_icon="▶️"
-  
+tmp_file=$(osascript -e'
+try
+    tell application "iTunes"
+        tell artwork 1 of current track
+            if format is JPEG picture then
+                set imgFormat to ".jpg"
+		    else
+                set imgFormat to ".png"
+            end if
+	    end tell
+        set albumName to album of current track
+        set albumArtist to album artist of current track
+        if length of albumArtist is 0
+            set albumArtist to artist of current track
+        end if
+        set fileName to (do shell script "echo " & quoted form of albumArtist & quoted form of albumName & " | sed \"s/[^a-zA-Z0-9]//g\"") & imgFormat
+    end tell
+	(POSIX path of (path to temporary items from user domain)) & fileName
+on error errText
+    ""
+end try
+');
+
+if [ -f $tmp_file ]; then
+    base64img=`cat $tmp_file | base64`
 else
-  state_icon="⏸"
+    osascript -e'
+    try
+        tell application "iTunes"
+            tell artwork 1 of current track
+                set srcBytes to raw data
+                if format is JPEG picture then
+                    set imgFormat to ".jpg"
+                else
+                    set imgFormat to ".png"
+                end if
+            end tell
+            set albumName to album of current track
+            set albumArtist to album artist of current track
+            if length of albumArtist is 0
+                set albumArtist to artist of current track
+            end if
+            set fileName to (do shell script "echo " & quoted form of albumArtist & quoted form of albumName & " | sed \"s/[^a-zA-Z0-9]//g\"") & imgFormat
+        end tell
+        set tmpName to ((path to temporary items from user domain) as text) & fileName
+        set outFile to open for access file tmpName with write permission
+        set eof outFile to 0
+        write srcBytes to outFile
+        close access outFile
+    on error errText
+        ""
+    end try
+    '
+
+    if [ -f $tmp_file ]; then
+        `sips --resampleWidth 200 $tmp_file`
+        base64img=`cat $tmp_file | base64`
+    fi
 fi
 
-echo "$state_icon $track - $artist | color=green size=10"
-echo "---"
+if [ "$state" = "playing" ]; then
+  state_icon="▶︎"
+else
+  state_icon="𝝞𝝞"
+fi
 
+if [ "$track" != "no track selected" ]; then
+    echo "♫ $state_icon $track - $artist | color=$COLOR0 size=12"
+else
+    echo "♫ ◼︎ | color=$COLOR0 size=12"
+fi
+echo "---"
+if [ "$state" = "playing" ]; then
+  echo "𝝞𝝞 Pause | bash=$0 param1=playpause terminal=false refresh=true color=$COLOR0"
+  echo "« Previous | bash=$0 param1=previous terminal=false refresh=true color=$COLOR0"
+  echo "» Next | bash=$0 param1=next terminal=false refresh=true color=$COLOR0"
+else
+  echo "▶︎ Play | bash=$0 param1=playpause terminal=false refresh=true color=$COLOR0"
+fi
+echo "---"
 case "$0" in
   *\ * )
-   echo "Your script path | color=#ff0000"
-   echo "($0) | color=#ff0000"
-   echo "has a space in it, which BitBar does not support. | color=#ff0000"
-   echo "Play/Pause/Next/Previous buttons will not work. | color=#ff0000"
+   echo "Your script path"
+   echo "($0)"
+   echo "has a space in it, which BitBar does not support."
+   echo "Play/Pause/Next/Previous buttons will not work."
   ;;
 esac
 
-echo "Track: $track |  color=green size=10"
-echo "Artist: $artist | color=green size=10"
-echo "Album: $album | color=green size=10"
-
-echo '---'
-
-if [ "$state" = "playing" ]; then
-  echo "Pause | bash=$0 param1=playpause terminal=false refresh=true color=green size=10"
-  echo "Previous | bash=$0 param1=previous terminal=false refresh=true color=green size=10"
-  echo "Next | bash=$0 param1=next terminal=false refresh=true color=green size=10"
-else
-  echo "Play | bash=$0 param1=playpause terminal=false refresh=true color=green size=10"
+if [ "$track" != "no track selected" ] && [ "$base64img" != "" ]; then
+    echo "| image=$base64img bash=$0 param1=open terminal=false"
 fi
+if [ "$track" != "no track selected" ]; then
+    echo "$track | color=$COLOR1"
+    echo "$artist | color=$COLOR2"
+    echo "$album | size=12 color=$COLOR3 length=30"
+fi
+echo '---'
