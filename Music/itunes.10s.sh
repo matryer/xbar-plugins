@@ -29,7 +29,7 @@ if [ "$1" = 'open' ]; then
 fi
 
 if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
-  echo "♫ | color=$COLOR0 size=12"
+  echo "♫ | size=12"
   echo "---"
   echo "iTunes is not running"
   echo "Launch iTunes | bash=$0 param1=launch terminal=false"
@@ -113,8 +113,8 @@ on error errText
 end try
 ');
 
-if [ -f $tmp_file ]; then
-    base64img=`cat $tmp_file | base64`
+if [ -f "$tmp_file" ]; then
+    base64img=$(base64 < "$tmp_file")
 else
     osascript -e'
     try
@@ -145,8 +145,9 @@ else
     '
 
     if [ -f $tmp_file ]; then
-        `sips --resampleWidth 200 $tmp_file`
-        base64img=`cat $tmp_file | base64`
+    if [ -f "$tmp_file" ]; then
+        sips --resampleWidth 200 "$tmp_file" &> /dev/null
+        base64img=$(base64 < "$tmp_file")
     fi
 fi
 
