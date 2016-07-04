@@ -29,7 +29,7 @@ if [ "$1" = 'open' ]; then
 fi
 
 if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
-  echo "♫ | color=green size=10"
+  echo "♫ | color=$COLOR0 size=12"
   echo "---"
   echo "iTunes is not running"
   echo "Launch iTunes | bash=$0 param1=launch terminal=false"
