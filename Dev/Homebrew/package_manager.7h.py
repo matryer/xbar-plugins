@@ -7,7 +7,7 @@
 # <bitbar.desc>List package updates available from Homebrew and Cask.
 # Allows individual or full upgrades (if available).</bitbar.desc>
 # <bitbar.dependencies>python,homebrew,cask</bitbar.dependencies>
-# <bitbar.image>https://raw.githubusercontent.com/matryer/bitbar-plugins/master/Dev/Homebrew/package_manager_screenshot.png</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/kdeldycke/dotfiles/master/dotfiles-osx/.bitbar/package_manager_screenshot.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/kdeldycke/dotfiles/blob/master/dotfiles-osx/.bitbar/package_manager.7h.py</bitbar.abouturl>
 
 from __future__ import print_function, unicode_literals
