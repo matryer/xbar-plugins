@@ -13,4 +13,4 @@ now=$(date +'%s');
 hours=$(echo "($now - $wake)/3600" | bc)
 minutes=$(echo "(($now - $wake)/60)%60" | bc)
 
-echo $hours":"$(printf %02d $minutes)"h"
+echo "$hours:$(printf "%02d" "$minutes")h"
