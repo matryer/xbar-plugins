@@ -4,7 +4,7 @@
 # <bitbar.author>Parvez</bitbar.author>
 # <bitbar.author.github>parvez</bitbar.author.github>
 # <bitbar.desc>Displays PIA VPN connection status</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>http://i.imgur.com/YqBwZed.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/parvez/bitbar-plugins</bitbar.abouturl>
 #
