@@ -6,7 +6,7 @@
 # <bitbar.author>Parvez</bitbar.author>
 # <bitbar.author.github>parvez</bitbar.author.github>
 # <bitbar.desc>Displays current Adobe Flash Version for Mac</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>http://i.imgur.com/kxWNcl4.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/parvez/bitbar-plugins</bitbar.abouturl>
 #
