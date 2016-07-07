@@ -159,14 +159,20 @@ class Pip(PackageManager):
         """ List outdated packages and their metadata. """
         output = self.run(self.cli, 'list', '--outdated')
 
-        regexp = re.compile(r'(\S+) \((\S+)\) - Latest: (\S+)')
+        regexp = re.compile(r'(\S+) \((.*)\) - Latest: (\S+)')
 
         for outdated_pkg in output.strip().split('\n'):
+            name, installed_info, latest_version = regexp.match(
+                outdated_pkg).groups()
 
-            name, version, latest_version = regexp.match(outdated_pkg).groups()
+            # Extract current non-standard location if found.
+            installed_info = installed_info.split(',', 1)
+            version = installed_info[0]
+            special_location = " ({})".format(
+                installed_info[1].strip()) if len(installed_info) > 1 else ''
 
             self.updates.append({
-                'name': name,
+                'name': name + special_location,
                 'installed_version': version,
                 'latest_version': latest_version})
 
