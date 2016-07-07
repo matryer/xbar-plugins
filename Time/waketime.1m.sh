@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # <bitbar.title>Waketime</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.0.1</bitbar.version>
 # <bitbar.author>Matthias Vogt</bitbar.author>
 # <bitbar.author.github>matthias-vogt</bitbar.author.github>
 # <bitbar.desc>Shows the time since your mac last woke up in hours:minutes</bitbar.desc>
