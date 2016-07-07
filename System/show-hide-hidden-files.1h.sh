@@ -8,10 +8,10 @@
 # <bitbar.image>http://i.imgur.com/8qUKBTE.png</bitbar.image>
 
 if [ "$1" = "YES" ] || [ "$1" = "NO" ]; then
-	defaults write com.apple.finder AppleShowAllFiles $1 && killall Finder
+	defaults write com.apple.finder AppleShowAllFiles "$1" && killall Finder
 fi
 
-if [ $(defaults read com.apple.finder AppleShowAllFiles) == 'YES' ]; then
+if [ "$(defaults read com.apple.finder AppleShowAllFiles)" == 'YES' ]; then
 	echo "📂 | refresh=true terminal=false bash=$0 param1=NO"
 else
 	echo "📁 | refresh=true terminal=false bash=$0 param1=YES"
