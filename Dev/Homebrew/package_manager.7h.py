@@ -157,11 +157,12 @@ class Pip(PackageManager):
 
     def sync(self):
         """ List outdated packages and their metadata. """
-        output = self.run(self.cli, 'list', '--outdated')
+        output = self.run(self.cli, 'list', '--outdated').strip()
+        if not output:
+            return
 
         regexp = re.compile(r'(\S+) \((.*)\) - Latest: (\S+)')
-
-        for outdated_pkg in output.strip().split('\n'):
+        for outdated_pkg in output.split('\n'):
             name, installed_info, latest_version = regexp.match(
                 outdated_pkg).groups()
 
