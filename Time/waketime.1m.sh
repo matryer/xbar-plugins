@@ -7,7 +7,10 @@
 # <bitbar.desc>Shows the time since your mac last woke up in hours:minutes</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/jsB66g9.png</bitbar.image>
 
-wake=$(sysctl -a | grep 'waketime' | grep -o "\d\{10\}");
+wake=$(
+	sysctl -a | grep 'waketime' | grep -o "\d\{10\}" ||
+	sysctl -a | grep 'boottime' | grep -o "\d\{10\}"
+);
 now=$(date +'%s');
 
 hours=$(echo "($now - $wake)/3600" | bc)
