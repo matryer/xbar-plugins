@@ -17,9 +17,11 @@
 network_service="Wi-FI"
 
 # add or remove list of DNS options below, don't forget to make it enabled. see below
+# shellcheck disable=2034
 google="8.8.8.8
         8.8.4.4"
 
+# shellcheck disable=2034
 level3="209.244.0.3
         209.244.0.4
 
@@ -29,9 +31,11 @@ level3="209.244.0.3
         4.2.2.3
         4.2.2.4"
 
+# shellcheck disable=2034
 opendns="208.67.222.222
         208.67.220.220"
 
+# shellcheck disable=2034
 norton="199.85.126.10
         199.85.127.10
 
@@ -64,7 +68,7 @@ done
 if [[ $selected_dns == "Unknown" ]]
 then
     echo "Unrecognized DNS"
-    echo "$(networksetup -getdnsservers $network_service)"
+    networksetup -getdnsservers $network_service
 else
     echo "$selected_dns"
 fi
@@ -76,7 +80,7 @@ for dns_name in "${enabled_dns_address[@]}"
 do
   switcher="$tmp_dir/bitbar_dns_switcher_${dns_name}"
   cat <<EOF > $switcher
-dns_address='$(eval \"echo \${"${dns_name[@]}"}\")'
+dns_address='$(eval "echo \${\"${dns_name[*]}\"}")'
 networksetup -setdnsservers $network_service \$(echo \$dns_address)
 EOF
   chmod 700 "$switcher"

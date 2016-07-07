@@ -1,14 +1,9 @@
 #!/bin/bash
+# <bitbar.title>Xcode Version</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Florian Hirschmann</bitbar.author>
+# <bitbar.author.github>hirschfl</bitbar.author.github>
+# <bitbar.desc>Shows the Xcode version that is currently selected with xcode-select.</bitbar.desc>
+# <bitbar.dependencies>xcodebuild</bitbar.dependencies>
 
-# XcodeVersion
-# Xcode version plugin
-#
-# by Florian Hirschmann
-#
-# Shows the Xcode version that is currently selected with xcode-select. 
-# This is especially useful if you have multiple version of Xcode installed.
-#
-# Depends on Xcode / Apple Developer Tools
-#
 xcodebuild -version | head -1
-

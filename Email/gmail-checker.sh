@@ -7,13 +7,13 @@
 # <bitbar.desc>Checks gmail and displays inbox count</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/LYrIphK.png</bitbar.image>
 
-USERNAME=<gmail username>
-PASSWORD=<gmail password>
+USERNAME="GMAIL_USERNAME"
+PASSWORD="GMAIL_PASSWORD"
 COLOR=black
-RESULT=`curl -s -u $USERNAME:$PASSWORD "https://mail.google.com/mail/feed/atom" | egrep -o '<fullcount>[0-9]*' | cut -c 12-`
+RESULT=$(curl -s -u $USERNAME:$PASSWORD "https://mail.google.com/mail/feed/atom" | egrep -o '<fullcount>[0-9]*' | cut -c 12-)
 
-if [ $RESULT -ne "0" ]; then
+if [ "$RESULT" -ne "0" ]; then
    COLOR=red
 fi
 
-echo '📬' $RESULT "|color=$COLOR"
+echo "📬 $RESULT|color=$COLOR"

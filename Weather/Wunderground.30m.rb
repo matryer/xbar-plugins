@@ -77,7 +77,7 @@ class WeatherPlugin
 
   def with_api_error_handling
     yield
-  rescue Wunderground::MissingAPIKey => e
+  rescue Wunderground::MissingAPIKey => _
     puts 'WU API Error'
     puts '---'
     puts 'Missing API key'

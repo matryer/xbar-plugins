@@ -7,7 +7,7 @@
 # <bitbar.desc>Plugin shows currently open pull-requests on configured github repository. Items shown in the list are clickable (clicking the link opens up GitHub PR page).</bitbar.desc>
 # <bitbar.dependencies>node,curl</bitbar.dependencies>
 
-export PATH='/usr/local/bin:/usr/bin:$PATH'
+export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 # API base path
 GITHUB_REPO_API="https://api.github.com/repos"

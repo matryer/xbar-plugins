@@ -6,12 +6,12 @@
 # <bitbar.author.github>citoki</bitbar.author.github>
 # <bitbar.desc>This plugin will give some caffeine, with lots of sugar, to your Mac to stay awake.
 # Technically the commandline tool 'caffeinate' is executed.</bitbar.desc>
-# <bitbar.image>https://imgur.com/vsCWLwX</bitbar.image>
+# <bitbar.image>https://i.imgur.com/vsCWLwX.png</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 
 function get_program_state {
-  instances=$(ps -ax | grep -c /usr/bin/caffeinate)
+  instances=$(pgrep caffeinate)
 
   # set state
   if [[ $instances = 1 ]]; then
@@ -33,7 +33,7 @@ function set_program_icon {
 
 # stop all previous processes
 function terminate_caffeinate_instances {
-  $(/usr/bin/killall caffeinate &> /dev/null);
+  /usr/bin/killall caffeinate &> /dev/null
 }
 
 if [[ "$1" = "caffeine" ]]; then
