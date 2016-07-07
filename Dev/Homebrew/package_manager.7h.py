@@ -6,7 +6,7 @@
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List package updates available from Homebrew and Cask. Allows individual or full upgrades (if available).</bitbar.desc>
 # <bitbar.dependencies>python,homebrew,cask</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/H5ghZ4R.png</bitbar.image>
+# <bitbar.image>https://i.imgur.com/oXL2Nyn.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/kdeldycke/dotfiles/blob/master/dotfiles-osx/.bitbar/package_manager.7h.py</bitbar.abouturl>
 
 from __future__ import print_function, unicode_literals
