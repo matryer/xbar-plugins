@@ -162,8 +162,6 @@ class Cask(Homebrew):
 
 class Pip(PackageManager):
 
-    cli = '/usr/local/bin/pip'
-
     def sync(self):
         """ List outdated packages and their metadata. """
         output = self.run(self.cli, 'list', '--outdated').strip()
@@ -195,13 +193,23 @@ class Pip(PackageManager):
         return
 
 
+class Pip2(Pip):
+
+    cli = '/usr/local/bin/pip2'
+
+
+class Pip3(Pip):
+
+    cli = '/usr/local/bin/pip3'
+
+
 def print_menu():
     """ Print menu structure using BitBar's plugin API.
 
     See: https://github.com/matryer/bitbar#plugin-api
     """
     # Instantiate all available package manager.
-    managers = [k() for k in [Homebrew, Cask, Pip]]
+    managers = [k() for k in [Homebrew, Cask, Pip2, Pip3]]
 
     # Filters-out inactive managers.
     managers = [m for m in managers if m.active]
