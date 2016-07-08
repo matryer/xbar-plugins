@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
-# <bitbar.desc>List package updates available from Homebrew and Cask. Allows individual or full upgrades (if available).</bitbar.desc>
-# <bitbar.dependencies>python,homebrew,cask</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/H5ghZ4R.png</bitbar.image>
+# <bitbar.desc>List package updates available from Homebrew, Cask and Pip. Allows individual or full upgrades (if available).</bitbar.desc>
+# <bitbar.dependencies>python,homebrew,cask,pip</bitbar.dependencies>
+# <bitbar.image>https://i.imgur.com/oXL2Nyn.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/kdeldycke/dotfiles/blob/master/dotfiles-osx/.bitbar/package_manager.7h.py</bitbar.abouturl>
 
 from __future__ import print_function, unicode_literals
@@ -16,6 +16,7 @@ import sys
 import json
 import os
 from operator import methodcaller
+import re
 
 
 # TODO: add cleanup commands.
@@ -150,13 +151,48 @@ class Cask(Homebrew):
         return
 
 
+class Pip(PackageManager):
+
+    cli = '/usr/local/bin/pip'
+
+    def sync(self):
+        """ List outdated packages and their metadata. """
+        output = self.run(self.cli, 'list', '--outdated').strip()
+        if not output:
+            return
+
+        regexp = re.compile(r'(\S+) \((.*)\) - Latest: (\S+)')
+        for outdated_pkg in output.split('\n'):
+            name, installed_info, latest_version = regexp.match(
+                outdated_pkg).groups()
+
+            # Extract current non-standard location if found.
+            installed_info = installed_info.split(',', 1)
+            version = installed_info[0]
+            special_location = " ({})".format(
+                installed_info[1].strip()) if len(installed_info) > 1 else ''
+
+            self.updates.append({
+                'name': name + special_location,
+                'installed_version': version,
+                'latest_version': latest_version})
+
+    def update_cli(self, package_name):
+        return self.bitbar_cli_format(
+            "{} install --upgrade {}".format(self.cli, package_name))
+
+    def update_all_cli(self):
+        """ Pip doesn't support full upgrade yet. """
+        return
+
+
 def print_menu():
     """ Print menu structure using BitBar's plugin API.
 
     See: https://github.com/matryer/bitbar#plugin-api
     """
     # Instantiate all available package manager.
-    managers = [k() for k in [Homebrew, Cask]]
+    managers = [k() for k in [Homebrew, Cask, Pip]]
 
     # Filters-out inactive managers.
     managers = [m for m in managers if m.active]
