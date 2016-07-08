@@ -107,6 +107,15 @@ class Homebrew(PackageManager):
 
 class Cask(Homebrew):
 
+    @property
+    def active(self):
+        # Check if homebrew is installed
+        if super(Cask, self).active:
+            cask = Popen([self.cli, 'cask'], stdout=PIPE, stderr=PIPE)
+            cask.communicate()
+            return cask.returncode == 0
+        return False
+
     def sync(self):
         """ Fetch latest formulas and their metadata. """
         # No need to update formulas if Homebrew is synced first.
@@ -115,6 +124,8 @@ class Cask(Homebrew):
         output = self.run(self.cli, 'cask', 'list', '--versions')
 
         for installed_pkg in output.strip().split('\n'):
+            if not installed_pkg:
+                continue
             name, versions = installed_pkg.split(' ', 1)
 
             # `brew cask list` is broken. Use heuristics to guess the currently
