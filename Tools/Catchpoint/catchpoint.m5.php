@@ -21,7 +21,6 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://io.catchpoint.com/ui/api/token');
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));    
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//curl_setopt($ch, CURLOPT_VERBOSE, true);
 
 $result = curl_exec($ch);
 
@@ -31,16 +30,11 @@ $result = json_decode($result);
 
 $_SESSION['token'] = base64_encode($result->access_token);
 
-//echo 'Token : ' . $_SESSION['token'] . "\r\n";
-
 $ch = curl_init();
-
-//echo "\r\nDisplay info for Node ID #174\r\n";
 
 curl_setopt($ch, CURLOPT_URL, 'https://io.catchpoint.com/ui/api/v1/alerts?pageSize=5');
 curl_setopt($ch, CURLOPT_HTTPHEADER, 
     array('Authorization: Bearer ' . $_SESSION['token']));
-//curl_setopt($ch, CURLOPT_VERBOSE, true);
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
