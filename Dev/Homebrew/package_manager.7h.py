@@ -12,7 +12,6 @@
 from __future__ import print_function, unicode_literals
 
 from subprocess import Popen, PIPE
-import sys
 import json
 import os
 from operator import methodcaller
@@ -43,13 +42,12 @@ class PackageManager(object):
         """
         return os.path.isfile(self.cli) and os.access(self.cli, os.X_OK)
 
-    @staticmethod
-    def run(*args):
+    def run(self, *args):
         """ Run a shell command, and exits right away on error. """
-        output, error = Popen(args, stdout=PIPE).communicate()
+        self.error = None
+        output, error = Popen(args, stdout=PIPE, stderr=PIPE).communicate()
         if error:
-            print("Error | color=red")
-            sys.exit(error)
+            self.error = error
         return output
 
     def sync(self):
@@ -109,6 +107,15 @@ class Homebrew(PackageManager):
 
 class Cask(Homebrew):
 
+    @property
+    def active(self):
+        # Check if homebrew is installed
+        if super(Cask, self).active:
+            cask = Popen([self.cli, 'cask'], stdout=PIPE, stderr=PIPE)
+            cask.communicate()
+            return cask.returncode == 0
+        return False
+
     def sync(self):
         """ Fetch latest formulas and their metadata. """
         # No need to update formulas if Homebrew is synced first.
@@ -117,6 +124,8 @@ class Cask(Homebrew):
         output = self.run(self.cli, 'cask', 'list', '--versions')
 
         for installed_pkg in output.strip().split('\n'):
+            if not installed_pkg:
+                continue
             name, versions = installed_pkg.split(' ', 1)
 
             # `brew cask list` is broken. Use heuristics to guess the currently
@@ -153,8 +162,6 @@ class Cask(Homebrew):
 
 class Pip(PackageManager):
 
-    cli = '/usr/local/bin/pip'
-
     def sync(self):
         """ List outdated packages and their metadata. """
         output = self.run(self.cli, 'list', '--outdated').strip()
@@ -186,13 +193,117 @@ class Pip(PackageManager):
         return
 
 
+class Pip2(Pip):
+
+    cli = '/usr/local/bin/pip2'
+
+
+class Pip3(Pip):
+
+    cli = '/usr/local/bin/pip3'
+
+
+class NPM(PackageManager):
+
+    cli = '/usr/local/bin/npm'
+
+    @property
+    def name(self):
+        return "npm"
+
+    def sync(self):
+        output = self.run(self.cli, '-g', '--progress=false', '--json',
+                          'outdated')
+        for package, values in json.loads(output).iteritems():
+            self.updates.append({
+                'name': package,
+                'installed_version': values['current'],
+                'latest_version': values['latest']
+            })
+
+    def update_cli(self, package_name=None):
+        cmd = "{} -g --progress=false update".format(self.cli)
+        if package_name:
+            cmd += " {}".format(package_name)
+        return self.bitbar_cli_format(cmd)
+
+    def update_all_cli(self):
+        return self.update_cli()
+
+
+class APM(PackageManager):
+
+    cli = '/usr/local/bin/apm'
+
+    @property
+    def name(self):
+        return "apm"
+
+    def sync(self):
+        output = self.run(self.cli, 'outdated', '--compatible', '--json')
+        for package in json.loads(output):
+            self.updates.append({
+                'name': package['name'],
+                'installed_version': package['version'],
+                'latest_version': package['latestVersion']
+            })
+
+    def update_cli(self, package_name=None):
+        cmd = "{} update --no-confirm".format(self.cli)
+        if package_name:
+            cmd += " {}".format(package_name)
+        return self.bitbar_cli_format(cmd)
+
+    def update_all_cli(self):
+        return self.update_cli()
+
+
+class Gems(PackageManager):
+    @property
+    def cli(self):
+        if os.path.exists('/usr/local/bin/gem'):
+            # Homebrew gem
+            return '/usr/local/bin/gem'
+        else:
+            # System gem
+            return '/usr/bin/gem'
+
+    @property
+    def name(self):
+        return "Ruby Gems"
+
+    def sync(self):
+        output = self.run(self.cli, 'outdated')
+
+        regexp = re.compile(r'(\S+) \((\S+) < (\S+)\)')
+        for package in output.split('\n'):
+            if not package:
+                continue
+            name, current_version, latest_version = regexp.match(
+                package).groups()
+            self.updates.append({
+                'name': name,
+                'installed_version': current_version,
+                'latest_version': latest_version
+            })
+
+    def update_cli(self, package_name=None):
+        cmd = "{} update".format(self.cli)
+        if package_name:
+            cmd += " {}".format(package_name)
+        return self.bitbar_cli_format(cmd)
+
+    def update_all_cli(self):
+        return self.update_cli()
+
+
 def print_menu():
     """ Print menu structure using BitBar's plugin API.
 
     See: https://github.com/matryer/bitbar#plugin-api
     """
     # Instantiate all available package manager.
-    managers = [k() for k in [Homebrew, Cask, Pip]]
+    managers = [k() for k in [Homebrew, Cask, Pip2, Pip3, APM, NPM, Gems]]
 
     # Filters-out inactive managers.
     managers = [m for m in managers if m.active]
@@ -202,11 +313,19 @@ def print_menu():
 
     # Print menu bar icon with number of available updates.
     total_updates = sum([len(m.updates) for m in managers])
-    print(("↑{} | dropdown=false".format(total_updates)).encode('utf-8'))
+    errors = [True for m in managers if m.error]
+    print(("↑{} {}| dropdown=false".format(
+        total_updates,
+        "⚠️{}".format(len(errors)) if errors else ""
+    )).encode('utf-8'))
 
     # Print a full detailed section for each manager.
     for manager in managers:
         print("---")
+
+        if manager.error:
+            for line in manager.error.split("\n"):
+                print("{} | color=red".format(line))
 
         print("{} {} package{}".format(
             len(manager.updates),
