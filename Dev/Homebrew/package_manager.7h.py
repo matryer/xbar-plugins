@@ -12,7 +12,6 @@
 from __future__ import print_function, unicode_literals
 
 from subprocess import Popen, PIPE
-import sys
 import json
 import os
 from operator import methodcaller
@@ -43,13 +42,12 @@ class PackageManager(object):
         """
         return os.path.isfile(self.cli) and os.access(self.cli, os.X_OK)
 
-    @staticmethod
-    def run(*args):
+    def run(self, *args):
         """ Run a shell command, and exits right away on error. """
-        output, error = Popen(args, stdout=PIPE).communicate()
+        self.error = None
+        output, error = Popen(args, stdout=PIPE, stderr=PIPE).communicate()
         if error:
-            print("Error | color=red")
-            sys.exit(error)
+            self.error = error
         return output
 
     def sync(self):
@@ -202,11 +200,19 @@ def print_menu():
 
     # Print menu bar icon with number of available updates.
     total_updates = sum([len(m.updates) for m in managers])
-    print(("↑{} | dropdown=false".format(total_updates)).encode('utf-8'))
+    errors = [True for m in managers if m.error]
+    print(("↑{} {}| dropdown=false".format(
+        total_updates,
+        "⚠️{}".format(len(errors)) if errors else ""
+    )).encode('utf-8'))
 
     # Print a full detailed section for each manager.
     for manager in managers:
         print("---")
+
+        if manager.error:
+            for line in manager.error.split("\n"):
+                print("{} | color=red".format(line))
 
         print("{} {} package{}".format(
             len(manager.updates),
