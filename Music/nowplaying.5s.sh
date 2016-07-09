@@ -91,7 +91,7 @@ else
 	track=$(osascript -e "tell application \"$app\" to $track_query")
 	artist=$(osascript -e "tell application \"$app\" to $artist_query")
 
-	echo "$track | length=40"
+	echo "$track | length=40" | awk -F '\ -' '{print $1}'
 	echo "---"
 	echo "$artist"
 
