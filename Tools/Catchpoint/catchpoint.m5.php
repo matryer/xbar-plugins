@@ -1,5 +1,6 @@
 #!/usr/bin/php
 <?php
+<<<<<<< HEAD
 // <bitbar.title>Catchpoint Alerts</bitbar.title>
 // <bitbar.version>v1.0</bitbar.version>
 // <bitbar.author>Robert Castley</bitbar.author>
@@ -8,6 +9,16 @@
 // <bitbar.image>http://i.imgur.com/xgkKWjy.png</bitbar.image>
 // <bitbar.dependencies>php, cURL</bitbar.dependencies>
 // <bitbar.abouturl>http://www.catchpoint.com/</bitbar.abouturl>
+=======
+# <bitbar.title>Catchpoint Alerts</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Robert Castley</bitbar.author>
+# <bitbar.author.github>rcastley</bitbar.author.github>
+# <bitbar.desc>Display Catchpoint Alerts via the Pull API.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/xgkKWjy.png</bitbar.image>
+# <bitbar.dependencies>php, cURL</bitbar.dependencies>
+# <bitbar.abouturl>http://www.catchpoint.com/</bitbar.abouturl>
+>>>>>>> matryer/master
 echo "| templateImage=iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABrklEQVQ4jYXTy2oUURAG4G96ro7xmhARERHcZm3AhUJAxIW4Fl/B13Onj6EoatCgIJF4jZO59IyL+TvTMyFY0Jw6df3rr9OcLjdzPsDOiu2ENFfuLWxigkc4hz/oYR3beIMNDDA7rVAfj7GGV/EfYIQj/EijO3gb+4lCO7iI90F0kHNUO38l9jBot/ABipWxGkn6irMYx1fG18IQe9G7dURd3E/wx5zddC0xTfEynBS1SUpcx35RC94PR238TdIs3Ayjlxmxgd/mhN9A0cLlBA/yVd1m+F4jtBMOqwadNNjFrMCTFDhT46hCcryV6MPEjHPvZdRnjQTdDfttiw0N8NOyXEjDdpBPcQsvm7idgNJ8vRVvzRScpkjbfOWNjCWj9tFvBm5hvs5RrVAj0KvNnrd4AlXeeu5fCnyLYy3GifkbKpLYzyf+VvQr4XIPn6sH2Qy5G7hkvv5+DVEz3BQW76gTRJvSsZI+HuJ1RqvezjQoxhlxgmtB/SKxS/9aK2SOgqqRcY9ih6uxj2LbTaOlQpPMe4h7+JTEdgr34tvGc7yz2Oh/5Wk42Iq+Ssex/AOGoHohWJhtKAAAAABJRU5ErkJggg==\n";
 echo "---\n";
 
@@ -21,6 +32,10 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://io.catchpoint.com/ui/api/token');
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));    
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+<<<<<<< HEAD
+=======
+//curl_setopt($ch, CURLOPT_VERBOSE, true);
+>>>>>>> matryer/master
 
 $result = curl_exec($ch);
 
@@ -30,6 +45,7 @@ $result = json_decode($result);
 
 $_SESSION['token'] = base64_encode($result->access_token);
 
+<<<<<<< HEAD
 $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_URL, 'https://io.catchpoint.com/ui/api/v1/alerts?pageSize=5');
@@ -41,6 +57,19 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://io.catchpoint.com/ui/api/v1/alerts?pageSize=5');
 curl_setopt($ch, CURLOPT_HTTPHEADER, 
     array('Authorization: Bearer ' . $_SESSION['token']));
+=======
+//echo 'Token : ' . $_SESSION['token'] . "\r\n";
+
+$ch = curl_init();
+
+//echo "\r\nDisplay info for Node ID #174\r\n";
+
+curl_setopt($ch, CURLOPT_URL, 'https://io.catchpoint.com/ui/api/v1/alerts?pageSize=5');
+curl_setopt($ch, CURLOPT_HTTPHEADER, 
+    array('Authorization: Bearer ' . $_SESSION['token']));
+//curl_setopt($ch, CURLOPT_VERBOSE, true);
+
+>>>>>>> matryer/master
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $data = curl_exec($ch);
