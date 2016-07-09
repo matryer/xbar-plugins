@@ -371,7 +371,12 @@ class NPM(PackageManager):
         """
         output = self.run(
             self.cli, '-g', '--progress=false', '--json', 'outdated')
+        if not output:
+            return
+
         for package, values in json.loads(output).iteritems():
+            if values['current'] == 'link':
+                continue
             self.updates.append({
                 'name': package,
                 'installed_version': values['current'],
@@ -398,6 +403,9 @@ class APM(PackageManager):
 
     def sync(self):
         output = self.run(self.cli, 'outdated', '--compatible', '--json')
+        if not output:
+            return
+
         for package in json.loads(output):
             self.updates.append({
                 'name': package['name'],
