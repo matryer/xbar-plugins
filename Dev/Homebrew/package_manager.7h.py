@@ -1,21 +1,57 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.3</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
-# <bitbar.desc>List package updates available from Homebrew, Cask and Pip. Allows individual or full upgrades (if available).</bitbar.desc>
-# <bitbar.dependencies>python,homebrew,cask,pip</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/oXL2Nyn.png</bitbar.image>
+# <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm and Rebuy's gem. Allows individual or full upgrades (if available).</bitbar.desc>
+# <bitbar.dependencies>python,homebrew,cask,pip,npm,apm,gem</bitbar.dependencies>
+# <bitbar.image>https://i.imgur.com/CiQpQ42.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/kdeldycke/dotfiles/blob/master/dotfiles-osx/.bitbar/package_manager.7h.py</bitbar.abouturl>
+
+"""
+Changelog
+=========
+
+1.3 (2016-07-09)
+----------------
+
+* Add changelog.
+* Add reference to package manager's issues.
+* Force Cask update before evaluating available packages.
+
+1.2 (2016-07-08)
+----------------
+
+* Add support for both pip2 and pip3, Node's npm, Atom's apm, Ruby's gem.
+  Thanks @tresni.
+* Fixup brew cask checking. Thanks @tresni.
+* Don't die on errors. Thanks @tresni.
+
+1.1 (2016-07-07)
+----------------
+
+* Add support for Python's pip.
+
+1.0 (2016-07-05)
+----------------
+
+* Initial public release.
+* Add support for Homebrew and Cask.
+
+0.0 (2016-07-05)
+-----------------
+
+* First commit.
+"""
 
 from __future__ import print_function, unicode_literals
 
-from subprocess import Popen, PIPE
 import json
 import os
-from operator import methodcaller
 import re
+from operator import methodcaller
+from subprocess import PIPE, Popen
 
 
 # TODO: add cleanup commands.
@@ -43,7 +79,8 @@ class PackageManager(object):
         return os.path.isfile(self.cli) and os.access(self.cli, os.X_OK)
 
     def run(self, *args):
-        """ Run a shell command, and exits right away on error. """
+        """ Run a shell command, return the output and keep error message.
+        """
         self.error = None
         output, error = Popen(args, stdout=PIPE, stderr=PIPE).communicate()
         if error:
@@ -109,7 +146,7 @@ class Cask(Homebrew):
 
     @property
     def active(self):
-        # Check if homebrew is installed
+        """ Cask depends on vanilla Homebrew. """
         if super(Cask, self).active:
             cask = Popen([self.cli, 'cask'], stdout=PIPE, stderr=PIPE)
             cask.communicate()
@@ -118,29 +155,37 @@ class Cask(Homebrew):
 
     def sync(self):
         """ Fetch latest formulas and their metadata. """
-        # No need to update formulas if Homebrew is synced first.
+        # `brew cask update` is just an alias to `brew update`. Perform the
+        # action anyway to make it future proof.
+        self.run(self.cli, 'cask', 'update')
 
         # List installed packages.
         output = self.run(self.cli, 'cask', 'list', '--versions')
 
+        # Inspect package one by one as `brew cask list` is not reliable. See:
+        # https://github.com/caskroom/homebrew-cask/blob/master/doc
+        # /reporting_bugs/brew_cask_list_shows_wrong_information.md
         for installed_pkg in output.strip().split('\n'):
             if not installed_pkg:
                 continue
             name, versions = installed_pkg.split(' ', 1)
 
-            # `brew cask list` is broken. Use heuristics to guess the currently
-            # installed version.
-            # See: https://github.com/caskroom/homebrew-cask/issues/14058
+            # Use heuristics to guess installed version.
             versions = sorted([
                 v.strip() for v in versions.split(',') if v.strip()])
             if len(versions) > 1 and 'latest' in versions:
                 versions.remove('latest')
             version = versions[-1] if versions else '?'
 
-            # Look closer to the package to guess its state.
+            # TODO: Support packages removed from repository (reported with a
+            # `(!)` flag). See: https://github.com/caskroom/homebrew-cask/blob
+            # /master/doc/reporting_bugs
+            # /uninstall_wrongly_reports_cask_as_not_installed.md
+
+            # Inspect the package closer to evaluate its state.
             output = self.run(self.cli, 'cask', 'info', name)
 
-            # Package is up-to-date.
+            # Consider package as up-to-date if installed.
             if output.find('Not installed') == -1:
                 continue
 
@@ -152,11 +197,20 @@ class Cask(Homebrew):
                 'latest_version': latest_version})
 
     def update_cli(self, package_name):
+        """ Install a package.
+
+        TODO: wait for https://github.com/caskroom/homebrew-cask/issues/22647
+        so we can force a cleanup in one go, as we do above with vanilla
+        Homebrew.
+        """
         return self.bitbar_cli_format(
             "{} cask install {}".format(self.cli, package_name))
 
     def update_all_cli(self):
-        """ Cask has no way to update all outdated packages. """
+        """ Cask has no way to update all outdated packages.
+
+        See: https://github.com/caskroom/homebrew-cask/issues/4678
+        """
         return
 
 
@@ -189,7 +243,11 @@ class Pip(PackageManager):
             "{} install --upgrade {}".format(self.cli, package_name))
 
     def update_all_cli(self):
-        """ Pip doesn't support full upgrade yet. """
+        """ Produce a long CLI with all upgradeable package names.
+
+        This work around the lack of proper full upgrade command in Pip.
+        See: https://github.com/pypa/pip/issues/59
+        """
         return
 
 
@@ -197,10 +255,18 @@ class Pip2(Pip):
 
     cli = '/usr/local/bin/pip2'
 
+    @property
+    def name(self):
+        return "Python 2 pip"
+
 
 class Pip3(Pip):
 
     cli = '/usr/local/bin/pip3'
+
+    @property
+    def name(self):
+        return "Python 3 pip"
 
 
 class NPM(PackageManager):
@@ -259,6 +325,7 @@ class APM(PackageManager):
 
 
 class Gems(PackageManager):
+
     @property
     def cli(self):
         if os.path.exists('/usr/local/bin/gem'):
