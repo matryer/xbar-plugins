@@ -19,6 +19,7 @@ Changelog
 * Add changelog.
 * Add reference to package manager's issues.
 * Force Cask update before evaluating available packages.
+* Add sample of command output as version parsing can be tricky.
 
 1.2 (2016-07-08)
 ----------------
@@ -119,7 +120,35 @@ class Homebrew(PackageManager):
     cli = '/usr/local/bin/brew'
 
     def sync(self):
-        """ Fetch latest Homebrew formulas. """
+        """ Fetch latest Homebrew formulas.
+
+        Sample of brew output:
+
+            $ brew outdated --json=v1
+            [
+              {
+                "name": "cassandra",
+                "installed_versions": [
+                  "3.5"
+                ],
+                "current_version": "3.7"
+              },
+              {
+                "name": "vim",
+                "installed_versions": [
+                  "7.4.1967"
+                ],
+                "current_version": "7.4.1993"
+              },
+              {
+                "name": "youtube-dl",
+                "installed_versions": [
+                  "2016.07.06"
+                ],
+                "current_version": "2016.07.09.1"
+              }
+            ]
+        """
         self.run(self.cli, 'update')
 
         # List available updates.
@@ -154,7 +183,39 @@ class Cask(Homebrew):
         return False
 
     def sync(self):
-        """ Fetch latest formulas and their metadata. """
+        """ Fetch latest formulas and their metadata.
+
+        Sample of brew cask output:
+
+            $ brew cask list --versions
+            aerial 1.2beta5, 1.1
+            android-file-transfer latest
+            audacity 2.1.2-1453294898, 2.1.2
+            bitbar 1.9.1
+            chromium latest
+            firefox 47.0, 46.0.1, 46.0
+            flux 37.3, 37.2, 37.1, 36.8, 36.6
+            gimp 2.8.16-x86_64
+            java 1.8.0_92-b14
+
+            $ brew cask info aerial
+            aerial: 1.2beta5
+            Aerial Screensaver
+            https://github.com/JohnCoates/Aerial
+            /usr/local/Caskroom/aerial/1.2beta5 (0B)
+            https://github.com/caskroom/homebrew-cask/blob/master/Casks/aerial.rb
+            ==> Contents
+              Aerial.saver (screen_saver)
+
+            $ brew cask info firefox
+            firefox: 47.0.1
+            Mozilla Firefox
+            https://www.mozilla.org/en-US/firefox/
+            Not installed
+            https://github.com/caskroom/homebrew-cask/blob/master/Casks/firefox.rb
+            ==> Contents
+              Firefox.app (app)
+        """
         # `brew cask update` is just an alias to `brew update`. Perform the
         # action anyway to make it future proof.
         self.run(self.cli, 'cask', 'update')
@@ -217,7 +278,18 @@ class Cask(Homebrew):
 class Pip(PackageManager):
 
     def sync(self):
-        """ List outdated packages and their metadata. """
+        """ List outdated packages and their metadata.
+
+        Sample of pip output:
+
+            $ pip list --outdated
+            coverage (4.0.3) - Latest: 4.1 [wheel]
+            IMAPClient (0.13) - Latest: 1.0.1 [wheel]
+            Logbook (0.10.1) - Latest: 1.0.0 [sdist]
+            mccabe (0.4.0) - Latest: 0.5.0 [wheel]
+            mercurial (3.8.3) - Latest: 3.8.4 [sdist]
+            pylint (1.5.6) - Latest: 1.6.1 [wheel]
+        """
         output = self.run(self.cli, 'list', '--outdated').strip()
         if not output:
             return
@@ -278,8 +350,27 @@ class NPM(PackageManager):
         return "npm"
 
     def sync(self):
-        output = self.run(self.cli, '-g', '--progress=false', '--json',
-                          'outdated')
+        """
+        Sample of npm output:
+
+            $ npm -g --progress=false --json outdated
+            {
+              "my-linked-package": {
+                "current": "0.0.0-development",
+                "wanted": "linked",
+                "latest": "linked",
+                "location": "/Users/..."
+              },
+              "npm": {
+                "current": "3.10.3",
+                "wanted": "3.10.5",
+                "latest": "3.10.5",
+                "location": "/Users/..."
+              }
+            }
+        """
+        output = self.run(
+            self.cli, '-g', '--progress=false', '--json', 'outdated')
         for package, values in json.loads(output).iteritems():
             self.updates.append({
                 'name': package,
@@ -340,6 +431,17 @@ class Gems(PackageManager):
         return "Ruby Gems"
 
     def sync(self):
+        """
+        Sample of gem output:
+
+            $ gem outdated
+            did_you_mean (1.0.0 < 1.0.2)
+            io-console (0.4.5 < 0.4.6)
+            json (1.8.3 < 2.0.1)
+            minitest (5.8.3 < 5.9.0)
+            power_assert (0.2.6 < 0.3.0)
+            psych (2.0.17 < 2.1.0)
+        """
         output = self.run(self.cli, 'outdated')
 
         regexp = re.compile(r'(\S+) \((\S+) < (\S+)\)')
