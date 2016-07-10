@@ -48,7 +48,6 @@ if [[ "$1" = "copy" ]]; then
   exit
 fi
 
-
 # OUTPUTS
 # 
 # Header. 
@@ -59,13 +58,14 @@ echo '---'
 while read -r line 
 do 
 	# Strip 'alias ' from line for legibility. 
-	dict="$(echo $line | sed -e 's/\(alias \)*//g')"
+	dict="$(echo ${line//alias /})"
 	# Find everything between " "
-	com="$(echo $line | grep -o '".*"' | sed 's/"//g')"
+	com="$(echo "$line" | grep -o '".*"' | sed 's/"//g')"
 
 	# Echo dict with com as single-quoted p2 argument.
 	# Clicking will copy just the command with pbcopy.
-	echo $(echo $dict) "|bash=$0 param1=copy param2='$com' refresh=false terminal=false"
+	echo "$(echo $dict) |bash=$0 param1=copy param2='$com' refresh=false terminal=false"
+
 done < "$aka_file"
 
 # OPTION TO EDIT AKA FILE
