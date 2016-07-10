@@ -375,7 +375,7 @@ class NPM(PackageManager):
             return
 
         for package, values in json.loads(output).iteritems():
-            if values['current'] == 'link':
+            if values['wanted'] == 'link':
                 continue
             self.updates.append({
                 'name': package,
