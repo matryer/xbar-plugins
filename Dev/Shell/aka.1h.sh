@@ -56,7 +56,7 @@ echo "= | color=#1853C9"  # ∷ ⚯ ɐ ª
 echo '---'
 
 # Read each line in aka file. 
-cat $aka_file | while read line 
+while read -r line 
 do 
 	# Strip 'alias ' from line for legibility. 
 	dict="$(echo $line | sed -e 's/\(alias \)*//g')"
@@ -66,7 +66,7 @@ do
 	# Echo dict with com as single-quoted p2 argument.
 	# Clicking will copy just the command with pbcopy.
 	echo $(echo $dict) "|bash=$0 param1=copy param2='$com' refresh=false terminal=false"
-done
+done < "$aka_file"
 
 # OPTION TO EDIT AKA FILE
 echo ''
