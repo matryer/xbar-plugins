@@ -25,9 +25,7 @@ PASSWORD = "" # Please put your password inside of the quotes.
 ############################################################################
 
 import os
-import re
 import praw
-import subprocess
 
 if USERNAME == '':
     print "Not Configured! | color=#e51b1b"
