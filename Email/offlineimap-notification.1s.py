@@ -2,7 +2,7 @@
 # - * -coding: utf - 8 - * -
 #
 # <bitbar.title>Offlineimap Checker and notification</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Andros Fenollosa</bitbar.author>
 # <bitbar.author.github>tanrax</bitbar.author.github>
 # <bitbar.desc>Alert new emails and displays inbox count</bitbar.desc>
