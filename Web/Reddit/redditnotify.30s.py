@@ -1,14 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Reddit Notifications</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>HeyItsShuga</bitbar.author>
-# <bitbar.author.github>Shugabuga</bitbar.author.github>
-# <bitbar.desc>Check your Reddit messages in your status bar!</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/ohM8E6u.png</bitbar.image>
-# <bitbar.dependencies>python,praw</bitbar.dependencies>
-
 ############################################################################
 #                      Reddit Notifications for BitBar                     #
 #                            by /u/HeyItsShuga                             #
@@ -59,3 +51,12 @@ if message_noteInt == "No Messages!":
 for messages in unread:
     print str(messages), " | color=teal"
     print "---"
+
+# <bitbar.title>Reddit Notifications</bitbar.title>
+# <bitbar.version>v1.0.0</bitbar.version>
+# <bitbar.author>HeyItsShuga</bitbar.author>
+# <bitbar.author.github>Shugabuga</bitbar.author.github>
+# <bitbar.desc>Check your Reddit messages in your status bar!</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/ohM8E6u.png</bitbar.image>
+# <bitbar.dependencies>python,praw</bitbar.dependencies>
+# <bitbar.abouturl>https://j-co.ga/</bitbar.abouturl>
