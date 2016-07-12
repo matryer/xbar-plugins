@@ -66,7 +66,7 @@ do
 	# Echo dict with com as single-quoted p2 argument.
 	# Clicking will copy just the command with pbcopy.
 	# echo "$(echo $dict) |bash=$0 param1=copy param2='$com' refresh=false terminal=false"
-	echo "$dict |bash=$0 param1=copy param2='$com' refresh=false terminal=false"
+    echo "$(echo $dict) |bash=$0 param1=copy param2='$com' refresh=false terminal=false"
 
 done < "$aka_file"
 
