@@ -371,7 +371,12 @@ class NPM(PackageManager):
         """
         output = self.run(
             self.cli, '-g', '--progress=false', '--json', 'outdated')
+        if not output:
+            return
+
         for package, values in json.loads(output).iteritems():
+            if values['wanted'] == 'linked':
+                continue
             self.updates.append({
                 'name': package,
                 'installed_version': values['current'],
@@ -398,6 +403,9 @@ class APM(PackageManager):
 
     def sync(self):
         output = self.run(self.cli, 'outdated', '--compatible', '--json')
+        if not output:
+            return
+
         for package in json.loads(output):
             self.updates.append({
                 'name': package['name'],
@@ -416,15 +424,22 @@ class APM(PackageManager):
 
 
 class Gems(PackageManager):
+    HOMEBREW_PATH = '/usr/local/bin/gem'
+    SYSTEM_PATH = '/usr/bin/gem'
+
+    def __init__(self):
+        super(Gems, self).__init__()
+
+        self.system = True
+        if os.path.exists(Gems.HOMEBREW_PATH):
+            self.system = False
+            self._cli = Gems.HOMEBREW_PATH
+        else:
+            self._cli = Gems.SYSTEM_PATH
 
     @property
     def cli(self):
-        if os.path.exists('/usr/local/bin/gem'):
-            # Homebrew gem
-            return '/usr/local/bin/gem'
-        else:
-            # System gem
-            return '/usr/bin/gem'
+        return self._cli
 
     @property
     def name(self):
@@ -442,6 +457,7 @@ class Gems(PackageManager):
             power_assert (0.2.6 < 0.3.0)
             psych (2.0.17 < 2.1.0)
         """
+        # outdated does not require sudo privileges on homebrew or system
         output = self.run(self.cli, 'outdated')
 
         regexp = re.compile(r'(\S+) \((\S+) < (\S+)\)')
@@ -457,7 +473,10 @@ class Gems(PackageManager):
             })
 
     def update_cli(self, package_name=None):
-        cmd = "{} update".format(self.cli)
+        # installs require sudo on system ruby
+        cmd = "{}{} update".format(
+            '/usr/bin/sudo ' if self.system else '',
+            self.cli)
         if package_name:
             cmd += " {}".format(package_name)
         return self.bitbar_cli_format(cmd)
