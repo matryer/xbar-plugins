@@ -53,9 +53,9 @@ def get_fields(path_mail):
     mail_subject_temp = False
     f = open(path_mail, 'r')
     for line in f:
-        mail_from_temp = re.search('(?<=From\: )(.*)(?=)', line)
-        mail_to_temp = re.search('(?<=To\: )(.*)(?=)', line)
-        mail_subject_temp = re.search('(?<=Subject\: )(.*)(?=)', line)
+        mail_from_temp = re.search('(?<=[Ff]rom\: )(.*)(?=)', line)
+        mail_to_temp = re.search('(?<=[Tt]o\: )(.*)(?=)', line)
+        mail_subject_temp = re.search('(?<=[Ss]ubject\: )(.*)(?=)', line)
         if mail_from_temp:
             mail_from = mail_from_temp.group(1)
         if mail_to_temp:
