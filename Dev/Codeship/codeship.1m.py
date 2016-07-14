@@ -19,7 +19,7 @@ BASE_URL = 'https://codeship.com/api/v1/projects.json?api_key=' + API_KEY
 COLORS = {
   'success': '#42A86F',
   'testing': '#607192',
-  'failed': '#D12C3F',
+  'error': '#D12C3F',
   'stopped': '#C4CDCE'
 }
 

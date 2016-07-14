@@ -22,7 +22,7 @@ HREF_URL = 'https://codeship.com/projects/' + str(PROJECT_ID) + '/builds/'
 COLORS = {
   'success': '#42A86F',
   'testing': '#607192',
-  'failed': '#D12C3F',
+  'error': '#D12C3F',  
   'stopped': '#C4CDCE'
 }
 
