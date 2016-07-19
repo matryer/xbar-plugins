@@ -26,8 +26,10 @@ else
     echo "V $vms_count"
     echo '---'
     echo "Poweroff all VM's | bash=$0 param1=poweroff terminal=false"
+    echo "ACPI Shutdown all VM's | bash=$0 param1=acpipowerbutton terminal=false"
     echo '---'
     for vm in $vms;do
         echo "Poweroff $vm | bash=$0 param1=poweroff param2=$vm terminal=false"
+        echo "ACPI Shutdown $vm | bash=$0 param1=acpipowerbutton param2=$vm terminal=false"
     done
 fi
