@@ -485,13 +485,51 @@ class Gems(PackageManager):
         return self.update_cli()
 
 
+class MAS(PackageManager):
+
+    cli = '/usr/local/bin/mas'
+
+    def __init__(self):
+        super(MAS, self).__init__()
+        self.map = {}
+
+    @property
+    def name(self):
+        return "Mac AppStore"
+
+    def sync(self):
+        output = self.run(self.cli, 'outdated')
+        if not output:
+            return
+
+        regexp = re.compile(r'(\d+) (.*) \(\S+\)$')
+        for application in output.split('\n'):
+            _id, name, version = regexp.match(application).groups()
+            self.map[name] = _id
+            self.updates.append({
+                'name': name,
+                'latest_version': version,
+                'installed_version': ''
+            })
+
+    def update_cli(self, package_name):
+        if package_name not in self.map:
+            return None
+        cmd = "{} install {}".format(self.cli, self.map[package_name])
+        return self.bitbar_cli_format(cmd)
+
+    def update_all_cli(self):
+        cmd = "{} upgrade".format(self.cli)
+        return self.bitbar_cli_format(cmd)
+
+
 def print_menu():
     """ Print menu structure using BitBar's plugin API.
 
     See: https://github.com/matryer/bitbar#plugin-api
     """
     # Instantiate all available package manager.
-    managers = [k() for k in [Homebrew, Cask, Pip2, Pip3, APM, NPM, Gems]]
+    managers = [k() for k in [Homebrew, Cask, Pip2, Pip3, APM, NPM, Gems, MAS]]
 
     # Filters-out inactive managers.
     managers = [m for m in managers if m.active]
