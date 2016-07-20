@@ -83,8 +83,9 @@ class PackageManager(object):
         """ Run a shell command, return the output and keep error message.
         """
         self.error = None
-        output, error = Popen(args, stdout=PIPE, stderr=PIPE).communicate()
-        if error:
+        process = Popen(args, stdout=PIPE, stderr=PIPE)
+        output, error = process.communicate()
+        if process.returncode != 0 and error:
             self.error = error
         return output
 
@@ -153,6 +154,8 @@ class Homebrew(PackageManager):
 
         # List available updates.
         output = self.run(self.cli, 'outdated', '--json=v1')
+        if not output:
+            return
 
         for pkg_info in json.loads(output):
             self.updates.append({
@@ -550,7 +553,7 @@ def print_menu():
         print("---")
 
         if manager.error:
-            for line in manager.error.split("\n"):
+            for line in manager.error.strip().split("\n"):
                 print("{} | color=red".format(line))
 
         print("{} {} package{}".format(
