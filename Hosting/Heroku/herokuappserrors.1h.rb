@@ -7,7 +7,7 @@
 # <bitbar.desc>This plugin displays Heroku errors for a given app. You must be logged in via heroku-cli.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/tAHBNUO.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.dependencies>heroku-cli</bitbar.dependencies>
+# <bitbar.dependencies>heroku-toolbelt</bitbar.dependencies>
 
 require 'json'
 
