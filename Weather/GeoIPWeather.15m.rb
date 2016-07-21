@@ -29,7 +29,11 @@ end
 def location
   location_uri = URI('http://ipinfo.io/json')
 
-  location_data = Net::HTTP.get location_uri
+  begin
+  	location_data = Net::HTTP.get location_uri
+  rescue
+  	no_data
+  end
 
   location_json = JSON.parse location_data
 

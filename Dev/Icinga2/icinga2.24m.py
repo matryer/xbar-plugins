@@ -11,7 +11,6 @@
 # <bitbar.abouturl>http://docs.icinga.org/icinga2/snapshot/doc/module/icinga2/chapter/icinga2-api</bitbar.abouturl>
 
 import requests, json
-from _ast import TryExcept
 
 OK = '\033[92m'
 WARNING = '\033[93m'

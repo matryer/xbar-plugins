@@ -18,7 +18,7 @@ webpack_status="/tmp/webpack-status"
 semaphore=0
 
 if [ -f $webpack_status ]; then
-  semaphore=`cat $webpack_status`
+  semaphore=$(cat $webpack_status)
 fi
 
 semaphore_color=$color_yellow

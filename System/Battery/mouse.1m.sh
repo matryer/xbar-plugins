@@ -4,11 +4,11 @@
 # <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
 # <bitbar.author.github>alexandregz</bitbar.author.github>
 # <bitbar.desc>Show battery percentage for Bluetooth Mouse</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/IqjZMJg.png</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/IqjZMJg.png</bitbar.image>
 
 # works fine with Magic Mouse
 
-PERCENTAGE=`ioreg -n BNBMouseDevice | fgrep BatteryPercent |fgrep -v { | sed 's/[^[:digit:]]//g'`
+PERCENTAGE=$(ioreg -n BNBMouseDevice | fgrep BatteryPercent | fgrep -v \{ | sed 's/[^[:digit:]]//g')
 
 if [ "$PERCENTAGE" ]; then
         echo "Mouse: $PERCENTAGE%"
