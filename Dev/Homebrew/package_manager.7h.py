@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.3</bitbar.version>
+# <bitbar.version>v1.5</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm and Rebuy's gem. Allows individual or full upgrades (if available).</bitbar.desc>
@@ -12,6 +12,17 @@
 """
 Changelog
 =========
+
+1.5 (2016-07-25)
+----------------
+* Add support for [mas](https://github.com/argon/mas)
+* Don't show all stderr as err (check return code for error state)
+
+1.4 (2016-07-10)
+----------------
+* Don't attempt to parse empty lines
+* Check for linked npm packages
+* Support System or Homebrew Ruby Gems (with proper sudo setup)
 
 1.3 (2016-07-09)
 ----------------
