@@ -505,8 +505,10 @@ class MAS(PackageManager):
         if not output:
             return
 
-        regexp = re.compile(r'(\d+) (.*) \(\S+\)$')
+        regexp = re.compile(r'(\d+) (.*) \((\S+)\)$')
         for application in output.split('\n'):
+            if not application:
+                continue
             _id, name, version = regexp.match(application).groups()
             self.map[name] = _id
             self.updates.append({
