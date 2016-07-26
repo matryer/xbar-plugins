@@ -22,7 +22,7 @@ Symbols=(:one: :two: :three: :four: :five: :six: :seven: :eight: :nine: :keycap_
 
 if [[ "$1" = "copy" ]]; then
   echo "$2" | tr -d '\n' | pbcopy
-  osascript -e "display notification \"Copied to Clipboard\" with title \"BitBar Emojis\"" &> /dev/null
+  osascript -e "display notification \"Copied $2 to Clipboard\" with title \"BitBar Emojis\"" &> /dev/null
   exit
 fi
 
