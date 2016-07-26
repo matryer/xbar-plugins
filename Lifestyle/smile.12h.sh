@@ -31,8 +31,9 @@ echo "---"
 
 for category in "${categories[@]}"
 do
-	#shellcheck disable=SC1087
+	#shellcheck disable=SC1087,SC2125
 	arr=$category[@]
+	#shellcheck disable=SC1087,SC2125
 	example=$category[0]
 	echo "${!example} $category"
 	for emoji in "${!arr}"
