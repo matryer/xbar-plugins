@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Categorys
+# Categories
 # (Uncomment ONE category at a time!)
 #
 # Default 
@@ -14,11 +14,11 @@ cat_url="https://gist.githubusercontent.com/JanGross/fb6ada3292474f300ef4/raw/qu
 #--------------------------------------------------------------
 #Settings:
 #----------
-# Amount of characters shown before the quote gets trimmed. (Default: 5)
+# The amount of characters shown before the quote gets trimmed. (Default: 25)
 # The full quote can always be seen in the dropdown menu!
-max_chars="50"
+max_chars="25"
 #----------
-# Defnes the color of the quote (status bar and dropdown)
+# Defines the color of the quote (status bar and dropdown)
 quote_color="black"
 #----------
 
