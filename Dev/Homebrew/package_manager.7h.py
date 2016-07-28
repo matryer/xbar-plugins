@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.3</bitbar.version>
+# <bitbar.version>v1.5</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm and Rebuy's gem. Allows individual or full upgrades (if available).</bitbar.desc>
@@ -12,6 +12,17 @@
 """
 Changelog
 =========
+
+1.5 (2016-07-25)
+----------------
+* Add support for [mas](https://github.com/argon/mas)
+* Don't show all stderr as err (check return code for error state)
+
+1.4 (2016-07-10)
+----------------
+* Don't attempt to parse empty lines
+* Check for linked npm packages
+* Support System or Homebrew Ruby Gems (with proper sudo setup)
 
 1.3 (2016-07-09)
 ----------------
@@ -83,8 +94,9 @@ class PackageManager(object):
         """ Run a shell command, return the output and keep error message.
         """
         self.error = None
-        output, error = Popen(args, stdout=PIPE, stderr=PIPE).communicate()
-        if error:
+        process = Popen(args, stdout=PIPE, stderr=PIPE)
+        output, error = process.communicate()
+        if process.returncode != 0 and error:
             self.error = error
         return output
 
@@ -153,6 +165,8 @@ class Homebrew(PackageManager):
 
         # List available updates.
         output = self.run(self.cli, 'outdated', '--json=v1')
+        if not output:
+            return
 
         for pkg_info in json.loads(output):
             self.updates.append({
@@ -485,13 +499,53 @@ class Gems(PackageManager):
         return self.update_cli()
 
 
+class MAS(PackageManager):
+
+    cli = '/usr/local/bin/mas'
+
+    def __init__(self):
+        super(MAS, self).__init__()
+        self.map = {}
+
+    @property
+    def name(self):
+        return "Mac AppStore"
+
+    def sync(self):
+        output = self.run(self.cli, 'outdated')
+        if not output:
+            return
+
+        regexp = re.compile(r'(\d+) (.*) \((\S+)\)$')
+        for application in output.split('\n'):
+            if not application:
+                continue
+            _id, name, version = regexp.match(application).groups()
+            self.map[name] = _id
+            self.updates.append({
+                'name': name,
+                'latest_version': version,
+                'installed_version': ''
+            })
+
+    def update_cli(self, package_name):
+        if package_name not in self.map:
+            return None
+        cmd = "{} install {}".format(self.cli, self.map[package_name])
+        return self.bitbar_cli_format(cmd)
+
+    def update_all_cli(self):
+        cmd = "{} upgrade".format(self.cli)
+        return self.bitbar_cli_format(cmd)
+
+
 def print_menu():
     """ Print menu structure using BitBar's plugin API.
 
     See: https://github.com/matryer/bitbar#plugin-api
     """
     # Instantiate all available package manager.
-    managers = [k() for k in [Homebrew, Cask, Pip2, Pip3, APM, NPM, Gems]]
+    managers = [k() for k in [Homebrew, Cask, Pip2, Pip3, APM, NPM, Gems, MAS]]
 
     # Filters-out inactive managers.
     managers = [m for m in managers if m.active]
@@ -512,7 +566,7 @@ def print_menu():
         print("---")
 
         if manager.error:
-            for line in manager.error.split("\n"):
+            for line in manager.error.strip().split("\n"):
                 print("{} | color=red".format(line))
 
         print("{} {} package{}".format(

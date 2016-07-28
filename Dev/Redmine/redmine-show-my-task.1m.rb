@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # <bitbar.title>Redmine Show My Task</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
+# <bitbar.version>v1.0.1</bitbar.version>
 # <bitbar.author>hikouki</bitbar.author>
 # <bitbar.author.github>hikouki</bitbar.author.github>
 # <bitbar.desc>Show Redmine open ticket for mine</bitbar.desc>
