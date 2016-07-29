@@ -80,8 +80,8 @@ echo '---'
 
 if [ "$state" = "playing" ]; then
   echo "Pause | bash=$0 param1=playpause terminal=false"
-  echo "Previous | bash=$0 param1='previous track' terminal=false"
-  echo "Next | bash=$0 param1='next track' terminal=false"
+  echo "Previous | bash=$0 param1='previous track' terminal=false refresh=true"
+  echo "Next | bash=$0 param1='next track' terminal=false refresh=true"
 else
   echo "Play | bash=$0 param1=playpause terminal=false"
 fi
