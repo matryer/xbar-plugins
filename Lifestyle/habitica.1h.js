@@ -1,4 +1,5 @@
-#!/usr/bin/env /Users/scdf/.nvm/versions/node/v5.4.0/bin/node
+#!/usr/bin/env /usr/local/bin/node
+
 // <bitbar.title>Habitica</bitbar.title>
 // <bitbar.version>v0.1</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
