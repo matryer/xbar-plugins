@@ -4,7 +4,7 @@
 // <bitbar.version>v0.6</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
-// <bitbar.desc>Allows you to manage your Habitica tasks. Just dailies for now. See: habitica.com</bitbar.desc>
+// <bitbar.desc>Allows you to manage your Habitica tasks, habits and to-dos. See: habitica.com</bitbar.desc>
 // <bitbar.image>http://i.imgur.com/CUO445t.png</bitbar.image>
 // <bitbar.dependencies>node6</bitbar.dependencies>
 
@@ -523,9 +523,11 @@ const outputHabits = function(habits) {
 };
 
 const outputProfile = function(userData) {
+  title('Profile');
+
   console.log(userData.profile.name +
-    ', lvl ' + userData.stats.lvl + ' ' +
-    (n => n[0].toUpperCase() + n.slice(1))(userData.stats.class),
+    ' <lvl ' + userData.stats.lvl + ' ' +
+    (n => n[0].toUpperCase() + n.slice(1))(userData.stats.class) + '>',
     '|color=black');
   const smallFont = '| color=black size=10';
   console.log([HEALTH, Math.ceil(userData.stats.hp), '/', userData.stats.maxHealth, smallFont].join(' '));
