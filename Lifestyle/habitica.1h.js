@@ -312,15 +312,48 @@ const HABITICA_ICON =
   'lgg7G1rra7ICAlgQ3FRmq71KYa70e2UCUJzfxwNZqaKzgNcybPmrsa1+bBqg/7+gZbB/BwBXfQ' +
   'a0r0oBWwAAAABJRU5ErkJggg==';
 
+//   ================================================================================================
+//   ===     =====    ====  =======  ===      ===        =====  =====  =======  ==        ===      ==
+//   ==  ===  ===  ==  ===   ======  ==  ====  =====  =======    ====   ======  =====  =====  ====  =
+//   =  ========  ====  ==    =====  ==  ====  =====  ======  ==  ===    =====  =====  =====  ====  =
+//   =  ========  ====  ==  ==  ===  ===  ==========  =====  ====  ==  ==  ===  =====  ======  ======
+//   =  ========  ====  ==  ===  ==  =====  ========  =====  ====  ==  ===  ==  =====  ========  ====
+//   =  ========  ====  ==  ====  =  =======  ======  =====        ==  ====  =  =====  ==========  ==
+//   =  ========  ====  ==  =====    ==  ====  =====  =====  ====  ==  =====    =====  =====  ====  =
+//   ==  ===  ===  ==  ===  ======   ==  ====  =====  =====  ====  ==  ======   =====  =====  ====  =
+//   ===     =====    ====  =======  ===      ======  =====  ====  ==  =======  =====  ======      ==
+//   ================================================================================================
+
+// NB: DEBUG on means refreshing post-action doesn't work
+const DEBUG = false;
+
+const UNCHECKED = '◻️';
+const CHECKED = '☑️';
+
+const ACTIONS = {
+  COMPLETE_TASK: 'completeTask',
+  UNCOMPLETE_TASK: 'uncompleteTask',
+  COMPLETE_CHECKLIST_ITEM: 'completeChecklistItem',
+  UNCOMPLETE_CHECKLIST_ITEM: 'uncompleteCheckItem'
+};
+
 const failure = function(reason) {
   console.log('☹');
   console.log('---');
   console.log(reason);
 };
 
-if (!USER_ID || !API_TOKEN) {
-  return failure('Please edit habitica.js and add your user id and api token');
-}
+//   ========================================================================
+//   =  ====  =====  =====      ====    ==        ==    ====     ======  ====
+//   =  ====  ====    ====  ===  ====  ======  ======  ====  ===  ====    ===
+//   =  ====  ===  ==  ===  ====  ===  ======  ======  ===  =========  ==  ==
+//   =  ====  ==  ====  ==  ===  ====  ======  ======  ===  ========  ====  =
+//   =        ==  ====  ==      =====  ======  ======  ===  ========  ====  =
+//   =  ====  ==        ==  ===  ====  ======  ======  ===  ========        =
+//   =  ====  ==  ====  ==  ====  ===  ======  ======  ===  ========  ====  =
+//   =  ====  ==  ====  ==  ===  ====  ======  ======  ====  ===  ==  ====  =
+//   =  ====  ==  ====  ==      ====    =====  =====    ====     ===  ====  =
+//   ========================================================================
 
 const https = require('https');
 
@@ -359,30 +392,44 @@ const get = function(endpoint) {
   return request('GET', endpoint);
 };
 
-const now = new Date();
-const days = ["su", "m", "t", "w", "th", "f", "s"];
-const relevantDaily = function(task) {
-  if (task.type !== 'daily' || task.completed) {
-    return false;
-  }
+//   =====================================================================
+//   ====  =======     ===        ==    ====    ====  =======  ===      ==
+//   ===    =====  ===  =====  ======  ====  ==  ===   ======  ==  ====  =
+//   ==  ==  ===  ===========  ======  ===  ====  ==    =====  ==  ====  =
+//   =  ====  ==  ===========  ======  ===  ====  ==  ==  ===  ===  ======
+//   =  ====  ==  ===========  ======  ===  ====  ==  ===  ==  =====  ====
+//   =        ==  ===========  ======  ===  ====  ==  ====  =  =======  ==
+//   =  ====  ==  ===========  ======  ===  ====  ==  =====    ==  ====  =
+//   =  ====  ===  ===  =====  ======  ====  ==  ===  ======   ==  ====  =
+//   =  ====  ====     ======  =====    ====    ====  =======  ===      ==
+//   =====================================================================
 
-  return task.repeat[days[now.getDay()]];
-};
+const scoreTask = (id, direction) => request('POST', 'tasks/'+id+'/score/'+direction);
+const completeTask = (id) => scoreTask(id, 'up');
 
-const scoreup = function(id) {
-  return request('POST', 'tasks/'+id+'/score/up');
-};
+const completeChecklistItem = (taskId, checklistItemId) =>
+  request('POST', 'tasks/'+taskId+'/checklist/'+checklistItemId+'/score');
 
 const processArguments = function() {
   const action = process.argv[2];
 
   switch (action) {
-    case 'scoreup':
+    case ACTIONS.COMPLETE_TASK:
       const id = process.argv[3];
       if (id) {
-        return scoreup(process.argv[3]);
+        return completeTask(process.argv[3]);
       } else {
-        throw Error('scoreup requires an id');
+        throw Error(ACTIONS.COMPLETE_TASK + ' requires an id');
+      }
+      break;
+    case ACTIONS.COMPLETE_CHECKLIST_ITEM:
+      const taskId = process.argv[3],
+            checklistItemId = process.argv[4];
+
+      if (taskId && checklistItemId) {
+        return completeChecklistItem(taskId, checklistItemId);
+      } else {
+        throw Error(ACTIONS.COMPLETE_CHECKLIST_ITEM + ' missing params');
       }
       break;
     default:
@@ -390,13 +437,58 @@ const processArguments = function() {
   }
 };
 
+//   ==============================================
+//   =  ==========    =====      ===    ====     ==
+//   =  =========  ==  ===   ==   ===  ====  ===  =
+//   =  ========  ====  ==  ====  ===  ===  =======
+//   =  ========  ====  ==  =========  ===  =======
+//   =  ========  ====  ==  =========  ===  =======
+//   =  ========  ====  ==  ===   ===  ===  =======
+//   =  ========  ====  ==  ====  ===  ===  =======
+//   =  =========  ==  ===   ==   ===  ====  ===  =
+//   =        ====    =====      ===    ====     ==
+//   ==============================================
+
+const now = new Date();
+const days = ['su', 'm', 't', 'w', 'th', 'f', 's'];
+
+const dailyForToday = (task) =>
+  task.type === 'daily' &&
+  task.repeat[days[now.getDay()]];
+const completed = (task) => task.completed;
+const incomplete = (task) => !completed(task);
+
+//   ============================================================
+//   ===    ====  ====  ==        ==       ===  ====  ==        =
+//   ==  ==  ===  ====  =====  =====  ====  ==  ====  =====  ====
+//   =  ====  ==  ====  =====  =====  ====  ==  ====  =====  ====
+//   =  ====  ==  ====  =====  =====  ====  ==  ====  =====  ====
+//   =  ====  ==  ====  =====  =====       ===  ====  =====  ====
+//   =  ====  ==  ====  =====  =====  ========  ====  =====  ====
+//   =  ====  ==  ====  =====  =====  ========  ====  =====  ====
+//   ==  ==  ===   ==   =====  =====  ========   ==   =====  ====
+//   ===    =====      ======  =====  =========      ======  ====
+//   ============================================================
+
+const outputAction = function(action, params) {
+  params = Array.prototype.slice.call(arguments).slice(1);
+  return ['terminal='+DEBUG+' refresh=true bash=' + process.argv[0],
+          'param1=' + process.argv[1],
+          'param2=' + action
+         ].concat(params.map((p, i) => 'param'+(i+3)+'='+p))
+         .join(' ');
+};
+
 const outputIncompleteDailies = function(dailies) {
   console.log('Dailies');
 
   dailies.forEach(task => {
-    console.log('◻️ ' + task.text + '| terminal=false refresh=true bash=' + process.argv[0] +
-      ' param1=' + process.argv[1] +
-      ' param2=scoreup param3=' + task._id);
+    console.log([UNCHECKED, task.text, '|', outputAction(ACTIONS.COMPLETE_TASK, task._id)].join(' '));
+    task.checklist.forEach(item => {
+      console.log(
+        ['--', (completed(item) ? CHECKED : UNCHECKED), item.text, '|',
+         outputAction(ACTIONS.COMPLETE_CHECKLIST_ITEM, task._id, item.id)].join(' '));
+    });
   });
 };
 
@@ -404,6 +496,18 @@ const outputIncompleteDailies = function(dailies) {
 if (USER_ID === 'YOUR_USER_ID_HERE' || API_TOKEN === 'YOUR_TOKEN_HERE') {
   return failure('Please configure the plugin with your userid and token');
 }
+
+//   ==============================================
+//   =        ==  ==========    ====  ====  ====  =
+//   =  ========  =========  ==  ===  ====  ====  =
+//   =  ========  ========  ====  ==  ====  ====  =
+//   =  ========  ========  ====  ==  ====  ====  =
+//   =      ====  ========  ====  ==   ==    ==  ==
+//   =  ========  ========  ====  ===  ==    ==  ==
+//   =  ========  ========  ====  ===  ==    ==  ==
+//   =  ========  =========  ==  =====    ==    ===
+//   =  ========        ====    =======  ====  ====
+//   ==============================================
 
 get('status')
 .then(result => {
@@ -417,16 +521,23 @@ get('status')
   } else {
     return get('tasks/user')
     .then(results => {
-      const dailies = results.data.filter(relevantDaily);
+      const incompleteDailies = results.data
+        .filter(dailyForToday)
+        .filter(incomplete);
 
-      if (dailies.length) {
-        console.log(dailies.length + '|image="' + HABITICA_ICON + "'\n");
+      if (incompleteDailies.length) {
+        console.log(incompleteDailies.length + '|image="' + HABITICA_ICON + "'\n");
         console.log('---');
-
-        outputIncompleteDailies(dailies);
       } else {
         console.log('|templateImage="' + HABITICA_ICON+ '"');
+        console.log('---');
       }
+
+      if (incompleteDailies.length) {
+        outputIncompleteDailies(incompleteDailies);
+      }
+
+      console.log('Go to website|href="https://habitica.com"');
     });
   }
 })
