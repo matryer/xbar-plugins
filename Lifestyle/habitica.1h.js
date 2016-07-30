@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Habitica</bitbar.title>
-// <bitbar.version>v0.1</bitbar.version>
+// <bitbar.version>v0.3</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Allows you to manage your Habitica tasks. Just dailies for now. See: habitica.com</bitbar.desc>
@@ -329,6 +329,9 @@ const DEBUG = false;
 
 const UNCHECKED = '◻️';
 const CHECKED = '☑️';
+const HEALTH = '💗';
+const EXP = '⭐';
+const MAGIC = '🔥';
 
 const ACTIONS = {
   COMPLETE_TASK: 'completeTask',
@@ -480,7 +483,7 @@ const outputAction = function(action, params) {
 };
 
 const outputIncompleteDailies = function(dailies) {
-  console.log('Dailies');
+  console.log('Dailies|color=black size=11');
 
   dailies.forEach(task => {
     console.log([UNCHECKED, task.text, '|', outputAction(ACTIONS.COMPLETE_TASK, task._id)].join(' '));
@@ -492,10 +495,16 @@ const outputIncompleteDailies = function(dailies) {
   });
 };
 
-
-if (USER_ID === 'YOUR_USER_ID_HERE' || API_TOKEN === 'YOUR_TOKEN_HERE') {
-  return failure('Please configure the plugin with your userid and token');
-}
+const outputProfile = function(userData) {
+  console.log(userData.profile.name +
+    ', lvl ' + userData.stats.lvl + ' ' +
+    (n => n[0].toUpperCase() + n.slice(1))(userData.stats.class),
+    '|color=black');
+  const smallFont = '| color=black size=10';
+  console.log([HEALTH, Math.ceil(userData.stats.hp), '/', userData.stats.maxHealth, smallFont].join(' '));
+  console.log([EXP, Math.ceil(userData.stats.exp), '/', userData.stats.toNextLevel, smallFont].join(' '));
+  console.log([MAGIC, Math.ceil(userData.stats.mp), '/', userData.stats.maxMP, smallFont].join(' '));
+};
 
 //   ==============================================
 //   =        ==  ==========    ====  ====  ====  =
@@ -509,6 +518,10 @@ if (USER_ID === 'YOUR_USER_ID_HERE' || API_TOKEN === 'YOUR_TOKEN_HERE') {
 //   =  ========        ====    =======  ====  ====
 //   ==============================================
 
+if (USER_ID === 'YOUR_USER_ID_HERE' || API_TOKEN === 'YOUR_TOKEN_HERE') {
+  return failure('Please configure the plugin with your userid and token');
+}
+
 get('status')
 .then(result => {
   if (result.data.status !== 'up') {
@@ -519,9 +532,11 @@ get('status')
   if (process.argv.length > 2) {
     return processArguments();
   } else {
-    return get('tasks/user')
-    .then(results => {
-      const incompleteDailies = results.data
+    return Promise.all([
+      get('tasks/user'),
+      get('user')])
+    .then(([tasks, user]) => {
+      const incompleteDailies = tasks.data
         .filter(dailyForToday)
         .filter(incomplete);
 
@@ -537,6 +552,9 @@ get('status')
         outputIncompleteDailies(incompleteDailies);
       }
 
+      console.log('---');
+      outputProfile(user.data);
+      console.log('---');
       console.log('Go to website|href="https://habitica.com"');
     });
   }
