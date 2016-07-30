@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Habitica</bitbar.title>
-// <bitbar.version>v0.5</bitbar.version>
+// <bitbar.version>v0.6</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Allows you to manage your Habitica tasks. Just dailies for now. See: habitica.com</bitbar.desc>
@@ -465,6 +465,13 @@ const todo = task => task.type === 'todo';
 const completed = task => task.completed;
 const incomplete = task => !completed(task);
 
+// presumes that habitica never screws up and always contains all the ids
+// we need
+const order = (correctOrder, unorderedItems) =>
+  correctOrder
+    .map(oItem => unorderedItems.find(item => item._id === oItem))
+    .filter(i => i); // identity function, removes undefined
+
 //   ============================================================
 //   ===    ====  ====  ==        ==       ===  ====  ==        =
 //   ==  ==  ===  ====  =====  =====  ====  ==  ====  =====  ====
@@ -556,27 +563,33 @@ get('status')
       get('tasks/user'),
       get('user')])
     .then(([tasks, user]) => {
-      const incompleteDailies = tasks.data
-        .filter(daily)
-        .filter(relevant)
-        .filter(incomplete);
+      const dailies = order(
+        user.data.tasksOrder.dailys,
+        tasks.data
+          .filter(daily)
+          .filter(relevant)
+          .filter(incomplete));
 
-      const habits = tasks.data
-        .filter(habit);
+      const habits = order(
+        user.data.tasksOrder.habits,
+        tasks.data
+          .filter(habit));
 
-      const todos = tasks.data
-        .filter(todo)
-        .filter(incomplete);
+      const todos = order(
+        user.data.tasksOrder.todos,
+        tasks.data
+          .filter(todo)
+          .filter(incomplete));
 
-      if (incompleteDailies.length) {
-        console.log(incompleteDailies.length + '|image="' + HABITICA_ICON + "'\n");
+      if (dailies.length) {
+        console.log(dailies.length + '|image="' + HABITICA_ICON + "'\n");
       } else {
         console.log('|templateImage="' + HABITICA_ICON+ '"');
       }
 
-      if (incompleteDailies.length) {
+      if (dailies.length) {
         sep();
-        outputTasks('Dailies', incompleteDailies);
+        outputTasks('Dailies', dailies);
       }
 
       if (habits.length) {
@@ -586,8 +599,7 @@ get('status')
 
       if (todos.length) {
         sep();
-
-        outputTasks('Todos', todos);
+        outputTasks('To-Dos', todos);
       }
 
       sep();
