@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Habitica</bitbar.title>
-// <bitbar.version>v0.3</bitbar.version>
+// <bitbar.version>v0.4</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Allows you to manage your Habitica tasks. Just dailies for now. See: habitica.com</bitbar.desc>
@@ -333,6 +333,9 @@ const HEALTH = '💗';
 const EXP = '⭐';
 const MAGIC = '🔥';
 
+const SCORE_UP   = '➕';
+const SCORE_DOWN = '➖';
+
 const ACTIONS = {
   COMPLETE_TASK: 'completeTask',
   UNCOMPLETE_TASK: 'uncompleteTask',
@@ -455,11 +458,12 @@ const processArguments = function() {
 const now = new Date();
 const days = ['su', 'm', 't', 'w', 'th', 'f', 's'];
 
-const dailyForToday = (task) =>
+const dailyForToday = task =>
   task.type === 'daily' &&
   task.repeat[days[now.getDay()]];
-const completed = (task) => task.completed;
-const incomplete = (task) => !completed(task);
+const habit = task => task.type === 'habit';
+const completed = task => task.completed;
+const incomplete = task => !completed(task);
 
 //   ============================================================
 //   ===    ====  ====  ==        ==       ===  ====  ==        =
@@ -473,7 +477,10 @@ const incomplete = (task) => !completed(task);
 //   ===    =====      ======  =====  =========      ======  ====
 //   ============================================================
 
-const outputAction = function(action, params) {
+const sep = () => console.log('---');
+const title = text => console.log(text + '|size=10');
+
+const action = function(action, params) {
   params = Array.prototype.slice.call(arguments).slice(1);
   return ['terminal='+DEBUG+' refresh=true bash=' + process.argv[0],
           'param1=' + process.argv[1],
@@ -483,15 +490,28 @@ const outputAction = function(action, params) {
 };
 
 const outputIncompleteDailies = function(dailies) {
-  console.log('Dailies|color=black size=11');
+  title('Dailies');
 
   dailies.forEach(task => {
-    console.log([UNCHECKED, task.text, '|', outputAction(ACTIONS.COMPLETE_TASK, task._id)].join(' '));
+    console.log([UNCHECKED, task.text, '|', action(ACTIONS.COMPLETE_TASK, task._id)].join(' '));
     task.checklist.forEach(item => {
       console.log(
         ['--', (completed(item) ? CHECKED : UNCHECKED), item.text, '|',
-         outputAction(ACTIONS.COMPLETE_CHECKLIST_ITEM, task._id, item.id)].join(' '));
+         action(ACTIONS.COMPLETE_CHECKLIST_ITEM, task._id, item.id)].join(' '));
     });
+  });
+};
+
+const outputHabits = function(habits) {
+  title('Habits');
+
+  habits.forEach(habit => {
+    if (habit.up) {
+      console.log([SCORE_UP, habit.text, '|', action(ACTIONS.COMPLETE_TASK, habit._id)].join(' '));
+    }
+    if (habit.down) {
+      console.log([SCORE_DOWN, habit.text, '|', action(ACTIONS.UNCOMPLETE_TASK, habit._id)].join(' '));
+    }
   });
 };
 
@@ -540,21 +560,28 @@ get('status')
         .filter(dailyForToday)
         .filter(incomplete);
 
+      const habits = tasks.data
+        .filter(habit);
+
       if (incompleteDailies.length) {
         console.log(incompleteDailies.length + '|image="' + HABITICA_ICON + "'\n");
-        console.log('---');
       } else {
         console.log('|templateImage="' + HABITICA_ICON+ '"');
-        console.log('---');
       }
 
       if (incompleteDailies.length) {
+        sep();
         outputIncompleteDailies(incompleteDailies);
       }
 
-      console.log('---');
+      if (habits.length) {
+        sep();
+        outputHabits(habits);
+      }
+
+      sep();
       outputProfile(user.data);
-      console.log('---');
+      sep();
       console.log('Go to website|href="https://habitica.com"');
     });
   }
