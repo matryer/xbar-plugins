@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Habitica</bitbar.title>
-// <bitbar.version>v0.4</bitbar.version>
+// <bitbar.version>v0.5</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Allows you to manage your Habitica tasks. Just dailies for now. See: habitica.com</bitbar.desc>
@@ -458,10 +458,10 @@ const processArguments = function() {
 const now = new Date();
 const days = ['su', 'm', 't', 'w', 'th', 'f', 's'];
 
-const dailyForToday = task =>
-  task.type === 'daily' &&
-  task.repeat[days[now.getDay()]];
+const relevant = task => task.repeat[days[now.getDay()]];
+const daily = task => task.type === 'daily';
 const habit = task => task.type === 'habit';
+const todo = task => task.type === 'todo';
 const completed = task => task.completed;
 const incomplete = task => !completed(task);
 
@@ -489,10 +489,10 @@ const action = function(action, params) {
          .join(' ');
 };
 
-const outputIncompleteDailies = function(dailies) {
-  title('Dailies');
+const outputTasks = function(titleName, tasks) {
+  title(titleName);
 
-  dailies.forEach(task => {
+  tasks.forEach(task => {
     console.log([UNCHECKED, task.text, '|', action(ACTIONS.COMPLETE_TASK, task._id)].join(' '));
     task.checklist.forEach(item => {
       console.log(
@@ -557,11 +557,16 @@ get('status')
       get('user')])
     .then(([tasks, user]) => {
       const incompleteDailies = tasks.data
-        .filter(dailyForToday)
+        .filter(daily)
+        .filter(relevant)
         .filter(incomplete);
 
       const habits = tasks.data
         .filter(habit);
+
+      const todos = tasks.data
+        .filter(todo)
+        .filter(incomplete);
 
       if (incompleteDailies.length) {
         console.log(incompleteDailies.length + '|image="' + HABITICA_ICON + "'\n");
@@ -571,12 +576,18 @@ get('status')
 
       if (incompleteDailies.length) {
         sep();
-        outputIncompleteDailies(incompleteDailies);
+        outputTasks('Dailies', incompleteDailies);
       }
 
       if (habits.length) {
         sep();
         outputHabits(habits);
+      }
+
+      if (todos.length) {
+        sep();
+
+        outputTasks('Todos', todos);
       }
 
       sep();
