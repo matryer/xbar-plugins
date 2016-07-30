@@ -419,13 +419,13 @@ get('status')
     .then(results => {
       const dailies = results.data.filter(relevantDaily);
 
-      if (dailies) {
+      if (dailies.length) {
         console.log(dailies.length + '|image="' + HABITICA_ICON + "'\n");
         console.log('---');
 
         outputIncompleteDailies(dailies);
       } else {
-        console.log('|templateimage='+HABITICA_ICON);
+        console.log('|templateImage="' + HABITICA_ICON+ '"');
       }
     });
   }
