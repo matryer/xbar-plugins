@@ -25,7 +25,7 @@ low=$(echo -n "$ticker" | egrep -m 1 -o '"lowest_tx_price_h": "[0-9]+"?' | sed '
 let range=high-low
 let current=price-low
 
-if [ $range -ne 0 ] && [ $current -ne 0 ]
+if [ $range -ne 0 ]
 then result=$(echo $current $range 100 | awk '{ print $1/$2*$3 }')
 	result=$(printf '%.*f\n' 0 $result);
 else
@@ -42,7 +42,8 @@ if [ "$price" = "$prev_price" ]
 then symbol="●"; fi
 
 case "$result" in
-	?) echo "$low zł  ◉ ————————— $high zł" ;;
+	0) echo "$low zł  ◉ ————————— $high zł" ;;
+	?) echo "$low zł  $symbol ————————— $high zł" ;;
 	1?) echo "$low zł — $symbol ———————— $high zł" ;;
 	2?) echo "$low zł —— $symbol ——————— $high zł" ;;
 	3?) echo "$low zł ——— $symbol —————— $high zł" ;;
@@ -51,6 +52,6 @@ case "$result" in
 	6?) echo "$low zł —————— $symbol ——— $high zł" ;;
 	7?) echo "$low zł ——————— $symbol —— $high zł" ;;
 	8?) echo "$low zł ———————— $symbol — $high zł" ;;
-	9?) echo "$low zł —————————— $symbol  $high zł" ;;
-	100) echo "$low zł —————————— ◉ $high zł" ;;
+	9?) echo "$low zł ————————— $symbol  $high zł" ;;
+	100) echo "$low zł ————————— ◉  $high zł" ;;
 esac
