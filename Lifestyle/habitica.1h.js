@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Habitica</bitbar.title>
-// <bitbar.version>v0.6</bitbar.version>
+// <bitbar.version>v1.0</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Allows you to manage your Habitica tasks, habits and to-dos. See: habitica.com</bitbar.desc>
@@ -455,10 +455,25 @@ const processArguments = function() {
 //   =        ====    =====      ===    ====     ==
 //   ==============================================
 
-const now = new Date();
+const dayOfWeek = new Date().getDay();
+const now = Date.now();
+const tz = new Date().getTimezoneOffset();
 const days = ['su', 'm', 't', 'w', 'th', 'f', 's'];
 
-const relevant = task => task.repeat[days[now.getDay()]];
+const relevant = task => {
+  switch (task.frequency) {
+    case 'weekly':
+      return task.repeat[days[dayOfWeek]];
+    case 'daily':
+      let startDateLocal = new Date(task.startDate).getTime() - (1000 * 60 * tz);
+      let msDifferent = Math.abs(Date.now() - startDateLocal);
+      let daysDifferent = Math.floor(msDifferent / (1000 * 60 * 60 * 24));
+
+      return daysDifferent % task.everyX === 0;
+    default:
+      throw Error('Cannot handle task.frequency of ' + task.frequency);
+  }
+};
 const daily = task => task.type === 'daily';
 const habit = task => task.type === 'habit';
 const todo = task => task.type === 'todo';
