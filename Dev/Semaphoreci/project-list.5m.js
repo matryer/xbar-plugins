@@ -52,7 +52,7 @@ function handleResponse(body) {
 }
 
 https.get(url, function(res) {
-    var body = ''
+    var body = '';
     res.on('data', function(data) {
         body += data;
     });

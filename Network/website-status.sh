@@ -1,11 +1,9 @@
 #!/bin/bash
-# website-status
-# BitBar plugin
-#
-# Author Marc Oehler
-#
-# Gets the status of your website
-
+# <bitbar.title>website-status</bitbar.title>
+# <bitbar.author>Marc Oehler</bitbar.author>
+# <bitbar.author.github>kemar220</bitbar.author.github>
+# <bitbar.desc>Gets the status of your website</bitbar.desc>
+# <bitbar.version>1.0</bitbar.version>
 
 url='http://www.kemar.ch' # replace with your url
 

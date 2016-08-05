@@ -1,6 +1,6 @@
 #!/bin/bash
 # <bitbar.title>BGO</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.0.1</bitbar.version>
 # <bitbar.author>Justin Honold</bitbar.author>
 # <bitbar.author.github>astrostl</bitbar.author.github>
 # <bitbar.desc>Checks for active turns at http://www.boardgaming-online.com/ every two minutes</bitbar.desc>
@@ -8,7 +8,7 @@
 # <bitbar.dependencies></bitbar.dependencies>
 
 bgo_login='LOGIN'
-bgo_password='PASSWORD'
+bgo_pass='PASSWORD'
 
 url="http://www.boardgaming-online.com/"
 data="&identifiant=${bgo_login}&mot_de_passe=${bgo_pass}"

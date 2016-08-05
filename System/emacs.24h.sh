@@ -5,7 +5,7 @@
 # <bitbar.author>Ken Mankoff</bitbar.author>
 # <bitbar.author.github>mankoff</bitbar.author.github>
 # <bitbar.desc>Emacs controlled</bitbar.desc>
-# <bitbar.image>http://imgur.com/ZTScWDa</bitbar.image>
+# <bitbar.image>http://i.imgur.com/ZTScWDa.png</bitbar.image>
 
 PATH=/usr/local/bin:$PATH  # where is emacsclient?
 
@@ -24,5 +24,5 @@ esac
 
 echo '🦄'
 echo "---";
-echo "📬 Email | bash="$0" param1=email terminal=false"
-echo "📠 *scratch* Buffer | bash="$0" param1=buffer terminal=false"
+echo "📬 Email | bash=\"$0\" param1=email terminal=false"
+echo "📠 *scratch* Buffer | bash=\"$0\" param1=buffer terminal=false"

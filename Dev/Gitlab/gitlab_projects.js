@@ -1,5 +1,5 @@
 #!/usr/bin/env /usr/local/bin/node
-
+// jshint asi:true
 // <bitbar.title>GITLAB projects</bitbar.title>
 // <bitbar.version>v1.0</bitbar.version>
 // <bitbar.author>Sylvain Baronnet</bitbar.author>
@@ -74,7 +74,8 @@ var timeago = function() {
       if(ts < 0) {
         return 'Just now';
       }
-    for (i in o) {
+
+    for (var i in o) {
       if (r(ts) < o[i]) return pl(ii || 'm', r(ts / (o[ii] || 1)))
       ii = i;
     }
