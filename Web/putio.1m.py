@@ -4,7 +4,8 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Ryan Chiechi</bitbar.author>
 # <bitbar.author.github>rchiechi</bitbar.author.github>
-# <bitbar.desc>Shows put.io transfers</bitbar.desc>
+# <bitbar.desc>Shows put.io transfers and lists files/folders</bitbar.desc>
+# <bitbar.image>https://i.imgur.com/L85lfpv.png</bitbar.image>
 # <bitbar.dependencies>Python,Requests</bitbar.dependencies>
 
 import requests,json,base64
