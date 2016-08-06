@@ -5,7 +5,12 @@
 # <bitbar.author>Ryan Chiechi</bitbar.author>
 # <bitbar.author.github>rchiechi</bitbar.author.github>
 # <bitbar.desc>Shows put.io transfers</bitbar.desc>
+<<<<<<< HEAD
 # <bitbar.dependencies>Python,Requests</bitbar.dependencies>
+=======
+# <bitbar.image>https://i.imgur.com/L85lfpv.png</bitbar.image>
+# <bitbar.dependencies>Python3,Requests</bitbar.dependencies>
+>>>>>>> upstream/master
 
 import requests,json,base64
 
@@ -76,6 +81,7 @@ r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
 info = json.loads(str(r.content,encoding='utf-8'))['info']
 
 
+<<<<<<< HEAD
 print(':arrows_clockwise: Transfers (up/down) :arrows_clockwise: | color=gray')
 for t in transfers:
     # Show a lock for locked torrents
@@ -93,6 +99,20 @@ for t in transfers:
     # List everything else in black
     else:
         print('%s | color=black' % t['name'])
+=======
+print('= Transfers (up/down) = | color=gray')
+for t in transfers:
+    status = t['status']
+    # List seeding torrents in green
+    if status == 'SEEDING':
+        print(':arrows_clockwise: %s | color=green' % t['name'])
+    # List downloading torrents in blue
+    elif status == 'DOWNLOADING':
+        print(':arrows_clockwise: %s | color=blue' % t['name'])
+    # List everything else in black
+    else:
+        print(':arrows_clockwise: %s | color=black' % t['name'])
+>>>>>>> upstream/master
     # Print any error messages in red
     if t['error_message']:
         print('%s | color=red' % t['error_message'])
@@ -127,4 +147,8 @@ print('Disk: %s / %s | color=black' % (strbytes(info['disk']['used']),strbytes(i
 # Print a menu of actions
 print('Actions')
 print('--Go to put.io | color=black href=https://put.io/transfers')
+<<<<<<< HEAD
 print('--Clean Transfers | refresh=true terminal=false bash=curl param1="-s" param2="--data oauth_token=%s" param3="--url %s/transfers/clean"' %(OAUTH_TOKEN,BURL))
+=======
+print('--Clean Transfers | refresh=true terminal=false bash=curl param1="--data oauth_token=%s" param2="--url %s/transfers/clean"' %(OAUTH_TOKEN,BURL))
+>>>>>>> upstream/master

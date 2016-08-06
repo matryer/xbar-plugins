@@ -11,6 +11,7 @@
 
 import json
 import urllib2
+import textwrap
 import base64
 from random import randint
 
@@ -142,6 +143,11 @@ def get_wx():
         if item == 'summary':
           weather_data['next_hour'] = str((wx['minutely']['summary'].encode('utf-8')))
 
+    if 'daily' in wx:
+      for item in wx['daily']:
+        if item == 'summary':
+          weather_data['week'] = str((wx['daily']['summary'].encode('utf-8', 'ignore')))
+
     if 'city' in location and 'region' in location:
       if location['city'] == '' and location['region'] == '':
         if 'country' in location:
@@ -195,14 +201,21 @@ def render_wx():
   if 'condition' in weather_data and 'feels_like' in weather_data:
     print weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like']
 
-  if 'image' in weather_data:
-    if weather_data['image']['encoded']:
-      print '| href=' + weather_data['image']['url'] + '| image=' + weather_data['image']['encoded'] 
-
   print '---'
 
   if 'next_hour' in weather_data:
     print weather_data['next_hour']
+    print '---'
+
+  if 'image' in weather_data:
+    if weather_data['image']['encoded']:
+      print '| href=' + weather_data['image']['url'] + '| image=' + weather_data['image']['encoded']
+
+  print '---'
+
+  if 'week' in weather_data:
+    print "\n".join(textwrap.wrap(weather_data['week'], 50))
+    print '---'
 
   if 'wind' in weather_data and 'windBearing' in weather_data:
     print 'Wind: ' + weather_data['wind'] + ' ' + weather_data['windBearing']
