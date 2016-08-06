@@ -9,9 +9,9 @@
 
 import requests,json,base64
 
-OAUTH_TOKEN="YOUR_AUTH_TOKEN" # https://put.io/v2/docs/gettingstarted.html
+OAUTH_TOKEN="YOUR_TOKEN_HERE" # https://put.io/v2/docs/gettingstarted.html
 BURL="https://api.put.io/v2" # v2 api base url
-
+PUTIO="https://put.io"
 #
 # Note: there is no exception handling. If something
 #       goes wrong the script will just crash
@@ -112,11 +112,11 @@ print('\n---')
 
 # List the files/folders in the root and recurse two levels deep with submenus
 for root in getdir(0):
-    print('%s (%s) | color=black image=%s' % (root['name'],strbytes(root['size']),root['icon']) )
+    print('%s (%s) | color=black image=%s href=%s/files/%s' % (root['name'],strbytes(root['size']),root['icon'],PUTIO,root['id']) )
     for f in getdir(root['id']):
-        print('--%s (%s) | color=black image=%s' % (f['name'],strbytes(f['size']),f['icon']) )
+        print('--%s (%s) | color=black image=%s href=%s/files/%s' % (f['name'],strbytes(f['size']),f['icon'],PUTIO,f['id']) )
         for sf in getdir(f['id']):
-            print('----%s (%s) | color=black image=%s' % (sf['name'],strbytes(sf['size']),sf['icon']) )
+            print('----%s (%s) | color=black image=%s href=%s/files/%s' % (sf['name'],strbytes(sf['size']),sf['icon'],PUTIO,sf['id']) )
 
 # Make a divider
 print('\n---')
@@ -126,5 +126,5 @@ print('Disk: %s / %s | color=black' % (strbytes(info['disk']['used']),strbytes(i
 
 # Print a menu of actions
 print('Actions')
-print('--Go to put.io | color=black href=https://put.io/transfers')
+print('--Go to put.io | color=black href=%s/transfers' % PUTIO)
 print('--Clean Transfers | refresh=true terminal=false bash=curl param1="-s" param2="--data oauth_token=%s" param3="--url %s/transfers/clean"' %(OAUTH_TOKEN,BURL))
