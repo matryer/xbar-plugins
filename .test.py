@@ -106,7 +106,9 @@ def check_file(file_full_path):
                 linters.append(candidate)
 
         if first_line[0:3] != '#!/' or not linters:
-            error("%s has incorrect shebang.\n  Got %s\n  Wanted %s" % (file_full_path, first_line, ' or '.join(["'%s'" % candidate.shebang for candidate in candidates])))
+            error("%s has incorrect shebang.\n  Got %s\n  Wanted %s" % (
+                  file_full_path, first_line,
+                  ' or '.join(["'%s'" % candidate.shebang for candidate in candidates])))
         else:
             passed("%s has a good shebang (%s)" % (file_full_path, first_line))
 
@@ -147,6 +149,7 @@ def check_file(file_full_path):
             debug('running %s' % " ".join(linter.cmd))
             linter.lint(file_full_path)
         except subprocess.CalledProcessError as cpe:
+            debug('%s failed linting with "%s"' % (file_full_path, " ".join(linter.cmd)))
             errors.append({'linter': linter, 'output': cpe.output})
         else:
             errors = []
