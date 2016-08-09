@@ -5,9 +5,9 @@ import subprocess
 import urllib2
 import argparse
 
-allowed_image_content_types = [ 'image/png', 'image/jpeg', 'image/gif' ]
-required_metadata = [ 'author', 'author.github', 'title' ]
-recommended_metadata = [ 'image', 'desc', 'version' ]
+allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
+required_metadata = ['author', 'author.github', 'title']
+recommended_metadata = ['image', 'desc', 'version']
 
 
 class Language(object):
@@ -52,25 +52,32 @@ Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'maco
 Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
 
 error_count = 0
+
+
 def debug(s):
     global args
     if args.debug:
         print "\033[1;44mDBG!\033[0;0m %s\n" % s
+
 
 def passed(s):
     global args
     if args.verbose:
         print "\033[1;42mPASS\033[0;0m %s\n" % s
 
+
 def warn(s):
     print "\033[1;43mWRN!\033[0;0m %s\n" % s
+
 
 def error(s):
     global error_count
     error_count += 1
     print "\033[1;41mERR!\033[0;0m %s\n" % s
 
+
 def check_file(file_full_path):
+
     file_short_name, file_extension = os.path.splitext(file_full_path)
     candidates = Language.getLanguagesForFileExtension(file_extension)
 
@@ -89,7 +96,6 @@ def check_file(file_full_path):
     else:
         passed("%s is executable" % file_full_path)
 
-
     metadata = {}
     linters = []
     with open(file_full_path, "r") as fp:
@@ -103,7 +109,6 @@ def check_file(file_full_path):
             error("%s has incorrect shebang.\n  Got %s\n  Wanted %s" % (file_full_path, first_line, ' or '.join(["'%s'" % candidate.shebang for candidate in candidates])))
         else:
             passed("%s has a good shebang (%s)" % (file_full_path, first_line))
-
 
         for line in fp:
             match = re.search("<bitbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</bitbar.(?P<rho_tag>[^>]+)>", line)
@@ -172,7 +177,9 @@ parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
 if args.pr:
-    output = subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=ACMR', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
+    output = subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=ACMR',
+                                      'origin/%s..HEAD' %
+                                      os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
     if not output:
         warn('No changed files in this PR... weird...')
         exit(0)
