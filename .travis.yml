@@ -1,7 +1,7 @@
 language: objective-c
 osx_image: xcode7.1
 before_install:
-  - sudo easy_install pyflakes
+  - brew install python && pip install pyflakes
   - gem install rubocop --no-document
   - brew install shellcheck
   - brew install node && npm install -g jshint
