@@ -105,7 +105,10 @@ def check_file(file_full_path):
             if candidate.validShebang(first_line):
                 linters.append(candidate)
 
-        if first_line[0:3] != '#!/' or not linters:
+        if not re.match(r'#! ?/', first_line):
+            error("'%s' does not look like a valid shebang" % first_line)
+
+        if not linters:
             error("%s has incorrect shebang.\n  Got %s\n  Wanted %s" % (
                   file_full_path, first_line,
                   ' or '.join(["'%s'" % candidate.shebang for candidate in candidates])))
