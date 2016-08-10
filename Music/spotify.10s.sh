@@ -9,7 +9,7 @@
 
 # metadata
 # <bitbar.title>Spotify Now Playing</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Jason Tokoph</bitbar.author>
 # <bitbar.author.github>jtokoph</bitbar.author.github>
 # <bitbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</bitbar.desc>
@@ -28,7 +28,7 @@ if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
   echo "♫"
   echo "---"
   echo "Spotify is not running"
-  echo "Launch Spotify | bash=$0 param1=launch terminal=false"
+  echo "Launch Spotify | bash='$0' param1=launch terminal=false"
   exit
 fi
 
@@ -63,15 +63,6 @@ album=$(tellspotify 'album of current track as string');
 echo "$state_icon $truncated_track - $truncated_artist"
 echo "---"
 
-case "$0" in
-  *\ * )
-   echo "Your script path | color=#ff0000"
-   echo "($0) | color=#ff0000"
-   echo "has a space in it, which BitBar does not support. | color=#ff0000"
-   echo "Play/Pause/Next/Previous buttons will not work. | color=#ff0000"
-  ;;
-esac
-
 echo "Track: $track | color=#333333"
 echo "Artist: $artist | color=#333333"
 echo "Album: $album | color=#333333"
@@ -79,12 +70,12 @@ echo "Album: $album | color=#333333"
 echo '---'
 
 if [ "$state" = "playing" ]; then
-  echo "Pause | bash=$0 param1=playpause terminal=false"
-  echo "Previous | bash=$0 param1='previous track' terminal=false refresh=true"
-  echo "Next | bash=$0 param1='next track' terminal=false refresh=true"
+  echo "Pause | bash='$0' param1=playpause terminal=false"
+  echo "Previous | bash='$0' param1='previous track' terminal=false refresh=true"
+  echo "Next | bash='$0' param1='next track' terminal=false refresh=true"
 else
-  echo "Play | bash=$0 param1=playpause terminal=false"
+  echo "Play | bash='$0' param1=playpause terminal=false"
 fi
 
 echo '---'
-echo "Open Spotify | bash=$0 param1=launch terminal=false"
+echo "Open Spotify | bash='$0' param1=launch terminal=false"
