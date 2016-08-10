@@ -432,7 +432,8 @@ class NPM(PackageManager):
                 continue
             self.updates.append({
                 'name': package,
-                'installed_version': values['current'],
+                'installed_version':
+                    values['current'] if 'current' in values else '',
                 'latest_version': values['latest']
             })
 
