@@ -1,4 +1,5 @@
-#!/usr/bin/env
+#!/usr/bin/env node
+// jshint esversion: 6, asi: true
 
 // <bitbar.title>Github Pull requests</bitbar.title>
 // <bitbar.version>v2.0</bitbar.version>
@@ -20,7 +21,7 @@ var request = bluebird.promisifyAll(require("request"))
 var co = require("co")
 
 co(function* () {
-  var results = yield repos.map(function(repo) {
+  var results = yield repos.map(function(repo) { //jshint ignore:line
     var options = {
       url: 'https://api.github.com/repos/' + repo + '/pulls',
       headers: {
