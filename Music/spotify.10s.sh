@@ -9,7 +9,7 @@
 
 # metadata
 # <bitbar.title>Spotify Now Playing</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Jason Tokoph</bitbar.author>
 # <bitbar.author.github>jtokoph</bitbar.author.github>
 # <bitbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</bitbar.desc>
