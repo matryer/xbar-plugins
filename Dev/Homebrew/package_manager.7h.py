@@ -1,28 +1,45 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.5</bitbar.version>
+# <bitbar.version>v1.6</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
-# <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm and Rebuy's gem. Allows individual or full upgrades (if available).</bitbar.desc>
-# <bitbar.dependencies>python,homebrew,cask,pip,npm,apm,gem</bitbar.dependencies>
+# <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm, Rebuy's gem and Mac AppStore via mas CLI. Allows individual or full upgrades (if available).</bitbar.desc>
+# <bitbar.dependencies>python,homebrew,cask,pip,npm,apm,gem,mas</bitbar.dependencies>
 # <bitbar.image>https://i.imgur.com/CiQpQ42.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/kdeldycke/dotfiles/blob/master/dotfiles-osx/.bitbar/package_manager.7h.py</bitbar.abouturl>
 
 """
+Default update cycle is set to 7 hours so we have a chance to get user's
+attention once a day. Higher frequency might ruin the system as all checks are
+quite resource intensive, and Homebrew might hit GitHub's API calls quota.
+
+If you're bored, feel free to add support for new package manager. A list of
+good candidates is available at:
+https://en.wikipedia.org/wiki/List_of_software_package_management_systems
+
+
 Changelog
 =========
 
+1.6 (2016-08-10)
+----------------
+
+* Work around the lacks of full pip upgrade command.
+* Fix UnicodeDecodeError on parsing CLI output.
+
 1.5 (2016-07-25)
 ----------------
-* Add support for [mas](https://github.com/argon/mas)
-* Don't show all stderr as err (check return code for error state)
+
+* Add support for [mas](https://github.com/argon/mas).
+* Don't show all stderr as err (check return code for error state).
 
 1.4 (2016-07-10)
 ----------------
-* Don't attempt to parse empty lines
-* Check for linked npm packages
-* Support System or Homebrew Ruby Gems (with proper sudo setup)
+
+* Don't attempt to parse empty lines.
+* Check for linked npm packages.
+* Support System or Homebrew Ruby Gems (with proper sudo setup).
 
 1.3 (2016-07-09)
 ----------------
@@ -62,19 +79,19 @@ from __future__ import print_function, unicode_literals
 import json
 import os
 import re
-from operator import methodcaller
+from operator import itemgetter, methodcaller
 from subprocess import PIPE, Popen
-
-
-# TODO: add cleanup commands.
 
 
 class PackageManager(object):
     """ Generic class for a package manager. """
 
+    cli = None
+
     def __init__(self):
         # List all available updates and their versions.
         self.updates = []
+        self.error = None
 
     @property
     def name(self):
@@ -94,11 +111,12 @@ class PackageManager(object):
         """ Run a shell command, return the output and keep error message.
         """
         self.error = None
-        process = Popen(args, stdout=PIPE, stderr=PIPE)
+        process = Popen(
+            args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
         output, error = process.communicate()
         if process.returncode != 0 and error:
-            self.error = error
-        return output
+            self.error = error.decode('utf-8')
+        return output.decode('utf-8')
 
     def sync(self):
         """ Fetch latest versions of installed packages.
@@ -211,6 +229,8 @@ class Cask(Homebrew):
             flux 37.3, 37.2, 37.1, 36.8, 36.6
             gimp 2.8.16-x86_64
             java 1.8.0_92-b14
+            prey
+            ubersicht
 
             $ brew cask info aerial
             aerial: 1.2beta5
@@ -229,6 +249,24 @@ class Cask(Homebrew):
             https://github.com/caskroom/homebrew-cask/blob/master/Casks/firefox.rb
             ==> Contents
               Firefox.app (app)
+
+            $ brew cask info prey
+            prey: 1.5.1
+            Prey
+            https://preyproject.com
+            Not installed
+            https://github.com/caskroom/homebrew-cask/blob/master/Casks/prey.rb
+            ==> Contents
+              prey-mac-1.5.1-x86.pkg (pkg)
+
+            $ brew cask info ubersicht
+            ubersicht: 1.0.42
+            Übersicht
+            http://tracesof.net/uebersicht
+            Not installed
+            https://github.com/caskroom/homebrew-cask/blob/master/Casks/ubersicht.rb
+            ==> Contents
+              Übersicht.app (app)
         """
         # `brew cask update` is just an alias to `brew update`. Perform the
         # action anyway to make it future proof.
@@ -297,6 +335,7 @@ class Pip(PackageManager):
         Sample of pip output:
 
             $ pip list --outdated
+            ccm (2.1.8, /Users/kdeldycke/ccm) - Latest: 2.1.11 [sdist]
             coverage (4.0.3) - Latest: 4.1 [wheel]
             IMAPClient (0.13) - Latest: 1.0.1 [wheel]
             Logbook (0.10.1) - Latest: 1.0.0 [sdist]
@@ -334,7 +373,7 @@ class Pip(PackageManager):
         This work around the lack of proper full upgrade command in Pip.
         See: https://github.com/pypa/pip/issues/59
         """
-        return
+        return self.update_cli(' '.join(map(itemgetter('name'), self.updates)))
 
 
 class Pip2(Pip):
