@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # <bitbar.title>Now playing</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Adam Kenyon</bitbar.author>
 # <bitbar.author.github>adampk90</bitbar.author.github>
 # <bitbar.desc>Shows and controls the music that is now playing. Currently supports Spotify, iTunes, and Vox.</bitbar.desc>
@@ -96,19 +96,19 @@ else
 	echo "$artist"
 
 	if [ "$playing" != "" ]; then
-		echo "Now playing on $app | color=gray bash=$0 param1=open param2=$app terminal=false"
+		echo "Now playing on $app | color=gray bash='$0' param1=open param2=$app terminal=false"
 		echo "---"
-		echo "⏸ Pause | bash=$0 param1=pause param2=$app refresh=true terminal=false"
+		echo "⏸ Pause | bash='$0' param1=pause param2=$app refresh=true terminal=false"
 	else
-		echo "▶️ Play | bash=$0 param1=play param2=$app refresh=true terminal=false"
+		echo "▶️ Play | bash='$0' param1=play param2=$app refresh=true terminal=false"
 	fi
 
-	echo "⏭ Next | bash=$0 param1=next param2=$app refresh=true terminal=false"
-	echo "⏮ Previous | bash=$0 param1=previous param2=$app refresh=true terminal=false"
+	echo "⏭ Next | bash='$0' param1=next param2=$app refresh=true terminal=false"
+	echo "⏮ Previous | bash='$0' param1=previous param2=$app refresh=true terminal=false"
 fi
 
 # add an Open option for each service
 echo "---"
 for i in "${apps[@]}"; do
-	echo "Open $i | bash=$0 param1=open param2=$i terminal=false"
+	echo "Open $i | bash='$0' param1=open param2=$i terminal=false"
 done
