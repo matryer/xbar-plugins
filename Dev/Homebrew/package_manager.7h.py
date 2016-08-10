@@ -110,6 +110,7 @@ class PackageManager(object):
     def run(self, *args):
         """ Run a shell command, return the output and keep error message.
         """
+        self.error = None
         process = Popen(
             args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
         output, error = process.communicate()
