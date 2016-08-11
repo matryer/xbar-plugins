@@ -4,15 +4,15 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Ryan Chiechi</bitbar.author>
 # <bitbar.author.github>rchiechi</bitbar.author.github>
-# <bitbar.desc>Shows put.io transfers</bitbar.desc>
+# <bitbar.desc>Shows put.io transfers and lists files/folders</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/L85lfpv.png</bitbar.image>
-# <bitbar.dependencies>Python3,Requests</bitbar.dependencies>
+# <bitbar.dependencies>Python,Requests</bitbar.dependencies>
 
 import requests,json,base64
 
-OAUTH_TOKEN="YOUR_AUTH_TOKEN" # https://put.io/v2/docs/gettingstarted.html
+OAUTH_TOKEN="YOUR_TOKEN_HERE" # https://put.io/v2/docs/gettingstarted.html
 BURL="https://api.put.io/v2" # v2 api base url
-
+PUTIO="https://put.io"
 #
 # Note: there is no exception handling. If something
 #       goes wrong the script will just crash
@@ -77,18 +77,23 @@ r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
 info = json.loads(str(r.content,encoding='utf-8'))['info']
 
 
-print('= Transfers (up/down) = | color=gray')
+print(':arrows_clockwise: Transfers (up/down) :arrows_clockwise: | color=gray')
 for t in transfers:
+    # Show a lock for locked torrents
+    if t['is_private']:
+        print(':lock:',end='')
+    else:
+        print(':unlock:',end='')
     status = t['status']
     # List seeding torrents in green
     if status == 'SEEDING':
-        print(':arrows_clockwise: %s | color=green' % t['name'])
+        print('%s | color=green' % t['name'])
     # List downloading torrents in blue
     elif status == 'DOWNLOADING':
-        print(':arrows_clockwise: %s | color=blue' % t['name'])
+        print('%s | color=blue' % t['name'])
     # List everything else in black
     else:
-        print(':arrows_clockwise: %s | color=black' % t['name'])
+        print('%s | color=black' % t['name'])
     # Print any error messages in red
     if t['error_message']:
         print('%s | color=red' % t['error_message'])
@@ -108,11 +113,11 @@ print('\n---')
 
 # List the files/folders in the root and recurse two levels deep with submenus
 for root in getdir(0):
-    print('%s (%s) | color=black image=%s' % (root['name'],strbytes(root['size']),root['icon']) )
+    print('%s (%s) | color=black image=%s href=%s/files/%s' % (root['name'],strbytes(root['size']),root['icon'],PUTIO,root['id']) )
     for f in getdir(root['id']):
-        print('--%s (%s) | color=black image=%s' % (f['name'],strbytes(f['size']),f['icon']) )
+        print('--%s (%s) | color=black image=%s href=%s/files/%s' % (f['name'],strbytes(f['size']),f['icon'],PUTIO,f['id']) )
         for sf in getdir(f['id']):
-            print('----%s (%s) | color=black image=%s' % (sf['name'],strbytes(sf['size']),sf['icon']) )
+            print('----%s (%s) | color=black image=%s href=%s/files/%s' % (sf['name'],strbytes(sf['size']),sf['icon'],PUTIO,sf['id']) )
 
 # Make a divider
 print('\n---')
@@ -122,5 +127,5 @@ print('Disk: %s / %s | color=black' % (strbytes(info['disk']['used']),strbytes(i
 
 # Print a menu of actions
 print('Actions')
-print('--Go to put.io | color=black href=https://put.io/transfers')
-print('--Clean Transfers | refresh=true terminal=false bash=curl param1="--data oauth_token=%s" param2="--url %s/transfers/clean"' %(OAUTH_TOKEN,BURL))
+print('--Go to put.io | color=black href=%s/transfers' % PUTIO)
+print('--Clean Transfers | refresh=true terminal=false bash=curl param1="-s" param2="--data oauth_token=%s" param3="--url %s/transfers/clean"' %(OAUTH_TOKEN,BURL))
