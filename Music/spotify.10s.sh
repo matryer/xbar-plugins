@@ -9,7 +9,7 @@
 
 # metadata
 # <bitbar.title>Spotify Now Playing</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Jason Tokoph</bitbar.author>
 # <bitbar.author.github>jtokoph</bitbar.author.github>
 # <bitbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</bitbar.desc>
@@ -70,11 +70,11 @@ echo "Album: $album | color=#333333"
 echo '---'
 
 if [ "$state" = "playing" ]; then
-  echo "Pause | bash='$0' param1=playpause terminal=false"
-  echo "Previous | bash='$0' param1='previous track' terminal=false refresh=true"
-  echo "Next | bash='$0' param1='next track' terminal=false refresh=true"
+  echo "⏸ Pause | bash='$0' param1=playpause terminal=false"
+  echo "⏮ Previous | bash='$0' param1='previous track' terminal=false refresh=true"
+  echo "⏭ Next | bash='$0' param1='next track' terminal=false refresh=true"
 else
-  echo "Play | bash='$0' param1=playpause terminal=false"
+  echo "▶️ Play | bash='$0' param1=playpause terminal=false"
 fi
 
 echo '---'
