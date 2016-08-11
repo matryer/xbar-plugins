@@ -88,6 +88,10 @@ class PackageManager(object):
 
     cli = None
 
+    path_list = os.environ.get('PATH','').split(os.pathsep)
+    if not '/usr/local/bin' in path_list:
+        os.environ['PATH'] += ':/usr/local/bin'
+
     def __init__(self):
         # List all available updates and their versions.
         self.updates = []
