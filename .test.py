@@ -5,52 +5,83 @@ import subprocess
 import urllib2
 import argparse
 
-allowed_image_content_types = [ 'image/png', 'image/jpeg', 'image/gif' ]
-required_metadata = [ 'author', 'author.github', 'title' ]
-recommended_metadata = [ 'image', 'desc', 'version' ]
-required_shebangs = {
-    '.sh': '(bash|ksh|zsh|sh|fish)$',
-    '.py': 'python(|2|3)$',
-    '.rb': 'ruby$',
-    '.js': 'node$',
-    '.php': 'php$',
-    '.pl': 'perl( -[wW])?$',
-    '.swift': 'swift$',
-    '.lisp': 'clisp$',
-}
-linter_command = {
-    '.sh': [ 'shellcheck' ],
-    '.py': [ 'pyflakes' ],
-    '.rb': [ 'rubocop', '-l' ],
-    '.js': [ 'jshint' ],
-    '.php': [ 'php', '-l' ],
-    '.pl': [ 'perl', '-MO=Lint'],
-    '.swift': [ 'xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null' ],
-    '.lisp': [ 'clisp' ],
-}
+allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
+required_metadata = ['author', 'author.github', 'title']
+recommended_metadata = ['image', 'desc', 'version']
+
+
+class Language(object):
+    _languages = {}
+
+    def __init__(self, exts, shebang, linter):
+        self.extensions = exts
+        self.shebang = shebang
+        self.cmd = linter
+
+    @staticmethod
+    def registerLanguage(lang):
+        for extension in lang.extensions:
+            if extension in Language._languages:
+                Language._languages[extension].append(lang)
+            else:
+                Language._languages[extension] = [lang, ]
+
+    @staticmethod
+    def getLanguagesForFileExtension(ext):
+        if ext in Language._languages:
+            return Language._languages[ext]
+        else:
+            return None
+
+    def validShebang(self, bang):
+        return re.search(self.shebang, bang) is not None
+
+    def lint(self, file):
+        command = list(self.cmd)
+        command.append(file)
+        return subprocess.check_output(command, stderr=subprocess.STDOUT)
+
+Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck']))
+Language.registerLanguage(Language(['.py', '.py2'], 'python(|2)$', ['python2', '-m', 'pyflakes']))
+Language.registerLanguage(Language(['.py', '.py3'], 'python(|3)$', ['python3', '-m', 'pyflakes']))
+Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l']))
+Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
+Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
+Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
+Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null']))
+Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
+
 error_count = 0
+
+
 def debug(s):
     global args
     if args.debug:
         print "\033[1;44mDBG!\033[0;0m %s\n" % s
+
 
 def passed(s):
     global args
     if args.verbose:
         print "\033[1;42mPASS\033[0;0m %s\n" % s
 
+
 def warn(s):
     print "\033[1;43mWRN!\033[0;0m %s\n" % s
+
 
 def error(s):
     global error_count
     error_count += 1
     print "\033[1;41mERR!\033[0;0m %s\n" % s
 
-def check_file(file_full_path):
-    file_short_name, file_extension = os.path.splitext(file_full_path)
 
-    if not required_shebangs.get(file_extension, False):
+def check_file(file_full_path):
+
+    file_short_name, file_extension = os.path.splitext(file_full_path)
+    candidates = Language.getLanguagesForFileExtension(file_extension)
+
+    if not candidates:
         error("%s unrecognized file extension" % file_full_path)
         return
     else:
@@ -65,16 +96,24 @@ def check_file(file_full_path):
     else:
         passed("%s is executable" % file_full_path)
 
-
     metadata = {}
+    linters = []
     with open(file_full_path, "r") as fp:
         first_line = fp.readline().strip()
-        shebang_re = required_shebangs.get(file_extension, '')
-        if first_line[0:3] != '#!/' or re.search(shebang_re, first_line) is None:
-            error("%s has incorrect shebang.\n  Got %s\n  Wanted %s" % (file_full_path, first_line, shebang_re))
+
+        for candidate in candidates:
+            if candidate.validShebang(first_line):
+                linters.append(candidate)
+
+        if not re.match(r'#! ?/', first_line):
+            error("'%s' does not look like a valid shebang" % first_line)
+
+        if not linters:
+            error("%s has incorrect shebang.\n  Got %s\n  Wanted %s" % (
+                  file_full_path, first_line,
+                  ' or '.join(["'%s'" % candidate.shebang for candidate in candidates])))
         else:
             passed("%s has a good shebang (%s)" % (file_full_path, first_line))
-
 
         for line in fp:
             match = re.search("<bitbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</bitbar.(?P<rho_tag>[^>]+)>", line)
@@ -107,17 +146,25 @@ def check_file(file_full_path):
         except Exception:
             warn('%s cannot fetch image: %s' % (file_full_path, metadata['image']))
 
-    if linter_command.get(file_extension, False):
-        command = list(linter_command[file_extension])
-        command.append(file_full_path)
-        debug('running %s' % command)
+    errors = []
+    for linter in linters:
         try:
-            subprocess.check_output(command, stderr=subprocess.STDOUT)
+            debug('running %s' % " ".join(linter.cmd))
+            linter.lint(file_full_path)
         except subprocess.CalledProcessError as cpe:
-            error('%s failed linting with "%s", please correct the following:' % (file_full_path, " ".join(list(linter_command[file_extension]))))
-            print cpe.output
+            debug('%s failed linting with "%s"' % (file_full_path, " ".join(linter.cmd)))
+            errors.append({'linter': linter, 'output': cpe.output})
         else:
-            passed('%s linted successfully with "%s"' % (file_full_path, " ".join(list(linter_command[file_extension]))))
+            errors = []
+            passed('%s linted successfully with "%s"' %
+                   (file_full_path, " ".join(list(linter.cmd))))
+            break
+
+    for e in errors:
+        error('%s failed linting with "%s", please correct the following:' %
+              (file_full_path, " ".join(e['linter'].cmd)))
+        print e['output']
+
 
 def boolean_string(string):
     if string.lower() == "false":
@@ -136,7 +183,9 @@ parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
 if args.pr:
-    output = subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=ACMR', 'origin/%s..HEAD' % os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
+    output = subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=ACMR',
+                                      'origin/%s..HEAD' %
+                                      os.environ.get('TRAVIS_BRANCH', 'master')]).strip()
     if not output:
         warn('No changed files in this PR... weird...')
         exit(0)
