@@ -88,9 +88,26 @@ class PackageManager(object):
 
     cli = None
 
-    path_list = os.environ.get('PATH','').split(os.pathsep)
-    if not '/usr/local/bin' in path_list:
-        os.environ['PATH'] += ':/usr/local/bin'
+    # OS X does not put /usr/local/bin or /opt/local/bin in
+    # the PATH for GUI apps. For some package managers this
+    # is a problem. If you get an error similar to
+    #
+    # "env: node: No such file or directory
+    #
+    # it is most likely that something is missing from the
+    # path. However Homebrew and Macports are using different pathes.
+    #
+    # For Homebrew uncomment next line:
+    #extra_path='/usr/local/bin'
+    # For MacPorts uncomment next line
+    #extra_path='/opt/local/bin'
+    # For both Homebrew and MacPorts uncomment the following lines:
+    #path_list = os.environ.get('PATH','').split(os.pathsep)
+    #if not extra_path in path_list:
+    #    os.environ['PATH'] += ":" + extra_path
+
+    print(os.environ['PATH'])
+    exit(0)
 
     def __init__(self):
         # List all available updates and their versions.
