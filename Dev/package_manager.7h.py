@@ -106,9 +106,6 @@ class PackageManager(object):
     #if not extra_path in path_list:
     #    os.environ['PATH'] += ":" + extra_path
 
-    print(os.environ['PATH'])
-    exit(0)
-
     def __init__(self):
         # List all available updates and their versions.
         self.updates = []
