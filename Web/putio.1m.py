@@ -8,13 +8,14 @@
 # <bitbar.image>https://i.imgur.com/L85lfpv.png</bitbar.image>
 # <bitbar.dependencies>Python,Requests</bitbar.dependencies>
 
-import requests,json,base64
+import requests
+import sys,json,base64
 
-OAUTH_TOKEN="YOUR_TOKEN_HERE" # https://put.io/v2/docs/gettingstarted.html
+OAUTH_TOKEN="<YOUR_TOKEN_HERE>" # https://put.io/v2/docs/gettingstarted.html
 BURL="https://api.put.io/v2" # v2 api base url
 PUTIO="https://put.io"
 #
-# Note: there is no exception handling. If something
+# Note: there is very little exception handling. If something
 #       goes wrong the script will just crash
 #
 
@@ -70,12 +71,15 @@ print('|image='+str(b'iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAABGdBTUEAAL
 # Everything else goes in menus
 print('---')
 
-# Get transfers and account info as list objects 
-r = requests.get(BURL+'/transfers/list?oauth_token='+OAUTH_TOKEN)
-transfers = json.loads(str(r.content,encoding='utf-8'))['transfers']
-r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
-info = json.loads(str(r.content,encoding='utf-8'))['info']
-
+try:
+    # Get transfers and account info as list objects 
+    r = requests.get(BURL+'/transfers/list?oauth_token='+OAUTH_TOKEN)
+    transfers = json.loads(str(r.content,encoding='utf-8'))['transfers']
+    r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
+    info = json.loads(str(r.content,encoding='utf-8'))['info']
+except requests.exceptions.ConnectionError as msg:
+    print('Error connecting to put.io | color=red')
+    sys.exit()
 
 print(':arrows_clockwise: Transfers (up/down) :arrows_clockwise: | color=gray')
 for t in transfers:
@@ -127,5 +131,7 @@ print('Disk: %s / %s | color=black' % (strbytes(info['disk']['used']),strbytes(i
 
 # Print a menu of actions
 print('Actions')
-print('--Go to put.io | color=black href=%s/transfers' % PUTIO)
+print('--Refresh | refresh=true')
+print('--Go to put.io | href=%s/transfers' % PUTIO)
+# Hit or miss if this works
 print('--Clean Transfers | refresh=true terminal=false bash=curl param1="-s" param2="--data oauth_token=%s" param3="--url %s/transfers/clean"' %(OAUTH_TOKEN,BURL))
