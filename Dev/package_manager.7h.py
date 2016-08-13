@@ -82,6 +82,8 @@ import re
 from operator import methodcaller
 from subprocess import PIPE, Popen, call
 
+os.environ['PATH'] += ':/usr/local/bin:/usr/local/sbin'
+
 
 class PackageManager(object):
     """ Generic class for a package manager. """
