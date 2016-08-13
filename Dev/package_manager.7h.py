@@ -369,6 +369,9 @@ class Pip(PackageManager):
 
         regexp = re.compile(r'(\S+) \((.*)\) - Latest: (\S+)')
         for outdated_pkg in output.split('\n'):
+            if not outdated_pkg:
+                continue
+
             name, installed_info, latest_version = regexp.match(
                 outdated_pkg).groups()
 
