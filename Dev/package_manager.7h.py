@@ -641,7 +641,7 @@ def print_menu():
         print("{} {} package{}".format(
             len(manager.updates),
             manager.name,
-            's' if len(manager.updates) > 1 else ''))
+            's' if len(manager.updates) != 1 else ''))
 
         if manager.update_all_cli() and manager.updates:
             print("Upgrade all | {} terminal=false refresh=true".format(
