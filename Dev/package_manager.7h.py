@@ -82,7 +82,11 @@ import re
 from operator import methodcaller
 from subprocess import PIPE, Popen, call
 
-os.environ['PATH'] += ':/usr/local/bin:/usr/local/sbin'
+os.environ['PATH'] = ':'.join(['/usr/local/bin',
+                               '/usr/local/sbin',
+                               '/opt/local/bin',
+                               '/opt/local/sbin',
+                               os.environ['PATH']])
 
 
 class PackageManager(object):
