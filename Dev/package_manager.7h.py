@@ -79,8 +79,8 @@ from __future__ import print_function, unicode_literals
 import json
 import os
 import re
-from operator import itemgetter, methodcaller
-from subprocess import PIPE, Popen
+from operator import methodcaller
+from subprocess import PIPE, Popen, call
 
 
 class PackageManager(object):
@@ -143,6 +143,14 @@ class PackageManager(object):
     def update_all_cli(self):
         """ Return a bitbar-compatible full-CLI to update all packages. """
         raise NotImplementedError
+
+    def _update_all_cmd(self):
+        import sys
+        return self.bitbar_cli_format(
+            '{} upgrade {}'.format(sys.argv[0], self.__class__.__name__))
+
+    def update_all_cmd(self):
+        pass
 
 
 class Homebrew(PackageManager):
@@ -324,7 +332,13 @@ class Cask(Homebrew):
 
         See: https://github.com/caskroom/homebrew-cask/issues/4678
         """
-        return
+        return self.bitbar_cli_format(self._update_all_cmd())
+
+    def update_all_cmd(self):
+        self.sync()
+        for package in self.updates:
+            call("{} cask install {}".format(self.cli, package['name']),
+                 shell=True)
 
 
 class Pip(PackageManager):
@@ -373,7 +387,13 @@ class Pip(PackageManager):
         This work around the lack of proper full upgrade command in Pip.
         See: https://github.com/pypa/pip/issues/59
         """
-        return self.update_cli(' '.join(map(itemgetter('name'), self.updates)))
+        return self.bitbar_cli_format(self._update_all_cmd())
+
+    def update_all_cmd(self):
+        self.sync()
+        for package in self.updates:
+            call("{} install -U {}".format(self.cli, package["name"]),
+                 shell=True)
 
 
 class Pip2(Pip):
@@ -625,4 +645,21 @@ def print_menu():
                     cli=manager.update_cli(pkg_info['name']),
                     **pkg_info)).encode('utf-8'))
 
-print_menu()
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("command", nargs='?', default='menu')
+    parser.add_argument("options", nargs='*')
+
+    args = parser.parse_args()
+
+    if args.command == 'upgrade':
+        try:
+            # Instantiate class from global definitions
+            cl = globals()[args.options[0]]()
+            cl.update_all_cmd()
+        except:
+            # Do nothing if we can't load the class
+            pass
+    else:
+        print_menu()
