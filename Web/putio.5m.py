@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 # <bitbar.title>put.io transfers</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.01</bitbar.version>
 # <bitbar.author>Ryan Chiechi</bitbar.author>
 # <bitbar.author.github>rchiechi</bitbar.author.github>
 # <bitbar.desc>Shows put.io transfers and lists files/folders</bitbar.desc>
@@ -107,7 +107,10 @@ for t in transfers:
     print('--Speed: %s / %s | color=black' % (strbytes(t['up_speed'],'/s') ,strbytes(t['down_speed'],'/s') ))
     # If we are downloading print the ETA and percent complete
     if status == 'DOWNLOADING':
-        print('--ETA: %0.0f min (%s%%) | color=black' % (t['estimated_time']/60,t['percent_done'] ) )
+        try:
+            print('--ETA: %0.0f min (%s%%) | color=black' % (t['estimated_time']/60,t['percent_done'] ) )
+        except TypeError:
+            print('--ETA: :x:')
     # Otherwise print the ratio
     else:
         print('--Ratio: %s | color=black' % (t['current_ratio']) )
