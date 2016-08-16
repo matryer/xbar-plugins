@@ -82,6 +82,11 @@ import re
 from operator import methodcaller
 from subprocess import PIPE, Popen, call
 
+# OS X does not put /usr/local/bin or /opt/local/bin in the PATH for GUI apps.
+# For some package managers this is a problem. Additioanlly Homebrew and
+# Macports are using different pathes.  So, to make sure we can always get to
+# the necessary binaries, we overload the path.  Current preference order would
+# equate to Homebrew, Macports, then System.
 os.environ['PATH'] = ':'.join(['/usr/local/bin',
                                '/usr/local/sbin',
                                '/opt/local/bin',
