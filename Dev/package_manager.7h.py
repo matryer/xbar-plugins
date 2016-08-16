@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.6</bitbar.version>
+# <bitbar.version>v1.7</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm, Rebuy's gem and Mac AppStore via mas CLI. Allows individual or full upgrades (if available).</bitbar.desc>
@@ -21,6 +21,14 @@ https://en.wikipedia.org/wiki/List_of_software_package_management_systems
 
 Changelog
 =========
+
+1.7 (2016-08-16)
+----------------
+
+* Fix issues with $PATH not having Homebrew/Macports
+* New workaround for full pip upgrade command
+* Workaround for Homebrew Cask full upgrade command
+* Grammar fix when 0 packages need updated
 
 1.6 (2016-08-10)
 ----------------
@@ -79,8 +87,19 @@ from __future__ import print_function, unicode_literals
 import json
 import os
 import re
-from operator import itemgetter, methodcaller
-from subprocess import PIPE, Popen
+from operator import methodcaller
+from subprocess import PIPE, Popen, call
+
+# OS X does not put /usr/local/bin or /opt/local/bin in the PATH for GUI apps.
+# For some package managers this is a problem. Additioanlly Homebrew and
+# Macports are using different pathes.  So, to make sure we can always get to
+# the necessary binaries, we overload the path.  Current preference order would
+# equate to Homebrew, Macports, then System.
+os.environ['PATH'] = ':'.join(['/usr/local/bin',
+                               '/usr/local/sbin',
+                               '/opt/local/bin',
+                               '/opt/local/sbin',
+                               os.environ['PATH']])
 
 
 class PackageManager(object):
@@ -143,6 +162,14 @@ class PackageManager(object):
     def update_all_cli(self):
         """ Return a bitbar-compatible full-CLI to update all packages. """
         raise NotImplementedError
+
+    def _update_all_cmd(self):
+        import sys
+        return self.bitbar_cli_format(
+            '{} upgrade {}'.format(sys.argv[0], self.__class__.__name__))
+
+    def update_all_cmd(self):
+        pass
 
 
 class Homebrew(PackageManager):
@@ -324,7 +351,13 @@ class Cask(Homebrew):
 
         See: https://github.com/caskroom/homebrew-cask/issues/4678
         """
-        return
+        return self.bitbar_cli_format(self._update_all_cmd())
+
+    def update_all_cmd(self):
+        self.sync()
+        for package in self.updates:
+            call("{} cask install {}".format(self.cli, package['name']),
+                 shell=True)
 
 
 class Pip(PackageManager):
@@ -349,6 +382,9 @@ class Pip(PackageManager):
 
         regexp = re.compile(r'(\S+) \((.*)\) - Latest: (\S+)')
         for outdated_pkg in output.split('\n'):
+            if not outdated_pkg:
+                continue
+
             name, installed_info, latest_version = regexp.match(
                 outdated_pkg).groups()
 
@@ -373,7 +409,13 @@ class Pip(PackageManager):
         This work around the lack of proper full upgrade command in Pip.
         See: https://github.com/pypa/pip/issues/59
         """
-        return self.update_cli(' '.join(map(itemgetter('name'), self.updates)))
+        return self.bitbar_cli_format(self._update_all_cmd())
+
+    def update_all_cmd(self):
+        self.sync()
+        for package in self.updates:
+            call("{} install -U {}".format(self.cli, package["name"]),
+                 shell=True)
 
 
 class Pip2(Pip):
@@ -612,7 +654,7 @@ def print_menu():
         print("{} {} package{}".format(
             len(manager.updates),
             manager.name,
-            's' if len(manager.updates) > 1 else ''))
+            's' if len(manager.updates) != 1 else ''))
 
         if manager.update_all_cli() and manager.updates:
             print("Upgrade all | {} terminal=false refresh=true".format(
@@ -625,4 +667,21 @@ def print_menu():
                     cli=manager.update_cli(pkg_info['name']),
                     **pkg_info)).encode('utf-8'))
 
-print_menu()
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("command", nargs='?', default='menu')
+    parser.add_argument("options", nargs='*')
+
+    args = parser.parse_args()
+
+    if args.command == 'upgrade':
+        try:
+            # Instantiate class from global definitions
+            cl = globals()[args.options[0]]()
+            cl.update_all_cmd()
+        except:
+            # Do nothing if we can't load the class
+            pass
+    else:
+        print_menu()
