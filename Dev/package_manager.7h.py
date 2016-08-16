@@ -87,6 +87,7 @@ from __future__ import print_function, unicode_literals
 import json
 import os
 import re
+import sys
 from operator import methodcaller
 from subprocess import PIPE, Popen, call
 
@@ -99,7 +100,7 @@ os.environ['PATH'] = ':'.join(['/usr/local/bin',
                                '/usr/local/sbin',
                                '/opt/local/bin',
                                '/opt/local/sbin',
-                               os.environ['PATH']])
+                               os.environ.get('PATH', '')])
 
 
 class PackageManager(object):
@@ -164,9 +165,7 @@ class PackageManager(object):
         raise NotImplementedError
 
     def _update_all_cmd(self):
-        import sys
-        return self.bitbar_cli_format(
-            '{} upgrade {}'.format(sys.argv[0], self.__class__.__name__))
+        return '{} upgrade {}'.format(sys.argv[0], self.__class__.__name__)
 
     def update_all_cmd(self):
         pass
