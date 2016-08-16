@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.6</bitbar.version>
+# <bitbar.version>v1.7</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm, Rebuy's gem and Mac AppStore via mas CLI. Allows individual or full upgrades (if available).</bitbar.desc>
@@ -21,6 +21,14 @@ https://en.wikipedia.org/wiki/List_of_software_package_management_systems
 
 Changelog
 =========
+
+1.7 (2016-08-16)
+----------------
+
+* Fix issues with $PATH not having Homebrew/Macports
+* New workaround for full pip upgrade command
+* Workaround for Homebrew Cask full upgrade command
+* Grammar fix when 0 packages need updated
 
 1.6 (2016-08-10)
 ----------------
