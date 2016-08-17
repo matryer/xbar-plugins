@@ -83,7 +83,7 @@ except requests.exceptions.ConnectionError as msg:
 except json.decoder.JSONDecodeError as msg:
     print('JSON Error: see /tmp/putio.log | color=red')
     with open('/tmp/putio.log', 'w') as fh:
-        ft.write(str(r.content,encoding='utf-8'))
+        fh.write(str(r.content,encoding='utf-8'))
     sys.exit()
 
 print(':arrows_clockwise: Transfers (up/down) :arrows_clockwise: | color=gray')
