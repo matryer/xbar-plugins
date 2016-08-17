@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 # <bitbar.title>put.io transfers</bitbar.title>
-# <bitbar.version>v1.01</bitbar.version>
+# <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Ryan Chiechi</bitbar.author>
 # <bitbar.author.github>rchiechi</bitbar.author.github>
 # <bitbar.desc>Shows put.io transfers and lists files/folders</bitbar.desc>
@@ -79,6 +79,11 @@ try:
     info = json.loads(str(r.content,encoding='utf-8'))['info']
 except requests.exceptions.ConnectionError as msg:
     print('Error connecting to put.io | color=red')
+    sys.exit()
+except json.decoder.JSONDecodeError as msg:
+    print('JSON Error: see /tmp/putio.log | color=red')
+    with open('/tmp/putio.log', 'w') as fh:
+        ft.write(str(r.content,encoding='utf-8'))
     sys.exit()
 
 print(':arrows_clockwise: Transfers (up/down) :arrows_clockwise: | color=gray')
