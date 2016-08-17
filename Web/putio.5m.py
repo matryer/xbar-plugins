@@ -8,13 +8,14 @@
 # <bitbar.image>https://i.imgur.com/L85lfpv.png</bitbar.image>
 # <bitbar.dependencies>Python,Requests</bitbar.dependencies>
 
-import requests,json,base64
+import requests
+import sys,json,base64
 
-OAUTH_TOKEN="YOUR_TOKEN_HERE" # https://put.io/v2/docs/gettingstarted.html
+OAUTH_TOKEN="<YOUR_TOKEN_HERE>" # https://put.io/v2/docs/gettingstarted.html
 BURL="https://api.put.io/v2" # v2 api base url
 PUTIO="https://put.io"
 #
-# Note: there is no exception handling. If something
+# Note: there is very little exception handling. If something
 #       goes wrong the script will just crash
 #
 
@@ -70,12 +71,20 @@ print('|image='+str(b'iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAABGdBTUEAAL
 # Everything else goes in menus
 print('---')
 
-# Get transfers and account info as list objects 
-r = requests.get(BURL+'/transfers/list?oauth_token='+OAUTH_TOKEN)
-transfers = json.loads(str(r.content,encoding='utf-8'))['transfers']
-r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
-info = json.loads(str(r.content,encoding='utf-8'))['info']
-
+try:
+    # Get transfers and account info as list objects 
+    r = requests.get(BURL+'/transfers/list?oauth_token='+OAUTH_TOKEN)
+    transfers = json.loads(str(r.content,encoding='utf-8'))['transfers']
+    r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
+    info = json.loads(str(r.content,encoding='utf-8'))['info']
+except requests.exceptions.ConnectionError as msg:
+    print('Error connecting to put.io | color=red')
+    sys.exit()
+except json.decoder.JSONDecodeError as msg:
+    print('JSON Error: see /tmp/putio.log | color=red')
+    with open('/tmp/putio.log', 'w') as fh:
+        fh.write(str(r.content,encoding='utf-8'))
+    sys.exit()
 
 print(':arrows_clockwise: Transfers (up/down) :arrows_clockwise: | color=gray')
 for t in transfers:
@@ -103,7 +112,10 @@ for t in transfers:
     print('--Speed: %s / %s | color=black' % (strbytes(t['up_speed'],'/s') ,strbytes(t['down_speed'],'/s') ))
     # If we are downloading print the ETA and percent complete
     if status == 'DOWNLOADING':
-        print('--ETA: %0.0f min (%s%%) | color=black' % (t['estimated_time']/60,t['percent_done'] ) )
+        try:
+            print('--ETA: %0.0f min (%s%%) | color=black' % (t['estimated_time']/60,t['percent_done'] ) )
+        except TypeError:
+            print('--ETA: :x:')
     # Otherwise print the ratio
     else:
         print('--Ratio: %s | color=black' % (t['current_ratio']) )
@@ -127,5 +139,7 @@ print('Disk: %s / %s | color=black' % (strbytes(info['disk']['used']),strbytes(i
 
 # Print a menu of actions
 print('Actions')
-print('--Go to put.io | color=black href=%s/transfers' % PUTIO)
+print('--Refresh | refresh=true')
+print('--Go to put.io | href=%s/transfers' % PUTIO)
+# Hit or miss if this works
 print('--Clean Transfers | refresh=true terminal=false bash=curl param1="-s" param2="--data oauth_token=%s" param3="--url %s/transfers/clean"' %(OAUTH_TOKEN,BURL))
