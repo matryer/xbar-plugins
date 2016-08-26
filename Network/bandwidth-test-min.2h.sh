@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Bandwith test, using speedtest-cli (https://github.com/sivel/speedtest-cli)
 # Mini version! 
