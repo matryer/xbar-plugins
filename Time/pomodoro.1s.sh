@@ -102,6 +102,6 @@ case "$STATUS" in
 esac
 
 echo "---";
-echo "👔 Work | bash=$0 param1=work terminal=false"
-echo "☕ Break | bash=$0 param1=break terminal=false"
-echo "🔌 Disable | bash=$0 param1=disable terminal=false"
+echo "👔 Work | bash=\"$0\" param1=work terminal=false"
+echo "☕ Break | bash=\"$0\" param1=break terminal=false"
+echo "🔌 Disable | bash=\"$0\" param1=disable terminal=false"
