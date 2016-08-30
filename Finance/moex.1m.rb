@@ -3,11 +3,11 @@
 # <bitbar.title>The Russian Ruble exchange rates</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Roman Krasavtsev</bitbar.author>
-# <bitbar.author.github>romankrasavtsev</bitbar.author.github>
-# <bitbar.author.github.url>https://github.com/RomanKrasavtsev/moex-bitbar-plugin</bitbar.author.github.url>
+# <bitbar.author.github>RomanKrasavtsev</bitbar.author.github>
 # <bitbar.desc>The Russian Ruble exchange rates from Moscow Exchange</bitbar.desc>
 # <bitbar.image>https://raw.github.com/romankrasavtsev/moex-bitbar-plugin/master/moex_emoji.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.abouturl>https://github.com/RomanKrasavtsev/moex-bitbar-plugin</bitbar.abouturl>
 
 require "nokogiri"
 require "open-uri"
