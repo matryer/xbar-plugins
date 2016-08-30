@@ -6,6 +6,7 @@
 # <bitbar.author.github>romankrasavtsev</bitbar.author.github>
 # <bitbar.author.github.url>https://github.com/RomanKrasavtsev/moex-bitbar-plugin</bitbar.author.github.url>
 # <bitbar.desc>The Russian Ruble exchange rates from Moscow Exchange</bitbar.desc>
+# <bitbar.image>https://raw.github.com/romankrasavtsev/moex-bitbar-plugin/master/moex_emoji.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 require "nokogiri"
