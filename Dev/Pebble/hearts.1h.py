@@ -13,9 +13,7 @@ import urllib2
 import json
 
 # Add your AppIDs here!
-appIds = ["5717ea24a86f0f5c67000008",
-          "539e18f21a19dec6ca0000aa",
-          "5332f33187faf686fb0000b5"]
+appIds = []
 
 
 def getData(appId):
