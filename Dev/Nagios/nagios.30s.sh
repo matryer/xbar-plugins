@@ -5,7 +5,7 @@
 # <bitbar.author>Rob DeSanno</bitbar.author>
 # <bitbar.author.github>rdesanno</bitbar.author.github>
 # <bitbar.desc>Nagios status summary</bitbar.desc>
-# <bitbar.image>https://assets.nagios.com/images/footer/Nagios-Logo-Legal.png</bitbar.image>
+# <bitbar.image>http://i.imgur.com/JWl2pXx.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 
 ## set variables
