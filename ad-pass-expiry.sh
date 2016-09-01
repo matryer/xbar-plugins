@@ -9,30 +9,30 @@
 # <bitbar.abouturl>NA</bitbar.abouturl>
 
 # Set environment vars
-DOMAIN='your domain goes here'
+DOMAIN="yourDomain"
 # Set password policy in days
 PWPOLICY="90"
 
 # Get logged in user
-CURRENTUSER=`ls -l /dev/console | cut -d " " -f4`
+CURRENTUSER=$(ls -l /dev/console | cut -d " " -f4)
 
 # Get data from AD
-LASTPWDMS=`dscl /Active\ Directory/$DOMAIN/All\ Domains -read /Users/$CURRENTUSER | grep -i SMBPasswordLastSet | cut -d ' ' -f 2 | tail -1`
+LASTPWDMS=$(dscl /Active\ Directory/$DOMAIN/All\ Domains -read /Users/$CURRENTUSER | grep -i SMBPasswordLastSet | cut -d ' ' -f 2 | tail -1)
 
 # Get the current UNIX date
-TODAYUNIX=`date +%s`
+TODAYUNIX=$(date +%s)
 
 # Convert last set value
-LASTPWDUNIX=`expr $LASTPWDMS / 10000000 - 11644473600`
+LASTPWDUNIX=$(expr $LASTPWDMS / 10000000 - 11644473600)
 
 # Subtract last set value from current UNIX date
-DIFFUNIX=`expr $TODAYUNIX - $LASTPWDUNIX`
+DIFFUNIX=$(expr $TODAYUNIX - $LASTPWDUNIX)
 
 # Calculate in days
-DIFFDAYS=`expr $DIFFUNIX / 86400`
+DIFFDAYS=$(expr $DIFFUNIX / 86400)
 
 # Subtract password policy from days
-PASSWORDEXPIRATION=`expr $PWPOLICY - $DIFFDAYS`
+PASSWORDEXPIRATION=$(expr $PWPOLICY - $DIFFDAYS)
 
 echo "Password expires in "$PASSWORDEXPIRATION" days"
 
