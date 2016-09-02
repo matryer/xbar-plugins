@@ -28,16 +28,16 @@ else
 	TODAYUNIX=$(date +%s)
 
 	# Convert last set value
-	LASTPWDUNIX=$(($LASTPWDMS/10000000-11644473600))
+	LASTPWDUNIX=$((LASTPWDMS/10000000-11644473600))
 
 	# Subtract last set value from current UNIX date
-	DIFFUNIX=$(($TODAYUNIX-$LASTPWDUNIX))
+	DIFFUNIX=$((TODAYUNIX-LASTPWDUNIX))
 
 	# Calculate in days
-	DIFFDAYS=$(($DIFFUNIX/86400))
+	DIFFDAYS=$((DIFFUNIX/86400))
 
 	# Subtract password policy from days
-	PASSWORDEXPIRATION=$(($PWPOLICY-$DIFFDAYS))
+	PASSWORDEXPIRATION=$((PWPOLICY-DIFFDAYS))
 
 	echo "Password expires in $PASSWORDEXPIRATION days"
 fi
