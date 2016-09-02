@@ -17,23 +17,28 @@ PWPOLICY="90"
 CURRENTUSER=$(ls -l /dev/console | cut -d " " -f4)
 
 # Get data from AD
-LASTPWDMS=$(dscl /Active\ Directory/$DOMAIN/All\ Domains -read /Users/$CURRENTUSER | grep -i SMBPasswordLastSet | cut -d ' ' -f 2 | tail -1)
+LASTPWDMS=$(dscl /Active\ Directory/$DOMAIN/All\ Domains -read /Users/$CURRENTUSER | grep -i "SMBPasswordLastSet" | cut -d ' ' -f 2 | tail -1)
+if [[ $LASTPWDMS == "" ]]
+then
+	# No access to AD
+	echo "AD NA"
+else
+	# Get the current UNIX date
+	TODAYUNIX=$(date +%s)
 
-# Get the current UNIX date
-TODAYUNIX=$(date +%s)
+	# Convert last set value
+	LASTPWDUNIX=$(($LASTPWDMS / 10000000 - 11644473600))
 
-# Convert last set value
-LASTPWDUNIX=$(expr $LASTPWDMS / 10000000 - 11644473600)
+	# Subtract last set value from current UNIX date
+	DIFFUNIX=$(($TODAYUNIX - $LASTPWDUNIX))
 
-# Subtract last set value from current UNIX date
-DIFFUNIX=$(expr $TODAYUNIX - $LASTPWDUNIX)
+	# Calculate in days
+	DIFFDAYS=$(($DIFFUNIX / 86400))
 
-# Calculate in days
-DIFFDAYS=$(expr $DIFFUNIX / 86400)
+	# Subtract password policy from days
+	PASSWORDEXPIRATION=$(($PWPOLICY - $DIFFDAYS))
 
-# Subtract password policy from days
-PASSWORDEXPIRATION=$(expr $PWPOLICY - $DIFFDAYS)
-
-echo "Password expires in "$PASSWORDEXPIRATION" days"
+	echo "Password expires in "$PASSWORDEXPIRATION" days"
+fi
 
 exit 0
