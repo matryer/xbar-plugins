@@ -9,7 +9,7 @@
 # <bitbar.abouturl>NA</bitbar.abouturl>
 
 # Set environment vars
-DOMAIN="yourDomain"
+DOMAIN="STAPLESAMS"
 # Set password policy in days
 PWPOLICY="90"
 
@@ -17,7 +17,7 @@ PWPOLICY="90"
 CURRENTUSER=$(ls -l /dev/console | cut -d " " -f4)
 
 # Get data from AD
-LASTPWDMS=$(dscl /Active\ Directory/$DOMAIN/All\ Domains -read /Users/$CURRENTUSER | grep -i "SMBPasswordLastSet" | cut -d ' ' -f 2 | tail -1)
+LASTPWDMS=$(dscl /Active\ Directory/"$DOMAIN"/All\ Domains -read /Users/"$CURRENTUSER" | grep -i "SMBPasswordLastSet" | cut -d ' ' -f 2 | tail -1)
 if [[ $LASTPWDMS == "" ]]
 then
 	# No access to AD
