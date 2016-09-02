@@ -14,7 +14,7 @@ DOMAIN="STAPLESAMS"
 PWPOLICY="90"
 
 # Get logged in user
-CURRENTUSER=$(ls -l /dev/console | cut -d " " -f4)
+CURRENTUSER=$(id -un)
 
 # Get data from AD
 LASTPWDMS=$(dscl /Active\ Directory/"$DOMAIN"/All\ Domains -read /Users/"$CURRENTUSER" | grep -i "SMBPasswordLastSet" | cut -d ' ' -f 2 | tail -1)
@@ -27,10 +27,10 @@ else
 	TODAYUNIX=$(date +%s)
 
 	# Convert last set value
-	LASTPWDUNIX=$[$LASTPWDMS / 10000000 - 11644473600]
+	LASTPWDUNIX=$(($LASTPWDMS / 10000000 - 11644473600))
 
 	# Subtract last set value from current UNIX date
-	DIFFUNIX=$[$TODAYUNIX - $LASTPWDUNIX]
+	DIFFUNIX=$(($TODAYUNIX - $LASTPWDUNIX))
 
 	# Calculate in days
 	DIFFDAYS=$[DIFFUNIX / 86400]
