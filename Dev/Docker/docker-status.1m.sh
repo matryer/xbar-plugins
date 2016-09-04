@@ -31,7 +31,7 @@ function containers() {
       if [ "$CONTAINER" = "$LAST_CONTAINER" ]; then SYM="└ 💻 "; fi
       case "$CONTAINER_STATE" in
         *Up*) echo "$SYM $CONTAINER_NAME | color=green bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
-        *Exited*) echo "$SYM $CONTAINER_NAME | color=red bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
+        *Exited*) echo "$SYM $CONTAINER_NAME | color=red bash=$(which docker) param1=start param2=$CONTAINER_ID terminal=false refresh=true";;
       esac
     done
   fi
@@ -39,7 +39,8 @@ function containers() {
 
 DOCKER_MACHINES="$(docker-machine ls -q)"
 DLITE="$(which dlite)"
-if test -z "$DOCKER_MACHINES" && test -z "$DLITE"; then
+CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
+if test -z "$DOCKER_MACHINES" && test -z "$DLITE" && test -z "$CONTAINERS"; then
   echo "No docker machine or dlite found"
   exit 0
 fi
@@ -69,6 +70,11 @@ if [ -n "$DOCKER_MACHINES" ]; then
     fi
     echo "---"
   done
+fi
+
+if [ -n "$CONTAINERS" ]; then
+  echo "Docker VM Containers"
+  containers
 fi
 
 

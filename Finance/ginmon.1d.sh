@@ -31,7 +31,7 @@ NEGATIVE=$(echo "$HTML" | grep -o 'valuepercentnegative">[[:digit:],]*' | cut -d
 
 # output
 if [ ! -z "$POSITIVE" ]; then
-	SUM=$(echo "$HTML" | grep -o 'valuecurrency-eurpositive">[[:digit:],]*' | cut -d '>' -f 2)
+	SUM=$(echo "$HTML" | grep -o 'valuecurrency-eurpositive">[\.[:digit:],]*' | cut -d '>' -f 2)
 	echo "+$POSITIVE% | color=green"
 	echo "---"
 	echo "+$SUM€ | color=green href=https://kundencenter.ginmon.de/uebersicht"
@@ -39,7 +39,7 @@ if [ ! -z "$POSITIVE" ]; then
 fi
 
 if [ ! -z "$NEGATIVE" ]; then
-	SUM=$(echo "$HTML" | grep -o 'valuecurrency-eurnegative">[[:digit:],]*' | cut -d '>' -f 2)
+	SUM=$(echo "$HTML" | grep -o 'valuecurrency-eurnegative">[\.[:digit:],]*' | cut -d '>' -f 2)
 	echo "-$NEGATIVE% | color=red"
 	echo "---"
 	echo "-$SUM€ | color=red href=https://kundencenter.ginmon.de/uebersicht"
