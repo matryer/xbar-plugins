@@ -13,8 +13,8 @@ import urllib2
 import json
 
 #define required variables
-#only uncomment if either or both appids are defined
-#appid1 = '5717ea24a86f0f5c67000008'
+#they are already defined with example values, change them to the App-ID of your pebble app.
+appid1 = '5717ea24a86f0f5c67000008'
 appid2 = '539e18f21a19dec6ca0000aa'
 
 #Get Heartcount of 1st App
