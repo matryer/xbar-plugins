@@ -40,7 +40,6 @@ curl -s --connect-timeout 30 -o /tmp/issp.json "http://api.open-notify.org/iss-p
 curl -s --connect-timeout 30 -o /tmp/astros.json "http://api.open-notify.org/astros.json"
 
 issnowtu=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.timestamp')
-issnowth=$(date -r "$issnowtu" +'%H:%M:%S (%d/%m/%Y)')
 latit=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.iss_position.latitude')
 longi=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.iss_position.longitude')
 isspd1=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[0].duration')
