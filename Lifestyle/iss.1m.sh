@@ -44,25 +44,25 @@ issnowth=$(date -r "$issnowtu" +'%H:%M:%S (%d/%m/%Y)')
 latit=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.iss_position.latitude')
 longi=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.iss_position.longitude')
 isspd1=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[0].duration')
-isspd11=$(printf '%02d:%02d\n' $(($isspd1/60%60)) $(($isspd1%60)))
+isspd11=$(printf '%02d:%02d\n' $((isspd1/60%60)) $((isspd1%60)))
 isspd2=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[1].duration')
-isspd22=$(printf '%02d:%02d\n' $(($isspd2/60%60)) $(($isspd2%60)))
+isspd22=$(printf '%02d:%02d\n' $((isspd2/60%60)) $((isspd2%60)))
 isspd3=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[2].duration')
-isspd33=$(printf '%02d:%02d\n' $(($isspd3/60%60)) $(($isspd3%60)))
+isspd33=$(printf '%02d:%02d\n' $((isspd3/60%60)) $((isspd3%60)))
 isspd4=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[3].duration')
-isspd44=$(printf '%02d:%02d\n' $(($isspd4/60%60)) $(($isspd4%60)))
+isspd44=$(printf '%02d:%02d\n' $((isspd4/60%60)) $((isspd4%60)))
 isspd5=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[4].duration')
-isspd55=$(printf '%02d:%02d\n' $(($isspd5/60%60)) $(($isspd5%60)))
+isspd55=$(printf '%02d:%02d\n' $((isspd5/60%60)) $((isspd5%60)))
 isspd6=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[5].duration')
-isspd66=$(printf '%02d:%02d\n' $(($isspd6/60%60)) $(($isspd6%60)))
+isspd66=$(printf '%02d:%02d\n' $((isspd6/60%60)) $((isspd6%60)))
 isspd7=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[6].duration')
-isspd77=$(printf '%02d:%02d\n' $(($isspd7/60%60)) $(($isspd7%60)))
+isspd77=$(printf '%02d:%02d\n' $((isspd7/60%60)) $((isspd7%60)))
 isspd8=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[7].duration')
-isspd88=$(printf '%02d:%02d\n' $(($isspd8/60%60)) $(($isspd8%60)))
+isspd88=$(printf '%02d:%02d\n' $((isspd8/60%60)) $((isspd8%60)))
 isspd9=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[8].duration')
-isspd99=$(printf '%02d:%02d\n' $(($isspd9/60%60)) $(($isspd9%60)))
+isspd99=$(printf '%02d:%02d\n' $((isspd9/60%60)) $((isspd9%60)))
 isspd10=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[9].duration')
-isspd100=$(printf '%02d:%02d\n' $(($isspd10/60%60)) $(($isspd10%60)))
+isspd100=$(printf '%02d:%02d\n' $((isspd10/60%60)) $((isspd10%60)))
 isspt1=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[0].risetime')
 isspt11=$(date -r "$isspt1" +'%H:%M %d/%m/%y')
 isspt2=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[1].risetime')
@@ -90,9 +90,9 @@ curl -s --connect-timeout 30 -o /tmp/gcd.json "https://maps.googleapis.com/maps/
 issnowl=$(cat /tmp/gcd.json | /usr/local/bin/jq -r '.results[0].formatted_address')
 issnowlc=$(cat /tmp/gcd.json | grep "ZERO_RESULTS")
 
-issptl=`expr $isspt1 - $issnowtu`
+issptl=$((isspt1 - issnowtu))
 
-echo "ISS passing in $(($issptl/3600%60)) hours $(($issptl/60%60)) minutes"
+echo "ISS passing in $((issptl/3600%60)) hours $((issptl/60%60)) minutes"
 echo "---"
 
 if [[ -z "$issnowlc" ]]; then
