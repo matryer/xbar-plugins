@@ -37,7 +37,6 @@ eleva=0                                                                         
 
 curl -s --connect-timeout 30 -o /tmp/issn.json "http://api.open-notify.org/iss-now.json"
 curl -s --connect-timeout 30 -o /tmp/issp.json "http://api.open-notify.org/iss-pass.json?lat=$latit&lon=$longi&alt=$eleva&n=10"
-curl -s --connect-timeout 30 -o /tmp/astros.json "http://api.open-notify.org/astros.json"
 
 issnowtu=$(</tmp/issn.json /usr/local/bin/jq -r '.timestamp')
 latit=$(</tmp/issn.json /usr/local/bin/jq -r '.iss_position.latitude')
@@ -82,12 +81,11 @@ isspt9=$(</tmp/issp.json /usr/local/bin/jq -r '.response[8].risetime')
 isspt99=$(date -r "$isspt9" +'%H:%M %d/%m/%y')
 isspt10=$(</tmp/issp.json /usr/local/bin/jq -r '.response[9].risetime')
 isspt100=$(date -r "$isspt10" +'%H:%M %d/%m/%y')
-astrock=$(cat /tmp/astros.json | grep "0,")
 
 curl -s --connect-timeout 30 -o /tmp/gcd.json "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latit,$longi&components=locality&language=en"
 
-issnowl=$(cat /tmp/gcd.json | /usr/local/bin/jq -r '.results[0].formatted_address')
-issnowlc=$(cat /tmp/gcd.json | grep "ZERO_RESULTS")
+issnowl=$(</tmp/gcd.json /usr/local/bin/jq -r '.results[0].formatted_address')
+issnowlc=$(</tmp/gcd.json grep "ZERO_RESULTS")
 
 issptl=$((isspt1 - issnowtu))
 
