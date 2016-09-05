@@ -26,10 +26,10 @@ echo "---" #you should also delete this one
 # Please leave out any units                                                                                            #
 # Enter your latitude and longitude (you can find them here: http://mynasadata.larc.nasa.gov/latitudelongitude-finder/) #
 latit=0                                                                                                                 #
-longi=0                                                                                                                  #
+longi=0                                                                                                                 #
 #                                                                                                                       #
 # Enter your elevation (you can find it here: www.whatismyelevation.com)                                                #
-eleva=0                                                                                                                  #
+eleva=0                                                                                                                 #
 # ********************************************************************************************************************* #
 
 
@@ -39,48 +39,48 @@ curl -s --connect-timeout 30 -o /tmp/issn.json "http://api.open-notify.org/iss-n
 curl -s --connect-timeout 30 -o /tmp/issp.json "http://api.open-notify.org/iss-pass.json?lat=$latit&lon=$longi&alt=$eleva&n=10"
 curl -s --connect-timeout 30 -o /tmp/astros.json "http://api.open-notify.org/astros.json"
 
-issnowtu=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.timestamp')
-latit=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.iss_position.latitude')
-longi=$(cat /tmp/issn.json | /usr/local/bin/jq -r '.iss_position.longitude')
-isspd1=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[0].duration')
+issnowtu=$(</tmp/issn.json /usr/local/bin/jq -r '.timestamp')
+latit=$(</tmp/issn.json /usr/local/bin/jq -r '.iss_position.latitude')
+longi=$(</tmp/issn.json /usr/local/bin/jq -r '.iss_position.longitude')
+isspd1=$(</tmp/issp.json /usr/local/bin/jq -r '.response[0].duration')
 isspd11=$(printf '%02d:%02d\n' $((isspd1/60%60)) $((isspd1%60)))
-isspd2=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[1].duration')
+isspd2=$(</tmp/issp.json /usr/local/bin/jq -r '.response[1].duration')
 isspd22=$(printf '%02d:%02d\n' $((isspd2/60%60)) $((isspd2%60)))
-isspd3=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[2].duration')
+isspd3=$(</tmp/issp.json /usr/local/bin/jq -r '.response[2].duration')
 isspd33=$(printf '%02d:%02d\n' $((isspd3/60%60)) $((isspd3%60)))
-isspd4=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[3].duration')
+isspd4=$(</tmp/issp.json /usr/local/bin/jq -r '.response[3].duration')
 isspd44=$(printf '%02d:%02d\n' $((isspd4/60%60)) $((isspd4%60)))
-isspd5=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[4].duration')
+isspd5=$(</tmp/issp.json /usr/local/bin/jq -r '.response[4].duration')
 isspd55=$(printf '%02d:%02d\n' $((isspd5/60%60)) $((isspd5%60)))
-isspd6=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[5].duration')
+isspd6=$(</tmp/issp.json /usr/local/bin/jq -r '.response[5].duration')
 isspd66=$(printf '%02d:%02d\n' $((isspd6/60%60)) $((isspd6%60)))
-isspd7=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[6].duration')
+isspd7=$(</tmp/issp.json /usr/local/bin/jq -r '.response[6].duration')
 isspd77=$(printf '%02d:%02d\n' $((isspd7/60%60)) $((isspd7%60)))
-isspd8=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[7].duration')
+isspd8=$(</tmp/issp.json /usr/local/bin/jq -r '.response[7].duration')
 isspd88=$(printf '%02d:%02d\n' $((isspd8/60%60)) $((isspd8%60)))
-isspd9=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[8].duration')
+isspd9=$(</tmp/issp.json /usr/local/bin/jq -r '.response[8].duration')
 isspd99=$(printf '%02d:%02d\n' $((isspd9/60%60)) $((isspd9%60)))
-isspd10=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[9].duration')
+isspd10=$(</tmp/issp.json /usr/local/bin/jq -r '.response[9].duration')
 isspd100=$(printf '%02d:%02d\n' $((isspd10/60%60)) $((isspd10%60)))
-isspt1=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[0].risetime')
+isspt1=$(</tmp/issp.json /usr/local/bin/jq -r '.response[0].risetime')
 isspt11=$(date -r "$isspt1" +'%H:%M %d/%m/%y')
-isspt2=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[1].risetime')
+isspt2=$(</tmp/issp.json /usr/local/bin/jq -r '.response[1].risetime')
 isspt22=$(date -r "$isspt2" +'%H:%M %d/%m/%y')
-isspt3=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[2].risetime')
+isspt3=$(</tmp/issp.json /usr/local/bin/jq -r '.response[2].risetime')
 isspt33=$(date -r "$isspt3" +'%H:%M %d/%m/%y')
-isspt4=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[3].risetime')
+isspt4=$(</tmp/issp.json /usr/local/bin/jq -r '.response[3].risetime')
 isspt44=$(date -r "$isspt4" +'%H:%M %d/%m/%y')
-isspt5=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[4].risetime')
+isspt5=$(</tmp/issp.json /usr/local/bin/jq -r '.response[4].risetime')
 isspt55=$(date -r "$isspt5" +'%H:%M %d/%m/%y')
-isspt6=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[5].risetime')
+isspt6=$(</tmp/issp.json /usr/local/bin/jq -r '.response[5].risetime')
 isspt66=$(date -r "$isspt6" +'%H:%M %d/%m/%y')
-isspt7=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[6].risetime')
+isspt7=$(</tmp/issp.json /usr/local/bin/jq -r '.response[6].risetime')
 isspt77=$(date -r "$isspt7" +'%H:%M %d/%m/%y')
-isspt8=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[7].risetime')
+isspt8=$(</tmp/issp.json /usr/local/bin/jq -r '.response[7].risetime')
 isspt88=$(date -r "$isspt8" +'%H:%M %d/%m/%y')
-isspt9=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[8].risetime')
+isspt9=$(</tmp/issp.json /usr/local/bin/jq -r '.response[8].risetime')
 isspt99=$(date -r "$isspt9" +'%H:%M %d/%m/%y')
-isspt10=$(cat /tmp/issp.json | /usr/local/bin/jq -r '.response[9].risetime')
+isspt10=$(</tmp/issp.json /usr/local/bin/jq -r '.response[9].risetime')
 isspt100=$(date -r "$isspt10" +'%H:%M %d/%m/%y')
 astrock=$(cat /tmp/astros.json | grep "0,")
 
@@ -103,16 +103,16 @@ fi
 echo "---"
 echo ""
 echo -e "ISS will pass over your location at these times:"
-echo "Visible from $isspt11 for $isspd11"
-echo "Visible from $isspt22 for $isspd22"
-echo "Visible from $isspt33 for $isspd33"
-echo "Visible from $isspt44 for $isspd44"
-echo "Visible from $isspt55 for $isspd55"
-echo "Visible from $isspt66 for $isspd66"
-echo "Visible from $isspt77 for $isspd77"
-echo "Visible from $isspt88 for $isspd88"
-echo "Visible from $isspt99 for $isspd99"
-echo "Visible from $isspt100 for $isspd100"
+echo "Visible from $isspt11 for $isspd11 | font=CourierNew"
+echo "Visible from $isspt22 for $isspd22 | font=CourierNew"
+echo "Visible from $isspt33 for $isspd33 | font=CourierNew"
+echo "Visible from $isspt44 for $isspd44 | font=CourierNew"
+echo "Visible from $isspt55 for $isspd55 | font=CourierNew"
+echo "Visible from $isspt66 for $isspd66 | font=CourierNew"
+echo "Visible from $isspt77 for $isspd77 | font=CourierNew"
+echo "Visible from $isspt88 for $isspd88 | font=CourierNew"
+echo "Visible from $isspt99 for $isspd99 | font=CourierNew"
+echo "Visible from $isspt100 for $isspd100 | font=CourierNew"
 
 rm /tmp/issn.json
 rm /tmp/issp.json
