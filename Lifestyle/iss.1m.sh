@@ -34,7 +34,6 @@ eleva=0                                                                         
 
 
 
-
 curl -s --connect-timeout 30 -o /tmp/issn.json "http://api.open-notify.org/iss-now.json"
 curl -s --connect-timeout 30 -o /tmp/issp.json "http://api.open-notify.org/iss-pass.json?lat=$latit&lon=$longi&alt=$eleva&n=10"
 
