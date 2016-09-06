@@ -4,9 +4,9 @@
 # <bitbar.author>Galen Sprague</bitbar.author>
 # <bitbar.author.github>gsprague</bitbar.author.github>
 # <bitbar.desc>Shows Active Directory Password Expiration in days</bitbar.desc>
-# <bitbar.image>NA</bitbar.image>
+# <bitbar.image></bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>NA</bitbar.abouturl>
+# <bitbar.abouturl></bitbar.abouturl>
 
 # Set environment vars
 DOMAIN="STAPLESAMS"
