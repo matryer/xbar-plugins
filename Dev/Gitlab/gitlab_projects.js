@@ -1,4 +1,4 @@
-#!/usr/bin/env /usr/local/bin/node
+#!/usr/bin/env node
 // jshint asi:true
 // <bitbar.title>GITLAB projects</bitbar.title>
 // <bitbar.version>v1.0</bitbar.version>
