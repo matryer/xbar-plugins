@@ -9,7 +9,7 @@
 # <bitbar.abouturl></bitbar.abouturl>
 
 # Set environment vars
-DOMAIN="STAPLESAMS"
+DOMAIN="yourDomain"
 # Set password policy in days
 PWPOLICY="90"
 
