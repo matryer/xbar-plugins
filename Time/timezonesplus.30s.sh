@@ -5,7 +5,7 @@
 # <bitbar.author>Aaron Edell</bitbar.author>
 # <bitbar.author.github>aaronedell</bitbar.author.github>
 # <bitbar.desc>Rotates current time through four common timezones </bitbar.desc>
-# <bitbar.image>http://imgur.com/a/R8UeB</bitbar.image>
+# <bitbar.image>http://i.imgur.com/Y4nhdZo.png</bitbar.image>
 # <bitbar.dependencies>Bash GNU AWK</bitbar.dependencies>
 
 
