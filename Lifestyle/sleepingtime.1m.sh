@@ -1,25 +1,38 @@
 #!/bin/bash
 
-# Time in minutes to fall asleep. The mean is 15 minutes
+# <bitbar.title>sleepingtime</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Matteo Ferrando</bitbar.author>
+# <bitbar.author.github>chamini2</bitbar.author.github>
+# <bitbar.desc>Show the next sleeping cycles if we fell asleep in `falling_asleep` minutes.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/JTqosty.png</bitbar.image>
+
+# Time in minutes to fall asleep; the mean is 15 minutes
 falling_asleep=15
 
-# Format with local time format (12 or 24 hours)
-format='%X'
+# Range of cycles to show in the menu
+start_cycle=1
+end_cycle=7
 
-# Add 1 hour and 30 minutes between all cycles
-date1=`date -v+1H -v+30M -v+"$falling_asleep"M +"$format"`
-date2=`date -v+3H -v+"$falling_asleep"M +"$format"`
-date3=`date -v+4H -v+30M -v+"$falling_asleep"M +"$format"`
-date4=`date -v+6H -v+"$falling_asleep"M +"$format"`
-date5=`date -v+7H -v+30M -v+"$falling_asleep"M +"$format"`
-date6=`date -v+9H -v+"$falling_asleep"M +"$format"`
+# The length of a cycle **in minutes**, standard value is 90
+length=90
+
+# Format with local time format (12 or 24 hours)
+format='%H:%M'
 
 # Display everything in local time format
-echo "Sleeptime"
+echo "💤"
 echo '---'
-echo "1 cycle: ${date1%:*}"
-echo "2 cycles: ${date2%:*}|color=#ad0028"
-echo "3 cycles: ${date3%:*}|color=#fe5000"
-echo "4 cycles: ${date4%:*}|color=#609a94"
-echo "5 cycles: ${date5%:*}|color=#00ab84"
-echo "6 cycles: ${date6%:*}|color=#00a478"
+
+for ((cy=start_cycle; cy<=end_cycle; cy++)); do
+    # Add 1 hour and 30 minutes every cycle
+    h=$(((length * cy) / 60))
+    m=$(((length * cy) % 60))
+
+    if [[ $cy -gt 1 ]]; then
+        str="$cy cycles:"
+    else
+        str="$cy cycle: "
+    fi
+    echo "$str $(date -v+${h}H -v+${m}M -v+${falling_asleep}M +${format})"
+done

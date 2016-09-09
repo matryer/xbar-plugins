@@ -21,7 +21,7 @@ if [ "$1" = 'launch' ]; then
   exit
 fi
 
-if [ $(osascript -e 'application "iTunes" is running') = "false" ]; then
+if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
   echo "♫"
   echo "---"
   echo "iTunes is not running"
@@ -62,9 +62,9 @@ fi
 rating_icon_black="★"
 rating_icon_white="☆"
 
-track=`osascript -e 'tell application "iTunes" to name of current track as string'`;
-artist=`osascript -e 'tell application "iTunes" to artist of current track as string'`;
-rating=`osascript -e 'tell application "iTunes" to rating of current track as string'`;
+track=$(osascript -e 'tell application "iTunes" to name of current track as string');
+artist=$(osascript -e 'tell application "iTunes" to artist of current track as string');
+rating=$(osascript -e 'tell application "iTunes" to rating of current track as string');
 
 case $rating in
     00)
@@ -101,7 +101,7 @@ case "$0" in
   ;;
 esac
 
-echo $artist "--" $track
+echo "$artist -- $track"
 
 case $rating in
     00)

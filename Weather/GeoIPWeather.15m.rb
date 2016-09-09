@@ -1,8 +1,18 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
+# <bitbar.title>GeoIPWeather</bitbar.title>
+# <bitbar.version>v0.1.1</bitbar.version>
+# <bitbar.author>Taylor Zane</bitbar.author>
+# <bitbar.author.github>taylorzane</bitbar.author.github>
+# <bitbar.desc>Your weather in the menu bar 🌤</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/vrT6vfb.png</bitbar.image>
+# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.abouturl>https://github.com/taylorzane</bitbar.abouturl>
+
 ### USER VARIABLES
 UNITS = 'F' # This can be: (F)ahrenheit, (C)elsius, (K)elvin
+API_KEY = '8b4824b451d5db1612156837df880f55' # you can also get your own at http://openweathermap.org/
 
 require 'json'
 require 'net/http'
@@ -19,7 +29,11 @@ end
 def location
   location_uri = URI('http://ipinfo.io/json')
 
-  location_data = Net::HTTP.get location_uri
+  begin
+  	location_data = Net::HTTP.get location_uri
+  rescue
+  	no_data
+  end
 
   location_json = JSON.parse location_data
 
@@ -65,7 +79,7 @@ def weather(zip_code, country)
   weather_uri =
     URI('http://api.openweathermap.org/data/2.5/weather' \
         "?zip=#{zip_code},#{country}" \
-        '&appid=2de143494c0b295cca9337e1e96b00e0' \
+        "&appid=#{API_KEY}" \
         "#{temperature_unit}")
 
   weather_data = Net::HTTP.get(weather_uri)

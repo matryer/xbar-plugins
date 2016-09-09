@@ -1,7 +1,15 @@
 #!/bin/bash
-USER="username"
-PASS="password"
+# <bitbar.title>Multiple Jenkins Status</bitbar.title>
+# <bitbar.desc>Check status of multiple Jenkins projects</bitbar.desc>
+# <bitbar.author>Nocolas Roger</bitbar.author>
+# <bitbar.author.github>nicolasroger17</bitbar.author.github>
+# <bitbar.version>1</bitbar.version>
+
+
+SCHEMA="https"
 BASE_URL="jenkins-address.com"
+USER="username"
+TOKEN="token" #prefer tokens to passwords (passwords can still be used here), get it from $SCHEMA://$BASE_URL/user/$USER/configure -> Show API Token
 PROJECTS=("project1" "project2")
 
 function displaytime {
@@ -29,10 +37,10 @@ echo "---"
 for project in "${PROJECTS[@]}"
 do
   output="${project}: "
-  url="https://${USER}:${PASS}@${BASE_URL}/job/${project}/lastBuild/api/json?pretty=true"
-  query=$(curl --insecure --silent "${url}" | tail -30) # take only the end of output
+  url="${SCHEMA}://${USER}:${TOKEN}@${BASE_URL}/job/${project// /'%20'}/lastBuild/api/json?pretty=true"
+  query=$(curl --insecure --silent "${url}")
 
-  success=$(echo "${query}" | grep "result" | awk '{print $3}') # grep the "result" line
+  success=$(echo "${query}" | grep '"result"' | awk '{print $3}') # grep the "result" line
 
   if [[ $success == *"SUCCESS"* ]]
   then

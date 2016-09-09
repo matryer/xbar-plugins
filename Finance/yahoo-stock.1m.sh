@@ -4,7 +4,7 @@
 # much simpler than stock plugin, no API key required
 # by http://srinivas.gs
 # 
-# <bitbar.title>stock price plugin</bitbar.title>
+# <bitbar.title>Stock price</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Srinivas Gorur-Shandilya</bitbar.author>
 # <bitbar.author.github>sg-s</bitbar.author.github>
@@ -22,7 +22,7 @@ shuffle() {
    size=${#stock[*]}
    max=$(( 32768 / size * size ))
    for ((i=size-1; i>0; i--)); do
-      while (( (rand=$RANDOM) >= max )); do :; done
+      while (( (rand=RANDOM) >= max )); do :; done
       rand=$(( rand % (i+1) ))
       tmp=${stock[i]} stock[i]=${stock[rand]} stock[rand]=$tmp
    done
@@ -35,9 +35,9 @@ s='http://download.finance.yahoo.com/d/quotes.csv?s=stock_symbol&f=l1'
 n=${#stock[@]}
 n=$((n-1))
 
-for (( c=0; c<=$n; c++ ))
+for (( c=0; c<=n; c++ ))
 do
-	echo -n ${stock[$c]}; echo -n ":"; curl -s echo ${s/stock_symbol/${stock[$c]}} 
+	echo -n ${stock[$c]}; echo -n ":"; curl -s echo "${s/stock_symbol/${stock[$c]}}"
 
    # experimental: also log to disk
    # echo -n $(date) >> stock_history.txt;  echo -n "  " >> stock_history.txt; echo -n ${stock[$c]} >> stock_history.txt; echo -n ":" >> stock_history.txt; curl -s echo ${s/stock_symbol/${stock[$c]}} >> stock_history.txt

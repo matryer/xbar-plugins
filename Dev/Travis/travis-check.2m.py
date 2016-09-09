@@ -71,12 +71,14 @@ TRAVIS_URL = 'http://api.travis-ci.org/'
 
 SYMBOLS = {
     'passed': u'✔︎',
+    'created': u'✔︎',
     'failed': u'✘',
     'errored': u'⚠',
     'cancelled': u' ⃠',
 }
 COLORS = {
     'passed': 'green',
+    'created': 'green',
     'failed': 'red',
     'errored': 'yellow',
     'cancelled': 'grey',
@@ -89,9 +91,16 @@ def request(uri):
         'Authorization': 'token ' + TRAVIS_KEY,
         'Accept': 'application/vnd.travis-ci.3+json'
     })
-    response = urllib2.urlopen(request)
-    return json.load(response)
+    try:
+        response = urllib2.urlopen(request)
+        return json.load(response)
 
+    except:
+        print("travis-check error")
+        print("---")
+        print("Maybe you need to edit the plugin and set your access token?")
+        print(" (could also be an API/HTTP error)")
+        exit(1)
 
 def get_all_repos_for_account():
     url = 'repos?repository.active=true&sort_by=name&limit=200'
@@ -126,7 +135,7 @@ def update_statuses(repos):
             build = request(url)
             if 'builds' in build and len(build['builds']):
                 build = build['builds'][0]
-                color = 'color={}'.format(COLORS[build['state']]) if COLORS[build['state']] else ''
+                color = 'color={}'.format(COLORS[build['state']]) if COLORS.get(build['state']) else ''
                 symbol = SYMBOLS[build['state']] or NO_SYMBOL
                 href = 'href=https://travis-ci.org/{}/builds/{}'.format(repo['name'], build['id'])
                 output_msg = u'{symbol} {repo_name} ({branch_name}) {status}'.format(symbol=symbol, repo_name=repo['name'], branch_name=branch_name, status=build['state'])
