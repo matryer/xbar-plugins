@@ -26,7 +26,6 @@
 # Dependencies:
 #   travis API key
 
-import os
 import json
 import urllib2
 
@@ -151,9 +150,6 @@ def update_statuses(repos):
                 href = 'href=https://travis-ci' + TRAVIS_TLD + '{}/builds/{}'.format(repo['name'], build['id'])
                 output_msg = u'{symbol} {repo_name} ({branch_name}) {status}'.format(symbol=symbol, repo_name=repo['name'], branch_name=branch_name, status=build['state'])
                 output.append(u'{} | {} {}'.format(output_msg, href, color))
-
-                if build['state'] == "starting":
-                    os.system("osascript -e 'display notification \"" + repo['name']  + " is " + build['state']  + "\" with title \"TravisCI\"';")
 
                 if build['state'] == "started" or build['state'] == "starting" or build['state'] == "queued" or build['state'] == "created":
                     currently_building += 1
