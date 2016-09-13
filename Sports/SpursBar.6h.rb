@@ -4,7 +4,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>coreyk</bitbar.author>
 # <bitbar.author.github>coreyk</bitbar.author.github>
-# <bitbar.desc>Shows upcoming and previous Tottenham Hostpur match info and headlines</bitbar.desc>
+# <bitbar.desc>Shows upcoming and previous Tottenham Hotspur match info and headlines</bitbar.desc>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/2213967/18461786/071d930a-794b-11e6-868c-4b3da43b7639.png</bitbar.image>
 # <bitbar.dependencies>ruby, Spurs webfont</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/coreyk/SpursBar</bitbar.abouturl>
