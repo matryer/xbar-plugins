@@ -7,7 +7,6 @@
 # <bitbar.desc>Show whether Logitech media Server is running or not. Quickly start/stop it, access its UI etc.</bitbar.desc>
 # <bitbar.image>http://www.herger.net/slim/BitBar/lms-bitbar.png</bitbar.image>
 # <bitbar.dependencies>Logitech Media Server</bitbar.dependencies>
-## <bitbar.abouturl>http://url-to-about.com/</bitbar.abouturl>
 
 use strict;
 
@@ -22,8 +21,8 @@ $port *= 1;
 if ( $port ) {
 	$items = qq(
 		Logitech Media Server is running
-		Open Web Control| href=http://localhost:$port
-		Open Settings| href=http://localhost:$port/settings/index.html
+		Open Web Control…| href=http://localhost:$port
+		Open Settings…| href=http://localhost:$port/settings/index.html
 ---
 		Stop Logitech Media Server|bash=/Library/PreferencePanes/Squeezebox.prefPane/Contents/Resources/stop-server.sh terminal=false
 	);
@@ -41,7 +40,7 @@ print qq(|image=$status
 ---
 $items
 ---
-Open Preference Pane|bash=/usr/bin/open param1=/Library/PreferencePanes/Squeezebox.prefPane terminal=false
+Open Preference Pane…|bash=/usr/bin/open param1=/Library/PreferencePanes/Squeezebox.prefPane terminal=false
 );
 
 
