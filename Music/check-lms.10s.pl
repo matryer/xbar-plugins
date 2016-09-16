@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 # <bitbar.title>Logitech Media Server Status Display</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
+# <bitbar.version>v1.1.0</bitbar.version>
 # <bitbar.author>Michael Herger</bitbar.author>
 # <bitbar.author.github>michaelherger</bitbar.author.github>
 # <bitbar.desc>Show whether Logitech media Server is running or not. Quickly start/stop it, access its UI etc.</bitbar.desc>
