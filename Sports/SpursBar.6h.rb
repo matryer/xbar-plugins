@@ -52,7 +52,7 @@ class SpursBar
   private
 
   def header
-    icon_image = matchday.nil? ? icon.to_s : icon_matchday.to_s
+    icon_image = matchday.empty? ? icon.to_s : icon_matchday.to_s
     "| templateImage=\"#{icon_image}\""
   end
 
@@ -64,17 +64,25 @@ class SpursBar
 
   def today_fixtures
     item = @team.css('.accordion-container.live-today')
-    puts "TODAY'S FIXTURE ⚽︎ COYS | #{@font_lg} color=#{@font_color}" if item
+    unless item.empty?
+      puts "TODAY'S FIXTURE ⚽︎ COYS | #{@font_lg} color=#{@font_color}" if item
 
-    date = Date.today
-    fixture = item.css("ul li").first
-    link = fixture.css("a").first['href']
-    datetime = "#{date}T#{fixture.css(".status.upcoming abbr").first.text}"
-    puts "#{fixture.text.strip.gsub(/(\s*\d{2}:\d{2})/, '').upcase} ‣ #{fixture_time(datetime).upcase}  | #{@font_md} color=#{@font_color}" if item
-    puts "--MATCH INFO ⚽︎ | #{@font_md} color=#{@font_color}"
-    puts "--#{fixture_date(datetime)}"
-    puts "--BBC Sport Preview 📰 | href=http://www.bbc.com#{link}"
-    puts "---" if item
+      date = Date.today
+      fixture = item.css("ul li").first
+      link = fixture.css("a").first['href']
+      time = fixture.css(".status.upcoming abbr")
+      kickoff = ""
+      unless time.empty?
+        datetime = "#{date}T#{time.first.text}" unless time.nil?
+        kickoff = " ‣ #{fixture_time(datetime).upcase}" unless time.nil?
+      end
+
+      puts "#{fixture.text.strip.gsub(/(\s*\d{2}:\d{2})/, '').upcase}#{kickoff}  | #{@font_md} color=#{@font_color}"
+      puts "--MATCH INFO ⚽︎ | #{@font_md} color=#{@font_color}"
+      puts "--#{fixture_date(date)}"
+      puts "--BBC Sport Preview 📰 | href=http://www.bbc.com#{link}"
+      puts "---"
+    end
   end
 
   def upcoming_fixtures
@@ -139,10 +147,6 @@ class SpursBar
   end
 
   def matchday
-    # fixtures = @team.css('.accordion-container.upcoming')
-    # item = fixtures.css("span[typeof=SportsEvent]").first
-    # date = item.css(".date span[property=startDate]").first.text
-    # DateTime.parse(date).today?
     @team.css('.accordion-container.live-today')
   end
 
