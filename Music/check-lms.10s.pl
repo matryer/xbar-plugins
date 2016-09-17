@@ -17,8 +17,7 @@ BEGIN {
 }
 
 use constant STRINGS => sub {
-	my ($lang) = $0 =~ /check-lms\.([a-z]{2})\./i;
-	$lang = uc($lang || 'EN');
+	my $lang = uc(substr(`/usr/bin/defaults read -g AppleLocale` || 'EN', 0, 2));
 
 	my $localizations = {
 		NOT_FOUND => {
