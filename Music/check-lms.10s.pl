@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 # <bitbar.title>Logitech Media Server Status Display</bitbar.title>
-# <bitbar.version>v1.1.0</bitbar.version>
+# <bitbar.version>v1.2.0</bitbar.version>
 # <bitbar.author>Michael Herger</bitbar.author>
 # <bitbar.author.github>michaelherger</bitbar.author.github>
 # <bitbar.desc>Show whether Logitech media Server is running or not. Quickly start/stop it, access its UI etc.</bitbar.desc>
@@ -56,6 +56,10 @@ use constant STRINGS => sub {
 			DE => 'Systemeinstellungen öffnen…',
 			EN => 'Open Preference Pane…'
 		},
+		UPDATE_AVAILABLE => {
+			DE => 'Software aktualisieren…',
+			EN => 'Install software update…'
+		}
 	};
 
 	return { map {
@@ -69,6 +73,7 @@ use constant LMS_ON => 'iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IA
 use constant LMS_OFF => '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';
 
 my $status = LMS_OFF;
+
 my $INSTALLATION_FOLDER = '/Library/PreferencePanes/Squeezebox.prefPane/Contents/Resources';
 
 my $items;
@@ -108,6 +113,29 @@ else {
 	}
 		
 	$items .= "\n---\n" . PREFPANE_LINK;
+
+	my $versionFile = $ENV{"HOME"} . '/Library/Caches/Squeezebox/updates/server.version';
+	my $installer = '';
+
+	open(UPDATEFLAG, $versionFile) && do {
+		local $_;
+		while ( <UPDATEFLAG> ) {
+
+			chomp;
+
+			if (/(?:LogitechMediaServer|Squeezebox|SqueezeCenter).*/i) {
+				$installer = $_;
+				last;
+			}
+		}
+		
+		close UPDATEFLAG;
+	};	
+	
+	if ($installer) {
+		$items .= "\n" . STRINGS->{UPDATE_AVAILABLE} . "|color=green terminal=false bash=/usr/bin/open param1=$installer";
+		print '⇧';
+	}
 }
 
 print qq(|image=$status
