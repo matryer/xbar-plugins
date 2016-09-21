@@ -8,7 +8,10 @@
 <bitbar.image>https://github.com/PedroFuentes/bitbar-plugins/blob/master/images/PagerDutyOnCall_Screenshot.png</bitbar.image>
 <bitbar.dependencies>node, npm/node-fetch, npm/time-ago, npm/bitbar, node/home-config</bitbar.dependencies>
 <bitbar.abouturl>https://github.com/PedroFuentes/bitbar-plugins/tree/master/pagerDutyOnCall</bitbar.abouturl>
+
+MIT Licensed https://opensource.org/licenses/MIT
 */
+/*jshint esversion: 6 */
 'use strict';
 const fetch = require('node-fetch');
 const ta = require('time-ago')();
