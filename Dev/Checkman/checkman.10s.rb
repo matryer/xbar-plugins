@@ -86,7 +86,7 @@ def add_info(info)
   lines = info[1].split("\n")
   s = "--#{info[0]}: #{lines[0]} | #{NO_DIM}"
   lines.each_with_index do |line, i|
-    s += "\n--#{lines[i]} | #{NO_DIM}" if i > 0 
+    s += "\n--#{line} | #{NO_DIM}" if i > 0 
   end
   s
 end
