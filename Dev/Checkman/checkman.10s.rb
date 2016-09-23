@@ -82,13 +82,14 @@ def plugin_path(plugin)
   plugin_path
 end
 
-def add_info(info)
+def format_info(info)
   lines = info[1].split("\n")
   s = "--#{info[0]}: #{lines[0]} | #{NO_DIM}"
   lines.each_with_index do |line, i|
     s += "\n--#{line} | #{NO_DIM}" if i > 0 
   end
-  s
+  s += "href=#{info[1]}" if info[0].downcase == "url"
+  s += "\n"
 end
 
 def parse_output(check_name, check_output)
@@ -106,9 +107,7 @@ def parse_output(check_name, check_output)
   unless r["info"].nil?
     r["info"].each do |i|
       if i[0] != '-'
-        @output += add_info i
-        @output += "href=#{i[1]}" if i[0].downcase == "url"
-        @output += "\n"
+        @output += format_info i
       else
         @output += "-----\n"
       end
