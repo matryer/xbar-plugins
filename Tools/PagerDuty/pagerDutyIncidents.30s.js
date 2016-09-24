@@ -6,7 +6,7 @@
 <bitbar.author.github>pedrofuentes</bitbar.author.github>
 <bitbar.desc>Shows all the active incidents grouped by Service. For installation instructions check https://github.com/PedroFuentes/bitbar-plugins/blob/master/pagerDutyIncidents/README.md</bitbar.desc>
 <bitbar.image>http://cdn.pedrofuent.es/images/github/PagerDutyIncidents_Screenshot.png</bitbar.image>
-<bitbar.dependencies>node, npm/node-fetch, npm/time-ago, npm/bitbar, node/home-config</bitbar.dependencies>
+<bitbar.dependencies>node, npm/node-fetch, npm/time-ago, npm/bitbar, npm/home-config</bitbar.dependencies>
 <bitbar.abouturl>https://github.com/PedroFuentes/bitbar-plugins/tree/master/pagerDutyIncidents</bitbar.abouturl>
 */
 /* MIT Licensed https://opensource.org/licenses/MIT */
