@@ -36,7 +36,7 @@ PING_TIMES=
 
 while [ $SITE_INDEX -lt ${#SITES[@]} ]; do
     NEXT_SITE="${SITES[$SITE_INDEX]}"
-    NEXT_PING_TIME=$(ping -c 2 -n -q "$NEXT_SITE" 2>/dev/null | awk -F '/' 'END {printf "%d\n", $5}')
+    NEXT_PING_TIME=$(ping -c 2 -n -q "$NEXT_SITE" 2>/dev/null | awk -F '/' 'END {printf "%.0f\n", $5}')
     if [ "$NEXT_PING_TIME" -eq 0 ]; then
         NEXT_PING_TIME=$MAX_PING
     fi
