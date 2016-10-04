@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Meta Package Manager</bitbar.title>
-# <bitbar.version>v1.9.0</bitbar.version>
+# <bitbar.version>v1.10.0</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List package updates from several managers.</bitbar.desc>
@@ -532,17 +532,21 @@ class MAS(PackageManager):
         if not output:
             return
 
-        regexp = re.compile(r'(\d+) (.*) \((\S+)\)$')
+        regexp = re.compile(r'(\d+) (.*) \((\S+) -> (\S+)\)$')
         for application in output.split('\n'):
             if not application:
                 continue
-            _id, name, version = regexp.match(application).groups()
+            _id, name, installed_version, latest_version = regexp.match(
+                application).groups()
             self.map[name] = _id
             self.updates.append({
                 'name': name,
-                'latest_version': version,
-                'installed_version': ''
-            })
+                'latest_version': latest_version,
+                # Normalize unknown version. See: https://github.com/mas-cli
+                # /mas/commit/1859eaedf49f6a1ebefe8c8d71ec653732674341
+                'installed_version': (
+                    installed_version if installed_version != 'unknown'
+                    else '')})
 
     def update_cli(self, package_name):
         if package_name not in self.map:
