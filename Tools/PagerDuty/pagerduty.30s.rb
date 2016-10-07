@@ -18,6 +18,7 @@ require "date"
 $token  = ""
 $domain = ""
 $userid = ""
+$team_ids = ""
 #--------------------------------------------------------------------
 
 class PagerDuty
@@ -82,7 +83,8 @@ class PagerDuty
         out = HTTParty.get("https://#{$domain}.pagerduty.com/api/v1/incidents",
                            timeout: 25,
                            query:   { "since" => (Time.now-24*60*60).strftime("%Y-%m-%dT%H:%M:%S"),
-                                      "sort_by" => "created_on:desc" },
+                                      "sort_by" => "created_on:desc",
+				      "teams" => $team_ids },
                            headers: { "Content-type" => "application/json",
                                       "Authorization" => "Token token=#{$token}"})
 
