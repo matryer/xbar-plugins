@@ -13,8 +13,8 @@
 # gem install iStats
 #
 
-load=`uptime|sed 's/.*ages: //'`
-temp=`/usr/local/bin/istats cpu|awk '{print $3}'`
-fan=`/usr/local/bin/istats fan speed|awk '{print $4, $5}'`
+load=$(uptime|sed 's/.*ages: //')
+temp=$(/usr/local/bin/istats cpu|awk '{print $3}')
+fan=$(/usr/local/bin/istats fan speed|awk '{print $4, $5}')
 
 echo "$load, $temp, $fan"
