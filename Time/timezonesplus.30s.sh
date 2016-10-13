@@ -8,9 +8,6 @@
 # <bitbar.image>http://i.imgur.com/Y4nhdZo.png</bitbar.image>
 # <bitbar.dependencies>Bash GNU AWK</bitbar.dependencies>
 
-
-
-
 echo -n "NY " ; TZ=":US/Eastern" date +'%l:%M %p'
 echo -n "SF " ; TZ=":US/Pacific" date +'%l:%M %p'
 echo -n "LN " ; TZ=":Europe/London" date +'%l:%M %p'

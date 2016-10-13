@@ -3,6 +3,12 @@
 # Stackoverflow reputation score and Emoji on change :)
 # BitBar plugin
 #
+# <bitbar.title>Stackoverflow Reputation Score</bitbar.title>
+# <bitbar.author>Bruce Steedman</bitbar.author>
+# <bitbar.author.github>MatzFan</bitbar.author.github>
+# <bitbar.image>https://i.imgur.com/0XHs8R0.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
+#
 # by Bruce Steedman
 #
 # Shows current reputation and 👍 / 👎 on change
@@ -11,7 +17,7 @@
 # id for user from url - e.g. https://stackoverflow.com/users/4114896/matzfan
 SO_ID=22656 # CHANGE THIS VALUE to your's (or watch Mr Skeet reach 7 figures!)
 
-URI="https://api.stackexchange.com/2.2/users/"$SO_ID"?site=stackoverflow" # api
+URI="https://api.stackexchange.com/2.2/users/$SO_ID?site=stackoverflow" # api
 
 # file used to persist old score. set score to 0 if file doesn't exist
 if [ ! -f "/tmp/reputationizer.dat" ] ; then
@@ -20,14 +26,16 @@ else
   OLDREP=$(cat /tmp/reputationizer.dat) # read value from file
 fi
 # get reputation from api
-NEWREP=$(curl -s --compressed $URI | egrep -o '"reputation":*([0-9])+' | sed 's/"reputation"://')
+NEWREP=$(curl -s --compressed "$URI" | egrep -o '"reputation":*([0-9])+' | sed 's/"reputation"://')
 
-if [ "$NEWREP" -gt "$OLDREP" ] ; then
+if [ -z "$OLDREP" ] || [ -z "$NEWREP" ] ; then
+  echo ❓
+elif [ "$NEWREP" -gt "$OLDREP" ] ; then
   echo 👍
 elif [ "$OLDREP" -gt "$NEWREP" ] ; then
   echo 👎
 else
-  echo $NEWREP # output score
+  echo "$NEWREP" # output score
 fi
 
-echo $NEWREP > /tmp/reputationizer.dat # write new score to file
+echo "$NEWREP" > /tmp/reputationizer.dat # write new score to file

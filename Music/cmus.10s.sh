@@ -19,7 +19,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 
 
 if [ "$1" = 'launch-iterm' ]; then
-  if [ $(osascript -e 'application "iTerm" is running') = "false" ]; then
+  if [ "$(osascript -e 'application "iTerm" is running')" = "false" ]; then
     osascript -e 'tell application "iTerm" to activate'
     osascript -e 'tell application "iTerm" to tell current session of current window to write text "cmus"'
   else
@@ -32,7 +32,7 @@ if [ "$1" = 'launch-iterm' ]; then
 fi
 
 if [ "$1" = 'launch-terminal' ]; then
-  if [ $(osascript -e 'application "Terminal" is running') = "false" ]; then
+  if [ "$(osascript -e 'application "Terminal" is running')" = "false" ]; then
     osascript -e 'tell application "Terminal" to activate'
     osascript -e 'tell application "Terminal" to do script "cmus" in window 1'
   else

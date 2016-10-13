@@ -8,4 +8,4 @@
 
 Prefix="FL"
 Time_Zone="US/Eastern"
-TZ=":$TIME_ZONE" date "+$Prefix %H:%M"
+TZ=":$Time_Zone" date "+$Prefix %H:%M"

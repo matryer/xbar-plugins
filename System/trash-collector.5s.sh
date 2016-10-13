@@ -5,6 +5,8 @@
 # <bitbar.author>Carlson Orozco</bitbar.author>
 # <bitbar.author.github>carlsonorozco</bitbar.author.github>
 # <bitbar.desc>Trash Collector is a plugin for BitBar that enables you to empty your trash.</bitbar.desc>
+# <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/trash-collector/master/image.png</bitbar.image>
+# <bitbar.abouturl>https://github.com/carlsonorozco/trash-collector</bitbar.abouturl>
 
 trash_count=$(find "$HOME/.Trash/" | wc -l)
 trash_count=$((trash_count-1))
