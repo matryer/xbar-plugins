@@ -1,85 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Package Manager</bitbar.title>
-# <bitbar.version>v1.7</bitbar.version>
+# <bitbar.title>Meta Package Manager</bitbar.title>
+# <bitbar.version>v1.10.0</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
-# <bitbar.desc>List package updates available from Homebrew, Cask, Python's pip2 and pip3, Node's npm, Atom's apm, Rebuy's gem and Mac AppStore via mas CLI. Allows individual or full upgrades (if available).</bitbar.desc>
-# <bitbar.dependencies>python,homebrew,cask,pip,npm,apm,gem,mas</bitbar.dependencies>
+# <bitbar.desc>List package updates from several managers.</bitbar.desc>
+# <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.image>https://i.imgur.com/CiQpQ42.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/kdeldycke/dotfiles/blob/master/dotfiles-osx/.bitbar/package_manager.7h.py</bitbar.abouturl>
+# <bitbar.abouturl>https://github.com/kdeldycke/meta-package-manager</bitbar.abouturl>
 
 """
 Default update cycle is set to 7 hours so we have a chance to get user's
 attention once a day. Higher frequency might ruin the system as all checks are
 quite resource intensive, and Homebrew might hit GitHub's API calls quota.
-
-If you're bored, feel free to add support for new package manager. A list of
-good candidates is available at:
-https://en.wikipedia.org/wiki/List_of_software_package_management_systems
-
-
-Changelog
-=========
-
-1.7 (2016-08-16)
-----------------
-
-* Fix issues with $PATH not having Homebrew/Macports
-* New workaround for full pip upgrade command
-* Workaround for Homebrew Cask full upgrade command
-* Grammar fix when 0 packages need updated
-
-1.6 (2016-08-10)
-----------------
-
-* Work around the lacks of full pip upgrade command.
-* Fix UnicodeDecodeError on parsing CLI output.
-
-1.5 (2016-07-25)
-----------------
-
-* Add support for [mas](https://github.com/argon/mas).
-* Don't show all stderr as err (check return code for error state).
-
-1.4 (2016-07-10)
-----------------
-
-* Don't attempt to parse empty lines.
-* Check for linked npm packages.
-* Support System or Homebrew Ruby Gems (with proper sudo setup).
-
-1.3 (2016-07-09)
-----------------
-
-* Add changelog.
-* Add reference to package manager's issues.
-* Force Cask update before evaluating available packages.
-* Add sample of command output as version parsing can be tricky.
-
-1.2 (2016-07-08)
-----------------
-
-* Add support for both pip2 and pip3, Node's npm, Atom's apm, Ruby's gem.
-  Thanks @tresni.
-* Fixup brew cask checking. Thanks @tresni.
-* Don't die on errors. Thanks @tresni.
-
-1.1 (2016-07-07)
-----------------
-
-* Add support for Python's pip.
-
-1.0 (2016-07-05)
-----------------
-
-* Initial public release.
-* Add support for Homebrew and Cask.
-
-0.0 (2016-07-05)
------------------
-
-* First commit.
 """
 
 from __future__ import print_function, unicode_literals
@@ -307,9 +240,11 @@ class Cask(Homebrew):
         for installed_pkg in output.strip().split('\n'):
             if not installed_pkg:
                 continue
-            name, versions = installed_pkg.split(' ', 1)
+            infos = installed_pkg.split(' ', 1)
+            name = infos[0]
 
             # Use heuristics to guess installed version.
+            versions = infos[1] if len(infos) > 1 else ''
             versions = sorted([
                 v.strip() for v in versions.split(',') if v.strip()])
             if len(versions) > 1 and 'latest' in versions:
@@ -597,17 +532,21 @@ class MAS(PackageManager):
         if not output:
             return
 
-        regexp = re.compile(r'(\d+) (.*) \((\S+)\)$')
+        regexp = re.compile(r'(\d+) (.*) \((\S+) -> (\S+)\)$')
         for application in output.split('\n'):
             if not application:
                 continue
-            _id, name, version = regexp.match(application).groups()
+            _id, name, installed_version, latest_version = regexp.match(
+                application).groups()
             self.map[name] = _id
             self.updates.append({
                 'name': name,
-                'latest_version': version,
-                'installed_version': ''
-            })
+                'latest_version': latest_version,
+                # Normalize unknown version. See: https://github.com/mas-cli
+                # /mas/commit/1859eaedf49f6a1ebefe8c8d71ec653732674341
+                'installed_version': (
+                    installed_version if installed_version != 'unknown'
+                    else '')})
 
     def update_cli(self, package_name):
         if package_name not in self.map:
