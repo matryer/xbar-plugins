@@ -12,7 +12,6 @@
 import json
 import urllib2
 import textwrap
-import base64
 from random import randint
 
 api_key = '' # get yours at https://darksky.net/dev
