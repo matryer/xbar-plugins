@@ -34,12 +34,12 @@ samplerate=($(/usr/sbin/system_profiler  \
   head -n 1 | \
   sed 's/^          Current SampleRate: //'))
 
-echo \( ${samplerate[0]} \)
+echo \( "${samplerate[0]}" \)
 echo '---'
 
 i=0
 for device in "${devices[@]}"; do
   ((i += 1))
-  device=$(echo $device |  tr -d '[[:space:]]' | sed 's/:$//')
+  device=$(echo "$device" |  tr -d '[[:space:]]' | sed 's/:$//')
   echo "$i $device | bash=$0 param1=$i terminal=false refresh=true"
 done
