@@ -155,7 +155,8 @@ def print_output(
 
 def is_darkmode():
     FNULL = open(os.devnull, 'w')
-    return_code = subprocess.call(['/usr/bin/defaults', 'read', '-g', 'AppleInterfaceStyle'], stdout=FNULL, stderr=subprocess.STDOUT)
+    return_code = subprocess.call(['/usr/bin/defaults', 'read', '-g',
+                                   'AppleInterfaceStyle'], stdout=FNULL, stderr=subprocess.STDOUT)
     if (return_code == 1):
         return False
     else:
@@ -169,12 +170,12 @@ def main(argv):
         exit()
 
     if is_darkmode():
-        color_running   = ' color=Red'
-        color_pending   = ' color=Yellow'
+        color_running = ' color=Red'
+        color_pending = ' color=Yellow'
         color_completed = ' color=Green'
     else:
-        color_running   = ' color=Red'
-        color_pending   = ' color=Black'
+        color_running = ' color=Red'
+        color_pending = ' color=Black'
         color_completed = ' color=Green'
 
     id_list = print_output('active', color_running, True, print_content=False)
