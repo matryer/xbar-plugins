@@ -2,39 +2,25 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v3.0.0</bitbar.version>
+# <bitbar.version>v3.1.0</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
-# <bitbar.desc>Detailed weather plugin powered by forecast.io with auto location lookup. Supports metric and imperial units. Needs API key from http://developer.forecast.io.</bitbar.desc>
+# <bitbar.desc>Detailed weather plugin powered by DarkSky with auto location lookup. Supports metric and imperial units. Needs API key from https://darksky.net/dev/.</bitbar.desc>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/683200/16276583/ff267f36-387c-11e6-9fd0-fc57b459e967.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 import json
 import urllib2
 import textwrap
-import base64
 from random import randint
 
-api_key = '' # get yours at https://developer.forecast.io
+api_key = '' # get yours at https://darksky.net/dev
 units = '' # set to si for metric, leave blank for imperial
 
 def auto_loc_lookup():
   try:
     location = urllib2.urlopen('http://ipinfo.io/json')
     return json.load(location)
-  except urllib2.URLError:
-    return False
-
-def get_image(loc):
-  try:
-    image = {}
-    location = loc.split(',');
-    url = 'http://forecast.io/atlas/precipitation.png?latitude=' +  location[0] + '&longitude=' +  location[1] + '&theta=0&phi=-30&zoom=0.05&width=320&height=213&border_scale=0.75&label_stroke_col=FFFFFFCC&label_scale=1&label_count=2&city_label=1'
-    opener = urllib2.build_opener()
-    opener.addheaders = [('Referer', 'http://forecast.io/atlas/')]
-    image['url'] = url
-    image['encoded'] = base64.b64encode(opener.open(url).read())
-    return image
   except urllib2.URLError:
     return False
 
@@ -96,7 +82,7 @@ def get_wx():
 
   try:
     if 'loc' in location:
-      wx = json.load(urllib2.urlopen('https://api.forecast.io/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
+      wx = json.load(urllib2.urlopen('https://api.darksky.net/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
     else:
       return False
   except urllib2.HTTPError:
@@ -163,7 +149,6 @@ def get_wx():
 
     if 'loc' in location:
       weather_data['loc'] = str(location['loc'])
-      weather_data['image'] = get_image(location['loc']);
 
   except KeyError:
     return False
@@ -175,7 +160,7 @@ def render_wx():
   if api_key == '':
     print 'Missing API key'
     print '---'
-    print 'Get an API Key | href=https://developer.forecast.io'
+    print 'Get an API Key | href=https://darksky.net/dev'
     return False
 
   weather_data = get_wx()
@@ -194,9 +179,9 @@ def render_wx():
   print '---'
 
   if 'city' in weather_data and 'region' in weather_data:
-    print weather_data['city'] + ', ' + weather_data['region'] + ' | href=http://forecast.io/#/f/' + weather_data['loc']
+    print weather_data['city'] + ', ' + weather_data['region'] + ' | href=https://darksky.net/' + weather_data['loc']
   elif 'country' in weather_data:
-    print weather_data['country'] + ' | href=http://forecast.io/#/f/' + weather_data['loc']
+    print weather_data['country'] + ' | href=https://darksky.net/' + weather_data['loc']
 
   if 'condition' in weather_data and 'feels_like' in weather_data:
     print weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like']
@@ -206,10 +191,6 @@ def render_wx():
   if 'next_hour' in weather_data:
     print weather_data['next_hour']
     print '---'
-
-  if 'image' in weather_data:
-    if weather_data['image']['encoded']:
-      print '| href=' + weather_data['image']['url'] + '| image=' + weather_data['image']['encoded']
 
   print '---'
 
@@ -233,6 +214,6 @@ def render_wx():
     print 'Pressure: ' + weather_data['pressure']
 
   print '---'
-  print 'Powered by Forecast | href=http://forecast.io'
+  print 'Powered by DarkSky | href=https://darksky.net/poweredby/?ref=bitbarWeather'
 
 render_wx()
