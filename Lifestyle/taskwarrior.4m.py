@@ -21,6 +21,7 @@
 # * Allow to delete tasks (also in a sub-menu?)
 #
 
+import os
 import subprocess
 from subprocess import Popen, PIPE
 
@@ -152,15 +153,29 @@ def print_output(
     return id_list
 
 
+def is_darkmode():
+    FNULL = open(os.devnull, 'w')
+    return_code = subprocess.call(['/usr/bin/defaults', 'read', '-g', 'AppleInterfaceStyle'], stdout=FNULL, stderr=subprocess.STDOUT)
+    if (return_code == 1):
+        return False
+    else:
+        return True
+
+
 def main(argv):
 
     if len(argv) > 1:
         trigger_actions(argv)
         exit()
 
-    color_running = ' color=Red'
-    color_pending = ' color=Yellow'
-    color_completed = ' color=Green'
+    if is_darkmode():
+        color_running   = ' color=Red'
+        color_pending   = ' color=Yellow'
+        color_completed = ' color=Green'
+    else:
+        color_running   = ' color=Red'
+        color_pending   = ' color=Black'
+        color_completed = ' color=Green'
 
     id_list = print_output('active', color_running, True, print_content=False)
 
