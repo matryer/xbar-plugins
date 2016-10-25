@@ -4,7 +4,6 @@
 # <bitbar.author>Anthony Lauzon</bitbar.author>
 # <bitbar.author.github>anthonylauzon</bitbar.author.github>
 # <bitbar.desc>Displays current samplerate for an audio device.</bitbar.desc>
-# <bitbar.image>http://systematic.systems/static/samplerate.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
