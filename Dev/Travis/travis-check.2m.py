@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>TravisCI Check</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
+# <bitbar.version>v1.3</bitbar.version>
 # <bitbar.author>Chris Tomkins-Tinch</bitbar.author>
 # <bitbar.author.github>tomkinsc</bitbar.author.github>
 # <bitbar.desc>This plugin displays the build status of repositories listed on TravisCI.</bitbar.desc>
@@ -22,6 +22,8 @@
 #   refactor by @keithamus to remove travispy dependency
 # 1.2
 #   additions by @seripap, adding an 'in progress' view, fixed missing status levels, added global TLD config
+# 1.3
+#   additions by @seripap, Fixed canceled builds
 
 # Dependencies:
 #   travis API key
@@ -80,7 +82,7 @@ SYMBOLS = {
     'failed': u'✘',
     'queued': u'⚠',
     'errored': u'⚠',
-    'cancelled': u' ⃠',
+    'canceled': u' ⃠',
 }
 COLORS = {
     'passed': 'green',
@@ -90,7 +92,7 @@ COLORS = {
     'failed': 'red',
     'queued': 'yellow',
     'errored': 'yellow',
-    'cancelled': 'grey',
+    'canceled': 'gray',
 }
 NO_SYMBOL = u'❂'
 
@@ -128,6 +130,7 @@ def update_statuses(repos):
     output = []
     fail_count = 0
     currently_building = 0
+    canceled = 0
 
     output.append(u'{} | color=green'.format(SYMBOLS['passed']))
     output.append('---')
@@ -155,12 +158,17 @@ def update_statuses(repos):
                     currently_building += 1
                 elif build['state'] == "failed":
                     fail_count += 1
+                elif build['state'] == "canceled":
+                    canceled += 1
 
     if fail_count > 0:
         output[0] = u'{}{} | color=red'.format(SYMBOLS['failed'], fail_count)
 
     if currently_building > 0:
         output[0] = u'{}{} | color=yellow'.format(SYMBOLS['started'], currently_building)        
+
+    if canceled > 0:
+        output[0] = u'{}{} | color=gray'.format(SYMBOLS['canceled'], canceled)
 
     for line in output:
         print line.encode('utf-8')
