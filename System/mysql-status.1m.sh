@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # <bitbar.title>MySQL server status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Kenji Akiyama</bitbar.author>
 # <bitbar.author.github>artifactsauce</bitbar.author.github>
 # <bitbar.desc>Show the status of MySQL server installed by Homebrew on localhost and manage server boot with shortcut menus</bitbar.desc>
