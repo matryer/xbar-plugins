@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # <bitbar.title>SolarEdge Monitoring</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Shaun Grady</bitbar.author>
 # <bitbar.author.github>shaungrady</bitbar.author.github>
 # <bitbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</bitbar.desc>
@@ -30,6 +30,31 @@ asleep_icon = "☾"
 ##############
 # Begin Script
 
+def formatWatts (Wh, unit_suffix=""):
+    Wh = float(Wh)
+
+    if Wh < 900:
+        energy = Wh
+        unit = "W"
+    elif Wh < 900000:
+        energy = Wh / 1000
+        unit = "kW"
+    elif Wh < 900000000:
+        energy = Wh / 1000000
+        unit = "MW"
+    elif Wh < 900000000000:
+        energy = Wh / 1000000000
+        unit = "GW"
+
+    if energy < 10:
+        energy = round(energy, 2)
+    elif energy < 100:
+        energy = round(energy, 1)
+    else:
+        energy = int(round(energy))
+
+    return str(energy) + " " + unit + unit_suffix
+
 if solaredge_site_id == "" or solaredge_api_key == "":
     raise SystemExit("Site ID/API Key Required")
 
@@ -38,8 +63,13 @@ import json
 
 overview = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/overview?api_key=" + solaredge_api_key
 
-result = urllib2.urlopen(overview, timeout = 5).read()
-json = json.loads(result)
+try:
+    result = urllib2.urlopen(overview, timeout = 10).read()
+    json = json.loads(result)
+except Exception, err:
+    print(asleep_icon + " <err>")
+    print("---")
+    raise SystemExit(err)
 
 raw_power = json['overview']['currentPower']['power']
 raw_energy = json['overview']['lastDayData']['energy']
@@ -51,24 +81,33 @@ raw_energy_mtd = json['overview']['lastMonthData']['energy']
 raw_energy_ytd = json['overview']['lastYearData']['energy']
 raw_energy_total = json['overview']['lifeTimeData']['energy']
 
-energy_mtd = str(int(round(raw_energy_mtd / 1000))) + " kWh"
-energy_ytd = str(int(round(raw_energy_ytd / 1000))) + " kWh"
-energy_total = str(int(round(raw_energy_total / 1000))) + " kWh"
+# Handle strange API bug where energy total can be much less than YTD
+if raw_energy_ytd > raw_energy_total:
+    raw_energy_total = raw_energy_ytd
+
+energy_mtd = formatWatts(raw_energy_mtd, "h")
+energy_ytd = formatWatts(raw_energy_ytd, "h")
+energy_total = formatWatts(raw_energy_total, "h")
 
 if co2_lbs_per_MWh > 0:
-    co2_lbs_offset = str(int(round((raw_energy_total / 1000000) * co2_lbs_per_MWh))) + " lbs"
+    offset = (float(raw_energy_total) / 1000000) * co2_lbs_per_MWh
+    unit = "lbs"
+    if offset > 1900:
+        co2_offset = offset / 2000
+        unit = "tons"
+
+    if co2_offset < 10:
+        co2_offset = round(co2_offset, 2)
+    elif co2_offset < 100:
+        co2_offset = round(co2_offset, 1)
+    else:
+        o2_offset = "{:,}".format(int(round()))
+
+    co2_offset = str(co2_offset) + " " + unit
 
 # Human-friendly power, energy, efficiency strings
-if raw_power < 900:
-    power = str(int(round(raw_power))) + " W"
-else:
-    power = "%.1f" % (raw_power / 1000) + " kW"
-
-if raw_energy < 900:
-    energy = str(int(round(raw_energy))) + " Wh"
-else:
-    energy = "%.1f" % (raw_energy / 1000) + " kWh"
-
+power = formatWatts(raw_power)
+energy = formatWatts(raw_energy, "h")
 if system_wattage > 0:
     efficiency = "%.2f" % raw_efficiency + " Wh/W"
 
@@ -106,7 +145,7 @@ if raw_energy_total - raw_energy_ytd > 1000:
 
 if co2_lbs_per_MWh > 0:
     print("---")
-    print(co2_lbs_offset + " CO₂ offset | href:https://monitoring.solaredge.com/")
+    print(co2_offset + " CO₂ offset | href:https://monitoring.solaredge.com/")
 
 # print("---")
 # print(json['overview']['lastUpdateTime'] + " | size:11")

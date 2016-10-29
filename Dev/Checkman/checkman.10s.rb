@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
 # <bitbar.title>Checkman Simulator</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
+# <bitbar.version>v0.1.1</bitbar.version>
 # <bitbar.author>Deluan Quintao</bitbar.author>
 # <bitbar.author.github>deluan</bitbar.author.github>
-# <bitbar.desc>This plugin reuses Checkman's configurations and plugins, so you don't need to install it :)</bitbar.desc>
+# <bitbar.desc>This plugin reuses Checkman's configurations and plugins, so you don't need to install it :) It has checks for: HTTP, GoCD, Concourse, Jenkins, Travis, Semaphore, Codeship, CircleCI, Airbrake, GitHub, Pivotal Tracker, TDDium and SnapCI, and you can even create your own plugins to leverage Checkman's streamlined UI and configuration files. More info: https://gist.github.com/deluan/3f6fa6bcff2a355ae89181bb15590b88#file-readme-md</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/irmlsOX.jpg</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cppforlife/checkman</bitbar.abouturl>
+# <bitbar.abouturl>https://goo.gl/SdNXj2</bitbar.abouturl>
 
 # This plugin simulates Checkman functionality, allowing you to use all its
 # plugins and creating checks in external files. It downloads Checkman's plugins
@@ -26,9 +26,11 @@ require 'json'
 require 'fileutils'
 require 'open-uri'
 
-CHECKS_DIR="/tmp/bitbar-checkman-plugins/"
+CHECKS_DIR="#{ENV['HOME']}/.bitbar-checkman-plugins/"
 CHECKS_URL="https://raw.githubusercontent.com/cppforlife/checkman/master/scripts/"
 CONFIG_DIR="#{ENV['HOME']}/Checkman/"
+
+README_URL="https://goo.gl/SdNXj2"
 
 ICON_OK="iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAEJGlDQ1BJQ0MgUHJvZmlsZQAAOBGFVd9v21QUPolvUqQWPyBYR4eKxa9VU1u5GxqtxgZJk6XtShal6dgqJOQ6N4mpGwfb6baqT3uBNwb8AUDZAw9IPCENBmJ72fbAtElThyqqSUh76MQPISbtBVXhu3ZiJ1PEXPX6yznfOec7517bRD1fabWaGVWIlquunc8klZOnFpSeTYrSs9RLA9Sr6U4tkcvNEi7BFffO6+EdigjL7ZHu/k72I796i9zRiSJPwG4VHX0Z+AxRzNRrtksUvwf7+Gm3BtzzHPDTNgQCqwKXfZwSeNHHJz1OIT8JjtAq6xWtCLwGPLzYZi+3YV8DGMiT4VVuG7oiZpGzrZJhcs/hL49xtzH/Dy6bdfTsXYNY+5yluWO4D4neK/ZUvok/17X0HPBLsF+vuUlhfwX4j/rSfAJ4H1H0qZJ9dN7nR19frRTeBt4Fe9FwpwtN+2p1MXscGLHR9SXrmMgjONd1ZxKzpBeA71b4tNhj6JGoyFNp4GHgwUp9qplfmnFW5oTdy7NamcwCI49kv6fN5IAHgD+0rbyoBc3SOjczohbyS1drbq6pQdqumllRC/0ymTtej8gpbbuVwpQfyw66dqEZyxZKxtHpJn+tZnpnEdrYBbueF9qQn93S7HQGGHnYP7w6L+YGHNtd1FJitqPAR+hERCNOFi1i1alKO6RQnjKUxL1GNjwlMsiEhcPLYTEiT9ISbN15OY/jx4SMshe9LaJRpTvHr3C/ybFYP1PZAfwfYrPsMBtnE6SwN9ib7AhLwTrBDgUKcm06FSrTfSj187xPdVQWOk5Q8vxAfSiIUc7Z7xr6zY/+hpqwSyv0I0/QMTRb7RMgBxNodTfSPqdraz/sDjzKBrv4zu2+a2t0/HHzjd2Lbcc2sG7GtsL42K+xLfxtUgI7YHqKlqHK8HbCCXgjHT1cAdMlDetv4FnQ2lLasaOl6vmB0CMmwT/IPszSueHQqv6i/qluqF+oF9TfO2qEGTumJH0qfSv9KH0nfS/9TIp0Wboi/SRdlb6RLgU5u++9nyXYe69fYRPdil1o1WufNSdTTsp75BfllPy8/LI8G7AUuV8ek6fkvfDsCfbNDP0dvRh0CrNqTbV7LfEEGDQPJQadBtfGVMWEq3QWWdufk6ZSNsjG2PQjp3ZcnOWWing6noonSInvi0/Ex+IzAreevPhe+CawpgP1/pMTMDo64G0sTCXIM+KdOnFWRfQKdJvQzV1+Bt8OokmrdtY2yhVX2a+qrykJfMq4Ml3VR4cVzTQVz+UoNne4vcKLoyS+gyKO6EHe+75Fdt0Mbe5bRIf/wjvrVmhbqBN97RD1vxrahvBOfOYzoosH9bq94uejSOQGkVM6sN/7HelL4t10t9F4gPdVzydEOx83Gv+uNxo7XyL/FtFl8z9ZAHF4bBsrEwAAAVdJREFUKBWVU1FOwkAUfPvahgL+mHgMLyF+kngUQwieQlHDUYx+qpfwGCb+iFba3XXmwUojJNaG0nbfzJt526mLMQqP0W051lxnrpDjLHNHora8/gsi3sfXWMtLaMLV06R6YMGRfLoYXOZ9mRYHqnmJxQyncz9sYqIXaSqR+j2E5lOuH88/LtzJTW9cDPWuPFQthk40BweqLa6YOaiHBuRllOothHoZznJapSKJWW9XNclTnY6AEF+r+i+ZKWekVSr+tpuIRoEV1omz0cBTbo51NKvbOdvEdG/7QByakKc2H6rtGRN435U4k0AT/HB0ZaZuG/yabNuZKh2uG7wKXgFj0pVPnMUKPLXkIADW5I8OlkaKAU+eMnJMDgPARQPscZ5SRhzx5KlfhTkjx+TgxUtYoWsd0Wx72jPXUSeOeGbcsj1aDOZFXyb/znay2fWrotPnaXXPyb4BZsjMvJjQ4YcAAAAASUVORK5CYII="
 ICON_FAIL="iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAEJGlDQ1BJQ0MgUHJvZmlsZQAAOBGFVd9v21QUPolvUqQWPyBYR4eKxa9VU1u5GxqtxgZJk6XtShal6dgqJOQ6N4mpGwfb6baqT3uBNwb8AUDZAw9IPCENBmJ72fbAtElThyqqSUh76MQPISbtBVXhu3ZiJ1PEXPX6yznfOec7517bRD1fabWaGVWIlquunc8klZOnFpSeTYrSs9RLA9Sr6U4tkcvNEi7BFffO6+EdigjL7ZHu/k72I796i9zRiSJPwG4VHX0Z+AxRzNRrtksUvwf7+Gm3BtzzHPDTNgQCqwKXfZwSeNHHJz1OIT8JjtAq6xWtCLwGPLzYZi+3YV8DGMiT4VVuG7oiZpGzrZJhcs/hL49xtzH/Dy6bdfTsXYNY+5yluWO4D4neK/ZUvok/17X0HPBLsF+vuUlhfwX4j/rSfAJ4H1H0qZJ9dN7nR19frRTeBt4Fe9FwpwtN+2p1MXscGLHR9SXrmMgjONd1ZxKzpBeA71b4tNhj6JGoyFNp4GHgwUp9qplfmnFW5oTdy7NamcwCI49kv6fN5IAHgD+0rbyoBc3SOjczohbyS1drbq6pQdqumllRC/0ymTtej8gpbbuVwpQfyw66dqEZyxZKxtHpJn+tZnpnEdrYBbueF9qQn93S7HQGGHnYP7w6L+YGHNtd1FJitqPAR+hERCNOFi1i1alKO6RQnjKUxL1GNjwlMsiEhcPLYTEiT9ISbN15OY/jx4SMshe9LaJRpTvHr3C/ybFYP1PZAfwfYrPsMBtnE6SwN9ib7AhLwTrBDgUKcm06FSrTfSj187xPdVQWOk5Q8vxAfSiIUc7Z7xr6zY/+hpqwSyv0I0/QMTRb7RMgBxNodTfSPqdraz/sDjzKBrv4zu2+a2t0/HHzjd2Lbcc2sG7GtsL42K+xLfxtUgI7YHqKlqHK8HbCCXgjHT1cAdMlDetv4FnQ2lLasaOl6vmB0CMmwT/IPszSueHQqv6i/qluqF+oF9TfO2qEGTumJH0qfSv9KH0nfS/9TIp0Wboi/SRdlb6RLgU5u++9nyXYe69fYRPdil1o1WufNSdTTsp75BfllPy8/LI8G7AUuV8ek6fkvfDsCfbNDP0dvRh0CrNqTbV7LfEEGDQPJQadBtfGVMWEq3QWWdufk6ZSNsjG2PQjp3ZcnOWWing6noonSInvi0/Ex+IzAreevPhe+CawpgP1/pMTMDo64G0sTCXIM+KdOnFWRfQKdJvQzV1+Bt8OokmrdtY2yhVX2a+qrykJfMq4Ml3VR4cVzTQVz+UoNne4vcKLoyS+gyKO6EHe+75Fdt0Mbe5bRIf/wjvrVmhbqBN97RD1vxrahvBOfOYzoosH9bq94uejSOQGkVM6sN/7HelL4t10t9F4gPdVzydEOx83Gv+uNxo7XyL/FtFl8z9ZAHF4bBsrEwAAAUJJREFUKBWVk1tOwzAQRccTIlFVUCgsozupxDaAP4TKKqB8FrENBDvpMiDioQrU1DZz4rjiA6JgaWzHc8/YTm5cjFFod+PRtFSdlU4mhXPHrllNHQof43MdZVmHcHNevT2RccD3RwfXA3WXe6q665wU4sSGbaO+lyhfNvkIIXyGeHv68nrlFof702GhD+Oi0KERpYVSdYuKYSLBojZ4ZVF5H1Y+nOxwVHYETLsa+HPbtggntOs0T7Xp11Fmyh2B2LGw1G8gBOvk0SW9TJSXwx2bo1qiq1EAHXo4RZ6jC8y5rGWkUKKbSc8O0lqC06dOK336Vq+MOfpyWa84BwPwHbPb/ipCHh16OMVyOAcD+I4CgOTRJb0sdRP8HMvhHBbXrWBj8xwArJNHhx6Pt94ezQeqF//2dr5n37+Kk55V7492EPkGePnLtKbOBRoAAAAASUVORK5CYII="
@@ -51,10 +53,8 @@ ICONS = {
 
 PRIORITY_ORDER = [ICON_OK, ICON_OK_CHANGING, ICON_FAIL, ICON_FAIL_CHANGING, ICON_UNDETERMINED, ICON_UNDETERMINED_CHANGING]
 
-# TODO: What is the parameter to prevent the line to be dimmed? This is
-# the only way I could figure out
-# NO_DIM=" bash=/bin/true terminal=false "
-NO_DIM=" bash=/bin/true terminal=false "
+DARK_MODE=`defaults read -g AppleInterfaceStyle 2> /dev/null`.strip
+NO_DIM = " color=#{DARK_MODE == 'Dark' ? 'white' : 'black'} "
 
 @output = ""
 @failed = 0
@@ -64,7 +64,8 @@ NO_DIM=" bash=/bin/true terminal=false "
 def help
   puts " | image=#{ICON_UNDETERMINED}"
   puts "---"
-  puts "Checkman Simulator v0.1| #{NO_DIM}"
+  puts "Checkman Simulator v0.1.1|href=#{README_URL}"
+  puts "More info...|href=#{README_URL}"
   puts "---"
   puts "No configuration files found in #{CONFIG_DIR} | bash=/usr/bin/open param1=\"#{CONFIG_DIR}\" terminal=false"
   puts "Click here to learn how to write configuration files... | href=https://github.com/cppforlife/checkman#configuring-checkman-via-checkfiles"
@@ -81,6 +82,16 @@ def plugin_path(plugin)
   plugin_path
 end
 
+def format_info(info)
+  lines = info[1].split("\n")
+  s = "--#{info[0]}: #{lines[0]} | #{NO_DIM}"
+  lines.each_with_index do |line, i|
+    s += "\n--#{line} | #{NO_DIM}" if i > 0 
+  end
+  s += "href=#{info[1]}" if info[0].downcase == "url"
+  s += "\n"
+end
+
 def parse_output(check_name, check_output)
   if check_output.strip == ""
     @output += "#{check_name}| #{NO_DIM} image= #{ICON_UNDETERMINED} \n"
@@ -95,10 +106,8 @@ def parse_output(check_name, check_output)
   @failed += 1 unless r["result"]
   unless r["info"].nil?
     r["info"].each do |i|
-      if i[1] != ""
-        @output += "--#{i[0]}: #{i[1]}"
-        @output += "| href=#{i[1]}" if i[0].downcase == "url"
-        @output += "\n"
+      if i[0] != '-'
+        @output += format_info i
       else
         @output += "-----\n"
       end
