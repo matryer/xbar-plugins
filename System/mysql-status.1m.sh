@@ -33,6 +33,9 @@ else
   echo "$MENUBAR_ICON_DISABLED"
 fi
 
+echo "---"
+echo "MySQL Server"
+
 # Server Status from `mysqladmin status`
 if $IS_SERVER_RUNNING; then
   echo "---"
