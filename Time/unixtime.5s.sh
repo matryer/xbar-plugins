@@ -7,4 +7,4 @@
 # <bitbar.desc>Displays unix time.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/h2cyuYu.png</bitbar.image>
 
-date -j -f "%a %b %d %T %Z %Y" "$(date)" "+%s"
+date +%s
