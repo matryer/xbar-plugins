@@ -5,7 +5,7 @@
 # <bitbar.author.github>artifactsauce</bitbar.author.github>
 # <bitbar.desc>Show the status of PostgreSQL server installed by Homebrew on localhost and manage server boot with shortcut menus</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/l5E4yg8.png</bitbar.image>
-# <bitbar.dependencies>bash,postgresql</bitbar.dependencies>
+# <bitbar.dependencies>bash,perl,postgresql</bitbar.dependencies>
 
 # TODO Selecting some menus will return warnings because the process has not been completed.
 
