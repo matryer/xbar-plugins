@@ -19,7 +19,7 @@ units = '' # set to si for metric, leave blank for imperial
 
 def auto_loc_lookup():
   try:
-    location = urllib2.urlopen('http://ipinfo.io/json')
+    location = urllib2.urlopen('https://ipinfo.io/json')
     return json.load(location)
   except urllib2.URLError:
     return False
