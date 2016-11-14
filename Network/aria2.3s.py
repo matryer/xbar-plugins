@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 your_path_to_python3
+#!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
 # -*- coding: utf-8 -*-
 
 # Bitbar Metadata
