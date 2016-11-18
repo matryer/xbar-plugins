@@ -55,7 +55,7 @@ import os
 
 host = 'localhost'
 port = 6800
-# secret = 'your token'
+secret = ''
 title_format = '💻 ⬇️' + '%s/s'
 
 def bytes_to_readable(speed_in_bytes, precision = 1):
