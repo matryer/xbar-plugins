@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Shift Stats</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Jan Groß</bitbar.author>
 # <bitbar.author.github>jangross</bitbar.author.github>
 # <bitbar.desc>Shows the remaining time of today's work shift as well as the time of arrival and when its time to leave</bitbar.desc>
