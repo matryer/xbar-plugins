@@ -6,26 +6,26 @@
 # <bitbar.author>Jan Groß</bitbar.author>
 # <bitbar.author.github>jangross</bitbar.author.github>
 # <bitbar.desc>Shows the remaining time of today's work shift as well as the time of arrival and when its time to leave</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/ajrmvzI.png</bitbar.image>
+# <bitbar.image>http://i.imgur.com/6VTobzU.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 
 #----- About ---------------------------------------#
-#   This plugin shows the remaining time #
-#   of today's work shift as well as the        #
-#   time of arrival and when its time to       #
-#   leave. Tested on Yosemite only!           #
-#                                                                        #              
-#   Written by Jan M. Groß                            #
-#   Icons from http://icons8.com                   #
-#                                                                        #
+#   This plugin shows the remaining time
+#   of today's work shift as well as the
+#   time of arrival and when its time to
+#   leave. Tested on Yosemite only!
+#
+#   Written by Jan M. Groß
+#   Icons from http://icons8.com
+#
 #----- Settings -------------------------------------#
-#                                                                        #
-shift_length = 8                                              # Shift length in hours
-lunch_break = 1                                            # Length of the lunch break in hours
-log_path = '/var/log/accountpolicy.log'      # Path to the file containing information about logins - Standard is "/var/log/accountpolicy.log"
-lunchsave_path = '/.lunchbreak.sst'           # File the lunchtime is being saved to (relative to current directory)
-#-----------------------------------------------------#
+#
+shift_length = 8                                     # Shift length in hours
+lunch_break = 1                                      # Length of the lunch break in hours
+log_path = '/var/log/accountpolicy.log'              # Path to the file containing information about logins - Standard is "/var/log/accountpolicy.log"
+lunchsave_path = '/.lunchbreak.sst'                  # File the lunchtime is being saved to (relative to current directory)
+#----------------------------------------------------#
 
 import os, sys
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -60,23 +60,23 @@ else:
 
 def get_first_login():
     #Reading the first line of the Log file
-    with open(log_path, 'r') as logFile: 
-        first_line = logFile.readline() 
-        return first_line 
+    with open(log_path, 'r') as logFile:
+        first_line = logFile.readline()
+        return first_line
 
 def get_lunchbreak_time():
     ''' Returns the first line from the .lunchbreak file '''
     if(os.path.exists(lunchsave_path)):
         #Reading the lunchbreak file
-        with open(lunchsave_path, 'r') as lunchFile: 
-            line = lunchFile.readline() 
+        with open(lunchsave_path, 'r') as lunchFile:
+            line = lunchFile.readline()
             return line
     else:
-        return "N/A" 
-        
+        return "N/A"
+
 def start_lunch_button():
     #Call this script with the --start-lunch flag
-    print "-- Start Lunch break | color=indianred bash="+__file__+ " param1='--start-lunch' terminal='false' color=green" 
+    print "-- Start Lunch break | color=indianred bash="+__file__+ " param1='--start-lunch' terminal='false' color=green"
 
 def print_lunch_info():
     last_lunch = get_lunchbreak_time()[:19]  #Has to be cut after 19 characters because unconverted data remains otherwise (probably the newline)
@@ -90,21 +90,21 @@ def print_lunch_info():
         if(lunch_begin.date() == datetime.now().date()):
             if not remaining_lunch.seconds/3600 > lunch_break :
                 print "-- Lunch time ends in: %dh %dm | image=" % (remaining_lunch.seconds/3600, (remaining_lunch.seconds/60)%60) + coffee_img
-            else: 
+            else:
                 print "-- No lunchtime left for today!"
                 lunchLeft = False
         else:
             start_lunch_button()
-        
-        dts_units = 1    
-        dts_span = 8            
+
+        dts_units = 1
+        dts_span = 8
         dts_unit = "week"
 
         # Last lunch time stuff
         print ("-- Last lunch break: \n--%s") % (str(((lunch_begin if (datetime.now().date() - lunch_begin.date()).days < dts_span else 'More than {0} {1} ago'.format(dts_units, dts_unit)) if lunch_begin.date() != datetime.now().date() else 'Today at ' + str(lunch_begin.time()))))
-        
 
-parts = get_first_login().split() #Splitting the first line of the logfile into parts 
+
+parts = get_first_login().split() #Splitting the first line of the logfile into parts
 
 #Time calculatios
 arrival_time = datetime.strptime(parts[2],"%H:%M:%S") #Stripping the time from the log. Be aware that because we are not stripping any date, it will be set to January 1st, 1900
@@ -122,9 +122,9 @@ def print_main():
     else :
         print "Shift ends in: %dh %dm | image=" % (remaining_time.seconds/3600, (remaining_time.seconds/60)%60) + watch_img# Calculating the hours and minutes based on the remaining seconds
 # Printing out the sub menus
-def print_sub():        
+def print_sub():
     print "---"
-    print "Now: " + datetime.now().strftime("%x-%H:%M:%S") 
+    print "Now: " + datetime.now().strftime("%x-%H:%M:%S")
     print "Arrived at " + arrival_time.strftime("%H:%M:%S") + "| color=green image=" + desk_img
     print "Shift ends at " + shift_end.strftime("%H:%M:%S") + "| color=green image=" + exit_img
     print "---"
