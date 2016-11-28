@@ -39,8 +39,7 @@ function containers() {
 
 DOCKER_MACHINES="$(docker-machine ls -q)"
 DLITE="$(which dlite)"
-CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
-if test -z "$DOCKER_MACHINES" && test -z "$DLITE" && test -z "$CONTAINERS"; then
+if test -z "$DOCKER_MACHINES" && test -z "$DLITE"; then
   echo "No docker machine or dlite found"
   exit 0
 fi
