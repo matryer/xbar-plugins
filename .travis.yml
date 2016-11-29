@@ -4,7 +4,7 @@ before_install:
   - brew unlink python && brew install python && pip install pyflakes
   - gem install rubocop --no-document
   - brew install shellcheck
-  - brew install node && npm install -g jshint
+  - brew unlink node && brew install node && npm install -g jshint
   - brew install cpanminus && sudo cpanm Mozilla::CA
   - brew install clisp
   - brew install python3 && pip3 install pyflakes
