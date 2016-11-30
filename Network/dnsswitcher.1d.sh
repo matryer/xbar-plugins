@@ -79,7 +79,7 @@ tmp_dir="/tmp"
 for dns_name in "${enabled_dns_address[@]}"
 do
   switcher="$tmp_dir/bitbar_dns_switcher_${dns_name}"
-  cat <<EOF > $switcher
+  cat <<EOF > "$switcher"
 dns_address='$(eval "echo \${\"${dns_name[*]}\"}")'
 networksetup -setdnsservers $network_service \$(echo \$dns_address)
 EOF
