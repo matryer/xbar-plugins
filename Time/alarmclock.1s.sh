@@ -11,6 +11,7 @@
 # Set Alarm
 if [ "$1" = 'set' ]; then
     alarm="$(osascript -e 'Tell application "System Events" to display dialog "Enter Alarm in 24 Hour Time format:" default answer ""' -e 'text returned of result' 2>/dev/null)"
+    # shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
         # Cancelled
         exit

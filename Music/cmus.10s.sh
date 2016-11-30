@@ -44,9 +44,7 @@ if [ "$1" = 'launch-terminal' ]; then
   exit
 fi
 
-cmus-remote -C status > /dev/null 2>&1
-
-if [ $? -ne 0 ]; then
+if cmus-remote -C status > /dev/null 2>&1; then
   echo "♫"
   echo "---"
   echo "cmus is not running"
