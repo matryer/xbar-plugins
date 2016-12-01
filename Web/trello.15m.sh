@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# <bitbar.title>Trello Recent Notifications</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
+# <bitbar.title>Trello Notifications</bitbar.title>
+# <bitbar.version>1.0.1</bitbar.version>
 # <bitbar.author>Kodie Grantham</bitbar.author>
 # <bitbar.author.github>kodie</bitbar.author.github>
 # <bitbar.desc>Shows unread Trello notification count with a drop-down list of clickable recent notifications</bitbar.desc>
