@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Meta Package Manager</bitbar.title>
-# <bitbar.version>v1.10.0</bitbar.version>
+# <bitbar.version>v1.11.0</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List package updates from several managers.</bitbar.desc>
@@ -24,7 +24,7 @@ import sys
 from operator import methodcaller
 from subprocess import PIPE, Popen, call
 
-# OS X does not put /usr/local/bin or /opt/local/bin in the PATH for GUI apps.
+# macOS does not put /usr/local/bin or /opt/local/bin in the PATH for GUI apps.
 # For some package managers this is a problem. Additioanlly Homebrew and
 # Macports are using different pathes.  So, to make sure we can always get to
 # the necessary binaries, we overload the path.  Current preference order would
@@ -162,12 +162,12 @@ class Homebrew(PackageManager):
         return self.update_cli()
 
 
-class Cask(Homebrew):
+class HomebrewCask(Homebrew):
 
     @property
     def active(self):
         """ Cask depends on vanilla Homebrew. """
-        if super(Cask, self).active:
+        if super(HomebrewCask, self).active:
             cask = Popen([self.cli, 'cask'], stdout=PIPE, stderr=PIPE)
             cask.communicate()
             return cask.returncode == 0
@@ -179,53 +179,60 @@ class Cask(Homebrew):
         Sample of brew cask output:
 
             $ brew cask list --versions
-            aerial 1.2beta5, 1.1
+            aerial 1.2beta5
             android-file-transfer latest
-            audacity 2.1.2-1453294898, 2.1.2
-            bitbar 1.9.1
-            chromium latest
-            firefox 47.0, 46.0.1, 46.0
-            flux 37.3, 37.2, 37.1, 36.8, 36.6
-            gimp 2.8.16-x86_64
-            java 1.8.0_92-b14
-            prey
-            ubersicht
+            audacity 2.1.2
+            bitbar 1.9.2
+            firefox 49.0.1
+            flux 37.7
+            gimp 2.8.18-x86_64
+            java 1.8.0_112-b16
 
             $ brew cask info aerial
             aerial: 1.2beta5
-            Aerial Screensaver
             https://github.com/JohnCoates/Aerial
-            /usr/local/Caskroom/aerial/1.2beta5 (0B)
-            https://github.com/caskroom/homebrew-cask/blob/master/Casks/aerial.rb
-            ==> Contents
-              Aerial.saver (screen_saver)
+            /usr/local/Caskroom/aerial/1.2beta5 (18 files, 6.6M)
+            From: https://github.com/caskroom/homebrew-cask/blob/master/Casks/aerial.rb
+            ==> Name
+            Aerial Screensaver
+            ==> Artifacts
+            Aerial.saver (screen_saver)
 
             $ brew cask info firefox
-            firefox: 47.0.1
+            firefox: 50.0.1
+            https://www.mozilla.org/firefox/
+            /usr/local/Caskroom/firefox/49.0.1 (107 files, 185.3M)
+            From: https://github.com/caskroom/homebrew-cask/blob/master/Casks/firefox.rb
+            ==> Name
             Mozilla Firefox
-            https://www.mozilla.org/en-US/firefox/
-            Not installed
-            https://github.com/caskroom/homebrew-cask/blob/master/Casks/firefox.rb
-            ==> Contents
-              Firefox.app (app)
+            ==> Artifacts
+            Firefox.app (app)
 
             $ brew cask info prey
-            prey: 1.5.1
-            Prey
-            https://preyproject.com
+            prey: 1.6.3
+            https://preyproject.com/
             Not installed
-            https://github.com/caskroom/homebrew-cask/blob/master/Casks/prey.rb
-            ==> Contents
-              prey-mac-1.5.1-x86.pkg (pkg)
+            From: https://github.com/caskroom/homebrew-cask/blob/master/Casks/prey.rb
+            ==> Name
+            Prey
+            ==> Artifacts
+            prey-mac-1.6.3-x86.pkg (pkg)
+            ==> Caveats
+            Prey requires your API key, found in the bottom-left corner of
+            the Prey web account Settings page, to complete installation.
+            The API key may be set as an environment variable as follows:
+
+              API_KEY="abcdef123456" brew cask install prey
 
             $ brew cask info ubersicht
-            ubersicht: 1.0.42
-            Übersicht
-            http://tracesof.net/uebersicht
+            ubersicht: 1.0.44
+            http://tracesof.net/uebersicht/
             Not installed
-            https://github.com/caskroom/homebrew-cask/blob/master/Casks/ubersicht.rb
-            ==> Contents
-              Übersicht.app (app)
+            From: https://github.com/caskroom/homebrew-cask/blob/master/Casks/ubersicht.rb
+            ==> Name
+            Übersicht
+            ==> Artifacts
+            Übersicht.app (app)
         """
         # `brew cask update` is just an alias to `brew update`. Perform the
         # action anyway to make it future proof.
@@ -259,11 +266,11 @@ class Cask(Homebrew):
             # Inspect the package closer to evaluate its state.
             output = self.run(self.cli, 'cask', 'info', name)
 
-            # Consider package as up-to-date if installed.
-            if output.find('Not installed') == -1:
-                continue
-
             latest_version = output.split('\n')[0].split(' ')[1]
+
+            # Skip already installed packages.
+            if version == latest_version:
+                continue
 
             self.updates.append({
                 'name': name,
@@ -278,7 +285,7 @@ class Cask(Homebrew):
         Homebrew.
         """
         return self.bitbar_cli_format(
-            "{} cask install {}".format(self.cli, package_name))
+            "{} cask reinstall {}".format(self.cli, package_name))
 
     def update_all_cli(self):
         """ Cask has no way to update all outdated packages.
@@ -290,7 +297,7 @@ class Cask(Homebrew):
     def update_all_cmd(self):
         self.sync()
         for package in self.updates:
-            call("{} cask install {}".format(self.cli, package['name']),
+            call("{} cask reinstall {}".format(self.cli, package['name']),
                  shell=True)
 
 
@@ -565,7 +572,8 @@ def print_menu():
     See: https://github.com/matryer/bitbar#plugin-api
     """
     # Instantiate all available package manager.
-    managers = [k() for k in [Homebrew, Cask, Pip2, Pip3, APM, NPM, Gems, MAS]]
+    managers = [k() for k in [
+        Homebrew, HomebrewCask, Pip2, Pip3, APM, NPM, Gems, MAS]]
 
     # Filters-out inactive managers.
     managers = [m for m in managers if m.active]
