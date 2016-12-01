@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# <bitbar.title>Trello Notifications</bitbar.title>
-# <bitbar.version>1.0.1</bitbar.version>
+# <bitbar.title>Trello Recent Notifications</bitbar.title>
+# <bitbar.version>1.0</bitbar.version>
 # <bitbar.author>Kodie Grantham</bitbar.author>
 # <bitbar.author.github>kodie</bitbar.author.github>
 # <bitbar.desc>Shows unread Trello notification count with a drop-down list of clickable recent notifications</bitbar.desc>
@@ -25,7 +25,7 @@ unreadColor="blue"  # Unread notification color (Color names or HEX values can b
 unreadFont=""       # Unread notification font
 unreadSize="15"     # Unread notification font size
 
-truncLength=""    # Number of characters before the notification text is truncated (Set to blank to disable truncating)
+truncLength="70"    # Number of characters before the notification text is truncated (Set to blank to disable truncating)
 truncSuffix="..."   # Text to use after truncating
 
 useIcons="1"  # Whether emoji icons should be displayed next to notifications or not (0=no, 1=yes)
