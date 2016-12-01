@@ -262,7 +262,7 @@ if [ "$error" == false ]; then
   x=0
 
   # No notifications were found
-  if [[ "${#ids[@]}" -lt 1 ]]; then echo ":see_no_evil: no notifications found"; fi
+  if [[ "${#ids[@]}" -lt 1 ]]; then echo "🙈 no notifications found"; fi
 
   for i in "${ids[@]}"; do
     # Get the data for this notification
