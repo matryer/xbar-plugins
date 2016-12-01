@@ -12,4 +12,4 @@ fi
 
 echo "⏏"
 echo '---'
-echo "Kill Dock | bash=$0 param1=kill terminal=false"
+echo "Kill Dock | bash='$0' param1=kill terminal=false"

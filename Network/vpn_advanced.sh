@@ -49,11 +49,11 @@ esac
 if [ -n "$(eval "$VPN_CONNECTED")" ]; then
     echo "VPN ✔"
     echo '---'
-    echo "Disconnect VPN | bash=$0 param1=disconnect terminal=false refresh=true"
+    echo "Disconnect VPN | bash='$0' param1=disconnect terminal=false refresh=true"
     exit
 else
     echo "VPN ✘"
     echo '---'
-    echo "Connect VPN | bash=$0 param1=connect terminal=false refresh=true"
+    echo "Connect VPN | bash='$0' param1=connect terminal=false refresh=true"
     exit
 fi

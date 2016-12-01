@@ -211,4 +211,4 @@ IFS=$'\n'
 echo "${top5[*]}"
 IFS=$OLDIFS
 echo "---"
-echo "Open Activity Monitor | bash=$0 param1=activity_monitor terminal=false"
+echo "Open Activity Monitor | bash='$0' param1=activity_monitor terminal=false"

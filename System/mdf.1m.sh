@@ -309,4 +309,4 @@ for ((i = 0; i < ${#capacity[@]}; i++)); do
     output_bmp | base64
     echo "---"
 done
-echo "Open Disk Utility | bash=$0 param1=disk_utility terminal=false"
+echo "Open Disk Utility | bash='$0' param1=disk_utility terminal=false"
