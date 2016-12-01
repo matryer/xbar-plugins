@@ -5,7 +5,7 @@
 # <bitbar.author>Cian Dowd</bitbar.author>
 # <bitbar.author.github>BrokenFlows</bitbar.author.github>
 # <bitbar.desc>Tells you when the ISS (space station) will pass over your location and for how long it will be above the horizon. Requires user to enter their location data in the script</bitbar.desc>
-# <bitbar.image>https://puu.sh/qZuIP/77aff0bf10.png</bitbar.image>
+# <bitbar.image>http://i.imgur.com/z4Tc4dt.png</bitbar.image>
 # <bitbar.dependencies>jq</bitbar.dependencies>
 
 
@@ -83,8 +83,8 @@ isspt100=$(date -r "$isspt10" +'%H:%M %d/%m/%y')
 
 curl -s --connect-timeout 30 -o /tmp/gcd.json "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latit,$longi&components=locality&language=en"
 
-issnowl=$(</tmp/gcd.json /usr/local/bin/jq -r '.results[0].formatted_address')
-issnowlc=$(</tmp/gcd.json grep "ZERO_RESULTS")
+issnowl=$(cat /tmp/gcd.json | /usr/local/bin/jq -r '.results[0].formatted_address')
+issnowlc=$(cat /tmp/gcd.json | grep "ZERO_RESULTS")
 
 issptl=$((isspt1 - issnowtu))
 
