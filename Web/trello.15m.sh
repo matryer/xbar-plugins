@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Trello Recent Notifications</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
+# <bitbar.title>Trello Notifications</bitbar.title>
+# <bitbar.version>1.0.1</bitbar.version>
 # <bitbar.author>Kodie Grantham</bitbar.author>
 # <bitbar.author.github>kodie</bitbar.author.github>
 # <bitbar.desc>Shows unread Trello notification count with a drop-down list of clickable recent notifications</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/8zJWG85.png</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-trello/master/screenshot.png</bitbar.image>
 # <bitbar.dependencies>jq</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/kodie/bitbar-trello</bitbar.abouturl>
 
@@ -25,6 +25,9 @@ unreadColor="blue"  # Unread notification color (Color names or HEX values can b
 unreadFont=""       # Unread notification font
 unreadSize="15"     # Unread notification font size
 
+truncLength=""    # Number of characters before the notification text is truncated (Set to blank to disable truncating)
+truncSuffix="..."   # Text to use after truncating
+
 useIcons="1"  # Whether emoji icons should be displayed next to notifications or not (0=no, 1=yes)
 
 unreadDisplay="1"       # Unread display mode (0=none, 1=beside icon/title, 2=rotated with icon/title, 3=in dropdown)
@@ -41,137 +44,137 @@ icon="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAA
 # nType_[$notificationType] - Notification type. Probably shouldn't ever be changed. (c=card, b=board, o=organization)
 
 # An attachment was added to a card
-nIcon_addedAttachmentToCard="paperclip"
+nIcon_addedAttachmentToCard="📎"
 nText_addedAttachmentToCard="%name% added an attachment to card %card%"
 nType_addedAttachmentToCard="c"
 
 # The current member was added to a board
-nIcon_addedToBoard="clipboard"
+nIcon_addedToBoard="📋"
 nText_addedToBoard="%name% added you to the board %board%"
 nType_addedToBoard="b"
 
 # The current member was added to a card
-nIcon_addedToCard="green_book"
+nIcon_addedToCard="📗"
 nText_addedToCard="%name% added you to the card %card%"
 nType_addedToCard="c"
 
 # The current member was added to an organization
-nIcon_addedToOrganization="house"
+nIcon_addedToOrganization="🏠"
 nText_addedToOrganization="%name% added you to the organization %organization%"
 nType_addedToOrganization="o"
 
 # Another member was added to a card
-nIcon_addedMemberToCard="green_book"
+nIcon_addedMemberToCard="📗"
 nText_addedMemberToCard="%name% was added to the card %card%"
 nType_addedMemberToCard="c"
 
 # The current member was added to a board as an admin
-nIcon_addAdminToBoard="clipboard"
+nIcon_addAdminToBoard="📋"
 nText_addAdminToBoard="%name% added you as an admin on the board %board%"
 nType_addAdminToBoard="b"
 
 # The current member was added to an organization as an admin
-nIcon_addAdminToOrganization="house"
+nIcon_addAdminToOrganization="🏠"
 nText_addAdminToOrganization="%name% added you as an admin of the organization %organization%"
 nType_addAdminToOrganization="o"
 
 # A card was changed
-nIcon_changeCard="pencil"
+nIcon_changeCard="📝"
 nText_changeCard="%name% updated the card %card%"
 nType_changeCard="c"
 
 # A board was closed
-nIcon_closeBoard="clipboard"
+nIcon_closeBoard="📋"
 nText_closeBoard="%name% closed the board %board%"
 nType_closeBoard="b"
 
 # Another member commented on a card
-nIcon_commentCard="speech_balloon"
+nIcon_commentCard="💬"
 nText_commentCard="%name% commented on the card %card%"
 nType_commentCard="c"
 
 # Another member created a card
-nIcon_createdCard="orange_book"
+nIcon_createdCard="📙"
 nText_createdCard="%name% created the card %card%"
 nType_createdCard="c"
 
 # The current member was invited to a board
-nIcon_invitedToBoard="clipboard"
+nIcon_invitedToBoard="📋"
 nText_invitedToBoard="%name% invited you to the board %board%"
 nType_invitedToBoard="b"
 
 # The current member was invited to an organization
-nIcon_invitedToOrganization="house"
+nIcon_invitedToOrganization="🏠"
 nText_invitedToOrganization="%name% invited you to the organization %organization%"
 nType_invitedToOrganization="o"
 
 # The current member was removed from a board
-nIcon_removedFromBoard="clipboard"
+nIcon_removedFromBoard="📋"
 nText_removedFromBoard="%name% removed you from the board %board%"
 nType_removedFromBoard="b"
 
 # The current member was removed from a card
-nIcon_removedFromCard="closed_book"
+nIcon_removedFromCard="📕"
 nText_removedFromCard="%name% removed you from the card %card%"
 nType_removedFromCard="c"
 
 # Another member was removed from a card
-nIcon_removedMemberFromCard="closed_book"
+nIcon_removedMemberFromCard="📕"
 nText_removedMemberFromCard="%name% was removed from the card %card%"
 nType_removedMemberFromCard="c"
 
 # The current member was removed from an organization
-nIcon_removedFromOrganization="house"
+nIcon_removedFromOrganization="🏠"
 nText_removedFromOrganization="%name% removed you from the organization %organization%"
 nType_removedFromOrganization="o"
 
 # The current member was mentioned on a card
-nIcon_mentionedOnCard="bell"
+nIcon_mentionedOnCard="🔔"
 nText_mentionedOnCard="%name% mentioned you on the card %card%"
 nType_mentionedOnCard="c"
 
 # ???
-nIcon_unconfirmedInvitedToBoard="gray_question"
+nIcon_unconfirmedInvitedToBoard="❔"
 nText_unconfirmedInvitedToBoard="%name% unconfirmedInvitedToBoard %board%"
 nType_unconfirmedInvitedToBoard="b"
 
 # ???
-nIcon_unconfirmedInvitedToOrganization="gray_question"
+nIcon_unconfirmedInvitedToOrganization="❔"
 nText_unconfirmedInvitedToOrganization="%name% unconfirmedInvitedToOrganization %organization%"
 nType_unconfirmedInvitedToOrganization="o"
 
 # A checklist item on a card was updated
-nIcon_updateCheckItemStateOnCard="white_check_mark"
+nIcon_updateCheckItemStateOnCard="✅"
 nText_updateCheckItemStateOnCard="%name% updated a checklist on the card %card%"
 nType_updateCheckItemStateOnCard="c"
 
 # The current member was made an admin of a board
-nIcon_makeAdminOfBoard="clipboard"
+nIcon_makeAdminOfBoard="📋"
 nText_makeAdminOfBoard="%name% made you an admin on the board %board%"
 nType_makeAdminOfBoard="b"
 
 # The current member was made an admin of an organization
-nIcon_makeAdminOfOrganization="house"
+nIcon_makeAdminOfOrganization="🏠"
 nText_makeAdminOfOrganization="%name% made you an admin of the organization %organization%"
 nType_makeAdminOfOrganization="o"
 
 # A card's due date is approaching
-nIcon_cardDueSoon="clock4"
+nIcon_cardDueSoon="🕓"
 nText_cardDueSoon="The card %card% is due soon"
 nType_cardDueSoon="c"
 
 # Another member declined the current member's invitation to a board
-nIcon_declinedInvitationToBoard="clipboard"
+nIcon_declinedInvitationToBoard="📋"
 nText_declinedInvitationToBoard="%name% declined your invite to the board %board%"
 nType_declinedInvitationToBoard="b"
 
 # Another member declined the current member's invitation to an organization
-nIcon_declinedInvitationToOrganization="house"
+nIcon_declinedInvitationToOrganization="🏠"
 nText_declinedInvitationToOrganization="%name% declined your invite to the organization %organization%"
 nType_declinedInvitationToOrganization="o"
 
 # Another member joined Trello because of the current member's recommendation
-nIcon_memberJoinedTrello="wave"
+nIcon_memberJoinedTrello="👋"
 nText_memberJoinedTrello="%name% joined Trello on your recommendation"
 nType_memberJoinedTrello="o"
 
@@ -209,6 +212,9 @@ else
   if [ ! "$response" ]; then response="no response"; fi
 fi
 
+# Set the title to "Trello" if we're running it BitBar and both the title and icon have been set to blank
+if [[ "${BitBar}" && ! "$title" && ! "$icon" ]]; then title="Trello"; fi
+
 # If there's no errors, get the unread notification count
 if [[ ! "$unreadDisplay" == "0" && "$error" == false ]]; then
   unread=($(echo "$response" | jq -c '.[].unread | select(.==true)'))
@@ -220,16 +226,23 @@ if [[ ! "$unreadDisplay" == "0" && "$error" == false ]]; then
   fi
 fi
 
-# Set the icon if there is one
-if [ "$icon" ]; then icon="templateImage="$icon; fi
+# BitBar title formatting
+if [ "${BitBar}" ]; then
+  # Set title properties
+  titleProperties=" | dropdown=false"
+
+  # Set the icon if there is one
+  if [ "$icon" ]; then titleProperties="$titleProperties templateImage="$icon; fi
+fi
 
 # Our first echo
-echo "$title | dropdown=false $icon"
+titleEcho="$title$titleProperties"
+if [ "$titleEcho" ]; then echo "$titleEcho"; fi
 
 # Show an exclamation icon in the case of an error, or
 # display unread count if unreadDisplay is set to 2 or 3
 if [ "$error" == true ]; then
-  echo ":exclamation: | dropdown=false";
+  if [ "${BitBar}" ]; then echo "⁉️ | dropdown=false"; fi
 elif [[ "$unread" -gt 0 ]]; then
   if [ "$unreadDisplay" == "2" ]; then
     echo "$unreadEcho"
@@ -239,10 +252,10 @@ elif [[ "$unread" -gt 0 ]]; then
   fi
 fi
 
-echo "---"
+if [ "$titleEcho" ]; then echo "---"; fi
 
 # Echo the error in the drop-down
-if [ "$error" == true ]; then echo ":exclamation: $response"; fi
+if [ "$error" == true ]; then echo "⁉️ $response"; fi
 
 # If there's no errors, let's loop through the notifications
 if [ "$error" == false ]; then
@@ -300,30 +313,40 @@ if [ "$error" == false ]; then
       itemText="${itemText//%name%/$memberName}"
     fi
 
-    # Item properties
-    itemProperties="href="$itemLink
+    # Only set item properties if we're in BitBar
+    if [ "${BitBar}" ]; then
+      # Item properties
+      itemProperties=" | href="$itemLink
 
-    # Colors and fonts
-    itemUnreadStatus=$(echo "$this" | jq -r '.unread')
-    if [ "$itemUnreadStatus" == true ]; then
-      color=$unreadColor
-      font=$unreadFont
-      size=$unreadSize
-    else
-      color=$readColor
-      font=$readFont
-      size=$readSize
+      # Colors and fonts
+      itemUnreadStatus=$(echo "$this" | jq -r '.unread')
+      if [ "$itemUnreadStatus" == true ]; then
+        color=$unreadColor
+        font=$unreadFont
+        size=$unreadSize
+      else
+        color=$readColor
+        font=$readFont
+        size=$readSize
+      fi
+
+      if [ "$color" ]; then itemProperties="$itemProperties color="$color; fi
+      if [ "$font" ]; then itemProperties="$itemProperties font="$font; fi
+      if [ "$size" ]; then itemProperties="$itemProperties size="$size; fi
     fi
 
-    if [ "$color" ]; then itemProperties="$itemProperties color="$color; fi
-    if [ "$font" ]; then itemProperties="$itemProperties font="$font; fi
-    if [ "$size" ]; then itemProperties="$itemProperties size="$size; fi
+    # Add a space after icon if there is one
+    if [ "$itemIcon" ]; then itemIcon="$itemIcon "; fi
 
-    # Add colons and a space to icon if there is one
-    if [ "$itemIcon" ]; then itemIcon=":$itemIcon: "; fi
+    # Truncate the item text
+    if [ "$truncLength" ]; then
+      if [ "${#itemText}" -gt "$truncLength" ]; then
+        itemText="${itemText:0:$truncLength-${#truncSuffix}}$truncSuffix"
+      fi
+    fi
 
     # Print it
-    echo "$itemIcon$itemText | $itemProperties"
+    echo "$itemIcon$itemText$itemProperties"
 
     # Break out if we hit our limit
     if (($x == (($limit - 1)))); then break; fi
