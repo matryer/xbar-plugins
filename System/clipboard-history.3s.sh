@@ -40,6 +40,7 @@ if [ "$CLIPBOARD" != "" ]; then
   echo "$CLIPBOARD" | diff "$tmp_dir/item-current.pb" - &> /dev/null
 
   # If so, the diff command will exit wit a non-zero status
+  # shellcheck disable=SC2181
   if [ "$?" != "0" ]; then
 
     # Move the history backwards
