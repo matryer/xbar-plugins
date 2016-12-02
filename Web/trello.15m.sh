@@ -1,4 +1,7 @@
 #!/bin/bash
+# shellcheck disable=SC2034
+# shellcheck disable=SC2154
+# shellcheck source=/dev/null
 
 # <bitbar.title>Trello Notifications</bitbar.title>
 # <bitbar.version>1.0.1</bitbar.version>
@@ -194,14 +197,14 @@ createConfigFile="1"              # Create the config file if one is not found (
 if [ -e "$configFile" ];
   then . "$configFile"
 elif [ "$createConfigFile" == "1" ]; then
-  printf "# To get your Trello API Key and Token, go to https://trello.com/app-key\napiKey=\"${apiKey}\"\napiToken=\"${apiToken}\"" > $configFile
+  printf "# To get your Trello API Key and Token, go to https://trello.com/app-key\napiKey=\"%s\"\napiToken=\"%s\"" "$apiKey" "$apiToken" > "$configFile"
 fi
 
 # Export PATH
-export PATH='/usr/local/bin:/usr/bin:$PATH'
+export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 # Get response from API
-response=$(curl -s -X GET $apiLink"?key="$apiKey"&token="$apiToken"&limit="$limit)
+response=$(curl -s -X GET "$apiLink?key=$apiKey&token=$apiToken&limit=$limit")
 
 # Check for errors
 if [ "${response:0:1}" == "[" ]; then
@@ -218,10 +221,10 @@ if [[ "${BitBar}" && ! "$title" && ! "$icon" ]]; then title="Trello"; fi
 # If there's no errors, get the unread notification count
 if [[ ! "$unreadDisplay" == "0" && "$error" == false ]]; then
   unread=($(echo "$response" | jq -c '.[].unread | select(.==true)'))
-  unread=${#unread[@]}
+  unreadCount=${#unread[@]}
 
-  if [[ "$unread" -gt 0 ]]; then
-    unreadEcho=${unreadEcho//%unread%/$unread}
+  if [[ "$unreadCount" -gt 0 ]]; then
+    unreadEcho=${unreadEcho//%unread%/$unreadCount}
     if [ "$unreadDisplay" == "1" ]; then title="$title$unreadEcho"; fi
   fi
 fi
@@ -243,7 +246,7 @@ if [ "$titleEcho" ]; then echo "$titleEcho"; fi
 # display unread count if unreadDisplay is set to 2 or 3
 if [ "$error" == true ]; then
   if [ "${BitBar}" ]; then echo "⁉️ | dropdown=false"; fi
-elif [[ "$unread" -gt 0 ]]; then
+elif [[ "$unreadCount" -gt 0 ]]; then
   if [ "$unreadDisplay" == "2" ]; then
     echo "$unreadEcho"
   elif [ "$unreadDisplay" == "3" ]; then
@@ -349,7 +352,7 @@ if [ "$error" == false ]; then
     echo "$itemIcon$itemText$itemProperties"
 
     # Break out if we hit our limit
-    if (($x == (($limit - 1)))); then break; fi
+    if [[ $x == $((limit-1)) ]]; then break; fi
 
     # Increment x
     ((x+=1))
