@@ -22,7 +22,7 @@ fi
 
 function kilo_to_mega {
   # in networking 1 mbit is 1000 kilobits (not 1024)
-  printf "%0.3f\n" $(bc -q <<< scale=3\;${1}/1000)
+  printf "%0.3f\n" "$(bc -q <<< scale=3\;"${1}"/1000)"
 }
 
 function get_ifstat {
@@ -33,10 +33,10 @@ function get_ifstat {
 }
 
 function print_ifstat {
-    kbits_in=$(echo $1 | awk '{ print $1 }')
-    kbits_out=$(echo $1 | awk '{ print $2 }')
-    mbits_in=$(kilo_to_mega $kbits_in)
-    mbits_out=$(kilo_to_mega $kbits_out)
+    kbits_in=$(echo "$1" | awk '{ print $1 }')
+    kbits_out=$(echo "$1" | awk '{ print $2 }')
+    mbits_in=$(kilo_to_mega "$kbits_in")
+    mbits_out=$(kilo_to_mega "$kbits_out")
     echo "▼ $mbits_in - $mbits_out ▲"
 
 }
