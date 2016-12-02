@@ -92,7 +92,6 @@ def print_lunch_info():
                 print "-- Lunch time ends in: %dh %dm | image=" % (remaining_lunch.seconds/3600, (remaining_lunch.seconds/60)%60) + coffee_img
             else:
                 print "-- No lunchtime left for today!"
-                lunchLeft = False
         else:
             start_lunch_button()
 
