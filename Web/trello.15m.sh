@@ -3,7 +3,7 @@
 # shellcheck disable=SC2154
 # shellcheck source=/dev/null
 
-# <bitbar.title>Trello Notifications</bitbar.title>
+# <bitbar.title>Trello</bitbar.title>
 # <bitbar.version>1.0.1</bitbar.version>
 # <bitbar.author>Kodie Grantham</bitbar.author>
 # <bitbar.author.github>kodie</bitbar.author.github>
