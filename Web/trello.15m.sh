@@ -4,13 +4,15 @@
 # shellcheck source=/dev/null
 
 # <bitbar.title>Trello</bitbar.title>
-# <bitbar.version>1.0.1</bitbar.version>
+# <bitbar.version>1.0.2</bitbar.version>
 # <bitbar.author>Kodie Grantham</bitbar.author>
 # <bitbar.author.github>kodie</bitbar.author.github>
 # <bitbar.desc>Shows unread Trello notification count with a drop-down list of clickable recent notifications</bitbar.desc>
 # <bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-trello/master/screenshot.png</bitbar.image>
 # <bitbar.dependencies>jq</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/kodie/bitbar-trello</bitbar.abouturl>
+
+ver="1.0.2"
 
 ### Note: The below variables can be overwritten by setting them in the ~/.bitbar_trello file
 
@@ -34,7 +36,7 @@ truncSuffix="..."   # Text to use after truncating
 useIcons="1"  # Whether emoji icons should be displayed next to notifications or not (0=no, 1=yes)
 
 unreadDisplay="1"       # Unread display mode (0=none, 1=beside icon/title, 2=rotated with icon/title, 3=in dropdown)
-unreadEcho="(%unread%)" # Unread count text (%unread% will be replaced with unread count number)
+unreadEcho="%unread%"   # Unread count text (%unread% will be replaced with unread count number)
 
 title=""  # Text to be displayed on system bar (Can be set to blank to display icon only)
 
@@ -47,9 +49,9 @@ icon="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAA
 # nType_[$notificationType] - Notification type. Probably shouldn't ever be changed. (c=card, b=board, o=organization)
 
 # An attachment was added to a card
-nIcon_addedAttachmentToCard="📎"
-nText_addedAttachmentToCard="%name% added an attachment to card %card%"
-nType_addedAttachmentToCard="c"
+nIcon_addAttachmentToCard="📎"
+nText_addAttachmentToCard="%name% added an attachment to card %card%"
+nType_addAttachmentToCard="c"
 
 # The current member was added to a board
 nIcon_addedToBoard="📋"
@@ -183,7 +185,7 @@ nType_memberJoinedTrello="o"
 
 ### End of notification settings
 
-apiLink="https://api.trello.com/1/members/me/notifications" # API Link. Probably shouldn't ever be changed.
+apiLink="https://api.trello.com/1" # API Link. Probably shouldn't ever be changed.
 nLink="https://trello.com"                                  # Base for notification links. Probably shouldn't ever be changed.
 
 configFile="$HOME/.bitbar_trello" # Config file path
@@ -194,8 +196,8 @@ createConfigFile="1"              # Create the config file if one is not found (
 ###
 
 # Check if there's a config file
-if [ -e "$configFile" ];
-  then . "$configFile"
+if [ -e "$configFile" ]; then
+  . "$configFile"
 elif [ "$createConfigFile" == "1" ]; then
   printf "# To get your Trello API Key and Token, go to https://trello.com/app-key\napiKey=\"%s\"\napiToken=\"%s\"" "$apiKey" "$apiToken" > "$configFile"
 fi
@@ -203,8 +205,13 @@ fi
 # Export PATH
 export PATH="/usr/local/bin:/usr/bin:$PATH"
 
+# "Mark All Notifications As Read" function
+if [ "$1" == "markRead" ]; then
+  curl -s -X POST "$apiLink/notifications/all/read?key=$apiKey&token=$apiToken"
+fi
+
 # Get response from API
-response=$(curl -s -X GET "$apiLink?key=$apiKey&token=$apiToken&limit=$limit")
+response=$(curl -s -X GET "$apiLink/members/me/notifications?key=$apiKey&token=$apiToken&limit=$limit")
 
 # Check for errors
 if [ "${response:0:1}" == "[" ]; then
@@ -264,97 +271,116 @@ if [ "$error" == true ]; then echo "⁉️ $response"; fi
 if [ "$error" == false ]; then
   x=0
 
-  # No notifications were found
-  if [[ "${#ids[@]}" -lt 1 ]]; then echo "🙈 no notifications found"; fi
+  # Notifications were found
+  if [[ "${#ids[@]}" -gt 0 ]]; then
+    for i in "${ids[@]}"; do
+      # Get the data for this notification
+      this=$(echo "$response" | jq -c '.['$x']')
+      notificationType=$(echo "$this" | jq -r '.type')
 
-  for i in "${ids[@]}"; do
-    # Get the data for this notification
-    this=$(echo "$response" | jq -c '.['$x']')
-    notificationType=$(echo "$this" | jq -r '.type')
+      # Get notification type settings
+      if [ "$useIcons" == "1" ]; then itemIcon="nIcon_$notificationType"; itemIcon=${!itemIcon}; fi
+      itemText="nText_$notificationType"; itemText=${!itemText}
+      itemType="nType_$notificationType"; itemType=${!itemType}
 
-    # Get notification type settings
-    if [ "$useIcons" == "1" ]; then itemIcon="nIcon_$notificationType"; itemIcon=${!itemIcon}; fi
-    itemText="nText_$notificationType"; itemText=${!itemText}
-    itemType="nType_$notificationType"; itemType=${!itemType}
+      # Start the link
+      itemLink="$nLink"
 
-    # Start the link
-    itemLink="$nLink"
+      # Deal with different notification types
+      case $itemType in
+        # Cards
+        "c")
+          shortLink=$(echo "$this" | jq -r '.data.card.shortLink')
+          itemLink="$itemLink/c/$shortLink"
 
-    # Deal with different notification types
-    case $itemType in
-      # Cards
-      "c")
-        shortLink=$(echo "$this" | jq -r '.data.card.shortLink')
-        itemLink="$itemLink/c/$shortLink"
+          cardName=$(echo "$this" | jq -r '.data.card.name')
+          itemText="${itemText//%card%/$cardName}"
+        ;;
 
-        cardName=$(echo "$this" | jq -r '.data.card.name')
-        itemText="${itemText//%card%/$cardName}"
-      ;;
+        # Boards
+        "b")
+          shortLink=$(echo "$this" | jq -r '.data.board.shortLink')
+          itemLink="$itemLink/b/$shortLink"
 
-      # Boards
-      "b")
-        shortLink=$(echo "$this" | jq -r '.data.board.shortLink')
-        itemLink="$itemLink/b/$shortLink"
+          boardName=$(echo "$this" | jq -r '.data.board.name')
+          itemText="${itemText//%board%/$boardName}"
+        ;;
 
-        boardName=$(echo "$this" | jq -r '.data.board.name')
-        itemText="${itemText//%board%/$boardName}"
-      ;;
+        # Organizations
+        "o")
+          orgId=$(echo "$this" | jq -r '.data.organization.id')
+          itemLink="$itemLink/$orgId"
 
-      # Organizations
-      "o")
-        orgId=$(echo "$this" | jq -r '.data.organization.id')
-        itemLink="$itemLink/$orgId"
+          orgName=$(echo "$this" | jq -r '.data.organization.name')
+          itemText="${itemText//%organization%/$orgName}"
+        ;;
+      esac
 
-        orgName=$(echo "$this" | jq -r '.data.organization.name')
-        itemText="${itemText//%organization%/$orgName}"
-      ;;
-    esac
-
-    # Name replace
-    memberName=$(echo "$this" | jq -r -c ".memberCreator.fullName")
-    if [ "$memberName" ]; then
-      itemText="${itemText//%name%/$memberName}"
-    fi
-
-    # Only set item properties if we're in BitBar
-    if [ "${BitBar}" ]; then
-      # Item properties
-      itemProperties=" | href="$itemLink
-
-      # Colors and fonts
-      itemUnreadStatus=$(echo "$this" | jq -r '.unread')
-      if [ "$itemUnreadStatus" == true ]; then
-        color=$unreadColor
-        font=$unreadFont
-        size=$unreadSize
-      else
-        color=$readColor
-        font=$readFont
-        size=$readSize
+      # Name replace
+      memberName=$(echo "$this" | jq -r -c ".memberCreator.fullName")
+      if [ "$memberName" ]; then
+        itemText="${itemText//%name%/$memberName}"
       fi
 
-      if [ "$color" ]; then itemProperties="$itemProperties color="$color; fi
-      if [ "$font" ]; then itemProperties="$itemProperties font="$font; fi
-      if [ "$size" ]; then itemProperties="$itemProperties size="$size; fi
-    fi
+      # Only set item properties if we're in BitBar
+      if [ "${BitBar}" ]; then
+        # Item properties
+        itemProperties=" | href="$itemLink
 
-    # Add a space after icon if there is one
-    if [ "$itemIcon" ]; then itemIcon="$itemIcon "; fi
+        # Colors and fonts
+        itemUnreadStatus=$(echo "$this" | jq -r '.unread')
+        if [ "$itemUnreadStatus" == true ]; then
+          color=$unreadColor
+          font=$unreadFont
+          size=$unreadSize
+        else
+          color=$readColor
+          font=$readFont
+          size=$readSize
+        fi
 
-    # Truncate the item text
-    if [ "$truncLength" ]; then
-      if [ "${#itemText}" -gt "$truncLength" ]; then
-        itemText="${itemText:0:$truncLength-${#truncSuffix}}$truncSuffix"
+        if [ "$color" ]; then itemProperties="$itemProperties color="$color; fi
+        if [ "$font" ]; then itemProperties="$itemProperties font="$font; fi
+        if [ "$size" ]; then itemProperties="$itemProperties size="$size; fi
       fi
+
+      # Add a space after icon if there is one
+      if [ "$itemIcon" ]; then itemIcon="$itemIcon "; fi
+
+      # Truncate the item text
+      if [ "$truncLength" ]; then
+        if [ "${#itemText}" -gt "$truncLength" ]; then
+          itemText="${itemText:0:$truncLength-${#truncSuffix}}$truncSuffix"
+        fi
+      fi
+
+      # Print it
+      echo "$itemIcon$itemText$itemProperties"
+
+      # Break out if we hit our limit
+      if [[ $x == $((limit-1)) ]]; then break; fi
+
+      # Increment x
+      ((x+=1))
+    done
+
+    # Display "Mark All Notificatins As Read" option if there are any unread notifications
+    if [[ "${BitBar}" && "$unreadCount" -gt 0 ]]; then
+      echo "---"
+      echo "Mark All Notifications As Read | bash='$0' param1=markRead refresh=true terminal=false"
     fi
+  else
+    # No notifications were found
+    echo "🙈 no notifications found"
+  fi
+fi
 
-    # Print it
-    echo "$itemIcon$itemText$itemProperties"
-
-    # Break out if we hit our limit
-    if [[ $x == $((limit-1)) ]]; then break; fi
-
-    # Increment x
-    ((x+=1))
-  done
+# Display about menu
+if [ "${BitBar}" ]; then
+  echo "---"
+  echo "BitBar Trello Plugin v$ver"
+  echo "--by Kodie Grantham | href=http://kodieg.com"
+  echo "-----"
+  echo "--GitHub Page | href=https://github.com/kodie/bitbar-trello"
+  echo "--Changelog | href=https://github.com/kodie/bitbar-trello/blob/master/CHANGELOG.md"
 fi
