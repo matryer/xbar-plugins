@@ -2,20 +2,44 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v3.1.0</bitbar.version>
+# <bitbar.version>v3.5.0</bitbar.version>
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Detailed weather plugin powered by DarkSky with auto location lookup. Supports metric and imperial units. Needs API key from https://darksky.net/dev/.</bitbar.desc>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/683200/16276583/ff267f36-387c-11e6-9fd0-fc57b459e967.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
+
+# -----------------------------------------------------------------------------------
+# For a more accurate location lookup, download and install CoreLocationCLI
+# Available here: https://github.com/fulldecent/corelocationcli/releases
+# This will allow a more percise location lookup as it uses native API for loc lookup
+# -----------------------------------------------------------------------------------
+
 import json
 import urllib2
 import textwrap
 from random import randint
+import commands
 
-api_key = '' # get yours at https://darksky.net/dev
-units = '' # set to si for metric, leave blank for imperial
+# get yours at https://darksky.net/dev
+api_key = ''
+
+# set to si for metric, leave blank for imperial
+units = ''
+
+# optional, see message above
+core_location_cli_path = '~/CoreLocationCLI'
+
+def mac_location_lookup():
+  try:
+    exit_code, loc = commands.getstatusoutput(core_location_cli_path + ' -once -format "%latitude,%longitude"')
+    if exit_code != 0:
+      raise ValueError('CoreLocationCLI not found')
+    formatted_city_name = reverse_latlong_lookup(loc)
+    return { "loc": loc, "preformatted": formatted_city_name }
+  except:
+    return False
 
 def auto_loc_lookup():
   try:
@@ -23,6 +47,16 @@ def auto_loc_lookup():
     return json.load(location)
   except urllib2.URLError:
     return False
+
+def reverse_latlong_lookup(loc):
+  try:
+    location = json.load(urllib2.urlopen('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + loc  + '&sensor=true'))
+    if 'results' in location:
+      return location['results'][0]['formatted_address'].encode('UTF-8')
+    else:
+      return 'Could not lookup location name'
+  except:
+    return 'Could not lookup location name'
 
 def full_country_name(country):
   try:
@@ -72,7 +106,7 @@ def get_wx():
   if api_key == "":
     return False
 
-  location = auto_loc_lookup()
+  location = mac_location_lookup() or auto_loc_lookup()
 
   if location is False:
     return False
@@ -150,6 +184,9 @@ def get_wx():
     if 'loc' in location:
       weather_data['loc'] = str(location['loc'])
 
+    if 'preformatted' in location:
+      weather_data['preformatted'] = location['preformatted']
+
   except KeyError:
     return False
 
@@ -183,6 +220,8 @@ def render_wx():
     print weather_data['city'] + ', ' + weather_data['region'] + ' | href=https://darksky.net/' + weather_data['loc']
   elif 'country' in weather_data:
     print weather_data['country'] + ' | href=https://darksky.net/' + weather_data['loc']
+  elif 'preformatted' in weather_data:
+    print weather_data['preformatted'] + ' | href=https://darksky.net/' + weather_data['loc']
 
   if 'condition' in weather_data and 'feels_like' in weather_data:
     print weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like']
