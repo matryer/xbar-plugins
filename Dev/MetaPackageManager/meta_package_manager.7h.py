@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Meta Package Manager</bitbar.title>
-# <bitbar.version>v2.1.0</bitbar.version>
+# <bitbar.version>v2.1.1</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List outdated packages and manage upgrades.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <bitbar.dependencies>python,mpm</bitbar.dependencies>
 # <bitbar.image>https://i.imgur.com/CiQpQ42.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/kdeldycke/meta-package-manager</bitbar.abouturl>
 
@@ -55,12 +55,10 @@ def run(*args):
     except OSError:
         return None, None, "`{}` executable not found.".format(args[0])
     output, error = process.communicate()
-    output = output.decode('utf-8').strip()
-    error = error.decode('utf-8').strip()
     return (
         process.returncode,
-        output if output else None,
-        error if error else None)
+        output.decode('utf-8') if output else None,
+        error.decode('utf-8') if error else None)
 
 
 def echo(message):
@@ -84,7 +82,9 @@ def print_error_header():
 def print_error(message):
     """ Print a formatted error line by line, in red. """
     for line in message.strip().split("\n"):
-        echo("{} | color=red font=Menlo size=10".format(line))
+        echo(
+            "{} | color=red font=Menlo size=10 trim=false "
+            "emojize=false".format(line))
 
 
 def print_menu():
@@ -99,10 +99,10 @@ def print_menu():
         print_error(error)
         echo("---")
         echo(
-            "Install / upgrade Meta Package Manager. | bash=pip "
+            "Install / upgrade `mpm` CLI. | bash=pip param1=install "
             # TODO: Add minimal requirement on Python package.
-            "param1=install param2=--upgrade param3=meta-package-manager "
-            "terminal=true refresh=true".format(error))
+            "param2=--upgrade param3=meta-package-manager terminal=true "
+            "refresh=true".format(error))
         return
 
     # Fetch list of all outdated packages from all package manager available on
@@ -132,7 +132,7 @@ def print_menu():
         if manager['error']:
             print_error(manager['error'])
 
-        echo("{} outdated {} package{}".format(
+        echo("{} outdated {} package{} | emojize=false".format(
             len(manager['packages']),
             manager['name'],
             's' if len(manager['packages']) != 1 else ''))
@@ -143,8 +143,9 @@ def print_menu():
 
         for pkg_info in manager['packages']:
             echo(
-                "{name} {installed_version} → {latest_version} | "
-                "{upgrade_cli} terminal=false refresh=true".format(**pkg_info))
+                "{name} {installed_version} → {latest_version} | {upgrade_cli}"
+                " terminal=false refresh=true emojize=false".format(
+                    **pkg_info))
 
 
 if __name__ == '__main__':
