@@ -17,7 +17,7 @@
  * <bitbar.title>Travel time</bitbar.title>
  * <bitbar.version>1.1</bitbar.version>
  * <bitbar.author>Yann Milin</bitbar.author>
- * <bitbar.author.github>katsuo11</bitbar.author.github>
+ * <bitbar.author.github>ymilin</bitbar.author.github>
  * <bitbar.desc>Provides travel distance and time to your favorite destination, with traffic conditions. A Google Developer Account is required with access to "Google Maps Distance Matrix API" and "Google Maps Geolocation API"</bitbar.desc>
  * <bitbar.image>http://i.imgur.com/Ui6I4YH.png</bitbar.image>
  * <bitbar.dependencies>php >= 5.4.0</bitbar.dependencies>
