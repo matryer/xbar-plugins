@@ -3,7 +3,7 @@
 # <bitbar.title>RabbitMQ Status</bitbar.title>
 # <bitbar.version>1.0</bitbar.version>
 # <bitbar.author>Yann Milin</bitbar.author>
-# <bitbar.author.github>katsuo11</bitbar.author.github>
+# <bitbar.author.github>ymilin</bitbar.author.github>
 # <bitbar.desc>Keep an eye on your RabbitMQ server status from your menu bar !</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/Gz8FCJL.png</bitbar.image>
 # <bitbar.dependencies>php >= 5.4.0</bitbar.dependencies>
