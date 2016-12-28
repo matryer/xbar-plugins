@@ -5,7 +5,7 @@
 # <bitbar.author>Lorenzo Bugiani</bitbar.author>
 # <bitbar.desc>Simple plugin to switch between multiple hosts files</bitbar.desc>
 
-HOSTS_LOCATION="/Users/master/Desktop/btp"
+HOSTS_LOCATION=""
 
 if [ -z "$HOSTS_LOCATION" ]; then
 	ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
