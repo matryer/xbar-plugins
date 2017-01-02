@@ -40,6 +40,7 @@ if [ "$CLIPBOARD" != "" ]; then
   echo "$CLIPBOARD" | diff "$tmp_dir/item-current.pb" - &> /dev/null
 
   # If so, the diff command will exit wit a non-zero status
+  # shellcheck disable=SC2181
   if [ "$?" != "0" ]; then
 
     # Move the history backwards
@@ -88,11 +89,11 @@ if [[ -e "$tmp_dir/item-1.pb" ]]; then
       if (( $(wc -c "$tmp_dir/item-$i.pb" | awk '{print $1}') > 36 )); then
         content="$content..."
       fi
-      echo "${content//|/ }|bash=$0 param1=copy param2=$i refresh=true terminal=false"
+      echo "${content//|/ }|bash='$0' param1=copy param2=$i refresh=true terminal=false"
     fi
   done
 
   echo "---"
 
-  echo "Clear History |bash=$0 param1=clear refresh=true terminal=false "
+  echo "Clear History |bash='$0' param1=clear refresh=true terminal=false "
 fi

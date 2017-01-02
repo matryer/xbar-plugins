@@ -33,7 +33,7 @@ fi
 
 echo "☕️"
 echo '---'
-echo "Sugar - stay awake w/ AC power| bash=$0 param1=sugar terminal=false"
-echo "Caffeine - stay awake w/o AC power | bash=$0 param1=caffeine terminal=false"
-echo "Stop caffeine dose | bash=$0 param1=stop terminal=false"
+echo "Sugar - stay awake w/ AC power| bash='$0' param1=sugar terminal=false"
+echo "Caffeine - stay awake w/o AC power | bash='$0' param1=caffeine terminal=false"
+echo "Stop caffeine dose | bash='$0' param1=stop terminal=false"
 

@@ -75,14 +75,14 @@ for details in $( diskutil info -all ); do
     [[ $protocol = 'Disk Image' ]] && ((total_dmg++))
     [[ $protocol = 'USB' ]] && ((total_usb++))
 
-    echo "$name | color=black bash=$0 param1=eject param2=$mount_point terminal=false"
+    echo "$name | color=black bash='$0' param1=eject param2=$mount_point terminal=false"
     echo "├─ Available: $free_space"
     echo "└─ Capacity: $total_size"
 done
 
 if [ ${#drives[@]} -ge 2 ]; then
     echo '---'
-    [ $((total_dmg)) -ge 2 ] && echo "Eject All Disk Images | color=red bash=$0 param1=ejectall param2=dmgs terminal=false"
-    [ $((total_usb)) -ge 2 ] && echo "Eject All Physical Volumes | color=red bash=$0 param1=ejectall param2=usbs terminal=false"
-    echo "Eject All | color=red bash=$0 param1=ejectall terminal=false"
+    [ $((total_dmg)) -ge 2 ] && echo "Eject All Disk Images | color=red bash='$0' param1=ejectall param2=dmgs terminal=false"
+    [ $((total_usb)) -ge 2 ] && echo "Eject All Physical Volumes | color=red bash='$0' param1=ejectall param2=usbs terminal=false"
+    echo "Eject All | color=red bash='$0' param1=ejectall terminal=false"
 fi

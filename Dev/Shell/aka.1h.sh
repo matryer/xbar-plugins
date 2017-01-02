@@ -66,14 +66,14 @@ do
 
 	# Echo dict with com as single-quoted p2 argument.
 	# Clicking will copy just the command with pbcopy.
-	# echo "$(echo $dict) |bash=$0 param1=copy param2='$com' refresh=false terminal=false"
+	# echo "$(echo $dict) |bash='$0' param1=copy param2='$com' refresh=false terminal=false"
     #shellcheck disable=SC2116,SC2086
-	echo "$(echo $dict) |bash=$0 param1=copy param2='$com' refresh=false terminal=false"
+	echo "$(echo $dict) |bash='$0' param1=copy param2='$com' refresh=false terminal=false"
 
 done < "$aka_file"
 
 # OPTION TO EDIT AKA FILE
 echo ''
 echo "---"
-echo "Edit .aka file |bash=$0 param1=editaka refresh=true terminal=true"
+echo "Edit .aka file |bash='$0' param1=editaka refresh=true terminal=true"
 

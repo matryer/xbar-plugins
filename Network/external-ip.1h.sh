@@ -15,4 +15,4 @@ fi
 echo "$EXTERNAL_IP"
 echo "---"
 echo "(External IP address)"
-echo "Copy IP | terminal=false bash=$0 param1=copy"
+echo "Copy IP | terminal=false bash='$0' param1=copy"

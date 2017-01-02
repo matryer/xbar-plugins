@@ -18,8 +18,7 @@ head="ssh status"
 body=""
 errors=0
 for host in "${HOSTS[@]}"; do
-  nc -z -G 2 "$host" 22 &> /dev/null
-  if [ "$?" -eq 0 ]; then
+  if nc -z -G 2 "$host" 22 &> /dev/null; then
     body="$body\n☀️ $host is up | color=green bash=ssh param1=$host"
   else
     body="$body\n⛈ $host looks down from here | color=red bash=ssh param1=$host"

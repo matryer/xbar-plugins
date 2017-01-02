@@ -38,7 +38,7 @@ do
 	echo "${!example} $category"
 	for emoji in "${!arr}"
 	do
-		echo "--$emoji | bash=$0 param1=copy param2='$emoji' refresh=false terminal=false size=16"
+		echo "--$emoji | bash='$0' param1=copy param2='$emoji' refresh=false terminal=false size=16"
 	done
 done
 

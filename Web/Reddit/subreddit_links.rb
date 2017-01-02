@@ -29,14 +29,14 @@ SUBREDDITS = [
 # something unique and not generic.
 USER_AGENT = "bitbar-user-agent"
 REDDIT = "https://www.reddit.com/"
-DEFAULT_PORT = 80
+DEFAULT_PORT = 443
 
 def to_json(subreddit, type)
   uri = URI.parse("#{REDDIT}#{subreddit}#{type}.json")
   @http = Net::HTTP::Get.new(uri)
   @http.add_field('User-Agent', USER_AGENT)
  
-  res = Net::HTTP.start(uri.host, DEFAULT_PORT) do |http| 
+  res = Net::HTTP.start(uri.host, DEFAULT_PORT, :use_ssl => true) do |http| 
     http.request(@http)
   end
  
