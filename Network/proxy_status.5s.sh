@@ -40,4 +40,4 @@ echo "$state_icon $proxy_type | dropdown=false"
 
 echo "---"
 
-echo "$action_toggle Proxy | bash=$0 param1=toggle terminal=false refresh=true"
+echo "$action_toggle Proxy | bash='$0' param1=toggle terminal=false refresh=true"

@@ -21,36 +21,50 @@
 # * Allow to delete tasks (also in a sub-menu?)
 #
 
+import os
 import subprocess
 from subprocess import Popen, PIPE
+
 
 def trigger_actions(argv):
     t_id = argv[-1]
     action = argv[-2]
-    subprocess.call(['/usr/local/bin/task',t_id,action])
+    subprocess.call(['/usr/local/bin/task', t_id, action])
+
 
 def build_command(t_id, action, refresh=True):
     cmd = ''
 
     if refresh:
-        cmd = cmd+' refresh=true'
+        cmd = cmd + ' refresh=true'
 
-    cmd = cmd+' bash=/usr/bin/python param1='+__file__+' param2='
+    cmd = cmd + ' bash=/usr/bin/python param1=' + __file__ + ' param2='
 
-    cmd = cmd+action
+    cmd = cmd + action
 
-    cmd = cmd+' param3='+str(t_id)
+    cmd = cmd + ' param3=' + str(t_id)
 
-    cmd = cmd+' terminal=false'
+    cmd = cmd + ' terminal=false'
 
     return cmd
 
-def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
-                 highlight_id_list=[],highlight_color=' color=Red',highlight_command='',
-                 alternate_command=''):
+
+def print_output(
+        cmd,
+        color,
+        head,
+        print_content=True,
+        command='',
+        ignore_id_list=[],
+        highlight_id_list=[],
+        highlight_color=' color=Red',
+        highlight_command='',
+        alternate_command=''):
     output = ''
 
-    p = Popen(['/usr/local/bin/task', cmd], stdin=None, stdout=PIPE, stderr=PIPE) #important: PIPE the stderr, since task likes to use that - a lot ...
+    # important: PIPE the stderr, since task likes to use that - a lot ...
+    p = Popen(['/usr/local/bin/task', cmd],
+              stdin=None, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
 
     output_lines = output.split('\n')
@@ -74,12 +88,14 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
 
     if head:
         if content_count == 0:
-            print 'ⓣ' #⓪ #⓿
+            print 'ⓣ'  # ⓪ #⓿
         elif content_count < 21:
-            circle_number = ['⓪','①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫','⑬','⑭','⑮','⑯','⑰','⑱','⑲','⑳']
-            print circle_number[content_count] #+ '|' + color_pending
+            circle_number = ['⓪', '①', '②', '③', '④', '⑤', '⑥',
+                             '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬',
+                             '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳']
+            print circle_number[content_count]  # + '|' + color_pending
         else:
-            print str(content_count) #+ '| color=Red'
+            print str(content_count)  # + '| color=Red'
 
         print '---'
 
@@ -88,7 +104,7 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
 
     table_head = content_lines[0]
 
-    #total_number_of_tasks = content_lines[-1]
+    # total_number_of_tasks = content_lines[-1]
 
     content_formatting = ' | size=12 font=Courier'
 
@@ -100,7 +116,8 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
         content_id = content_line.split()[0]
 
         if content_id == '-':
-            content_id = content_line.split()[1] # should be the UUID in this case
+            # should be the UUID in this case
+            content_id = content_line.split()[1]
 
         if content_id in ignore_id_list:
             continue
@@ -115,15 +132,18 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
 
             if content_id in highlight_id_list:
                 if len(highlight_command) > 0:
-                    cmd = build_command(t_id=content_id, action=highlight_command)
+                    cmd = build_command(
+                        t_id=content_id, action=highlight_command)
                 print content_line + content_formatting + highlight_color + cmd
             else:
                 print content_line + content_formatting + color + cmd
 
             # adding an alternative command (press ALT for this!)
-            # printing the same stuff again, only with a different action attached
+            # printing the same stuff again, only with a different action
+            # attached
             if len(alternate_command) > 0:
-                alt_cmd = build_command(t_id=content_id, action=alternate_command)
+                alt_cmd = build_command(
+                    t_id=content_id, action=alternate_command)
 
                 if content_id in highlight_id_list:
                     print content_line + content_formatting + highlight_color + alt_cmd + ' alternate=true'
@@ -132,30 +152,57 @@ def print_output(cmd,color,head,print_content=True,command='',ignore_id_list=[],
 
     return id_list
 
+
+def is_darkmode():
+    FNULL = open(os.devnull, 'w')
+    return_code = subprocess.call(['/usr/bin/defaults', 'read', '-g',
+                                   'AppleInterfaceStyle'], stdout=FNULL, stderr=subprocess.STDOUT)
+    if (return_code == 1):
+        return False
+    else:
+        return True
+
+
 def main(argv):
 
     if len(argv) > 1:
         trigger_actions(argv)
         exit()
 
-    color_running = ' color=Red'
-    color_pending = ' color=Yellow'
-    color_completed = ' color=Green'
+    if is_darkmode():
+        color_running = ' color=Red'
+        color_pending = ' color=Yellow'
+        color_completed = ' color=Green'
+    else:
+        color_running = ' color=Red'
+        color_pending = ' color=Black'
+        color_completed = ' color=Green'
 
-    id_list = print_output('active',color_running,True,print_content=False)
+    id_list = print_output('active', color_running, True, print_content=False)
 
     if len(id_list) > 0:
         print '---'
 
-    print_output('next',color_pending,False,command='start',
-                 highlight_id_list=id_list,highlight_color=color_running,highlight_command='stop',
-                 alternate_command='done')
+    print_output(
+        'next',
+        color_pending,
+        False,
+        command='start',
+        highlight_id_list=id_list,
+        highlight_color=color_running,
+        highlight_command='stop',
+        alternate_command='done')
 
     print '---'
 
     # ok, so if you want to delete a command, you have to press done first ...
     # sorry, but there is only one alternative command I can provide above ...
-    print_output('completed',color_completed,False,command='start',alternate_command='delete')
+    print_output(
+        'completed',
+        color_completed,
+        False,
+        command='start',
+        alternate_command='delete')
 
     return
 

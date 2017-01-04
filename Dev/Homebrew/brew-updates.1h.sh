@@ -11,7 +11,10 @@ exit_with_error() {
 
 /usr/local/bin/brew update > /dev/null || exit_with_error;
 
-UPDATES=$(/usr/local/bin/brew outdated --verbose);
+PINNED=$(/usr/local/bin/brew list --pinned);
+OUTDATED=$(/usr/local/bin/brew outdated --quiet);
+
+UPDATES=$(comm -13 <(for X in "${PINNED[@]}"; do echo "${X}"; done) <(for X in "${OUTDATED[@]}"; do echo "${X}"; done))
 
 UPDATE_COUNT=$(echo "$UPDATES" | grep -c '[^[:space:]]');
 

@@ -32,7 +32,7 @@ if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
   echo "♫ | color=green size=10"
   echo "---"
   echo "iTunes is not running"
-  echo "Launch iTunes | bash=$0 param1=launch terminal=false"
+  echo "Launch iTunes | bash='$0' param1=launch terminal=false"
   exit
 fi
 
@@ -169,26 +169,17 @@ fi
 echo "---"
 
 if [ "$state" = "playing" ]; then
-  echo "𝝞𝝞 Pause | bash=$0 param1=playpause terminal=false refresh=true color=$COLOR0"
-  echo "« Previous | bash=$0 param1=previous terminal=false refresh=true color=$COLOR0"
-  echo "» Next | bash=$0 param1=next terminal=false refresh=true color=$COLOR0"
+  echo "𝝞𝝞 Pause | bash='$0 'param1=playpause terminal=false refresh=true color=$COLOR0"
+  echo "« Previous | bash='$0' param1=previous terminal=false refresh=true color=$COLOR0"
+  echo "» Next | bash='$0' param1=next terminal=false refresh=true color=$COLOR0"
 else
-  echo "▶︎ Play | bash=$0 param1=playpause terminal=false refresh=true color=$COLOR0"
+  echo "▶︎ Play | bash='$0' param1=playpause terminal=false refresh=true color=$COLOR0"
 fi
 
 echo "---"
 
-case "$0" in
-  *\ * )
-   echo "Your script path"
-   echo "($0)"
-   echo "has a space in it, which BitBar does not support."
-   echo "Play/Pause/Next/Previous buttons will not work."
-  ;;
-esac
-
 if [ "$track" != "no track selected" ] && [ "$base64img" != "" ]; then
-    echo "| image=$base64img bash=$0 param1=open terminal=false"
+    echo "| image=$base64img bash='$0' param1=open terminal=false"
 fi
 
 if [ "$track" != "no track selected" ]; then
