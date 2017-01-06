@@ -64,7 +64,23 @@ else
   COLOR3="#999999"
 fi
 
-state=$(osascript -e 'tell application "iTunes" to player state as string');
+state=$(osascript -e '
+try 
+  tell application "iTunes"
+    with timeout 3 seconds
+      player state as string
+    end timeout
+  end tell
+on error errText
+  "not available"
+end try  
+');
+if [ "$state" = "not available" ]; then
+  echo "♫ | size=12"
+  echo "---"
+  echo "iTunes is not available"
+  exit
+fi
 
 track=$(osascript -e'
 try
