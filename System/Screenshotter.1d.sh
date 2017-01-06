@@ -28,14 +28,14 @@ function screenshot_alert {
 function delay {
     delay_time=$(alerter -title "Screenshotter" -sender "com.apple.automator.Screenshotter" -message "Set delay" -actions 1s,2s,5s,10s,20s,30s,60s -dropdownLabel Set -timeout 10 | sed 's/[^0-9]//g')
     alerter -title "Screenshotter" -sender "com.apple.automator.Screenshotter" -message "Screenshotting in $delay_time seconds" -timeout 1
-    for x in $(seq "$delay_time")
+    for ((n=0;n<"$delay_time";n++))
     do
         afplay /System/Library/Sounds/Morse.aiff
         seleep 1
     done
 }
 function screenshot () {
-    screencapture $1 "/Users/Moshe/Pictures/Screenshots/$(date +'%Y.%m.%d-%H.%M.%S').png"
+    screencapture "$1" "/Users/Moshe/Pictures/Screenshots/$(date +'%Y.%m.%d-%H.%M.%S').png"
 }
 
 if [ "$1" == "fullscreen" ]
