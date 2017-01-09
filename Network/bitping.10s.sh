@@ -112,9 +112,9 @@ make_bmp_header() {
     _pixoffset=$retval
     hexle32 $headerbytes
     _headerbytes=$retval
-    hexle32 $width
+    hexle32 "$width"
     _width=$retval
-    hexle32 $height
+    hexle32 "$height"
     _height=$retval
     hexle32 $pixbytes
     _pixbytes=$retval
@@ -279,7 +279,7 @@ while [ $SITE_INDEX -lt ${#SITES[@]} ]; do
 
     PING_TIME=${PING_TIMES[$SITE_INDEX]}
 
-    echo "$(date '+%d/%m/%Y %H:%M:%S'), ${SITES[$SITE_INDEX]}, $PING_TIME" >> $FILE_OUT
+    echo "$(date '+%d/%m/%Y %H:%M:%S'), ${SITES[$SITE_INDEX]}, $PING_TIME" >> "$FILE_OUT"
 
     if [ $PING_TIME -eq $MAX_PING ]; then
 
@@ -300,11 +300,11 @@ echo "---"
 
 pixels=()
 curcol=(00 00 00 00)
-init_bmp 5 $(($GRAPHMINUTES*6)) 50
+init_bmp 5 $((GRAPHMINUTES*6)) 50
 curcol=(00 ff 00 ff)
 max_height=50
 
-readings=$(tail -$(($GRAPHMINUTES*6)) $FILE_OUT | cut -f3 -d ','  | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g')
+readings=$(tail -$((GRAPHMINUTES*6)) "$FILE_OUT" | cut -f3 -d ','  | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g')
 heights=($readings)
 
 for ((i = 0; i < ${#heights[@]}; i++)); do
