@@ -5,7 +5,7 @@
 # <bitbar.author>Monero.how</bitbar.author>
 # <bitbar.author.github>monerohow</bitbar.author.github>
 # <bitbar.desc>Shows the last Monero price (in USD) on the Bitfinex exchange.</bitbar.desc>
-# <bitbar.image>https://www.monero.how/images/mac-menu-bar-light-and-dark.jpg</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/monerohow/bitbar-plugins/master/Monero/mac-menu-bar-light-and-dark.jpg</bitbar.image>
 # <bitbar.abouturl>https://www.monero.how</bitbar.abouturl>
 #
 # Visit https://www.monero.how for Monero tutorials, paper wallets and the latest Monero news
