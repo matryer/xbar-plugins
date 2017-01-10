@@ -65,7 +65,7 @@ def is_conda_installed():
     conda = os.path.expanduser(CONDA_PATH)
     try:
         subprocess.check_output([conda], stderr=subprocess.STDOUT).strip()
-    except Exception as e:
+    except:
         print('---')
         print('Download Aanaconda | href=https://www.continuum.io/downloads')
         exit(-1)
@@ -79,8 +79,8 @@ def get_conda_envs():
     for env in out.splitlines():
         if not env.strip().startswith('#'):
             tuple = env.split()
-            name, path = tuple[0], tuple[1]
-            # if any(['*', 'root']) not in tuple:
+            name = tuple[0]
+            # path = tuple[1]
             envs.append(Env(name))
     return envs
 
