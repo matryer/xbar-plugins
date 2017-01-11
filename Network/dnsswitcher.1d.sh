@@ -80,11 +80,10 @@ for dns_name in "${enabled_dns_address[@]}"
 do
   switcher="$tmp_dir/bitbar_dns_switcher_${dns_name}"
   cat <<EOF > "$switcher"
-dns_address='$(eval "echo \${\"${dns_name[*]}\"}")'
+dns_address='$(eval "echo \${${dns_name[*]}}")'
 networksetup -setdnsservers $network_service \$(echo \$dns_address)
 EOF
   chmod 700 "$switcher"
 
   echo "$dns_name | bash=$switcher | terminal=true | refresh=true"
 done
-
