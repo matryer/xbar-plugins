@@ -19,7 +19,10 @@ network_service="Wi-FI"
 # add or remove list of DNS options below, don't forget to make it enabled. see below
 # shellcheck disable=2034
 google="8.8.8.8
-        8.8.4.4"
+        8.8.4.4
+        
+        2001:4860:4860::8888
+        2001:4860:4860::8844"
 
 # shellcheck disable=2034
 level3="209.244.0.3
