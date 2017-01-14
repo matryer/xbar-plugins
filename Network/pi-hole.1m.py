@@ -19,11 +19,20 @@ import json
 # Change to Your Pi-Hole Admin Console URL
 pihole = "http://192.168.0.101/admin/"
 
+def format(number):
+  number = int(number)
+  if number > 1000000:
+    return str(number/1000000) + 'M'
+  elif number > 1000:
+    return str(number/1000) + 'k'
+  else:
+    return number
+
 try:
     url = pihole + "api.php"
     result = urllib2.urlopen(url, timeout = 5).read()
     json = json.loads(result)
-    print "🌍"
+    print "🌍 {0}".format(format(json['ads_blocked_today']))
     print "---"
     print "Ads blocked:"
     print json['ads_blocked_today'] + "| href=" + pihole
