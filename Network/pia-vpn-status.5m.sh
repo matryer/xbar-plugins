@@ -9,12 +9,15 @@
 # <bitbar.abouturl>https://github.com/parvez/bitbar-plugins</bitbar.abouturl>
 #
 # by Parvez
-pia=$(curl --silent https://www.privateinternetaccess.com/pages/whats-my-ip/| tr -d "\n" | grep -o '<div class="topheader">.* curl' | sed -e 's/<[^>]*>//g' | /usr/local/bin/gsed -e 's/  \+/\n/g');
-if [[ $pia == *"You are protected by PIA"* ]]
+pia1=$(curl --silent https://www.privateinternetaccess.com/pages/whats-my-ip/)
+pia2=$(echo "$pia1" | tr -d "\n" | /usr/local/bin/gsed -r "s/<script([^<]|<[^\/]|<\/[^s]|<\/s[^c])*<\/script>|<style([^<]|<[^\/]|<\/[^s]|<\/s[^t])*<\/style>//g" | grep -o '<div class="ipbox-footer">.*<div class="ipbox-map">' | /usr/local/bin/gsed -r "s/<[^>]*>//g" | /usr/local/bin/gsed -r "s/:\s+/: /g" | /usr/local/bin/gsed -r "s/\s\s+/\r\n/g")
+
+if [[ $pia1 == *"You are protected by PIA"* ]]
 then
-  echo "✅";
+  echo "✅"
 else
-  echo "🚫";
+  echo "🚫"
 fi
-echo '---';
-echo "$pia";
+
+echo "---"
+echo "$pia2"

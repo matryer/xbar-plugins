@@ -41,7 +41,7 @@ if ($content->status_line eq '200 OK') {
 	my $ref = XMLin($content->content, ForceArray=>'entry');
 
 	if ($ref->{fullcount}->[0] > 0) {
-		$output .= "📬\n";
+		$output .= "📬 ".$ref->{fullcount}->[0]."\n";
 		$output .= "---\n";
 		
 		if ($ref->{fullcount}->[0] == 1) {
