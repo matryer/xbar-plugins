@@ -24,7 +24,7 @@ function post_screenshot {
     if [ "$user_response_1" == "Upload to Imgur" ]
     then
         imgur_uploader "$screenshot_path"
-        user_response_2=$(alerter -title "Screenshotter" -subtitle "Succesfully Uploaded" -message "Link copied to clipboard" -actions "Open Link" -timeout 5 -sender "com.apple.automator.imgur" -contentImage "$screenshot_path"
+        user_response_2=$(alerter -title "Screenshotter" -subtitle "Succesfully Uploaded" -message "Link copied to clipboard" -actions "Open Link" -timeout 5 -sender "com.apple.automator.imgur" -contentImage "$screenshot_path")
         if [ "$user_response_2" == "Open Link" ]
         then
             open "$(pbpaste)"
