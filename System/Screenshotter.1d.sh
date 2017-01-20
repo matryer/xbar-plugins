@@ -19,7 +19,7 @@ function screenshot () {
 function post_screenshot {
     screenshot_path=$(find "$screenshot_folder" -mindepth 1 | sort -r | grep -v .DS_Store | head -n 1)
     osascript -e "tell application \"Finder\" to set the clipboard to (POSIX file \"$screenshot_path\")"
-    user_response_1=$(alerter -title "Screenshotter" -sender "com.apple.automator.Screenshotter" -message "Screenshot Taken" -actions "Upload to Imgur","Open Location",Edit -dropdownLabel Actions -timeout 5 -contentImage "$screenshot_path")
+    user_response_1=$(alerter -title "Screenshotter" -sender "com.apple.automator.Screenshotter" -message "Screenshot Taken" -actions "Upload to Imgur,Open Location,Edit" -dropdownLabel Actions -timeout 5 -contentImage "$screenshot_path")
     if [ "$user_response_1" == "Upload to Imgur" ]
     then
         imgur_uploader "$screenshot_path"
