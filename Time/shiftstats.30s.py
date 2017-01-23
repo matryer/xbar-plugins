@@ -4,7 +4,7 @@
 # <bitbar.title>Shift Stats</bitbar.title>
 # <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Jan Groß</bitbar.author>
-# <bitbar.author.github>jangross</bitbar.author.github>
+# <bitbar.author.github>JanGross</bitbar.author.github>
 # <bitbar.desc>Shows the remaining time of today's work shift as well as the time of arrival and when its time to leave</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/6VTobzU.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
