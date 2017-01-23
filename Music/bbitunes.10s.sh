@@ -45,10 +45,10 @@ fi
 
 # if the compiled file is missing, or the source is newer than
 # the compiled file, then recompile
-if [ ! -f "${COMPILED}" -o "${APPLESCRIPT}" -nt "${COMPILED}" ]
+if [ ! -f "${COMPILED}" ] || [ "${APPLESCRIPT}" -nt "${COMPILED}" ]
 then
   /usr/bin/osacompile -o "${COMPILED}" "${APPLESCRIPT}"
 fi
 
 # run the compiled applescript which does all the work to talk to iTunes
-/usr/bin/osascript "${COMPILED}" "${BASH_SOURCE}" $1
+/usr/bin/osascript "${COMPILED}" "${BASH_SOURCE[0]}" "$1"
