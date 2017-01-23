@@ -20,7 +20,8 @@ ONLY_NEW = False
 checks = {
     'hosts': [],
     'hostgroups': [],
-    'servicegroups': []
+    'servicegroups': [],
+    'services': []
 }
 
 # STOP EDITING HERE!
