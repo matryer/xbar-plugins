@@ -4,7 +4,7 @@
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Ash Wu(hSATAC), Aaron Huang(aar0ntw)</bitbar.author>
 # <bitbar.author.github>pan-cat</bitbar.author.github>
-# <bitbar.desc>A helper for keybase encryption and decryption.</bitbar.desc>
+# <bitbar.desc>A helper for keybase encryption and decryption. Simply copy content you want to decrypt/encrypt and click action, the result will be copied into your clipboard.</bitbar.desc>
 # <bitbar.image>http://ash.cat/2FT8+</bitbar.image>
 # <bitbar.dependencies>ruby,keybase</bitbar.dependencies>
 
