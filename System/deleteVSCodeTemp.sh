@@ -7,7 +7,7 @@
 
 if [ "$1" = 'clean' ]; then
   sudo find /Users/macbookpro/Documents/VSCode\ Projects/ -name "temp*" -d -ok rm {} \;
-  read -p -r "Files are about to be deleted, continue? [Y/n] " check
+  read -p "Files are about to be deleted, continue? [Y/n] " check
   if [[ ( $check == "Y" ) || ( $check == "y" ) ]]; then
     sudo find /Users/macbookpro/Documents/VSCode\ Projects/ -name "temp*" -d -exec rm {} \;
     echo "Deleted from default directory"
