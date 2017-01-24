@@ -7,6 +7,7 @@
 
 if [ "$1" = 'clean' ]; then
   sudo find /Users/macbookpro/Documents/VSCode\ Projects/ -name "temp*" -d -ok rm {} \;
+  # shellcheck disable=SC2162
   read -p "Files are about to be deleted, continue? [Y/n] " check
   if [[ ( $check == "Y" ) || ( $check == "y" ) ]]; then
     sudo find /Users/macbookpro/Documents/VSCode\ Projects/ -name "temp*" -d -exec rm {} \;
