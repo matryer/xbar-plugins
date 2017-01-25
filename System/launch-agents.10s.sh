@@ -110,6 +110,7 @@ do label=$(service_property "$service" Label)
    then echo "$label | color=red"
         echo "--Unload | bash='$0' param1=unload param2=$service terminal=false refresh=true"
         echo "--Reload | bash='$0' param1=reload param2=$service terminal=false refresh=true alternate=true"
+        echo "--Start | bash='$0' param1=start param2=$label terminal=false refresh=true"
         echo "-----"
         if [[ -f $log ]]
         then echo "--Status: Stopped | bash=$open param1=-a param2=Console param3=$log terminal=false"
