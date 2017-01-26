@@ -5,19 +5,13 @@
 # <bitbar.title>Instagram Stats</bitbar.title>
 # <bitbar.version>v0.5</bitbar.version>
 # <bitbar.author>Jan Groß</bitbar.author>
-# <bitbar.author.github>jangross</bitbar.author.github>
-# <bitbar.desc>Displays information about an instagram profiles followers and recent posts. Does not require any auth-token or login!</bitbar.desc>
+# <bitbar.author.github>JanGross</bitbar.author.github>
+# <bitbar.desc>Displays information about an Instagram profiles followers and recent posts. Does not require any auth-token or login!</bitbar.desc>
 # <bitbar.image>https://minzkraut.com/static/images/igstats_plugin.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
-import json
-import random
-import urllib2
-import sys
-
-from PIL import Image, ImageDraw
-
-import requests, base64
+import json, urllib2, requests, base64
+from PIL import Image
 from io import BytesIO
 
 user = "minzkraut" #Instagram username without the @ symbol
