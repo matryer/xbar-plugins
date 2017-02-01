@@ -20,11 +20,11 @@
 #   Icons from http://icons8.com
 #
 #----- Settings -------------------------------------#
-#
+#                                                    # Use decimal values to represent minutes (0.5 = 30 min etc.)
 shift_length = 8                                     # Shift length in hours
 lunch_break = 1                                      # Length of the lunch break in hours
 log_path = '/var/log/accountpolicy.log'              # Path to the file containing information about logins - Standard is "/var/log/accountpolicy.log"
-lunchsave_path = '/.lunchbreak.sst'                  # File the lunchtime is being saved to (relative to current directory)
+lunchsave_path = '/.lunchbreak.sst'                  # File that the lunchtime is being saved to (relative to the current directory)
 #----------------------------------------------------#
 
 import os, sys
@@ -76,7 +76,7 @@ def get_lunchbreak_time():
 
 def start_lunch_button():
     #Call this script with the --start-lunch flag
-    print "-- Start Lunch break | color=indianred bash="+__file__+ " param1='--start-lunch' terminal='false' color=green"
+    print "-- Start lunch break | refresh=true | color=indianred bash="+__file__+ " param1='--start-lunch' terminal='false' color=green"
 
 def print_lunch_info():
     last_lunch = get_lunchbreak_time()[:19]  #Has to be cut after 19 characters because unconverted data remains otherwise (probably the newline)
@@ -135,9 +135,9 @@ def print_sub():
     print "About this plugin"
     print "-- Developed by Jan M. Groß | color=black"
     print "-- Images/Icons from icons8.com | href=http://icons8.com"
-    print "-- Version 1.0"
+    print "-- Version 2.0"
     print "-- ---"
-    print "-- Report an Issue | href=" # Note: url for issue reports once its published => https://github.com/matryer/bitbar-plugins/issues/new?assignee=jangross&title=re:%20Workshift%20Stats&body=FAO:+(@jangross)
+    print "-- Report an issue | href=https://github.com/matryer/bitbar-plugins/issues/new?assignee=jangross&title=re:%20Workshift%20Stats&body=FAO:+(@jangross)"
 
 print_main()
 print_sub()
