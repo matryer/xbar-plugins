@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # <bitbar.title>Launch Agents</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Paul W. Rankin</bitbar.author>
 # <bitbar.author.github>rnkn</bitbar.author.github>
 # <bitbar.desc>Shows and manages user Launch Agents.</bitbar.desc>
@@ -42,16 +42,6 @@ then "$launchctl" unload "$2"
      "$launchctl" load "$2"
 fi
 
-# if [[ $1 = viewlog ]]
-# # shellcheck disable=SC2046
-# then open -a Console $("$defaults" read "$2" StandardOutPath)
-# fi
-
-# if [[ $1 = viewerror ]]
-# # shellcheck disable=SC2046
-# then open -a Console $("$defaults" read "$2" StandardErrorPath)
-# fi
-
 function service_pid {
     "$launchctl" list | grep "$1" | sed -E 's/^([-0-9]+).*([0-9]+).*/\1/'
 }
@@ -85,13 +75,16 @@ do label=$(service_property "$service" Label)
         echo "--Start | bash='$0' param1=start param2=$label terminal=false refresh=true"
         echo "-----"
         if [[ -f $log ]]
-        then echo "--Status: Idle | bash=$open param1=-a param2=Console param3=$log terminal=false"
-        else echo "--Status: Idle"
+        then echo "--View Log | bash=$open param1=-a param2=Console param3=$log terminal=false"
+        else echo "--View Log"
         fi
         if [[ -f $errorlog ]]
-        then echo "--Errors: None | bash=$open param1=-a param2=Console param3=$errorlog terminal=false"
-        else echo "--Errors: None"
+        then echo "--View Error Log | bash=$open param1=-a param2=Console param3=$errorlog terminal=false"
+        else echo "--View Error Log"
         fi
+        echo "-----"
+        echo "--Idle"
+        echo "--No Errors"
    elif [[ $pid -gt 0 && $status -eq 0 ]]
    then echo "$label | color=green"
         echo "--Unload | bash='$0' param1=unload param2=$service terminal=false refresh=true"
@@ -99,13 +92,16 @@ do label=$(service_property "$service" Label)
         echo "--Stop | bash='$0' param1=stop param2=$label terminal=false refresh=true"
         echo "-----"
         if [[ -f $log ]]
-        then echo "--Status: Running | bash=$open param1=-a param2=Console param3=$log terminal=false"
-        else echo "--Status: Running"
+        then echo "--View Log | bash=$open param1=-a param2=Console param3=$log terminal=false"
+        else echo "--View Log"
         fi
         if [[ -f $errorlog ]]
-        then echo "--Errors: None | bash=$open param1=-a param2=Console param3=$errorlog terminal=false"
-        else echo "--Errors: None"
+        then echo "--View Error Log | bash=$open param1=-a param2=Console param3=$errorlog terminal=false"
+        else echo "--View Error Log"
         fi
+        echo "-----"
+        echo "--Running ($pid)"
+        echo "--No Errors"
    elif [[ $status -gt 0 ]]
    then echo "$label | color=red"
         echo "--Unload | bash='$0' param1=unload param2=$service terminal=false refresh=true"
@@ -113,20 +109,29 @@ do label=$(service_property "$service" Label)
         echo "--Start | bash='$0' param1=start param2=$label terminal=false refresh=true"
         echo "-----"
         if [[ -f $log ]]
-        then echo "--Status: Stopped | bash=$open param1=-a param2=Console param3=$log terminal=false"
-        else echo "--Status: Stopped"
+        then echo "--View Log | bash=$open param1=-a param2=Console param3=$log terminal=false"
+        else echo "--View Log"
         fi
         if [[ -f $errorlog ]]
-        then echo "--Errors: $status | bash=$open param1=-a param2=Console param3=$errorlog terminal=false"
-        else echo "--Errors: $status"
+        then echo "--View Error Log | bash=$open param1=-a param2=Console param3=$errorlog terminal=false"
+        else echo "--View Error Log"
         fi
+        echo "-----"
+        echo "--Stopped"
+        echo "--Error ($status)"
    else echo "$label"
         echo "--Load | bash='$0' param1=load param2=$service terminal=false refresh=true"
         echo "-----"
         if [[ -f $log ]]
-        then echo "--Status: Stopped | bash=$open param1=-a param2=Console param3=$log terminal=false"
-        else echo "--Status: Stopped"
+        then echo "--View Log | bash=$open param1=-a param2=Console param3=$log terminal=false"
+        else echo "--View Log"
         fi
+        if [[ -f $errorlog ]]
+        then echo "--View Error Log | bash=$open param1=-a param2=Console param3=$errorlog terminal=false"
+        else echo "--View Error Log"
+        fi
+        echo "-----"
+        echo "--Unloaded"
    fi
 done
 echo "---"
