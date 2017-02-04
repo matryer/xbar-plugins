@@ -9,7 +9,6 @@
 # <bitbar.image>http://i.imgur.com/XODr2PY.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 #
-#
 # Set you own file location by changing the variable "taskpaper_file" below.
 #
 
