@@ -2,7 +2,7 @@
 
 #
 # <bitbar.title>Taskpaper Today</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Ernst Widerberg</bitbar.author>
 # <bitbar.author.github>ernstwi</bitbar.author.github>
 # <bitbar.desc>This plugin will display all tasks tagged @today and not @done in a given Taskpaper file.</bitbar.desc>
