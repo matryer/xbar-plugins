@@ -37,8 +37,8 @@ for line in file:
         break
     if line.endswith(':\n'):
         header = line.strip()[:-1]
-    elif line.endswith('@%s\n' % tag):
-        items += '%s(%s)\n' % (line.partition('@' + tag)[0][2:], header)
+    elif ' @%s' % tag in line and ' @done' not in line:
+        items += '%s (%s)\n' % (re.sub(' @%s ?' % tag, ' ', line).strip()[2:], header)
         num_items += 1
 
 file.close()
