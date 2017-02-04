@@ -5,7 +5,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Ernst Widerberg</bitbar.author>
 # <bitbar.author.github>ernstwi</bitbar.author.github>
-# <bitbar.desc>Display Taskpaper items tagged "today" in the menu bar.</bitbar.desc>
+# <bitbar.desc>This plugin will display all tasks tagged @today and not @done in a given Taskpaper file.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/XODr2PY.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 #
