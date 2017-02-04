@@ -14,6 +14,7 @@
 #
 
 import os
+import re
 import sys
 
 taskpaper_file = '~/todo.taskpaper'
@@ -32,7 +33,7 @@ header = ''
 items = ''
 num_items = 0
 for line in file:
-    if line == 'archive:\n':
+    if re.match(r'archive:\n', line, re.IGNORECASE) != None:
         break
     if line.endswith(':\n'):
         header = line.strip()[:-1]
