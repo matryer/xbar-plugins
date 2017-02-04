@@ -33,10 +33,17 @@ header = ''
 items = ''
 num_items = 0
 for line in file:
+
+    # Stop searching if "Archive" header is reached.
     if re.match(r'archive:\n', line, re.IGNORECASE) != None:
         break
+
+    # Update header (project title).
     if line.endswith(':\n'):
         header = line.strip()[:-1]
+
+    # Include lines that contain @today and not @done in output. Remove leading
+    # dash and "@today" with surrounding whitespace.
     elif ' @%s' % tag in line and ' @done' not in line:
         items += '%s (%s)\n' % (re.sub(' @%s ?' % tag, ' ', line).strip()[2:], header)
         num_items += 1
