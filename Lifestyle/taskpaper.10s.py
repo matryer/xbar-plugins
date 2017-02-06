@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+import os
+import re
+import sys
+
 #
 # <bitbar.title>Taskpaper Today</bitbar.title>
 # <bitbar.version>v1.1</bitbar.version>
@@ -9,12 +13,16 @@
 # <bitbar.image>http://i.imgur.com/XODr2PY.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 #
+# Read more about the Taskpaper format at taskpaper.com.
+#
+# For Vim users I recommend github.com/davidoc/taskpaper.vim. Also, to refresh
+# the BitBar plugin on writes, add this to your .vimrc:
+#
+#     autocmd! BufWritePost ~/todo.taskpaper silent ! open -g
+#                 \ "bitbar://refreshPlugin?name=taskpaper.*?.py"
+#
 # Set you own file location by changing the variable "taskpaper_file" below.
 #
-
-import os
-import re
-import sys
 
 taskpaper_file = '~/todo.taskpaper'
 tag = 'today'
