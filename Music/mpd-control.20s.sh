@@ -9,7 +9,7 @@
 
 count="$( /usr/local/bin/mpc | wc -l )"
 
-if [ $count -gt 2 ]
+if [ "$count" -gt 2 ]
 then
   echo "$(/usr/local/bin/mpc | head -1) | bash='/usr/local/bin/mpc' param1=toggle terminal=false length=25 size=12"
 else
