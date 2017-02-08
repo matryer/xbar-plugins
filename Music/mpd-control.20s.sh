@@ -5,6 +5,7 @@
 # <bitbar.author>Slamet Kristanto</bitbar.author>
 # <bitbar.author.github>drselump14</bitbar.author.github>
 # <bitbar.desc>MPD control (mopidy spotify, mopidy soundcloud , etc)</bitbar.desc>
+# <bitbar.image>https://www.dropbox.com/s/cgkjb7hv6s1yx1a/Screenshot%202017-02-08%2020.40.02.png?dl=0</bitbar.image>
 # <bitbar.dependencies>mpd, mpc</bitbar.dependencies>
 
 count="$( /usr/local/bin/mpc | wc -l )"
