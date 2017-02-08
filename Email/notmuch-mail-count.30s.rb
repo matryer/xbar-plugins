@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
-# <bitbar.title>Change mutt inbox</bitbar.title>
+# <bitbar.title>Notmuch inbox & unread counter</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Slamet Kristanto</bitbar.author>
 # <bitbar.author.github>drselump14</bitbar.author.github>
-# <bitbar.desc>Show muttbar inbox using notmuch inbox and unread</bitbar.desc>
+# <bitbar.desc>Show mutt inbox using notmuch inbox and unread</bitbar.desc>
 # <bitbar.dependencies>mutt,notmuch</bitbar.dependencies>
 
 inbox = `/usr/local/bin/notmuch search tag:inbox tag:unread`
