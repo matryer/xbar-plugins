@@ -49,7 +49,10 @@ begin
     }
   end
 
+  last_issue_id = 0
+
   issues.each do | v |
+    last_issue_id = v[:id] if last_issue_id == 0 
     project_id   = v[:project][:id]
     project_name = v[:project][:name]
     status_id    = v[:status][:id]
@@ -63,7 +66,8 @@ begin
   end
 
   issue_total_count = result[:total_count] > 99 ? '99+' : result[:total_count]
-  puts issues.empty? ? "✦ | color=#7d7d7d" : "✦ #{issue_total_count}"
+  issue_last = last_issue_id != 0 ? " - ##{last_issue_id}" : ""
+  puts issues.empty? ? "✦ | color=#7d7d7d" : "✦ #{issue_total_count}#{issue_last}"
   puts "---"
   puts "Redmine | color=black href=#{redmine_url}"
   puts "---"
