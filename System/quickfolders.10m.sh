@@ -4,7 +4,7 @@
 # <bitbar.author>Alex</bitbar.author>
 # <bitbar.author.github>alexrockt</bitbar.author.github>
 # <bitbar.desc>Quick access to folders, that have files with certain suffix in it. For more details look at https://blog.aruehe.io/quickfolders-a-bitbar-plugin/</bitbar.desc>
-# <bitbar.image>http://imgur.com/DqR6QLH</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/alexrockt/misc/master/quickfolders-screenshot.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>https://blog.aruehe.io/quickfolders-a-bitbar-plugin/</bitbar.abouturl>
 
@@ -29,18 +29,18 @@ LASTSUBFOLDER=""
 
 for l in $ALLFOLDERS
 do
-    FOLDER=$(echo $l | awk -F/ '{print $(NF-1)}')
-    SUBFOLDER=$(echo $l | awk -F/ '{print $(NF)}')
+    FOLDER=$(echo "$l" | awk -F/ '{print $(NF-1)}')
+    SUBFOLDER=$(echo "$l" | awk -F/ '{print $(NF)}')
     # same folder as before, check if same subfolder
     if [ "$LASTFOLDER" = "$FOLDER" ]; then
         # new folder - print
         if [ "$LASTSUBFOLDER" != "$SUBFOLDER" ]; then
-            printf "┗━━━%s | terminal=false refresh=true bash=/usr/bin/open param1='%s' size=10 color=green\n" $SUBFOLDER $l
+            printf "┗━━━%s | terminal=false refresh=true bash=/usr/bin/open param1='%s' size=10 color=green\n" "$SUBFOLDER" "$l"
             LASTSUBFOLDER=$SUBFOLDER
         fi
     else
-        printf "%s | size=12 color=white\n" $FOLDER
-        printf "┗━━━%s | terminal=false refresh=true bash=/usr/bin/open param1='%s' size=10 color=green\n" $SUBFOLDER $l
+        printf "%s | size=12 color=white\n" "$FOLDER"
+        printf "┗━━━%s | terminal=false refresh=true bash=/usr/bin/open param1='%s' size=10 color=green\n" "$SUBFOLDER" "$l"
         LASTFOLDER=$FOLDER
         LASTSUBFOLDER=$SUBFOLDER
     fi
