@@ -10,7 +10,6 @@
 # <bitbar.abouturl></bitbar.abouturl>
 
 import requests
-import json
 import datetime
 
 URL = "https://www.openligadb.de/api/getmatchdata/bl1"
