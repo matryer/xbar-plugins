@@ -5,6 +5,7 @@
 # <bitbar.author>Tim Baumgard</bitbar.author>
 # <bitbar.author.github>tbaumgard</bitbar.author.github>
 # <bitbar.desc>Simple stopwatch for BitBar.</bitbar.desc>
+# <bitbar.image>https://raw.githubusercontent.com/tbaumgard/tbaumgard.github.io/master/_/img/bitbar-stopwatch.png</bitbar.image>
 
 ### Configuration
 
