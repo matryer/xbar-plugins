@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # <bitbar.title>Vagrant Global Status</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
+# <bitbar.version>1.1</bitbar.version>
 # <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
 # <bitbar.author.github>alexandregz</bitbar.author.github>
 # <bitbar.desc>Show vagrant images running, from vagrant global-status command</bitbar.desc>
