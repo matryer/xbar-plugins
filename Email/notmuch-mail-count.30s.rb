@@ -6,7 +6,7 @@
 # <bitbar.author>Slamet Kristanto</bitbar.author>
 # <bitbar.author.github>drselump14</bitbar.author.github>
 # <bitbar.desc>Show mutt inbox using notmuch inbox and unread</bitbar.desc>
-# <bitbar.image>https://www.dropbox.com/s/cgkjb7hv6s1yx1a/Screenshot%202017-02-08%2020.40.02.png?dl=0</bitbar.image>
+# <bitbar.image>https://www.dropbox.com/s/cgkjb7hv6s1yx1a/Screenshot%202017-02-08%2020.40.02.png?raw=1</bitbar.image>
 # <bitbar.dependencies>mutt,notmuch</bitbar.dependencies>
 
 inbox = `/usr/local/bin/notmuch search tag:inbox tag:unread`
