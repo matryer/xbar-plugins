@@ -108,10 +108,10 @@ if (!error) {
 
     lastText = lineText;
     lineText += ` ${timeAgo(feed[i].date)}`;
-    lineProperties = ` | href=${profileUrl}`;
 
     if (process.env.BitBar) {
       var profileUrl = encodeURI(`https://account.xbox.com/en-us/Profile?Gamertag=${authorInfo.name}`);
+      lineProperties = ` | href=${profileUrl}`;
 
       if (cfg.imgSize) {
         var imgUrl = authorInfo.imageUrl.replace('&mode=Padding', '');
