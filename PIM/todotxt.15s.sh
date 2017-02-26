@@ -17,7 +17,7 @@ list_items() {
 }
 
 add_item() {
-    todo.sh add $(osascript -e 'Tell application "System Events" to display dialog "New task:" default answer ""' -e 'text returned of result' 2>/dev/null) >/dev/null
+    todo.sh add "$(osascript -e 'Tell application "System Events" to display dialog "New task:" default answer ""' -e 'text returned of result' 2>/dev/null)" >/dev/null
 }
 
 if [ "${1}" == "add" ]; then
