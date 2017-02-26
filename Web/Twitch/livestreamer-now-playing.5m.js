@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Twitch Following</bitbar.title>
-// <bitbar.version>v1.5</bitbar.version>
+// <bitbar.version>v1.6</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Shows which channels you follow are live, what they're playing, for how long etc. Lets you watch them with livestreamer and open the chat in your browser. Based on the play-with-livestreamer bitbar plugin. Requires a Twitch account.</bitbar.desc>
