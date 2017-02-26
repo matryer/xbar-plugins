@@ -4,6 +4,7 @@ import os
 import subprocess
 import urllib2
 import argparse
+import warnings
 
 allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
 required_metadata = ['author', 'author.github', 'title']
@@ -13,10 +14,11 @@ recommended_metadata = ['image', 'desc', 'version']
 class Language(object):
     _languages = {}
 
-    def __init__(self, exts, shebang, linter):
+    def __init__(self, exts, shebang, linter, trim_shebang=False):
         self.extensions = exts
         self.shebang = shebang
         self.cmd = linter
+        self.trim = trim_shebang
 
     @staticmethod
     def registerLanguage(lang):
@@ -37,6 +39,15 @@ class Language(object):
         return re.search(self.shebang, bang) is not None
 
     def lint(self, file):
+        if self.trim:
+            with open(file, 'r') as fp:
+                lines = fp.readlines()[1:]
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    tmpfile = os.tmpnam()
+                with open(tmpfile, 'w') as tp:
+                    tp.writelines(lines)
+                file = tmpfile
         command = list(self.cmd)
         command.append(file)
         return subprocess.check_output(command, stderr=subprocess.STDOUT)
@@ -50,6 +61,8 @@ Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
 Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
 Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null']))
 Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
+# go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
+Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
 
 error_count = 0
 
