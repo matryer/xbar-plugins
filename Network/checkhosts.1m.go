@@ -1,4 +1,4 @@
-//usr/bin/env go run $0 $@ ; exit
+#! /usr/bin/env gorun
 
 // <bitbar.title>Check hosts</bitbar.title>
 // <bitbar.version>v1.0</bitbar.version>
@@ -19,7 +19,7 @@ import (
 )
 
 // List of hosts - customize this using the format below
-var hosts []host = []host {
+var hosts = []host {
         {
                 address: "github.com", // can be a FQDN
                 isUp: false, // always default a host to false
@@ -65,22 +65,22 @@ var hosts []host = []host {
 
 // Display settings
 // Only show a host as up if all ports are up as well
-var upIfAllPorts bool = false
+var upIfAllPorts = false
 
 // Show number of reachable ports in menu bar text as well
-var showPortTotal bool = true
+var showPortTotal = true
 
 // Show number of hosts up in menu bar text
 // This string will always be used with 2 parameters, the first one being
 // the number of hosts up, the second one is the total number of hosts.
 // If showPort Total is true the same format for the ports will be appended to
 // this string in parenthesis
-var barText string = "%d/%d"
+var barText = "%d/%d"
 
 // Color for host down
-var colorDown string = "red"
+var colorDown = "red"
 // Color for host up
-var colorUp string = "green"
+var colorUp = "green"
 
 // Implementation - No more configuration below here is necessary
 
@@ -115,7 +115,7 @@ func checkHost(hostNum int, portNum int) {
 
 func setHostsUp() {
         for hostNum := 0; hostNum < len(hosts); hostNum++ {
-                var portsDown int = 0
+                var portsDown int
                 currHost := hosts[hostNum]
                 for portNum := 0; portNum < len(currHost.ports); portNum++ {
                         currPort := currHost.ports[portNum]
@@ -133,7 +133,7 @@ func setHostsUp() {
         }
 }
 
-func CheckHosts() {
+func checkHosts() {
         var wg sync.WaitGroup
 
         for hostNum := 0; hostNum < len(hosts); hostNum++ {
@@ -151,10 +151,10 @@ func CheckHosts() {
 }
 
 func print() {
-        var hostsUp int = 0
-        var portsUp int = 0
-        var portsTotal int = 0
-        var display string = ""
+        var hostsUp int
+        var portsUp int
+        var portsTotal int
+        var display string
         for _, hostNum := range hosts {
                 if (hostNum.isUp) {
                         hostsUp++
@@ -183,7 +183,7 @@ func print() {
                 display += "\n"
         }
 
-        var barDisplay string = barText + "\n"
+        var barDisplay = barText + "\n"
 
         if (showPortTotal) {
                 fmt.Printf(barText + " (" + barText + ")\n", hostsUp, len(hosts), portsUp, portsTotal)
@@ -195,6 +195,6 @@ func print() {
 }
 
 func main() {
-        CheckHosts()
+        checkHosts()
         print()
 }
