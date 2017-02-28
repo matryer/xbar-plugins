@@ -4,7 +4,7 @@
 # shellcheck source=/dev/null
 
 # <bitbar.title>Trello</bitbar.title>
-# <bitbar.version>1.0.2</bitbar.version>
+# <bitbar.version>1.0.3</bitbar.version>
 # <bitbar.author>Kodie Grantham</bitbar.author>
 # <bitbar.author.github>kodie</bitbar.author.github>
 # <bitbar.desc>Shows unread Trello notification count with a drop-down list of clickable recent notifications</bitbar.desc>
@@ -12,7 +12,7 @@
 # <bitbar.dependencies>jq</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/kodie/bitbar-trello</bitbar.abouturl>
 
-ver="1.0.2"
+ver="1.0.3"
 
 ### Note: The below variables can be overwritten by setting them in the ~/.bitbar_trello file
 
@@ -219,7 +219,7 @@ if [ "${response:0:1}" == "[" ]; then
   ids=($(echo "$response" | jq -r -c '.[].id'))
 else
   error=true
-  if [ ! "$response" ]; then response="no response"; fi
+  if [[ ! "$response" || "${response:0:1}" == "<" ]]; then response="no response"; fi
 fi
 
 # Set the title to "Trello" if we're running it BitBar and both the title and icon have been set to blank
@@ -249,11 +249,8 @@ fi
 titleEcho="$title$titleProperties"
 if [ "$titleEcho" ]; then echo "$titleEcho"; fi
 
-# Show an exclamation icon in the case of an error, or
-# display unread count if unreadDisplay is set to 2 or 3
-if [ "$error" == true ]; then
-  if [ "${BitBar}" ]; then echo "⁉️ | dropdown=false"; fi
-elif [[ "$unreadCount" -gt 0 ]]; then
+# Display unread count if there are no errors and unreadDisplay is set to 2 or 3
+if [[ "$error" == false && "$unreadCount" -gt 0 ]]; then
   if [ "$unreadDisplay" == "2" ]; then
     echo "$unreadEcho"
   elif [ "$unreadDisplay" == "3" ]; then
@@ -383,4 +380,6 @@ if [ "${BitBar}" ]; then
   echo "-----"
   echo "--GitHub Page | href=https://github.com/kodie/bitbar-trello"
   echo "--Changelog | href=https://github.com/kodie/bitbar-trello/blob/master/CHANGELOG.md"
+  echo "-----"
+  echo "--Refresh | refresh=true terminal=false"
 fi
