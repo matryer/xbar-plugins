@@ -1,5 +1,7 @@
 # BitBar Plugins [![Build Status](https://travis-ci.org/matryer/bitbar-plugins.svg?branch=master)](https://travis-ci.org/matryer/bitbar-plugins) [![Slack Status](https://getbitbar.herokuapp.com/badge.svg)](https://getbitbar.herokuapp.com/)
 
+[![Join the chat at https://gitter.im/matryer/bitbar-plugins](https://badges.gitter.im/matryer/bitbar-plugins.svg)](https://gitter.im/matryer/bitbar-plugins?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This repo contains scripts, programs and command-line tools that add functionality to [BitBar](https://github.com/matryer/bitbar#get-started).
 
 * [Reporting issues](#reporting-issues)
