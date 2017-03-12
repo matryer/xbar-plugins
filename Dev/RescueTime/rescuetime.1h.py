@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # <bitbar.title>RescueTime</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Paul Traylor</bitbar.author>
@@ -9,6 +9,7 @@
 # To install, you will want to generate an API key for rescue time and then store the
 # key in ~/Library/RescueTime.com/api.key
 # https://www.rescuetime.com/anapi/manage
+import datetime
 import json
 import os
 import urllib
@@ -39,12 +40,13 @@ if not os.path.exists(API_KEY):
 
 with open(API_KEY) as fp:
     key = fp.read().strip()
+    date = datetime.date.today().strftime('%Y-%m-%d')
     result = get('https://www.rescuetime.com/anapi/data', params={
         'format': 'json',
         'key': key,
         'resolution_time': 'day',
-        'restrict_begin': '2016-01-05',
-        'restrict_end': '2016-01-05',
+        'restrict_begin': date,
+        'restrict_end': date,
         'restrict_kind': 'productivity',
     })
     pulse = get('https://www.rescuetime.com/anapi/current_productivity_pulse.json', params={

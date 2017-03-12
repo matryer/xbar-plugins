@@ -25,9 +25,9 @@ if [ "$1" = 'open' ]; then
 fi
 
 if [ $((trash_count)) = 0 ]; then
-    echo "🗑 | bash=$0 param1=open terminal=false"
+    echo "🗑 | bash='$0' param1=open terminal=false"
 else
-    echo "$trash_count🗑 | bash=$0 param1=open terminal=false"
+    echo "$trash_count🗑 | bash='$0' param1=open terminal=false"
     echo '---'
-    echo "Empty Trash | bash=$0 param1=empty terminal=false"
+    echo "Empty Trash | bash='$0' param1=empty terminal=false"
 fi

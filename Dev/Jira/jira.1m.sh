@@ -45,7 +45,7 @@ function echoAllIssues() {
     issues=$(echo "$json" | getTextWithCommaJsonValue summary $i)
     key=$(echo "$json" | getJsonValue key $i)
     url="${JIRA_BASE_URL}/browse/${key}"
-    echo "$key: $issues | bash=$0 param1=$url terminal=false color=$color"
+    echo "$key: $issues | bash='$0' param1=$url terminal=false color=$color"
     ((i+=1))
   done
 }

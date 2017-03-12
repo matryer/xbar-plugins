@@ -21,4 +21,4 @@ fi
 
 echo "🔒"
 echo '---'
-echo "Lock Now | bash=$0 param1=lock terminal=false"
+echo "Lock Now | bash='$0' param1=lock terminal=false"

@@ -1,19 +1,33 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Twitch Following</bitbar.title>
-// <bitbar.version>v1.5</bitbar.version>
+// <bitbar.version>v1.6</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Shows which channels you follow are live, what they're playing, for how long etc. Lets you watch them with livestreamer and open the chat in your browser. Based on the play-with-livestreamer bitbar plugin. Requires a Twitch account.</bitbar.desc>
 // <bitbar.image>https://i.imgur.com/dhscE7r.png</bitbar.image>
 // <bitbar.dependencies>node, livestreamer</bitbar.dependencies>
 
-var LIVESTREAMER_PATH = '/usr/local/bin/livestreamer';
-var LIVESTREAMER_CONFIG_PATH = process.env.HOME + '/.config/livestreamer/config';
-var AUTH_PROP_KEY = 'twitch-oauth-token';
-var ACCESS_TOKEN = readAccessToken();
+'use strict';
 
-var TWITCH_ICON_36_RETINA =
+/*jshint esversion: 6 */
+
+const LIVESTREAMER_PATH = '/usr/local/bin/livestreamer';
+const LIVESTREAMER_CONFIG_PATH = process.env.HOME + '/.config/livestreamer/config';
+const AUTH_PROP_KEY = 'twitch-oauth-token';
+const ACCESS_TOKEN = readAccessToken();
+
+
+const OPTIONS = {
+    // The followers you care about. This affects the bitbar tray count.
+    //
+    // Leave as undefined to count everyone
+    // An empty list means no one
+    // Otherwise list twitch stream usernames
+    favourites: undefined
+};
+
+const TWITCH_ICON_36_RETINA =
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTw" +
     "AAA5pGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlk" +
     "PSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9i" +
@@ -301,9 +315,9 @@ var TWITCH_ICON_36_RETINA =
 
 function readAccessToken() {
     try {
-        var data = require('fs').readFileSync(LIVESTREAMER_CONFIG_PATH, 'utf8');
+        const data = require('fs').readFileSync(LIVESTREAMER_CONFIG_PATH, 'utf8');
         if (data) {
-            var line = data.split('\n').find(function(line) {
+            const line = data.split('\n').find(function(line) {
                 return line.indexOf(AUTH_PROP_KEY) >= 0;
             });
 
@@ -313,21 +327,23 @@ function readAccessToken() {
 }
 
 function outputForStream(stream) {
-    var channel = stream.channel;
+    const channel = stream.channel;
 
-    var timeLive = Math.floor((Date.now() - Date.parse(stream.created_at)) / 1000 / 60);
+    let timeLive = Math.floor((Date.now() - Date.parse(stream.created_at)) / 1000 / 60);
     if (timeLive > 60) {
         timeLive = Math.floor(timeLive / 60) + 'h ' + (timeLive % 60) + 'm';
     } else {
         timeLive = timeLive + 'm';
     }
 
-    var startLivestreamer = [
+    const startLivestreamer = [
         'terminal=false bash=', LIVESTREAMER_PATH,
         ' param1=', channel.url.replace('http://', '')].join('');
-    var openChat = [
+    const openChat = [
         'href=https://twitch.tv/', channel.name,'/chat?popout='].join('');
-    return  [channel.display_name, ' | ', startLivestreamer, '\n',
+    const openTwitch = [
+        'href=https://twitch.tv/', channel.name].join('');
+    return  [channel.display_name, ' | ', openTwitch, '\n',
              '--', '📺 livestream | ', startLivestreamer, '\n',
              '--', '👥 chat | ', openChat, '\n',
              '-----\n',
@@ -341,9 +357,9 @@ function endOutput() {
 }
 
 function handleResponse(body) {
-    var streamByGame = {};
+    const streamByGame = {};
 
-    var onlineStreams = body.streams.filter(function(stream) {
+    const onlineStreams = body.streams.filter(function(stream) {
         return !stream.is_playlist;
     });
 
@@ -355,16 +371,19 @@ function handleResponse(body) {
         streamByGame[stream.channel.game].push(stream);
     });
 
-    var outputs = [];
+    const outputs = [];
 
-    for (var game in streamByGame) {
+    for (const game in streamByGame) {
         outputs.push([game, '| size=10 \n', streamByGame[game].map(outputForStream).join('')].join(''));
     }
 
     if (onlineStreams.length === 0) {
         console.log('|templateImage="'+ TWITCH_ICON_36_RETINA + '"\n');
     } else {
-        console.log(onlineStreams.length + '|image="'+ TWITCH_ICON_36_RETINA + '"\n');
+        let count = !OPTIONS.favourites ?
+            onlineStreams.length :
+            onlineStreams.filter(stream => OPTIONS.favourites.indexOf(stream.channel.name) !== -1).length || '';
+        console.log(count + '|image="'+ TWITCH_ICON_36_RETINA + '"\n');
     }
 
     console.log('---\n' + outputs.join('\n---\n'));
@@ -372,8 +391,8 @@ function handleResponse(body) {
 }
 
 if (ACCESS_TOKEN) {
-    var urlHost = 'api.twitch.tv';
-    var urlPath = '/kraken/streams/followed?stream_type=live';
+    const urlHost = 'api.twitch.tv';
+    const urlPath = '/kraken/streams/followed?stream_type=live';
 
     require('https').get({
         hostname: urlHost,
@@ -382,7 +401,7 @@ if (ACCESS_TOKEN) {
             'Authorization': 'OAuth ' + ACCESS_TOKEN
         }
     }, function(res) {
-        var body = '';
+        let body = '';
         res.on('data', function(data) {
             body += data;
         });

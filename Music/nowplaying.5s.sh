@@ -17,7 +17,8 @@ paused=""
 for i in "${apps[@]}"; do
 	# is the app running?
 	app_state=$(osascript -e "application \"$i\" is running")
-	
+
+	# shellcheck disable=SC2181
 	if [ "$?" != "0" ]; then
 		# just exit if there was an error determining the app's state
 		# (the app might be in the middle of quitting)

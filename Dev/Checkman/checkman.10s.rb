@@ -129,6 +129,7 @@ check_files.each do |checkfile|
     when '#-'
       @output += "---\n"
     when /^#.*/, ''
+      true
     else
       item = line.split(":", 2)
       cmd = item[1].strip.split(" ", 2)

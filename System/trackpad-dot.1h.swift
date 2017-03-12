@@ -1,4 +1,4 @@
-#!/usr/bin/env xcrun swift 
+#!/usr/bin/env xcrun swift
 
 /*
  * <bitbar.title>Trackpad Dot</bitbar.title>
@@ -14,50 +14,50 @@ import Foundation
 
 typealias Color = (red : UInt, green : UInt, blue : UInt)
 
-func shell(args: String...) -> String {
-    let task = NSTask()
+func shell(_ args: String...) -> String {
+    let task = Process()
     task.launchPath = "/bin/bash"
     task.arguments = ["-c"] + args
-
-    let pipe = NSPipe()
+    
+    let pipe = Pipe()
     task.standardOutput = pipe
     task.launch()
-
+    
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output: String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-
-    return output.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    let output: String = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as! String
+    
+    return output.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 }
 
-func rgb(r : UInt, _ g : UInt , _ b : UInt) -> Color {
+func rgb(_ r : UInt, _ g : UInt , _ b : UInt) -> Color {
     return (red: r, green: g, blue: b)
 }
 
-func linear(initial: UInt, next: UInt, percent: Double) -> Double {
+func linear(_ initial: UInt, next: UInt, percent: Double) -> Double {
     return Double(initial) * (1.0 - percent) + Double(next) * (percent)
 }
 
-func interpolate(first : Color, second : Color, percent: Double) -> Color {
+func interpolate(_ first : Color, second : Color, percent: Double) -> Color {
     let r = linear(first.red, next: second.red, percent: percent)
     let g = linear(first.green, next: second.green, percent: percent)
     let b = linear(first.blue, next: second.blue, percent: percent)
     return rgb(UInt(r), UInt(g), UInt(b))
 }
 
-func componentToHex(component : UInt) -> String {
+func componentToHex(_ component : UInt) -> String {
     return String(format:"%02X", component)
 }
 
-func colorToHex(color: Color) -> String {
+func colorToHex(_ color: Color) -> String {
     return [
         "#",
         componentToHex(color.red),
         componentToHex(color.green),
         componentToHex(color.blue)
-    ].joinWithSeparator("")
+        ].joined(separator: "")
 }
 
-let commandString = "ioreg -c BNBTrackpadDevice | egrep -o 'BatteryPercent. = \\d{0,3}' | sed -E 's/[^0-9]+([0-9]{0,3})/\\1/g'" 
+let commandString = "ioreg -c BNBTrackpadDevice | egrep -o 'BatteryPercent. = \\d{0,3}' | sed -E 's/[^0-9]+([0-9]{0,3})/\\1/g'"
 let trackpadPercentString = shell(commandString)
 var trackpadDropdownString = "\(trackpadPercentString)%"
 var colorString = ""
@@ -70,12 +70,12 @@ let colors = [
 
 if let trackpadPercent = Int(trackpadPercentString) {
     var interpolationColors : (first: Color, second: Color) = (first: rgb(0,0,0), second: rgb(0,0,0))
-
+    
     switch(trackpadPercent) {
-        case 0...50: interpolationColors = (first: colors[0], second: colors[1])
-        case 50...100: interpolationColors = (first: colors[1], second: colors[2])
-        // Catch all to satisfy the compiler
-        default: break
+    case 0...50: interpolationColors = (first: colors[0], second: colors[1])
+    case 50...100: interpolationColors = (first: colors[1], second: colors[2])
+    // Catch all to satisfy the compiler
+    default: break
     }
     let percent = trackpadPercent % 50 == 0 ? 1.0 : Double(trackpadPercent % 50) / 50.0
     let color = interpolate(interpolationColors.first, second: interpolationColors.second, percent: percent)

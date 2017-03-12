@@ -11,6 +11,7 @@
 # Set Alarm
 if [ "$1" = 'set' ]; then
     alarm="$(osascript -e 'Tell application "System Events" to display dialog "Enter Alarm in 24 Hour Time format:" default answer ""' -e 'text returned of result' 2>/dev/null)"
+    # shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
         # Cancelled
         exit
@@ -66,7 +67,7 @@ fi
 
 # Parse alarms
 while IFS= read -r line; do
-    echo "$line | color=red bash=$0 param1=remove param2=$line terminal=false"
+    echo "$line | color=red bash='$0' param1=remove param2=$line terminal=false"
     now=$(date +%R)
     if [ "$line" == "$now" ] && [ "$(date +%S)" -le '03' ] && [ ! -f '/tmp/alarmclock_trigger.data' ]; then
         echo "$now" > '/tmp/alarmclock_trigger.data'
@@ -75,11 +76,11 @@ done </tmp/alarmclock.data
 
 # Set new alarm
 echo '---'
-echo "Set Alarm | color=green bash=$0 param1=set terminal=false"
+echo "Set Alarm | color=green bash='$0' param1=set terminal=false"
 
 # Trigger alarm
 if [ -f '/tmp/alarmclock_trigger.data' ]; then
-    echo "Stop Alarm | color=red bash=$0 param1=stop terminal=false"
+    echo "Stop Alarm | color=red bash='$0' param1=stop terminal=false"
     afplay /System/Library/Sounds/Tink.aiff
     afplay /System/Library/Sounds/Tink.aiff
     afplay /System/Library/Sounds/Tink.aiff

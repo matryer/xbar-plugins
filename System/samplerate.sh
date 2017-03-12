@@ -40,5 +40,5 @@ i=0
 for device in "${devices[@]}"; do
   ((i += 1))
   device=$(echo "$device" | tr -d ' ' | sed 's/:$//')
-  echo "$i $device | bash=$0 param1=$i terminal=false refresh=true"
+  echo "$i $device | bash='$0' param1=$i terminal=false refresh=true"
 done

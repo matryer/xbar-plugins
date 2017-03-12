@@ -23,7 +23,7 @@ if [ "$(osascript -e 'application "Vox" is running')" = "false" ]; then
   echo "♫"
   echo "---"
   echo "Vox is not running"
-  echo "Launch Vox| bash=$0 param1=launch terminal=false"
+  echo "Launch Vox| bash='$0' param1=launch terminal=false"
   exit
 fi
 
@@ -65,7 +65,7 @@ case "$0" in
 esac
 
 if [ "$state" = "1" ]; then
-  echo "❚❚ Pause | bash=$0 param1=playpause terminal=false"
+  echo "❚❚ Pause | bash='$0' param1=playpause terminal=false"
 else
-  echo "▶ Play | bash=$0 param1=playpause terminal=false"
+  echo "▶ Play | bash='$0' param1=playpause terminal=false"
 fi

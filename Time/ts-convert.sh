@@ -38,6 +38,6 @@ fi
 # Print icon
 echo "⏱"
 echo "---"
-echo "Convert clipboard timestamp to date | bash=$0 param1=encode terminal=false"
-echo "Convert clipboard timestamp to date and write it to the clipboard | bash=$0 param1=encodepaste terminal=false"
-echo "Write the current timestamp to the clipboard | bash=$0 param1=now terminal=false"
+echo "Convert clipboard timestamp to date | bash='$0' param1=encode terminal=false"
+echo "Convert clipboard timestamp to date and write it to the clipboard | bash='$0' param1=encodepaste terminal=false"
+echo "Write the current timestamp to the clipboard | bash='$0' param1=now terminal=false"

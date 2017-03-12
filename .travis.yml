@@ -1,11 +1,19 @@
 language: objective-c
-osx_image: xcode7.1
+osx_image: xcode8
 before_install:
-  - brew install python && pip install pyflakes
+  - brew update
+  - brew outdated python || brew upgrade python
+  - pip install pyflakes
   - gem install rubocop --no-document
   - brew install shellcheck
-  - brew install node && npm install -g jshint
+  - brew outdated node || brew upgrade node
+  - npm install -g jshint
   - brew install cpanminus && sudo cpanm Mozilla::CA
   - brew install clisp
   - brew install python3 && pip3 install pyflakes
+  - brew outdated golang || brew upgrade golang
+  - go get -u github.com/golang/lint/golint
+install:
+  - export PATH="$PATH:${GOROOT:-$HOME/go}/bin"
+
 script: ./.test.py

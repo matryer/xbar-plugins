@@ -63,10 +63,10 @@ echo "---"
 echo "🔄 Refresh | colo=black refresh=true"
 echo "---"
 echo "Public: "
-echo "IPv4: ${EXTERNAL_IP4}${WHOIS} | terminal=false bash=$0 param1=copy param2=$EXTERNAL_IP4"
-echo "IPv6: ${EXTERNAL_IP6} | terminal=false bash=$0 param1=copy param2=$EXTERNAL_IP6"
+echo "IPv4: ${EXTERNAL_IP4}${WHOIS} | terminal=false bash='$0' param1=copy param2=$EXTERNAL_IP4"
+echo "IPv6: ${EXTERNAL_IP6} | terminal=false bash='$0' param1=copy param2=$EXTERNAL_IP6"
 echo "---"
-echo "📈 Perform Speedtest | terminal=false refresh=true bash=$0 param1=speedtest"
+echo "📈 Perform Speedtest | terminal=false refresh=true bash='$0' param1=speedtest"
 
 # Pretty format the last speedtest if the tmp file is found
 if [[ -e "$SPEEDTEST" ]]; then
@@ -85,7 +85,7 @@ fi
 echo "---"
 for INT in $INTERFACES; do
      echo "$INT:"
-     ifconfig "$INT" | awk "/ether/ { print \"MAC: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 }; /inet / { print \"IPv4: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 };  /inet6/ { print \"IPv6: \" \$2 \" | terminal=false bash=$0 param1=copy param2=\" \$2 }" | sed -e 's/%utun[0-9]*//g' -e 's/%en[0-9]*//g' | sort
+     ifconfig "$INT" | awk "/ether/ { print \"MAC: \" \$2 \" | terminal=false bash='$0' param1=copy param2=\" \$2 }; /inet / { print \"IPv4: \" \$2 \" | terminal=false bash='$0' param1=copy param2=\" \$2 };  /inet6/ { print \"IPv6: \" \$2 \" | terminal=false bash='$0' param1=copy param2=\" \$2 }" | sed -e 's/%utun[0-9]*//g' -e 's/%en[0-9]*//g' | sort
      echo "---"
 done
 

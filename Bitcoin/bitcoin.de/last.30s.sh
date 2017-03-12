@@ -10,6 +10,6 @@
 
 DATA=$(curl -s "https://bitcoinapi.de/widget/current-btc-price/rate.json")
 
-echo -n "BTC: "; echo "$DATA"  | egrep -o '"price_eur":"[0-9]+(\,)?([0-9]{0,2}\\)?' | sed 's/"price_eur":"//' | sed 's/\\/ EUR/'
+echo -n "BTC: "; echo "$DATA"  | egrep -o '"price_eur":"[0-9.]+(\,)?([0-9]{0,2}\\)?' | sed 's/"price_eur":"//' | sed 's/\\/ EUR/'
 echo "---"
 echo "$DATA" | egrep -o '"date_de":"[0-9]{2}.[0-9]{2}.[0-9]{2} [0-9]{2}:[0-9]{2}"' | sed 's/"date_de":"//' | sed 's/\\/ EUR/' | sed 's/"//'
