@@ -51,7 +51,7 @@ def prettify(json)
     puts "NSFW | color=red"
   end
 
-  puts json["title"] + " | color=#337ab7 | href=#{REDDIT}" + json["permalink"]
+  puts json["title"] + "| href=#{REDDIT}" + json["permalink"] + " color=#337ab7"
   puts "Score: #{json["score"]}, Comments: #{json["num_comments"]}"
 end
 
