@@ -52,4 +52,6 @@ else
 	exit
 fi
 
-exit
+# --- Icon credit ---
+# Icon made by Freepik (http://www.freepik.com), from http://www.flaticon.com, and licensed by Creative Commons BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
+#
