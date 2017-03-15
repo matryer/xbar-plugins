@@ -32,9 +32,9 @@ NEWREP=$(curl -s --compressed "$URI" | egrep -o '"reputation":*([0-9])+' | sed '
 if [ -z "$OLDREP" ] || [ -z "$NEWREP" ] ; then
   echo "? | color=orange image=$SO_ICON"
 elif [ "$NEWREP" -gt "$OLDREP" ] ; then
-  echo "+`expr $NEWREP - $OLDREP` | color=green image=$SO_ICON"
+  echo "+$(($NEWREP - $OLDREP)) | color=green image=$SO_ICON"
 elif [ "$OLDREP" -gt "$NEWREP" ] ; then
-  echo "`expr $NEWREP - $OLDREP` | color=red image=$SO_ICON"
+  echo "$(($NEWREP - $OLDREP)) | color=red image=$SO_ICON"
 else
   echo "$NEWREP | image=$SO_ICON" # output score
 fi
