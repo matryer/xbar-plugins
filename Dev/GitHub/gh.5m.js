@@ -1,4 +1,5 @@
 #!/usr/local/bin/node
+/* jshint esversion: 6 */
 
 /*
 # <bitbar.title>GitBar</bitbar.title>
