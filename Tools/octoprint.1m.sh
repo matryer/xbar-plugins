@@ -4,7 +4,7 @@
 # <bitbar.author.github>m0a</bitbar.author.github>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.desc>3dprinter control with octoprint api</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/daHLotM.png</bitbar.image>
+# <bitbar.image>http://i.imgur.com/2zx2gax.png</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 # please setup apikey
