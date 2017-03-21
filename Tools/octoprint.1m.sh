@@ -41,24 +41,26 @@ function displaytime {
 }
 
 
+# menu functions
 function printcmd {
     curl -s -H $HEADER -H Accept:application/json -H Content-type:application/json -X POST -d '{"command":"select","print":true}' "$ENDPOINT/api/files/local/$1"
 }
 function printstopcmd {
     curl -s -H $HEADER -H Accept:application/json -H Content-type:application/json -X POST -d '{"command":"cancel"}' $ENDPOINT/api/job
 }
+function deletecmd {
+    curl -s -H $HEADER  -X DELETE  "$ENDPOINT/api/files/local/$1"
+}
 
 # task switch if parameter count = 0 then print menu
 if [ $# -ne 0 ]; then
-    if [ "$1" == "printcmd" ]; then
-        printcmd "$2"
-    elif [ "$1" == "printstopcmd" ]; then
-        printstopcmd
-    fi
+    cmd=$1
+    $cmd "$2"
     exit 0
 fi
 
 
+# env check
 job=$(runapi job)
 if [ "$job" = '' ]; then
     echo "please edit this file and change ENDPOINT."
@@ -69,9 +71,11 @@ if [ "$job" = 'Invalid API key' ]; then
     echo "please edit this file and change APIKEY."
     exit 1;
 fi
+
 seconds=$(echo "$job" | $JQ .progress.printTimeLeft)
 filename=$(echo "$job" |$JQ .job.file.name -r)
 state=$(echo "$job" |$JQ .state -r)
+
 if [ "$state" = Printing ]; then
 printf 'ETE ' && displaytime "$seconds" 
 
@@ -91,7 +95,10 @@ echo "hotend:$temp0°C  bed:$bed°C | color=black"
 
 if [ "$DEBUG" = true ]; then echo "Refresh | refresh=true" ; fi
 
-echo "open frontend | color=green href=$ENDPOINT"
+version=$(runapi version)
+octo_ver=$(echo "$version" |$JQ -r .server)
+api_ver=$(echo "$version" |$JQ -r .api)
+echo "octoprint:$octo_ver api:$api_ver | color=green href=$ENDPOINT"
 
 # control job
 if [ "$state" = Printing ]; then
@@ -101,11 +108,35 @@ fi
 
 echo "---"
 files=$(runapi files)
-filelist=$(echo "$files" |$JQ -r '.files | sort_by(.date)| reverse | .[].name')
-for f in $filelist;do
-    if [ "$state" = "Printing" ]; then
-        echo "$f"
-    else 
-        echo "$f | color=green bash=$0 param1=printcmd param2=$f terminal=$DEBUG"
+filenames=$(echo "$files" |$JQ -r '.files | sort_by(.date)| reverse | .[].name')
+
+# echo "$files" | pbcopy
+
+
+function filesubmenu {
+    local filename=$1
+    local onefile
+    local filesize
+    local filedate
+
+    onefile=$(echo "$files" |$JQ --arg n "$filename"  ".files | map(select(.name =\"\$n\" )) |.[0]")
+    filesize=$(echo "$onefile" |$JQ .size)
+    filedate=$(echo "$onefile" |$JQ .date)
+
+    # print submenu
+    echo "$filename"
+    
+    if [ "$state" != "Printing" ]; then
+        echo "--start print | color=green bash=$0 param1=printcmd param2=$filename refresh=true terminal=$DEBUG"
     fi
+    echo "--date: $filedate"
+    echo "--size: $filesize"
+    echo "--delete | color=green bash=$0 param=deltecmd param2=$filename refresh=true terminal=$DEBUG "
+    # echo "$onefile"
+    return 0
+}
+
+# show file submenu
+for f in $filenames;do
+    filesubmenu "$f"
 done
