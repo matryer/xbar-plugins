@@ -22,8 +22,7 @@ HEADER="x-api-key:$APIKEY"
 
 
 function runapi {
-  local api="curl -s -gH $HEADER $ENDPOINT/api/$1"
-  echo `$api`
+  curl -s -gH "$HEADER" "$ENDPOINT/api/$1"
   return 0
 }
 
@@ -34,16 +33,16 @@ function displaytime {
   local M=$((T/60%60))
   local S=$((T%60))
   
-  (( $D > 0 )) && printf '%dd' $D
-  (( $H > 0 )) && printf '%dh' $H
-  (( $M > 0 )) && printf '%dm' $M
-  (( $D > 0 || $H > 0 || $M > 0 )) && printf '%ds | color=black\n' $S
+  (( D > 0 )) && printf '%dd' $D
+  (( H > 0 )) && printf '%dh' $H
+  (( M > 0 )) && printf '%dm' $M
+  (( D > 0 || H > 0 || M > 0 )) && printf '%ds | color=black\n' $S
   return 0
 }
 
 
 function printcmd {
-    curl -s -H $HEADER -H Accept:application/json -H Content-type:application/json -X POST -d '{"command":"select","print":true}' $ENDPOINT/api/files/local/$1
+    curl -s -H $HEADER -H Accept:application/json -H Content-type:application/json -X POST -d '{"command":"select","print":true}' "$ENDPOINT/api/files/local/$1"
 }
 function printstopcmd {
     curl -s -H $HEADER -H Accept:application/json -H Content-type:application/json -X POST -d '{"command":"cancel"}' $ENDPOINT/api/job
@@ -51,16 +50,16 @@ function printstopcmd {
 
 # task switch if parameter count = 0 then print menu
 if [ $# -ne 0 ]; then
-    if [ $1 == "printcmd" ]; then
-        printcmd $2
-    elif [ $1 == "printstopcmd" ]; then
+    if [ "$1" == "printcmd" ]; then
+        printcmd "$2"
+    elif [ "$1" == "printstopcmd" ]; then
         printstopcmd
     fi
     exit 0
 fi
 
 
-job=`runapi job`
+job=$(runapi job)
 if [ "$job" = '' ]; then
     echo "please edit this file and change ENDPOINT."
     exit 1;
@@ -70,11 +69,11 @@ if [ "$job" = 'Invalid API key' ]; then
     echo "please edit this file and change APIKEY."
     exit 1;
 fi
-seconds=`echo $job|$JQ .progress.printTimeLeft`
-filename=`echo $job|$JQ .job.file.name -r`
-state=`echo $job|$JQ .state -r`
+seconds=$(echo "$job" | $JQ .progress.printTimeLeft)
+filename=$(echo "$job" |$JQ .job.file.name -r)
+state=$(echo "$job" |$JQ .state -r)
 if [ "$state" = Printing ]; then
-printf 'ETE ' && displaytime $seconds 
+printf 'ETE ' && displaytime "$seconds" 
 
 echo "$filename | color=black"
 else 
@@ -84,9 +83,9 @@ fi
 
 echo "---"
 
-printer=`runapi printer`
-temp0=`echo $printer |$JQ .temperature.tool0.actual -r`
-bed=`echo $printer |$JQ .temperature.bed.actual -r`
+printer=$(runapi printer)
+temp0=$(echo "$printer" |$JQ .temperature.tool0.actual -r)
+bed=$(echo "$printer" |$JQ .temperature.bed.actual -r)
 echo "hotend:$temp0°C  bed:$bed°C | color=black"
 
 
@@ -101,11 +100,11 @@ echo "print cancel  | color=red bash=$0 param1=printstopcmd  terminal=$DEBUG"
 fi
 
 echo "---"
-files=`runapi files`
-filelist=`echo $files|$JQ -r '.files | sort_by(.date)| reverse | .[].name'`
+files=$(runapi files)
+filelist=$(echo "$files" |$JQ -r '.files | sort_by(.date)| reverse | .[].name')
 for f in $filelist;do
-    if [ $state = "Printing" ]; then
-        echo $f
+    if [ "$state" = "Printing" ]; then
+        echo "$f"
     else 
         echo "$f | color=green bash=$0 param1=printcmd param2=$f terminal=$DEBUG"
     fi
