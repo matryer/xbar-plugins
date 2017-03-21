@@ -55,7 +55,9 @@ function deletecmd {
 # task switch if parameter count = 0 then print menu
 if [ $# -ne 0 ]; then
     cmd=$1
-    $cmd "$2"
+    echo "run $cmd $2"
+    status=$($cmd "$2")
+    echo "$status"
     exit 0
 fi
 
@@ -118,10 +120,12 @@ function filesubmenu {
     local onefile
     local filesize
     local filedate
-
-    onefile=$(echo "$files" |$JQ --arg n "$filename"  ".files | map(select(.name =\"\$n\" )) |.[0]")
-    filesize=$(echo "$onefile" |$JQ .size)
-    filedate=$(echo "$onefile" |$JQ .date)
+    
+    # shellcheck disable=SC2016
+    onefile=$(echo "$files" |$JQ  --arg filename "$filename" '.files | map(select(.name == $filename ))' )
+    
+    filesize=$(echo "$onefile" |$JQ .[0].size)
+    filedate=$(echo "$onefile" |$JQ .[0].date)
 
     # print submenu
     echo "$filename"
@@ -131,8 +135,7 @@ function filesubmenu {
     fi
     echo "--date: $filedate"
     echo "--size: $filesize"
-    echo "--delete | color=green bash=$0 param=deltecmd param2=$filename refresh=true terminal=$DEBUG "
-    # echo "$onefile"
+    echo "--delete | color=green bash=$0 param1=deletecmd param2=$filename refresh=true terminal=$DEBUG "
     return 0
 }
 
