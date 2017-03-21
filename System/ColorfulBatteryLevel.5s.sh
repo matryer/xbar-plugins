@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2128,SC2178,SC2034
 #
 # <bitbar.title>Colorful Battery Indicator</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
@@ -72,26 +73,26 @@ bcharging="iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAACXBIWXMAABYlAAAWJQFJU
 # Get the current charge interval
 if [ "$power_source" = "'ACPower'" ]; then lvl="charging" img_base="";
 else
-	if [ "$battery_level" -gt 95 -a "$battery_level" -le 100 ]; then lvl="0";
-	elif [ "$battery_level" -gt 90 -a "$battery_level" -le 95 ]; then lvl="1";
-	elif [ "$battery_level" -gt 85 -a "$battery_level" -le 90 ]; then lvl="2";
-	elif [ "$battery_level" -gt 80 -a "$battery_level" -le 85 ]; then lvl="3";
-	elif [ "$battery_level" -gt 75 -a "$battery_level" -le 80 ]; then lvl="4";
-	elif [ "$battery_level" -gt 70 -a "$battery_level" -le 75 ]; then lvl="5";
-	elif [ "$battery_level" -gt 65 -a "$battery_level" -le 70 ]; then lvl="6";
-	elif [ "$battery_level" -gt 60 -a "$battery_level" -le 65 ]; then lvl="7";
-	elif [ "$battery_level" -gt 55 -a "$battery_level" -le 60 ]; then lvl="8";
-	elif [ "$battery_level" -gt 50 -a "$battery_level" -le 55 ]; then lvl="9";
-	elif [ "$battery_level" -gt 45 -a "$battery_level" -le 50 ]; then lvl="10";
-	elif [ "$battery_level" -gt 40 -a "$battery_level" -le 45 ]; then lvl="11";
-	elif [ "$battery_level" -gt 35 -a "$battery_level" -le 40 ]; then lvl="12";
-	elif [ "$battery_level" -gt 30 -a "$battery_level" -le 35 ]; then lvl="13";
-	elif [ "$battery_level" -gt 25 -a "$battery_level" -le 30 ]; then lvl="14";
-	elif [ "$battery_level" -gt 20 -a "$battery_level" -le 25 ]; then lvl="15";
-	elif [ "$battery_level" -gt 15 -a "$battery_level" -le 20 ]; then lvl="16";
-	elif [ "$battery_level" -gt 10 -a "$battery_level" -le 15 ]; then lvl="17";
-	elif [ "$battery_level" -gt 5 -a "$battery_level" -le 10 ]; then lvl="18";
-	elif [ "$battery_level" -gt 0 -a "$battery_level" -le 5 ]; then lvl="19";
+	if [ "$battery_level" -gt 95 ] && [ "$battery_level" -le 100 ]; then lvl="0";
+	elif [ "$battery_level" -gt 90 ] && [ "$battery_level" -le 95 ]; then lvl="1";
+	elif [ "$battery_level" -gt 85 ] && [ "$battery_level" -le 90 ]; then lvl="2";
+	elif [ "$battery_level" -gt 80 ] && [ "$battery_level" -le 85 ]; then lvl="3";
+	elif [ "$battery_level" -gt 75 ] && [ "$battery_level" -le 80 ]; then lvl="4";
+	elif [ "$battery_level" -gt 70 ] && [ "$battery_level" -le 75 ]; then lvl="5";
+	elif [ "$battery_level" -gt 65 ] && [ "$battery_level" -le 70 ]; then lvl="6";
+	elif [ "$battery_level" -gt 60 ] && [ "$battery_level" -le 65 ]; then lvl="7";
+	elif [ "$battery_level" -gt 55 ] && [ "$battery_level" -le 60 ]; then lvl="8";
+	elif [ "$battery_level" -gt 50 ] && [ "$battery_level" -le 55 ]; then lvl="9";
+	elif [ "$battery_level" -gt 45 ] && [ "$battery_level" -le 50 ]; then lvl="10";
+	elif [ "$battery_level" -gt 40 ] && [ "$battery_level" -le 45 ]; then lvl="11";
+	elif [ "$battery_level" -gt 35 ] && [ "$battery_level" -le 40 ]; then lvl="12";
+	elif [ "$battery_level" -gt 30 ] && [ "$battery_level" -le 35 ]; then lvl="13";
+	elif [ "$battery_level" -gt 25 ] && [ "$battery_level" -le 30 ]; then lvl="14";
+	elif [ "$battery_level" -gt 20 ] && [ "$battery_level" -le 25 ]; then lvl="15";
+	elif [ "$battery_level" -gt 15 ] && [ "$battery_level" -le 20 ]; then lvl="16";
+	elif [ "$battery_level" -gt 10 ] && [ "$battery_level" -le 15 ]; then lvl="17";
+	elif [ "$battery_level" -gt 5 ] && [ "$battery_level" -le 10 ]; then lvl="18";
+	elif [ "$battery_level" -gt 0 ] && [ "$battery_level" -le 5 ]; then lvl="19";
 fi
 fi
 
