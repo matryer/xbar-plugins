@@ -2,7 +2,7 @@
 # <bitbar.title>Octoprint</bitbar.title>
 # <bitbar.author>m0a</bitbar.author>
 # <bitbar.author.github>m0a</bitbar.author.github>
-# <bitbar.version>v1.8</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.desc>3dprinter control with octoprint api</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/biN2ISe.png</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
