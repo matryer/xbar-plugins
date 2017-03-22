@@ -19,7 +19,7 @@ if [[ -x $fortune ]]; then
   echo "Next cookie|refresh=true image=$cookie"
   echo "---"
   echo " |trim=false"
-  echo "$($fortune|/usr/bin/sed 's/-/–/g; s/^/    /; s/$/  |font=Avenir size=14 trim=false/')"
+  $fortune|/usr/bin/sed 's/-/–/g; s/^/    /; s/$/  |font=Avenir size=14 trim=false/'
   echo " |trim=false"
 else
   echo "Fortune is not installed|color=red"
