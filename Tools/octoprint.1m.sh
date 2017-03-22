@@ -97,11 +97,15 @@ fi
 # env check
 job=$(runapi job)
 if [ "$job" = '' ]; then
+		echo "err | color=red"
+		echo "---"
 		echo "please edit this file and change ENDPOINT."
 		exit 1;
 fi
 
 if [ "$job" = 'Invalid API key' ]; then
+		echo "err | color=red"
+		echo "---"
 		echo "please edit this file and change APIKEY."
 		exit 1;
 fi
