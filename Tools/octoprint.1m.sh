@@ -62,12 +62,14 @@ function displaytime {
 
 function displaysnapshot {
 		local snapshot
-		snapshot=$(curl -s "$SNAPSHOTURL" | $CONVERT - -quiet -resize $IMAGEWIDTH - |base64)
-		if [ "$snapshot" = '' ]; then
-			echo "please edit this file and change SNAPSHOTURL."
-			exit 1
+		if ! curl -s "$SNAPSHOTURL" > /dev/null
+		then
+			echo "webcam don't enable"
+			return 1
 		fi
+		snapshot=$(curl -s "$SNAPSHOTURL" | $CONVERT - -quiet -resize $IMAGEWIDTH - |base64)
 		echo "| image=$snapshot refresh=true"
+		return 0
 }
 
 
