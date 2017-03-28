@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Live Cricket Scores</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Anup Sam Abraham</bitbar.author>
 # <bitbar.author.github>anupsabraham</bitbar.author.github>
 # <bitbar.desc>Show live scores of cricket matches happening around the world using Cricinfo api. </bitbar.desc>
