@@ -3,7 +3,7 @@
 # Author: Jan M. Groß
 
 # <bitbar.title>Instagram Stats</bitbar.title>
-# <bitbar.version>v0.5</bitbar.version>
+# <bitbar.version>v0.5.1</bitbar.version>
 # <bitbar.author>Jan Groß</bitbar.author>
 # <bitbar.author.github>JanGross</bitbar.author.github>
 # <bitbar.desc>Displays information about an Instagram profiles followers and recent posts. Does not require any auth-token or login!</bitbar.desc>
@@ -91,7 +91,7 @@ print("IGStats|image='iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///
 print("---")
 print(full_name+"|color=black size=20 href='%s' font='Marker Felt' image="+str(uimage_b64)) % ('https://instagram.com/'+user)
 print("@"+user)
-print(formatted_bio + "| size=10 font='Ubuntu' ")
+print(formatted_bio.encode('utf-8') + "| size=10 font='Ubuntu' ")
 print("---")
 print("Follower: %s Following: %s |color=black") % (follower_count,following_count)
 print("---")
