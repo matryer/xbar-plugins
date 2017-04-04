@@ -1,9 +1,9 @@
 #!/usr/bin/env /usr/local/bin/node
-/* jshint esversion: 6 */
+/* jshint esversion: 6, loopfunc: true */
 
 /*
 <bitbar.title>Google Calendar</bitbar.title>
-<bitbar.version>v1.0.0</bitbar.version>
+<bitbar.version>v1.0.1</bitbar.version>
 <bitbar.author>Kodie Grantham</bitbar.author>
 <bitbar.author.github>kodie</bitbar.author.github>
 <bitbar.desc>Shows upcoming events from your Google Calendar - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-googlecal</bitbar.desc>
@@ -12,7 +12,7 @@
 <bitbar.abouturl>https://github.com/kodie/bitbar-googlecal</bitbar.abouturl>
 */
 
-var ver = '1.0.0';
+var ver = '1.0.1';
 
 var defaults = {
   clientId: '529707498278-prhql6kn67hevctqkt0qkgeha51bdhv7.apps.googleusercontent.com',
@@ -23,9 +23,10 @@ var defaults = {
   days: 7,
   expandEvents: true,
   limit: 25,
-  showAllOfToday: true,
+  showAllOfFirstDay: true,
   showEmptyDays: false,
   serverPort: 3000,
+  startDate: Date.now(),
   timeFormat: 'h:mma',
   tokenFile: '.googlecal.json'
 };
@@ -212,110 +213,132 @@ function refreshToken(oauth2Client, cb) {
 
 function listEvents(oauth2Client) {
   var calendar = google.calendar('v3');
+  var processedCalendars = 0;
+  var today = moment().format('L');
+  var tomorrow = moment().add(1, 'days').format('L');
+  var start = moment(new Date(cfg.startDate));
+  var dateLimit, evnts = {};
 
-  calendar.events.list({
-    auth: oauth2Client,
-    calendarId: cfg.calendarId,
-    timeMin: (cfg.showAllOfToday ? (new Date(moment().format('L'))) : (new Date())).toISOString(),
-    maxResults: cfg.limit,
-    singleEvents: true,
-    orderBy: 'startTime'
-  }, function(error, response) {
-    if (!error) {
-      var events = response.items;
+  if (!(cfg.calendarId instanceof Array)) {
+    cfg.calendarId = cfg.calendarId.split(',');
+  }
 
-      if (events.length) {
-        var evnts = {};
+  if (cfg.days) {
+    dateLimit = moment(start).add((cfg.days - 1), 'days').format('L');
 
-        var today = moment().format('L');
-        var tomorrow = moment().add(1, 'days').format('L');
-        var dateLimit;
+    if (cfg.showEmptyDays) {
+      for (var x = 0; x < cfg.days; x++) {
+        evnts[moment(start).add(x, 'days').format('L')] = [];
+      }
+    }
+  }
 
-        if (cfg.days) {
-          dateLimit = moment().add((cfg.days - 1), 'days').format('L');
+  for (var i = 0; i < cfg.calendarId.length; i++) {
+    calendar.events.list({
+      auth: oauth2Client,
+      calendarId: cfg.calendarId[i],
+      timeMin: (cfg.showAllOfFirstDay ? (new Date(moment(start).format('L'))) : (new Date(moment(start)))).toISOString(),
+      maxResults: cfg.limit,
+      singleEvents: true,
+      orderBy: 'startTime'
+    }, function(error, response) {
+      processedCalendars++;
 
-          if (cfg.showEmptyDays) {
-            for (var x = 0; x < cfg.days; x++) {
-              evnts[moment().add(x, 'days').format('L')] = [];
-            }
-          }
-        }
+      if (!error) {
+        var events = response.items;
 
-        for (var i = 0; i < events.length; i++) {
-          var event = events[i];
-          var start = moment(event.start.dateTime || event.start.date).format('L');
-          var end = moment(event.start.dateTime || event.start.date).format('L');
+        if (events.length) {
+          for (var j = 0; j < events.length; j++) {
+            var event = events[j];
+            var eventStart = moment(event.start.dateTime || event.start.date).format('L');
+            var eventEnd = moment(event.end.dateTime || event.end.date).format('L');
 
-          if (cfg.days && start > dateLimit) { break; }
+            if (cfg.days && eventStart > dateLimit) { break; }
 
-          if (!evnts[start]) { evnts[start] = []; }
-          event.date = start;
-          event.time = moment(event.start.dateTime || event.start.date).format(cfg.timeFormat);
-          evnts[start].push(event);
+            if (!evnts[eventStart]) { evnts[eventStart] = []; }
+            event.date = eventStart;
+            event.time = moment(event.start.dateTime || event.start.date).format(cfg.timeFormat);
+            evnts[eventStart].push(event);
 
-          if (cfg.expandEvents && start != end) {
-            var day = start;
+            if (cfg.expandEvents && eventStart != eventEnd) {
+              var day = new Date(eventStart);
 
-            while (day <= end) {
-              var me = JSON.parse(JSON.stringify(event));
-              var dat = new Date(d.valueOf());
+              while (new Date(day) <= new Date(eventEnd)) {
+                var me = JSON.parse(JSON.stringify(event));
 
-              dat.setDate(dat.getDate() + 1);
-              day = dat;
+                day.setDate(day.getDate() + 1);
+                me.date = moment(day).format('L');
+                me.time = moment(day).format(cfg.timeFormat);
 
-              if (cfg.days && day > dateLimit) { break; }
+                if ((cfg.days && day > dateLimit) || (event.end.date && me.date == moment(event.end.date).format('L'))) { break; }
 
-              me.date = moment(day).format('L');
-
-              if (!evnts[me.date]) { evnts[me.date] = []; }
-              evnts[me.date].push(me);
-            }
-          }
-        }
-
-        var date;
-        var e = 0;
-        var l;
-
-        for (var d in evnts) {
-          if (!evnts.hasOwnProperty(d)) { continue; }
-          if (e >= cfg.limit) { break; }
-
-          if (date != d) {
-            if (date) { console.log('---'); }
-
-            date = moment(new Date(d).toISOString()).format(cfg.dateFormat);
-
-            if (d == today) { date += ' (Today)'; }
-            if (d == tomorrow) { date += ' (Tomorrow)'; }
-
-            console.log(date);
-          }
-
-          if (evnts[d].length) {
-            for (var s = 0; (s < evnts[d].length && s < cfg.limit); s++) {
-              var str = `${evnts[d][s].time} - ${evnts[d][s].summary}`;
-
-              if (process.env.BitBar) {
-                str += ` | href=${evnts[d][s].htmlLink}`;
+                if (!evnts[me.date]) { evnts[me.date] = []; }
+                evnts[me.date].push(me);
               }
-
-              console.log(str);
-              e++;
             }
+          }
+        }
+
+        if (processedCalendars >= cfg.calendarId.length) {
+          var dates = Object.keys(evnts);
+          var date, d, l, e = 0;
+
+          dates.sort();
+
+          for (var di = 0; di < dates.length; di++) {
+            d = dates[di];
+
+            if (!evnts.hasOwnProperty(d)) { continue; }
+            if (e >= cfg.limit) { break; }
+
+            if (date != d) {
+              if (date) { console.log('---'); }
+
+              date = moment(new Date(d).toISOString()).format(cfg.dateFormat);
+
+              if (d == today) { date += ' (Today)'; }
+              if (d == tomorrow) { date += ' (Tomorrow)'; }
+
+              console.log(date);
+            }
+
+            if (evnts[d].length) {
+              evnts[d].sort(function(a, b) {
+                return moment(`${a.date} ${a.time}`, `MM/DD/YYYY ${cfg.timeFormat}`) - moment(`${b.date} ${b.time}`, `MM/DD/YYYY ${cfg.timeFormat}`);
+              });
+
+              for (var s = 0; (s < evnts[d].length && s < cfg.limit); s++) {
+                var str = `${evnts[d][s].time} - ${evnts[d][s].summary}`;
+
+                if (process.env.BitBar) {
+                  str += ` | href=${evnts[d][s].htmlLink}`;
+                }
+
+                console.log(str);
+                e++;
+              }
+            }
+          }
+
+          if (Object.keys(evnts).length === 0) {
+            console.log('No upcoming events found');
           }
         }
       } else {
-        console.log('No upcoming events found');
-      }
-    } else {
-      console.log(error.message);
-      footer();
-      process.exit(1);
-    }
+        console.log(error.message + ' (calendar: ' + cfg.calendarId[i] +')');
 
-    footer();
-  });
+        if (processedCalendars >= cfg.calendarId.length) {
+          footer();
+        }
+
+        process.exit(1);
+      }
+
+      if (processedCalendars >= cfg.calendarId.length) {
+        footer();
+      }
+    });
+  }
 }
 
 function run() {
