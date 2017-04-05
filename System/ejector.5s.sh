@@ -43,7 +43,7 @@ if [ "$1" = 'ejectall' ]; then
     IFS=$'**********'
     for details in $( diskutil info -all ); do
         name=$(echo "$details" | grep "Volume Name:" | sed 's/.*Volume Name:[[:space:]]*//')
-        ! [[ ${drives[@]} =~ $name ]] && continue
+        ! [[ ${drives[*]} =~ $name ]] && continue
         protocol=$(echo "$details" | grep "Protocol:" | sed 's/.*Protocol:[[:space:]]*//')
         mount_point=$(echo "$details" | grep "Mount Point:" | sed 's/.*Mount Point:[[:space:]]*//')
         [[ "$protocol_type" = "$protocol" ]] && ./"$0" eject "$mount_point"
@@ -65,7 +65,7 @@ echo '---'
 IFS=$'**********'
 for details in $( diskutil info -all ); do
     name=$(echo "$details" | grep "Volume Name:" | sed 's/.*Volume Name:[[:space:]]*//')
-    ! [[ ${drives[@]} =~ $name ]] && continue
+    ! [[ ${drives[*]} =~ $name ]] && continue
 
     mount_point=$(echo "$details" | grep "Mount Point:" | sed 's/.*Mount Point:[[:space:]]*//')
     free_space=$(echo "$details" | grep "Volume Free Space:" | sed 's/.*Volume Free Space:[[:space:]]*//' | cut -d ' ' -f -2)
