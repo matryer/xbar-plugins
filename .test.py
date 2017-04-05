@@ -52,7 +52,8 @@ class Language(object):
         command.append(file)
         return subprocess.check_output(command, stderr=subprocess.STDOUT)
 
-Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck']))
+
+Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck', '-e', 'SC2196', '-e', 'SC2197']))
 Language.registerLanguage(Language(['.py', '.py2'], 'python(|2)$', ['python2', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.py', '.py3'], 'python(|3)$', ['python3', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l']))
