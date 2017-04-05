@@ -68,8 +68,8 @@ for details in $( diskutil info -all ); do
     ! [[ ${drives[*]} =~ $name ]] && continue
 
     mount_point=$(echo "$details" | grep "Mount Point:" | sed 's/.*Mount Point:[[:space:]]*//')
-    free_space=$(echo "$details" | grep "Volume Free Space:" | sed 's/.*Volume Free Space:[[:space:]]*//' | cut -d ' ' -f -2)
-    total_size=$(echo "$details" | grep "Total Size:" | sed 's/.*Total Size:[[:space:]]*//' | cut -d ' ' -f -2)
+    free_space=$(echo "$details" | grep -E "Volume (Available|Free) Space:" | sed 's/.*Volume Free Space:[[:space:]]*//;s/.*Volume Available Space:[[:space:]]*//' | cut -d ' ' -f -2)
+    total_size=$(echo "$details" | grep -E "(Disk|Total) Size:" | sed 's/.*Total Size:[[:space:]]*//;s/.*Disk Size:[[:space:]]*//' | cut -d ' ' -f -2)
     protocol=$(echo "$details" | grep "Protocol:" | sed 's/.*Protocol:[[:space:]]*//')
 
     [[ $protocol = 'Disk Image' ]] && ((total_dmg++))
