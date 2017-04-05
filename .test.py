@@ -5,10 +5,34 @@ import subprocess
 import urllib2
 import argparse
 import warnings
+from distutils.spawn import find_executable
 
 allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
 required_metadata = ['author', 'author.github', 'title']
 recommended_metadata = ['image', 'desc', 'version']
+error_count = 0
+
+
+def debug(s):
+    global args
+    if args.debug:
+        print "\033[1;44mDBG!\033[0;0m %s\n" % s
+
+
+def passed(s):
+    global args
+    if args.verbose:
+        print "\033[1;42mPASS\033[0;0m %s\n" % s
+
+
+def warn(s):
+    print "\033[1;43mWRN!\033[0;0m %s\n" % s
+
+
+def error(s):
+    global error_count
+    error_count += 1
+    print "\033[1;41mERR!\033[0;0m %s\n" % s
 
 
 class Language(object):
@@ -19,6 +43,11 @@ class Language(object):
         self.shebang = shebang
         self.cmd = linter
         self.trim = trim_shebang
+
+        self.enabled = True
+        if not find_executable(self.cmd[0]):
+            error("Linter %s not present, skipping %s files" % (self.cmd[0], ', '.join(exts)))
+            self.enabled = False
 
     @staticmethod
     def registerLanguage(lang):
@@ -39,6 +68,8 @@ class Language(object):
         return re.search(self.shebang, bang) is not None
 
     def lint(self, file):
+        if not self.enabled:
+            return None
         if self.trim:
             with open(file, 'r') as fp:
                 lines = fp.readlines()[1:]
@@ -64,30 +95,6 @@ Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'maco
 Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
 # go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
 Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
-
-error_count = 0
-
-
-def debug(s):
-    global args
-    if args.debug:
-        print "\033[1;44mDBG!\033[0;0m %s\n" % s
-
-
-def passed(s):
-    global args
-    if args.verbose:
-        print "\033[1;42mPASS\033[0;0m %s\n" % s
-
-
-def warn(s):
-    print "\033[1;43mWRN!\033[0;0m %s\n" % s
-
-
-def error(s):
-    global error_count
-    error_count += 1
-    print "\033[1;41mERR!\033[0;0m %s\n" % s
 
 
 def check_file(file_full_path):
@@ -184,6 +191,7 @@ def boolean_string(string):
     if string.lower() == "false":
         return False
     return True
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
