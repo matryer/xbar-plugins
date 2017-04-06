@@ -45,7 +45,7 @@ echo "---"
 
 get_darkmode_state;
 if "$state" is true; then
-	echo "Desactivate Dark Mode| bash='$0' param1=desactivate terminal=false refresh=true";
+	echo "Deactivate Dark Mode| bash='$0' param1=desactivate terminal=false refresh=true";
 	exit
 else
 	echo "Activate Dark Mode| bash='$0' param1=activate terminal=false refresh=true";
