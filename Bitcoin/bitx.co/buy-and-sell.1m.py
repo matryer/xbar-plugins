@@ -4,6 +4,7 @@
 # <bitbar.author>Konrad Blum</bitbar.author>
 # <bitbar.author.github>kblum</bitbar.author.github>
 # <bitbar.desc>Shows latest buy and sell values (in ZAR) for Bitcoins on the BitX exchange.</bitbar.desc>
+# <bitbar.image>https://cloud.githubusercontent.com/assets/868608/24828465/e257fc20-1c5d-11e7-9641-5abed32bcb9b.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 
