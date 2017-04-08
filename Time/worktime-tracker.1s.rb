@@ -158,18 +158,18 @@ class WorkTimer
   end
 
   def load_session
-    if File.exists? session_file
+    if File.exist? session_file
       @session = Marshal.load(File.read(session_file))
     end
   end
 
   def save_history
     system 'mkdir', '-p', File.dirname(history_file)
-    File.open(history_file, 'a') { |f| f.write("#{session.to_s}\n") }
+    File.open(history_file, 'a') { |f| f.write("#{session}\n") }
   end
 
   def history
-    if File.exists? history_file
+    if File.exist? history_file
       system '/usr/bin/open', history_file
     else
       notification("History file not found.", "Worktime Tracker")
