@@ -43,11 +43,11 @@ then "$launchctl" unload "$2"
 fi
 
 function service_pid {
-    "$launchctl" list | grep "$1" | sed -E 's/^([-0-9]+).*([0-9]+).*/\1/'
+    "$launchctl" list | grep "$1\$" | sed -E 's/^([-0-9]+).*([0-9]+).*/\1/'
 }
 
 function service_status {
-    "$launchctl" list | grep "$1" | sed -E 's/^([-0-9]+).*([0-9]+).*/\2/'
+    "$launchctl" list | grep "$1\$" | sed -E 's/^([-0-9]+).*([0-9]+).*/\2/'
 }
 
 function service_property {
