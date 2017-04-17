@@ -4,7 +4,7 @@
 # <bitbar.author>Aaron Edell</bitbar.author>
 # <bitbar.author.github>aaronedell</bitbar.author.github>
 # <bitbar.desc>Displays the most significant earthquakes in the last 30 days from http://earthquake.usgs.gov </bitbar.desc>
-# <bitbar.image>http://imgur.com/lF8Qdpk</bitbar.image>
+# <bitbar.image>http://i.imgur.com/lF8Qdpk.png</bitbar.image>
 # <bitbar.dependencies>Bash GNU AWK</bitbar.dependencies>
 # <bitbar.abouturl>http://earthquake.usgs.gov</bitbar.abouturl>
 
