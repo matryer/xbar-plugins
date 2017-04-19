@@ -17,11 +17,11 @@ The best way to report an issue with a plugin is to find the plugin on https://g
   * Make sure it's executable (in Terminal, do `chmod +x plugin.sh`)
   * Then choose `Refresh all` from the BitBar menus
 
-###Available Plugins
+### Available Plugins
 
 To see a list of available plugins, visit https://getbitbar.com/
 
-##Contributors
+## Contributors
 
 Special thanks to everyone who has contributed: https://getbitbar.com/contributors
 
