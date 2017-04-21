@@ -502,10 +502,8 @@ const title = text => console.log(text + '|size=10');
 const FILLED = '🌕';
 const UNFILLED = '🌑';
 const FILLEDISH = ['🌘','🌗','🌖'];
-const progressBar = function(n, total, charLength) {
+const progressBar = function(n, total, charLength = 10) {
   n = Math.max(n, 0); // Health can be negative
-
-  charLength = charLength || 10;
 
   const progress = (n / total) * charLength;
   const ish = progress % 1;
