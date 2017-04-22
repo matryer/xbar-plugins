@@ -7,7 +7,7 @@
 # <bitbar.author.github>chiisaihayashi</bitbar.author.github>
 # <bitbar.desc>Today's task in your menu bar!</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>http://imgur.com/a/izbCn</bitbar.image>
+# <bitbar.image>http://i.imgur.com/f37VtAg.png</bitbar.image>
 
 import urllib, urllib2
 import json
