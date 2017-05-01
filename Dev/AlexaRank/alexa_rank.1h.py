@@ -143,19 +143,6 @@ class Alexa:
     def from_url(cls, website_url, cache=None, polling_interval=None, show_global=None, show_top_country=None, show_delta=None, use_black_icons=None, max_offline_wait=None, user_language=None):
         return cls([website_url], cache, polling_interval, show_global, show_top_country, show_delta, use_black_icons)
 
-    @classmethod
-    def from_json(cls, file_name, cache=None, polling_interval=None, show_global=None, show_top_country=None, show_delta=None, use_black_icons=None, max_offline_wait=None, user_language=None):
-        if os.path.exists(file_name):
-            with open(file_name, 'r') as outfile:
-                try:
-                    website_url_list = json.load(outfile)
-                    return cls(website_url_list, cache, polling_interval, show_global, show_top_country, show_delta, use_black_icons)
-                except ValueError:
-                    print(self.get_error_message(self.INVALID_JSON), file_name)
-                    sys.exit(0)
-        print(self.get_error_message(self.UNEXISTING_FILE), file_name)
-        sys.exit(0)
-
     def get_error_message(self, error_id):
         if error_id in self.error_messages:
             if self.user_language in self.error_messages[error_id]:
@@ -173,37 +160,37 @@ class Alexa:
     def extract_delta(self, raw_data):
         try:
             return int(self.extract(raw_data, "RANK", "DELTA"))
-        except AttributeError as e:
+        except AttributeError:
             return 0
 
     def extract_rank(self, raw_data):
         try:
             return int(self.extract(raw_data, "REACH", "RANK"))
-        except AttributeError as e:
+        except AttributeError:
             return 0
 
     def extract_country_rank(self, raw_data):
         try:
             return int(self.extract(raw_data, "COUNTRY", "RANK"))
-        except AttributeError as e:
+        except AttributeError:
             return 0
 
     def extract_country_code(self, raw_data):
         try:
             return self.extract(raw_data, "COUNTRY", "CODE")
-        except AttributeError as e:
+        except AttributeError:
             return ""
 
     def extract_country_name(self, raw_data):
         try:
             return self.extract(raw_data, "COUNTRY", "NAME")
-        except AttributeError as e:
+        except AttributeError:
             return ""
 
     def extract_url(self, raw_data):
         try:
             return self.extract(raw_data, "POPULARITY", "URL").strip("/")
-        except AttributeError as e:
+        except AttributeError:
             return ""
 
     def build_url(self, website_url):
@@ -212,7 +199,7 @@ class Alexa:
     def read_from_url(self, url):
         try:
             return urllib.urlopen(url).read()
-        except IOError as e:
+        except IOError:
             return None
 
     def get_alexa_data(self, website_url):
@@ -337,16 +324,6 @@ class Alexa:
 
 # With single url
 # myAlexa = Alexa.from_url("https://twitchtimer.com")
-
-# With json file list, with following format:
-#
-# [
-#   "https://twitchtimer.com",
-#   "https://google.com",
-#   "https://facebook.com"
-# ]
-#
-# myAlexa = Alexa.from_json("path/to/my/file.json")
 
 # Full parameters bonanza
 #
