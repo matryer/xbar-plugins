@@ -40,7 +40,7 @@ if use_icloud
     todo_file_loc = File.expand_path("~/Library/Mobile Documents/iCloud~co~noteplan~NotePlan/Documents/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
 else
     if use_container
-        todo_file_loc = File.expand_path("~Library/Containers/co.noteplan.NotePlan/Data/Library/Application Support/co.noteplan.NotePlan/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
+        todo_file_loc = File.expand_path("~/Library/Containers/co.noteplan.NotePlan/Data/Library/Application Support/co.noteplan.NotePlan/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
     else
         todo_file_loc = File.expand_path("~/Library/Application Support/co.noteplan/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
     end
