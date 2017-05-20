@@ -10,7 +10,21 @@
 # <bitbar.image>http://customct.com/images/NotePlanPlugin-01.png</bitbar.image>
 # <bitbar.abouturl>http://customct.com/bitbar</bitbar.abouturl>
 #
+# Modifications by Guillaume Barrette
+#   2017/05/20:
+#     - Added Black and White NotePlan menubar icon
+#     - Repaired a bug when there was no newline on the last line the done task would get appended to the last line instead of a new line at the end
+#     - Added the time in the @done(YYYY-MM-DD HH:MM) so it's like NotePlan preference
+#     - Added User Parameters so it's easy to determine if we want to append the @done(...) string at the end of the done task and if we want the black or white menubar icon
 require 'date'
+
+#################################
+# User Parameters:
+insert_date_on_done_task = TRUE
+use_black_icon = TRUE   # If set to FALSE, a white icon would be used in the menubar
+use_emoji = FALSE # If true, will show emoji, otherwise it will use the black or white icon.
+#################################
+
 
 todo_file_loc = File.expand_path("~/Library/Mobile Documents/iCloud~co~noteplan~NotePlan/Documents/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
 
@@ -51,7 +65,7 @@ if ARGV.empty?
     #
     # Clean out leading and trailing white spaces (space, tabs, etc)
     #
-    line = linesInFile[key].gsub(/^\s+/, "").gsub(/\s+$/,"")
+    line = linesInFile[key].force_encoding("utf-8").gsub(/^\s+/, "").gsub(/\s+$/,"")
     if (line != "") and (! line.include? "[x]")
       #
       # It's a todo line to display. Remove the leading '-' and add
@@ -64,8 +78,18 @@ if ARGV.empty?
   #
   # Give the header. It's an emoji briefcase with the number of items todo
   #
-  puts "💼#{lines.length}"
+  iconBase64 = ""
+  if use_black_icon
+    iconBase64='iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAViAAAFYgBxNdAoAAABCRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjU8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjE0MDwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+MTQwPC90aWZmOllSZXNvbHV0aW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+MzI8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjE8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjMyPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGRjOnN1YmplY3Q+CiAgICAgICAgICAgIDxyZGY6QmFnLz4KICAgICAgICAgPC9kYzpzdWJqZWN0PgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAxNzowNToyMCAwMDowNToyMDwveG1wOk1vZGlmeURhdGU+CiAgICAgICAgIDx4bXA6Q3JlYXRvclRvb2w+UGl4ZWxtYXRvciAzLjY8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CpI9t/8AAAPASURBVFgJtZdLSFRRGMfn/aJRZ5wITQwqCAkzUlrYJrGCLITIateiRbugh7iQCKqVm2pRywgLitBFtchFCVlERQshowckSIllIc44Os44r35nune4c71z5s5gB86c73W+/3e+851zz9gta9wCgUCj2+0+ZrVa51KpVBT3WRmEXaYsRxcMBtsBvgzwDebZnE5nq9frnYrH479lfhwypRmd3+/f43A4+rLZbJfNZnMwJuijSiAf8DEh82OTKUvovKR7AHAB1o1tbjGAjxBIMzI3dEcJH5aKAqihAT4MSB8AAiiHw5hC9pzxqJBBt4VCIb8siEoCcON4kN6lAqsA8K8ymUwdGdigyBooxC2q3mgsOwAW3w94tx4cmfD/BPAeVYfMAb/VCFiVlVWEpL2Zib0qgOqEMYXsNYBiC7Zp9WSkQWO3iiwrAzg+B4BP9QJtQTZG3+1yuQ4hXwVGAO2qvdFoOgBSvwnAI9rVQYvquxQOh8dnZ2eX0un0I0RJHVC1ji9gTQcAeBe9pmD2Pya3+YJErwcX4jfip1gzVQOsvgUHZ7SrVxyCaR2gNk4r/C1Gp0LnBrvd/lXL6+l89HqFyldXV++jkh/Ah1SZwRhXZB6dLpFMJnctLi5+0snzrDQDrHwnK7yPtQxcONMDi+0QBfoecGkGitZAVVVVECeD9PX5cMskCOA2U9KyaUUDYO+uAL7DYN9l/vI65k3wdRzKC4oQhjXA6g/ykXlaKThY4mLq4Xg+LoKbFxu+B7hURG1ElPRXsgUTgF/Ah/QxIqIw3IJoNPolEolc5EHRxk12ALuXwriMtoxtxoy99BTMzMzEcPKM05AgG2NmHGJnIWj1WJacYpgB/ayVlZVv7GlCL5fwUxJdgcpMAE6PxxNgVj89LFaobXpe0Y1rbWR0yQC4CU+y+ocU1TVutXbSeweHSwrwNPxd+B9qINimkb2VgZrW1dfX+9j/SV68vdpJ8NvpJ2prazcKOd+CRuyGkGWhJxF5tfYyWlqEsVhsP9+BzaxKvO/zjc9ujBU3kZXcRTM/P/8d5XGCOMsYpItTYKpJAyCVvwAawVOr1hu35CmCEi/hqxp5loCua3hTpLQGFhYW3uFF3GrTwpvP56sjzcOQ5wnuJqP0nhdzSjVpAEx20VvYhkXxvOZuF+BNBPSCi+peKedm9IVnSjdDfBGVB8VHtmIdwG5MDnMalvnM/tGZV8SWqgHxrLbQ9wL+k7Fzbm5OFNyaNekW8AdTXMEp0Eb5g9EB+Oc1QzbpyMFF1ImtqIX/0v4CwBRdmE9e8GAAAAAASUVORK5CYII='
+  else
+    iconBase64='iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAViAAAFYgBxNdAoAAABCRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjU8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjE0MDwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+MTQwPC90aWZmOllSZXNvbHV0aW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+MzI8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjE8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjMyPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGRjOnN1YmplY3Q+CiAgICAgICAgICAgIDxyZGY6QmFnLz4KICAgICAgICAgPC9kYzpzdWJqZWN0PgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAxNzowNToyMCAwMDowNTowOTwveG1wOk1vZGlmeURhdGU+CiAgICAgICAgIDx4bXA6Q3JlYXRvclRvb2w+UGl4ZWxtYXRvciAzLjY8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CnjbIBwAAAPKSURBVFgJrZdLSFRRGMdndEYbGZ1xMFKThApCooySFrZJrCALKZLatQhpF1RIC4kWRQs31SKXERUUoYsekIsSsoiKFkL2hKQwsWB81ziO8+p3hnsu1+u9597RBg7ne/+/75zvnHvG4/nPv8nJyXXT09Pt8Xi8NpvNFjiF9zoZuNVPTEw0FhQUtAN6yOv19jNP4NsdiUSGVDF8KqUb3ezs7K5UKnUO25ZMJuMDPKElcA3Ze4YyAcclskuCCgMsdxfgotpW7HLFAN5HIluQFUM32flL+bISmJqaCjN6ARGVC6BcPOYUsmfMR4QMuiEajZZKMKs57wREZYxbjBYJLAPDv6QPqliBNZqsxufzbZB6qznvBOjwTsBbzeDIRPxHgLdJHTIf/EYrYCnLqwnZc7G3HRJABmFOIXuFTmzBJqOeFakx2C0h81oBAp8BoERGgfYgG2DsXFhYOIB8CVhhYWGjtLeaXSdA09UCeBgwPQ60WPcL5eXlg5WVlTHAHiBL6gYQ+ISMvJl2nQCBWhhhcwB4PSP0i8A129cWPrrIVQ9QfT3BTxmr1yJ4kXfRGycFT8N1M/k1XW5Kp9NfjbyZ1rM3KyRP1+8h8D34CimzmOc12SqTLuH3+7eXlpZ+Msl1VrkCVL4N8LtYq8BFMDOw2HvRoO+CwaByBWx7YGZmJkIQceGs1tPNkyCBG4y0ys02AfbuIuBbLfZdFU/X4TeUSCR6dIENYdkDVL+fj8yT5YKDJS6mNo7nQxtcXWy5Ajh/50xfxuqzbpkf8TEcDj9242KZQFlZ2RcCnJ+fn2/gKt1HoBdughls4hSRMfC2pPIUVFdXz+H5lNOQoB8GbKMYFNh5SFoeS4PGmrRcAbNpUVHRNypKmOUK/odCt0jlmAAV+dmKcrw6GdOiQuPPzGu6QaONinZMgBNxnOrv09FXuNXEw/MmAWMa8Cj8bfifMhFs08jeqEBd68bGxkrY/2FevB1GJ/jNjGPj4+NrhVw8xbHrQZaFHiaZgNFeRSubMBAI7OUqXk9Vf4xBOKJzgNRxUnIXDU/vEfijfDdOYxfBPm60V9HKBFjK3wTuI8AOYxBuyROAiJfwJSmHF81xVfJuZ2UPhEKhtwQSt9qoCBiLxapY5l7IsyR3Hbnynhc+Tj9lAlRfRIB6tuGveF5ztwvwOoCfk9wdp+Bu9JbfAukovojag+IDyQQBLkZ3kNMQ5xsflXYrmZ16QDyrxUtnN+C/mJsrKipGVgJo9lVuQTKZFFdwCqd+/mA0Ab7cj5MZ1x0PuI+j1az1gjunPK3+AQ/GtFTU+yiEAAAAAElFTkSuQmCC'
+  end
 
+    if use_emoji
+        puts "💼#{lines.length}"
+    else
+        puts "#{lines.length} |image=#{iconBase64}"
+    end
   puts "---"
 
   cfn = File.expand_path(__FILE__)
@@ -121,11 +145,16 @@ else
   lines = []
   line_number = 0
 
+  if not linesInFile[-1].include? "\n"
+  	linesInFile[-1] = linesInFile[-1] + "\n"
+  end
+
   #
   # Process the todo list lines.
   #
   linesInFile.each { | line |
     line_number += 1
+    line = line.force_encoding("utf-8")
     if line_number != doNum
       #
       # It is one of the other lines. Just push it into the stack.
@@ -135,8 +164,12 @@ else
       #
       # Get the line to be moved to the archive area.
       #
-      tm = Time.new
-      task = line.chomp + " @done(#{tm.year}-#{tm.month}-#{tm.day})\n"
+      if insert_date_on_done_task
+        tm = Time.new
+        task = line.chomp + " @done(#{tm.strftime('%Y-%m-%d %H:%M')})\n"
+      else
+        task = line.chomp + "\n"
+      end
       task = task.gsub(/^\-/,"- [x]")
     end
   }
