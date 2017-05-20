@@ -31,10 +31,20 @@ insert_date_on_done_task = TRUE
 use_black_icon = TRUE   # If set to FALSE, a white icon would be used in the menubar
 use_emoji = FALSE # If true, will show emoji, otherwise it will use the black or white icon.
 use_star = FALSE  # if true, will look for and use '*' instead of '-'
+use_icloud = TRUE # If true, files will be checked from iCloud. Otherwise:
+use_container = TRUE # If true and not iCloud, it will treat as MAS store version. Otherwise, it is non-MAS store version
 #################################
 
-
-todo_file_loc = File.expand_path("~/Library/Mobile Documents/iCloud~co~noteplan~NotePlan/Documents/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
+todo_file_loc = ""
+if use_icloud
+    todo_file_loc = File.expand_path("~/Library/Mobile Documents/iCloud~co~noteplan~NotePlan/Documents/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
+else
+    if use_container
+        todo_file_loc = File.expand_path("~Library/Containers/co.noteplan.NotePlan/Data/Library/Application Support/co.noteplan.NotePlan/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
+    else
+        todo_file_loc = File.expand_path("~/Library/Application Support/co.noteplan/Calendar/" + Date.today.strftime('%Y%m%d') + ".txt")
+    end
+end
 
 if ARGV.empty?
   #
