@@ -16,6 +16,12 @@
 #     - Repaired a bug when there was no newline on the last line the done task would get appended to the last line instead of a new line at the end
 #     - Added the time in the @done(YYYY-MM-DD HH:MM) so it's like NotePlan preference
 #     - Added User Parameters so it's easy to determine if we want to append the @done(...) string at the end of the done task and if we want the black or white menubar icon
+#
+# Modifications by Richard Guay
+#   05/20/2017:
+#       - Added using emoji option
+#       - fixed character encoding on removing an item
+#       - cleanup
 require 'date'
 
 #################################
