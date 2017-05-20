@@ -21,6 +21,7 @@
 #   05/20/2017:
 #       - Added using emoji option
 #       - fixed character encoding on removing an item
+#       - Proper parsing of [ ] in the todo.
 #       - cleanup
 require 'date'
 
@@ -29,6 +30,7 @@ require 'date'
 insert_date_on_done_task = TRUE
 use_black_icon = TRUE   # If set to FALSE, a white icon would be used in the menubar
 use_emoji = FALSE # If true, will show emoji, otherwise it will use the black or white icon.
+use_star = FALSE  # if true, will look for and use '*' instead of '-'
 #################################
 
 
@@ -67,17 +69,21 @@ if ARGV.empty?
   #
   # Remove all lines that are not a todo. Stop at the first empty line.
   #
-  linesInFile.each_index { | key |
-    #
-    # Clean out leading and trailing white spaces (space, tabs, etc)
-    #
+    linesInFile.each_index { | key |
+        #
+        # Clean out leading and trailing white spaces (space, tabs, etc)
+        #
     line = linesInFile[key].force_encoding("utf-8").gsub(/^\s+/, "").gsub(/\s+$/,"")
     if (line != "") and (! line.include? "[x]")
       #
       # It's a todo line to display. Remove the leading '-' and add
       # to the list.
       #
-      lines.push(line.gsub(/^\-/,""))
+        if use_star
+            lines.push(line.gsub(/^\*\s*(\[ \]\s*)*/,""))
+        else
+            lines.push(line.gsub(/^\-\s*(\[ \]\s*)*/,""))
+        end
     end
   }
 
@@ -176,7 +182,11 @@ else
       else
         task = line.chomp + "\n"
       end
-      task = task.gsub(/^\-/,"- [x]")
+      if use_star
+        task = task.gsub(/^\*\s*(\[ \]\s*)*/,"* [x] ")
+      else
+        task = task.gsub(/^\-\s*(\[ \]\s*)*/,"- [x] ")
+      end
     end
   }
 
