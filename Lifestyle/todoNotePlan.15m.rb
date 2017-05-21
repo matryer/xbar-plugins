@@ -72,8 +72,10 @@ if ARGV.empty?
     "@workflow" => "purple",
     "@tutorial" => "cobaltblue"
   }
-
-  linesInFile = IO.readlines("#{todo_file_loc}")
+  linesInFile = []
+  if File.exist?("#{todo_file_loc}")
+    linesInFile = IO.readlines("#{todo_file_loc}")
+  end
   lines = []
 
   #
