@@ -18,6 +18,6 @@ if [ -z "$duplicated_arp" ];then
     echo "OK"
 else
     # if there's a duplication, notify the user with the attacker's IP
-    result=$(arp -a | grep $duplicated_arp | cut -d"(" -f2 | cut -d")" -f1 | tail -n 1)
-    echo "ATTACK FROM" $result"!"
+    result=$(arp -a | grep "$duplicated_arp" | cut -d"(" -f2 | cut -d")" -f1 | tail -n 1)
+    echo "ATTACK FROM" "$result" "!"
 fi
