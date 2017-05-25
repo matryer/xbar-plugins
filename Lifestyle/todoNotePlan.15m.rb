@@ -101,7 +101,7 @@ if ARGV.empty?
         lines.push(line.gsub(/^\*\s*(\[ \]\s*)*/, ''))
       else
         lines.push(line.gsub(/^\-\s*(\[ \]\s*)*/, ''))
-        end
+      end
     end
   end
 
