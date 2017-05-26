@@ -11,6 +11,6 @@
 
 val=$(curl -s "https://api.kraken.com/0/public/Ticker?pair=ETHEUR" | tr -d '{}"[]' | tr ':,' '\n' | grep -A1 "^c$" | tail -1)
 
-echo "$(printf "loΞ %.3f \n" "$val") | size=13"
+echo "$(printf "Ξ %.3f \n" "$val") | size=13"
 echo "---"
-echo "Kraken.com | href="https://www.kraken.com/""
+echo "Kraken.com | href=\"https://www.kraken.com/\""
