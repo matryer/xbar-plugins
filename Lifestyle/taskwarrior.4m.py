@@ -115,11 +115,12 @@ def print_output(
         print '---'
 
     for content_line in content_lines[2:-1]:
-        content_id = content_line.split()[0]
-
+        content_re = re.match('^\[\s*(.+)\]\s+([0-9A-Fa-f]+)?', content_line)
+        content_id = content_re.group(1)
+        
         if content_id == '-':
             # should be the UUID in this case
-            content_id = content_line.split()[1]
+            content_id = content_re.group(2)
 
         if content_id in ignore_id_list:
             continue
