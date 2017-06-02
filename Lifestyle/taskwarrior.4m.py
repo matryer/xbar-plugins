@@ -22,6 +22,7 @@
 #
 
 import os
+import re
 import subprocess
 from subprocess import Popen, PIPE
 
@@ -73,7 +74,7 @@ def print_output(
     content_lines = []
 
     for output_line in output_lines:
-        output_line = output_line.strip()
+        output_line = output_line.rstrip()
         if not output_line:
             continue
         # When looking for 'active' or 'next' tasks, we want to look only at
@@ -82,7 +83,8 @@ def print_output(
         content_id = output_line.split()[0]
         if not content_id.isdigit() and content_id not in ['--', '-', 'ID']:
             continue
-        content_lines.append(output_line)
+        line_groups = re.match('^(\s*\d+|\s*ID|\s*-+)(.*)', output_line)
+        content_lines.append('[{}]{}'.format(*line_groups.groups()))
 
     content_count = len(content_lines[2:-1])
 
