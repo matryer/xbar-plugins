@@ -1,9 +1,9 @@
-#!/usr/local/bin/node
+#!/usr/bin/env /usr/local/bin/node
 
 /* jshint esversion: 6 */
 
 /*
- * <bitbar.title>Dropper</bitbar.title>
+ * <bitbar.title>DigitalOcean</bitbar.title>
  * <bitbar.version>v1.0</bitbar.version>
  * <bitbar.author>Hasit Mistry</bitbar.author>
  * <bitbar.author.github>hasit</bitbar.author.github>
@@ -15,7 +15,7 @@
 var https = require('https');
 
 var hostname = 'api.digitalocean.com';
-var DOToken = '<DIGITALOCEAN_ACCESS_TOKEN_HERE>';
+var DOToken = '<DO_TOKEN_HERE>';
 
 var menuBarIcon = '💧';
 var startMenu = '---';
