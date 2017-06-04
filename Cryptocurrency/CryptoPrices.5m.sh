@@ -1,4 +1,4 @@
-#ß!/bin/bash
+#!/bin/bash
 # <bitbar.title>Cryptocurrency Prices</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>viiraj</bitbar.author>
