@@ -5,7 +5,7 @@
 # <bitbar.author>G.G.</bitbar.author>
 # <bitbar.author.github>ggrelet</bitbar.author.github>
 # <bitbar.desc>Gives the last price of ether to euro from Kraken.com</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/ggrelet/bitbar-plugins/master/Cryptocurrency/Ethereum/ether-eur-kraken.png</bitbar.image>
+# <bitbar.image>https://i.imgur.com/iGX2yjR.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 
 val=$(curl -s "https://api.kraken.com/0/public/Ticker?pair=ETHEUR" | tr -d '{}"[]' | tr ':,' '\n' | grep -A1 "^c$" | tail -1)
