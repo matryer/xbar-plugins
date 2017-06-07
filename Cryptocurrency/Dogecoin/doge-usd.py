@@ -5,7 +5,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>impshum</bitbar.author>
 # <bitbar.author.github>impshum</bitbar.author.github>
-# <bitbar.desc>Displays current Dogecoin price for $1 from Coinmarketcap</bitbar.desc>
+# <bitbar.desc>Displays current Dogecoin price for $1 from Coinmarketcap.com</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/FBUh3fk.jpg</bitbar.image>
 #
 # by impshum
