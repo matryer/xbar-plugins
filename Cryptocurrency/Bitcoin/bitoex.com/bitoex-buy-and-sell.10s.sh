@@ -7,11 +7,11 @@
 
 
 regexp='"([0-9,]+)","([0-9,]+)"'
-resp=$(curl -s https://www.bitoex.com/sync/dashboard_fixed/$(date +%s))
+resp=$(curl -s https://www.bitoex.com/sync/dashboard_fixed/"$(date +%s)")
 
 if [[ $resp =~ $regexp ]]; then
-    echo Buy: NT$ ${BASH_REMATCH[1]}
-    echo Sell: NT$ ${BASH_REMATCH[2]}
+    echo Buy: NT$ "${BASH_REMATCH[1]}"
+    echo Sell: NT$ "${BASH_REMATCH[2]}"
     echo '---'
     echo 'Go chart | href=https://www.bitoex.com/charts?locale=zh-tw'
 fi
