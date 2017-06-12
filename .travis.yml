@@ -13,7 +13,7 @@ before_install:
   - brew install python3 && pip3 install pyflakes
   - brew outdated golang || brew upgrade golang
   - go get -u github.com/golang/lint/golint
-  - brew install minimal-racket
+  - brew cask install racket
   - raco pkg install --deps search-auto rackjure  
 install:
   - export PATH="$PATH:${GOROOT:-$HOME/go}/bin"
