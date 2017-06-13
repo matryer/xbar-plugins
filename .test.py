@@ -93,6 +93,7 @@ Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
 Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
 Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null']))
 Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
+Language.registerLanguage(Language(['.rkt'], 'racket$', ['raco', 'make']))
 # go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
 Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
 
