@@ -7,8 +7,6 @@
 # <bitbar.desc>Displays the latest Etherium and Bitcoin prices in AUD and their 24h trade volumes from BTC Markets.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/7UwilDM.png</bitbar.image>
 
-FONT_COLOUR='#333'
-
 echo -n "ETH "; curl -s https://api.btcmarkets.net/market/ETH/AUD/tick | \
   grep -Eo 'lastPrice":[0-9\.]+' | sed 's/lastPrice"://' | tr -d '\n'; \
   echo -n " BTC "; curl -s https://api.btcmarkets.net/market/BTC/AUD/tick | \
@@ -22,5 +20,5 @@ do
   echo -n "$COIN_TYPE "; \
     curl -s "https://api.btcmarkets.net/market/$COIN_TYPE/AUD/tick" | \
     grep -Eo 'volume24h":[0-9\.]+' | sed 's/volume24h"://' | tr -d '\n'; \
-    echo '| color=$FONT_COLOUR'
+    echo '| href=https://www.btcmarkets.net/'
 done
