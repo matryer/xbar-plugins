@@ -5,7 +5,7 @@
  * <bitbar.version>v1.0.1</bitbar.version>
  * <bitbar.author>Etka Özdemir</bitbar.author>
  * <bitbar.author.github>m-etka</bitbar.author.github>
- * <bitbar.image>http://imgur.com/a/KJIEO</bitbar.image>
+ * <bitbar.image>http://i.imgur.com/Dt499Nh.png</bitbar.image>
  * <bitbar.desc>Shopify Admin Plugin for BitBar</bitbar.desc>
  * <bitbar.dependencies>node</bitbar.dependencies>
  *
@@ -63,7 +63,7 @@ get(admin, 'shop', function(data) {
         });
     }
 
-})
+});
 
 // Print order details
 function printOrders(data, title) {
@@ -77,7 +77,7 @@ function printOrders(data, title) {
         printBitBarLine('--' + data.orders[i].email, ['font=Calibri', 'size=14']);
         // Show items ordered
         for (var j = 0; j < data.orders[i].line_items.length; j++) {
-            if (j != 0) {
+            if (j !== 0) {
                 printBitBarLine('----');
             }
             printBitBarLine('----' + data.orders[i].line_items[j].title, ['font=Calibri', 'size=16', 'color=black']);
@@ -123,7 +123,7 @@ function get(admin, requestName, callback) {
         } else {
             callback(data);
         }
-    })
+    });
 
 }
 
