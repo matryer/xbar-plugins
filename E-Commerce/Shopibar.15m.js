@@ -15,13 +15,13 @@
  * Visit http://shopibar.etka.org for installation and details
  */
 
-// Variables
-var admin = Object();
 
 /* Shopibar configuration */
-admin.myShopifyAccountName = 'example.myshopify.com';
-admin.apiKey = 'example.com_api_key';
-admin.password = 'example.com_password';
+var admin = {
+    myShopifyAccountName: 'example.myshopify.com',
+    apiKey: 'example.com_api_key',
+    password: 'example.com_password'
+};
 showCustomerCount = true;
 showPendingOrders = true;
 showUnshippedOrders = true;
@@ -96,7 +96,10 @@ function printOrders(data, title) {
 
 // Get
 function get(admin, requestName, callback) {
-    var endpoint = Object();
+    var endpoint = {
+        url: '',
+        requestType = 'GET'
+    };
     switch (requestName) {
         case 'shop':
             endpoint.url = '/admin/shop.json';
