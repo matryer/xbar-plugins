@@ -98,7 +98,7 @@ function printOrders(data, title) {
 function get(admin, requestName, callback) {
     var endpoint = {
         url: '',
-        requestType = 'GET'
+        requestType: 'GET'
     };
     switch (requestName) {
         case 'shop':
