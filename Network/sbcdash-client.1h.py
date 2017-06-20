@@ -13,7 +13,7 @@ import urllib2
 import json
 
 # Add your AppIDs here!
-IPAddrs = ["https://phntxx.github.io/testing/sbcdash.json"], "http://cubepi.local/sbcdash-server/api.php?passwd=none"]
+IPAddrs = []
 
 # Don't touch this variable!
 output = []
