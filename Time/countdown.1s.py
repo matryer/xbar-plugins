@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # <bitbar.title>Countdown</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Pere Albujer</bitbar.author>
 # <bitbar.author.github>P4R</bitbar.author.github>
 # <bitbar.desc>Shows countdown of established date.</bitbar.desc>
