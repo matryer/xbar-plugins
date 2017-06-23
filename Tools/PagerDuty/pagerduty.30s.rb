@@ -15,14 +15,8 @@ require "date"
 
 #--------------------------------------------------------------------
 # Set some configuration for PagerDuty
-<<<<<<< HEAD
 $token    = ""
 $mail     = ""
-=======
-$token  = ""
-$domain = ""
-$userid = ""
->>>>>>> upstream/master
 $team_ids = ""
 #--------------------------------------------------------------------
 
@@ -77,18 +71,11 @@ class PagerDuty
         out = HTTParty.get("https://api.pagerduty.com/incidents",
                            timeout: 25,
                            query:   { "since" => (Time.now-24*60*60).strftime("%Y-%m-%dT%H:%M:%S"),
-<<<<<<< HEAD
                                       "sort_by" => "created_at:desc",
 									  "teams" => $team_ids },
                            headers: { "Content-type"  => "application/json",
                                       "Authorization" => "Token token=#{$token}",
                                       "Accept"        => "application/vnd.pagerduty+json;version=2" })
-=======
-                                      "sort_by" => "created_on:desc",
-				      "teams" => $team_ids },
-                           headers: { "Content-type" => "application/json",
-                                      "Authorization" => "Token token=#{$token}"})
->>>>>>> upstream/master
 
         pd = JSON.parse(out.body)
         incidents = Array.new
@@ -130,7 +117,6 @@ class PagerDuty
 				desc.gsub!(/\n/,"")
 
                 bash = "bash=#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
-<<<<<<< HEAD
                 time = Time.parse(incident['created_at']).localtime.strftime("%H:%M:%S")
                 puts "#{count}#{urgency} [#{time}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} refresh=true terminal=false length=100"
 
@@ -143,13 +129,6 @@ class PagerDuty
 				    client_url.gsub!(" ","%20")
                 end
 
-=======
-                time = Time.parse(incident['created_on']).localtime.strftime("%H:%M:%S")
-                puts "#{count}#{urgency} [#{time}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} refresh=true terminal=false length=100"
-				client_url = incident['html_url']
-				client_url = incident['trigger_summary_data']['client_url'] unless incident['trigger_summary_data'].empty? or incident['trigger_summary_data']['client_url'].nil?
-				client_url.gsub!(" ","%20")
->>>>>>> upstream/master
 				if desc.length >= 100
                     puts "#{desc[0..99]}...|color=#{$color['normal']} size=11 href=#{client_url}"
 				    puts "...#{desc[100..200]}|alternate=true color=#{$color['normal']} size=11"
