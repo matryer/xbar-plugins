@@ -5,6 +5,7 @@
 # <bitbar.author.github>matryer</bitbar.author.github>
 # <bitbar.desc>Example script showing use of $BITBAR environment variable</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/TcZJI06.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
 #
 # Example script showing how to let your scripts determine
 # whether they are expected to deliver BitBar output or not.

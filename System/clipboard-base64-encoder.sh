@@ -27,4 +27,4 @@ fi
 # Print icon
 echo "🔏"
 echo "---"
-echo "Encode clipboard item with BASE64 | bash=$0 param1=encode terminal=false"
+echo "Encode clipboard item with BASE64 | bash='$0' param1=encode terminal=false"

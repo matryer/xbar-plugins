@@ -5,13 +5,14 @@
 # <bitbar.author.github>jessor</bitbar.author.github>
 # <bitbar.desc>Get current track info from Vox status with play/pause button</bitbar.desc>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/480451/12141683/ee53ea2a-b471-11e5-8429-ada2ef579883.png</bitbar.image>
+# <bitbar.version>1.0</bitbar.version>
 #
 # Get current Vox status with play/pause button
 #
 # by Daniel Kay (daniel@enthusiasm.cc)
 # inspired by Jason Tokoph (jason@tokoph.net)
 #
-# Shows current track information from vox 
+# Shows current track information from vox
 
 if [ "$1" = 'launch' ]; then
   osascript -e 'tell application "Vox" to activate'
@@ -22,7 +23,7 @@ if [ "$(osascript -e 'application "Vox" is running')" = "false" ]; then
   echo "♫"
   echo "---"
   echo "Vox is not running"
-  echo "Launch Vox| bash=$0 param1=launch terminal=false"
+  echo "Launch Vox| bash='$0' param1=launch terminal=false"
   exit
 fi
 
@@ -64,7 +65,7 @@ case "$0" in
 esac
 
 if [ "$state" = "1" ]; then
-  echo "❚❚ Pause | bash=$0 param1=playpause terminal=false"
+  echo "❚❚ Pause | bash='$0' param1=playpause terminal=false"
 else
-  echo "▶ Play | bash=$0 param1=playpause terminal=false"
+  echo "▶ Play | bash='$0' param1=playpause terminal=false"
 fi

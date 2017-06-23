@@ -43,7 +43,7 @@ if [ "$1" = 'ejectall' ]; then
     IFS=$'**********'
     for details in $( diskutil info -all ); do
         name=$(echo "$details" | grep "Volume Name:" | sed 's/.*Volume Name:[[:space:]]*//')
-        ! [[ ${drives[@]} =~ $name ]] && continue
+        ! [[ ${drives[*]} =~ $name ]] && continue
         protocol=$(echo "$details" | grep "Protocol:" | sed 's/.*Protocol:[[:space:]]*//')
         mount_point=$(echo "$details" | grep "Mount Point:" | sed 's/.*Mount Point:[[:space:]]*//')
         [[ "$protocol_type" = "$protocol" ]] && ./"$0" eject "$mount_point"
@@ -65,24 +65,24 @@ echo '---'
 IFS=$'**********'
 for details in $( diskutil info -all ); do
     name=$(echo "$details" | grep "Volume Name:" | sed 's/.*Volume Name:[[:space:]]*//')
-    ! [[ ${drives[@]} =~ $name ]] && continue
+    ! [[ ${drives[*]} =~ $name ]] && continue
 
     mount_point=$(echo "$details" | grep "Mount Point:" | sed 's/.*Mount Point:[[:space:]]*//')
-    free_space=$(echo "$details" | grep "Volume Free Space:" | sed 's/.*Volume Free Space:[[:space:]]*//' | cut -d ' ' -f -2)
-    total_size=$(echo "$details" | grep "Total Size:" | sed 's/.*Total Size:[[:space:]]*//' | cut -d ' ' -f -2)
+    free_space=$(echo "$details" | grep -E "Volume (Available|Free) Space:" | sed 's/.*Volume Free Space:[[:space:]]*//;s/.*Volume Available Space:[[:space:]]*//' | cut -d ' ' -f -2)
+    total_size=$(echo "$details" | grep -E "(Disk|Total) Size:" | sed 's/.*Total Size:[[:space:]]*//;s/.*Disk Size:[[:space:]]*//' | cut -d ' ' -f -2)
     protocol=$(echo "$details" | grep "Protocol:" | sed 's/.*Protocol:[[:space:]]*//')
 
     [[ $protocol = 'Disk Image' ]] && ((total_dmg++))
     [[ $protocol = 'USB' ]] && ((total_usb++))
 
-    echo "$name | color=black bash=$0 param1=eject param2=$mount_point terminal=false"
+    echo "$name | color=black bash='$0' param1=eject param2=$mount_point terminal=false"
     echo "├─ Available: $free_space"
     echo "└─ Capacity: $total_size"
 done
 
 if [ ${#drives[@]} -ge 2 ]; then
     echo '---'
-    [ $((total_dmg)) -ge 2 ] && echo "Eject All Disk Images | color=red bash=$0 param1=ejectall param2=dmgs terminal=false"
-    [ $((total_usb)) -ge 2 ] && echo "Eject All Physical Volumes | color=red bash=$0 param1=ejectall param2=usbs terminal=false"
-    echo "Eject All | color=red bash=$0 param1=ejectall terminal=false"
+    [ $((total_dmg)) -ge 2 ] && echo "Eject All Disk Images | color=red bash='$0' param1=ejectall param2=dmgs terminal=false"
+    [ $((total_usb)) -ge 2 ] && echo "Eject All Physical Volumes | color=red bash='$0' param1=ejectall param2=usbs terminal=false"
+    echo "Eject All | color=red bash='$0' param1=ejectall terminal=false"
 fi

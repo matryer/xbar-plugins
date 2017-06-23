@@ -19,7 +19,10 @@ network_service="Wi-FI"
 # add or remove list of DNS options below, don't forget to make it enabled. see below
 # shellcheck disable=2034
 google="8.8.8.8
-        8.8.4.4"
+        8.8.4.4
+        
+        2001:4860:4860::8888
+        2001:4860:4860::8844"
 
 # shellcheck disable=2034
 level3="209.244.0.3
@@ -79,12 +82,11 @@ tmp_dir="/tmp"
 for dns_name in "${enabled_dns_address[@]}"
 do
   switcher="$tmp_dir/bitbar_dns_switcher_${dns_name}"
-  cat <<EOF > $switcher
-dns_address='$(eval "echo \${\"${dns_name[*]}\"}")'
+  cat <<EOF > "$switcher"
+dns_address='$(eval "echo \${${dns_name[*]}}")'
 networksetup -setdnsservers $network_service \$(echo \$dns_address)
 EOF
   chmod 700 "$switcher"
 
   echo "$dns_name | bash=$switcher | terminal=true | refresh=true"
 done
-

@@ -14,6 +14,7 @@
 # <bitbar.image>https://cloud.githubusercontent.com/assets/480160/12206066/ee9db3be-b64f-11e5-96ae-11f7678cb905.png</bitbar.image>
 # <bitbar.desc>russian stock-market indicators from rbc.ru</bitbar.desc>
 # <bitbar.dependencies>jq,pup,curl</bitbar.dependencies>
+# <bitbar.version>1.0</bitbar.version>
 
 export PATH=/usr/local/bin:~/Applications/go/bin:$PATH
 json=$(curl -s -L http://rbc.ru | pup '.indicators__items json{}')

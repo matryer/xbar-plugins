@@ -3,6 +3,7 @@
 # <bitbar.author>voter101</bitbar.author>
 # <bitbar.author.github>voter101</bitbar.author.github>
 # <bitbar.title>Current Task</bitbar.title>
+# <bitbar.version>1.0</bitbar.version>
 #
 # You need to call it with string argument to change a task like this:
 # `./current_task.1m.rb "Finish important business"`

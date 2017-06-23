@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Live Cricket Scores</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Anup Sam Abraham</bitbar.author>
 # <bitbar.author.github>anupsabraham</bitbar.author.github>
 # <bitbar.desc>Show live scores of cricket matches happening around the world using Cricinfo api. </bitbar.desc>
@@ -91,13 +91,21 @@ if matches:
         match_data = json.load(match_data_response)
 
         # get team_data
-        teams = {
-            x['team_id']: {
-                'name': x['team_short_name'],
+        teams = {}
+        for loop_counter, team_info in enumerate(match_data['team']):
+            if 'team_id' in team_info:
+                team_id = team_info['team_id']
+            else:
+                team_id = "TBA" + str(loop_counter)
+
+            if 'team_short_name' in team_info:
+                team_short_name = team_info['team_short_name']
+            else:
+                team_short_name = "TBA"
+            teams[team_id] = {
+                'name': team_short_name,
                 'score': ''
             }
-            for x in match_data['team']
-        }
 
         if match_data['match']['international_class_card'] == "Test":
             test_match = True
@@ -143,10 +151,16 @@ if matches:
             batsman_name = ''
             for team in match_data['team']:
                 if team['team_id'] == batsman['team_id']:
-                    for player in team['player']:
-                        if player['player_id'] == batsman['player_id']:
-                            batsman_name = player['card_long']
-                            break
+                    if 'player' in team:
+                        for player in team['player']:
+                            if player['player_id'] == batsman['player_id']:
+                                batsman_name = player['card_long']
+                                break
+                    elif 'squad' in team:
+                        for player in team['squad']:
+                            if player['player_id'] == batsman['player_id']:
+                                batsman_name = player['card_long']
+                                break
                     break
             batsman_score = batsman['runs'] + '(' + batsman['balls_faced'] + ')'
             if batsman['live_current_name'] == 'striker':
@@ -156,7 +170,10 @@ if matches:
         # get the match status.
         match_status = match_data['live']['status']
         if test_match:
-            status_text = 'Day ' + match_data['match']['actual_days'] + ': '
+            if 'actual_days' in match_data['match']:
+                status_text = 'Day ' + match_data['match']['actual_days'] + ': '
+            else:
+                status_text = 'Day 0: '
         else:
             status_text = ''
         if 'scheduled' in match_status.lower():
@@ -167,7 +184,10 @@ if matches:
             status_text +=  'Starting at: ' + local_time_string + " (" + tzname[0] + ")"
         elif 'elected to' in match_status.lower():
             # first innings started. show who won the toss
-            toss_winner = match_data['match']['toss_winner_team_id']
+            if match_data['match']['toss_choice_team_id'] != "0":
+                toss_winner = match_data['match']['toss_choice_team_id']
+            else:
+                toss_winner = match_data['match']['toss_winner_team_id']
             status_text += teams[toss_winner]['name'] + ' elected to ' + match_data['match']['toss_decision_name'] + ' first'
         elif 'trail by' in match_status.lower() or 'lead by' in match_status.lower():
             # batting team is either trailing or leading which means it is
@@ -211,7 +231,10 @@ if matches:
             for team_data in match_data['team']:
                 if match_desc:
                     match_desc += " vs "
-                match_desc += team_data['team_name']
+                if 'team_name' in team_data:
+                    match_desc += team_data['team_name']
+                else:
+                    match_desc += "TBA"
             print match_desc + ' | ' +print_params['team_name']
 
         print status_text + ' | href=' + match_html_url + print_params['status_text']
