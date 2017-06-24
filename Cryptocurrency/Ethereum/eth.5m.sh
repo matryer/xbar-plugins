@@ -10,8 +10,8 @@ echo -n "bfx $"; echo "$RESULT" | egrep -o '"last_price":"[0-9]+(\.)?([0-9]{0,2}
 
 # Bitstamp
 # none yet
-RESULT=$(curl -s "https://www.bitstamp.net/api/v2/ticker/ethusd/") 
-echo -n "bst $"; echo "$RESULT" | egrep -o '"last": "[0-9]+(\.)?([0-9]{0,2}")?' | sed 's/"last"://' | sed 's/\"//g' | cut -c 1-7
+# RESULT=$(curl -s "https://www.bitstamp.net/api/v2/ticker/ethusd/") 
+# echo -n "bst $"; echo "$RESULT" | egrep -o '"last": "[0-9]+(\.)?([0-9]{0,2}")?' | sed 's/"last"://' | sed 's/\"//g' | cut -c 1-7
 
 # CEX
 RESULT=$(curl -s "https://cex.io/api/ticker/ETH/USD") 
