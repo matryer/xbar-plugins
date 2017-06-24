@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 # <bitbar.title>PagerDuty</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Allan Frese</bitbar.author>
 # <bitbar.author.github>frese</bitbar.author.github>
 # <bitbar.desc>Shows current pagerduty alert status.</bitbar.desc>
