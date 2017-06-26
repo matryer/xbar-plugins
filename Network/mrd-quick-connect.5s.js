@@ -149,10 +149,10 @@ function getBarContents(){
 	if(mrdPrefs == null){
 		barContents.push({
 			text: '❌ Preference file could not be found.'
-		})
+		});
 		barContents.push({
 			text: mrdPreferencePath
-		})
+		});
 		return barContents;
 	}
 
@@ -184,9 +184,9 @@ function getBarContents(){
 
 			//Stylize connection based on state
 			if(connectionIsOpen){
-				barItem["font"] = "HelveticaNeue-Bold";
+				barItem.font = "HelveticaNeue-Bold";
 			} else {
-				barItem["color"] = "gray";
+				barItem.color = "gray";
 			}
 
 			barContents.push(barItem);
@@ -216,8 +216,8 @@ function getWindowList(){
 			if(mrdWindow.hasOwnProperty("NSTitle")){
 
 				//The window title is stored in the plist with trailing spaces. Triming before storing
-				mrdWindow["NSTitle"] = mrdWindow["NSTitle"].trim();
-				windowList[mrdWindow["NSTitle"]] = mrdWindow;
+				mrdWindow.NSTitle = mrdWindow.NSTitle.trim();
+				windowList[mrdWindow.NSTitle] = mrdWindow;
 			}
 		}
 	}
