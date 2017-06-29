@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 # <bitbar.title>SBCDash</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Bastian</bitbar.author>
@@ -12,7 +11,10 @@
 import urllib2
 import json
 
-# Add your AppIDs here!
+# Add your IP-Addresses in this variables in this format:
+# "http://<IPADDRESS AND PATH TO SBCDASH>api.php?passwd=<PASSWORD, "NONE" IF NOT SET>"
+# Example:
+# "http://127.0.0.1/api.php?passwd=helloworld"
 IPAddrs = []
 
 # Don't touch this variable!
