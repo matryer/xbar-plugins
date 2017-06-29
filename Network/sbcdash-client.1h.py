@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 # <bitbar.title>SBCDash</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Bastian</bitbar.author>
@@ -12,7 +11,16 @@
 import urllib2
 import json
 
-# Add your AppIDs here!
+# Welcome to the SBCDash-Client for BitBar!
+# For usage and prerequisite information, visit https://phntxx.github.io/sbcdash
+# This Plugin requires a Single-Board-Computer (such as the Raspberry Pi)
+# and the sbcdash-server script installed on it.
+# The IPAddrs-Variable is required for storing the IP-Addresses of your SBCs.
+# Add your IP-Addresses in this variable in the following format:
+# "http://<IPADDRESS AND PATH TO SBCDASH>api.php?passwd=<PASSWORD, "NONE" IF NOT SET>"
+# Example:
+# "http://127.0.0.1/api.php?passwd=helloworld" (note the quotation marks around the IP-Address and the lack of them around the password!)
+
 IPAddrs = []
 
 # Don't touch this variable!
