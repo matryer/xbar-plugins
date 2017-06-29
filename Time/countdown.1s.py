@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
 # <bitbar.title>Countdown</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Pere Albujer</bitbar.author>
 # <bitbar.author.github>P4R</bitbar.author.github>
 # <bitbar.desc>Shows countdown of established date.</bitbar.desc>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/7404532/12356787/ae62636c-bba4-11e5-8ff8-6a1eaffcbfc2.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
-from datetime import datetime
 
-# Set date in format using this format: yyyy-mm-dd hh:mm:ss
-DATE = '2017-12-31 00:00:00'
+from datetime import datetime
+import sys
+from exceptions import ValueError
 
 
 def dateDiffInSeconds(date1, date2):
@@ -23,9 +23,65 @@ def daysHoursMinutesSecondsFromSeconds(seconds):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    return (days, hours, minutes, seconds)
+    return (days, hours, minutes)
 
-leaving_date = datetime.strptime(DATE, '%Y-%m-%d %H:%M:%S')
-now = datetime.now()
 
-print "Countdown: %d d, %d h, %d m, %d s" % daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, leaving_date))
+def main():
+
+    if "--help" in sys.argv:
+        print(
+            """
+Available Args:
+    --bar-title: This will appear as the first line in the output. The default is 'Countdown Timer'.
+    --date-format: You can provide a custom date format. The default is '%d-%m-%Y %H:%M'
+    --no-cycle: If this is present in the arguments, the times will not cycle.
+    --help: Prints this message and exits.
+
+Example:
+    countdown.py "--bar-title" "Custom Bar Title" "--no-cycle" "--date-format" "%d-%m-%Y" "Time #1" "17-07-2017" "Time #2" "15-08-2017"
+            """
+        )
+        return
+
+    arg_count = len(sys.argv)
+    now = datetime.now()
+    date_format = '%d-%m-%Y %H:%M'
+    bar_title = "Countdown Timer"
+
+    label = ""
+    time = None
+
+    if "--bar-title" in sys.argv:
+        found_index = sys.argv.index("--bar-title")
+        if len(sys.argv) > found_index + 1:
+            bar_title = sys.argv[found_index + 1]
+
+    if "--date-format" in sys.argv:
+        found_index = sys.argv.index("--date-format")
+        if len(sys.argv) > found_index + 1:
+            date_format = sys.argv[found_index + 1]
+
+    print(bar_title + " | font=\'Monospace\'")
+    if "--no-cycle" in sys.argv:
+        print("---")
+
+    for index in range(1, arg_count):
+        arg = sys.argv[index].strip()
+        if arg == "--no-cycle":
+            continue
+
+        if arg == "--bar-title":
+            continue
+
+        if index > 0 and sys.argv[index - 1] == "--date-format":
+            continue
+
+        try:
+            time = datetime.strptime(arg, date_format)
+            print(label + ": %d d, %d h, %d m | font=\'Monospace\'" % daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, time)))
+        except ValueError:
+            label = arg
+
+
+if __name__ == "__main__":
+    main()
