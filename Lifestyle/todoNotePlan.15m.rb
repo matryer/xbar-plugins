@@ -78,7 +78,7 @@ if ARGV.empty?
   #
   # Add further priority labels here
   #
-  priority_labels = ['#urgent', '#due']
+  priority_labels = ['@urgent', '@due']
 
   #
   # Change priority color here
