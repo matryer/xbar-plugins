@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # <bitbar.title>NotePlan Todo in Colour</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.5</bitbar.version>
 # <bitbar.author>Richard Guay</bitbar.author>
 # <bitbar.author.github>raguay</bitbar.author.github>
 # <bitbar.desc>A todo list taken from NotePlan and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo Colour" plugin by Srdgh.</bitbar.desc>
