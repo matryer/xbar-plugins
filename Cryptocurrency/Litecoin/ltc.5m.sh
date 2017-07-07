@@ -2,6 +2,8 @@
 
 # <bitbar.title>BTC</bitbar.title>
 # <bitbar.image>http://i.imgur.com/V8dABjz.png</bitbar.image>
+# <bitbar.author>Tim Paine</bitbar.author>
+# <bitbar.author.github>theocean154</bitbar.author.github> 
 #
 
 # Bitfinex
