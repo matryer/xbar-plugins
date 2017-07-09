@@ -12,7 +12,7 @@ MB_KEY=""
 # <bitbar.author>Machina</bitbar.author>
 # <bitbar.author.github>machinabot</bitbar.author.github>
 # <bitbar.desc>Easily start and stop Machine Box boxes.</bitbar.desc>
-# <bitbar.image>https://machinebox.io/assets/static/img/bitbar-plugin.png?source=bitbar</bitbar.image>
+# <bitbar.image>https://machinebox.io/assets/static/img/bitbar-plugin.jpg?source=bitbar</bitbar.image>
 # <bitbar.dependencies>bash,jq,docker</bitbar.dependencies>
 # <bitbar.abouturl>https://machinebox.io/?source=bitbar</bitbar.abouturl>
 
