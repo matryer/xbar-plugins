@@ -21,20 +21,20 @@ command -v jq >/dev/null 2>&1 || { echo >&2 "Click to install jq command... | hr
 command -v docker >/dev/null 2>&1 || { echo >&2 "Click to install Docker... | href=https://machinebox.io/out/docker/install?source=bitbar"; exit 0; }
 
 if [ "$#" -gt 1 ]; then
-    if [ $1 = "start" ]; then
+    if [ "$1" = "start" ]; then
         if [ "$MB_KEY" = "" ]; then
             osascript -e 'display notification "You need to configure your MB_KEY environment variable" with title "Machine Box" subtitle "Failed to start box"' 
             exit 0
         fi
         osascript -e 'display notification "Go to http://localhost:8080/" with title "Machine Box" subtitle "Downloading and starting..."' 
-        docker run -d -p 8080:8080 -e "MB_KEY=$MB_KEY" machinebox/$2
+        docker run -d -p 8080:8080 -e "MB_KEY=$MB_KEY" "machinebox/$2"
         open http://localhost:8080
         exit 0
     fi
-    if [ $1 = "stop" ]; then
+    if [ "$1" = "stop" ]; then
         echo "stopping $2..."
         osascript -e 'display notification "Stopping..." with title "Machine Box"' 
-        docker stop `docker ps -q --filter ancestor=machinebox/$2`
+        docker stop "$(docker ps -q --filter ancestor="machinebox/$2")"
         osascript -e 'display notification "Box has been stopped" with title "Machine Box" subtitle "Stopped"' 
         exit 0
     fi
@@ -60,31 +60,30 @@ if [ "$MB_KEY" = "" ]; then
 fi
 
 # list running boxes at the top
-RUNNING_BOXES=`docker ps --format '{{.Image}}' | grep machinebox`
+RUNNING_BOXES=$(docker ps --format '{{.Image}}' | grep machinebox)
 
-if [[ $RUNNING_BOXES = "" ]]; then 
-    #echo "machinebox"
+running=""
+if [[ "$RUNNING_BOXES" = "" ]]; then 
     running=""
 else
-    #echo $RUNNING_BOXES
-    running=yes
+    running="yes"
 fi
 
 echo "---"
 
-boxes=`curl --silent 'https://machinebox.io/api/boxes?source=bitbar' | jq -r '.boxes[].name'`
+boxes=$(curl --silent 'https://machinebox.io/api/boxes?source=bitbar' | jq -r '.boxes[].name')
 
 for box in $boxes; do
-    if [ ! "$(docker ps | grep machinebox/$box)" ]; then
-        if [[ $running = "yes" ]]; then
+    if [ "$(docker ps | grep -c "machinebox/$box")" = 1 ]; then
+        echo "$box"
+        echo "--Open console... | href=http://localhost:8080"
+        echo "--Stop $box | bash=$0 refresh=true terminal=false param1=stop param2=$box"
+    else
+        if [[ "$running" = "yes" ]]; then
             echo "Start $box"
         else
             echo "Start $box | bash=$0 refresh=true terminal=false param1=start param2=$box"
         fi
-    else
-        echo "$box"
-        echo "--Open console... | href=http://localhost:8080"
-        echo "--Stop $box | bash=$0 refresh=true terminal=false param1=stop param2=$box"
     fi
 done
 
