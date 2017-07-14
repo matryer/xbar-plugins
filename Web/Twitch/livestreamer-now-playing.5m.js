@@ -1,30 +1,39 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Twitch Following</bitbar.title>
-// <bitbar.version>v1.6</bitbar.version>
+// <bitbar.version>v2.2</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
-// <bitbar.desc>Shows which channels you follow are live, what they're playing, for how long etc. Lets you watch them with livestreamer and open the chat in your browser. Based on the play-with-livestreamer bitbar plugin. Requires a Twitch account.</bitbar.desc>
+// <bitbar.desc>Shows which channels you follow are live, what they're playing, for how long etc. Lets you watch them with streamlink and open the chat in your browser. Based on the play-with-livestreamer bitbar plugin. Requires a Twitch account.</bitbar.desc>
 // <bitbar.image>https://i.imgur.com/dhscE7r.png</bitbar.image>
-// <bitbar.dependencies>node, livestreamer</bitbar.dependencies>
+// <bitbar.dependencies>node, streamlink</bitbar.dependencies>
 
 'use strict';
 
 /*jshint esversion: 6 */
 
-const LIVESTREAMER_PATH = '/usr/local/bin/livestreamer';
-const LIVESTREAMER_CONFIG_PATH = process.env.HOME + '/.config/livestreamer/config';
+const fs = require('fs');
+
+const STREAMLINK_PATH = '/usr/local/bin/streamlink';
+const STREAMLINK_CONFIG_PATH = process.env.HOME + '/.config/streamlink/config';
 const AUTH_PROP_KEY = 'twitch-oauth-token';
 const ACCESS_TOKEN = readAccessToken();
 
-
 const OPTIONS = {
-    // The followers you care about. This affects the bitbar tray count.
+    // The followers you care about. This affects the bitbar tray count,
+    // notifications and other stuff.
     //
-    // Leave as undefined to count everyone
+    // Leave as false to count everyone
     // An empty list means no one
-    // Otherwise list twitch stream usernames
-    favourites: undefined
+    // Otherwise list twitch stream usernames, as strings or regex.
+    // e.g.
+    // FAVOURITES: [
+    //   'manvsgame',
+    //   /evo[0-9]/
+    // ],
+    // Would show MANvsGAME as a favourite, along with any of the evo rooms
+    FAVOURITES: false,
+    NOTIFICATIONS: true
 };
 
 const TWITCH_ICON_36_RETINA =
@@ -315,11 +324,9 @@ const TWITCH_ICON_36_RETINA =
 
 function readAccessToken() {
     try {
-        const data = require('fs').readFileSync(LIVESTREAMER_CONFIG_PATH, 'utf8');
+        const data = fs.readFileSync(STREAMLINK_CONFIG_PATH, 'utf8');
         if (data) {
-            const line = data.split('\n').find(function(line) {
-                return line.indexOf(AUTH_PROP_KEY) >= 0;
-            });
+            const line = data.split('\n').find(line => line.indexOf(AUTH_PROP_KEY) >= 0);
 
             return line.substring(line.indexOf('=') + 1);
         }
@@ -336,19 +343,16 @@ function outputForStream(stream) {
         timeLive = timeLive + 'm';
     }
 
-    const startLivestreamer = [
-        'terminal=false bash=', LIVESTREAMER_PATH,
-        ' param1=', channel.url.replace('http://', '')].join('');
-    const openChat = [
-        'href=https://twitch.tv/', channel.name,'/chat?popout='].join('');
-    const openTwitch = [
-        'href=https://twitch.tv/', channel.name].join('');
-    return  [channel.display_name, ' | ', openTwitch, '\n',
-             '--', '📺 livestream | ', startLivestreamer, '\n',
-             '--', '👥 chat | ', openChat, '\n',
-             '-----\n',
-             '--', channel.status, '| color=grey size=10 length=30 \n',
-             '--', '👤 ', stream.viewers, ', live for ', timeLive, '| size=10\n'].join('');
+    return  [
+            `${channel.display_name} | href=https://twitch.tv/${channel.name}`,
+            `--📺 livestream | terminal=false bash=${STREAMLINK_PATH} param1=${channel.url.replace('http://', '')}`,
+            `--👥 chat | href=https://twitch.tv/${channel.name}/chat?popout=`,
+            `--👤 chit.chat | href=https://chitchat.ma.pe/${channel.name}`,
+            `-----`,
+            isFavourite(streamName(stream)) ? `--${stream.channel.game}|size=10 color=#888888` : undefined,
+            `--${channel.status} | color=grey size=10 length=30`,
+            `--👤 ${stream.viewers} live for ${timeLive}| size=10`,
+            ''].join('\n');
 }
 
 function endOutput() {
@@ -356,14 +360,42 @@ function endOutput() {
     console.log('Refresh | refresh=true');
 }
 
+const streamName = stream => stream.channel.name;
+const isFavourite = name => OPTIONS.FAVOURITES && OPTIONS.FAVOURITES.find(f => name.match(f));
+const filterFavourites = streams =>
+    !OPTIONS.FAVOURITES ? streams : streams.filter(stream => isFavourite(streamName(stream)));
+
+function notifications(streams) {
+    const TEMP_FILE = '/tmp/livestreamer-now-playing.json';
+
+    if (fs.existsSync(TEMP_FILE)) {
+        const previous = JSON.parse(fs.readFileSync(TEMP_FILE, 'utf8'));
+        const currentStreamers = filterFavourites(streams).map(streamName);
+        const newStreamers = currentStreamers.filter(streamer => !previous.live.includes(streamer))
+
+        if (newStreamers.length) {
+            const exec = require('child_process').exec;
+            newStreamers.map(streamer => exec(`osascript -e 'display notification "${streamer} is online" with title "Twitch" sound name "Ping"'`));
+        }
+    }
+
+    fs.writeFileSync(TEMP_FILE, JSON.stringify({
+        live: streams.map(streamName)
+    }));
+}
+
 function handleResponse(body) {
     const streamByGame = {};
 
-    const onlineStreams = body.streams.filter(function(stream) {
-        return !stream.is_playlist;
-    });
+    const onlineStreams = body.streams.filter(stream => !stream.is_playlist);
 
-    onlineStreams.forEach(function(stream) {
+    const favouriteStreams = [];
+
+    onlineStreams.forEach(stream => {
+        if (isFavourite(streamName(stream))) {
+            return favouriteStreams.push(stream);
+        }
+
         if (!streamByGame[stream.channel.game]) {
             streamByGame[stream.channel.game] = [];
         }
@@ -373,46 +405,53 @@ function handleResponse(body) {
 
     const outputs = [];
 
+    if (favouriteStreams.length) {
+        outputs.push(['Favourites | size=10 color=#888888\n', favouriteStreams.map(outputForStream).join('')].join(''));
+    }
+
     for (const game in streamByGame) {
-        outputs.push([game, '| size=10 \n', streamByGame[game].map(outputForStream).join('')].join(''));
+        outputs.push([game, '| size=10 color=#888888\n', streamByGame[game].map(outputForStream).join('')].join(''));
     }
 
     if (onlineStreams.length === 0) {
         console.log('|templateImage="'+ TWITCH_ICON_36_RETINA + '"\n');
     } else {
-        let count = !OPTIONS.favourites ?
-            onlineStreams.length :
-            onlineStreams.filter(stream => OPTIONS.favourites.indexOf(stream.channel.name) !== -1).length || '';
+        let count = filterFavourites(onlineStreams).length || '';
         console.log(count + '|image="'+ TWITCH_ICON_36_RETINA + '"\n');
     }
 
     console.log('---\n' + outputs.join('\n---\n'));
+
     endOutput();
+
+    if (OPTIONS.NOTIFICATIONS) {
+        notifications(onlineStreams);
+    }
 }
+try {
+    if (ACCESS_TOKEN) {
+        const urlHost = 'api.twitch.tv';
+        const urlPath = '/kraken/streams/followed?stream_type=live';
 
-if (ACCESS_TOKEN) {
-    const urlHost = 'api.twitch.tv';
-    const urlPath = '/kraken/streams/followed?stream_type=live';
-
-    require('https').get({
-        hostname: urlHost,
-        path: urlPath,
-        headers: {
-            'Authorization': 'OAuth ' + ACCESS_TOKEN
-        }
-    }, function(res) {
-        let body = '';
-        res.on('data', function(data) {
-            body += data;
+        require('https').get({
+            hostname: urlHost,
+            path: urlPath,
+            headers: {
+                'Authorization': 'OAuth ' + ACCESS_TOKEN
+            }
+        }, res => {
+            let body = '';
+            res.on('data', data => body += data);
+            res.on('end', () => handleResponse(JSON.parse(body)));
         });
-        res.on('end', function() {
-            handleResponse(JSON.parse(body));
-        });
-    });
-} else {
-    console.log('💔');
-    console.log('---');
-    console.log('Click to authenticate livestreamer | terminal=false bash=' + LIVESTREAMER_PATH + ' param1=--twitch-oauth-authenticate');
+    } else {
+        console.log('💔');
+        console.log('---');
+        console.log('Click to authenticate streamlink | terminal=false bash=' + STREAMLINK_PATH + ' param1=--twitch-oauth-authenticate');
+        endOutput();
+    }
+} catch (error) {
+    console.log(':-(');
     endOutput();
 }
 
