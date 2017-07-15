@@ -5,7 +5,6 @@
 # <bitbar.author.github>collegboi</bitbar.author.github>
 # <bitbar.image>https://raw.githubusercontent.com/collegboi/Bitbar-Gitty/master/image1.png</bitbar.image>
 # <bitbar.desc>Shows the current status of local repos</bitbar.desc>
-# <bitbar.dependencies>python, GitPython</bitbar.dependencies>
 
 if [ "$1" = "copy" ]; then
     echo "$2" | pbcopy
