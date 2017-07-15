@@ -7,10 +7,10 @@
 # <bitbar.author.github>Srdgh</bitbar.author.github>
 # <bitbar.desc>Todo list with customisable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/eNl6QGh.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.dependencies>ruby, todo.sh</bitbar.dependencies>
 
-# Change to your todo directory path
-todo_directory = "#{Dir.home}/todo"
+# Change to your todo directory path (which should contain todo.sh and todo.txt)
+todo_directory = "#{Dir.home}/todo/"
 
 # Add further priority labels here
 priority_labels = [ "+Urgent" ]
