@@ -371,7 +371,7 @@ function notifications(streams) {
     if (fs.existsSync(TEMP_FILE)) {
         const previous = JSON.parse(fs.readFileSync(TEMP_FILE, 'utf8'));
         const currentStreamers = filterFavourites(streams).map(streamName);
-        const newStreamers = currentStreamers.filter(streamer => !previous.live.includes(streamer))
+        const newStreamers = currentStreamers.filter(streamer => !previous.live.includes(streamer));
 
         if (newStreamers.length) {
             const exec = require('child_process').exec;
