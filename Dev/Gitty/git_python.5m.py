@@ -7,15 +7,25 @@
 # <bitbar.image>https://raw.githubusercontent.com/collegboi/Bitbar-Gitty/master/image1.png</bitbar.image>
 # <bitbar.desc>Shows the current status of local repos</bitbar.desc>
 # <bitbar.dependencies>python, GitPython</bitbar.dependencies>
+#
 
 import git
 from os.path import expanduser
+import os
 
 def split_path(path):
     direc = path.split('.')[0]
-    direc_name = path.split('/')[-2]
+    direc_name = path.split('/')[-1]
     return (direc_name, direc )
 
+
+def get_list_dir(start_path):
+    paths = []
+    for root, directories, filenames in os.walk('/Users/timothybarnard/Documents/'):
+        if any(directory.endswith('.git') for directory in directories):
+            if ".build" not in root:
+                paths.append(root)
+    return paths
 
 print("Gitty | font='PilGi Regular' image=iVBORw0KGgoAAAANSUhEUgAAABgAAAAQCAYAAAF7I48DAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAARgSURBVHjaYt6/fz+Dr68vw9WrVw8xMDExfYqMjGRgYGD4DwAAAP//BMFBAQAwEMKwSprBU8MPbXjoEu7utUWFJGxD5QMAAP//Yrhw4QJECRL+//8/A9OVK1e079+/z/j48WNGBgYGBmZm5j8MDAwMAAAAAP//ZM2hEYAgGIDRj4PACtxJoHksYeNgNBormYkE7VSSC/wGowu8p5xzd61111rTez9SSmcphR8zxvgOQOac5JxprWGtfUQEE0K4vPey1lLGGGKMG8ALAAD//zyPsQqCUBiFv1sQxnWopF4hArdewAcQfIkGX8DBuUdoC+7uIAhtzvkU3gYX15ZwutLfUHamwwfng0NVVX+d1voJiFLq7Xnea+JlWSIiiAjzYRiubdseAZxzS75R4zgufh2ttUuS5A4ws9Yeoii6GGO2AE3TKGutAqjrWoVheOu6bj+N6fueOI7PQRA88jzfFEWxMsassyzb+b7/TNP0ND0WET58UTFLhlAUve8RKA0fukboM9pc1N8gNApOD/+ASzj7A5z6CTUIIoiTgwQNLraJS5A4tUUgTjaloLwWX0hEZzmXwz2He7hQFMWJEFLFcQxRFEHXdRCGISRJArIsv1ZV9bPMGAOglN7ycpIkfez8zrUgCG6OBjzP8xU/b5qmi50vubZt2zUcgPakf8EYQ3zGAAC2bT+0bYvSNEWu66Isy1DTNMiyrKc/A+q6BkEQvnzf9/M8B0rpnaIob/ypxw5nAACEENB1/dnzvEoURXAc53FZlnNN0/DvdDyOI1JVlZmmeV+W5ee6rqe+7zuM8YthGNswDOho+Cad/EGXCKA4/u64K/HuB78KlAYbft0ZaaAYLQ7XkIODiy5CDeogSU5tNgiC8VsaRA3iQBdBxEVQ4kQQEc7JQ7RB0YQLlKgO/1CYoHd6LfmD0iUa3vJ4jy/f9/08hOd5aDabj6PRaPPQpGm6FgwGnymKMsdx/I7BYLguiuJ6s9l8xnGcYlm2OJ1ObYf5VCp1QdP0J6fTeWw4kUiAw+GI/c3/v5TH43kaj8f/AOIKDI7jHiAIov6PgF6vlwRBOD8lgOh0urEkSVewaLXar2az+QOKoqgoijdlWT7b7/fYfr/fkiT5w2g0LpfLJTYYDB7udrvzw57Vam10u90nR6GtVqszAACKovrj8Rjp9Xq3TSZTgSCIj4IgPEomk/d8Pt/dQqFwv9FoOCVJ+ub3+98oinKj1WrdIknyOwDAYrHQn6Q2EAhcAoDKMEya53nIZDIXB+sul+tVqVSCbDYLlUoF7HZ79vdvzYvF4rVarQYWi+U9AKiRSOT5yQxmsxmEQqHXAKCGw+GXo9EIcrkcsCwL/X4f6vU6tNttKJfL0Ol0IJ1OA8dxMBwOwe12vwUANRaLBSaTycmQkdFoBLIsw3w+h2q1asrn8+8Wi4VVVdUVhmErgiB+4ji+22632Hq9JmVZJhEE0VIU1fB6vS8Yhvmi0WgARVGw2WxHF/o1AOIORIB/vrb+AAAAAElFTkSuQmCC")
 
@@ -24,24 +34,10 @@ print("---")
 home = expanduser("~")
 quotes = '"'
 path = home + '/Documents/'
-direc_file = path + '/MacBarPlugins/Files/repos.txt'
-
-content = []
-file = None
-
-try:
-    file = open(direc_file)
-except IOError:
-    print("Press update repos")
-
-if file:
-    with file as f:
-        content = f.readlines()
-        content = [x.strip() for x in content]
-
-print("Update repos | bash="+path+"/MacBarPlugins/Scripts/find_git.sh param1=run | terminal=false")
 
 print("---")
+
+content = get_list_dir(path)
 
 for file in content:
     direc_name, direc = split_path(file)
@@ -61,7 +57,8 @@ for file in content:
         print(direc_name + "| color=red")
     else:
         print(direc_name + "| color=green")
-    print("--" + "Copy path | bash="+path+"/MacBarPlugins/Scripts/find_git.sh param1=copy param2="+quotes+direc+quotes + "| terminal=false")
+    print("--" + "Copy path | bash="+path+"/MacBarPlugins/Scripts/find_git.sh param1=copy param2="+quotes+direc+quotes + " terminal=false")
+    print("--" + "Open location | bash="+path+"/MacBarPlugins/Scripts/find_git.sh param1=open param2="+quotes+direc+quotes + " terminal=false")
     print("--" + file)
     print("-----")
     print("--"+ "Cur branch name: " + branch.name )
