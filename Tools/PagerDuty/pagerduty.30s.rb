@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 # <bitbar.title>PagerDuty</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Allan Frese</bitbar.author>
 # <bitbar.author.github>frese</bitbar.author.github>
 # <bitbar.desc>Shows current pagerduty alert status.</bitbar.desc>
@@ -15,9 +15,8 @@ require "date"
 
 #--------------------------------------------------------------------
 # Set some configuration for PagerDuty
-$token  = ""
-$domain = ""
-$userid = ""
+$token    = ""
+$mail     = ""
 $team_ids = ""
 #--------------------------------------------------------------------
 
@@ -47,7 +46,6 @@ class PagerDuty
                 opt.banner = "Usage: #{$0} [options]"
                 opt.on("-a", "--ackowledge ID", "Acknowledge an incident") { |id| $command = "ACKOWLEDGE"; $id = id }
                 opt.on("-r", "--resolve ID", "Resolve an incident")        { |id| $command = "RESOLVE";    $id = id }
-                opt.on("-u", "--users", "list users along with their id")  { $command = "USERS" }
                 opt.on("-v", "--verbose" )                                 { $verbose = true }
             end.parse!
 
@@ -58,16 +56,6 @@ class PagerDuty
                 update_incident($id, "acknowledged")
             when "RESOLVE"
                 update_incident($id, "resolved")
-            when "USERS"
-                out = HTTParty.get("https://#{$domain}.pagerduty.com/api/v1/users",
-                                   headers: {"Content-type" => "application/json",
-                                             "Authorization" => "Token token=#{$token}"})
-
-                log("output: #{out}")
-                usr = JSON.parse(out.body)
-                usr['users'].each { |u|
-                    puts "id: #{u['id']} - name: #{u['name']}"
-                }
             end
 
         rescue StandardError => ex
@@ -80,13 +68,14 @@ class PagerDuty
     end
 
     def list_incidents
-        out = HTTParty.get("https://#{$domain}.pagerduty.com/api/v1/incidents",
+        out = HTTParty.get("https://api.pagerduty.com/incidents",
                            timeout: 25,
                            query:   { "since" => (Time.now-24*60*60).strftime("%Y-%m-%dT%H:%M:%S"),
-                                      "sort_by" => "created_on:desc",
-				      "teams" => $team_ids },
-                           headers: { "Content-type" => "application/json",
-                                      "Authorization" => "Token token=#{$token}"})
+                                      "sort_by" => "created_at:desc",
+									  "teams" => $team_ids },
+                           headers: { "Content-type"  => "application/json",
+                                      "Authorization" => "Token token=#{$token}",
+                                      "Accept"        => "application/vnd.pagerduty+json;version=2" })
 
         pd = JSON.parse(out.body)
         incidents = Array.new
@@ -124,16 +113,22 @@ class PagerDuty
                 option  = incident['status'].eql?("triggered") ? "-a" : "-r"
                 count   = incident['count'] > 1 ? "(#{incident['count']})" : ""
 
-                desc = "No description"
-                desc = incident['trigger_summary_data']['subject'] if incident['trigger_summary_data'].include?('subject')
-                desc = incident['trigger_summary_data']['description'] if incident['trigger_summary_data'].include?('description')
+                desc = incident['summary']
+				desc.gsub!(/\n/,"")
 
                 bash = "bash=#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
-                time = Time.parse(incident['created_on']).localtime.strftime("%H:%M:%S")
+                time = Time.parse(incident['created_at']).localtime.strftime("%H:%M:%S")
                 puts "#{count}#{urgency} [#{time}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} refresh=true terminal=false length=100"
-				client_url = incident['html_url']
-				client_url = incident['trigger_summary_data']['client_url'] unless incident['trigger_summary_data'].empty? or incident['trigger_summary_data']['client_url'].nil?
-				client_url.gsub!(" ","%20")
+
+                begin
+    				resp = JSON.parse(fetch(incident['first_trigger_log_entry']['self']))
+                    client_url = resp['log_entry']['channel']['client_url']
+				    client_url.gsub!(" ","%20")
+                rescue
+				    client_url = incident['service']['html_url']
+				    client_url.gsub!(" ","%20")
+                end
+
 				if desc.length >= 100
                     puts "#{desc[0..99]}...|color=#{$color['normal']} size=11 href=#{client_url}"
 				    puts "...#{desc[100..200]}|alternate=true color=#{$color['normal']} size=11"
@@ -145,12 +140,25 @@ class PagerDuty
         end
     end
 
+    def fetch(url)
+		log("--------------------------------------")
+		log("fetch: #{url}")
+        out = HTTParty.get(url, headers: { "Content-type"  => "application/json",
+                                           "Authorization" => "Token token=#{$token}",
+                                           "Accept"        => "application/vnd.pagerduty+json;version=2" })
+
+        log("output: #{out.body}")
+        return out.body
+    end
+
     def update_incident(id, cmd)
-        body = { requester_id: $userid, incidents: [{ id: id, status: cmd }] }
-        out = HTTParty.put("https://#{$domain}.pagerduty.com/api/v1/incidents",
+        body = { incident: { type: "incident_reference", status: cmd } }
+        out = HTTParty.put("https://api.pagerduty.com/incidents/#{id}",
                            body:  body.to_json,
-                           headers: { "Content-type" => "application/json",
-                                      "Authorization" => "Token token=#{$token}"})
+                           headers: { "Content-type"  => "application/json",
+                                      "Authorization" => "Token token=#{$token}",
+                                      "Accept"        => "application/vnd.pagerduty+json;version=2",
+                                      "From"          => $mail.to_str })
 
         log("output: #{out}")
         return out

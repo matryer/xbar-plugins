@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Meta Package Manager</bitbar.title>
-# <bitbar.version>v2.3.0</bitbar.version>
+# <bitbar.version>v2.5.0</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List outdated packages and manage upgrades.</bitbar.desc>
@@ -10,7 +10,7 @@
 # <bitbar.abouturl>https://github.com/kdeldycke/meta-package-manager</bitbar.abouturl>
 
 """
-Bitbar plugin for Meta Package Manager (a.k.a. the mpm CLI).
+Bitbar plugin for Meta Package Manager (a.k.a. the :command:`mpm` CLI).
 
 Default update cycle is set to 7 hours so we have a chance to get user's
 attention once a day. Higher frequency might ruin the system as all checks are
@@ -28,10 +28,13 @@ from subprocess import PIPE, Popen
 PY2 = sys.version_info[0] == 2
 
 
-# Set to ``False`` to replace the default flat layout with an alternative
-# structure where all upgrade actions are put into submenus, one for each
-# manager.
 FLAT_LAYOUT = True
+""" Define the rendering mode of outdated packages list.
+
+Set this constant to ``False`` to replace the default flat layout with an
+alternative structure where all upgrade actions are put into submenus, one for
+each manager.
+"""
 
 
 # Make it easier to change font, sizes and colors of the output
@@ -136,6 +139,11 @@ def print_menu():
     """Print menu structure using BitBar's plugin API.
 
     See: https://github.com/matryer/bitbar#plugin-api
+
+    .. todo
+
+        Add minimal requirement on ``meta-package-manager`` module in the
+        invoked ``pip`` command.
     """
     # Search for generic mpm CLI on system.
     code, _, error = run('mpm')
@@ -147,9 +155,8 @@ def print_menu():
         echo("---")
         echo(
             "Install / upgrade `mpm` CLI. | bash=pip param1=install "
-            # TODO: Add minimal requirement on Python package.
             "param2=--upgrade param3=meta-package-manager terminal=true "
-            "refresh=true {f_error}".format(error, f_error=FONTS['error']))
+            "refresh=true {f_error}".format(f_error=FONTS['error']))
         return
 
     # Fetch list of all outdated packages from all package manager available on
@@ -169,7 +176,7 @@ def print_menu():
 
     # Print menu bar icon with number of available upgrades.
     total_outdated = sum([len(m['packages']) for m in managers])
-    total_errors = len([True for m in managers if m.get('error', None)])
+    total_errors = sum([len(m.get('errors', [])) for m in managers])
     echo("↑{}{} | dropdown=false".format(
         total_outdated,
         " ⚠️{}".format(total_errors) if total_errors else ""))
@@ -208,7 +215,7 @@ def print_menu():
                     manager['name'] + ':',
                     len(manager['packages']),
                     package_label,
-                    error="⚠️ " if manager.get('error', None) else '',
+                    error="⚠️ " if manager.get('errors', None) else '',
                     max_length=label_max_length + 1,
                     max_outdated=len(str(max_outdated)),
                     f_summary=FONTS['summary']))
@@ -217,9 +224,9 @@ def print_menu():
 
         print_upgrade_all_item(manager, submenu)
 
-        if manager.get('error', None):
+        for error_msg in manager.get('errors', []):
             echo("---" if FLAT_LAYOUT else "-----")
-            print_error(manager['error'], submenu)
+            print_error(error_msg, submenu)
 
 
 if __name__ == '__main__':

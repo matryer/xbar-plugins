@@ -4,53 +4,12 @@ import os
 import subprocess
 import urllib2
 import argparse
+import warnings
+from distutils.spawn import find_executable
 
 allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
 required_metadata = ['author', 'author.github', 'title']
 recommended_metadata = ['image', 'desc', 'version']
-
-
-class Language(object):
-    _languages = {}
-
-    def __init__(self, exts, shebang, linter):
-        self.extensions = exts
-        self.shebang = shebang
-        self.cmd = linter
-
-    @staticmethod
-    def registerLanguage(lang):
-        for extension in lang.extensions:
-            if extension in Language._languages:
-                Language._languages[extension].append(lang)
-            else:
-                Language._languages[extension] = [lang, ]
-
-    @staticmethod
-    def getLanguagesForFileExtension(ext):
-        if ext in Language._languages:
-            return Language._languages[ext]
-        else:
-            return None
-
-    def validShebang(self, bang):
-        return re.search(self.shebang, bang) is not None
-
-    def lint(self, file):
-        command = list(self.cmd)
-        command.append(file)
-        return subprocess.check_output(command, stderr=subprocess.STDOUT)
-
-Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck']))
-Language.registerLanguage(Language(['.py', '.py2'], 'python(|2)$', ['python2', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.py', '.py3'], 'python(|3)$', ['python3', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l']))
-Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
-Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
-Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
-Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null']))
-Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
-
 error_count = 0
 
 
@@ -74,6 +33,69 @@ def error(s):
     global error_count
     error_count += 1
     print "\033[1;41mERR!\033[0;0m %s\n" % s
+
+
+class Language(object):
+    _languages = {}
+
+    def __init__(self, exts, shebang, linter, trim_shebang=False):
+        self.extensions = exts
+        self.shebang = shebang
+        self.cmd = linter
+        self.trim = trim_shebang
+
+        self.enabled = True
+        if not find_executable(self.cmd[0]):
+            error("Linter %s not present, skipping %s files" % (self.cmd[0], ', '.join(exts)))
+            self.enabled = False
+
+    @staticmethod
+    def registerLanguage(lang):
+        for extension in lang.extensions:
+            if extension in Language._languages:
+                Language._languages[extension].append(lang)
+            else:
+                Language._languages[extension] = [lang, ]
+
+    @staticmethod
+    def getLanguagesForFileExtension(ext):
+        if ext in Language._languages:
+            return Language._languages[ext]
+        else:
+            return None
+
+    def validShebang(self, bang):
+        return re.search(self.shebang, bang) is not None
+
+    def lint(self, file):
+        if not self.enabled:
+            return None
+        if self.trim:
+            with open(file, 'r') as fp:
+                lines = fp.readlines()[1:]
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    tmpfile = os.tmpnam()
+                with open(tmpfile, 'w') as tp:
+                    tp.writelines(lines)
+                file = tmpfile
+        command = list(self.cmd)
+        command.append(file)
+        return subprocess.check_output(command, stderr=subprocess.STDOUT)
+
+
+Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck', '-e', 'SC2196', '-e', 'SC2197']))
+Language.registerLanguage(Language(['.py', '.py2'], 'python(|2)$', ['python2', '-m', 'pyflakes']))
+Language.registerLanguage(Language(['.py', '.py3'], 'python(|3)$', ['python3', '-m', 'pyflakes']))
+Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l']))
+Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
+Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
+Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
+Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null']))
+Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
+Language.registerLanguage(Language(['.rkt'], 'racket$', ['raco', 'make']))
+# go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
+Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
 
 
 def check_file(file_full_path):
@@ -170,6 +192,7 @@ def boolean_string(string):
     if string.lower() == "false":
         return False
     return True
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument(

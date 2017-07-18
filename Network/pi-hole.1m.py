@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Pi-hole status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Siim Ots</bitbar.author>
 # <bitbar.author.github>siimots</bitbar.author.github>
 # <bitbar.desc>Show your Pi-Hole (Raspberry Pi adblocker) status. Todays blocked ads, DNS queries and number of domains in block list.</bitbar.desc>
@@ -21,18 +21,14 @@ pihole = "http://192.168.0.101/admin/"
 
 try:
     url = pihole + "api.php"
-    result = urllib2.urlopen(url, timeout = 5).read()
+    result = urllib2.urlopen(url, timeout=5).read()
     json = json.loads(result)
     print "🌍"
     print "---"
-    print "Ads blocked:"
-    print json['ads_blocked_today'] + "| href=" + pihole
-    print "DNS queries:"
-    print json['dns_queries_today'] + "| href=" + pihole
-    print "Domain list size:"
-    print json['domains_being_blocked'] + "| href=" + pihole
-    print "---"
-    
+    for key, value in sorted(json.items()):
+        print key.title().replace("_", " ") + ":"
+        print value, "| href=", pihole
+
 except:
     print "❌"
     print "---"
