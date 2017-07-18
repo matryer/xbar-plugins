@@ -21,7 +21,7 @@ def split_path(path):
 
 def get_list_dir(start_path):
     paths = []
-    for root, directories, filenames in os.walk('/Users/timothybarnard/Documents/'):
+    for root, directories, filenames in os.walk(start_path):
         if any(directory.endswith('.git') for directory in directories):
             if ".build" not in root:
                 paths.append(root)
