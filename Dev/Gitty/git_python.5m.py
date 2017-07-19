@@ -42,7 +42,14 @@ content = get_list_dir(path)
 for file in content:
     direc_name, direc = split_path(file)
     repo = git.Repo(direc)
-    branch = repo.active_branch
+    branches = repo.branches
+    try:
+        active_branch = repo.active_branch.name
+    except:
+        active_branch = 'DETACHED_' + repo.head.object.hexsha
+    tags = repo.tags
+    head = repo.head
+    cur_tag = next((tag for tag in repo.tags if tag.commit == repo.head.commit), None)
     
     commits_ahead = repo.iter_commits('origin/master..master')
     count1 = sum(1 for c in commits_ahead)
@@ -61,10 +68,20 @@ for file in content:
     print("--" + "Open location | bash='open "+direc+"'")
     print("--" + file)
     print("-----")
-    print("--"+ "Cur branch name: " + branch.name )
-    print("--" + "No commits ahead: " + str(count1) )
-    print("--" + "No commits behind: " + str(count2) )
-    print("--" + "No changed files: " + str(count3) )
+    print("--" + "Branches:")
+    for branch in branches:
+        print("----" + `branch.name`)
+        print("------ Checkout | bash='cd "+direc+" && git checkout "+branch.name+"' ")
+    print("--" + "Tags:")
+    for tag in tags:
+        print("----" + `tag.name`)
+    print("-----")
+    print("--"+ "Cur. branch: " + `active_branch` )
+    if cur_tag is not None:
+        print("--"+ "Cur. tag: " + `cur_tag.name` )
+    print("--" + "No. commits ahead: " + str(count1) )
+    print("--" + "No. commits behind: " + str(count2) )
+    print("--" + "No. changed files: " + str(count3) )
     for changedFile in changedFiles:
         print("----" + changedFile)
 
