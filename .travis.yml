@@ -3,7 +3,7 @@ osx_image: xcode8
 before_install:
   - brew update
   - brew outdated python || brew upgrade python
-  - pip install pyflakes
+  - pip2 install pyflakes
   - gem install rubocop --no-document
   - brew install shellcheck
   - brew outdated node || brew upgrade node
