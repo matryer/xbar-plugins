@@ -57,8 +57,8 @@ for file in content:
         print(direc_name + "| color=red")
     else:
         print(direc_name + "| color=green")
-    print("--" + "Copy path | bash="+path+"/MacBarPlugins/Scripts/find_git.sh param1=copy param2="+quotes+direc+quotes + " terminal=false")
-    print("--" + "Open location | bash="+path+"/MacBarPlugins/Scripts/find_git.sh param1=open param2="+quotes+direc+quotes + " terminal=false")
+    print("--" + "Copy path | bash='echo "+direc+" | pbcopy '")
+    print("--" + "Open location | bash='open "+direc+"'")
     print("--" + file)
     print("-----")
     print("--"+ "Cur branch name: " + branch.name )
