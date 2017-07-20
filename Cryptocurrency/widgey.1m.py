@@ -4,7 +4,7 @@
 # <bitbar.author>Peter Stenger</bitbar.author>
 # <bitbar.author.github>reteps</bitbar.author.github>
 # <bitbar.desc>Gets all wanted currency pairs from poloniex and shows information about it</bitbar.desc>
-# <bitbar.image>https://imgur.com/a/Mr8gZ</bitbar.image>
+# <bitbar.image>https://i.imgur.com/fYO0p7U.png</bitbar.image>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 
 
