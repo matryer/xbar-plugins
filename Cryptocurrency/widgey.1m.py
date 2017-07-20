@@ -18,7 +18,6 @@ S, small, 7 decimal places
 
 
 #---------------CODE----------------------#
-from time import time
 try:
     from poloniex import Poloniex
 except ModuleNotFoundError:
