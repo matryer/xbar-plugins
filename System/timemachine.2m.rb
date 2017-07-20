@@ -38,7 +38,7 @@ else
   end
 end
 
-if File.exists?('/private/var/db/.TimeMachine.Results')
+if File.exist?('/private/var/db/.TimeMachine.Results')
   last_backup = DateTime.strptime((`defaults read /private/var/db/.TimeMachine.Results BACKUP_COMPLETED_DATE`.strip), "%Y-%m-%d %H:%M:%S %z").new_offset(DateTime.now.offset).strftime("%A %B %d, %Y %l:%M %P")
 else
   last_backup = `/usr/libexec/PlistBuddy -c "Print Destinations:0:SnapshotDates" /Library/Preferences/com.apple.TimeMachine.plist | tail -n 2 | head -n 1`.strip
@@ -48,6 +48,6 @@ last_backup = "last backup #{last_backup}"
 unless status_line.empty?
   puts  "⏳#{status_line} "
   puts  "---"
-  puts  "(#{status[:cur_bytes]/1000000000}/#{status[:total_bytes]/1000000000}GB) | size=11"
+  puts  "(#{status[:cur_bytes]/1000000000}/#{status[:total_bytes]/1000000000}GB) | size=11" unless status[:percent] == -100
   puts  "#{last_backup}"
 end
