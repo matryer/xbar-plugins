@@ -12,13 +12,13 @@ echo ---
 
 CURL=$(curl --silent https://xkcd.com/info.0.json)
 IMG_NUM=$(echo "${CURL}" | /usr/local/bin/jq -r '.num')
-IMG_RAND=$(( ( $RANDOM % $IMG_NUM )  + 1 ))
+IMG_RAND=$(( ( RANDOM % IMG_NUM )  + 1 ))
 
-CURL=$(curl --silent https://xkcd.com/$IMG_RAND/info.0.json)
+CURL=$(curl --silent "https://xkcd.com/$IMG_RAND/info.0.json")
 IMG_URL=$(echo "${CURL}" | /usr/local/bin/jq -r '.img')
 TITLE=$(echo "${CURL}" | /usr/local/bin/jq -r '.safe_title')
 SUB_TITLE=$(echo "${CURL}" | /usr/local/bin/jq -r '.alt' | fold -w 100 -s)
-IMAGE=$(base64 <(curl --silent $IMG_URL))
+IMAGE=$(base64 <(curl --silent "$IMG_URL"))
 echo "| image=$IMAGE"
 echo ---
 echo "$TITLE | size=14 href='https://www.xkcd.com/$IMG_RAND/'"
