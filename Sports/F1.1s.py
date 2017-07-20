@@ -31,7 +31,7 @@ calfile = "/Users/me/Documents/BitbarPlugins/f1data/f1-calendar_p1_p2_p3_q_gp.ic
 
 from icalendar import Calendar
 #from datetime import datetime
-from datetime import tzinfo, timedelta, datetime
+from datetime import datetime
 from pytz import timezone
 import pytz
 import re
