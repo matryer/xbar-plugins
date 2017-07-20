@@ -4,8 +4,8 @@
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Timothy Barnard</bitbar.author>
 # <bitbar.author.github>collegboi</bitbar.author.github>
-# <bitbar.image>https://raw.githubusercontent.com/collegboi/Bitbar-Gitty/master/image1.png</bitbar.image>
-# <bitbar.desc>Shows the current status of local repos</bitbar.desc>
+# <bitbar.image>https://raw.githubusercontent.com/collegboi/my-bitbar-plugins/master/Gitty/image1.png</bitbar.image>
+# <bitbar.desc>Shows the current status of local repos. https://github.com/collegboi/my-bitbar-plugins</bitbar.desc>
 # <bitbar.dependencies>python, GitPython</bitbar.dependencies>
 #
 
@@ -72,9 +72,11 @@ for file in content:
     for branch in branches:
         print("----" + `branch.name`)
         print("------ Checkout | bash='cd "+direc+" && git checkout "+branch.name+"' ")
+        print("------ Pull origin | bash='cd "+direc+" && git pull origin "+branch.name+"' ")
     print("--" + "Tags:")
     for tag in tags:
         print("----" + `tag.name`)
+        print("------ Checkout | bash='cd "+direc+" && git checkout "+tag.name+"' ")
     print("-----")
     print("--"+ "Cur. branch: " + `active_branch` )
     if cur_tag is not None:
