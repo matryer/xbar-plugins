@@ -9,7 +9,7 @@
 
 
 
-pairs = {'USDT_BTC':'L','USDT_ETH':'L','USDT_LTC':'L','BTC_STEEM':'S','USDT_XRP':'S'}
+pairs = {'USDT_BTC':'L','USDT_ETH':'L','USDT_LTC':'L','BTC_STEEM':'S','BTC_STRAT':'S'}
 
 '''add the pair you want to the list.
 L, large, 3 decimal places
@@ -28,26 +28,34 @@ except ModuleNotFoundError:
     print("pip3 install https://github.com/s4w3d0ff/python-poloniex/archive/v0.4.4.zip|href='https://github.com/s4w3d0ff/python-poloniex'")
     exit()
 #-----------------------------------#
-p = Poloniex()
-call = p('returnTicker')
-standard = "|href='https://poloniex.com/exchange#{}' font='Menlo'"
-largeformat = "{: <5} {:0<9.3f} {:0<+6.2f}% {:0<9.3f} {:0<9.3f} {:0<9.3f}" + standard
-smallformat = "{: <5} {:0<9.7f} {:0<+6.2f}% {:0<9.7f} {:0<9.7f} {:0<9.7f}" + standard
-#-----------------------------------#
-print('Widgey')
-print('---')
-print('NAME   CURRENT  CHANGE   OPEN       HIGH      LOW   |font=Menlo')
-for pair in pairs.keys():
-    #-------------------------------#
-    information = [pair.split('_')[1],
-    float(call[pair]['last']),
-    float(call[pair]['percentChange']) * 100,
-    float(call[pair]['high24hr']),
-    float(call[pair]['low24hr']),
-    float(p.returnChartData(pair, period=p.DAY, start=time()-p.DAY)[0]['open']),
-    pair.lower()]
-    #--------------------------------#
-    if pairs[pair] == 'L':
-        print(largeformat.format(*information))
-    elif pairs[pair] == 'S':
-        print(smallformat.format(*information))
+try:
+    p = Poloniex()
+    call = p('returnTicker')
+    standard = "|href='https://poloniex.com/exchange#{}' font='Menlo'"
+    largeformat = "{: <5} {:0<9.3f} {:0<+6.2f}% {:0<9.3f} {:0<9.3f} {:0<9.3f}" + standard
+    smallformat = "{: <5} {:0<9.7f} {:0<+6.2f}% {:0<9.7f} {:0<9.7f} {:0<9.7f}" + standard
+    #-----------------------------------#
+    print('Widgey')
+    print('---')
+    print('NAME   CURRENT  CHANGE    OPEN      HIGH       LOW   |font=Menlo')
+    for pair in pairs.keys():
+        #-------------------------------#
+        last = float(call[pair]['last'])
+        change = float(call[pair]['percentChange'])
+        information = [pair.split('_')[1],
+        last,
+        change * 100,
+        float((1 - change) * last),
+        float(call[pair]['high24hr']),
+        float(call[pair]['low24hr']),
+        pair.lower()]
+        #--------------------------------#
+        if pairs[pair] == 'L':
+            print(largeformat.format(*information))
+        elif pairs[pair] == 'S':
+            print(smallformat.format(*information))
+except Exception:
+    print('Widgey')
+    print('---')
+    print('No wifi')
+    exit()
