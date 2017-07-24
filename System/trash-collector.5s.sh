@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # <bitbar.title>Trash Collector</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Carlson Orozco</bitbar.author>
 # <bitbar.author.github>carlsonorozco</bitbar.author.github>
 # <bitbar.desc>Trash Collector is a plugin for BitBar that enables you to empty your trash.</bitbar.desc>
@@ -27,7 +27,8 @@ fi
 if [ $((trash_count)) = 0 ]; then
     echo "🗑 | bash='$0' param1=open terminal=false"
 else
-    echo "$trash_count🗑 | bash='$0' param1=open terminal=false"
+    echo "$trash_count🗑"
     echo '---'
+    echo "Open Trash | bash='$0' param1=open terminal=false"
     echo "Empty Trash | bash='$0' param1=empty terminal=false"
 fi
