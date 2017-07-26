@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Live Cricket Scores</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
+# <bitbar.version>v1.3</bitbar.version>
 # <bitbar.author>Anup Sam Abraham</bitbar.author>
 # <bitbar.author.github>anupsabraham</bitbar.author.github>
 # <bitbar.desc>Show live scores of cricket matches happening around the world using Cricinfo api. </bitbar.desc>
@@ -58,7 +58,7 @@ else:
 TIME_DELTA = datetime.utcnow() - datetime.now()  # for converting gmt to local time
 
 # fetch the json feed listing all the matches
-cricinfo_base_url = "http://www.espncricinfo.com"
+cricinfo_base_url = "http://api.espncricinfo.com"
 summary_url = cricinfo_base_url + '/netstorage/summary.json'
 summary_response = urllib2.urlopen(summary_url)
 summary_data = json.load(summary_response)
