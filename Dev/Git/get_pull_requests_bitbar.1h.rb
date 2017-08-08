@@ -130,8 +130,11 @@ def pr_count_for_github(response)
       (page, rel) = link.match(/&page=(.*)>; rel="(.*)"/).captures
       links[rel] = page
     end
+    return links["last"].to_i
+  else
+    result = JSON.parse(response.body)
+    return result.count.to_i
   end
-  return links["last"].to_i
 end
 
 def pr_count_for_bitbucket(response)
