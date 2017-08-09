@@ -50,7 +50,7 @@ fi
 echo -n "$BTC_RATE" > ~/.bitbar_last_btc_rate
 echo -n "$USD_BALANCE" > ~/.bitbar_last_usd_balance
 
-if [ $DELTA_BTC -eq 0 ]; then
+if [ $DELTA_POS -o $DELTA_NEG ]; then
   printf "Ƀ%.2f (${CHG_SYMBOL}) | color=$COLOR\n" "${BTC_RATE}"
   printf "$%.2f (${CHG_SYMBOL}) | color=$COLOR\n" "${USD_BALANCE}"
 else
