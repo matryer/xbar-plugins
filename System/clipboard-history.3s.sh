@@ -27,7 +27,7 @@ fi
 
 # If user clicked clear, remove history items
 if [[ "$1" = "clear" ]]; then
-  rm -f "$tmp_dir/item-*.pb"
+  rm -f "$tmp_dir"/item-*.pb
   osascript -e "display notification \"Cleared clipboard history\" with title \"BitBar Clipboard History\"" &> /dev/null
   exit
 fi
