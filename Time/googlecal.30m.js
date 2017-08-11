@@ -3,7 +3,7 @@
 
 /*
 <bitbar.title>Google Calendar</bitbar.title>
-<bitbar.version>v1.1.0</bitbar.version>
+<bitbar.version>v1.2.0</bitbar.version>
 <bitbar.author>Kodie Grantham</bitbar.author>
 <bitbar.author.github>kodie</bitbar.author.github>
 <bitbar.desc>Shows upcoming events from your Google Calendar - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-googlecal</bitbar.desc>
@@ -13,7 +13,7 @@
 <bitbar.abouturl>https://github.com/kodie/bitbar-googlecal</bitbar.abouturl>
 */
 
-var ver = '1.1.0';
+var ver = '1.2.0';
 
 var defaults = {
   clientId: '529707498278-prhql6kn67hevctqkt0qkgeha51bdhv7.apps.googleusercontent.com',
@@ -27,6 +27,7 @@ var defaults = {
   days: 7,
   eventColor: false,
   eventFont: false,
+  eventLength: 80,
   eventSize: false,
   expandEvents: true,
   limit: 25,
@@ -138,8 +139,12 @@ try {
   var auth = new googleAuth();
   var oauth2Client = new auth.OAuth2(cfg.clientId, cfg.clientSecret, cfg.clientRedirect);
 } catch(e) {
-  console.log(`Run Installation | bash="cd ${dirPlugins} && npm install ${npmDeps} && node ${process.argv[1]} getNewToken"`);
-  footer();
+  if (process.env.BitBar) {
+    console.log(`Run Installation | bash="cd ${dirPlugins} && npm install ${npmDeps} && rm package-lock.json || true && node ${process.argv[1]} getNewToken"`);
+    footer();
+  } else {
+    console.log(e);
+  }
   process.exit(1);
 }
 
@@ -201,25 +206,6 @@ function getNewToken() {
 
 function refreshToken(oauth2Client, cb) {
   oauth2Client.refreshAccessToken(function(error, token) {
-    function refreshError(msg) {
-      fs.unlinkSync(cfg.tokenFile);
-
-      console.log('Error refreshing token: ' + msg);
-      console.log('You may need to re-authorize this plugin with Google.');
-
-      if (process.env.BitBar) {
-        console.log('Click here to view your currently authorized apps | href=https://myaccount.google.com/permissions');
-      } else {
-        console.log('Visit this URL to view your currently authorized apps: https://myaccount.google.com/permissions');
-      }
-
-      console.log('You will want to find this plugin and click \'Remove\'.');
-      console.log('After you have done that, refresh this plugin and run the setup process again.');
-
-      footer();
-      process.exit(1);
-    }
-
     if (!error) {
       oauth2Client.credentials = Object.assign({}, oauth2Client.credentials, token);
 
@@ -227,11 +213,13 @@ function refreshToken(oauth2Client, cb) {
         if (!error) {
           cb(oauth2Client);
         } else {
-          refreshError(error.message);
+          footer([error.message]);
+          process.exit(1);
         }
       });
     } else {
-      refreshError(error.message);
+      footer([error.message]);
+      process.exit(1);
     }
   });
 }
@@ -347,6 +335,7 @@ function listEvents(oauth2Client) {
 
                   if (cfg.eventColor) { str += ` color=${cfg.eventColor}`; }
                   if (cfg.eventFont) { str += ` font=${cfg.eventFont}`; }
+                  if (cfg.eventLength) { str += ` length=${cfg.eventLength}`; }
                   if (cfg.eventSize) { str += ` size=${cfg.eventSize}`; }
                 }
 
@@ -376,7 +365,29 @@ function run() {
     var token = fs.readFileSync(cfg.tokenFile, 'utf8');
     if (token) { oauth2Client.credentials = JSON.parse(token); }
 
-    if (!oauth2Client.credentials.refresh_token || new Date(Date.now()) > oauth2Client.credentials.expiry_date) {
+    if (!oauth2Client.credentials.refresh_token) {
+      fs.unlinkSync(cfg.tokenFile);
+
+      console.log('No refresh token set');
+      console.log('You need to re-authorize this plugin with Google');
+
+      if (process.env.BitBar) {
+        console.log('Click here to view your currently authorized apps | href=https://myaccount.google.com/permissions');
+      } else {
+        console.log('Visit this URL to view your currently authorized apps: https://myaccount.google.com/permissions');
+      }
+
+      console.log('You will want to find this plugin and click \'Remove\'');
+
+      if (process.env.BitBar) {
+        console.log(`After you have done that, click here to re-authorize this plugin | bash=${process.argv[1]} param1=getNewToken refresh=false terminal=true`);
+      } else {
+        console.log('After you have done that, refresh this plugin and run the setup process again');
+      }
+
+      footer();
+      process.exit(1);
+    } else if (new Date(Date.now()) > oauth2Client.credentials.expiry_date) {
       refreshToken(oauth2Client, listEvents);
     } else {
       listEvents(oauth2Client);
