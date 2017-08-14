@@ -12,40 +12,45 @@
 const http = require('http');
 
 function request(host, path) {
-    return new Promise((resolve, reject) => {
+    return new Promise(function(resolve, reject) {
         http.request({
-            host, path,
+            host: host,
+            path: path,
             method: 'GET'
-        }, (resp) => {
-            let body = '';
+        }, function(resp) {
+            var body = '';
             resp.setEncoding('utf8');
-            resp.on('data', (chunk) => body += chunk);
-            resp.on('end', () => resolve(JSON.parse(body)));
+            resp.on('data', function(chunk) {
+                body += chunk;
+            });
+            resp.on('end', function() {
+                resolve(JSON.parse(body));
+            });
         }).end();
     });
 }
 
 function flag(name) {
     switch(name.toLowerCase()) {
-        case 'russia': return '🇷🇺'
-        case 'usa': return '🇺🇸'
-        case 'italy': return '🇮🇹'
-        case 'china': return '🇨🇳'
-        case 'japan': return '🇯🇵'
-        case 'canada': return '🇨🇦'
-        case 'france': return '🇫🇷'
-        case 'germany': return '🇩🇪'
-        case 'belgium': return '🇧🇪'
-        case 'netherlands': return '🇳🇱'
-        case 'sweden': return '🇸🇪'
+        case 'russia': return '🇷🇺';
+        case 'usa': return '🇺🇸';
+        case 'italy': return '🇮🇹';
+        case 'china': return '🇨🇳';
+        case 'japan': return '🇯🇵';
+        case 'canada': return '🇨🇦';
+        case 'france': return '🇫🇷';
+        case 'germany': return '🇩🇪';
+        case 'belgium': return '🇧🇪';
+        case 'netherlands': return '🇳🇱';
+        case 'sweden': return '🇸🇪';
     } 
 }
 
-request('www.howmanypeopleareinspacerightnow.com', '/space.json').then((body) => {
-    console.log(`👨🏻‍🚀 ${body.number}\n---`);
-    body.people.map((person) => {
-        console.log(`${flag(person.country)} ${person.name} | href=${person.bio} color=black`);
-        console.log(`${person.title} – ${person.launchdate.split('-').reverse().join('.')}`);
-        console.log(`---`);
+request('www.howmanypeopleareinspacerightnow.com', '/space.json').then(function(body) {
+    console.log('👨🏻‍🚀 ' + body.number + '\n---');
+    body.people.map(function(person) {
+        console.log(flag(person.country) + ' ' + person.name  + '| href=${person.bio} color=black');
+        console.log(person.title + ' – ' + person.launchdate.split('-').reverse().join('.'));
+        console.log('---');
     });
 });
