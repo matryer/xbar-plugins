@@ -9,7 +9,9 @@
 // <bitbar.dependencies>node</bitbar.dependencies>
 // <bitbar.abouturl>https://github.com/mullwar/my-bitbar-plugins</bitbar.abouturl>
 
-const http = require('http');
+/* jshint -W100 */
+
+var http = require('http');
 
 function request(host, path) {
     return new Promise(function(resolve, reject) {
@@ -43,7 +45,7 @@ function flag(name) {
         case 'belgium': return '🇧🇪';
         case 'netherlands': return '🇳🇱';
         case 'sweden': return '🇸🇪';
-    } 
+    }
 }
 
 request('www.howmanypeopleareinspacerightnow.com', '/space.json').then(function(body) {
