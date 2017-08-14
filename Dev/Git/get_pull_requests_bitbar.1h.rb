@@ -109,7 +109,11 @@ def call_api(http_method, endpoint, token = nil)
     yield(response)
 
   rescue StandardError => error
-    puts "Got Error: #{error.message}"
+    puts "? PRs"
+    if called_by_bitbar?
+      puts "---"
+      puts "Got Error: #{error.message}"
+    end
   end
 end
 
