@@ -5,7 +5,6 @@
 # <bitbar.author>Ash Wu(hSATAC)</bitbar.author>
 # <bitbar.author.github>hSATAC</bitbar.author.github>
 # <bitbar.desc>A simple worktime tracker with record history.</bitbar.desc>
-# <bitbar.image>http://ash.cat/4DGq+</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 # Functionality:
