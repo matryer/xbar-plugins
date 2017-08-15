@@ -30,32 +30,29 @@ LAST_USD_BALANCE=$(cat ~/.bitbar_last_usd_balance)
 BTC_RATE=$(curl -s https://api.coinbase.com/v2/prices/BTC-USD/spot | jq -r '.data.amount')
 USD_BALANCE=$(echo "$BTC_BALANCE * $BTC_RATE" | bc)
 
-DELTA_USD=$(echo "$USD_BALANCE-${LAST_USD_BALANCE:-0}" | bc)
-DELTA_BTC=$(echo "$BTC_RATE-${LAST_BTC_RATE:-0}" | bc)
-DELTA_POS=$(echo "$DELTA_BTC > 0" | bc)
-DELTA_NEG=$(echo "$DELTA_BTC < 0" | bc)
+DELTA_USD=$(printf "%.2f" $(echo "$USD_BALANCE-${LAST_USD_BALANCE:-0}" | bc))
+DELTA_BTC=$(printf "%.2f" $(echo "$BTC_RATE-${LAST_BTC_RATE:-0}" | bc))
 
-if [ $DELTA_POS -eq 1 ]; then
-  SHOW_DELTA=1
+if [ "$(echo "$DELTA_BTC > 0.00" | bc)" -eq "1" ]; then
+  HIDE_DELTA=0
   CHG_SYMBOL="▲ "
   COLOR=green
-elif [ $DELTA_NEG -eq 1 ]; then
-  SHOW_DELTA=1
+elif [ "$(echo "$DELTA_BTC < 0.00" | bc)" -eq "1" ]; then
+  HIDE_DELTA=0
   CHG_SYMBOL="▼ "
   COLOR=red
-  DELTA_BTC=$(echo "$DELTA_BTC" | sed 's/^-//')
+  DELTA_BTC=${DELTA_BTC#-}
+  DELTA_USD=${DELTA_USD#-}
 else
-  SHOW_DELTA=0
-  CHG_SYMBOL="━"
-  COLOR=black
+  HIDE_DELTA=1
 fi
 
 echo -n "$BTC_RATE" > ~/.bitbar_last_btc_rate
 echo -n "$USD_BALANCE" > ~/.bitbar_last_usd_balance
 
-if [ $SHOW_DELTA -eq 1 ]; then
-  printf "Ƀ%.2f (${CHG_SYMBOL}) | color=$COLOR\n" "${BTC_RATE}"
-  printf "$%.2f (${CHG_SYMBOL}) | color=$COLOR\n" "${USD_BALANCE}"
+if [ "$HIDE_DELTA" -eq "1" ]; then
+  printf "Ƀ%.2f\n" "${BTC_RATE}"
+  printf "$%.2f\n" "${USD_BALANCE}"
 else
   printf "Ƀ%.2f (${CHG_SYMBOL}%.2f) | color=$COLOR\n" "${BTC_RATE}" "${DELTA_BTC}"
   printf "$%.2f (${CHG_SYMBOL}%.2f) | color=$COLOR\n" "${USD_BALANCE}" "${DELTA_USD}"
