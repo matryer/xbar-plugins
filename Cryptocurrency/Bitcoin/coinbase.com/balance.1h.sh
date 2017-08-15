@@ -36,13 +36,16 @@ DELTA_POS=$(echo "$DELTA_BTC > 0" | bc)
 DELTA_NEG=$(echo "$DELTA_BTC < 0" | bc)
 
 if [ $DELTA_POS -eq 1 ]; then
+  SHOW_DELTA=1
   CHG_SYMBOL="▲ "
   COLOR=green
 elif [ $DELTA_NEG -eq 1 ]; then
+  SHOW_DELTA=1
   CHG_SYMBOL="▼ "
   COLOR=red
   DELTA_BTC=$(echo "$DELTA_BTC" | sed 's/^-//')
 else
+  SHOW_DELTA=0
   CHG_SYMBOL="━"
   COLOR=black
 fi
@@ -50,7 +53,7 @@ fi
 echo -n "$BTC_RATE" > ~/.bitbar_last_btc_rate
 echo -n "$USD_BALANCE" > ~/.bitbar_last_usd_balance
 
-if [ $DELTA_POS -o $DELTA_NEG ]; then
+if [ $SHOW_DELTA -eq 1 ]; then
   printf "Ƀ%.2f (${CHG_SYMBOL}) | color=$COLOR\n" "${BTC_RATE}"
   printf "$%.2f (${CHG_SYMBOL}) | color=$COLOR\n" "${USD_BALANCE}"
 else
