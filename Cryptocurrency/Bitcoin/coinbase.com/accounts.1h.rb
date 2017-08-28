@@ -23,24 +23,24 @@ def getDelta(current, last)
   end
 end
 
-def printBalance(account)
-  if @delta
-    printf "%s: $%.2f (#{@delta[:symbol]}%.2f) | color=#{@delta[:color]}\n", account.name, account.native_balance.amount, (@delta[:amount] * account.balance.amount)
-  else
-    printf "%s: $%.2f\n", account.name, account.native_balance.amount
-  end
-end
-
 def printPrimary
   account = @client.primary_account
   usd_total = @client.accounts.collect {|a| a.native_balance.amount}.inject(:+)
   btc_total = @client.accounts.collect {|a| a.balance.amount}.inject(:+)
   if @delta
-    printf "Ƀ%.2f (#{@delta[:symbol]}%.2f) | color=#{@delta[:color]}\n", @current_btc_rate, @delta[:amount]
-    printf "$%.2f (#{@delta[:symbol]}%.2f) | color=#{@delta[:color]}\n", usd_total, (@delta[:amount] * btc_total)
+    printf "1Ƀ = %.2f (#{@delta[:symbol]}%.2f) | color=#{@delta[:color]}\n", @current_btc_rate, @delta[:amount]
+    printf "∑ $%.2f (#{@delta[:symbol]}%.2f) | color=#{@delta[:color]}\n", usd_total, (@delta[:amount] * btc_total)
   else
-    printf "Ƀ%.2f\n", @current_btc_rate
-    printf "$%.2f\n", usd_total
+    printf "1Ƀ = %.2f\n", @current_btc_rate
+    printf "∑ $%.2f\n", usd_total
+  end
+end
+
+def printBalance(account)
+  if @delta
+    printf "%s: $%.2f (#{@delta[:symbol]}%.2f) | color=#{@delta[:color]}\n", account.name, account.native_balance.amount, (@delta[:amount] * account.balance.amount)
+  else
+    printf "%s: $%.2f\n", account.name, account.native_balance.amount
   end
 end
 
