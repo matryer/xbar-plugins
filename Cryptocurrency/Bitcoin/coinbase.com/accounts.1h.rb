@@ -24,7 +24,6 @@ def getDelta(current, last)
 end
 
 def printPrimary
-  account = @client.primary_account
   usd_total = @client.accounts.collect {|a| a.native_balance.amount}.inject(:+)
   btc_total = @client.accounts.collect {|a| a.balance.amount}.inject(:+)
   if @delta
