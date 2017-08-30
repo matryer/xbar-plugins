@@ -13,10 +13,7 @@ import json
 #Stocks can be provided with just the symbol (AAPL) or exchange:symbol (NASDAQ:AAPL)
 stocks={"MSFT","AAPL","GOOGL","AMZN","ONDK"}
 
-query = ""
-for i in stocks:
-    query = i + "," + query
-
+query = ",".join(sorted(stocks))
 url = "http://finance.google.com/finance/info?client=ig&q=" + query
 u = urllib2.urlopen(url)
 query = u.read()
