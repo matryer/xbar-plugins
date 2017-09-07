@@ -11,20 +11,20 @@ import urllib2
 
 stocks={"MSFT","AAPL","GOOGL","AMZN","ONDK"}
 
-
 stocks = sorted(stocks)
 url = "http://download.finance.yahoo.com/d/quotes.csv?s={}&f=l1c1".format(','.join(stocks))
 u = urllib2.urlopen(url)
 response = u.read().strip()
-results = []
 for i, csv in enumerate(response.split('\n')):
     symbol = stocks[i]
     price, change = csv.split(',')
-    price = float(price)
-    change = float(change)
-    results.append((symbol, price, change))
-
-for symbol, price, change in results:
-    direction = "+" if change > 0 else ""
-    color = "red" if change < 0 else "green"
+    try:
+        price = float(price)
+        change = float(change)
+        direction = "+" if change > 0 else ""
+        color = "red" if change < 0 else "green"
+    except ValueError:
+        change = 0
+        direction = ""
+        color = "gray"
     print("{} {} {}{} | color={}".format(symbol, price, direction, change, color))
