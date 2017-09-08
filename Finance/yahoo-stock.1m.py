@@ -25,6 +25,6 @@ for row in rows:
 
     color = "red" if change < 0 else "green"
 
-    print("{} {:.2f} {:.2f} ({:.2f}) | color={}".format(
+    print("{} ${:,.2f} {:+.2f} ({:+.2f}%) | color={}".format(
         ticker, current, change, pct, color
     ))
