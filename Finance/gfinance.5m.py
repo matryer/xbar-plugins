@@ -8,16 +8,23 @@
 # <bitbar.image>https://s3.amazonaws.com/jamieson.io/bitbar_gfinance.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 import urllib2
-import json
 
-#Stocks can be provided with just the symbol (AAPL) or exchange:symbol (NASDAQ:AAPL)
 stocks={"MSFT","AAPL","GOOGL","AMZN","ONDK"}
 
-query = ",".join(sorted(stocks))
-url = "http://finance.google.com/finance/info?client=ig&q=" + query
+stocks = sorted(stocks)
+url = "http://download.finance.yahoo.com/d/quotes.csv?s={}&f=l1c1".format(','.join(stocks))
 u = urllib2.urlopen(url)
-query = u.read()
-obj = json.loads(query[4:-1])
-
-for ticker in obj:
-    print "{} {} {} | color=".format(ticker["t"], ticker["l"], ticker["c"]), "red" if float(ticker["c"]) < 0 else "green"
+response = u.read().strip()
+for i, csv in enumerate(response.split('\n')):
+    symbol = stocks[i]
+    price, change = csv.split(',')
+    try:
+        price = float(price)
+        change = float(change)
+        direction = "+" if change > 0 else ""
+        color = "red" if change < 0 else "green"
+    except ValueError:
+        change = 0
+        direction = ""
+        color = "gray"
+    print("{} {} {}{} | color={}".format(symbol, price, direction, change, color))
