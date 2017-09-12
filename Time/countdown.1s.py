@@ -31,6 +31,8 @@ def main():
     if "--help" in sys.argv:
         print(
             """
+To pass arguments to this script, you can create a separate sh file and execute the main script with it.
+
 Available Args:
     --bar-title: This will appear as the first line in the output. The default is 'Countdown Timer'.
     --date-format: You can provide a custom date format. The default is '%d-%m-%Y %H:%M'
@@ -39,6 +41,8 @@ Available Args:
 
 Example:
     countdown.py "--bar-title" "Custom Bar Title" "--no-cycle" "--date-format" "%d-%m-%Y" "Time #1" "17-07-2017" "Time #2" "15-08-2017"
+Script Example:
+    chmod +x /Path/to/countdown.py && /Path/to/countdown.py "--bar-title" "Custom Bar Title" "--no-cycle" "--date-format" "%d-%m-%Y" "Time #1" "17-07-2017" "Time #2" "15-08-2017"
             """
         )
         return
@@ -64,6 +68,14 @@ Example:
     print(bar_title + " | font=\'Monospace\'")
     if "--no-cycle" in sys.argv:
         print("---")
+
+    if arg_count == 1:
+        print("""
+            Please pass the correct arguments for this plugin to work.
+            You can create an sh file that executes the main Python
+            script file with the appropriate arguments.
+            For examples, see the script file.
+        """)
 
     for index in range(1, arg_count):
         arg = sys.argv[index].strip()
