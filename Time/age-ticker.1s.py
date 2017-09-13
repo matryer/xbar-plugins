@@ -9,11 +9,6 @@
 # <bitbar.image>https://github.com/garythung/bitbar-age-ticker/blob/master/bitbar-age-ticker.gif?raw=true</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/garythung/bitbar-age-ticker</bitbar.abouturl>
-#
-# If you feel so inclined, donations are appreciated!
-# BTC: 15vUa9DPoh3bFBupwy6Sc5K1L7LSPxax85
-# LTC: LW33s9vNFGUAsCnHcSystvV4VDY6nKfhEa
-# ETH: 0x9dd29dc6877302C6D95662fB456A65BF64191e2b
 
 import datetime
 
@@ -27,4 +22,4 @@ now = datetime.datetime.now()
 seconds = (now - birthday).total_seconds()
 years = seconds / 31536000
 
-print "%.9f" % years # change the number to change precision
+print "%.12f" % years # change the number to change precision
