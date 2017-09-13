@@ -11,9 +11,9 @@
 
 state=$(defaults read "/Library/Preferences/com.apple.alf" globalstate)
 
-if [ $state -eq 2 ]; then
+if [ "$state" -eq 2 ]; then
   echo "🔒"
-elif [ $state -eq 1 ]; then
+elif [ "$state" -eq 1 ]; then
   echo "❗️"
 else
   echo "‼️"
