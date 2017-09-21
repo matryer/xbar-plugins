@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Pi-hole status</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
+# <bitbar.version>v2.1</bitbar.version>
 # <bitbar.author>Siim Ots</bitbar.author>
 # <bitbar.author.github>siimots</bitbar.author.github>
 # <bitbar.desc>Show your Pi-Hole (Raspberry Pi adblocker) status. Todays blocked ads, DNS queries and number of domains in block list.</bitbar.desc>
