@@ -11,21 +11,21 @@
     <bitbar.abouturl>https://github.com/brecke/bitbar-vpn-flag</bitbar.abouturl>
 */
 
-const ipapi = require('ipapi.co');
-const https = require('https');
-const flag = require('country-code-emoji').flag;
+var ipapi = require('ipapi.co');
+var https = require('https');
+var flag = require('country-code-emoji').flag;
 
-let IPAddress;
-https.get('https://ipapi.co/ip/', function(resp){
-    var body = ''
-    resp.on('data', function(data){
+var IPAddress;
+https.get('https://ipapi.co/ip/', function(resp) {
+    var body = '';
+    resp.on('data', function(data) {
         body += data;
     });
 
     resp.on('end', function() {
 		IPAddress = body;
 	
-		ipapi.location((country) => {
+		ipapi.location(function(country) {
 			console.log(flag(country)); 
 		}, IPAddress.toString(), '', 'country');
     });
