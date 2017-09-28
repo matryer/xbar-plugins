@@ -4,7 +4,7 @@
 # <bitbar.author>Erhan BÜTE</bitbar.author>
 # <bitbar.author.github>erhan</bitbar.author.github>
 # <bitbar.desc>TC Ticker for TR Markets(btcturk.com, koinim.com, paribu.com)</bitbar.desc>
-# <bitbar.image>#</bitbar.image>
+# <bitbar.image>https://imgur.com/a/qQG1a</bitbar.image>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 
 import json
