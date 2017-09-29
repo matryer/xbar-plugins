@@ -5,7 +5,7 @@
 # <bitbar.author>Jack Higgins</bitbar.author>
 # <bitbar.author.github>skhg</bitbar.author.github>
 # <bitbar.desc>Displays your local IP address with useful extra info</bitbar.desc>
-# <bitbar.image>http://skhg.github.io/public_stuff/ip_info.jpg</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/skhg/BitBar-Plugins/master/NetworkInfo/ip_info.jpg</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/NetworkInfo</bitbar.abouturl>
 
