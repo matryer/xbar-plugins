@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # <bitbar.title>Launch Agents</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Paul W. Rankin</bitbar.author>
 # <bitbar.author.github>rnkn</bitbar.author.github>
 # <bitbar.desc>Shows and manages user Launch Agents.</bitbar.desc>
@@ -19,7 +19,8 @@
 launchctl=$(which launchctl)
 defaults=$(which defaults)
 open=$(which open)
-services=("$HOME/Library/LaunchAgents/"*.plist)
+servicespath="$HOME/Library/LaunchAgents/"
+compgen -G "$servicespath"*.plist &> /dev/null && services=("$servicespath"*.plist)
 
 if [[ $1 = start ]]
 then "$launchctl" start "$2"
