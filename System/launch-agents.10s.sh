@@ -12,7 +12,7 @@
 
 # User Settings ================================================================
 
-use_emoji=0                      # comment/delete this line to use an image
+# use_emoji=0                      # uncomment this line to use an emoji
 
 # ==============================================================================
 
