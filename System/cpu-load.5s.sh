@@ -10,7 +10,7 @@
 
 # BitBar CPU Load plugin
 
-ncpu=$(sysctl -n hw.ncpu)
+ncpu=$(sysctl -n hw.logicalcpu)
 total=$(ps -Ao %cpu= | paste -sd+ - | bc)
 usage=$(echo "scale = 2; $total / $ncpu" | bc)
 
