@@ -3,7 +3,7 @@
 # metadata
 # <bitbar.title>Using free VPN more easily: how to automatically update VPNBOOK password</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Joce ‘El Francés’</bitbar.author>
+# <bitbar.author>Joce â€˜El FrancÃ©sâ€™</bitbar.author>
 # <bitbar.author.github>jm462</bitbar.author.github>
 # <bitbar.desc>Automatically update VPNBOOK free password. Go and collect password on the VPNBOOK page, then change it on the network settings panel. The password is managed by the keychain application </bitbar.desc>
 # <bitbar.image>http://colombien.somee.com/images/bitbarpluginpicture.PNG</bitbar.image>
@@ -36,7 +36,6 @@ IMAGE1="/9j/4AAQSkZJRgABAQEAkACQAAD/4gJASUNDX1BST0ZJTEUAAQEAAAIwQURCRQIQAABtbnRy
 i=1
 while [ $i -lt 6 ]; do
 #echo "Essai numero " $i " de connection a la page VPNBOOK"
-curl https://www.vpnbook.com/freevpn > pagetemp.html
    if [ ! curl https://www.vpnbook.com/freevpn > pagetemp.html ]
    then 
    break
