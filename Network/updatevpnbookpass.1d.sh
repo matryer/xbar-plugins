@@ -37,7 +37,7 @@ i=1
 while [ $i -lt 6 ]; do
 #echo "Essai numero " $i " de connection a la page VPNBOOK"
 curl https://www.vpnbook.com/freevpn > pagetemp.html
-   if [ !curl https://www.vpnbook.com/freevpn > pagetemp.html ]
+   if [ ! curl https://www.vpnbook.com/freevpn > pagetemp.html ]
    then 
    break
    fi
