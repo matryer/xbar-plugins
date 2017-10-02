@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>CPU Percentage</bitbar.title>
+# <bitbar.title>CPU Load</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Paul W. Rankin</bitbar.author>
 # <bitbar.author.github>rnkn</bitbar.author.github>
