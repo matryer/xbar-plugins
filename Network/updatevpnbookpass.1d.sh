@@ -37,7 +37,7 @@ i=1
 while [ $i -lt 6 ]; do
 #echo "Essai numero " $i " de connection a la page VPNBOOK"
    if ! curl https://www.vpnbook.com/freevpn > pagetemp.html; then
-   break
+      break
    fi
 let "i=i+1"
 sleep 5
@@ -88,4 +88,3 @@ else
 sudo /Users/jmagnus/Documents/mes_scripts/bitbarfolder/updatevpnbookpass.1d.sh with_root_rights 
 
 fi
-
