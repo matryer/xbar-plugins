@@ -12,7 +12,7 @@
 """
 
 import json
-from urllib import urlopen
+import urllib2
 
 TICKERS = [
     {
@@ -48,12 +48,37 @@ def main():
     """
 
     for ticker in TICKERS:
-        url = urlopen('https://coinmarketcap-nexuist.rhcloud.com/api/' +
-                      ticker['symbol']).read()
-        result = json.loads(url)
+        currency = 'usd'
+        symbol = ticker['symbol']
+
+        """cryptomate
+        """
+        currency = currency.upper()
+        symbol = symbol.upper()
+        api_base = 'https://cryptomate.co.uk/api/'
+        url = api_base + symbol + '/' + currency
+
+        """coinmarketcap
+        api_base = 'https://coinmarketcap-nexuist.rhcloud.com/api/'
+        url = api_base + symbol
+        """
+
+        request = urllib2.Request(url)
+        response = urllib2.urlopen(request).read()
+        result = json.loads(response)
+
+        """cryptomate
+        """
+        value = float(result[symbol]['price'])
+        is_up = result[symbol]['change'] > 0
+
+        """coinmarketcap
         value = float(result['price']['usd'])
+        is_up = result['change'] > 0
+        """
+
         # symbol = SYMBOLS['up' if result['change'] > 0 else 'down']
-        if result['change'] > 0:
+        if is_up:
             symbol = ':chart_with_upwards_trend: '
         else:
             symbol = ':chart_with_downwards_trend: '
