@@ -34,95 +34,93 @@ LOCAL_IP=$(ipconfig getifaddr en0 2>&1)
 LOCAL_OK=$?
 
 if [ $LOCAL_OK != 0 ] ; then
-	LOCAL_PART="❌"
-	ROUTER_PART="❌ - Router | font=Courier"
+    LOCAL_PART="❌"
+    ROUTER_PART="❌ - Router | font=Courier"
 else
-	LOCAL_PART=$LOCAL_IP
+    LOCAL_PART=$LOCAL_IP
 
-	ROUTER=$(netstat -nr | grep default | egrep -o '\d+\.\d+\.\d+\.\d+' 2>&1)
-	ROUTER_OK=$?
+    ROUTER=$(netstat -nr | grep default | grep -E -o '\d+\.\d+\.\d+\.\d+' 2>&1)
+    ROUTER_OK=$?
 
-	if [ $ROUTER_OK != 0 ] ; then
-		ROUTER_PART="Unable to determine router IP? | color=orange font=Courier"
-	else
-		ROUTER_PART="$ROUTER"" - Router | font=Courier"
-	fi
+    if [ $ROUTER_OK != 0 ] ; then
+        ROUTER_PART="Unable to determine router IP? | color=orange font=Courier"
+    else
+        ROUTER_PART="$ROUTER"" - Router | font=Courier"
+    fi
 fi
 
 REMOTE_IP=$(dig +short myip.opendns.com @resolver1.opendns.com 2>&1)
+# Alternatively, you can use:
 # REMOTE_IP=$(curl ifconfig.me 2>&1)
+
 REMOTE_OK=$?
 
 if [ $REMOTE_OK != 0 ] ; then
-	REMOTE_PART="❌"
+    REMOTE_PART="❌"
 else
-	REMOTE_PART="$REMOTE_IP"
+    REMOTE_PART="$REMOTE_IP"
 fi
 
 SPEED=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | grep 'lastTxRate:' | grep -o '\d\+' 2>&1)
-SPEED_OK=$?
 
 if [ $LOCAL_OK != 0 ] ; then
-	SPEED_PART="❌"
-	SPEED_WARNING=0
+    SPEED_PART="❌"
+    SPEED_WARNING=0
 else
-	SPEED_PART="$SPEED""Mbps"
+    SPEED_PART="$SPEED""Mbps"
 
-	if [ $SPEED -lt $WARNING_SPEED ] ; then
-		SPEED_WARNING=1
-	else
-		SPEED_WARNING=0
-	fi
+    if [ "$SPEED" -lt $WARNING_SPEED ] ; then
+        SPEED_WARNING=1
+    else
+        SPEED_WARNING=0
+    fi
 fi
 
 
 
 if [ $REMOTE_OK != 0 ] ; then
-	REMOTE_WARNING=1
+    REMOTE_WARNING=1
 else
-	REMOTE_WARNING=0
+    REMOTE_WARNING=0
 fi
 
-function speedcolour()
-{
-	speed=$1
+function speedcolour {
+    SPEED=$1
 
-	if [ $speed == 1 ] ; then
-		echo " color=orange"
-		return
-	fi
+    if [ "$SPEED" == 1 ] ; then
+        echo " color=orange"
+        return
+    fi
 
-	echo ""
+    echo ""
 }
 
-function wancolour()
-{
-	wan=$1
+function wancolour {
+    WAN=$1
 
-	if [ $wan == 1 ] ; then
-		echo " color=red"
-		return
-	fi
+    if [ "$WAN" == 1 ] ; then
+        echo " color=red"
+        return
+    fi
 
-	echo ""
+    echo ""
 }
 
-function topcolour() 
-{ 
-	speed=$1
-	wan=$2
+function topcolour {
+    SPEED=$1
+    WAN=$2
 
-	if [ $wan == 1 ] ; then
-		echo $(wancolour $wan)
-		return
-	fi
+    if [ "$WAN" == 1 ] ; then
+        wancolour "$WAN"
+        return
+    fi
 
-	if [ $speed == 1 ] ; then
-		echo $(speedcolour $speed)
-		return
-	fi
+    if [ "$SPEED" == 1 ] ; then
+        speedcolour "$SPEED"
+        return
+    fi
 
-	echo ""
+    echo ""
 }
 
 echo "$LOCAL_PART | $(topcolour $SPEED_WARNING $REMOTE_WARNING) font=Courier"
