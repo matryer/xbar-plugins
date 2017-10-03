@@ -36,8 +36,7 @@ IMAGE1="/9j/4AAQSkZJRgABAQEAkACQAAD/4gJASUNDX1BST0ZJTEUAAQEAAAIwQURCRQIQAABtbnRy
 i=1
 while [ $i -lt 6 ]; do
 #echo "Essai numero " $i " de connection a la page VPNBOOK"
-   if [ ! curl https://www.vpnbook.com/freevpn > pagetemp.html ]
-   then 
+   if ! curl https://www.vpnbook.com/freevpn > pagetemp.html; then
    break
    fi
 let "i=i+1"
