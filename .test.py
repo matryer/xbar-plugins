@@ -40,11 +40,13 @@ def error(s):
 class Language(object):
     _languages = {}
 
-    def __init__(self, exts, shebang, linter, trim_shebang=False):
+    def __init__(self, exts, shebang, linter, trim_shebang=False, full_options=[], pr_options=[]):
         self.extensions = exts
         self.shebang = shebang
         self.cmd = linter
         self.trim = trim_shebang
+        self.full = full_options
+        self.pr = pr_options
 
         self.enabled = True
         if not find_executable(self.cmd[0]):
@@ -69,7 +71,7 @@ class Language(object):
     def validShebang(self, bang):
         return re.search(self.shebang, bang) is not None
 
-    def lint(self, file):
+    def lint(self, file, is_pr):
         if not self.enabled:
             return None
         if self.trim:
@@ -82,6 +84,10 @@ class Language(object):
                     tp.writelines(lines)
                 file = tmpfile
         command = list(self.cmd)
+        if is_pr and self.pr:
+            command.extend(self.pr)
+        elif not is_pr and self.full:
+            command.extend(self.full)
         command.append(file)
         return subprocess.check_output(command, stderr=subprocess.STDOUT)
 
@@ -89,7 +95,7 @@ class Language(object):
 Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck', '-e', 'SC2196', '-e', 'SC2197']))
 Language.registerLanguage(Language(['.py', '.py2'], 'python(|2)$', ['python2', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.py', '.py3'], 'python(|3)$', ['python3', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l']))
+Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RescueWithoutErrorClass']))
 Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
 Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
 Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
@@ -100,7 +106,7 @@ Language.registerLanguage(Language(['.rkt'], 'racket$', ['raco', 'make']))
 Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
 
 
-def check_file(file_full_path):
+def check_file(file_full_path, pr=False):
 
     file_short_name, file_extension = os.path.splitext(file_full_path)
     candidates = Language.getLanguagesForFileExtension(file_extension)
@@ -174,7 +180,7 @@ def check_file(file_full_path):
     for linter in linters:
         try:
             debug('running %s' % " ".join(linter.cmd))
-            linter.lint(file_full_path)
+            linter.lint(file_full_path, pr)
         except subprocess.CalledProcessError as cpe:
             debug('%s failed linting with "%s"' % (file_full_path, " ".join(linter.cmd)))
             errors.append({'linter': linter, 'output': cpe.output})
@@ -237,7 +243,7 @@ for _file in args.files:
         debug('skipping file %s' % _file)
     else:
         debug('checking file %s' % _file)
-        check_file(os.path.join(os.getcwd(), _file))
+        check_file(os.path.join(os.getcwd(), _file), args.pr)
 
 if error_count > 0:
     error('failed with %i errors' % error_count)
