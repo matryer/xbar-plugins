@@ -30,27 +30,19 @@ leap_pass = "MyPassword"
 
 
 
-
-
+from sys import exit
 
 # VERIFY DEPENDENCIES
-
-def check_pyleapcard_installed():
-    try:
-        import pyleapcard
-    except ImportError:
-        print("Leap Card")
-        print("---")
-        print("Looks like the package 'pyleapcard' isn't installed.")
-        print("You need it to run this tool. To install, click 'Install Now',")
-        print("then click 'Preferences' -> 'Refresh All...'")
-        print("Install Now. | bash='sudo /usr/local/bin/pip install pyleapcard'")
-        exit()
-
-check_pyleapcard_installed()
-
-
-
+try:
+    from pyleapcard import LeapSession
+except ImportError:
+    print("Leap Card")
+    print("---")
+    print("Looks like the package 'pyleapcard' isn't installed.")
+    print("You need it to run this tool. To install, click 'Install Now',")
+    print("then click 'Preferences' -> 'Refresh All...'")
+    print("Install Now. | bash='sudo /usr/local/bin/pip install pyleapcard'")
+    exit()
 
 
 
@@ -59,7 +51,7 @@ check_pyleapcard_installed()
 import pickle
 import os
 import subprocess
-from pyleapcard import *
+import sys
 
 class StateMgmt:
     
@@ -160,8 +152,8 @@ def run():
 
     try:
         login_ok = session.try_login(leap_user, leap_pass)
-    except Exception, e:
-        login_error = e = sys.exc_info()[0]
+    except Exception:
+        login_error = sys.exc_info()[0]
 
     state = StateMgmt()
     formatter = ResultsFormatter()
