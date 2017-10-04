@@ -2,7 +2,7 @@
 # coding=utf-8
 """
 # <bitbar.title>Crypto Ticker ($1USD)</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>davidosomething</bitbar.author>
 # <bitbar.author.github>davidosomething</bitbar.author.github>
 # <bitbar.desc>
