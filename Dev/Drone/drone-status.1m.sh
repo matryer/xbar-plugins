@@ -41,7 +41,7 @@ running=0
 output=
 
 for i in "${!repos[@]}"; do
-    repo=$(echo "${repos[$i]}" | sed 's/[\"\,]//g')
+    repo=${repos[$i]//[,\"]/}
     build=${builds[$i]}
 
     build_location="repos/$repo/builds"
