@@ -26,7 +26,9 @@ def passed(s):
 
 
 def warn(s):
-    print "\033[1;43mWRN!\033[0;0m %s\n" % s
+    global args
+    if args.warn:
+        print "\033[1;43mWRN!\033[0;0m %s\n" % s
 
 
 def error(s):
@@ -202,6 +204,7 @@ parser.add_argument(
     help='Run tests on changes from the root branch to HEAD.  verbose is implied!')
 parser.add_argument('--verbose', '-v', action='store_true', help='Turn on success and other non-critical messages')
 parser.add_argument('--debug', action='store_true', help='Turn on debug messages')
+parser.add_argument('--no-warn', action='store_false', dest='warn', help='Disable warnings', default=True)
 parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
