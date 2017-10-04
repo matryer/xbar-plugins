@@ -31,25 +31,19 @@ password = "MyPassword"
 
 
 
-
+from sys import exit
 
 # VERIFY DEPENDENCIES
-
-def check_dependencies_installed():
-    try:
-        import pytescomobileirl
-    except ImportError:
-        print("Tesco Mobile Ireland")
-        print("---")
-        print("Looks like the package 'pytescomobileirl' isn't installed.")
-        print("You need it to run this tool. To install, click 'Install Now',")
-        print("then click 'Preferences' -> 'Refresh All...'")
-        print("Install Now. | bash='sudo /usr/local/bin/pip install pytescomobileirl'")
-        exit()
-
-check_dependencies_installed()
-
-
+try:
+    from pytescomobileirl import TescoSession
+except ImportError:
+    print("Tesco Mobile Ireland")
+    print("---")
+    print("Looks like the package 'pytescomobileirl' isn't installed.")
+    print("You need it to run this tool. To install, click 'Install Now',")
+    print("then click 'Preferences' -> 'Refresh All...'")
+    print("Install Now. | bash='sudo /usr/local/bin/pip install pytescomobileirl'")
+    exit()
 
 
 
@@ -60,9 +54,7 @@ check_dependencies_installed()
 
 import pickle
 import os
-import sys
 import subprocess
-from pytescomobileirl import *
 
 class StateMgmt:
     
@@ -130,14 +122,13 @@ class ResultsFormatter:
 
 def run():
     login_ok= False
-    login_error = ""
 
     session = TescoSession()
 
     try:
         login_ok = session.login(phone_num, password)
-    except Exception, e:
-        login_error = e = sys.exc_info()[0]
+    except Exception:
+        pass
 
     state = StateMgmt()
     formatter = ResultsFormatter()
