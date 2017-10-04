@@ -62,7 +62,7 @@ module BluetoothInspector
     protected
 
     def collect_devices
-      stdout_str, stderr_str, status = Open3.capture3("system_profiler SPBluetoothDataType")
+      stdout_str, _, _ = Open3.capture3("system_profiler SPBluetoothDataType")
 
       @devices = Parser.parse(stdout_str)
     end
@@ -596,8 +596,8 @@ BluetoothInspector.run do
   # Add device emojis to each shortname
   devices.each do |device|
     device.shortname = case device.minor_type
-      when 'Mouse'    then '🖱'
-      when 'Keyboard' then '⌨️'
-    end
+                            when 'Mouse'    then '🖱'
+                            when 'Keyboard' then '⌨️'
+                       end
   end
 end
