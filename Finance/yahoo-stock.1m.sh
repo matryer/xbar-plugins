@@ -37,7 +37,7 @@ n=$((n-1))
 
 for (( c=0; c<=n; c++ ))
 do
-	echo -n ${stock[$c]}; echo -n ":"; curl -s echo "${s/stock_symbol/${stock[$c]}}"
+	echo -n "${stock[$c]}:"; curl -s "${s/stock_symbol/${stock[$c]}}"
 
    # experimental: also log to disk
    # echo -n $(date) >> stock_history.txt;  echo -n "  " >> stock_history.txt; echo -n ${stock[$c]} >> stock_history.txt; echo -n ":" >> stock_history.txt; curl -s echo ${s/stock_symbol/${stock[$c]}} >> stock_history.txt
