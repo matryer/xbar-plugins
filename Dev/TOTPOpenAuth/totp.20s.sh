@@ -12,7 +12,7 @@ export LANG="${LANG:-en_US.UTF-8}"
 # update the key value pairs as per your requirement
 # Key - for your reference to identify a TOTP Account
 # Value - base32 secret key corresponding to the TOTP Account
-vpnsecrets=( "OpenVPN:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
+totp_secrets=( "OpenVPN:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
         "BitBucket:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
         "GitHub:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
         "Okta:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
@@ -36,7 +36,7 @@ echo '---'
 echo "Clear Clipboard | bash='$0' param1=copy param2=' ' terminal=false"
 echo "---"
 
-for secret in "${vpnsecrets[@]}" ; do
+for secret in "${totp_secrets[@]}" ; do
     KEY="${secret%%:*}"
     VALUE="${secret##*:}"
     token=$( get-totp "$VALUE" )
