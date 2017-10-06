@@ -20,7 +20,7 @@ vpnsecrets=( "OpenVPN:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
 
 # oath-toolkit needs to be installed. Use 'brew install oath-toolkit'
 # update the appropriate path of oathtool binary below
-oathtool="/usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool"
+oathtool="/usr/local/bin/oathtool"
 
 function get-totp {
   $oathtool --totp -b "$1"
