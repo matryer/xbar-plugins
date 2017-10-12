@@ -1,4 +1,6 @@
 #!/usr/local/bin/node
+/* jshint esversion: 6 */
+
 //# <bitbar.title>emojiWeather</bitbar.title>
 //# <bitbar.version>v1.0</bitbar.version>
 //# <bitbar.author>Chandler Davidson</bitbar.author>
