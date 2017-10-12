@@ -36,10 +36,12 @@ PING_TIMES=
 
 while [ $SITE_INDEX -lt ${#SITES[@]} ]; do
     NEXT_SITE="${SITES[$SITE_INDEX]}"
-    NEXT_PING_TIME=$(ping -c 2 -n -q "$NEXT_SITE" 2>/dev/null | awk -F '/' 'END {printf "%.0f\n", $5}')
-    if [ "$NEXT_PING_TIME" -eq 0 ]; then
+    if RES=$(ping -c 2 -n -q "$NEXT_SITE" 2>/dev/null); then
+        NEXT_PING_TIME=$(echo "$RES" | awk -F '/' 'END {printf "%.0f\n", $5}')
+    else
         NEXT_PING_TIME=$MAX_PING
     fi
+
     if [ -z "$PING_TIMES" ]; then
         PING_TIMES=($NEXT_PING_TIME)
     else
