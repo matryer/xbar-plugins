@@ -8,8 +8,8 @@
  * <bitbar.version>v1.0</bitbar.version>
  * <bitbar.author>Aaron Crawford</bitbar.author>
  * <bitbar.author.github>aaroncrawford</bitbar.author.github>
- * <bitbar.image>https://i.imgur.com/uxVjKdd.png</bitbar.image>
- * <bitbar.desc>Enable or Disable Development Mode from BitBar</bitbar.desc>
+ * <bitbar.image>https://i.imgur.com/nKXgmxg.png</bitbar.image>
+ * <bitbar.desc>Enable or Disable Development Mode from BitBar.  Plugin will need to be edited to include your API key and email to work.</bitbar.desc>
  * <bitbar.dependencies>node</bitbar.dependencies>
  */
 
