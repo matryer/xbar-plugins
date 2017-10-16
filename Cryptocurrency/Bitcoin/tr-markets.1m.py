@@ -12,25 +12,38 @@ import http.client
 
 
 def get_btcturk_price():
-    conn = http.client.HTTPSConnection("www.btcturk.com")
-    conn.request("GET", "/api/ticker")
-    res = conn.getresponse()
-    data = json.loads(res.read().decode("utf-8"))
-    return data["ask"]
+    try:
+        conn = http.client.HTTPSConnection("www.btcturk.com")
+        conn.request("GET", "/api/ticker")
+        res = conn.getresponse()
+        data = json.loads(res.read().decode("utf-8"))
+        for item in data:
+            if item["pair"] == "BTCTRY":
+                return item["ask"]
+    except:
+        return 0
+    return 0
+
 
 def get_koinim_price():
-    conn = http.client.HTTPSConnection("koinim.com")
-    conn.request("GET", "/ticker/")
-    res = conn.getresponse()
-    data = json.loads(res.read().decode("utf-8"))
-    return data["ask"]
+    try:
+        conn = http.client.HTTPSConnection("koinim.com")
+        conn.request("GET", "/ticker/")
+        res = conn.getresponse()
+        data = json.loads(res.read().decode("utf-8"))
+        return data["ask"]
+    except:
+        return 0
 
 def get_paribu_price():
-    conn = http.client.HTTPSConnection("www.paribu.com")
-    conn.request("GET", "/ticker")
-    res = conn.getresponse()
-    data = json.loads(res.read().decode("utf-8"))
-    return data["BTC_TL"]["last"]
+    try:
+        conn = http.client.HTTPSConnection("www.paribu.com")
+        conn.request("GET", "/ticker")
+        res = conn.getresponse()
+        data = json.loads(res.read().decode("utf-8"))
+        return data["BTC_TL"]["last"]
+    except:
+        return 0
 
 
 print("BTCTURK : " + "{0:.2f}".format(get_btcturk_price()) +" TRY")
