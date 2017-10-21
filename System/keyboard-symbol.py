@@ -6,8 +6,8 @@
 # <bitbar.author>Đinh Quang Hiếu</bitbar.author>
 # <bitbar.author.github>dqhieu</bitbar.author.github>
 # <bitbar.desc>This plugin displays a menu of keyboard symbol</bitbar.desc>
-# <bitbar.image></bitbar.image>
-# <bitbar.dependencies>https://raw.githubusercontent.com/dqhieu/keyboard-symbol/master/demo.png</bitbar.dependencies>
+# <bitbar.image>https://raw.githubusercontent.com/dqhieu/keyboard-symbol/master/demo.png</bitbar.image>
+# <bitbar.dependencies></bitbar.dependencies>
 
 print '⌨️'
 print '---'
