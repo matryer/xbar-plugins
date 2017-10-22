@@ -1,28 +1,31 @@
 #!/usr/local/bin/node
 
 // <bitbar.title>NordVPN Status</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
+// <bitbar.version>v1.1</bitbar.version>
 // <bitbar.author>Dustin McBride</bitbar.author>
 // <bitbar.author.github>dustinmcbride</bitbar.author.github>
-// <bitbar.desc>Your nordVPN protected status for bit bar</bitbar.desc>
+// <bitbar.desc>NordVPN protected status for bit bar</bitbar.desc>
 // <bitbar.image>https://raw.githubusercontent.com/dustinmcbride/bitbar-nord-vpn-status/master/screenshots/protected.png</bitbar.image>
 // <bitbar.dependencies>node</bitbar.dependencies>
 // <bitbar.abouturl>https://github.com/dustinmcbride/bitbar-nord-vpn-status</bitbar.abouturl>
 
 'use strict';
-
-var nordUri = 'https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data';
 var https = require('https');
+var nordUri = 'https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data';
 
-function createOutput (res) {
-  var titleMessage = res.status ? 'NordVPN | color=green' : '⛔ NordVPN | color=red';
-  var statusMessage = res.status ? 'Protected' : 'Unprotected';
+function createOutput (res, error) {
+  var message = {
+    title: error ? '!' : res.status ? 'NordVPN | color=green' : '⛔ NordVPN | color=red',
+    status: error ? 'Connection Error' : res.status ? 'Protected' : 'Unprotected',
+    isp: error ? 'none' : res.isp,
+    ip: error ? 'none' : res.ip,
+  };
   
-  console.log(titleMessage);
+  console.log(message.title);
   console.log('---');
-  console.log('Status: ' + statusMessage);
-  console.log('ISP: ' + res.isp);
-  console.log('IP: ' + res.ip);
+  console.log('Status: ' + message.status);
+  console.log('ISP: ' + message.isp);
+  console.log('IP: ' + message.ip);
 }
 
 https.get(nordUri, function (res) {
@@ -34,5 +37,8 @@ https.get(nordUri, function (res) {
   res.on('end', function () {
     createOutput(JSON.parse(body));
   });
+})
+  .on('error', function (error) {
+    createOutput(null, error);
 });
 
