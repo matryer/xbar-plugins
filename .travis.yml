@@ -4,7 +4,7 @@ before_install:
   - brew update
   - brew outdated python || brew upgrade python
   - pip2 install pyflakes
-  - gem install rubocop --no-document
+  - gem install rubocop -v 0.50.0 --no-document
   - brew install shellcheck
   - brew outdated node || brew upgrade node
   - npm install -g jshint
