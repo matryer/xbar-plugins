@@ -2,7 +2,7 @@
 
 # Display todays date and time in various formats including ISO8601 and allows copying to clipboard.
 
-# Comment out the dates you do not need.
+# Comment out the dates you don't need.
 
 
 # <bitbar.title>Date Picker/bitbar.title>
@@ -13,9 +13,8 @@
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.image>https://imgur.com/a/h7Q33</bitbar.image>
 
-
-YMD=$(date +%F)
-echo "$YMD"
+# Appears in the menubar YYYY-MM-DD
+echo $(date +%F)
 echo "---"
 
 #---ISO8601
@@ -28,13 +27,13 @@ echo "$DATETIME | bash=$0 param1=copy param2=$DATETIME terminal=false"
 
 echo "---"
 
-#---US
+#---USA
 
 MDY=$(date "+%D")
 echo "$MDY | bash=$0 param1=copy param2=$MDY terminal=false"
 
-MonDY=$(date +"%b %d %Y")
-echo "$MonDY | bash=$0 param1=copy param2=\"$MonDY\" terminal=false"
+ MonDY=$(date +"%b %d %Y")
+ echo "$MonDY | bash=$0 param1=copy param2=\"$MonDY\" terminal=false"
 
 TIME12=$(date +"%r")
 echo "$TIME12 | bash=$0 param1=copy param2=\"$TIME12\" terminal=false"
