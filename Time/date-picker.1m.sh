@@ -14,7 +14,7 @@
 # <bitbar.image>https://imgur.com/a/h7Q33</bitbar.image>
 
 # Appears in the menubar YYYY-MM-DD
-echo $(date +%F)
+date +%F
 echo "---"
 
 #---ISO8601
@@ -62,6 +62,6 @@ if [[ "$#" -ge 1 ]];then
     if [[ "$1" == 'copy' ]] ; then
 
         echo -n "$2" | pbcopy
-        echo COPIED $2
+        echo COPIED "$2"
     fi
 fi
