@@ -12,4 +12,4 @@
 # by Nikita Zhavoronkov
 # Based on Coinbase bitbar plugin by Mat Ryer
 
-echo -n "𝚵"; curl -s "https://coinmarketcap-nexuist.rhcloud.com/api/eth/price" | egrep -o '"usd":[0-9]+(\.)?([0-9]{2})?' | sed 's/"usd":/ /' | sed 's/\"//g'
+echo -n "𝚵 "; curl -s "https://api.coinbase.com/v2/prices/ETH-USD/spot" | egrep -o '"amount":"[0-9]+(\.)?' | sed 's/"amount"://'  | sed 's:^.\(.*\).$:\1:'
