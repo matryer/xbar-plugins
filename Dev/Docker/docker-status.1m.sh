@@ -39,8 +39,20 @@ function containers() {
 
 DOCKER_MACHINES="$(docker-machine ls -q)"
 DLITE="$(which dlite)"
-if test -z "$DOCKER_MACHINES" && test -z "$DLITE"; then
-  echo "No docker machine or dlite found"
+DOCKER_NATIVE="$(which docker)"
+
+if test -z "$DOCKER_MACHINES" && test -z "$DLITE" && test -z "$DOCKER_NATIVE"; then
+  echo "No docker machine, dlite or docker native found"
+  exit 0
+fi
+
+if [ -n "$DOCKER_NATIVE" ]; then
+  MACHINE="$(docker -v)"
+  CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
+  if [ -n "$CONTAINERS" ]; then
+    echo "🔵  $MACHINE | bash=$(which docker) param1=stop terminal=false refresh=true"
+    containers
+  fi
   exit 0
 fi
 
