@@ -4,14 +4,13 @@
 
 # Comment out the dates you don't need.
 
-
 # <bitbar.title>Date Picker/bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Cooper Battersby/bitbar.author>
 # <bitbar.author.github>uglygus</bitbar.author.github>
 # <bitbar.desc>Display todays date in various forms including iso8601 and copies to the clipboard.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>https://imgur.com/a/h7Q33</bitbar.image>
+# <bitbar.dependencies></bitbar.dependencies>
+# <bitbar.image>https://imgur.com/a/GTnzV</bitbar.image>
 
 # Appears in the menubar YYYY-MM-DD
 date +%F
