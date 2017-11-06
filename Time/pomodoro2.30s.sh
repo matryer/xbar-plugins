@@ -127,7 +127,7 @@ pomodoro_update() {
       status_reset
       return
       ;;
-    esac
+  esac
 
   # RUN
   set_now
