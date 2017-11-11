@@ -18,10 +18,10 @@
 total="$(/usr/local/bin/mu find maildir:/INBOX | wc -l)"
 # Unread mails in inbox
 unread="$(/usr/local/bin/mu find maildir:/INBOX AND flag:unread 2> /dev/null)"
-unread_total="$(echo $unread | wc -l)"
+unread_total="$(echo "$unread" | wc -l)"
 # Drafts
 drafts="$(/usr/local/bin/mu find maildir:/drafts | wc -l)"
 
-printf "📪 %s/%s/%s\n" $unread_total $total $drafts
+printf "📪 %i/%i/%i\n" "$unread_total" "$total" "$drafts"
 echo ---
-echo $unread
+echo -e "$unread"
