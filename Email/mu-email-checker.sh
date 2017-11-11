@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # <bitbar.title>Mu Email Checker</bitbar.title>
 # <bitbar.version>v1.0.1</bitbar.version>
