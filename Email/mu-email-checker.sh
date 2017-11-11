@@ -27,6 +27,9 @@ unread_total="$(echo "$unread" | wc -l)"
 # Drafts
 drafts="$(/usr/local/bin/mu find maildir:/drafts | wc -l)"
 
-printf "📪 %i/%i/%i\n" "$unread_total" "$total" "$drafts"
-echo ---
-echo -e "$unread"
+if [ "$unread_total" -gt 0 ]
+then
+    printf "📪 %i/%i/%i\n" "$unread_total" "$total" "$drafts"
+    echo ---
+    echo "$unread"
+fi
