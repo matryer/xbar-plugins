@@ -5,10 +5,11 @@
 # <bitbar.author>Andrew Sanchez</bitbar.author>
 # <bitbar.author.github>andrewsanchez</bitbar.author.github>
 # <bitbar.desc>Displays results of basic mu find commands</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>http://i67.tinypic.com/104pa1w.png</bitbar.image>
 
-# Count number of emails in inbox, drafts and unread mail indexed with mu
-# Based on a blog post by Ben Maughan at pragmaticemacs.com
+# Count total number of emails in inbox, unread mail and drafts indexed with mu
+# Also includes the output for unread emails in the drop down menu
+# Based on a blog post by Ben Maughan at the excellent pragmaticemacs.com
 # http://pragmaticemacs.com/emacs/an-unobtrusive-email-monitor-for-mu4e-on-the-mac/
 # See related post to include mails in outbox using postfix
 # http://pragmaticemacs.com/emacs/using-postfix-instead-of-smtpmail-to-send-email-in-mu4e/
