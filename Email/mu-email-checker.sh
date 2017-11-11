@@ -21,11 +21,15 @@ pinbox="maildir:/INBOX"
 punread="$pinbox AND flag:unread"
 pdrafts="maildir:/drafts"
 
+# Total mail in inbox
+total="$("$mu" find "$pinbox" | wc -l)"
+
 # Unread mails in inbox
-unread="$(/usr/local/bin/mu find maildir:/INBOX AND flag:unread 2> /dev/null)"
-unread_total="$(echo "$unread" | wc -l)"
+unread="$("$mu" find "$punread" 2> /dev/null)"
+unread_total="$("$mu" find "$punread" 2> /dev/null | wc -l)"
+
 # Drafts
-drafts="$(/usr/local/bin/mu find maildir:/drafts | wc -l)"
+drafts="$("$mu" find "$pdrafts" | wc -l)"
 
 if [ "$unread_total" -gt 0 ]
 then
