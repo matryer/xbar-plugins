@@ -14,8 +14,13 @@
 # See related post to include mails in outbox using postfix
 # http://pragmaticemacs.com/emacs/using-postfix-instead-of-smtpmail-to-send-email-in-mu4e/
 
-# Total mails in inbox
-total="$(/usr/local/bin/mu find maildir:/INBOX | wc -l)"
+mu="/usr/local/bin/mu"
+
+# mu find patterns
+pinbox="maildir:/INBOX"
+punread="$pinbox AND flag:unread"
+pdrafts="maildir:/drafts"
+
 # Unread mails in inbox
 unread="$(/usr/local/bin/mu find maildir:/INBOX AND flag:unread 2> /dev/null)"
 unread_total="$(echo "$unread" | wc -l)"
