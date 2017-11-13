@@ -11,6 +11,10 @@ if [[ "$1" = "disableNetworkService" ]]; then
     networksetup -setnetworkserviceenabled "$2" off
 elif [[ "$1" = "enableNetworkService" ]]; then
     networksetup -setnetworkserviceenabled "$2" on
+elif [[ "$1" = "resetNetworkService" ]]; then
+    networksetup -setnetworkserviceenabled "$2" off
+    sleep 2
+    networksetup -setnetworkserviceenabled "$2" on
 fi
 
 WIFI_ICON="iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAWJQAAFiUBSVIk8AAABCRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjU8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjE0NDwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+MTQ0PC90aWZmOllSZXNvbHV0aW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+NDA8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjE8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjQwPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGRjOnN1YmplY3Q+CiAgICAgICAgICAgIDxyZGY6QmFnLz4KICAgICAgICAgPC9kYzpzdWJqZWN0PgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAxNy0xMS0xMFQyMjoxMTowNDwveG1wOk1vZGlmeURhdGU+CiAgICAgICAgIDx4bXA6Q3JlYXRvclRvb2w+UGl4ZWxtYXRvciAzLjc8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+ChGXjq8AAAOuSURBVFgJ7ZjLi89rHMfHnTIWbNxybc5C2Uj5C5ApUjiUomRlZUGnkxLrkw17jVvJKMlCkQVW1JwSIcoQyiUb43Lk+nqN7zM98/ye+X2/M18/zsK7XvPcPrfv873Or63tt+rtwKh67m3t+HfAHzAbtoE6DE/gHtyHPvhpGk+mTuiCB/AJvg6Ba9p0gT76tkzu9ka4DkMVVDavrzHqnjlCDNZChmehrICq68Yy5g/RSqI8hqrJq9oZc0XdCtcT4E0LigsHYWxzjEjL8WplcXGR5hqWFmD9FEKQVrfmMmcljcHqHLS6qDS+Oc09SLnbfQMWpwZZNR/4EHYHnkF4IE+hPx1mwWSoqj8x7G5mPIHFHkiPLh1bjG+LdTAf9Es1kQlPmwd8BF5CGicdmzsXi+nvWkWTOsVjC9sD7sxwNQeHfVBWqDUMKD3FHumWgdXBndMM/wJfXUGT6CyGJdAB00C9At/B/8JNeA9Bvrf/gTVhImmPMt6azPUP2/n7EOIds/8W/ob4YNzBvXAXYvsPjCWe00bbeNe9GfbBO4ht7feCtTTIXci9+HuYH1dYj6bdAZ5qg/nFchDWwiKYWWDfuUOgjbb66GsM5TXq7roWYw3W0qBNzMSGcf8ka3PheGHjdbQTpkKZtNE2XHvGmAfdEOeI+9bSoN3MxEZp/3mxfonW6y2Wj5WlsLrAvnOx9NHXuCFWmiOMd8WOoX+ncA5GudbTNCM40M6HA/AQUnvnXNMmSF9jpLbp+HZwiNsqBX7B4Qy4O5vhBRi8D67AsYKrxZxr2mirj77GSAtKx9kCy05xHMSL+yNY2H6Id4lhv5xzzQ8ObXM3RBwz7mdPcbObJHYO/f9IuhzKpI22wa9KO3CTjI2i+w/OZ2h4YUc2cXccg61wGcIpX1YYXKM9Aa9BG22ryhqspUHtzPRClSOMbc7jcyvj55xrsW2Vfi8+1pLVEWarBMnZXMDX0ykXa8SxhiG1ipVc8rK5R/jFD+1pjJ0r88utW8OQ8lOnB3KOzeZ8AKcKD+VmfumauZt+bpnE77fUsWzsw3euzoXm0Za9LXIxzV0q7+JzkAvQbO4GPtsL7Dezza2Zs+oTpP9L+OkIkuQSV5l7Qq4FMCx5N/oWqJKgjo05zDUircerlUUa2xy15M8Tj6HOLuV8jVn7p49wZAvp/G9/PApFjqKzEa5DbkeqzOlrDGO1TOOJ3Ald8ABy/8eEYmv/gFn3SHypdxTMpt0G6jD46Lhf0Ef7W79kB74BTMABSNHkAQ0AAAAASUVORK5CYII="
@@ -19,49 +23,50 @@ RED_CIRCLE_ICON="iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QA
 BLACK_CIRCLE_ICON="iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAWJQAAFiUBSVIk8AAABCRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjU8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjE0NDwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+MTQ0PC90aWZmOllSZXNvbHV0aW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+MjA8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjE8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjIwPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGRjOnN1YmplY3Q+CiAgICAgICAgICAgIDxyZGY6QmFnLz4KICAgICAgICAgPC9kYzpzdWJqZWN0PgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAxNy0xMS0xMVQyMjoxMTo2OTwveG1wOk1vZGlmeURhdGU+CiAgICAgICAgIDx4bXA6Q3JlYXRvclRvb2w+UGl4ZWxtYXRvciAzLjc8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CkJfU34AAALsSURBVDgRtZS/a1NRFMdPXpLGNk1MSUraJpbQ4KKIYhepRQKFZpAMHVx00EX0D1BwqDi4iA46OLg5OAkSAqW6qCm2CCJdjE1oqQmkTcUaaGl+Nn1t/X4f3MfrD3XRCyf3vJtzP/d7zv0h8o+b7U+8oaGhaFtbW6yjo+OWzWbrrNVqT7a3t99MT09nfzfvUGA8Hj/r8/nuhEKheH9/vxe+ACiVSkWKxWKzVCp9WF9ffzQ5Ofl2P/gAcGxs7GZfX9/DWCzmGRgYEJfLtWfO1taWACjpdFovFAoPksnkPQTsqCC7ctgDdj0cDj9LJBKu3t5e4eTNzU1ptVqG0UfK4vF4JBqNalB5oaenx5nNZt8rjgkE5GRXV9fL4eHhI4FAQOr1uui6bhjBNH6z5wIsAeJlZWXlfCQS+ZTL5b4R6lBkr9d7OxgMet1ut2xsbMju7u4eYxwhyvjtcDgECrVGozGOEr2bmprSDeDIyEiwvb39IuuFFQU7ayra2THLQ4ZomiZ2u12cTqfwP/oQcc7v95/A318MIGpyGsAAg6rVqqGCgZxMoyo2qmYNmTZLYgE6lpeXL5lA1OY41RHCNNhbfULZCCDQahxnLETdgHtX1bBFFdZ0mDYV06xAbgw3hSrZCOf/6H/w2wAClkEQi6VRISFUTKNPBVyQkwlSC7AE/KbyZrP5mEAjl3w+/xUDBQYwWEGpUoFVzzGlnrGcgytZQW/cGgM4NzdXxbV6AaixmkqfE5RxTI0rnzAqBDA1MTFRNBXSWVxcfLq6uprjbVAH+m89a4k5P8vl8n0y2MybgvvZwCH9jHQTeF06qYyNKlg7wqmGEGbCY4MzW1taWrqWSqU+GsH4MYEcWFhYKOFlSSOlM9iIMFPbD8KtkLW1NcG5m8fjcBWPw2sFY3/gteEgrqB7dHT0CuCXofYUNuEoYwGvADiPR+FVJpN5Pjs7W2a8tR0KtATYBgcHj3V3d4egVsPGfZ+ZmWHxdUvM/3V/Adt4r24MAllCAAAAAElFTkSuQmCC"
 GREEN_CIRCLE_ICON="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"
 
-PRIMARY_SERVICE_GUID=`echo "show State:/Network/Global/IPv4" | scutil | grep "PrimaryService" | awk '{print $3}'`
-if [ ! -z "$PRIMARY_SERVICE_GUID" ] ; then
-    SERVICE_INTERFACE=`echo "show Setup:/Network/Service/$PRIMARY_SERVICE_GUID/Interface" | scutil`
-    HARDWARE_TYPE=`echo "$SERVICE_INTERFACE" | grep "Hardware :" | awk -F': ' '{print $2}'`
-    DEVICE_NAME=`echo "$SERVICE_INTERFACE" | grep "DeviceName :" | awk -F': ' '{print $2}'`
-    SERVICE_NAME=`echo "$SERVICE_INTERFACE" | grep "UserDefinedName :" | awk -F': ' '{print $2}'`
+SYSTEM_GLOBAL_IPV4=`echo "show State:/Network/Global/IPv4" | scutil`
+PRIMARY_SERVICE_GUID=`echo "${SYSTEM_GLOBAL_IPV4}" | grep "PrimaryService" | awk '{print $3}'`
+PRIMARY_DEVICE_NAME=`echo "${SYSTEM_GLOBAL_IPV4}" | grep "PrimaryInterface" | awk '{print $3}'`
+if [ ! -z "${PRIMARY_SERVICE_GUID}" ]; then
+    SERVICE_INTERFACE=`echo "show Setup:/Network/Service/${PRIMARY_SERVICE_GUID}/Interface" | scutil`
+    HARDWARE_TYPE=`echo "${SERVICE_INTERFACE}" | grep "Hardware :" | awk -F': ' '{print $2}'`
+    SERVICE_NAME=`echo "${SERVICE_INTERFACE}" | grep "UserDefinedName :" | awk -F': ' '{print $2}'`
 
-    if [ "$HARDWARE_TYPE" == "AirPort" ]; then
-        WIFI_CURRENT_SSID=$(networksetup -getairportnetwork $DEVICE_NAME | awk -F': ' '{print $2}')
+    if [ "${HARDWARE_TYPE}" == "AirPort" ]; then
+        WIFI_CURRENT_SSID=$(networksetup -getairportnetwork "${PRIMARY_DEVICE_NAME}" | awk -F': ' '{print $2}')
 
-        echo "$WIFI_CURRENT_SSID | size=12 templateImage='$WIFI_ICON'"
-    elif [ "$HARDWARE_TYPE" == "Ethernet" ]; then
-        echo "| templateImage='$ETHERNET_ICON'"
+        echo "${WIFI_CURRENT_SSID} | size=12 templateImage='${WIFI_ICON}'"
+    elif [ "${HARDWARE_TYPE}" == "Ethernet" ]; then
+        echo "| templateImage='${ETHERNET_ICON}'"
+    else
+        echo "♒︎"
     fi
     echo "---"
     echo "Primary | size=12"
-    echo "$SERVICE_NAME"
-    echo "$SERVICE_NAME ($DEVICE_NAME) | alternate=true"
+    echo "${SERVICE_NAME:-Unknown} (${PRIMARY_DEVICE_NAME})"
     echo "---"
 else
-    echo "❓"
+    echo "❌"
     echo "---"
 fi
 
 echo "Network Service | size=12"
 SERVICE_LIST=`networksetup -listnetworkserviceorder`
 IFS=$'\n'
-for SERVICE_NAME_ST in `echo "$SERVICE_LIST" | grep '^([0-9*])'`; do
-    SERVICE_NAME=`echo "$SERVICE_NAME_ST" | sed "s/([0-9*]) \(.*\)/\1/"`
-    SERVICE_STATE=`networksetup -getnetworkserviceenabled "$SERVICE_NAME"`
+for SERVICE_NAME_ST in `echo "${SERVICE_LIST}" | grep '^([0-9*])'`; do
+    SERVICE_NAME=`echo "${SERVICE_NAME_ST}" | sed "s/([0-9*]) \(.*\)/\1/"`
+    SERVICE_STATE=`networksetup -getnetworkserviceenabled "${SERVICE_NAME}"`
 
-    DEVICE_NAME=`echo "$SERVICE_LIST" | grep "Hardware Port: $SERVICE_NAME" | awk -F'Device: ' '{print $2}' | cut -d')' -f1`
-    IFCONFIG_OUT=`ifconfig $DEVICE_NAME 2>/dev/null`
-    SERVICE_ACTIVITY=`echo "$IFCONFIG_OUT" | grep "status" | awk -F': ' '{print $2}'`
+    DEVICE_NAME=`echo "${SERVICE_LIST}" | grep "Hardware Port: ${SERVICE_NAME}" | awk -F'Device: ' '{print $2}' | cut -d')' -f1`
+    IFCONFIG_OUT=`ifconfig ${DEVICE_NAME} 2>/dev/null`
+    SERVICE_ACTIVITY=`echo "${IFCONFIG_OUT}" | grep "status" | awk -F': ' '{print $2}'`
 
-    if [ "$SERVICE_NAME" != "USB iPhone" ] && [ "$SERVICE_NAME" != "Bluetooth PAN" ] && [ "$SERVICE_NAME" != "Thunderbolt Bridge" ]; then
-        echo -n "$SERVICE_NAME | bash='$0' terminal=false refresh=true"
-        if [ "$SERVICE_ACTIVITY" == "active" ]; then
-            echo " param1='disableNetworkService' param2='$SERVICE_NAME' image='$GREEN_CIRCLE_ICON'"
-        elif [ "$SERVICE_STATE" == "Enabled" ]; then
-            echo " param1='disableNetworkService' param2='$SERVICE_NAME' image='$RED_CIRCLE_ICON'"
-        else
-            echo " param1='enableNetworkService' param2='$SERVICE_NAME' image='$BLACK_CIRCLE_ICON'"
-        fi
+    if [ "${SERVICE_ACTIVITY}" == "active" ]; then
+        echo "${SERVICE_NAME} | image='${GREEN_CIRCLE_ICON}' bash='$0' param1='disableNetworkService' param2='${SERVICE_NAME}' terminal=false refresh=true"
+        echo "${SERVICE_NAME} (Reset) | image='${GREEN_CIRCLE_ICON}' bash='$0' param1='resetNetworkService' param2='${SERVICE_NAME}' terminal=false refresh=true alternate=true"
+    elif [ "$SERVICE_STATE" == "Enabled" ]; then
+        echo "${SERVICE_NAME} | image='${RED_CIRCLE_ICON}' bash='$0' param1='disableNetworkService' param2='${SERVICE_NAME}' terminal=false refresh=true"
+        echo "${SERVICE_NAME} | image='${RED_CIRCLE_ICON}' bash='$0' param1='resetNetworkService' param2='${SERVICE_NAME}' terminal=false refresh=true alternate=true"
+    else
+        echo "${SERVICE_NAME} | image='${BLACK_CIRCLE_ICON}' bash='$0' param1='enableNetworkService' param2='${SERVICE_NAME}' terminal=false refresh=true"
     fi
 done
