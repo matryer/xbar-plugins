@@ -6,7 +6,7 @@
 # <bitbar.author.github>fferri</bitbar.author.github>
 # <bitbar.desc>Simple countdown timer.</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>https://lh6.googleusercontent.com/IZAQc1rxln4Ye1KUlsaKzm_inGb-ligulk1Artxoa09gzqaoTpp1QS1Yj61lr-VTTcW_GTsMlC8EaQ=w2482-h1718</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/fferri/bitbar-countdown-timer/master/screenshot.gif</bitbar.image>
 # <bitbar.abouturl>https://github.com/fferri/bitbar-countdown-timer</bitbar.abouturl>
 
 import os
