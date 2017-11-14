@@ -4,7 +4,7 @@
 # <bitbar.title>Cricket Bar</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Adi</bitbar.author>
-# <bitbar.author.github>changeddaily</bitbar.author.github>
+# <bitbar.author.github>gomedia-adi</bitbar.author.github>
 # <bitbar.desc>Displays live cricket score of a selected match, using data from ESPNcricinfo or Cricbuzz.</bitbar.desc>
 # <bitbar.image>http://www.greatoceanmedia.com.au/images/62.png</bitbar.image>
 # <bitbar.dependencies>php</bitbar.dependencies>
@@ -12,7 +12,7 @@
 
 // Inspired by, and respect to Anup Sam Abraham's Live Cricket Scores v1.1 (https:getbitbar.com/plugins/Sports/live_cricket.2m.py)
 // BitBar plugin help: https:github.com/matryer/bitbar
-// Plugin updated 14/11/17
+// Plugin updated 15/11/17
 
 //TODO
 // facility to set timezone manually
