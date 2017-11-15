@@ -43,7 +43,11 @@ def get_unread_count(token,channel_id):
 	return 0
 
 # Users need to modify this part by generating their own tokens
-tokens = ['xoxp-token-place-holder', 'xoxp-slack-token-place-holder']
+tokens = ['xoxp-slack-token-place-holder']
+
+if tokens[0] == 'xoxp-slack-token-place-holder':
+	print('Configure Slack tokens first')
+	exit(1)
 
 channels = {}
 results = []
