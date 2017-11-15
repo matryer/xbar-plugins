@@ -16,8 +16,6 @@ try:
 except ImportError:
 	print("You need to `pip install requests`")
 
-import base64
-
 indicator = '<span class="text-large" id="quote_price">'
 r = requests.get('https://coinmarketcap.com/currencies/litecoin/')
 s_i = r.text.find(indicator)

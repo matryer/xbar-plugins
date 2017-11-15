@@ -16,9 +16,7 @@ try:
 except ImportError:
 	print("You need to `pip install requests`")
 
-import base64
 import json
-import time
 from time import sleep
 from multiprocessing import Pool
 
@@ -54,7 +52,6 @@ results = []
 unread_count = 0
 pool = Pool(processes=len(tokens))
 
-#a = time.time()
 for token in tokens:
 	header = {'Authorization':'Bearer ' + token}
 	channels[token] = []
@@ -73,7 +70,6 @@ for token in tokens:
 
 for r in results:
 	unread_count += r.get()
-#b = time.time()
 
 # THIS IS A SPECIAL FEATURE FOR USERS WITH DARK MENU BAR ENABLED
 # REMOVE COMMENTING OUT TO USE
