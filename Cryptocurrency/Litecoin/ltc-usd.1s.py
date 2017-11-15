@@ -11,7 +11,11 @@
 #
 # by impshum
 
-import requests
+try:
+	import requests
+except ImportError:
+	print("You need to `pip install requests`")
+
 import base64
 
 indicator = '<span class="text-large" id="quote_price">'

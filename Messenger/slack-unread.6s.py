@@ -11,7 +11,11 @@
 #
 # by mgjo5899
 
-import requests
+try:
+	import requests
+except ImportError:
+	print("You need to `pip install requests`")
+
 import base64
 import json
 import time
