@@ -9,7 +9,7 @@
 # <bitbar.image>https://i.imgur.com/OI9eD75.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 #
-# by impshum
+# by mgjo5899
 
 try:
 	import requests
