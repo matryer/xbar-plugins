@@ -17,7 +17,6 @@ except ImportError:
 	print('You need to `pip install requests`')
 
 import json
-import time
 from time import sleep
 from multiprocessing import Pool
 
