@@ -14,6 +14,7 @@
 import requests
 import base64
 import json
+from time import sleep
 from multiprocessing import Pool
 
 channels_list_url = 'https://slack.com/api/channels.list'
@@ -24,12 +25,14 @@ def get_unread_count(token):
 
 	header = {'Authorization':'Bearer ' + token}
 	r = requests.post(channels_list_url, headers=header)
+	sleep(1)
 	result = json.loads(r.text)['channels']
 	
 	for j in range(len(result)):
 		channel_id = result[j]['id']
 		data = {'channel':channel_id}
 		r = requests.post(channels_info_url, headers=header, data=data)
+		sleep(1)
 		channel_info = json.loads(r.text)['channel']
 
 		if 'unread_count' in channel_info.keys():
