@@ -3,16 +3,17 @@
 
 /*
 <bitbar.title>Xbox Feed</bitbar.title>
-<bitbar.version>v1.0.1</bitbar.version>
+<bitbar.version>v1.1.0</bitbar.version>
 <bitbar.author>Kodie Grantham</bitbar.author>
 <bitbar.author.github>kodie</bitbar.author.github>
 <bitbar.desc>Shows your Xbox Live friend's recent activity - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-xboxfeed</bitbar.desc>
 <bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-xboxfeed/master/screenshot.png</bitbar.image>
-<bitbar.dependencies>node, npm, npm/https://github.com/y-a-v-a/easy-gd.git, npm/fs, npm/home-config, npm/node-time-ago, npm/request, npm/sync-request</bitbar.dependencies>
+<bitbar.dependencies>node, npm, npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</bitbar.dependencies>
+<bitbar.dependencies.npm>npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</bitbar.dependencies>
 <bitbar.abouturl>https://github.com/kodie/bitbar-xboxfeed</bitbar.abouturl>
 */
 
-var ver = '1.0.1';
+var ver = '1.1.0';
 
 var defaults = {
   apiKey: '',
@@ -21,7 +22,7 @@ var defaults = {
   size: false,
   length: false,
   limit: 25,
-  imgSize: 25,
+  imgSize: 18,
   cachePath: '/tmp/xboxfeed',
   cacheExpire: 86400000
 };
@@ -105,105 +106,135 @@ if (process.env.BitBar) {
   console.log('---');
 }
 
+var npmDeps = 'deasync home-config jimp node-time-ago open request';
+var dirPlugins = process.argv[1].split('/').slice(0, -1).join('/');
+
 try {
   var cfg = Object.assign({}, defaults, require('home-config').load('.bitbarrc').xboxfeed);
+  var deasync = require('deasync');
   var fs = require('fs');
-  var gd = require('easy-gd');
-  var request = require('sync-request');
+  var Jimp = require('jimp');
+  var open = require('open');
+  var request = require('request');
   var timeAgo = require('node-time-ago');
+
+  var jimpReadSync = deasync(Jimp.read);
+  var requestSync = deasync(request);
 } catch(e) {
-  console.log('Error loading dependencies');
+  if (process.env.BitBar) {
+    console.log(`Run Installation | bash="cd ${dirPlugins} && npm install ${npmDeps} --no-package-lock && node ${process.argv[1]} refresh"`);
+  } else {
+    console.log(e);
+  }
+
   error = true;
 }
 
-function getImage(gamertag, url) {
-  if (cfg.cachePath && !fs.existsSync(cfg.cachePath)) { fs.mkdirSync(cfg.cachePath); }
-  if (cfg.imgSize > 50) { cfg.imgSize = 50; }
-
-  gamertag = gamertag.replace(/ /g, '').toLowerCase();
-  var img = images[gamertag];
-
-  if (!img) {
-    var imgFile = `${cfg.cachePath}/${gamertag}.${cfg.imgSize}.png`;
-
-    if (cfg.cachePath && fs.existsSync(imgFile) && (new Date(+fs.statSync(imgFile).mtime + cfg.cacheExpire) > new Date(Date.now()))) {
-      img = fs.readFileSync(imgFile);
-      img = new Buffer(img);
-    } else {
-      img = request('GET', url).body;
-      img = gd.open(img);
-      img = img.resize({width:cfg.imgSize, height:cfg.imgSize});
-      if (cfg.cachePath) { img.save(imgFile); }
-      img = img.save();
-    }
-
-    img = img.toString('base64');
-    images[gamertag] = img;
-  }
-
-  return img;
+function refresh() {
+  open('bitbar://refreshPlugin?name=xboxfeed.*?.js');
 }
 
-if (!error) {
-  try {
-    var res = request('GET', requestUrl, { headers: { 'X-AUTH': cfg.apiKey } });
-  } catch(e) {
-    console.log('Could not connect to API');
-    error = true;
-  }
-}
+function run() {
+  function getImage(gamertag, url) {
+    if (cfg.cachePath && !fs.existsSync(cfg.cachePath)) { fs.mkdirSync(cfg.cachePath); }
+    if (cfg.imgSize > 50) { cfg.imgSize = 50; }
+    var size = parseInt(cfg.imgSize);
 
-if (!error) {
-  var resBody = JSON.parse(res.body.toString('utf-8'));
+    gamertag = gamertag.replace(/ /g, '').toLowerCase();
+    var img = images[gamertag];
 
-  if (res.statusCode >= 300) {
-    console.log(resBody.error_message);
-    error = true;
-  } else if (!resBody || !resBody.activityItems) {
-    console.log('No activity posts found. Try refreshing.');
-    error = true;
-  }
-}
+    if (!img) {
+      var imgFile = `${cfg.cachePath}/${gamertag}.${size}.png`;
 
-if (!error) {
-  var feed = resBody.activityItems;
-  var images = {};
-  var lastText;
-
-  for (var i = 0; (i < feed.length && i < cfg.limit); i++) {
-    var authorInfo = feed[i].authorInfo;
-
-    if (!authorInfo || authorInfo.pageName || authorInfo.titleName) { cfg.limit++; continue; }
-    var lineText = `${authorInfo.name} ${feed[i].description}`;
-    var lineProperties = '';
-
-    if (lineText == lastText) { cfg.limit++; continue; }
-
-    lastText = lineText;
-    lineText += ` ${timeAgo(feed[i].date)}`;
-
-    if (process.env.BitBar) {
-      var profileUrl = encodeURI(`https://account.xbox.com/en-us/Profile?Gamertag=${authorInfo.name}`);
-      lineProperties = ` | href=${profileUrl}`;
-
-      if (cfg.imgSize) {
-        var imgUrl = authorInfo.imageUrl.replace('&mode=Padding', '');
-
-        try {
-          var img = getImage(authorInfo.name, imgUrl);
-        } catch(e) { var img = ''; }
-
-        lineProperties += ` image=${img}`;
+      if (cfg.cachePath && fs.existsSync(imgFile) && (new Date(+fs.statSync(imgFile).mtime + cfg.cacheExpire) > new Date(Date.now()))) {
+        img = fs.readFileSync(imgFile);
+        img = new Buffer(img);
+      } else {
+        img = jimpReadSync(url);
+        img = img.resize(size, size);
+        if (cfg.cachePath) { img.write(imgFile); }
+        img.getBufferSync = deasync(img.getBuffer);
+        img = img.getBufferSync('image/png');
       }
 
-      if (cfg.color) { lineProperties += ` color=${cfg.color}`; }
-      if (cfg.font) { lineProperties += ` font=${cfg.font}`; }
-      if (cfg.size) { lineProperties += ` size=${cfg.size}`; }
-      if (cfg.length) { lineProperties += ` length=${cfg.length}`; }
+      img = img.toString('base64');
+      images[gamertag] = img;
     }
 
-    console.log(`${lineText}${lineProperties}`);
+    return img;
   }
+
+  var res;
+  var resBody;
+
+  if (!error) {
+    try {
+      res = requestSync({ uri: requestUrl, headers: { 'X-AUTH': cfg.apiKey } });
+    } catch(e) {
+      console.log('Could not connect to API');
+      error = true;
+    }
+  }
+
+  if (!error && res) {
+    resBody = JSON.parse(res.body.toString('utf-8'));
+
+    if (res.statusCode >= 300) {
+      console.log(resBody.error_message);
+      error = true;
+    } else if (!resBody || !resBody.activityItems) {
+      console.log('No activity posts found. Try refreshing.');
+      error = true;
+    }
+  }
+
+  if (!error && resBody) {
+    var feed = resBody.activityItems;
+    var images = {};
+    var lastText;
+
+    for (var i = 0; (i < feed.length && i < cfg.limit); i++) {
+      var authorInfo = feed[i].authorInfo;
+
+      if (!authorInfo || authorInfo.pageName || authorInfo.titleName) { cfg.limit++; continue; }
+      var lineText = `${authorInfo.name} ${feed[i].description}`;
+      var lineProperties = '';
+
+      if (lineText == lastText) { cfg.limit++; continue; }
+
+      lastText = lineText;
+      lineText += ` ${timeAgo(feed[i].date)}`;
+
+      if (process.env.BitBar) {
+        var profileUrl = encodeURI(`https://account.xbox.com/en-us/Profile?Gamertag=${authorInfo.name}`);
+        lineProperties = ` | href=${profileUrl}`;
+
+        if (cfg.imgSize) {
+          var img;
+          var imgUrl = authorInfo.imageUrl.replace('&mode=Padding', '');
+
+          try {
+            img = getImage(authorInfo.name, imgUrl);
+          } catch(e) { }
+
+          if (img) lineProperties += ` image=${img}`;
+        }
+
+        if (cfg.color) { lineProperties += ` color=${cfg.color}`; }
+        if (cfg.font) { lineProperties += ` font=${cfg.font}`; }
+        if (cfg.size) { lineProperties += ` size=${cfg.size}`; }
+        if (cfg.length) { lineProperties += ` length=${cfg.length}`; }
+      }
+
+      console.log(`${lineText}${lineProperties}`);
+    }
+  }
+}
+
+if (process.argv[2] == 'refresh') {
+  refresh();
+} else {
+  run();
 }
 
 if (process.env.BitBar) {
