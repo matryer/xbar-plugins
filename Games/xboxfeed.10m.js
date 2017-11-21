@@ -3,17 +3,17 @@
 
 /*
 <bitbar.title>Xbox Feed</bitbar.title>
-<bitbar.version>v1.1.0</bitbar.version>
+<bitbar.version>v1.1.1</bitbar.version>
 <bitbar.author>Kodie Grantham</bitbar.author>
 <bitbar.author.github>kodie</bitbar.author.github>
 <bitbar.desc>Shows your Xbox Live friend's recent activity - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-xboxfeed</bitbar.desc>
 <bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-xboxfeed/master/screenshot.png</bitbar.image>
 <bitbar.dependencies>node, npm, npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</bitbar.dependencies>
-<bitbar.dependencies.npm>npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</bitbar.dependencies>
+<bitbar.dependencies.npm>npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</bitbar.dependencies.npm>
 <bitbar.abouturl>https://github.com/kodie/bitbar-xboxfeed</bitbar.abouturl>
 */
 
-var ver = '1.1.0';
+var ver = '1.1.1';
 
 var defaults = {
   apiKey: '',
