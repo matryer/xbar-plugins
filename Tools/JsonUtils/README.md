@@ -51,3 +51,21 @@ A helper for **format** or **compact** JSON from clipboard and then write to cli
    {"key":"value","list":[1,2]}
 
    ```
+
+## Install
+
+1. Install [jq](https://github.com/stedolan/jq):
+
+   ```sh
+   brew install jq
+   ```
+
+2. Install [BitBar](https://github.com/matryer/bitbar):
+
+   ```sh
+   brew cask install bitbar
+   ```
+
+3. Open [this plugin's page](https://getbitbar.com/plugins/Tools/JsonUtils/JsonUtils.sh), and click **+Add to BitBar**;
+
+4. Enjoy it! :smile:
