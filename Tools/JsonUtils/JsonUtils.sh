@@ -5,7 +5,7 @@
 # by Cnfn (http://github.com/cnfn)
 #
 # <bitbar.title>JSON Utils</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Cnfn</bitbar.author>
 # <bitbar.author.github>cnfn</bitbar.author.github>
 # <bitbar.desc>format or compact JSON string from clipboard and then write to clipboard</bitbar.desc>
@@ -17,6 +17,9 @@
 #   jq (https://stedolan.github.io/jq/)
 
 export PATH=$PATH:/usr/local/bin
+
+# default use UTF-8
+export LANG=en_US.UTF-8
 
 format() {
 	pbpaste | jq "." --indent 4 | pbcopy
