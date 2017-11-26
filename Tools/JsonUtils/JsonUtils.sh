@@ -5,7 +5,7 @@
 # by Cnfn (http://github.com/cnfn)
 #
 # <bitbar.title>JSON Utils</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Cnfn</bitbar.author>
 # <bitbar.author.github>cnfn</bitbar.author.github>
 # <bitbar.desc>format or compact JSON string from clipboard and then write to clipboard</bitbar.desc>
@@ -18,15 +18,23 @@
 
 export PATH=$PATH:/usr/local/bin
 
-# default use UTF-8
+# default env is UTF-8, avoid garble
 export LANG=en_US.UTF-8
 
+displayNotification() {
+	title=$1
+	content=$2
+	osascript -e "display notification \"$content\" with title \"$title\""
+}
+
 format() {
-	pbpaste | jq "." --indent 4 | pbcopy
+	pbpaste | jq . --indent 4 | pbcopy
+	displayNotification "JsonUtils" "Formatted"
 }
 
 compact() {
-	pbpaste | jq "." --compact-output | pbcopy
+	pbpaste | jq . --compact-output | pbcopy
+	displayNotification "JsonUtils" "Compacted"
 }
 
 [[ $1 == "format" ]] && { format; exit 0; }
