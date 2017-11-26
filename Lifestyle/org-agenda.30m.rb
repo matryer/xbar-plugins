@@ -6,7 +6,7 @@
 # <bitbar.author>yqrashawn</bitbar.author>
 # <bitbar.author.github>yqrashawn</bitbar.author.github>
 # <bitbar.desc>display emacs org-agenda in bitbar</bitbar.desc>
-# <bitbar.image> http://yqrashawn.com/2017/11/25/org-agenda-bitbar-plugin/2017-11-25_bitbar-ext-org-agenda - scaled width 500.png</bitbar.image>
+# <bitbar.image>https://github.com/yqrashawn/bitbar-plugin-agenda/blob/master/bitbar-ext-org-agenda.png</bitbar.image>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 # <bitbar.abouturl>http://yqrashawn.com/2017/11/25/org-agenda-bitbar-plugin/</bitbar.abouturl>
 
@@ -19,7 +19,7 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 # your exported agenda files directory path eg. "#{Dir.home}/agendas/work/"
-agenda_directory = "your agenda directory"
+agenda_directory = 'your agenda directory'
 
 # the exported txt agenda file that in the agenda_directory eg. 'todos.txt'
 agenda_name = 'todos.txt'
