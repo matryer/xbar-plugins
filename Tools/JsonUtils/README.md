@@ -6,7 +6,8 @@ A helper for **format** or **compact** JSON from clipboard and then write to cli
 
 ## Screenshot
 
-![JSON Utils](https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_json_utils.png)
+![JSON Utils main](https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_json_utils_main.png)
+![JSON Utils notification](https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_json_utils_notification.png)
 
 ## Usage
 
