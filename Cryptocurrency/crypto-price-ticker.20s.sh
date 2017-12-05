@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# <bitbar.title>Crypto Currency Prices</bitbar.title>
+# <bitbar.title>Crypto Price Ticker</bitbar.title>
 # <bitbar.version>1.0.0</bitbar.version>
 # <bitbar.author>Elan Trybuch</bitbar.author>
 # <bitbar.author.github>elaniobro</bitbar.author.github>
