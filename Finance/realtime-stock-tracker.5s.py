@@ -6,7 +6,7 @@
 # <bitbar.author>Bogdan Mosincat</bitbar.author>
 # <bitbar.author.github>bogdan1304</bitbar.author.github>
 # <bitbar.desc>Shows realtime stock price and daily percentage change for each stock in the list.</bitbar.desc>
-# <bitbar.image>https://www.imgur.com/hQoCXFL</bitbar.image>
+# <bitbar.image>https://i.imgur.com/hQoCXFL.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 import json, urllib2
