@@ -6,8 +6,8 @@
 # <bitbar.author>yqrashawn</bitbar.author>
 # <bitbar.author.github>yqrashawn</bitbar.author.github>
 # <bitbar.desc>display emacs org-agenda in bitbar</bitbar.desc>
-# <bitbar.image>https://github.com/yqrashawn/bitbar-plugin-agenda/blob/master/bitbar-ext-org-agenda.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.image>https://github.com/yqrashawn/bitbar-plugin-agenda/raw/master/bitbar-ext-org-agenda.png</bitbar.image>
+# <bitbar.dependencies>ruby,emacs</bitbar.dependencies>
 # <bitbar.abouturl>http://yqrashawn.com/2017/11/25/org-agenda-bitbar-plugin/</bitbar.abouturl>
 
 # for more information please checkout http://yqrashawn.com/2017/11/25/org-agenda-bitbar-plugin/
@@ -59,9 +59,6 @@ agenda_file = File.open("#{agenda_directory}#{agenda_name}")
 
 lines = IO.readlines(agenda_file)
 
-puts "Do: #{lines.length}"
-puts '---'
-
 # remove empty line
 lines.reject! { |s| s.nil? || s.strip.empty? }
 lines.reject! { |s| s.include?('=====') }
@@ -82,7 +79,7 @@ lines.each.with_index do |line, i|
   else
     # get color dpends on priority
     line_color = ''
-    labels.each { |label, label_color| line_color = label_color if line.include?(label)}
+    labels.each { |label, label_color| line_color = label_color if line.include?(label) }
     line_color = 'white' if line_color.strip.empty?
 
     # remove TODO, add color, special font for clickable one
@@ -90,4 +87,6 @@ lines.each.with_index do |line, i|
   end
 end
 
+puts "Do: #{lines.length}"
+puts '---'
 puts lines
