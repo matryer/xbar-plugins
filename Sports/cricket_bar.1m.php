@@ -2,7 +2,7 @@
 <?php
 
 # <bitbar.title>Cricket Bar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Adi</bitbar.author>
 # <bitbar.author.github>gomedia-adi</bitbar.author.github>
 # <bitbar.desc>Displays live cricket score of a selected match, using data from ESPNcricinfo or Cricbuzz.</bitbar.desc>
@@ -12,13 +12,21 @@
 
 // Inspired by, and respect to Anup Sam Abraham's Live Cricket Scores v1.1 (https:getbitbar.com/plugins/Sports/live_cricket.2m.py)
 // BitBar plugin help: https:github.com/matryer/bitbar
-// Plugin updated 15/11/17
+//
+// Plugin updated 25/11/17
+//
+// Version history
+// 1.1	- option to set timezone
+//		- selected match ID reset on feed change
+//		- timeout set on Curl connect
+// 1.0	- initial release
 
-//TODO
-// facility to set timezone manually
+//TODO 
 // user specific config/log files
 // option to hide scores in menubar
-// reset selected match ID on feed change?
+// weather link?
+// score format option - Standard, Australia
+// check out [break] in ESPNcricinfo - more informative than live_state ("Stumps" vs "Stumps - Day 3")?
 
 //??? KNOWN ISSUES
 //
@@ -30,7 +38,10 @@
 // ESPNcricinfo
 // - home team not always first in summary
 //		- workaround: none
-//		- fix: possibly painful - home team info in detailed feed
+//		- fix: home team info in detailed feed
+// - summary score doesn't keep pace with detailed feed score (not sure of bug or deliberate on ESPNcricinfo's part)
+//		- workaround: none
+//		- fix: only use detailed feed (ties in with previous fix)
 //
 // Cricbuzz
 // - last wicket dismissal information not available
@@ -51,12 +62,13 @@ define('DEBUG_FILE', "/var/tmp/bitbar.cricket_bar.debug.log");
 
 global $abbrev_map;
 
-function update_config($feed, $selected_match_id) {
+function update_config($selected_match_id, $feed, $timezone) {
 // rewrite config file with given values
 	file_put_contents(CONFIG_FILE, "<?php\n");
-	file_put_contents(CONFIG_FILE, "// Cricket Bar configuration\n", FILE_APPEND);
+	file_put_contents(CONFIG_FILE, "// CRICKET_BAR CONFIGURATION\n", FILE_APPEND);
 	file_put_contents(CONFIG_FILE, "\$feed = '$feed';\n", FILE_APPEND);
 	file_put_contents(CONFIG_FILE, "\$selected_match_id = '$selected_match_id';\n", FILE_APPEND);
+	file_put_contents(CONFIG_FILE, "\$timezone = '$timezone';\n", FILE_APPEND);
 	file_put_contents(CONFIG_FILE, "?>\n", FILE_APPEND);
 }
 
@@ -76,6 +88,7 @@ function curl_obj($url) {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_USERAGENT, UA);
 	curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); // set connection timeout (workaround for long connection delays - seen during 1st Ashes Test on Cricbuzz - data is still received though)
 	$output = curl_exec($ch);
 	file_put_contents(LOG_FILE, "**(".__FUNCTION__.") CURL: ".$url."\n", FILE_APPEND);
 	if (curl_errno($ch)) // may not pick up website problems though
@@ -146,6 +159,8 @@ function projected_score($noofovers, $overs, $score) {
 
 //-------------------------------------------------------------------------------------------------
 
+//??? CONFIG FILE
+
 // initialise config file
 if (!file_exists(CONFIG_FILE))
 	touch(CONFIG_FILE);
@@ -158,18 +173,47 @@ if (!isset($feed))
 	$feed = 'espncricinfo';
 if (!isset($selected_match_id))
 	$selected_match_id = '';
+if (!isset($timezone))
+	$timezone = '';
 
-// menu selection update (value supplied as argument, update config and then exit script)
-if (isset($argv[1])) { // match or feed change
-	if (isset($argv[2])) { // feed change
-		update_config($argv[2], $selected_match_id);
-		exit;
+// update config (value supplied as argument, update config file, exit script)
+if (isset($argv[1])) { // match, feed or timezone
+	if (isset($argv[2])) { // feed or timezone
+		if (isset($argv[3])) { // timezone
+			update_config($selected_match_id, $feed, $argv[3]);
+		}
+		else { // feed
+			update_config('unknown', $argv[2], $timezone); // reset selected match when changing feed
+		}
 	}
-	else {
-		update_config($feed, $argv[1]);
-		exit;
+	else { // match
+		update_config($argv[1], $feed, $timezone);
 	}
+	exit;
 }
+
+//??? INITIALISE
+
+// initialise logfile
+file_put_contents(LOG_FILE, '**CRICKET_BAR BITBAR PLUGIN'."\n");
+file_put_contents(LOG_FILE, '**CONFIG FEED: '.$feed."\n", FILE_APPEND);
+file_put_contents(LOG_FILE, '**CONFIG SELECTED_MATCH_ID: '.$selected_match_id."\n", FILE_APPEND);
+file_put_contents(LOG_FILE, '**CONFIG TIMEZONE: '.$timezone."\n", FILE_APPEND);
+
+if ($timezone) { // set PHP timezone from config
+	date_default_timezone_set($timezone);
+	file_put_contents(LOG_FILE, '**TIMEZONE SET FROM CONFIG'."\n", FILE_APPEND);
+}
+else { // trap & fix PHP timezone config warning problem (not an issue in PHP7)
+	set_error_handler("tz_error_handler");
+	@date_default_timezone_get();
+	restore_error_handler();
+}
+
+file_put_contents(LOG_FILE, '**PHP VERSION: '.phpversion()."\n", FILE_APPEND);
+file_put_contents(LOG_FILE, '**PHP TIMEZONE: '.date_default_timezone_get()."\n", FILE_APPEND);
+file_put_contents(LOG_FILE, '**MAC TIMEZONE ABBR: '.exec('date +%Z')."\n", FILE_APPEND);
+file_put_contents(LOG_FILE, '**MAC TIMEZONE NAME: '.timezone_name_from_abbr(exec('date +%Z'))."\n", FILE_APPEND);
 
 //??? FEED INFO
 
@@ -192,6 +236,7 @@ $feed_info = array(
 
 //??? ABBREVIATIONS
 
+$abbrev_map = array();
 if ($feed == 'espncricinfo')
 	// to fix dodgy country abbreviations (menubar summary only)
 	$abbrev_map = array(
@@ -247,24 +292,6 @@ else if ($feed == 'cricbuzz')
 		'YORKS' => 'Yorkshire',
 		'ZIM' => 'Zimbabwe',
 	);
-else
-	$abbrev_map = array();
-
-// initialise logfile
-file_put_contents(LOG_FILE, '**CRICKET_BAR BITBAR PLUGIN'."\n");
-
-// trap for PHP timezone config problem
-set_error_handler("tz_error_handler");
-@date_default_timezone_get();
-restore_error_handler();
-
-// log stuff
-file_put_contents(LOG_FILE, '**PHP VERSION: '.phpversion()."\n", FILE_APPEND);
-file_put_contents(LOG_FILE, '**PHP TIMEZONE: '.date_default_timezone_get()."\n", FILE_APPEND);
-file_put_contents(LOG_FILE, '**MAC TIMEZONE ABBR: '.exec('date +%Z')."\n", FILE_APPEND);
-file_put_contents(LOG_FILE, '**MAC TIMEZONE NAME: '.timezone_name_from_abbr(exec('date +%Z'))."\n", FILE_APPEND);
-file_put_contents(LOG_FILE, '**FEED: '.$feed.' ('.$feed_info[$feed]['name'].")\n", FILE_APPEND);
-file_put_contents(LOG_FILE, "**SELECTED MATCH ID: ".$selected_match_id."\n", FILE_APPEND);
 
 //??? SUMMARY FEED
 
@@ -440,7 +467,11 @@ if ($selected_match_obj) {
 				;
 
 				// option key alternative: display series & match dates, e.g. "West Indies in England ODI Series (Sep 21, 2017)"
-				echo $detailed_feed->series[0]->series_name.($detailed_feed->series[0]->trophy_name ? ' – '.$detailed_feed->series[0]->trophy_name : '').' ('.$detailed_feed->match->date.')'." | alternate=true \n";
+				echo
+					$detailed_feed->series[0]->series_name
+					.(($detailed_feed->series[0]->trophy_name !== $detailed_feed->series[0]->series_name) ? ' – '.$detailed_feed->series[0]->trophy_name : '') // "The Ashes" is both the series & the trophy name
+					.' ('.$detailed_feed->match->date.')'
+					." | alternate=true \n";
 
 				// team id/team name/score array
 				$teams = array();
@@ -893,7 +924,7 @@ if ($summary_feed) {
 			'--'
 			.$description
 			.($index === (int)$selected_match_id ? ' ✓' : '')
-			." | terminal=false bash=\"".$argv[0] . "\" param1=\"$index\" refresh=true" // run this PHP script with argument of match ID
+			." | terminal=false bash=\"".$argv[0] . "\" param1=\"$index\" refresh=true" // run this PHP script with one argument (match ID)
 			."\n"
 		;
 	}
@@ -916,7 +947,7 @@ echo "---\n";
 // "link to site" menu item
 echo $feed_info[$feed]['name']." website... | href=".$feed_info[$feed]['site_url']."\n";
 
-// "select feed" submenu
+// "change feed" submenu
 echo "Change feed\n";
 foreach (array('espncricinfo', 'cricbuzz') as $this_feed) {
 	echo
@@ -924,6 +955,33 @@ foreach (array('espncricinfo', 'cricbuzz') as $this_feed) {
 		.$feed_info[$this_feed]['name']
 		.($this_feed == $feed ? ' ✓' : '')
 		." | terminal=false bash=\"".$argv[0] . "\" param1=filler param2=\"$this_feed\" refresh=true" // run this PHP script with two arguments (second is feed name)
+		."\n"
+	;
+}
+
+//??? TIMEZONE AREA
+
+echo "---\n";
+
+// make up list of timezones of format "blah/blahblah"
+$timezones = array();
+foreach (timezone_abbreviations_list() as $abbr => $tz)
+	foreach ($tz as $val)
+		if (isset($val['timezone_id']))
+			if (strpos($val['timezone_id'],'/') !== FALSE)
+				$timezones[] = $val['timezone_id'];
+// sort and strip duplicates
+sort($timezones);
+$timezones = array_unique($timezones);
+
+// "set timezone" submenu
+echo "Your timezone (".($timezone ? $timezone : date_default_timezone_get()).")\n";
+foreach ($timezones as $this_timezone) {
+	echo
+		'--' // sub-submenu item
+		.$this_timezone
+		.($this_timezone == $timezone ? ' ✓' : '')
+		." | terminal=false bash=\"".$argv[0] . "\" param1=filler param2=filler param3=\"$this_timezone\" refresh=true" // run this PHP script with three arguments (third is timezone name)
 		."\n"
 	;
 }
