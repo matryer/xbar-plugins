@@ -2,7 +2,7 @@
 
 # <bitbar.title>ISC Condition Monitor</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author></bitbar.author>
+# <bitbar.author>panzertime</bitbar.author>
 # <bitbar.author.github>panzertime</bitbar.author.github>
 # <bitbar.desc>Gets ISC's condition code and displays it</bitbar.desc>
 # <bitbar.image></bitbar.image>
