@@ -1,10 +1,13 @@
 language: objective-c
-osx_image: xcode8
+osx_image: xcode9
+
 before_install:
+  - rvm install 2.0.0-p648
+  - rvm use 2.0.0-p648
   - brew update
   - brew outdated python || brew upgrade python
   - pip2 install pyflakes
-  - gem install rubocop --no-document
+  - gem install rubocop -v 0.50.0 --no-document
   - brew install shellcheck
   - brew outdated node || brew upgrade node
   - npm install -g jshint
