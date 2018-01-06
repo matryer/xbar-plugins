@@ -92,7 +92,7 @@ class Language(object):
         return subprocess.check_output(command, stderr=subprocess.STDOUT)
 
 
-Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck', '-e', 'SC2196', '-e', 'SC2197']))
+Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117', '-e', 'SC2164', '-e', 'SC2196', '-e', 'SC2197', '-e', 'SC2206', '-e', 'SC2207', '-e', 'SC2215', '-e', 'SC2219']))
 Language.registerLanguage(Language(['.py', '.py2'], 'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.py', '.py3'], 'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RescueWithoutErrorClass']))
