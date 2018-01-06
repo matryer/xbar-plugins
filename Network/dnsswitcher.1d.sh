@@ -62,7 +62,7 @@ if [[ $current_dns_output == There* ]] # For e.g. "There aren't any DNS Servers 
 then
     selected_dns="default"
 else
-    IFS=', ' read -r -a current_dns_address <<< $current_dns_output
+    IFS=', ' read -r -a current_dns_address <<< "$current_dns_output"
 
     for dns_name in "${enabled_dns_address[@]}"
     do
