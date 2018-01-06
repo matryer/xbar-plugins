@@ -21,5 +21,5 @@ LC_NUMERIC=en_US
 
 # print them values
 for coin in "${coins[@]}"; do
-    printf "%s: %'.f\n" "${coin#*:}/IDR" "$(curl -s https://vip.bitcoin.co.id/api/${coin%%:*}/ticker | tr -d '"' | tr ':,' '\n' | grep -A1 "last" | tail -1)"; 
+    printf "%s: %'.f\\n" "${coin#*:}/IDR" "$(curl -s https://vip.bitcoin.co.id/api/"${coin%%:*}"/ticker | tr -d '"' | tr ':,' '\n' | grep -A1 "last" | tail -1)"; 
 done
