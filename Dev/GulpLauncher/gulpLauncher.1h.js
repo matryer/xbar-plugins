@@ -25,7 +25,7 @@ var file = '/path/to/_projects.json'
     "path": "/path/to/readable/file/project1/src"
   },
   {
-    "name": "Brohn Homes",
+    "name": "Project 2",
     "path": "/path/to/readable/file/project2/src"
   }
 ]
