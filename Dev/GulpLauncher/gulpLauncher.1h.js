@@ -2,6 +2,7 @@
 
 
 /* jshint esversion: 6 */
+/* jshint asi: true */
 
 /*
  * <bitbar.title>Gulp Launcher</bitbar.title>
