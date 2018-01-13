@@ -1,42 +1,56 @@
 #!/bin/bash
 
 # <bitbar.title>Pomodoro Timer</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Martin Kourim</bitbar.author>
 # <bitbar.author.github>mkoura</bitbar.author.github>
 # <bitbar.desc>Timer that uses Pomodoro timeboxing</bitbar.desc>
+# <bitbar.image>https://i.imgur.com/WswKpT4.png</bitbar.image>
 
 # pomodoro duration
-POMODORO=1500 # 25 min
+readonly POMODORO=1500 # 25 min
 # break duration
-BREAK=240 # 4 min
+readonly BREAK=240 # 4 min
 # long break duration
-LONG_BREAK=1200 # 20 min
-# script to run
+readonly LONG_BREAK=1200 # 20 min
+# script to run (file path)
 SCRIPT=""
 
+# SCRIPT file example
+##!/bin/bash
+## plays sound when activity is finished
+#case "$1" in
+#  "finished"|"break_finished"|"long_break_finished" )
+#    play some_sound_file
+#esac
+
 # icons
-TOMATO_ICON="🍅"
-BREAK_ICON="☕"
-LONG_BREAK_ICON="🎉"
-PAUSE_BIG_ICON="▮▮"
-PAUSE_ICON="⏸"
-STOP_ICON="⏹"
-CHECKED_ICON="✓"
-UNCHECKED_ICON="✗"
+readonly TOMATO_ICON="🍅"
+readonly BREAK_ICON="☕"
+readonly LONG_BREAK_ICON="🎉"
+readonly PAUSE_BIG_ICON="▮▮"
+readonly PAUSE_ICON="⏸"
+readonly STOP_ICON="⏹"
+readonly CHECKED_ICON="✓"
+readonly UNCHECKED_ICON="✗"
 
 # ---
 
 # must be updated at least every $MAX_UPDATE_INTERVAL seconds
-MAX_UPDATE_INTERVAL=60
+readonly MAX_UPDATE_INTERVAL=60
 
+# file for saving status
+readonly STATUS_FILE="$HOME/.bitbar_pomodoro"
+
+# running on Linux or Mac OS X?
 [ -e /proc/uptime ] && LINUX="true" || LINUX=""
+readonly LINUX
 
-STATUS_FILE="$HOME/.bitbar_pomodoro"
-[ ! -e "$STATUS_FILE" ] && : > "$STATUS_FILE"
+# checks if script is executable
+[ -x "$SCRIPT" ] || SCRIPT=""
+readonly SCRIPT
 
-read -r tstamp togo pomodoros state activity loop _ < <({ read -r line; echo "$line"; } < "$STATUS_FILE")
-
+# saves current timestamp to the "now" variable
 set_now() {
   [ -n "$now" ] && return
 
@@ -49,9 +63,10 @@ set_now() {
 }
 
 run_script() {
-  [ -x "$SCRIPT" ] && $SCRIPT "$@" &
+  [ -n "$SCRIPT" ] && $SCRIPT "$@" &
 }
 
+# displays desktop notification
 notify_osd() {
   if [ -n "$LINUX" ]; then
     notify-send "$@" 2>/dev/null
@@ -60,20 +75,24 @@ notify_osd() {
   fi
 }
 
+# writes current status to status file
 status_write() {
   echo "$tstamp $togo $pomodoros $state $activity $loop" > "$STATUS_FILE"
 }
 
+# resets the status file
 status_reset() {
   tstamp=0; togo=0; pomodoros=0; state="STOP"; activity="pomodoro"; loop="${loop:-on}"
   status_write
 }
 
+# toggles whether to loop pomodoros
 loop_toggle() {
   [ "$loop" = "on" ] && loop="off" || loop="on"
   status_write
 }
 
+# starts pomodoro
 pomodoro_start() {
   set_now
   tstamp="$now"; togo="$POMODORO"; state="RUN"; activity="pomodoro"
@@ -81,6 +100,7 @@ pomodoro_start() {
   run_script start
 }
 
+# starts break
 pomodoro_break() {
   set_now
   tstamp="$now"; togo="$BREAK"; state="RUN"; activity="break"
@@ -88,6 +108,7 @@ pomodoro_break() {
   run_script break
 }
 
+# starts long break
 pomodoro_long_break() {
   set_now
   tstamp="$now"; togo="$LONG_BREAK"; pomodoros=0; state="RUN"; activity="long_break"
@@ -95,9 +116,9 @@ pomodoro_long_break() {
   run_script long_break
 }
 
+# detects stale records, i.e. when computer
+# was turned off during pomodoro
 stale_record() {
-  # detect stale records, i.e. when computer
-  # was turned off during pomodoro
   case "$activity" in
     "pomodoro")
       local interval="$POMODORO"
@@ -116,6 +137,8 @@ stale_record() {
   return 0
 }
 
+# checks if activity is finished
+# notifies if so and starts a new activity
 pomodoro_update() {
   case "$state" in
     "STOP"|"PAUSE")
@@ -138,6 +161,7 @@ pomodoro_update() {
       togo="$((POMODORO - tdiff))"
       if [ "$togo" -le 0 ]; then
         pomodoros="$((${pomodoros:-0} + 1))"
+        run_script finished
         if [ "$pomodoros" -lt 4 ]; then
           notify_osd "Pomodoro completed, take a break."
           pomodoro_break
@@ -150,6 +174,7 @@ pomodoro_update() {
     "break")
       togo="$((BREAK - tdiff))"
       if [ "$togo" -le 0 ]; then
+        run_script break_finished
         if [ "$loop" = "off" ]; then
           notify_osd "Break is over."
           status_reset
@@ -162,6 +187,7 @@ pomodoro_update() {
     "long_break")
       togo="$((LONG_BREAK - tdiff))"
       if [ "$togo" -le 0 ]; then
+        run_script long_break_finished
         if [ "$loop" = "off" ]; then
           notify_osd "Long break is over."
           status_reset
@@ -177,6 +203,7 @@ pomodoro_update() {
   esac
 }
 
+# pauses or resumes activity
 pause_resume() {
   pomodoro_update
   case "$state" in
@@ -189,7 +216,7 @@ pause_resume() {
     "PAUSE")
       # resume
       set_now
-      # set new timestamp according to the saved "togo"
+      # sets new timestamp according to the saved "togo"
       case "$activity" in
         "pomodoro")
           tstamp="$((now - (POMODORO - togo) ))"
@@ -211,17 +238,22 @@ pause_resume() {
   esac
 }
 
+# calculates remaining time
+# saves remaining minutes to "rem"
+# saves remaining seconds to "res"
 calc_remaining_time() {
   [ -n "$rem" ] && return
   rem="$((togo / 60 % 60))"
   res="$((togo % 60))"
 }
 
+# prints remaining time in MIN:SEC format
 print_remaining_time() {
   calc_remaining_time
   printf "%02d:%02d" "$rem" "$res"
 }
 
+# prints remaining time in whole minutes
 print_remaining_minutes() {
   calc_remaining_time
   if [ "$rem" -eq 0 ]; then
@@ -232,6 +264,7 @@ print_remaining_minutes() {
   fi
 }
 
+# prints menu for argos/bitbar
 print_menu() {
   case "$state" in
     "STOP")
@@ -286,29 +319,39 @@ print_menu() {
   echo "Loop pomodoros: ${acheck} | bash=\"$0\" param1=loop_toggle terminal=false refresh=true"
 }
 
-case "$1" in
-  "start")
-    pomodoro_start
-    ;;
-  "stop")
-    status_reset
-    run_script stop
-    ;;
-  "pause")
-    pause_resume
-    ;;
-  "break")
-    pomodoro_break
-    ;;
-  "long_break")
-    pomodoro_long_break
-    ;;
-  "loop_toggle")
-    loop_toggle
-    ;;
-  *)
-    pomodoro_update
-    ;;
-esac
+main() {
+  [ ! -e "$STATUS_FILE" ] && : > "$STATUS_FILE"
 
-print_menu
+  # reads current status from status file
+  read -r tstamp togo pomodoros state activity loop _ \
+    < <({ read -r line; echo "$line"; } < "$STATUS_FILE")
+
+  case "$1" in
+    "start")
+      pomodoro_start
+      ;;
+    "stop")
+      status_reset
+      run_script stop
+      ;;
+    "pause")
+      pause_resume
+      ;;
+    "break")
+      pomodoro_break
+      ;;
+    "long_break")
+      pomodoro_long_break
+      ;;
+    "loop_toggle")
+      loop_toggle
+      ;;
+    *)
+      pomodoro_update
+      ;;
+  esac
+
+  print_menu
+}
+
+main "$@"
