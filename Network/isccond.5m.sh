@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# disabling a linter check which doesn't like unquoted tr
+# shellcheck disable=SC2060
+
 # <bitbar.title>ISC Condition Monitor</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>panzertime</bitbar.author>
