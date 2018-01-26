@@ -9,7 +9,7 @@
 # <bitbar.dependencies>bash</bitbar.dependencies>
  
 address="INSERT-YOUR-WALLET-ADDRESS-HERE"
-res=$(curl -s 'https://explorer.grlc-bakery.fun/ext/getbalance/'$address)
+res="$(curl -s 'https://explorer.grlc-bakery.fun/ext/getbalance/'"$address")"
 
 echo "$(printf '%.1f' "$res") ₲"
 echo "---"
