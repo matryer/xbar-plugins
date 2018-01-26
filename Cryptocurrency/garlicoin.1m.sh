@@ -11,8 +11,8 @@
 address="INSERT-YOUR-WALLET-ADDRESS-HERE"
 res=$(curl -s 'https://explorer.grlc-bakery.fun/ext/getbalance/'$address)
 
-echo $(printf '%.1f' $res) ₲
+echo "$(printf '%.1f' $res) ₲"
 echo "---"
-echo $res Garlicoins
+echo "$res Garlicoins"
 
 # GPuEScAvXJvviVMaTH2xg4KPgPDD52AK1M if you want to donate some of that sweet sweet garlic
