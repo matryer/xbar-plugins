@@ -4,7 +4,7 @@
 #
 # by Max Clayton Clowes (maxcc@me.com)
 #
-# Shows tasks due Today. Find/replace "Today" with a list of your choice - e.g "Inbox"
+# Shows tasks due Today. Find/replace "Inbox" with a list of your choice - e.g "Today"
 # 60 second refresh might be too slow. Tweak to your liking.
 
 # metadata
@@ -33,7 +33,7 @@ case "$1" in
 esac
 
 if [ "$1" = 'complete' ]; then
-  tellthings "set toDo to to do named \"$2\" of list \"Today\"
+  tellthings "set toDo to to do named \"$2\" of list \"Inbox\"
 	set status of toDo to completed
 	delay 1.3"
   exit
@@ -51,11 +51,11 @@ echo "☑"
 
 echo "---"
 
-echo "Today..."
+echo "Inbox..."
 
 items=$(tellthings 'set the_list to {}
-repeat with n from 1 to count of to dos of list "Today"
-	set toDo to item n of to dos of list "Today"
+repeat with n from 1 to count of to dos of list "Inbox"
+	set toDo to item n of to dos of list "Inbox"
 	set toDoName to name of toDo
 	if status of toDo = open then
 		set the_list to the_list & toDoName
