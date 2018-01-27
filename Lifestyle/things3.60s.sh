@@ -14,7 +14,7 @@
 # <bitbar.author>Max Clayton Clowes</bitbar.author>
 # <bitbar.author.github>mcclowes</bitbar.author.github>
 # <bitbar.desc>Display tasks due today in Things 3.</bitbar.desc>
-# <bitbar.image>https://imgur.com/2IvhNws</bitbar.image>
+# <bitbar.image>https://i.imgur.com/2IvhNws.png</bitbar.image>
 
 function tellthings() {
 	osascript -e "tell application \"Things3\" 
