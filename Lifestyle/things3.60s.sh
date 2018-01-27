@@ -4,8 +4,9 @@
 #
 # by Max Clayton Clowes (maxcc@me.com)
 #
-# Shows tasks due Today. Find/replace "Inbox" with a list of your choice - e.g "Today"
+# Shows tasks due Today. Find/replace "Today" with a list of your choice - e.g "Inbox"
 # 60 second refresh might be too slow. Tweak to your liking.
+# Only shows 20 todos - too many stops todos from being completed
 
 # metadata
 # <bitbar.title>Things tasks</bitbar.title>
@@ -33,7 +34,7 @@ case "$1" in
 esac
 
 if [ "$1" = 'complete' ]; then
-  tellthings "set toDo to to do named \"$2\" of list \"Inbox\"
+  tellthings "set toDo to to do named \"$2\" of list \"Today\"
 	set status of toDo to completed
 	delay 1.3"
   exit
@@ -51,15 +52,18 @@ echo "☑"
 
 echo "---"
 
-echo "Inbox..."
+echo "Today..."
 
 items=$(tellthings 'set the_list to {}
-repeat with n from 1 to count of to dos of list "Inbox"
-	set toDo to item n of to dos of list "Inbox"
+repeat with n from 1 to count of to dos of list "Today"
+	set toDo to item n of to dos of list "Today"
 	set toDoName to name of toDo
 	if status of toDo = open then
 		set the_list to the_list & toDoName
 	end if
+  if n > 20 then
+    return the_list
+  end if
 end repeat
 return the_list');
 
@@ -68,6 +72,8 @@ for i in $items; do
   i="${i#'${i%%[![:space:]]*}'}"
 	echo "☐ $i | bash='$0' param1='complete' param2='$i' terminal=false"
 done
+
+echo "View more... | color=#aaaaaa bash='$0' param1=launch terminal=false"
 
 echo "---"
 
