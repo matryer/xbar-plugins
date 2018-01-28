@@ -10,7 +10,7 @@
 
 # metadata
 # <bitbar.title>Things tasks</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
+# <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Max Clayton Clowes</bitbar.author>
 # <bitbar.author.github>mcclowes</bitbar.author.github>
 # <bitbar.desc>Display tasks due today in Things 3.</bitbar.desc>
@@ -69,7 +69,6 @@ return the_list');
 
 IFS=","
 for i in $items; do
-  i="${i#'${i%%[![:space:]]*}'}"
 	echo "☐ $i | bash='$0' param1='complete' param2='$i' terminal=false"
 done
 
