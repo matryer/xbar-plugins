@@ -88,7 +88,7 @@ echo '---'
 echo "Open | href=${HOST}"
 echo "State: $state"
 echo "Uptime: ${uptime_d}d ${uptime_h}h ${uptime_m}m"
-printf "CPU: %.*f%%\n" 2 "$cpu"
+printf "CPU: %.*f%%\\n" 2 "$cpu"
 echo '---'
 
 echo "Connections"
