@@ -7,7 +7,7 @@
 # <bitbar.desc>Shows your current Garlicoin balance.</bitbar.desc>
 # <bitbar.image>https://raw.githubusercontent.com/ferdizz/files/master/garlic-screenshot.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
- 
+
 balance=0
 
 declare -a addresses=(
