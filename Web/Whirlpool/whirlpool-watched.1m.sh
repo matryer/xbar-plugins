@@ -30,6 +30,6 @@ puts '---'
 watched.each do |thread|
   last_post_time = Time.parse(thread['LAST_DATE']).getlocal
   last_post_time_minutes = ((Time.now - last_post_time) / 60).round
-  href = "https://forums.whirlpool.net.au/forum-replies.cfm?t=#{thread['ID']}&p=#{thread['LASTPAGE']}"
+  href = "https://forums.whirlpool.net.au/forum-replies.cfm?t=#{thread['ID']}&p=#{thread['LASTPAGE']}&#r#{thread['LASTREAD']}"
   puts "#{thread['TITLE']} -- #{last_post_time_minutes} mins ago | href=#{href}"
 end
