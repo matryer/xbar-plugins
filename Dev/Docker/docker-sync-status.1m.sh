@@ -12,7 +12,6 @@
 #
 # by Brendan Shanny
 #
-#
 # To get started, create a new text file in your project tree that docker-sync will watch
 # then edit the docker_log and docker_checker vars below to be the paths to your
 # docker_sync daemon.log and the newly created text file.
