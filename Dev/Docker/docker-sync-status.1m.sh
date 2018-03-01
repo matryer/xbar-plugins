@@ -48,6 +48,6 @@ else
   sync_status=$success_status
   sync_message=$success_message
 fi
-echo $sync_status
+echo "$sync_status"
 echo "---"
-echo $sync_message
+echo "$sync_message"
