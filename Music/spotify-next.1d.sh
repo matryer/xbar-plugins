@@ -7,7 +7,7 @@
 # <bitbar.title>Spotify "Next track" button</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Aleksei Sotnikov</bitbar.author>
-# <bitbar.author.github>asotnikov</bitbar.author.github>
+# <bitbar.author.github>alekseysotnikov</bitbar.author.github>
 # <bitbar.desc>Switch Spotify to the next track in one click. Or you can easily reconfigure it for switching to the previous track.</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/523Eszv.png</bitbar.image>
 
