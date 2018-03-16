@@ -14,10 +14,6 @@ import os, shutil, subprocess, sys
 CUR_PATH = os.path.expanduser('~/.quodlibet/current')
 CONTROL_PATH = os.path.expanduser('~/.quodlibet/control')
 
-if not os.path.exists(CUR_PATH):
-  print("")
-  sys.exit()
-
 def get_current():
   with open(CUR_PATH, 'r') as cur:
     lines = cur.readlines()
@@ -33,8 +29,9 @@ def run_cmd(cmd_in):
       subprocess.check_output('mv "{}" {}'.format(
         status['filename'], os.path.expanduser('~/.Trash/')), shell=True)
   elif cmd_in == 'menu-previous':
-      run_cmd('previous')
-      run_cmd('previous')
+      run_cmd('force-previous')
+  elif cmd_in == 'open-ql':
+    subprocess.check_output('open -a QuodLibet', shell=True)
   else:
     subprocess.check_output('echo {} > {}'.format(cmd_in, CONTROL_PATH), shell=True)
 
@@ -42,7 +39,21 @@ def cmd(phrase, param1):
   return '{} | bash={} param1={} terminal=false'.format(
     phrase, sys.argv[0], param1) 
 
-if len(sys.argv) == 1:
+if len(sys.argv) == 2:
+    run_cmd(sys.argv[1])
+else:
+  if not os.path.exists(CUR_PATH) and not os.path.exists(CONTROL_PATH):
+    print('♫')
+    print('---')
+    print(cmd('Open Quod Libet', 'open-ql'))
+    sys.exit()
+
+  if not os.path.exists(CUR_PATH):
+    print('♫')
+    print('---')
+    print(cmd('Show window', 'focus'))
+    sys.exit()
+
   status = get_current()
 
   print('♫ {} - {} | length=30'.format(
@@ -56,5 +67,3 @@ if len(sys.argv) == 1:
   print(cmd('Previous', 'menu-previous'))
   print('---')
   print(cmd('Delete', 'delete'))
-elif len(sys.argv) > 1:
-    run_cmd(sys.argv[1])
