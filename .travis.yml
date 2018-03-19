@@ -6,14 +6,15 @@ before_install:
   - rvm use 2.0.0-p648
   - brew update
   - brew outdated python || brew upgrade python
+  - brew install python@2
   - pip2 install pyflakes
+  - pip3 install pyflakes
   - gem install rubocop -v 0.50.0 --no-document
   - brew install shellcheck
   - brew outdated node || brew upgrade node
   - npm install -g jshint
   - brew install cpanminus && sudo cpanm Mozilla::CA
   - brew install clisp
-  - brew install python3 && pip3 install pyflakes
   - brew outdated golang || brew upgrade golang
   - go get -u github.com/golang/lint/golint
   - brew cask install racket
