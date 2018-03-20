@@ -1,0 +1,363 @@
+Metadata-Version: 2.0
+Name: bintrees
+Version: 2.0.7
+Summary: Package provides Binary-, RedBlack- and AVL-Trees in Python and Cython.
+Home-page: https://github.com/mozman/bintrees.git
+Author: mozman
+Author-email: mozman@gmx.at
+License: MIT License
+Download-URL: https://github.com/mozman/bintrees/releases
+Platform: OS Independent
+Classifier: Development Status :: 6 - Mature
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Cython
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+
+Binary Tree Package
+===================
+
+Bintrees Development Stopped
+----------------------------
+
+Use `sortedcontainers` instead: https://pypi.python.org/pypi/sortedcontainers
+
+see also PyCon 2016 presentation: https://www.youtube.com/watch?v=7z2Ki44Vs4E
+
+Advantages:
+
+    - pure Python no Cython/C dependencies
+    - faster
+    - active development
+    - more & better testing/profiling
+
+Abstract
+========
+
+This package provides Binary- RedBlack- and AVL-Trees written in Python and Cython/C.
+
+This Classes are much slower than the built-in *dict* class, but all
+iterators/generators yielding data in sorted key order. Trees can be
+uses as drop in replacement for *dicts* in most cases.
+
+Source of Algorithms
+--------------------
+
+AVL- and RBTree algorithms taken from Julienne Walker: http://eternallyconfuzzled.com/jsw_home.aspx
+
+Trees written in Python
+-----------------------
+
+    - *BinaryTree* -- unbalanced binary tree
+    - *AVLTree* -- balanced AVL-Tree
+    - *RBTree* -- balanced Red-Black-Tree
+
+Trees written with C-Functions and Cython as wrapper
+----------------------------------------------------
+
+    - *FastBinaryTree* -- unbalanced binary tree
+    - *FastAVLTree* -- balanced AVL-Tree
+    - *FastRBTree* -- balanced Red-Black-Tree
+
+All trees provides the same API, the pickle protocol is supported.
+
+Cython-Trees have C-structs as tree-nodes and C-functions for low level operations:
+
+    - insert
+    - remove
+    - get_value
+    - min_item
+    - max_item
+    - prev_item
+    - succ_item
+    - floor_item
+    - ceiling_item
+
+Constructor
+~~~~~~~~~~~
+
+    * Tree() -> new empty tree;
+    * Tree(mapping) -> new tree initialized from a mapping (requires only an items() method)
+    * Tree(seq) -> new tree initialized from seq [(k1, v1), (k2, v2), ... (kn, vn)]
+
+Methods
+~~~~~~~
+
+    * __contains__(k) -> True if T has a key k, else False, O(log(n))
+    * __delitem__(y) <==> del T[y], del[s:e], O(log(n))
+    * __getitem__(y) <==> T[y], T[s:e], O(log(n))
+    * __iter__() <==> iter(T)
+    * __len__() <==> len(T), O(1)
+    * __max__() <==> max(T), get max item (k,v) of T, O(log(n))
+    * __min__() <==> min(T), get min item (k,v) of T, O(log(n))
+    * __and__(other) <==> T & other, intersection
+    * __or__(other) <==> T | other, union
+    * __sub__(other) <==> T - other, difference
+    * __xor__(other) <==> T ^ other, symmetric_difference
+    * __repr__() <==> repr(T)
+    * __setitem__(k, v) <==> T[k] = v, O(log(n))
+    * __copy__() -> shallow copy support, copy.copy(T)
+    * __deepcopy__() -> deep copy support, copy.deepcopy(T)
+    * clear() -> None, remove all items from T, O(n)
+    * copy() -> a shallow copy of T, O(n*log(n))
+    * discard(k) -> None, remove k from T, if k is present, O(log(n))
+    * get(k[,d]) -> T[k] if k in T, else d, O(log(n))
+    * is_empty() -> True if len(T) == 0, O(1)
+    * items([reverse]) -> generator for (k, v) items of T, O(n)
+    * keys([reverse]) -> generator for keys of T, O(n)
+    * values([reverse]) -> generator for values of  T, O(n)
+    * pop(k[,d]) -> v, remove specified key and return the corresponding value, O(log(n))
+    * pop_item() -> (k, v), remove and return some (key, value) pair as a 2-tuple, O(log(n)) (synonym popitem() exist)
+    * set_default(k[,d]) -> value, T.get(k, d), also set T[k]=d if k not in T, O(log(n)) (synonym setdefault() exist)
+    * update(E) -> None.  Update T from dict/iterable E, O(E*log(n))
+    * foreach(f, [order]) -> visit all nodes of tree (0 = 'inorder', -1 = 'preorder' or +1 = 'postorder') and call f(k, v) for each node, O(n)
+    * iter_items(s, e[, reverse]) -> generator for (k, v) items of T for s <= key < e, O(n)
+    * remove_items(keys) -> None, remove items by keys, O(n)
+
+slicing by keys
+~~~~~~~~~~~~~~~
+
+    * item_slice(s, e[, reverse]) -> generator for (k, v) items of T for s <= key < e, O(n), synonym for iter_items(...)
+    * key_slice(s, e[, reverse]) -> generator for keys of T for s <= key < e, O(n)
+    * value_slice(s, e[, reverse]) -> generator for values of T for s <= key < e, O(n)
+    * T[s:e] -> TreeSlice object, with keys in range s <= key < e, O(n)
+    * del T[s:e] -> remove items by key slicing, for s <= key < e, O(n)
+
+    start/end parameter:
+
+    * if 's' is None or T[:e] TreeSlice/iterator starts with value of min_key();
+    * if 'e' is None or T[s:] TreeSlice/iterator ends with value of max_key();
+    * T[:] is a TreeSlice which represents the whole tree;
+
+    The step argument of the regular slicing syntax T[s:e:step] will silently ignored.
+
+    TreeSlice is a tree wrapper with range check and contains no references
+    to objects, deleting objects in the associated tree also deletes the object
+    in the TreeSlice.
+
+    * TreeSlice[k] -> get value for key k, raises KeyError if k not exists in range s:e
+    * TreeSlice[s1:e1] -> TreeSlice object, with keys in range s1 <= key < e1
+        - new lower bound is max(s, s1)
+        - new upper bound is min(e, e1)
+
+    TreeSlice methods:
+
+    * items() -> generator for (k, v) items of T, O(n)
+    * keys() -> generator for keys of T, O(n)
+    * values() -> generator for values of  T, O(n)
+    * __iter__ <==> keys()
+    * __repr__ <==> repr(T)
+    * __contains__(key)-> True if TreeSlice has a key k, else False, O(log(n))
+
+prev/succ operations
+~~~~~~~~~~~~~~~~~~~~
+
+    * prev_item(key) -> get (k, v) pair, where k is predecessor to key, O(log(n))
+    * prev_key(key) -> k, get the predecessor of key, O(log(n))
+    * succ_item(key) -> get (k,v) pair as a 2-tuple, where k is successor to key, O(log(n))
+    * succ_key(key) -> k, get the successor of key, O(log(n))
+    * floor_item(key) -> get (k, v) pair, where k is the greatest key less than or equal to key, O(log(n))
+    * floor_key(key) -> k, get the greatest key less than or equal to key, O(log(n))
+    * ceiling_item(key) -> get (k, v) pair, where k is the smallest key greater than or equal to key, O(log(n))
+    * ceiling_key(key) -> k, get the smallest key greater than or equal to key, O(log(n))
+
+Heap methods
+~~~~~~~~~~~~
+
+    * max_item() -> get largest (key, value) pair of T, O(log(n))
+    * max_key() -> get largest key of T, O(log(n))
+    * min_item() -> get smallest (key, value) pair of T, O(log(n))
+    * min_key() -> get smallest key of T, O(log(n))
+    * pop_min() -> (k, v), remove item with minimum key, O(log(n))
+    * pop_max() -> (k, v), remove item with maximum key, O(log(n))
+    * nlargest(i[,pop]) -> get list of i largest items (k, v), O(i*log(n))
+    * nsmallest(i[,pop]) -> get list of i smallest items (k, v), O(i*log(n))
+
+Set methods (using frozenset)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    * intersection(t1, t2, ...) -> Tree with keys *common* to all trees
+    * union(t1, t2, ...) -> Tree with keys from *either* trees
+    * difference(t1, t2, ...) -> Tree with keys in T but not any of t1, t2, ...
+    * symmetric_difference(t1) -> Tree with keys in either T and t1  but not both
+    * is_subset(S) -> True if every element in T is in S (synonym issubset() exist)
+    * is_superset(S) -> True if every element in S is in T (synonym issuperset() exist)
+    * is_disjoint(S) ->  True if T has a null intersection with S (synonym isdisjoint() exist)
+
+Classmethods
+~~~~~~~~~~~~
+
+    * from_keys(S[,v]) -> New tree with keys from S and values equal to v. (synonym fromkeys() exist)
+
+Helper functions
+~~~~~~~~~~~~~~~~
+
+    * bintrees.has_fast_tree_support() -> True if Cython extension is working else False (False = using pure Python implementation)
+
+Installation
+============
+
+from source::
+
+    python setup.py install
+
+or from PyPI::
+
+    pip install bintrees
+
+Compiling the fast Trees requires Cython and on Windows is a C-Compiler necessary.
+
+Download Binaries for Windows
+=============================
+
+https://github.com/mozman/bintrees/releases
+
+Documentation
+=============
+
+this README.rst
+
+bintrees can be found on GitHub.com at:
+
+https://github.com/mozman/bintrees.git
+
+NEWS
+====
+
+Version 2.0.7 - 2017-04-28
+
+  * BUGFIX: foreach (pure Python implementation) works with empty trees
+  * acquire GIL for PyMem_Malloc() and PyMem_Free() calls
+
+Version 2.0.6 - 2017-02-04
+
+  * BUGFIX: correct deepcopy() for tree in tree
+
+Version 2.0.5 - 2017-02-04
+
+  * support for copy.deepcopy()
+  * changed status back to `Mature`, there will be: bugfixes, compatibility checks and simple additions like this deep
+    copy support, because I got feedback, that there are some special cases in which `bintrees` can be useful.
+  * switched development to 64bit only & MS compilers - on Windows 7 everything works fine now with CPython 2.7/3.5/3.6
+
+Repository moved to GitHub: https://github.com/mozman/bintrees.git
+
+Version 2.0.4 - 2016-01-09
+
+  * removed logging statements on import
+  * added helper function bintrees.has_fast_tree_support()
+  * HINT: pypy runs faster than CPython with Cython extension
+
+Version 2.0.3 - 2016-01-06
+
+  * replaced print function by logging.warning for import warning messages
+  * KNOWN ISSUE: unable to build Cython extension with MingW32 and CPython 3.5 & CPython 2.7.10
+
+Version 2.0.2 - 2015-02-12
+
+  * fixed foreach cython-function by Sam Yaple
+
+Version 2.0.1 - 2013-10-01
+
+  * removed __del__() method to avoid problems with garbage collection
+
+Version 2.0.0 - 2013-06-01
+
+  * API change: consistent method naming with synonyms for dict/set compatibility
+  * code base refactoring
+  * removed tree walkers
+  * removed low level node stack implementation -> caused crashes
+  * optimizations for pypy: iter_items(), succ_item(), prev_item()
+  * tested with CPython2.7, CPython3.3, pypy-2.0 on Win7 and Linux Mint 15 x64 (pypy-1.9)
+
+Version 1.0.3 - 2013-05-01
+
+  * extended iter_items(startkey=None, endkey=None, reverse=reverse) -> better performance for slicing
+  * Cython implementation of iter_items() for Fast_X_Trees()
+  * added key parameter *reverse* to itemslice(), keyslice(), valueslice()
+  * tested with CPython2.7, CPython3.3, pypy-2.0
+
+Version 1.0.2 - 2013-04-01
+
+  * bug fix: FastRBTree data corruption on inserting existing keys
+  * bug fix: union & symmetric_difference - copy all values to result tree
+
+Version 1.0.1 - 2013-02-01
+
+  * bug fixes
+  * refactorings by graingert
+  * skip useless tests for pypy
+  * new license: MIT License
+  * tested with CPython2.7, CPython3.2, CPython3.3, pypy-1.9, pypy-2.0-beta1
+  * unified line endings to LF
+  * PEP8 refactorings
+  * added floor_item/key, ceiling_item/key methods, thanks to Dai Mikurube
+
+Version 1.0.0 - 2011-12-29
+
+  * bug fixes
+  * status: 5 - Production/Stable
+  * removed useless TreeIterator() class and T.treeiter() method.
+  * patch from Max Motovilov to use Visual Studio 2008 for building C-extensions
+
+Version 0.4.0 - 2011-04-14
+
+  * API change!!!
+  * full Python 3 support, also for Cython implementations
+  * removed user defined compare() function - keys have to be comparable!
+  * removed T.has_key(), use 'key in T'
+  * keys(), items(), values() generating 'views'
+  * removed iterkeys(), itervalues(), iteritems() methods
+  * replaced index slicing by key slicing
+  * removed index() and item_at()
+  * repr() produces a correct representation
+  * installs on systems without cython (tested with pypy)
+  * new license: GNU Library or Lesser General Public License (LGPL)
+
+Version 0.3.2 - 2011-04-09
+
+  * added itemslice(startkey, endkey), keyslice(startkey, endkey),
+    valueslice(startkey, endkey) - slicing by keys
+  * tested with pypy 1.4.1, damn fast
+  * Pure Python trees are working with Python 3
+  * No Cython implementation for Python 3
+
+Version 0.3.1 - 2010-09-10
+
+  * runs with Python 2.7
+
+Version 0.3.0 - 2010-05-11
+
+  * low level functions written as c-module only interface to python is a cython
+    module
+  * support for the pickle protocol
+
+Version 0.2.1 - 2010-05-06
+
+  * added delslice del T[0:3] -> remove treenodes 0, 1, 2
+  * added discard -> remove key without KeyError if not found
+  * added heap methods: min, max, nlarges, nsmallest ...
+  * added Set methods -> intersection, differnce, union, ...
+  * added slicing: T[5:10] get items with position (not key!)  5, 6, 7, 8, 9
+          T[5] get item with key! 5
+  * added index: T.index(key) -> get position of item <key>
+  * added item_at: T.item_at(0) -> get item at position (not key!) 0
+          T.item_at(0) O(n)! <==> T.min_item() O(log(n))
+
+Version 0.2.0 - 2010-05-03
+
+  * TreeMixin Class as base for Python-Trees and as Mixin for Cython-Trees
+
+Version 0.1.0 - 2010-04-27
+
+  * Alpha status
+  * Initial release
+
+

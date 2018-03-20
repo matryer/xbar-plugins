@@ -1,0 +1,32 @@
+Metadata-Version: 2.0
+Name: gdax
+Version: 1.0.6
+Summary: The unofficial Python client for the GDAX API
+Home-page: https://github.com/danpaquin/gdax-python
+Author: Daniel Paquin
+Author-email: dpaq34@gmail.com
+License: MIT
+Download-URL: https://github.com/danpaquin/gdax-Python/archive/master.zip
+Keywords: gdax,gdax-api,orderbook,trade,bitcoin,ethereum,BTC,ETH,client,api,wrapper,exchange,crypto,currency,trading,trading-api,coinbase
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Intended Audience :: Information Technology
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Requires-Dist: bintrees (==2.0.7)
+Requires-Dist: requests (==2.13.0)
+Requires-Dist: six (==1.10.0)
+Requires-Dist: websocket-client (==0.40.0)
+
+UNKNOWN
+
+
