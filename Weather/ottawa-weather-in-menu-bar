@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# <bitbar.title>Mouse Location</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Donald G Peters</bitbar.author>
+# <bitbar.author.github>unknown</bitbar.author.github>
+# <bitbar.desc>Test</bitbar.desc>
+# <bitbar.image></bitbar.image>
+# <bitbar.abouturl></bitbar.abouturl>
+#
+# Text above --- will be cycled through in the menu bar,
+# whereas text underneath will be visible only when you
+# open the menu.
+#
+# You will have to change the URL if you don't live in Ottawa. :-) This code may be a bit sloppy but it kinda works.
+# if any of you professional coders want to enhance or fix this, feel free. But I like it.
+# Actually the last two numbers in this string are probably deg F and deg C but I wasn't sure so I left them both in.
+
+curl -s https://weather.gc.ca/city/pages/on-118_metric_e.html | awk '/Condition:/{flag=1;next}/Visibility:/{exit;flag=0}flag' | sed -e 's/<[^>]*>//g' | sed 's/&deg;/ deg /' | tr -s ' \n' | uniq | grep -v "Pressure" | grep -v "inches" | grep -v "Tendency" | grep -v "deg F" | grep -v "mph" | sed "s/Humidity:/Hum:/" | sed "s/Temperature:/Temp:/" | sed "s/ point//" | tr '\n' ' ' | tr -s " "
