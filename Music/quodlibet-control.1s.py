@@ -9,7 +9,7 @@
 # <bitbar.image>https://i.imgur.com/VA8ZEbR.png</bitbar.image>
 # <bitbar.dependencies>quodlibet, python</bitbar.dependencies>
 
-import os, shutil, subprocess, sys
+import os, subprocess, sys
 
 CUR_PATH = os.path.expanduser('~/.quodlibet/current')
 CONTROL_PATH = os.path.expanduser('~/.quodlibet/control')
