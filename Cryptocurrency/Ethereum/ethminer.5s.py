@@ -41,7 +41,6 @@ MINING_LOG_LINES_NUMBER = "10" # MUST BE LARGER THAN 0
 ##############################################################################
 
 import re
-import sys
 import psutil
 import subprocess
 
