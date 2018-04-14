@@ -16,7 +16,7 @@ require 'wunderground'
 # script.
 #
 # <bitbar.title>Weather Underground</bitbar.title>
-# <bitbar.version>v1.2.2</bitbar.version>
+# <bitbar.version>v1.2.3</bitbar.version>
 # <bitbar.author>Adam Snodgrass</bitbar.author>
 # <bitbar.author.github>asnodgrass</bitbar.author.github>
 # <bitbar.desc>Current weather conditions from the Weather Underground. Requires an API key from http://www.wunderground.com/weather/api. Supports automatic location by IP, and units are configurable (SI vs imperial).</bitbar.desc>
