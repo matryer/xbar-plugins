@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # <bitbar.title>Show hidden files in Finder</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
+# <bitbar.version>v0.2</bitbar.version>
 # <bitbar.author>Thomas Kurz</bitbar.author>
 # <bitbar.author.github>dashorty</bitbar.author.github>
 # <bitbar.desc>Show hidden files in Finder</bitbar.desc>
