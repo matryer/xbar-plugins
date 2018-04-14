@@ -87,6 +87,11 @@ class WeatherPlugin
     puts '---'
     puts e
     exit
+  rescue => error
+    puts '🛰️'
+    puts '---'
+    puts 'Unknown error retrieving weather'
+    exit
   end
 
   def header(cond)
