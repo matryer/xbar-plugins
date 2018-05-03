@@ -9,7 +9,6 @@
 # <bitbar.dependencies>python2l</bitbar.dependencies>
 
 import datetime
-import platform
 from calendar import monthrange, isleap
 
 now = datetime.datetime.now()
