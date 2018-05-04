@@ -9,15 +9,16 @@
 // <bitbar.image>https://i.imgur.com/BxHFJMn.png</bitbar.image>
 
 
+/*jshint esversion: 6 */
+
+
 
 //👋👋👋 Feel free to change the following varaibles to best suit your needs.
 var upMessage = '✅(Yes)';
 var unknownMessage = '⚠️(Error, click for details)';
 var downMessage = '🔥(No)';
 var website = "www.google.com";
-
 //<--- DO NOT EDIT THE CODE BELOW THIS LINE. --->
-
 
 
 
@@ -91,5 +92,3 @@ function getMessage(status){
     return unknownMessage;
   }
 }
-
-/*jshint esversion: 6 */
