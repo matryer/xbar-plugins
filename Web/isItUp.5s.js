@@ -20,7 +20,7 @@ var website = "www.google.com";
 
 
 
-
+/*jshint esversion: 6 */
 const https = require('https');
 
 renderPlugin();
@@ -43,7 +43,7 @@ function renderPlugin(){
     }
     console.log("---");
     console.log("Powered by \"isitdown.site\". [Click to visit site] |href=https://isitdown.site color:green");
-    console.log("For more information please see the github repository. [Click to visit site] |href=https://github.com/ZacharyDavidSaunders/IsItUp-BitBarPlugin color:green")
+    console.log("For more information please see the github repository. [Click to visit site] |href=https://github.com/ZacharyDavidSaunders/IsItUp-BitBarPlugin color:green");
     console.log("---");
     console.log("(© Zachary David Saunders 2018) | size:10");
   });
