@@ -20,7 +20,7 @@ var website = "www.google.com";
 
 
 
-/*jshint esversion: 6 */
+
 const https = require('https');
 
 renderPlugin();
@@ -91,3 +91,5 @@ function getMessage(status){
     return unknownMessage;
   }
 }
+
+/*jshint esversion: 6 */
