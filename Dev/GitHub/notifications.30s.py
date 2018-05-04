@@ -100,6 +100,7 @@ def format_notification( notification ):
     }
     if len(formatted['title']) > 90:
         formatted['title'] = formatted['title'][:79] + '…'
+    formatted['title'] = formatted['title'].replace('|','-')
     latest_comment_url = notification.get( 'subject', {} ).get( 'latest_comment_url', None )
     typejson = make_github_request( formatted['href'] )
     if latest_comment_url:
