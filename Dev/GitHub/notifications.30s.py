@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>GitHub Notifications</bitbar.title>
-# <bitbar.version>v3.0.0</bitbar.version>
+# <bitbar.version>v3.0.1</bitbar.version>
 # <bitbar.author>Keith Cirkel, John Flesch</bitbar.author>
 # <bitbar.author.github>flesch</bitbar.author.github>
 # <bitbar.desc>GitHub (and GitHub:Enterprise) notifications in your menu bar!</bitbar.desc>
