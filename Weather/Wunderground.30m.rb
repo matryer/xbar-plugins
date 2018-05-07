@@ -87,7 +87,7 @@ class WeatherPlugin
     puts '---'
     puts e
     exit
-  rescue => error
+  rescue => _
     puts '🛰️'
     puts '---'
     puts 'Unknown error retrieving weather'
