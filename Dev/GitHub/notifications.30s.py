@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>GitHub Notifications</bitbar.title>
-# <bitbar.version>v3.0.0</bitbar.version>
-# <bitbar.author>Keith Cirkel, John Flesch</bitbar.author>
+# <bitbar.version>v3.0.2</bitbar.version>
+# <bitbar.author>Matt Sephton, Keith Cirkel, John Flesch</bitbar.author>
 # <bitbar.author.github>flesch</bitbar.author.github>
 # <bitbar.desc>GitHub (and GitHub:Enterprise) notifications in your menu bar!</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/hW7dw9E.png</bitbar.image>
@@ -100,6 +100,7 @@ def format_notification( notification ):
     }
     if len(formatted['title']) > 90:
         formatted['title'] = formatted['title'][:79] + '…'
+    formatted['title'] = formatted['title'].replace('|','-')
     latest_comment_url = notification.get( 'subject', {} ).get( 'latest_comment_url', None )
     typejson = make_github_request( formatted['href'] )
     if latest_comment_url:
@@ -119,6 +120,7 @@ def format_notification( notification ):
     elif (type == 'RepositoryInvitation'):
         formatted['image'] = 'iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAAAXNSR0IArs4c6QAAAM1JREFUKBWVkD0OQUEUhcdv/ASJn55SyxLoVBJq8tZjBRQsgkZiAQoqOiQ2oFc935nMvLxEXsRJPufOufe+kTHGmBeEf3Jg3i4t8IwOP6QZzeoi+3PFt1BRkKAq+Q4uEKbdUA+/wxm6LoubshPcoO8b9lp3GOMPGPomPoInqOcV/VUfyKfwhsChegJxfS3O6R5hALpFqFY2A69osUyygT3UQOpAWwVSpt4aShAt6lWXkIUk5WiswL5qiqIODdBz6+ZirM67cwFvulwfaH0AC7M1lHL62U4AAAAASUVORK5CYII=';
         formatted['templateImage'] = formatted.pop('image');
+        formatted['href'] = 'https://github.com/{}/invitations'.format(notification['repository']['full_name'])
     elif (type == 'Issue'):
         if typejson and typejson['state'] == 'closed':
             formatted['image'] += 'YpJREFUKJGdkj9I23EQxT93SZrJQYNQ6Bo65BtQcHRpSeyUuQqNWx2ti7qJRpqhUxGX0lGhlXQ0uJhfU7cOLm3+QKCzoIjoJpp8z0HT/BpJBd90HO/dvTsePBLS36iM8Uw6vANyQNJ7RJU/wG7nmo1XLY7uCStp8uL5BJwgbJtRU8E8jImR98qoGHPZBjsSFhlsCRQjCQovD2iHhx5OEDu/ZF2E5Y4wLn/tXdMy5WO2zkqXHKQxgEy95+y7Y1KMXwogbeaBk0iCwqBn7DteAJym+NmBnSiAF3IK2/32wiIVqoGjYE1GRMlGARSSZtQGbZtq8CNwFBBWDUxgJjqI3I9Mg7XAgRoXmSYlACqOWuAG39ePimNB7+oyxuzhBLEwIUhj3c92sZckLsaSAvg2m14ZPb98eGs8ThFlqBcAx4wJX8T4cGasvm5yFRaUUjwZUd4bLKow/W/kbsWfgTMxvorxmwhtjHEPbxSGEd5many7F/JqiqdemceT88rzu3ZLoWywma1z/NA5/8UNNkSJCdaYQF4AAAAASUVORK5CYII='
