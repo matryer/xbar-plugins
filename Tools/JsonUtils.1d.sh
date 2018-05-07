@@ -5,21 +5,21 @@
 # by Cnfn (http://github.com/cnfn)
 #
 # <bitbar.title>JSON Utils</bitbar.title>
-# <bitbar.version>v1.3</bitbar.version>
+# <bitbar.version>v1.4</bitbar.version>
 # <bitbar.author>Cnfn</bitbar.author>
 # <bitbar.author.github>cnfn</bitbar.author.github>
-# <bitbar.desc>Validate, format and compact JSON entity from clipboard and then write to clipboard. More info: https://github.com/cnfn/BitBarPlugin-JsonUtils</bitbar.desc>
+# <bitbar.desc>Validate, format and compact JSON entity from clipboard and then write to clipboard. More info: https://github.com/cnfn/BitBarPlugins/tree/master/JsonUtils</bitbar.desc>
 # <bitbar.image>https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_json_utils_main.png</bitbar.image>
 # <bitbar.dependencies>bash,jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cnfn/BitBarPlugin-JsonUtils</bitbar.abouturl>
+# <bitbar.abouturl>https://github.com/cnfn/BitBarPlugins/tree/master/JsonUtils</bitbar.abouturl>
 #
 # Dependencies:
 #   jq (https://stedolan.github.io/jq/)
 
 export PATH=$PATH:/usr/local/bin
 
-# default env is UTF-8, avoid garble
-export LANG=en_US.UTF-8
+# Hack for language not being set properly and unicode support
+export LANG="${LANG:-en_US.UTF-8}"
 
 notifyTitle="JsonUtils"
 notifyValidJson="Valid JSON, type:"

@@ -28,14 +28,12 @@ def get_edd():
   if api_key == "":
     return False
 
-  edd_earnings = json.load( urllib2.urlopen( domain + '/edd-api/stats/?key=' + api_key + '&token=' + api_token + '&type=earnings' ) )
-  edd_sales = json.load( urllib2.urlopen( domain + '/edd-api/stats/?key=' + api_key + '&token=' + api_token + '&type=sales' ) )
+  opener = urllib2.build_opener()
+  opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+  edd_stats = json.load( opener.open( domain + '/edd-api/stats/?key=' + api_key + '&token=' + api_token ) )
 
   try:
-    response = {
-        'earnings': edd_earnings['earnings'],
-        'sales': edd_sales['sales']
-    }
+    response = edd_stats
   except KeyError:
     return False
 
@@ -52,13 +50,13 @@ try:
   last_month = now.replace(day=1) - timedelta(days=1)
   days_last_month = calendar.monthrange(last_month.year, last_month.month)[1]
 
-  print 'Today: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['today'], float(edd_data['sales']['today']) )
+  print 'Today: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['stats']['earnings']['today'], float(edd_data['stats']['sales']['today']) )
   print '---' # Show each of the next lines in a drop-down
-  print 'Current Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['current_month'], float(edd_data['sales']['current_month']))
-  print '${0:,.2f} daily average, ${1:,.2f} ASP'.format( float( edd_data['earnings']['current_month'] / days_so_far ), float(edd_data['earnings']['current_month'] / int(edd_data['sales']['current_month'])))
-  print 'Last Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['earnings']['last_month'], float(edd_data['sales']['last_month']) )
-  print '${0:,.2f} daily average, ${1:,.2f} ASP'.format( float(edd_data['earnings']['last_month'] / days_last_month), float(edd_data['earnings']['last_month'] / int(edd_data['sales']['last_month'])))
-  print 'Total: ${0:,.2f} from {1:,.0f} sales'.format(edd_data['earnings']['totals'], float(edd_data['sales']['totals']))
+  print 'Current Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['stats']['earnings']['current_month'], float(edd_data['stats']['sales']['current_month']))
+  print '${0:,.2f} daily average, ${1:,.2f} ASP'.format( float( edd_data['stats']['earnings']['current_month'] / days_so_far ), float(edd_data['stats']['earnings']['current_month'] / int(edd_data['stats']['sales']['current_month'])))
+  print 'Last Month: ${0:,.2f} from {1:,.0f} sales'.format( edd_data['stats']['earnings']['last_month'], float(edd_data['stats']['sales']['last_month']) )
+  print '${0:,.2f} daily average, ${1:,.2f} ASP'.format( float(edd_data['stats']['earnings']['last_month'] / days_last_month), float(edd_data['stats']['earnings']['last_month'] / int(edd_data['stats']['sales']['last_month'])))
+  print 'Total: ${0:,.2f} from {1:,.0f} sales'.format(edd_data['stats']['earnings']['totals'], float(edd_data['stats']['sales']['totals']))
 
 except Exception as inst:
   print 'Error fetching stats'
