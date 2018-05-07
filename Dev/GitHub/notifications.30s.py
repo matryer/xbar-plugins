@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>GitHub Notifications</bitbar.title>
-# <bitbar.version>v3.0.0</bitbar.version>
+# <bitbar.version>v3.0.1</bitbar.version>
 # <bitbar.author>Keith Cirkel, John Flesch</bitbar.author>
 # <bitbar.author.github>flesch</bitbar.author.github>
 # <bitbar.desc>GitHub (and GitHub:Enterprise) notifications in your menu bar!</bitbar.desc>
@@ -100,6 +100,7 @@ def format_notification( notification ):
     }
     if len(formatted['title']) > 90:
         formatted['title'] = formatted['title'][:79] + '…'
+    formatted['title'] = formatted['title'].replace('|','-')
     latest_comment_url = notification.get( 'subject', {} ).get( 'latest_comment_url', None )
     typejson = make_github_request( formatted['href'] )
     if latest_comment_url:
