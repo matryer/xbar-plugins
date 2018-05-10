@@ -52,7 +52,7 @@ function renderPlugin(){
           console.log("---");
           console.log("Refresh|refresh=true");
           console.log("---");
-          console.log("More Channel Statistics")
+          console.log("More Channel Statistics");
           console.log("-- Total Number Of Videos: "+formattedArrayOfStats[3]);
           console.log("-- Total Number Of Views: "+formattedArrayOfStats[1]);
           console.log("-- Total Number Of Comments: "+formattedArrayOfStats[2]);
