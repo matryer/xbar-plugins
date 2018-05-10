@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>YouTube Ticker</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
+// <bitbar.version>v1.1</bitbar.version>
 // <bitbar.author>Zachary David Saunders</bitbar.author>
 // <bitbar.author.github>ZacharyDavidSaunders</bitbar.author.github>
 // <bitbar.desc>A MacOs Menu Bar (BitBar) plugin that displays your YouTube subscriber count.</bitbar.desc>
@@ -19,7 +19,7 @@ const color = "white";
 //<--- DO NOT EDIT THE CODE BELOW THIS LINE. --->
 const https = require('https');
 const warningIcon = '⚠️';
-const version = "v1.0";
+const version = "v1.1";
 const setupVideoLink = "https://www.youtube.com/watch?v=DYpf6gyd-bs";
 const googleCloudPlatformSite = "http://console.developers.google.com";
 
@@ -46,12 +46,17 @@ function renderPlugin(){
     console.log("Refresh|refresh=true");
   }else{
     getChannelId(function(id){
-      getChannelSubscribers(id,function(numberOfSubs){
-        addCommas(numberOfSubs, function(formattedNumberOfSubs){
-          console.log(channelName + ": "+formattedNumberOfSubs+" Subscribers| color="+color+" image="+ youTubeIcon);
+      getChannelStatistics(id,function(arrayOfStats){
+        addCommas(arrayOfStats, function(formattedArrayOfStats){
+          console.log(channelName + ": "+formattedArrayOfStats[0]+" Subscribers| color="+color+" image="+ youTubeIcon);
           console.log("---");
           console.log("Refresh|refresh=true");
-          console.log("Channel ID: "+ id);
+          console.log("---");
+          console.log("More Channel Statistics")
+          console.log("-- Total Number Of Videos: "+formattedArrayOfStats[3]);
+          console.log("-- Total Number Of Views: "+formattedArrayOfStats[1]);
+          console.log("-- Total Number Of Comments: "+formattedArrayOfStats[2]);
+          console.log("-- Channel ID: "+ id);
           console.log("---");
           console.log("Visit "+channelName+"'s channel. [Click to visit YouTube channel]|href=https://www.youtube.com/user/"+channelName);
           console.log("Visit "+channelName+"'s Social-Blade page. [Click to visit site]|href=https://socialblade.com/youtube/user/"+channelName);
@@ -84,8 +89,8 @@ function getChannelId(callback){
     });
 }
 
-function getChannelSubscribers(channelId,callback){
-  var numberOfSubs;
+function getChannelStatistics(channelId,callback){
+  var arrayOfStats = [];
   https.get('https://www.googleapis.com/youtube/v3/channels?part=statistics&id='+channelId+'&key='+key, (resp) => {
     var data = '';
     resp.on('data', (chunk) => {
@@ -94,8 +99,12 @@ function getChannelSubscribers(channelId,callback){
 
     resp.on('end', () => {
         var response = JSON.parse(data);
-        numberOfSubs = response.items[0].statistics.subscriberCount;
-        callback(numberOfSubs);
+        var numberOfSubs = response.items[0].statistics.subscriberCount;
+        var numberOfViews = response.items[0].statistics.viewCount;
+        var numberOfComments = response.items[0].statistics.commentCount;
+        var numberOfVideos = response.items[0].statistics.videoCount;
+        arrayOfStats.unshift(numberOfSubs,numberOfViews,numberOfComments,numberOfVideos);
+        callback(arrayOfStats);
       });
 
     }).on("error", (err) => {
@@ -103,7 +112,9 @@ function getChannelSubscribers(channelId,callback){
     });
 }
 
-function addCommas(numberWithoutCommas,callback){
-  var numberWithCommas = numberWithoutCommas.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  callback(numberWithCommas);
+function addCommas(statisticArray,callback){
+  for(var i =0; i < statisticArray.length; i++){
+    statisticArray[i] = statisticArray[i].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  callback(statisticArray);
 }
