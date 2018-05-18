@@ -29,7 +29,6 @@ require 'pathname'
 puts 'run-fastlane'
 
 puts '---'
-# puts commands
 
 configs.each do |item|
   command = "cd #{item['path']} && "
