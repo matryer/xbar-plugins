@@ -19,6 +19,7 @@ APPCENTER_API_TOKEN = 'XXXXXXXXXXXXXXXXXXXXXXXX'.freeze
 
 # ----------------------------IGNORE THE LINES BELOW THIS---------------------
 
+# ----------------------------IGNORE THE LINES BELOW THIS----------------------------
 class Appcenter
   def self.list_apps
     url = URI('https://api.appcenter.ms/v0.1/apps/')
@@ -34,8 +35,8 @@ class Appcenter
     apps
   end
 
-  def self.app_status(owner, app_id)
-    url = URI("https://api.appcenter.ms/v0.1/apps/#{owner}/#{app_id}/branches/master/builds")
+  def self.branches(owner, app_id)
+    url = URI("https://api.appcenter.ms/v0.1/apps/#{owner}/#{app_id}/branches")
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
@@ -59,11 +60,17 @@ apps.each do |app|
   app_id = app['name']
   owner = app['owner']['name']
   image_url = app['icon_url']
+  # puts "calling: #{app_id}"
+  branches = Appcenter.branches(owner, app_id)
+  if branches.is_a?(Array)
+    branches = branches.select { |branch| branch['branch']['name'] == 'master' }
+  end
 
-  status = Appcenter.app_status(owner, app_id)
+  # require 'pry'
+  # binding.pry
   color = '#000000'
-  if status.count > 0 && status.is_a?(Array)
-    status_string = status.first['result']
+  if branches.count > 0 && branches.is_a?(Array) && !branches.first['lastBuild'].nil?
+    status_string = branches.first['lastBuild']['status']
     color = '#ff0000' if status_string == 'failed'
   else
     color = 'gray'
@@ -73,7 +80,7 @@ apps.each do |app|
     puts "#{app_name} (#{owner}) | href=https://appcenter.ms/orgs/#{owner}/apps/#{app_name}/build/branches color=#{color}"
   else
     # TODO: Fix the image not showing issue
-    image = Base64.encode64(open(image_url, &:read))
+    # image = Base64.encode64(open(image_url, &:read))
     puts "#{app_name} (#{owner}) | href=https://appcenter.ms/orgs/#{owner}/apps/#{app_name}/build/branches color=#{color}"
   end
 end
