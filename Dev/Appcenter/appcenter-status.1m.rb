@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+# <bitbar.title>Appcenter Status</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Rishabh Tayal</bitbar.author>
+# <bitbar.desc>Get status for all your Appcenter apps</bitbar.desc>
+# <bitbar.author.github>rishabhtayal</bitbar.author.github>
+# <bitbar.dependencies>ruby</bitbar.dependencies>
+
 require 'json'
 require 'uri'
 require 'net/http'
@@ -10,7 +17,8 @@ require 'base64'
 
 APPCENTER_API_TOKEN = 'XXXXXXXXXXXXXXXXXXXXXXXX'.freeze
 
-# ----------------------------IGNORE THE LINES BELOW THIS----------------------------
+# ----------------------------IGNORE THE LINES BELOW THIS---------------------
+
 class Appcenter
   def self.list_apps
     url = URI('https://api.appcenter.ms/v0.1/apps/')
