@@ -62,7 +62,7 @@ for group, values in checks.items():
     for v in values:
         try:
             jsondata = getData(group[:-1], v)
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.ConnectionError:
             errOut("Unable to connect to %s" % NAGIOS_HOST)
         for service in jsondata:
             dns_name = service['host_name'].split('.')
