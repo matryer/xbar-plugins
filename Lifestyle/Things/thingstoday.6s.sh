@@ -9,11 +9,11 @@
 # Only shows 20 todos - too many stops todos from being completed
 
 # metadata
-# <bitbar.title>Things - View Today</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
+# <bitbar.title>Things 3 Today</bitbar.title>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Max Clayton Clowes</bitbar.author>
 # <bitbar.author.github>mcclowes</bitbar.author.github>
-# <bitbar.desc>Display tasks due Today in Things 3.</bitbar.desc>
+# <bitbar.desc>Display tasks due today in Things 3.</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/2IvhNws.png</bitbar.image>
 
 function tellthings() {
@@ -70,13 +70,13 @@ return targetList');
 IFS=","
 for i in $items; do
 	IFS="|";
-	set -- $i;
+	set "--" $i;
 	if [ "$2" = "open" ]; then
 		name="☐ ${1}";
 	else 
 		name="☑ ${1}";
 	fi
-	echo "${name} | bash=$0 param1=complete param2='$1' terminal=false"
+	echo "${name} | bash=$0 param1=complete param2='${1}' terminal=false"
 done
 
 echo "View more... | color=#aaaaaa bash='$0' param1=launch terminal=false"
