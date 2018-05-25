@@ -77,10 +77,10 @@ try:
     transfers = json.loads(str(r.content,encoding='utf-8'))['transfers']
     r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
     info = json.loads(str(r.content,encoding='utf-8'))['info']
-except requests.exceptions.ConnectionError as msg:
+except requests.exceptions.ConnectionError:
     print('Error connecting to put.io | color=red')
     sys.exit()
-except json.decoder.JSONDecodeError as msg:
+except json.decoder.JSONDecodeError:
     print('JSON Error: see /tmp/putio.log | color=red')
     with open('/tmp/putio.log', 'w') as fh:
         fh.write(str(r.content,encoding='utf-8'))
