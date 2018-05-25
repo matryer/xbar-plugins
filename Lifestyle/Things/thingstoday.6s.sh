@@ -10,7 +10,7 @@
 
 # metadata
 # <bitbar.title>Things - View Today</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Max Clayton Clowes</bitbar.author>
 # <bitbar.author.github>mcclowes</bitbar.author.github>
 # <bitbar.desc>Display tasks due Today in Things 3.</bitbar.desc>
@@ -54,28 +54,29 @@ echo "---"
 
 echo "Today..."
 
-items=$(tellthings 'set the_list to {}
+items=$(tellthings 'set targetList to {}
 repeat with n from 1 to count of to dos of list "Today"
 	set toDo to item n of to dos of list "Today"
 	if activation date of toDo is equal to missing value then
 	else
-		set toDoName to name of toDo
-		if status of toDo = open then
-			set toDoOutput to "☐" & " " & toDoName
-		else
-			set toDoOutput to "☑" & " " & toDoName
-		end if
-		set the_list to the_list & toDoOutput
+		copy name of toDo & "|" & status of toDo to the end of the targetList
 	end if
 	if n > 20 then
-		return the_list
+		return targetList
 	end if
 end repeat
-return the_list');
+return targetList');
 
 IFS=","
 for i in $items; do
-	echo "$i | bash='$0' param1='complete' param2='$i' terminal=false"
+	IFS="|";
+	set -- $i;
+	if [ "$2" = "open" ]; then
+		name="☐ ${1}";
+	else 
+		name="☑ ${1}";
+	fi
+	echo "${name} | bash=$0 param1=complete param2='$1' terminal=false"
 done
 
 echo "View more... | color=#aaaaaa bash='$0' param1=launch terminal=false"
