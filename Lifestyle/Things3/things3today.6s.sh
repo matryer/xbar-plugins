@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Show tasks due Today in Things 3
+# Show tasks due Today in Things
 #
 # by Max Clayton Clowes (maxcc@me.com)
 #
@@ -9,16 +9,16 @@
 # Only shows 20 todos - too many stops todos from being completed
 
 # metadata
-# <bitbar.title>Things tasks</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.title>Things 3 Today</bitbar.title>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Max Clayton Clowes</bitbar.author>
 # <bitbar.author.github>mcclowes</bitbar.author.github>
 # <bitbar.desc>Display tasks due today in Things 3.</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/2IvhNws.png</bitbar.image>
 
 function tellthings() {
-	osascript -e "tell application \"Things3\" 
-	$1
+  osascript -e "tell application \"Things3\" 
+  $1
 end tell"
 }
 
@@ -35,8 +35,8 @@ esac
 
 if [ "$1" = 'complete' ]; then
   tellthings "set toDo to to do named \"$2\" of list \"Today\"
-	set status of toDo to completed
-	delay 1.3"
+  set status of toDo to completed
+  delay 1.3"
   exit
 fi
 
@@ -56,11 +56,17 @@ echo "Today..."
 
 items=$(tellthings 'set the_list to {}
 repeat with n from 1 to count of to dos of list "Today"
-	set toDo to item n of to dos of list "Today"
-	set toDoName to name of toDo
-	if status of toDo = open then
-		set the_list to the_list & toDoName
-	end if
+  set toDo to item n of to dos of list "Today"
+  if activation date of toDo is equal to missing value then
+  else
+    set toDoName to name of toDo
+    if status of toDo = open then
+      set toDoOutput to "☐" & " " & toDoName
+    else
+      set toDoOutput to "☑" & " " & toDoName
+    end if
+    set the_list to the_list & toDoOutput
+  end if
   if n > 20 then
     return the_list
   end if
@@ -69,7 +75,7 @@ return the_list');
 
 IFS=","
 for i in $items; do
-	echo "☐ $i | bash='$0' param1='complete' param2='$i' terminal=false"
+  echo "$i | bash='$0' param1='complete' param2='$i' terminal=false"
 done
 
 echo "View more... | color=#aaaaaa bash='$0' param1=launch terminal=false"
