@@ -30,7 +30,7 @@ if [[ "$trash_size" == "0B" ]]; then
     echo "🗑 | bash='$0' param1=open terminal=false"
 else
     echo "$trash_size🗑"
-    echo "$trash_size🗑 | alternate=true"
+    echo "$trash_count items 🗑 | alternate=true"
     echo '---'
     echo "Open Trash | bash='$0' param1=open terminal=false"
     echo "Empty Trash | bash='$0' param1=empty terminal=false"
