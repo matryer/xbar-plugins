@@ -70,7 +70,7 @@ return targetList');
 IFS=","
 for i in $items; do
 	IFS="|";
-	set "--" $i;
+	set "--" ${i};
 	if [ "$2" = "open" ]; then
 		item="☐ ${1}";
 	else 
