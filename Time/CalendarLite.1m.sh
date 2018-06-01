@@ -12,7 +12,6 @@
 date "+%l:%M %p"
 echo "---"
 year=$(date +%Y)
-month=$(date  +%m)
 font="Monaco"
 color="red"
 
@@ -22,7 +21,7 @@ color="red"
 #Comment out these lines to remove "last month"
 last_m=$(date -v-1m +%m)
 last_m_name=$(date -jf %Y-%m-%d "$year"-"$last_m"-01 '+%b')
-echo 'Last month: ' "$last_m_name", "$year" "|trim=false font=$font"
+echo "Last month: $last_m_name, $year|trim=false font=$font"
 cal -d "$year"-"$last_m" |awk 'NF'|sed 's/ *$//'| while IFS= read -r i; do echo "--$i|trim=false font=$font"; done 
 echo "---"
 
@@ -32,5 +31,5 @@ cal |awk 'NF'|sed 's/ $//' |while IFS= read -r i; do echo " $i|trim=false font=$
 echo "---"
 next_m=$(date -v+1m +%m)
 next_m_name=$(date -jf %Y-%m-%d "$year"-"$next_m"-01 '+%b')
-echo 'Next month: ' "$next_m_name", "$year" "|trim=false font=$font"
+echo "Next month: $next_m_name, $year|trim=false font=$font"
 cal -d "$year"-"$next_m" | awk 'NF'|sed 's/ *$//' | while IFS= read -r i; do echo "--$i|trim=false font=$font";done
