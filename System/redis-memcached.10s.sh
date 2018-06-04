@@ -8,8 +8,8 @@
 # <bitbar.image>http://oi67.tinypic.com/28u1y1g.jpg</birtbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
-REDIS_PID=`/usr/bin/pgrep redis-server`
-MEMCACHED_PID=`/usr/bin/pgrep memcached`
+REDIS_PID=$(/usr/bin/pgrep redis-server)
+MEMCACHED_PID=$(/usr/bin/pgrep memcached)
 
 # GENERAL COMMANDS
 if [ "$1" = 'start_all' ]; then
