@@ -20,10 +20,11 @@
 export PATH="$PATH:/usr/local/bin"
 
 function shorten {
+  from_index=1
   length=20
   ellipsis='…'
-  read string
-  echo $string| sed -E "s/(.{${1-${length}}}).*$/\1${ellipsis}/"
+  read -r string
+  echo "$string" | sed -E "s/(.{${${from_index}-${length}}}).*$/\\1${ellipsis}/"
 }
 
 case "$1" in
@@ -40,8 +41,8 @@ if [ "$state" = "playing" ]; then
   track=$(echo "$status" | sed -n 4p | cut -c 8-)
   artist=$(echo "$status" | sed -n 2p | cut -c 9-)
   album=$(echo "$status" | sed -n 3p | cut -c 8-)
-  shortened_track=$(echo $track | shorten)
-  shortened_artist=$(echo $artist | shorten)
+  shortened_track=$(echo "$track" | shorten)
+  shortened_artist=$(echo "$artist" | shorten)
 
   echo "▶ $shortened_track - $shortened_artist"
   echo "---"
