@@ -2,6 +2,7 @@
 # <bitbar.title>Do Not Disturb</bitbar.title>
 # <bitbar.author>Weibing Chen</bitbar.author>
 # <bitbar.author.github>weibingchen17</bitbar.author.github>
+# <bitbar.image>http://i67.tinypic.com/20ac9kl.png</bitbar.image>
 # <bitbar.desc>Turn on "Do Not Distrub" for certain period. Only for Sierra and High Sierra.</bitbar.desc>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 # <bitbar.version>v1.0</bitbar.version>
@@ -12,12 +13,12 @@ import datetime
 def idle():
     print(':bell:')
     print("---")
-    print(" 1 min | color=blue bash=" + fullPathFileName +  " param1=1 terminal=false refresh=true")
-    print(" 5 min | color=blue bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
-    print("10 min | color=blue bash=" + fullPathFileName +  " param1=10 terminal=false refresh=true")
-    print("30 min | color=blue bash=" + fullPathFileName +  " param1=30 terminal=false refresh=true")
-    print("60 min | color=blue bash=" + fullPathFileName +  " param1=60 terminal=false refresh=true")
-    print("Custom | color=blue bash=" + fullPathFileName +  " param1=set terminal=false refresh=true")
+    print("01 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
+    print("05 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
+    print("10 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=10 terminal=false refresh=true")
+    print("30 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=30 terminal=false refresh=true")
+    print("60 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=60 terminal=false refresh=true")
+    print("Custom | trim=false, color=blue bash=" + fullPathFileName +  " param1=set terminal=false refresh=true")
 
 def touch(a_file):
     with open(a_file, 'a'):
