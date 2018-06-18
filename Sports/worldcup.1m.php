@@ -28,18 +28,50 @@ require ".bitbar/vendor/autoload.php";
 
 use SteveEdson\BitBar;
 
+function array_msort($array, $cols)
+{
+    $colarr = array();
+    foreach ($cols as $col => $order) {
+        $colarr[$col] = array();
+        foreach ($array as $k => $row) { $colarr[$col]['_'.$k] = strtolower($row[$col]); }
+    }
+    $eval = 'array_multisort(';
+    foreach ($cols as $col => $order) {
+        $eval .= '$colarr[\''.$col.'\'],'.$order.',';
+    }
+    $eval = substr($eval,0,-1).');';
+    eval($eval);
+    $ret = array();
+    foreach ($colarr as $col => $arr) {
+        foreach ($arr as $k => $v) {
+            $k = substr($k,1);
+            if (!isset($ret[$k])) $ret[$k] = $array[$k];
+            $ret[$k][$col] = $array[$k][$col];
+        }
+    }
+    return $ret;
+}
+
+
+$flagsrc = '{"PAN":"🇵🇦","TUN":"🇹🇳","ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","POL":"🇵🇱","JPN":"🇯🇵","COL":"🇨🇴","SEN":"🇸🇳","ARG":"🇦🇷","ISL":"🇮🇸","PER":"🇵🇪","DEN":"🇩🇰","CRO":"🇭🇷","NGA":"🇳🇬","RUS":"🇷🇺","KSA":"🇸🇦","EGY":"🇪🇬","URU":"🇺🇾","POR":"🇵🇹","ESP":"🇪🇸","MAR":"🇲🇦","IRN":"🇮🇷","FRA":"🇫🇷","AUS":"🇦🇺","BRA":"🇧🇷","SUI":"🇨🇭","CRC":"🇨🇷","SRB":"🇷🇸","GER":"🇩🇪","MEX":"🇲🇽","SWE":"🇸🇪","KOR":"🇰🇷","BEL":"🇧🇪"}';
+
+$flags = json_decode($flagsrc, true);
+
 // Create BitBar formatter
 $bb = new BitBar();
 
 $json = file_get_contents("http://worldcup.sfg.io/matches/current");
 $data = json_decode($json, true);
 
+
 if (!empty($data)) {
     $homeTeam = $data[0]['home_team']['code'];
+    $homeTeamFlag= $flags[$homeTeam];
     $homeTeamScore = $data[0]['home_team']['goals'];
     $awayTeam = $data[0]['away_team']['code'];
+    $awayTeamFlag = $flags[$awayTeam];
     $awayTeamScore = $data[0]['away_team']['goals'];
-    $scoreLine = "$homeTeam $homeTeamScore : $awayTeamScore $awayTeam";
+    $scoreLine = "$homeTeamFlag $homeTeam $homeTeamScore : $awayTeamScore $awayTeamFlag $awayTeam";
 } else {
     $scoreLine = "⚽";
 };
@@ -57,21 +89,42 @@ if (!empty($todayData)) {
     $cnt = count($todayData);
     for ($n = 0; $n < $cnt; $n++) {
         $team1 = $todayData[$n]['home_team']['country'];
+        $team1code =  $todayData[$n]['home_team']['code'];
+        $team1flag = $flags[$team1code];
         $team1s = $todayData[$n]['home_team']['goals'];
         $team2 = $todayData[$n]['away_team']['country'];
+        $team2code =  $todayData[$n]['away_team']['code'];
+        $team2flag = $flags[$team2code];
         $team2s = $todayData[$n]['away_team']['goals'];
-        $scores = "$team1 $team1s : $team2s $team2";
+        $scores = "$team1flag $team1 $team1s : $team2s $team2flag $team2";
+        $match = "https://www.fifa.com/worldcup/matches/match/" . $todayData[$n]['fifa_id'] . "/#match-summary";
         if (($todayData[$n]['status']) == "in progress") {
             $time = $todayData[$n]['time'];
             $scores = $scores . " " . $time . " ⚽";
+        } else {
+            $scores .= "| href=$match";
         }
-        if (($todayData[$n]['status']) == "completed") {
+        if (($todayData[$n]['status'] == "completed") || ($todayData[$n]['status'] == "in progress")) {
             $line = $bb->newLine();
-            $line
+
+            $arrayEvents = array_merge($todayData[$n]['home_team_events'], $todayData[$n]['away_team_events']);
+            $arraySortEvents = array_msort($arrayEvents, array('id'=>SORT_ASC));
+            foreach ($arraySortEvents as $val) {
+                if (in_array($val['type_of_event'], array('goal', "goal-own", "goal-penalty"))) {
+                    $scores .= "\n";
+                    $scores .= $val['player'] . ": " . $val['time'];
+                }
+                if ($val['type_of_event'] == "goal-penalty") {
+                    $scores .= " (p)";
+                }
+                if ($val['type_of_event'] == "goal-own") {
+                    $scores .= " (og)";
+                }
+            }
+            $comGame = $line
                 ->setText($scores)
-                ->setDropdown(true)
-                ->setColor("blue")
-                ->show();
+                ->setDropdown(true);
+            $comGame->show();
         } else {
             $line = $bb->newLine();
             $line
