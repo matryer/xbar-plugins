@@ -10,6 +10,7 @@
 # Dependancies:
 # If you want seamless integration, add NOPASSWD=ALL to admin account in /etc/sudoers file
 
+export PATH="$PATH:/usr/local/bin"
 umbrella_status() {
     status=$(sudo launchctl list | grep com.cisco.anyconnect.vpnagentd)
     if [ "$status" != "" ]; then
