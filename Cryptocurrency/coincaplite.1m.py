@@ -1,6 +1,6 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
-import requests, base64
+import requests
 
 # <bitbar.title>Coincap Lite</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
