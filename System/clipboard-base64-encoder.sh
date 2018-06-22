@@ -24,7 +24,16 @@ if [[ "$1" = "encode" ]]; then
   exit
 fi
 
+if [[ "$1" = "decode" ]]; then
+  echo -n "$(echo -n "${PREFIX}$(pbpaste)${APPENDIX}" | base64 -D)" | pbcopy
+  osascript -e "display notification \"Clipboard entry decoded with BASE64\" with title \"BitBar Clipboard BASE64-Encoder\"" &> /dev/null
+  exit
+fi
+
+
 # Print icon
 echo "🔏"
 echo "---"
 echo "Encode clipboard item with BASE64 | bash='$0' param1=encode terminal=false"
+echo "Decode clipboard item with BASE64 | bash='$0' param1=decode terminal=false"
+
