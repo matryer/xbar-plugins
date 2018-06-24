@@ -26,7 +26,7 @@ number=$(echo "$output" | xargs)
 
 if [ "$number" != '0' ]; then
 	# here get all the session names in an array
-	nameArray=($(tmux list-sessions | awk 'BEGIN{FS=":"}{print $1}'))
+	IFS=" " read -r -a nameArray <<< "$(tmux list-sessions | awk 'BEGIN{FS=":"}{print $1}')"
 	echo "mac-mux ($number)"
 	echo "---"
 	echo "$number Running tmux sessions | color=white"
