@@ -19,4 +19,6 @@ end tell
 
 if [ -n "$CONNECTION_NAME" ]; then
     echo "$CONNECTION_NAME | color=green"
+else
+    echo "NoVPN | color=#b4b4b4"
 fi
