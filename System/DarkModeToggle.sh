@@ -2,7 +2,7 @@
 #
 # <bitbar.title>Dark Mode Toggle</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Florent Le Moël</bitbar.author>
+# <bitbar.author>huhu</bitbar.author>
 # <bitbar.author.github>Phlooo</bitbar.author.github>
 # <bitbar.desc>Simple toggle for macOS Dark Mode</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/khIIfMg.png</bitbar.image>
