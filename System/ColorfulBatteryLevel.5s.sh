@@ -3,7 +3,7 @@
 #
 # <bitbar.title>Colorful Battery Indicator</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Florent Le Moël</bitbar.author>
+# <bitbar.author>huhu</bitbar.author>
 # <bitbar.author.github>Phlooo</bitbar.author.github>
 # <bitbar.desc>Simple and colorful battery indicator</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/JaUKQWj.png</bitbar.image>
