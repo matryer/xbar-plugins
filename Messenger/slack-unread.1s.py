@@ -45,6 +45,9 @@ def get_channel_list(token):
 # Users need to modify this part by generating their own tokens
 tokens = ['xoxp-slack-token-place-holder']
 
+if tokens == ['xoxp-slack-token-place-holder']:
+	raise ValueError('You need to generate a Slack user token and specify it in the "slack-unread.1s.py" script.')
+
 channels = {}
 results = []
 unread_count = 0
