@@ -2,7 +2,7 @@
 # coding=utf-8
 #
 # <bitbar.title>Slack Notification</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>mgjo5899</bitbar.author>
 # <bitbar.author.github>mgjo5899</bitbar.author.github>
 # <bitbar.desc>Displays number of unread Slack messages</bitbar.desc>
@@ -63,6 +63,7 @@ groups = {}
 unread_count = 0
 
 for token in tokens:
+	# Gathering public channel info
 	results = get_channel_list(token)
 
 	for channel_id in results:
@@ -79,6 +80,7 @@ for token in tokens:
 		if unread_count != 0:
 			break
 
+	# Gathering private channel and DM info
 	results = get_group_list(token)
 
 	for group_id in results:
