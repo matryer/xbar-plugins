@@ -43,14 +43,14 @@ def get_channel_list(token):
 	return channel_ids
 
 def get_group_list(token):
-        r = requests.get(groups_list_url + '?token=' + token + '&exclude_archived=true')
-        result = json.loads(r.text)['groups']
-        group_ids = []
+	r = requests.get(groups_list_url + '?token=' + token + '&exclude_archived=true')
+	result = json.loads(r.text)['groups']
+	group_ids = []
 
-        for i in result:
-                group_ids.append(i['id'])
+	for i in result:
+			group_ids.append(i['id'])
 
-        return group_ids
+	return group_ids
 
 # Users need to modify this part by generating their own tokens
 tokens = ['xoxp-slack-token-place-holder']
