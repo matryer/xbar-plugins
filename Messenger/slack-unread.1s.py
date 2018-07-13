@@ -60,7 +60,6 @@ if tokens == ['xoxp-slack-token-place-holder']:
 
 channels = {}
 groups = {}
-results = []
 unread_count = 0
 
 for token in tokens:
