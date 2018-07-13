@@ -18,7 +18,6 @@ except ImportError:
 
 import json
 from time import sleep
-from multiprocessing import Pool
 
 channels_list_url = 'https://slack.com/api/channels.list'
 channels_info_url = 'https://slack.com/api/channels.info'
