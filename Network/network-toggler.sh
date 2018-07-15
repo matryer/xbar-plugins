@@ -4,13 +4,14 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>David Shrestha</bitbar.author>
 # <bitbar.author.github>davidshr10</bitbar.author.github>
+# <bitbar.image>https://i.imgur.com/QRNTmet.png</bitbar.image>
 # <bitbar.desc>Provides an easy way to toggle your network connections on and off.</bitbar.desc>
 # <bitbar.dependencies>OS X 10.11</bitbar.dependencies>
 
 if [ "$2" == 'toggle_on' ]; then
-	networksetup -setnetworkserviceenabled $1 on
+	networksetup -setnetworkserviceenabled "$1" on
 elif [ "$2" == 'toggle_off' ]; then
-	networksetup -setnetworkserviceenabled $1 off
+	networksetup -setnetworkserviceenabled "$1" off
 fi
 
 NETWORK_INTERFANCES=$(networksetup -listallnetworkservices |\
