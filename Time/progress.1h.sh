@@ -45,8 +45,8 @@ progress() {
     filled=$(round "$(echo "$1 * $width / 100" | bc -l)")
     empty=$((width - filled))
     # repeat the characters using printf
-    printf "$fill_char%0.s" "$(seq "$filled")"
-    printf "$empty_char%0.s" "$(seq "$empty")"
+    printf "$fill_char%0.s" $(seq "$filled")
+    printf "$empty_char%0.s" $(seq "$empty")
 }
 
 echo "$(round "$Y_progress")%"
