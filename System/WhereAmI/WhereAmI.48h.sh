@@ -7,7 +7,8 @@
 # <bitbar.desc>Useful for staying oriented while booting into multiple test systems.</bitbar.desc>
 
 
-# Use the last `cut` to get only the relevant part of something like "High Sierra beta with Spaghetticode Fork #123 Version 456alpha"
+# Use the last `cut` to get only the relevant part of something
+# like "High Sierra beta with Spaghetticode Fork #123 Version 456alpha"
 BOOTVOLUME=$(diskutil info "$(df / | tail -1 | cut -d' ' -f 1)" | grep 'Volume Name:' | cut -c  30-)
 
 SYSTEMVERSION=$(defaults read loginwindow SystemVersionStampAsString)
