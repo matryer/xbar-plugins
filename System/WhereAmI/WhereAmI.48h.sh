@@ -9,6 +9,7 @@
 # <bitbar.image>https://github.com/noyannus/bitbar-plugins/blob/master/System/WhereAmI/Minimalist.png</bitbar.image>
 # <bitbar.image>https://github.com/noyannus/bitbar-plugins/blob/master/System/WhereAmI/KingSizeInfo.png</bitbar.image>
 
+
 # Use the last `cut` to get only the relevant part of something
 # like "High Sierra beta with Spaghetticode Fork #123 Version 456alpha"
 BOOTVOLUME=$(diskutil info "$(df / | tail -1 | cut -d' ' -f 1)" | grep 'Volume Name:' | cut -c  30-)
