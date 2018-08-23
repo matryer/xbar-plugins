@@ -6,7 +6,7 @@ set -euo pipefail
 # <bitbar.author>blockloop</bitbar.author>
 # <bitbar.author.github>blockloop</bitbar.author.github>
 # <bitbar.desc>Monitor the status of your local (or remote) Syncthing</bitbar.desc>
-# <bitbar.image>https://blockloop.nyc3.digitaloceanspaces.com/images/syncthing.png</birtbar.image>
+# <bitbar.image>https://blockloop.nyc3.digitaloceanspaces.com/images/syncthing.png</bitbar.image>
 # <bitbar.dependencies>curl</bitbar.dependencies>
 # <bitbar.dependencies>jq</bitbar.dependencies>
 # <bitbar.dependencies>bc</bitbar.dependencies>
