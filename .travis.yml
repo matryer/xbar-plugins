@@ -18,7 +18,9 @@ before_install:
   - brew outdated golang || brew upgrade golang
   - go get -u github.com/golang/lint/golint
   - brew cask install racket
-  - raco pkg install --deps search-auto rackjure  
+  - raco pkg install --deps search-auto rackjure
+  - brew install lua
+  - luarocks install luacheck
 install:
   - export PATH="$PATH:${GOROOT:-$HOME/go}/bin"
 
