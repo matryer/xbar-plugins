@@ -1,7 +1,7 @@
 #!/usr/local/bin/lua
 
 -- 1. install lua with e.g. "brew install lua"
--- 2. edit ifstat invocation below so that "-i en0,en10" contains your preferred list of interfaces
+-- 2. use this plugin
 
 -- Written in lua, this plugin is smaller and faster than shell versions with similar function.
 
@@ -9,7 +9,7 @@
 -- <bitbar.version>v1.0.0</bitbar.version>
 -- <bitbar.author>Charl P. Botha</bitbar.author>
 -- <bitbar.author.github>cpbotha</bitbar.author.github>
--- <bitbar.desc>Displays total TX and RX KBytes/s for the interfaces you specify. Lua = smaller than .sh.</bitbar.desc>
+-- <bitbar.desc>Displays total TX and RX KBytes/s for all active interfaces. Lua = smaller than .sh.</bitbar.desc>
 -- <bitbar.dependencies>ifstat, lua</bitbar.dependencies>
 -- <bitbar.image>https://cpbotha.net/thingies/bitbar_bandwidth_total_lua.jpg</bitbar.image>
 
@@ -21,7 +21,7 @@
 --        en0                 en10               Total
 -- KB/s in  KB/s out   KB/s in  KB/s out   KB/s in  KB/s out
 -- 20.67      0.00     17.54      0.00     38.21      0.00
-local file = io.popen('/usr/local/bin/ifstat -n -w -i en0,en10 -T 0.1 1')
+local file = io.popen('/usr/local/bin/ifstat -n -w -z -T 0.1 1')
 local output = file:read('*all')
 
 -- split into lines
