@@ -3,13 +3,13 @@
 -- 1. install lua with e.g. "brew install lua"
 -- 2. edit ifstat invocation below so that "-i en0,en10" contains your preferred list of interfaces
 
+-- Written in lua, this plugin is smaller and faster than shell versions with similar function.
+
 -- <bitbar.title>Bandwidth Total</bitbar.title>
 -- <bitbar.version>v1.0.0</bitbar.version>
 -- <bitbar.author>Charl P. Botha</bitbar.author>
--- <bitbar.author.github>cpbohta</bitbar.author.github>
--- <bitbar.desc>Displays total TX and RX KBytes/s only for the interfaces you specify,
--- with the individual ifaces in the context menu. Written in lua with single shell call to ifstat.
--- Faster and smaller than .sh versions.</bitbar.desc>
+-- <bitbar.author.github>cpbotha</bitbar.author.github>
+-- <bitbar.desc>Displays total TX and RX KBytes/s for the interfaces you specify. Lua = smaller than .sh.</bitbar.desc>
 -- <bitbar.dependencies>ifstat, lua</bitbar.dependencies>
 -- <bitbar.image>https://cpbotha.net/thingies/bitbar_bandwidth_total_lua.jpg</bitbar.image>
 
