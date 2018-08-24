@@ -7,7 +7,9 @@
 -- <bitbar.version>v1.0.0</bitbar.version>
 -- <bitbar.author>Charl P. Botha</bitbar.author>
 -- <bitbar.author.github>cpbohta</bitbar.author.github>
--- <bitbar.desc>Displays total TX and RX KBytes/s only for the interfaces you specify, with the individual ifaces in the context menu. Written in lua with single shell call to ifstat. Faster and smaller than .sh versions.</bitbar.desc>
+-- <bitbar.desc>Displays total TX and RX KBytes/s only for the interfaces you specify,
+-- with the individual ifaces in the context menu. Written in lua with single shell call to ifstat.
+-- Faster and smaller than .sh versions.</bitbar.desc>
 -- <bitbar.dependencies>ifstat, lua</bitbar.dependencies>
 -- <bitbar.image>https://cpbotha.net/thingies/bitbar_bandwidth_total_lua.jpg</bitbar.image>
 
@@ -24,17 +26,17 @@ local output = file:read('*all')
 
 -- split into lines
 -- https://stackoverflow.com/a/32847589/532513
-lines = {}
+local lines = {}
 for l in output:gmatch("[^\r\n]+") do
     table.insert(lines, l)
 end
 
-speeds = {}
+local speeds = {}
 for speed in lines[3]:gmatch("%S+") do
     table.insert(speeds, speed)
 end
 
-ifaces = {}
+local ifaces = {}
 for iface in lines[1]:gmatch("%S+") do
     table.insert(ifaces, iface)
 end
