@@ -6,7 +6,6 @@
 # <bitbar.author>Marco Cabazal</bitbar.author>
 # <bitbar.author.github>MarcoCabazal</bitbar.author.github>
 # <bitbar.desc>Gets Pull Request Counts for Github and Bitbucket Repos</bitbar.desc>
-# <bitbar.image>https://marcocabazal.github.io/images/gpr_snap.png</bitbar.image>
 # <bitbar.dependencies>ruby >= 2</bitbar.dependencies>
 
 ###### README
