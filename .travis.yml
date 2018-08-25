@@ -11,6 +11,8 @@ before_install:
   - pip3 install pyflakes
   - gem install rubocop -v 0.50.0 --no-document
   - brew install shellcheck
+  - brew install luarocks
+  - luarocks install luacheck
   - brew outdated node || brew upgrade node
   - npm install -g jshint
   - brew install cpanminus && sudo cpanm Mozilla::CA
@@ -18,7 +20,7 @@ before_install:
   - brew outdated golang || brew upgrade golang
   - go get -u github.com/golang/lint/golint
   - brew cask install racket
-  - raco pkg install --deps search-auto rackjure  
+  - raco pkg install --deps search-auto rackjure
 install:
   - export PATH="$PATH:${GOROOT:-$HOME/go}/bin"
 
