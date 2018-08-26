@@ -43,7 +43,7 @@ function hostnameForIP() {
         ip="${1//:$port/}"
         # strip IPv6 brackets
         ip="${ip//[][]/}"
-        hname="$(dig +short -x $ip xargs)"
+        hname="$(dig +short -x "$ip" xargs)"
         if [ -n "$hname" ]; then
                 echo "${hname//\.$/}"
         else
