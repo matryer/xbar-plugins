@@ -7,7 +7,7 @@
 # <bitbar.author>Erol Soyöz</bitbar.author>
 # <bitbar.author.github>soyoz</bitbar.author.github>
 # <bitbar.desc>You can monitor Cardano (ADA)'s latest price via CoinRanking.com API</bitbar.desc>
-# <bitbar.image>https://cdn.coinranking.com/ryY28nXhW/ada.svg</bitbar.image>
+# <bitbar.image>https://s15.postimg.cc/4yheazrln/ada.png</bitbar.image>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 # <bitbar.abouturl>http://soyoz.com/</bitbar.abouturl>
 """
