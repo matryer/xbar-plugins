@@ -75,7 +75,7 @@ CONNS="$(curl -s -m 2 -H "X-API-KEY:$API_KEY" $HOST/rest/system/connections)"
 CON_ADDRS="$(echo "$CONNS" | jq -r '.connections[] | select(.connected == true) | .address')"
 
 STATE="$(curl -s -m 2 -H "X-API-KEY:$API_KEY" "$HOST/rest/events?event=StateChanged&limit=1")"
-CHANGES="$(curl -s -m 1 -H "X-API-KEY:$API_KEY" "$HOST/rest/events?events=LocalChangeDetected,RemoteChangeDetected&limit=10")" || true
+CHANGES="$(curl -s -m 1 -H "X-API-KEY:$API_KEY" "$HOST/rest/events?events=LocalChangeDetected,RemoteChangeDetected&limit=50")" || true
 
 cpu="$(echo "$STATUS" | jq -r .cpuPercent)"
 cpu=$(echo "scale=2;$cpu*100" |bc)
@@ -112,5 +112,5 @@ fi
 
 echo '---'
 echo "Recent Changes"
-echo "$CHANGES" | jq -r '.[] | .data | "-- \(.action)::\t\(.path)"' | column -t -s $'::' | tac
+echo "$CHANGES" | jq -r '.[] | .data | "-- \(.action)::\t\(.path)"' | uniq | column -t -s $'::' | tac | head
 echo '---'
