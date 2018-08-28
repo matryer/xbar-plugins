@@ -48,7 +48,7 @@ fi
 PODS_URL="https://home.sensibo.com/api/v2/users/me/pods?apiKey=$API_KEY"
 
 # Get a list of available pods.
-PODS=$(curl -4 --connect-timeout 3 -s $PODS_URL | /usr/local/bin/jq -r '.result[].id' || echo No pods available)
+PODS=$(curl -4 --connect-timeout 3 -s "$PODS_URL" | /usr/local/bin/jq -r '.result[].id' || echo No pods available)
 
 if [[ -z "$PODS" || "$PODS" = "No pods available" ]]; then
     echo "SENSIBO | color=#3e8fcc image=iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAl1JREFUOBFlU01rE1EUPfNlMhNrm69qv01FdEKFCCqo0IUIddmNiC6KP0HonxChdlH/ggsXbtxYXBbsQkWhlrrQagalBKNpapxMMp/e+9KZJngXw7x3zz333PPek+ZX30XoC17oMrDvR3jbDaHSunJMRk6T4ISA1IflX4IeRa9Ywsd2IBKbi6exsVhCmlAfaI+JB7r1E3AiRYBXfz3cmTDwfMnEVXMUl87m8WypjPtTGcr5AtNPkijg4m3qslbJ4dHdMiYKGSHtwHZRHE7j4b0ynlzMCwxj40h+FUlCzQsxndehqTL8gAamMNIqvtdtyJQvFXTU3BCMjUMQsKQgjHAupWD9UwMd14eqyIiiCEZKhesHsDseNncPUCRDQ9qPxxAEzOfSziRpe1rr4Ee9LRqEPRE4YWh4vVPHTqOLM0RAQpPTSEZgRk2W8IckblWbgiBGjY7o2PjcxPuWh+OKhENegUkIWIVPY8zSmb2xWvB8mpUIeTQe58rMECy+F7QXy2eGAQI7iDCXUXHjfBY/m47oEH8uzIxgjEZ0ifDIwkOCnnzAouHMbArXzSJajidq2X2O8YKB22O6UEE2JCqEAoaoBNyj+a/NDiOja0hpinCe6/lIeb1g5rDbDcQxxiqSEXw6mnGi/vbLoblDTBUzcAjMwR6wJxblTmmy8EUkOBf/kD8o6woebDVQ3e9i+VYJJ7O6SO/9bmPl5Vc8tmzcHFLB2FiB1P8a2QudXN52fExSp5WFaeH68rqFL1RVMVR6kYMmJgq4FbMyYI6UNOk5z7+oitt4mW5oxVD+K+aafyol6OP5jf33AAAAAElFTkSuQmCC"
@@ -66,41 +66,39 @@ notify () {
 # Function to turn on specific POD
 turnon () {
     POD_DATA=$(curl -4 --connect-timeout 3 -s "https://home.sensibo.com/api/v2/pods/$1/acStates?apiKey=$API_KEY&limit=1" || echo No Data Available)
-    POD_AC_STATE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.on')
-    POD_TEMPERATURE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.targetTemperature')
-    POD_TEMPERATURE_UNIT=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.temperatureUnit')
-    POD_MODE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.mode')
-    POD_SWING=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.swing')
-    POD_FAN=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.fanLevel')
+    POD_AC_STATE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.on')
+    POD_TEMPERATURE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.targetTemperature')
+    POD_TEMPERATURE_UNIT=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.temperatureUnit')
+    POD_MODE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.mode')
+    POD_SWING=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.swing')
+    POD_FAN=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.fanLevel')
     CURRENTSTATE='{"currentAcState":{"on":false,"fanLevel":"'${POD_FAN}'","temperatureUnit":"'${POD_TEMPERATURE_UNIT}'","targetTemperature":'${POD_TEMPERATURE}',"mode":"'${POD_MODE}'","swing":"'${POD_SWING}'"},"newValue":true}'
-    curl -X PATCH "https://home.sensibo.com/api/v2/pods/$1/acStates/on?apiKey=$API_KEY" -d $CURRENTSTATE
+    curl -X PATCH "https://home.sensibo.com/api/v2/pods/$1/acStates/on?apiKey=$API_KEY" -d "$CURRENTSTATE"
 }
 
 # Function to turn off specific POD
 turnoff () {
     POD_DATA=$(curl -4 --connect-timeout 3 -s "https://home.sensibo.com/api/v2/pods/$1/acStates?apiKey=$API_KEY&limit=1" || echo No Data Available)
-    POD_AC_STATE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.on')
-    POD_TEMPERATURE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.targetTemperature')
-    POD_TEMPERATURE_UNIT=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.temperatureUnit')
-    POD_MODE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.mode')
-    POD_SWING=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.swing')
-    POD_FAN=$(echo $POD_DATA | /usr/local/bin/jq -r '.result[].acState.fanLevel')
+    POD_AC_STATE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.on')
+    POD_TEMPERATURE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.targetTemperature')
+    POD_TEMPERATURE_UNIT=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.temperatureUnit')
+    POD_MODE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.mode')
+    POD_SWING=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.swing')
+    POD_FAN=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result[].acState.fanLevel')
     CURRENTSTATE='{"currentAcState":{"on":true,"fanLevel":"'${POD_FAN}'","temperatureUnit":"'${POD_TEMPERATURE_UNIT}'","targetTemperature":'${POD_TEMPERATURE}',"mode":"'${POD_MODE}'","swing":"'${POD_SWING}'"},"newValue":false}'
-    curl -X PATCH "https://home.sensibo.com/api/v2/pods/$1/acStates/on?apiKey=$API_KEY" -d $CURRENTSTATE
+    curl -X PATCH "https://home.sensibo.com/api/v2/pods/$1/acStates/on?apiKey=$API_KEY" -d "$CURRENTSTATE"
 }
 
 # If called with turnoff, turn off the specified pod.
 if [ "$1" = "turnoff" ]; then
-  turnoff $2
+  turnoff "$2"
   notify "Turned OFF $3"
   exit 0
 fi
 
 # If called with turnoff, turn on the specified pod.
 if [ "$1" = "turnon" ]; then
-  # Copy to clipboard
-  # echo "$2" | pbcopy
-  turnon $2
+  turnon "$2"
   notify "Turned ON $3"
   exit 0
 fi
@@ -115,14 +113,14 @@ for podID in $PODS
 do
     # Get current POD state and measurements.
     POD_DATA=$(curl -4 --connect-timeout 3 -s "https://home.sensibo.com/api/v2/pods/$podID?fields=room,acState,measurements,temperatureUnit&apiKey=$API_KEY" || echo No Data Available)
-    POD_NAME=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.room.name')
-    POD_LOC=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.room.icon')
-    POD_AC_STATE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.acState.on')
-    POD_TEMPERATURE=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.measurements.temperature')
-    POD_TEMPERATURE_UNIT=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.acState.temperatureUnit')
-    POD_HUMIDITY=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.measurements.humidity')
-    POD_SWING=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.acState.swing')
-    POD_FAN=$(echo $POD_DATA | /usr/local/bin/jq -r '.result.acState.fanLevel')
+    POD_NAME=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.room.name')
+    # POD_LOC=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.room.icon')
+    POD_AC_STATE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.on')
+    POD_TEMPERATURE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.measurements.temperature')
+    POD_TEMPERATURE_UNIT=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.temperatureUnit')
+    POD_HUMIDITY=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.measurements.humidity')
+    POD_SWING=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.swing')
+    POD_FAN=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.fanLevel')
 
     # Pod is turned on.
     # @TODO: maybe check if theres an error..
