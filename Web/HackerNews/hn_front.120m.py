@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env -S PATH="${PATH}:/usr/local/bin" python3
 
 # <bitbar.title>Hacker News Headlines - Lite</bitbar.title>
 # <bitbar.author>amrrs</bitbar.author>
