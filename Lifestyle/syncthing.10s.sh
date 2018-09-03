@@ -78,7 +78,7 @@ STATE="$(curl -s -m 2 -H "X-API-KEY:$API_KEY" "$HOST/rest/events?event=StateChan
 CHANGES="$(curl -s -m 1 -H "X-API-KEY:$API_KEY" "$HOST/rest/events?events=LocalChangeDetected,RemoteChangeDetected&limit=50")" || true
 
 cpu="$(echo "$STATUS" | jq -r .cpuPercent)"
-cpu=$(echo "scale=2;$cpu*100" |bc)
+cpu=$(echo "scale=2;$cpu" |bc)
 
 state="$(echo "$STATE" | jq -r '.[].data.to')"
 [ "$state" == "null" ] && state='idle'
