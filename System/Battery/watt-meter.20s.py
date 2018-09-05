@@ -8,7 +8,7 @@
 # <bitbar.image>http://i.imgur.com/blj2KCP.png</bitbar.image>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 
-from plistlib import readPlistFromBytes
+from plistlib import loads
 import sys
 import subprocess
 
@@ -36,7 +36,7 @@ IMPACT = {
 def parse_system_profiler():
     output = subprocess.check_output(["/usr/sbin/system_profiler", \
                                      "-xml", "SPPowerDataType", "SPHardwareDataType"])
-    plist = readPlistFromBytes(output)
+    plist = loads(output)
     spbattery_info = plist[0]['_items'][0]
 
     machine = {
