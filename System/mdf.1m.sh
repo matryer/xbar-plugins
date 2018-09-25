@@ -212,6 +212,7 @@ osver=$(sw_vers -productVersion)
 
 # Colors in BGRA format
 fgcol=(00 00 00 ff)
+fgcol_alert=(00 00 00 88)  # semi-transparent.
 bgcol=(00 00 00 00)
 bmp_ver=5
 icontype=templateImage
@@ -222,6 +223,17 @@ if [[ $osver == 10.8.* ]]; then
     icontype=image
 fi
 
+# return the alert colour if alert condition is met.
+# else return foreground colour.
+# alert condition: free capacity < 2%. 
+determine_col() {
+  if (( $1 < 98 )); then
+  	retval=(${fgcol[@]})
+  else
+  	retval=(${fgcol_alert[@]})
+  fi
+}
+
 # Routines to draw simple progress-bar-like buckets for showing
 # capacity of disks, batteries etc.
 
@@ -229,7 +241,8 @@ init_bar() {
     pixels=()
     curcol=(${bgcol[@]})
     init_bmp $bmp_ver "$1" "$2"
-    curcol=(${fgcol[@]})
+    determine_col "$root_capacity"; col=(${retval[@]})
+    curcol=(${col[@]})
     rect 0 0 "$1" "$2"
 }
 
