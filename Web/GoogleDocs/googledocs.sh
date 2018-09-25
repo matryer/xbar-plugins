@@ -18,7 +18,7 @@ function openBrowser() {
 }
 
 if [[ "${1}" != "" ]]; then
-  openBrowser ${1}
+  openBrowser "${1}"
   exit
 fi
 
