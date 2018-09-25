@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# <bitbar.title>Google Docs</bitbar.title>
+# <bitbar.version>v1.0.0</bitbar.version>
+# <bitbar.author>Jens SchumacherSteffen Froehlich</bitbar.author>
+# <bitbar.author.github>jeschu</bitbar.author.github>
+# <bitbar.desc>This plugin's dropdown menu will open Google Documents, Spreadsheets or Presentations in App-Mode of Chromium or Google Chrome.</bitbar.desc>
+# <bitbar.image>https://www.gstatic.com/images/branding/product/2x/docs_48dp.png</bitbar.image>
+# <bitbar.dependencies></bitbar.dependencies>
+
+function openBrowser() {
+  if [[ -d /Applications/Chromium.appp ]]; then
+    BROWSER="/Applications/Chromium.app"
+  elif [[ -d /Applications/Google\ Chrome.app ]]; then
+    BROWSER="/Applications/Google Chrome.app"
+  fi
+  open -n -a "${BROWSER}" --args --app="https://docs.google.com/${1}/u/0"
+}
+
+if [[ "${1}" != "" ]]; then
+  openBrowser ${1}
+  exit
+fi
+
+icon="𝙂"
+echo "${icon} | color=#4889f1"
+echo "---"
+echo "${icon}oogle Docs    | bash='${0}' param1=document     terminal=false color=#4889f1 image=iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAB3RJTUUH4gkZFAAIoq3p0wAAAzlJREFUWMO9V0trU0EU/s5MHn0YS5oWu+lKUH9EJSouBSsVCr4QhLoRLYLSlfGxEkHtohZdaLWLSkFBpS4UU3HtypWUbpRiiaWpaV7Na46Lm+ZxMzeZ3IoXLkzOndzzzXe+78xcwHa9X1I4fi+J/3V57IGp12ksTARw4Un6eqFEI2AIJgAMMAMggFH+jerYJzl2PuwbWV1XuVMH/e4BLEwEcG46fS2RwV0QW0lRnwywwNTGOruBtQTPbcbjowAKpgCELpjN4ySVV03lGNXcAEBUH1PMYODE7r7e6PS7X96ZaJJcA2CG2F55JVaz+mYXEQ0FeoLzqWTW4x6A5taArIvXjoWUw8FQT/TRm9/eZy2YEK0Qsm3A5eRGTAQD86lk0rMjBuzJdcC4opJ6cBYToejU2xXv008pMmdAwz/XUK/jPb3FiCdLEAQIQZVbSjEU7O2f37+322dkQzSpue759nirCHz4loM3G4dSBUBV2RFCDG9mS68AHDMCYJSc61khIuTZi7w3hFxiA6xUeRqDGFAk9pgzwE0YcSgJb6tAeuAP9iGf2gSzsmLsrHbjErRKbrMAvN0BFDMZMCura7UDwAkBa1jS25QBIsiuLqhcDgxlacJNH4CmGTVLbmdC+DsA4QF5pPsSMAOKgUzeuTVXdkhmdPoBQdXnwusDF4twLUIA2DfAuH/amcpaTsdnBZZitsVIz85E+HOdMD4rtJasA0zASrzRpq73AichsBNw+y7VwlnGLhgMMR6caVECtgx/ZVZgKUbONnVTgu+rhKE7spyHmzaoQAcghd4phiJsnD3YC1w+qlCqY4Aa5koBTH4UWNlondx4L9C+g60+r5vDJj2ifRcAYzPCcZ4goNNnyUBKVPYAVxrQ/ePAAGPyrLMIl2PAxecSHql3C/MOGfixTrj0oqYP2FaXK5IlPDZL3LYGckVgOUZNgRIMd0s3rdhJiFoRsvOh1rQEqh1LsMHpCUDJ/FRcKL50/EBghzCj8TOuBkWpWJjTHt/tgcORJBZvBXDk5tpVKeQoE4mmRKjqW+qIKccVs1KqNPfldv/DQ7dS+BzZ1VxsY4+/Inzjzz//DA9HEghHFhvifwF13beSn0imkAAAAABJRU5ErkJggg=="
+echo "${icon}oogle Sheets | bash='${0}' param1=spreadsheets terminal=false color=#2aa366 image=iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAB3RJTUUH4gkZFAIoq/WrmQAAA/ZJREFUWMO9l01oXFUUx3/nvjeTZCYZm0xFkUpB2y505QeCMFihSFG6iESMFSIhYgQRtIrdKFQKVSqCGgRbP0olYCRRFy6qpTFgKSJ2V1yU6CYLW6SYLzOTyfu4x8XMJG/efGQmKb7LW9zz7rv//z33f849F2LPR7Pn2DP+Iv/XI3HD7rMjzA2f4eHvjh71rDegitHyN1Wl1KJ9UFE6TfLvN+8bGJhburF25P7+lgm4ccPc8BkenHz1jX/Wlk+CoiolyHXweB8U6O7q5K+V+Yn8/PIg4LdKwNQzroTFpwRABSm7SUQotXi/ZFO1qPBk187MzPHp8cR7l7+RLROwilGttlXc3fApfxSRXKqve3KtUHS3TEDjTWuh6xGq9I1j+rsy6Zl3Zr5MnPxtStomEAeKTt6IUI26RXKJW3omiysFt30PqK6/cfD4aiuEbOx7xRPp3szM2z+PJ979dVLa2ILqNwoeXX0UcNkrcCO/hBHBiOAYg2MMxnFymUzP5J59dydbCkPqrKQWuNZeCD2mZi/Sm08igUXtxixipH/xQv5b4FBLBFoBj2pBAREoEFDo9DFLPqKWym82BIze1roHYiLTOt6p0UclKlwh6Evg/hug1kYIt5gJmw1uBh5P8EG3g6wCYfk/EbalgYZb0ShMBWyXg1kLS+m8Qei2rAEFrNpqD0WSkUaoV9IzAmGHQbywoVtb1sCOZJpHb78XGxFXbfYEI8LM9d9Z9PIb3kkaCLapgTtTWcYeep5rhXlEBBR2JFMALHoFkBLxO1JZDl44zqKXr/aNuw0PAIRqwbjkfniLnkQXgQ05m3sZgOcujZEQhyV/lbmnPy97SSMb00Y90FwMll3pLN1uJ76GJI2LArtSWRxxyASr0GiL2hGhNrCFNmB032MkjYNVJdvRA8DI3gMYEbwwIAj99SSum4C3GYaK4yYZuvgB3YkUvg2ZPngMgOFLH+OKoeDlGdp7oMFpqtvTgCr4fpHLh97HEcECu9M7UVV+efxEuZCxeP7qxkG2CXhbGlAg4SQYu3qOlNtBaEOO3FM6Wz6ZPY8jhkKwxnjulborvympGHEYv3qeRDKNbwOG7noEgC9mp3GNS+DlGd//eiwtbSEKGonG94vo6I/rfc8vlsaPfF81ph54m6m4dvCfy9d44qcTNUdwqRuxAX8sX28pAtrSwGrocWVhbpOUrQ0OqrbDcPPCpN7EWvfU1PUoakcDtnlENClYGoOHrRelvv1aadbihavGSrTIOC0TDOxES5fT3k8PszA6wa2nDr8mRga1yd1BUbAbs1RpoGxX1GLtxMJLUx/2ffYs8y981VxsD5wepe/UMzf9Gp49PQjH9tfY/wNTjIE/FJOFvgAAAABJRU5ErkJggg=="
+echo "${icon}oogle Slides | bash='${0}' param1=presentation terminal=false color=#f4b830 image=iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAB3RJTUUH4gkZFAMB8FwCtAAAAylJREFUWMO9l0+IHEUUxn+vuqfNZt2EJM4uwYuX5LIeBI8mnnOIqxCJF6+SuxCvImhQT3pT8CrJYQMRL4GQDYJ4ECGXRFkRZC+C/2eyO7PZnqn6PGzPTM9MT0/PTLCg6K4/Xd9Xr773XjWMlPDzp+zeeYb/q9hox+7t46xcaNL65vl3LKSXkBwoG9Vh1UgbgTv6+9L6x5ceN7bTpbNXVZVAPNqxcqFJa+vsVdK/P1IeADLgXLtPRpA8Tfrolxt//pVeBjpVCbjCXr/3+rCRpldJmPnXVuvu3s53H9aaD67Z/AQIObMzsvvi0htxxkv1U9psNEO8AAENV6l4zlD/gGAcsbFWj7Z2vr1Waz78wOYgMLpzGBPitJ05navX2WzsllvCTQSVJoAXEVPmTsPE4oiNtVPR1q/fv1d79OB9m/8IJpHIvavTxO//AeYw5zAXYS4iity50yeObK48t55UckMKdjJ594N+Cy32d75kt3GSbsdyUwLOuQ0d/HsTuFiRQBXw4fhgZiSuzfFjbfb/MXx/WOCFi7U2vwVUZHaNETITtRrEq4G06VAYkDSJ6gSkKZbQBA/JQpdBcszTaRkKPZeFBTVQdhTDT0lgUFsO+LaBhJjFAkXAFqOlM2C1CR6RtUMH2tugLhhEywF/YBiLWEBCR88QXrhblEDHvnX3X4bWj/11oiSgLgtqwOIMPEyP7lYbW8tisXgccAnuty/AJYPzzl8rdIBOv1WQK1T9PlCqg8hhP12BeKADg0PRIegGwrNXUD80Txf2bF6gLHi7pzLQ3vFk766di+AqEevcbtg71vK8UPg+SyBS0eTMt+UB2y8G83kn0VTw2TXgA1r/DCwpXlQpeD8BfEENCFA4QKtvlvMMaUm0XEQDSrMFo4LxvObDIYmyy8w8gcha27j754eDTFF+UAdrb1fygNk0oC7WelgxbVfb/WLZsNBSejJuiBRKc85E4FJwX/lS6lNujF9M8zflstpL37lvTIRU1yv9nLa+MpZfFY2bydvO8cbhzynVjqTXNvWTplDwXtdPXuaTx1/DkVemaO2Hz19k75bxpMveLbj37nj/f9fezXi5WAM9AAAAAElFTkSuQmCC"
