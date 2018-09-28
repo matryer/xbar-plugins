@@ -92,7 +92,7 @@ class Language(object):
         return subprocess.check_output(command, stderr=subprocess.STDOUT)
 
 
-Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117', '-e', 'SC2164', '-e', 'SC2196', '-e', 'SC2197', '-e', 'SC2206', '-e', 'SC2207', '-e', 'SC2215', '-e', 'SC2219']))
+Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117', '-e', 'SC2164', '-e', 'SC2196', '-e', 'SC2197', '-e', 'SC2206', '-e', 'SC2207', '-e', 'SC2215', '-e', 'SC2219', '-e', 'SC2183', '-e', 'SC2230']))
 Language.registerLanguage(Language(['.py', '.py2'], 'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.py', '.py3'], 'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RescueWithoutErrorClass']))
@@ -104,6 +104,7 @@ Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
 Language.registerLanguage(Language(['.rkt'], 'racket$', ['raco', 'make']))
 # go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
 Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
+Language.registerLanguage(Language(['.lua'], 'lua$', ['luacheck']))
 
 
 def check_file(file_full_path, pr=False):

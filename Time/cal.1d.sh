@@ -17,6 +17,6 @@ echo "$year"
 echo "---"
 
 echo "$last_year"
-cal "$last_year" | while IFS= read -r i; do echo "--. $i | font=courier"; done
-cal "$year" | while IFS= read -r i; do echo ". $i | font=courier"; done
-cal "$next_year" | while IFS= read -r i; do echo ". $i | font=courier"; done
+cal "$last_year" | while IFS= read -r i; do echo "--$i | trim=false font=courier"; done
+(cal -h "$year" 2>/dev/null || cal "$year") | while IFS= read -r i; do echo "$i | trim=false font=courier"; done
+cal "$next_year" | while IFS= read -r i; do echo "$i | trim=false font=courier"; done

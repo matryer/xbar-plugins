@@ -6,7 +6,6 @@
 # <bitbar.author>Daniel Seripap</bitbar.author>
 # <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</bitbar.desc>
-# <bitbar.image>https://daniel.seripap.com/content/images/2016/01/bitbar-openweather.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
 import json

@@ -62,7 +62,7 @@ if [ "$CLIPBOARD" != "" ]; then
 fi
 
 # Print icon
-echo '📋'
+echo '✄'
 echo "---"
 
 # Print up to 36 characters of the current clipboard

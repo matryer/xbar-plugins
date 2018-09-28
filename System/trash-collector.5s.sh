@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # <bitbar.title>Trash Collector</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Carlson Orozco</bitbar.author>
 # <bitbar.author.github>carlsonorozco</bitbar.author.github>
 # <bitbar.desc>Trash Collector is a plugin for BitBar that enables you to empty your trash.</bitbar.desc>
@@ -10,6 +10,8 @@
 
 trash_count=$(find "$HOME/.Trash/" | wc -l)
 trash_count=$((trash_count-1))
+
+trash_size=$(du -sh "$HOME/.Trash/" | xargs | head -n1 | cut -d " " -f1)
 
 if [ "$1" = 'empty' ]; then
     osascript -e '
@@ -24,10 +26,11 @@ if [ "$1" = 'open' ]; then
     exit
 fi
 
-if [ $((trash_count)) = 0 ]; then
+if [[ "$trash_size" == "0B" ]]; then
     echo "🗑 | bash='$0' param1=open terminal=false"
 else
-    echo "$trash_count🗑"
+    echo "$trash_size🗑"
+    echo "$trash_count items 🗑 | alternate=true"
     echo '---'
     echo "Open Trash | bash='$0' param1=open terminal=false"
     echo "Empty Trash | bash='$0' param1=empty terminal=false"
