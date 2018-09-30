@@ -72,7 +72,7 @@ class PagerDuty
                            timeout: 25,
                            query:   { "since" => (Time.now-24*60*60).strftime("%Y-%m-%dT%H:%M:%S"),
                                       "sort_by" => "created_at:desc",
-									  "teams" => $team_ids },
+									  "team_ids" => $team_ids.split(",") },
                            headers: { "Content-type"  => "application/json",
                                       "Authorization" => "Token token=#{$token}",
                                       "Accept"        => "application/vnd.pagerduty+json;version=2" })

@@ -2,7 +2,7 @@
 # coding=utf-8
 #
 # <bitbar.title>Slack Notification</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>mgjo5899</bitbar.author>
 # <bitbar.author.github>mgjo5899</bitbar.author.github>
 # <bitbar.desc>Displays number of unread Slack messages</bitbar.desc>
@@ -18,22 +18,22 @@ except ImportError:
 
 import json
 from time import sleep
-from multiprocessing import Pool
 
 channels_list_url = 'https://slack.com/api/channels.list'
 channels_info_url = 'https://slack.com/api/channels.info'
+groups_list_url = 'https://slack.com/api/groups.list'
+groups_info_url = 'https://slack.com/api/groups.info'
 
 # When there are many channels under one Slack group, due to request rate limit per group,
 # some come out with "ratelimit exceeded error" returned.
 # So I had to run channel info request as fast as possible for each group
 # ONE TOKEN REPRESENT ONE SLACK GROUP
-def get_unread_count(data):
-	r = requests.post(channels_info_url, headers=data[0], data=data[1])
+def get_unread_count(url, token, channel_id):
+	r = requests.get(url + '?token=' + token + '&channel=' + channel_id)
 	return r
 
 def get_channel_list(token):
-	header = {'Authorization':'Bearer ' + token}
-	r = requests.post(channels_list_url, headers=header)
+	r = requests.get(channels_list_url + '?token=' + token + '&exclude_archived=true')
 	result = json.loads(r.text)['channels']
 	channel_ids = []
 
@@ -42,42 +42,55 @@ def get_channel_list(token):
 
 	return channel_ids
 
+def get_group_list(token):
+	r = requests.get(groups_list_url + '?token=' + token + '&exclude_archived=true')
+	result = json.loads(r.text)['groups']
+	group_ids = []
+
+	for i in result:
+			group_ids.append(i['id'])
+
+	return group_ids
+
 # Users need to modify this part by generating their own tokens
 tokens = ['xoxp-slack-token-place-holder']
 
+if tokens == ['xoxp-slack-token-place-holder']:
+	raise ValueError('You need to generate a Slack user token and specify it in the "slack-unread.1s.py" script.')
+
 channels = {}
-results = []
+groups = {}
 unread_count = 0
-pool = Pool(processes=len(tokens)*10)
-
-results = pool.map(get_channel_list, tokens)
-
-for i, r in enumerate(results):
-	channels[tokens[i]] = []
-
-	for channel_id in r:
-		channels[tokens[i]].append(channel_id)
-
-results = []
-input_data = []
 
 for token in tokens:
-	input_data = []
-	for channel_id in channels[token]:
-		header = {'Authorization':'Bearer ' + token}
-		data = {'channel':channel_id}
-		input_data.append((header, data))
-	results.append(pool.map(get_unread_count, input_data))
+	# Gathering public channel info
+	results = get_channel_list(token)
 
-pool.close()
-pool.join()
-
-for r1 in results:
-	for i, r in enumerate(r1):
+	for channel_id in results:
+		r = get_unread_count(channels_info_url, token, channel_id)
+		
 		try:
 			channel_info = json.loads(r.text)['channel']
 			if 'unread_count' in channel_info.keys():
-				unread_count += channel_info['unread_count']
+					#print(str(channel_info['name']) + ' : ' + str(channel_info['unread_count'])) # DEBUG
+					unread_count += channel_info['unread_count']
+		except KeyError:
+			sleep(2)
+			#print(r.text) # DEBUG
+		if unread_count != 0:
+			break
+
+	# Gathering private channel and DM info
+	results = get_group_list(token)
+
+	for group_id in results:
+		r = get_unread_count(groups_info_url, token, group_id)
+		
+		try:
+			channel_info = json.loads(r.text)['group']
+			if 'unread_count' in channel_info.keys():
+					#print(str(channel_info['name']) + ' : ' + str(channel_info['unread_count'])) # DEBUG
+					unread_count += channel_info['unread_count']
 		except KeyError:
 			sleep(2)
 			#print(r.text) # DEBUG
