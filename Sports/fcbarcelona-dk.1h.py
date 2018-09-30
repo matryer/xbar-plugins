@@ -31,7 +31,7 @@ if __name__ == '__main__':
                 dest = f'{URL}/{a.attrs["href"]}'
                 text = a.text.strip().replace('\xa0\xa0-\xa0\xa0', ': ')
                 print(f'{text} | href={dest}')
-    except requests.exceptions.ConnectionError as e:
+    except requests.exceptions.ConnectionError:
         print('😳')
         print(DIVIDER)
         print('Could not connect to %s' % URL)
