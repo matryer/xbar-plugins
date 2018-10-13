@@ -13,9 +13,9 @@ export LANG="${LANG:-en_US.UTF-8}"
 
 # Write the list of Text you want enabled
 LIST="
-Text 1
-Some Text 2
-Some moreText 3
+Some text#I am some text that will be copied to your clipboard
+A password2#super_secure_password
+A common command#/maybe/I/am/a/command/you/use/often -with -some -params
 "
 
 if [[ "$1" == "copy" ]]; then
@@ -29,6 +29,8 @@ echo "Clear Clipboard | bash='$0' param1=copy param2=' ' terminal=false"
 echo "---"
 while read -r line; do
   if ! [ "$line" == "" ]; then
-    echo "$line | bash='$0' param1=copy param2='$line' terminal=false"
+  	title=$(echo $line | cut -f1 -d#)
+	  command=$(echo $line | cut -f2 -d#)
+    echo "$title | bash='$0' param1=copy param2='$command' terminal=false"
   fi
 done <<< "$LIST"
