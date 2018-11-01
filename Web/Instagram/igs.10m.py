@@ -35,20 +35,20 @@ all_data_end = text.find(finder_text_end, all_data_start + 1)
 json_str = text[(all_data_start + finder_text_start_len + 1) \
                : all_data_end]
 user_info = json.loads(json_str)
-follower_count = user_info['entry_data']['ProfilePage'][0]['user']["followed_by"]['count']
-following_count = user_info['entry_data']['ProfilePage'][0]['user']["follows"]['count']
-full_name = user_info['entry_data']['ProfilePage'][0]['user']['full_name'].encode('utf8')
-media_count = user_info['entry_data']['ProfilePage'][0]['user']["media"]['count']
+follower_count = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_followed_by"]['count']
+following_count = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_follow"]['count']
+full_name = user_info['entry_data']['ProfilePage'][0]['graphql']['user']['full_name'].encode('utf8')
+media_count = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_owner_to_timeline_media"]['count']
 
 
 last_medias = []
 for number in range(0,last_post_count):
     try:
-        last_image_url = user_info['entry_data']['ProfilePage'][0]['user']["media"]['nodes'][number]['thumbnail_src']
-        last_image_likes = user_info['entry_data']['ProfilePage'][0]['user']["media"]['nodes'][number]['likes']['count']
-        last_image_caption = user_info['entry_data']['ProfilePage'][0]['user']["media"]['nodes'][number]['caption']
+        last_image_url = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_owner_to_timeline_media"]['edges'][number]["node"]['thumbnail_src']
+        last_image_likes = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_owner_to_timeline_media"]['edges'][number]["node"]['edge_media_preview_like']['count']
+        last_image_caption = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_owner_to_timeline_media"]['edges'][number]["node"]['edge_media_to_caption']["edges"][0]["node"]["text"]
 
-        last_image_comments = user_info['entry_data']['ProfilePage'][0]['user']["media"]['nodes'][number]['comments']['count']
+        last_image_comments = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_owner_to_timeline_media"]['edges'][number]["node"]['edge_media_to_comment']['count']
 
         response = requests.get(last_image_url)
         img = Image.open(BytesIO(response.content))
@@ -63,9 +63,9 @@ for number in range(0,last_post_count):
 
 
 
-bio = user_info ['entry_data']['ProfilePage'][0]['user']['biography']
+bio = user_info ['entry_data']['ProfilePage'][0]['graphql']['user']['biography']
 
-uimage_url = user_info['entry_data']['ProfilePage'][0]['user']['profile_pic_url']
+uimage_url = user_info['entry_data']['ProfilePage'][0]['graphql']['user']['profile_pic_url']
 
 response = requests.get(uimage_url)
 img = Image.open(BytesIO(response.content))
