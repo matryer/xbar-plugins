@@ -55,7 +55,7 @@ end
 
 def get(url)
   uri = URI(url)
-  json = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+  Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
     request = Net::HTTP::Get.new(uri)
     request.basic_auth(USERNAME, AUTH_TOKEN)
     response = http.request(request)
