@@ -15,12 +15,31 @@
 require 'net/http'
 require 'json'
 
-# Variables to fill out
+# Variables To Fill Out
 
-USERNAME = 'username'
-AUTH_TOKEN = 'auth_token'
-URL = 'https://url/' # must have trailing slash '/'
-NAME = 'Jenkins'
+USERNAME = 'username'.freeze
+AUTH_TOKEN = 'auth_token'.freeze
+URL = 'https://url/'.freeze # must have trailing slash '/'
+NAME = 'Jenkins'.freeze
+
+# Information Requests
+
+def get(url)
+  uri = URI(url)
+  Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+    request = Net::HTTP::Get.new(uri)
+    request.basic_auth(USERNAME, AUTH_TOKEN)
+    response = http.request(request)
+    JSON.parse(response.body)
+  end
+end
+
+def latest_builds(limit = 5)
+  json = get(URL + 'api/json')
+  return unless json.key?('builds')
+
+  json['builds'].take(limit).map { |build| get(build['url'] + 'api/json') }
+end
 
 # Pretty Display Formatters
 
@@ -51,54 +70,45 @@ def format_duration(time_in_ms)
   "#{minutes}m #{seconds}s"
 end
 
-# Main Methods
+# Print Helpers
 
-def get(url)
-  uri = URI(url)
-  Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-    request = Net::HTTP::Get.new(uri)
-    request.basic_auth(USERNAME, AUTH_TOKEN)
-    response = http.request(request)
-    JSON.parse(response.body)
-  end
-end
-
-def latest_builds(limit = 5)
-  json = get(URL + 'api/json')
-  json['builds'].take(limit).map { |build| get(build['url'] + 'api/json') }
-end
-
-def run
-  builds = latest_builds
-  last = builds.first
-
-  # Menu Bar Display
-  puts format_status(last['result']) + ' ' + NAME
-  puts '---'
-
-  # Last Build Extended Details
-  puts "Last Build (##{last['id']})"
-  last['actions'].each do |action|
+def print_build_details(build)
+  puts "Last Build (##{build['id']})"
+  build['actions'].each do |action|
     next unless action['causes']
+
     action['causes'].each do |cause|
       puts cause['shortDescription'] if cause['shortDescription']
     end
   end
-  puts '---'
+end
 
-  # Latest Builds Summary
+def print_builds_summary(builds)
   puts 'Latest Builds'
   builds.each do |build|
     id = build['id']
     status = format_status(build['result'])
-    timestamp = format_timestamp(build['timestamp'])
+    time = format_timestamp(build['timestamp'])
     duration = format_duration(build['duration'])
     url = build['url']
     color = format_color(build['result'])
-    puts "#{status} ##{id}: #{timestamp} (#{duration}) | href=#{url} color=#{color}"
+    puts "#{status} ##{id}: #{time} (#{duration}) | href=#{url} color=#{color}"
   end
-  puts '---'
+end
 
+# Driver Code
+
+def run
+  builds = latest_builds
+  return puts 'No builds executing' unless builds
+
+  last = builds.first
+  puts format_status(last['result']) + ' ' + NAME
+  puts '---'
+  print_build_details(last)
+  puts '---'
+  print_builds_summary(builds)
+  puts '---'
   puts 'Open In Browser | href= ' + URL
 end
 
