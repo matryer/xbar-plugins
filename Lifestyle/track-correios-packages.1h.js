@@ -31,7 +31,7 @@ var getLogData = function(callback) {
         }
         callback(data);
     });
-}
+};
 
 var saveLogData = function(data) {
     fs.writeFile(__dirname + '/' + logFile, data, function(err) {
@@ -39,17 +39,17 @@ var saveLogData = function(data) {
             console.log(err);
         }
     });
-}
+};
 
 var refreshMenu = function() {
     console.log("---");
     console.log("Atualizar | refresh=true");
-}
+};
 
 var aboutMenu = function() {
     console.log('---');
     console.log('by Carlos E. Torres | href=http://cetorres.com');
-}
+};
 
 const toTitleCase = (phrase) => {    
     return phrase ? phrase
@@ -82,7 +82,7 @@ https.get(url, (res) => {
             console.log("📦 0 | color=yellow");
             console.log("---");
             console.log(nomeObjeto + "\n");
-            console.log("Código: " + code)
+            console.log("Código: " + code);
             console.log("---");
             console.log("Sem eventos no momento.");      
             
@@ -93,7 +93,7 @@ https.get(url, (res) => {
             console.log("📦 0 | color=yellow");
             console.log("---");
             console.log(nomeObjeto + "\n");
-            console.log("Código: " + code)
+            console.log("Código: " + code);
             console.log("---");
             console.log("Objeto não encontrado."); 
 
