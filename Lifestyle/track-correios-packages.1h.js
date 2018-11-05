@@ -115,7 +115,14 @@ https.get(url, (res) => {
                 
                 saveLogData(eventosTotal);
 
-                console.log("📦 " + eventosTotal + (newEvents ? ' | color=green' : ''));
+                var objetoEntregue = eventos.find(e => e.tipo == "BDE") != undefined ? true : false;
+
+                if (objetoEntregue) {
+                    console.log("📦 ✓ | color=green");    
+                }
+                else {
+                    console.log("📦 " + eventosTotal + (newEvents ? ' | color=green' : ''));
+                }
                 console.log("---");            
                 console.log(nomeObjeto + "\n");
                 console.log("Código: " + code);
