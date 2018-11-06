@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # <bitbar.title>Google Apps</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
+# <bitbar.version>v1.0.1</bitbar.version>
 # <bitbar.author>Jens Schumacher</bitbar.author>
 # <bitbar.author.github>jeschu</bitbar.author.github>
 # <bitbar.desc>This plugin's dropdown menu will open Google Documents, Spreadsheets or Presentations in App-Mode of Chromium or Google Chrome.</bitbar.desc>
