@@ -30,6 +30,7 @@ FILTERS = ''
 
 import datetime
 import json
+import os
 import sys
 try:
     # For Python 3.x
@@ -38,6 +39,8 @@ except ImportError:
     # For Python 2.x
     from urllib2 import Request, urlopen
 
+
+DARK_MODE = os.environ.get('BitBarDarkMode')
 
 query = '''{
   search(query: "%(search_query)s", type: ISSUE, first: 100) {
@@ -69,7 +72,7 @@ query = '''{
 
 colors = {
     'inactive': '#b4b4b4',
-    'title': '#000000',
+    'title': '#ffffff' if DARK_MODE else '#000000',
     'subtitle': '#586069'}
 
 
