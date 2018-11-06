@@ -5,7 +5,7 @@
 # <bitbar.author>Jens Schumacher</bitbar.author>
 # <bitbar.author.github>jeschu</bitbar.author.github>
 # <bitbar.desc>This plugin's dropdown menu will open Google Documents, Spreadsheets or Presentations in App-Mode of Chromium or Google Chrome.</bitbar.desc>
-# <bitbar.image>https://www.google.de/favicon.ico</bitbar.image>
+# <bitbar.image>https://www.iconfinder.com/icons/682665/download/png/512</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 function openBrowser() {
