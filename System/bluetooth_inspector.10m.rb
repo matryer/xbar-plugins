@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # <bitbar.title>Bluetooth Inspector</bitbar.title>
-# <bitbar.version>0.1.3</bitbar.version>
+# <bitbar.version>0.1.4</bitbar.version>
 # <bitbar.author>Ryan Scott Lewis</bitbar.author>
 # <bitbar.author.github>RyanScottLewis</bitbar.author.github>
 # <bitbar.desc>Show bluetooth information for all connected bluetooth devices using the `system_profiler` binary.</bitbar.desc>
@@ -15,13 +15,123 @@
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 
 
+require 'open3'
+
 module BluetoothInspector
 
-  class << self
+  # The plugin controller.
+  class Controller
 
-    # Run the plugin controller.
+    class << self
+
+      # Collect bluetooth devices, format for bitbar output, and print to output.
+      #
+      # @return [String]
+      def run(&block)
+        new.run(&block)
+      end
+
+    end
+
+    def initialize
+      collect_devices
+      setup_formatter
+    end
+
+    # Get all devices.
+    #
+    # @return [<Device>]
+    attr_reader :devices
+
+    # Get the formatter.
+    #
+    # @return [Formatter]
+    attr_reader :formatter
+
+    # Collect bluetooth devices, format for bitbar output, and print to output.
+    #
+    # @return [String]
     def run(&block)
-      Controller.run(&block)
+      run_config_block_if_needed(&block)
+
+      output = @formatter.format(@devices)
+
+      print output
+    end
+
+    protected
+
+    def collect_devices
+      stdout_str, _, _ = Open3.capture3("system_profiler SPBluetoothDataType")
+
+      @devices = Parser.parse(stdout_str)
+    end
+
+    def setup_formatter
+      @formatter = Formatter.new
+    end
+
+    def run_config_block_if_needed(&block)
+      return nil unless block_given?
+
+      block.arity > 0 ? yield(self) : run_in_controller_context(&block)
+    end
+
+    def run_in_controller_context(&block)
+      ControllerContext.new(self).instance_eval(&block)
+    end
+
+  end
+
+end
+
+module BluetoothInspector
+
+  # The DSL context for the configuration block given to the Controller.
+  class ControllerContext
+
+    def initialize(controller)
+      @controller = controller
+    end
+
+    # Get all devices.
+    #
+    # @return [<Device>]
+    def devices
+      @controller.devices
+    end
+
+    # Find a device by it's name or shortname.
+    #
+    # @param [#to_s] value
+    # @return [<Device>]
+    def device(value, &block)
+      value = value.to_s
+      device = devices.find { |d| d.name == value || d.shortname == value }
+
+      run_device_block_if_needed(device, &block)
+
+      device
+    end
+
+    def bar_format(value)
+      @controller.formatter.bar_format = value
+    end
+
+    def item_format(value)
+      @controller.formatter.item_format = value
+    end
+
+    protected
+
+    def run_device_block_if_needed(device, &block)
+      return nil unless !device.nil? && block_given?
+
+      block.arity > 0 ? yield(device) : run_in_device_context(device, &block)
+    end
+
+    def run_in_device_context(device, &block)
+      DeviceContext.new(device).instance_eval(&block)
     end
 
   end
@@ -52,6 +162,76 @@ module BluetoothInspector
     # @return [String]
     def name=(value)
       @name = value.to_s
+    end
+
+    # Get the major type of the device.
+    #
+    # @return [String]
+    attr_reader :major_type
+
+    # Set the major_type of the device.
+    #
+    # @param [#to_s] value
+    # @return [String]
+    def major_type=(value)
+      @major_type = value.to_s
+    end
+
+    # Get the minor type of the device.
+    #
+    # @return [String]
+    attr_reader :minor_type
+
+    # Set the minor_type of the device.
+    #
+    # @param [#to_s] value
+    # @return [String]
+    def minor_type=(value)
+      @minor_type = value.to_s
+    end
+
+    # Get whether the device is paired.
+    #
+    # @return [Boolean]
+    def paired?
+      @paired
+    end
+
+    # Get whether the device is not paired.
+    #
+    # @return [Boolean]
+    def unpaired?
+      !@paired
+    end
+
+    # set whether the device is paired.
+    #
+    # @param [Boolean] value
+    # @return [Boolean]
+    def paired=(value)
+      @paired = !!value
+    end
+
+    # Get whether the device is connected.
+    #
+    # @return [Boolean]
+    def connected?
+      @connected
+    end
+
+    # Get whether the device is not connected.
+    #
+    # @return [Boolean]
+    def disconnected?
+      !@connected
+    end
+
+    # set whether the device is connected.
+    #
+    # @param [Boolean] value
+    # @return [Boolean]
+    def connected=(value)
+      @connected = !!value
     end
 
     # Get the shortname of the device.
@@ -178,44 +358,6 @@ module BluetoothInspector
 
 end
 
-require "yaml"
-
-module BluetoothInspector
-
-  # Parses the output of the `system_profiler` command and returns an Array of Device instances.
-  class Parser
-
-    class << self
-
-      # Parse the command output.
-      #
-      # @param [#to_s] data The command output.
-      # @return [<Device>]
-      def parse(data)
-        new.parse(data)
-      end
-
-    end
-
-    # Parse the command output.
-    #
-    # @param [#to_s] data The command output.
-    # @return [<Device>]
-    def parse(data)
-      data = YAML.load(data.to_s)
-
-      data["Bluetooth"]["Devices (Paired, Configured, etc.)"].collect do |name, attributes|
-        Device.new(
-          name: name,
-          battery: attributes["Battery Level"]
-        )
-      end
-    end
-
-  end
-
-end
-
 module BluetoothInspector
 
   # The DSL context for a device.
@@ -236,6 +378,38 @@ module BluetoothInspector
     # @param [String]
     # @return [String]
     def name(*arguments)
+      get_or_set_attribute(__method__, arguments)
+    end
+
+    # Get/set the major type of the device.
+    #
+    # @param [String]
+    # @return [String]
+    def major_type(*arguments)
+      get_or_set_attribute(__method__, arguments)
+    end
+
+    # Get/set the minor type of the device.
+    #
+    # @param [String]
+    # @return [String]
+    def minor_type(*arguments)
+      get_or_set_attribute(__method__, arguments)
+    end
+
+    # Get/set whether the device is paired.
+    #
+    # @param [String]
+    # @return [String]
+    def paired?(*arguments)
+      get_or_set_attribute(__method__, arguments)
+    end
+
+    # Get/set whether the device is connected.
+    #
+    # @param [String]
+    # @return [String]
+    def connected?(*arguments)
       get_or_set_attribute(__method__, arguments)
     end
 
@@ -350,53 +524,42 @@ module BluetoothInspector
 
 end
 
+require "yaml"
+
 module BluetoothInspector
 
-  # The DSL context for the configuration block given to the Controller.
-  class ControllerContext
+  # Parses the output of the `system_profiler` command and returns an Array of Device instances.
+  class Parser
 
-    def initialize(controller)
-      @controller = controller
+    class << self
+
+      # Parse the command output.
+      #
+      # @param [#to_s] data The command output.
+      # @return [<Device>]
+      def parse(data)
+        new.parse(data)
+      end
+
     end
 
-    # Get all devices.
+    # Parse the command output.
     #
+    # @param [#to_s] data The command output.
     # @return [<Device>]
-    def devices
-      @controller.devices
-    end
+    def parse(data)
+      data = YAML.load(data.to_s)
 
-    # Find a device by it's name or shortname.
-    #
-    # @param [#to_s] value
-    # @return [<Device>]
-    def device(value, &block)
-      value = value.to_s
-      device = devices.find { |d| d.name == value || d.shortname == value }
-
-      run_device_block_if_needed(device, &block)
-
-      device
-    end
-
-    def bar_format(value)
-      @controller.formatter.bar_format = value
-    end
-
-    def item_format(value)
-      @controller.formatter.item_format = value
-    end
-
-    protected
-
-    def run_device_block_if_needed(device, &block)
-      return nil unless !device.nil? && block_given?
-
-      block.arity > 0 ? yield(device) : run_in_device_context(device, &block)
-    end
-
-    def run_in_device_context(device, &block)
-      DeviceContext.new(device).instance_eval(&block)
+      data["Bluetooth"]["Devices (Paired, Configured, etc.)"].collect do |name, attributes|
+        Device.new(
+          name:       name,
+          battery:    attributes["Battery Level"],
+          major_type: attributes["Major Type"],
+          minor_type: attributes["Minor Type"],
+          paired:     attributes["Paired"],
+          connected:  attributes["Connected"],
+        )
+      end
     end
 
   end
@@ -405,66 +568,11 @@ end
 
 module BluetoothInspector
 
-  # The plugin controller.
-  class Controller
+  class << self
 
-    class << self
-
-      # Collect bluetooth devices, format for bitbar output, and print to output.
-      #
-      # @return [String]
-      def run(&block)
-        new.run(&block)
-      end
-
-    end
-
-    def initialize
-      collect_devices
-      setup_formatter
-    end
-
-    # Get all devices.
-    #
-    # @return [<Device>]
-    attr_reader :devices
-
-    # Get the formatter.
-    #
-    # @return [Formatter]
-    attr_reader :formatter
-
-    # Collect bluetooth devices, format for bitbar output, and print to output.
-    #
-    # @return [String]
+    # Run the plugin controller.
     def run(&block)
-      run_config_block_if_needed(&block)
-
-      output = @formatter.format(@devices)
-
-      print output
-    end
-
-    protected
-
-    def collect_devices
-      command_output = `system_profiler SPBluetoothDataType`
-
-      @devices = Parser.parse(command_output)
-    end
-
-    def setup_formatter
-      @formatter = Formatter.new
-    end
-
-    def run_config_block_if_needed(&block)
-      return nil unless block_given?
-
-      block.arity > 0 ? yield(self) : run_in_controller_context(&block)
-    end
-
-    def run_in_controller_context(&block)
-      ControllerContext.new(self).instance_eval(&block)
+      Controller.run(&block)
     end
 
   end
@@ -478,4 +586,18 @@ end
 
 # See https://github.com/RyanScottLewis/bitbar-bluetooth_inspector for configuration documentation.
 
-BluetoothInspector.run
+BluetoothInspector.run do
+  devices.delete_if(&:no_battery?)
+  devices.delete_if(&:disconnected?)
+
+  # Color all low battery level devices red:
+  devices.find_all { |device| device.battery < 20 }.each { |device| device.color = "red" }
+
+  # Add device emojis to each shortname
+  devices.each do |device|
+    device.shortname = case device.minor_type
+                            when 'Mouse'    then '🖱'
+                            when 'Keyboard' then '⌨️'
+                       end
+  end
+end

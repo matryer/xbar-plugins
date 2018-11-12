@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Average Reivew Times</bitbar.title>
+# <bitbar.title>Average Review Times</bitbar.title>
 # <bitbar.version>v0.1.2</bitbar.version>
 # <bitbar.author>mfks17</bitbar.author>
 # <bitbar.author.github>mfks17</bitbar.author.github>

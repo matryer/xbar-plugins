@@ -15,7 +15,7 @@ echo '|templateImage=iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABG2lUWHRYTUw
 echo '---'
 echo 'Next Image | refresh=true'
 
-curl --silent -o /tmp/.background.png "https://unsplash.it/2560/1600/?random"
+curl -L --silent -o /tmp/.background.png "https://unsplash.it/2560/1600/?random"
 
 sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '/tmp/.background.png'"
 

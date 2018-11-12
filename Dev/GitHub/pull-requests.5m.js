@@ -51,4 +51,4 @@ co(function* () {
   strings.unshift(`${totalCount} Pull Request`)
   for( var string of strings)
     console.log(string)
-})
+}).catch(function() {});

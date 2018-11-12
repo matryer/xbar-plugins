@@ -1,14 +1,27 @@
 language: objective-c
-osx_image: xcode8
+osx_image: xcode9
+
 before_install:
+  - rvm install 2.0.0-p648
+  - rvm use 2.0.0-p648
   - brew update
   - brew outdated python || brew upgrade python
-  - pip install pyflakes
-  - gem install rubocop --no-document
+  - brew install python@2
+  - pip2 install pyflakes
+  - pip3 install pyflakes
+  - gem install rubocop -v 0.50.0 --no-document
   - brew install shellcheck
+  - brew install luarocks
+  - luarocks install luacheck
   - brew outdated node || brew upgrade node
   - npm install -g jshint
   - brew install cpanminus && sudo cpanm Mozilla::CA
   - brew install clisp
-  - brew install python3 && pip3 install pyflakes
+  - brew outdated golang || brew upgrade golang
+  - go get -u golang.org/x/lint/golint
+  - brew cask install racket
+  - raco pkg install --deps search-auto rackjure
+install:
+  - export PATH="$PATH:${GOROOT:-$HOME/go}/bin"
+
 script: ./.test.py

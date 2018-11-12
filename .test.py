@@ -4,19 +4,54 @@ import os
 import subprocess
 import urllib2
 import argparse
+import warnings
+from distutils.spawn import find_executable
 
 allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
 required_metadata = ['author', 'author.github', 'title']
 recommended_metadata = ['image', 'desc', 'version']
+error_count = 0
+
+
+def debug(s):
+    global args
+    if args.debug:
+        print "\033[1;44mDBG!\033[0;0m %s\n" % s
+
+
+def passed(s):
+    global args
+    if args.verbose:
+        print "\033[1;42mPASS\033[0;0m %s\n" % s
+
+
+def warn(s):
+    global args
+    if args.warn:
+        print "\033[1;43mWRN!\033[0;0m %s\n" % s
+
+
+def error(s):
+    global error_count
+    error_count += 1
+    print "\033[1;41mERR!\033[0;0m %s\n" % s
 
 
 class Language(object):
     _languages = {}
 
-    def __init__(self, exts, shebang, linter):
+    def __init__(self, exts, shebang, linter, trim_shebang=False, full_options=[], pr_options=[]):
         self.extensions = exts
         self.shebang = shebang
         self.cmd = linter
+        self.trim = trim_shebang
+        self.full = full_options
+        self.pr = pr_options
+
+        self.enabled = True
+        if not find_executable(self.cmd[0]):
+            error("Linter %s not present, skipping %s files" % (self.cmd[0], ', '.join(exts)))
+            self.enabled = False
 
     @staticmethod
     def registerLanguage(lang):
@@ -36,47 +71,43 @@ class Language(object):
     def validShebang(self, bang):
         return re.search(self.shebang, bang) is not None
 
-    def lint(self, file):
+    def lint(self, file, is_pr):
+        if not self.enabled:
+            return None
+        if self.trim:
+            with open(file, 'r') as fp:
+                lines = fp.readlines()[1:]
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    tmpfile = os.tmpnam()
+                with open(tmpfile, 'w') as tp:
+                    tp.writelines(lines)
+                file = tmpfile
         command = list(self.cmd)
+        if is_pr and self.pr:
+            command.extend(self.pr)
+        elif not is_pr and self.full:
+            command.extend(self.full)
         command.append(file)
         return subprocess.check_output(command, stderr=subprocess.STDOUT)
 
-Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck']))
-Language.registerLanguage(Language(['.py', '.py2'], 'python(|2)$', ['python2', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.py', '.py3'], 'python(|3)$', ['python3', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l']))
+
+Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117', '-e', 'SC2164', '-e', 'SC2196', '-e', 'SC2197', '-e', 'SC2206', '-e', 'SC2207', '-e', 'SC2215', '-e', 'SC2219', '-e', 'SC2183', '-e', 'SC2230']))
+Language.registerLanguage(Language(['.py', '.py2'], 'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes']))
+Language.registerLanguage(Language(['.py', '.py3'], 'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
+Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RescueWithoutErrorClass']))
 Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
 Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
 Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
 Language.registerLanguage(Language(['.swift'], 'swift$', ['xcrun', '-sdk', 'macosx', 'swiftc', '-o', '/dev/null']))
 Language.registerLanguage(Language(['.lisp', '.clisp'], 'clisp$', ['clisp']))
-
-error_count = 0
-
-
-def debug(s):
-    global args
-    if args.debug:
-        print "\033[1;44mDBG!\033[0;0m %s\n" % s
+Language.registerLanguage(Language(['.rkt'], 'racket$', ['raco', 'make']))
+# go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
+Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
+Language.registerLanguage(Language(['.lua'], 'lua$', ['luacheck']))
 
 
-def passed(s):
-    global args
-    if args.verbose:
-        print "\033[1;42mPASS\033[0;0m %s\n" % s
-
-
-def warn(s):
-    print "\033[1;43mWRN!\033[0;0m %s\n" % s
-
-
-def error(s):
-    global error_count
-    error_count += 1
-    print "\033[1;41mERR!\033[0;0m %s\n" % s
-
-
-def check_file(file_full_path):
+def check_file(file_full_path, pr=False):
 
     file_short_name, file_extension = os.path.splitext(file_full_path)
     candidates = Language.getLanguagesForFileExtension(file_extension)
@@ -150,7 +181,7 @@ def check_file(file_full_path):
     for linter in linters:
         try:
             debug('running %s' % " ".join(linter.cmd))
-            linter.lint(file_full_path)
+            linter.lint(file_full_path, pr)
         except subprocess.CalledProcessError as cpe:
             debug('%s failed linting with "%s"' % (file_full_path, " ".join(linter.cmd)))
             errors.append({'linter': linter, 'output': cpe.output})
@@ -171,6 +202,7 @@ def boolean_string(string):
         return False
     return True
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument(
     '--pr', action='store', nargs='?', const="True",
@@ -179,6 +211,7 @@ parser.add_argument(
     help='Run tests on changes from the root branch to HEAD.  verbose is implied!')
 parser.add_argument('--verbose', '-v', action='store_true', help='Turn on success and other non-critical messages')
 parser.add_argument('--debug', action='store_true', help='Turn on debug messages')
+parser.add_argument('--no-warn', action='store_false', dest='warn', help='Disable warnings', default=True)
 parser.add_argument('files', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
@@ -211,7 +244,7 @@ for _file in args.files:
         debug('skipping file %s' % _file)
     else:
         debug('checking file %s' % _file)
-        check_file(os.path.join(os.getcwd(), _file))
+        check_file(os.path.join(os.getcwd(), _file), args.pr)
 
 if error_count > 0:
     error('failed with %i errors' % error_count)

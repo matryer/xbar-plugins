@@ -19,9 +19,9 @@
 #Now we just need to download the calendar file and tell the script where you put it
 #http://www.f1calendar.com/download/f1-calendar_p1_p2_p3_q_gp.ics?t=1461060079
 #Download this file and save it somwhere the script can get to it and the update the below 'calfile' variable with the full path to the file
-#Dont put the cal file in the plugins folder, you can create a sub-directory like I have otherwise youwill break all your plugins
+#Dont put the cal file in the plugins folder, you can create a sub-directory like I have else you will break all your plugins
 
-calfile = "/Users/C5066492/Documents/BitBarPlugins/cal/f1-calendar2016.ics"
+calfile = "/Users/me/Documents/BitbarPlugins/f1data/f1-calendar_p1_p2_p3_q_gp.ics"
 
 ###################################################
 ###################################################
@@ -30,14 +30,18 @@ calfile = "/Users/C5066492/Documents/BitBarPlugins/cal/f1-calendar2016.ics"
 ###################################################
 
 from icalendar import Calendar
+#from datetime import datetime
 from datetime import datetime
+from pytz import timezone
 import pytz
 import re
+import tzlocal  # $ pip install tzlocal
+
 #import urllib2
 #import requests
 #GOD DAM OSX ships with old version of py cant get to HTTPS services without breaking
 
-DATE = '2016-04-29 18:30:00'
+#DATE = '2016-04-29 18:30:00'
 now = datetime.utcnow()
 #calfile = requests.get('http://www.f1calendar.com/download/f1-calendar_p1_p2_p3_q_gp.ics?t=1461060079')
 #calfile = urllib2.urlopen("http://www.f1calendar.com/download/f1-calendar_p1_p2_p3_q_gp.ics?t=1461060079")
@@ -64,16 +68,16 @@ for component in gcal.walk():
 				
 				if matchObjFP1:
 						#print "FIRST PRACTICE1 : ", matchObj.group()
-						event = "FP1"
+						event = "FP1:"
 
 				elif matchObjFP2:
-						event = "FP2"
+						event = "FP2:"
 				elif matchObjFP3:
-						event = "FP3"
+						event = "FP3:"
 				elif matchObjQ:
-						event = "QUALI"
+						event = "QUALI:"
 				elif matchObjGP:
-						event = "GP"
+						event = "GP:"
 				break
 
 g.close()
@@ -88,12 +92,14 @@ def daysHoursMinutesSecondsFromSeconds(seconds):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
+    #return (days, hours, minutes)
     return (days, hours, minutes, seconds)
-
 now = datetime.now()
-
-print event , "%dd %dh %dm %ds" % daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(utc.localize(now), DATE)), "|size=10"
+us_tz = timezone(tzlocal.get_localzone().zone)
+localized_end_date = us_tz.normalize(DATE.astimezone(us_tz))
+print event,"%dd %dh %dm %ds" % daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(utc.localize(now), localized_end_date  )), "|size=12 color=#95949e"
+#  %ds
+print "---"
+print "---"
 print summary 
 print location 
-
-
