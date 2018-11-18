@@ -5,7 +5,7 @@
 # <bitbar.author>ChTBoner</bitbar.author>
 # <bitbar.author.github>chtboner</bitbar.author.github>
 # <bitbar.desc>Displays upload and download speeds</bitbar.desc>
-# <bitbar.image>https://imgur.com/qDPtOxl</bitbar.image>
+# <bitbar.image>https://i.imgur.com/qDPtOxl.png</bitbar.image>
 # <bitbar.dependencies>python3, psutil</bitbar.dependencies>
 #
 # by ChTBoner
