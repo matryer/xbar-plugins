@@ -48,5 +48,5 @@ if(len(sys.argv) >= 2):
 
 print "📔"
 print "---"
-print("Add Note | trim=false, color=yellow bash=" + fullPathFileName +  " param1=-n param2=null terminal=false refresh=true")
+print("Add Note | trim=false, color=yellow bash=" + fullPathFileName +  " param1=-n param2=null terminal=false refresh=true") 
 
