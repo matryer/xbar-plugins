@@ -31,7 +31,8 @@ results = parser.parse_args()
 
 if(len(sys.argv) >= 2):
     if (sys.argv[1] == "-n"): 
-        cmd = "osascript -e \'set theString to text returned of (display dialog \"Please Enter The Note To Add \" with icon note default answer \"\n\n\n\" buttons {\"OK\",\"Cancel\"} default button 1) \'" 
+        cmd = "osascript -e \'set theString to text returned of (display dialog \"Please Enter The Note To Add \" with icon note default answer \"\n\n\n\" buttons {\"OK\",\"Cancel\"} 
+default button 1) \'" 
         note = run_script(cmd)
         if len(note) is 0:
              sys.exit(1)
@@ -42,10 +43,12 @@ if(len(sys.argv) >= 2):
         else:
             header = note
             body = ""
-        cmd2 = "osascript -e 'tell application \"Notes\" \n tell account \"iCloud\" \n make new note at folder \"Notes\" with properties {name:\"%s\", body:\"%s\"} \n end tell \n end tell'" % (header, body)
+        cmd2 = "osascript -e 'tell application \"Notes\" \n tell account \"iCloud\" \n make new note at folder \"Notes\" with properties {name:\"%s\", body:\"%s\"} \n end tell \n end 
+tell'" % (header, body)
         run_script2(cmd2)
         sys.exit(1)
 
 print "📔"
 print "---"
 print("Add Note | trim=false, color=yellow bash=" + fullPathFileName +  " param1=-n param2=null terminal=false refresh=true")
+
