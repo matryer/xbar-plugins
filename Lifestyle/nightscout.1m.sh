@@ -29,25 +29,25 @@ fi
 
 case ${RESULTARRAY[3]} in
 	FortyFiveUp)
-		TREND="/"
+		TREND='/'
 		;;
 	FortyFiveDown)
-		TREND="\"
+		TREND='\'
 		;;
 	SingleUp)
-		TREND="/\"
+		TREND='/\'
 		;;
 	SingleDown)
-		TREND="\/"
+		TREND='\/'
 		;;
 	Flat)
-		TREND="->"
+		TREND='->'
 		;;
 	DoubleUp)
-		TREND="//\\"
+		TREND='//\\'
 		;;
 	DoubleDown)
-		TREND="\\//"
+		TREND='\\//'
 		;;
 	*)
 		TREND==${RESULTARRAY[3]}
