@@ -12,18 +12,17 @@ NSURL=http://YOURNIGHTSCOUTURL.herokuapp.com # Add your own Nightscout URL here
 USEMMOL=true # true if you use mmol/l units. false if you use mg/dl
 
 
-CURRENTRESULT=$(curl --silent $NSURL/api/v1/entries/current)
-RESULTARRAY=($CURRENTRESULT)
+read -a RESULTARRAY <<< $(curl --silent $NSURL/api/v1/entries/current)
 
 TIMESTAMP=${RESULTARRAY[0]}  
 TIMESTAMP=${TIMESTAMP//\.[0-9][0-9][0-9]/} #Strip milliseconds from the timestamp. BSD date doesn't like it.
-EPOCHTS=`date -j -f "%FT%T%z" $TIMESTAMP +%s` # Convert timestamp to epoch time
-EPOCHNOW=`date +%s` # Convert current time to epoch time
-TIMEDIFF=`echo "($EPOCHNOW - $EPOCHTS)/(60)" | bc` #calculate the difference
+EPOCHTS=$(date -j -f "%FT%T%z" $TIMESTAMP +%s) # Convert timestamp to epoch time
+EPOCHNOW=$(date +%s) # Convert current time to epoch time
+TIMEDIFF=$((($EPOCHNOW - $EPOCHTS)/60)) #calculate the difference
 
 BG=${RESULTARRAY[2]}
 if $USEMMOL ; then
-	BG=`echo "scale=1; $BG / 18" | bc` #Convert mg/dl to mmol/l
+	BG=$(echo "scale=1; $BG / 18" | bc) #Convert mg/dl to mmol/l
 fi
 
 
@@ -50,11 +49,11 @@ case ${RESULTARRAY[3]} in
 		TREND='\\//'
 		;;
 	*)
-		TREND==${RESULTARRAY[3]}
+		TREND=${RESULTARRAY[3]}
 		;;
 esac
 
-echo "$BG $TREND ($TIMEDIFF m ago)"
+echo "$BG $TREND (${TIMEDIFF}m ago)"
 echo "---"
 echo "Go to Nightscout | href=$NSURL"
 echo "Reading taken: $TIMESTAMP"
