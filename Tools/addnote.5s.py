@@ -4,7 +4,7 @@
 # <bitbar.title>Add Note</bitbar.title>
 # <bitbar.author>Frak Nuaimy</bitbar.author>
 # <bitbar.author.github>frakman1</bitbar.author.github>
-# <bitbar.image>http://i62.tinypic.com/1zvae6o.jpg</bitbar.image>
+# <bitbar.image>http://i.imgur.com/608LQ25.png</bitbar.image>
 # <bitbar.desc>Add a note to Apple Notes app.</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.version>v1.0</bitbar.version>
@@ -13,7 +13,6 @@
 import os, sys
 import argparse
 import subprocess
-
 
 
 def run_script(script):
@@ -32,25 +31,22 @@ results = parser.parse_args()
 
 if(len(sys.argv) >= 2):
     if (sys.argv[1] == "-n"): 
-        cmd = "osascript -e \'set theString to text returned of (display dialog \"Please Enter The Note To Add to \" with icon note default answer \"\n\n\n\" buttons {\"OK\",\"Cancel\"} default button 1) \'" 
+        cmd = "osascript -e \'set theString to text returned of (display dialog \"Please Enter The Note To Add \" with icon note default answer \"\n\n\n\" buttons {\"OK\",\"Cancel\"} default button 1) \'" 
         note = run_script(cmd)
-        print len(note)
         if len(note) is 0:
              sys.exit(1)
         if "\n" in note:
             i = note.index('\n')
-            header = note.splitlines()[0]
+            header = note.splitlines(True)[0]
             body = note[i+1:]
         else:
             header = note
             body = ""
-        print note
         cmd2 = "osascript -e 'tell application \"Notes\" \n tell account \"iCloud\" \n make new note at folder \"Notes\" with properties {name:\"%s\", body:\"%s\"} \n end tell \n end tell'" % (header, body)
         run_script2(cmd2)
-        #print note
         sys.exit(1)
 
 print "📔"
 print "---"
-print("AddNote | trim=false, color=yellow bash=" + fullPathFileName +  " param1=-n param2=null terminal=false refresh=true")
+print("Add Note | trim=false, color=yellow bash=" + fullPathFileName +  " param1=-n param2=null terminal=false refresh=true") 
 
