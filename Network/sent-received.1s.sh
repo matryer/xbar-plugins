@@ -15,7 +15,7 @@ TMPFILE="${TMPDIR}/bitbar-sent-received"
 
 if [[ -r "${TMPFILE}" ]]
 then
-    read -a offsets < "${TMPFILE}"
+    read -ra offsets < "${TMPFILE}"
 else
     echo "0 0" > "${TMPFILE}"
     offsets=(0 0)
@@ -49,6 +49,7 @@ function convert_bytes {
     fi
 }
 
+# shellcheck disable=SC2086
 echo "▼ $(convert_bytes ${offset_in_bytes}) ▲ $(convert_bytes ${offset_out_bytes})"
 echo "---"
 echo "Reset Counters | bash='$0' param1=reset terminal=false"
