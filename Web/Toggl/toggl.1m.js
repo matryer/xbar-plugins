@@ -5,7 +5,7 @@
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Shows hours completed today, hours completed this week.</bitbar.desc>
-// <bitbar.image></bitbar.image>
+// <bitbar.image>https://i.imgur.com/1dlNZLW.png</bitbar.image>
 // <bitbar.dependencies>node</bitbar.dependencies>
 const fs = require('fs');
 
