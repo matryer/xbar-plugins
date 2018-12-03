@@ -134,3 +134,4 @@ echo "$rating_icon_black $rating_icon_white $rating_icon_white $rating_icon_whit
 echo "$rating_icon_black $rating_icon_black $rating_icon_white $rating_icon_white $rating_icon_white | bash='$0' param1=two refresh=true terminal=false "
 echo "$rating_icon_black $rating_icon_black $rating_icon_black $rating_icon_white $rating_icon_white | bash='$0' param1=three refresh=true terminal=false "
 echo "$rating_icon_black $rating_icon_black $rating_icon_black $rating_icon_black $rating_icon_white | bash='$0' param1=four refresh=true terminal=false "
+echo "$rating_icon_black $rating_icon_black $rating_icon_black $rating_icon_black $rating_icon_black | bash='$0' param1=five refresh=true terminal=false "
