@@ -45,7 +45,7 @@ function convert_bytes {
     then
         printf "%0.1f MB" "$(bc <<< "scale = 1; $1 / 1048576")"
     else
-        printf "%0.2f GB" "$(bc <<< "scale = 2; $1 / 1048576")"
+        printf "%0.2f GB" "$(bc <<< "scale = 2; $1 / 1073741824")"
     fi
 }
 
