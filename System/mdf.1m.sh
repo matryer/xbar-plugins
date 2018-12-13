@@ -90,17 +90,17 @@ make_bmp_header() {
     # Common bits for version 1 and 5
     bmp_header+=(
         42 4d                   # "BM" magic
-        $_filebytes             # size of file
+        "$_filebytes"             # size of file
         00 00                   # reserved
         00 00                   # reserved
-        $_pixoffset             # offset of pixel data
-        $_headerbytes           # remaining bytes in header
-        $_width                 # width
-        $_height                # height
+        "$_pixoffset"             # offset of pixel data
+        "$_headerbytes"           # remaining bytes in header
+        "$_width"                 # width
+        "$_height"                # height
         01 00                   # 1 color plane
         20 00                   # 32 bits per pixel
         $comp 00 00 00          # compression
-        $_pixbytes              # size of pixel data
+        "$_pixbytes"              # size of pixel data
         13 0b 00 00             # ~72 dpi horizontal
         13 0b 00 00             # ~72 dpi vertical
         00 00 00 00             # colors in palette
