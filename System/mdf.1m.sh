@@ -99,7 +99,7 @@ make_bmp_header() {
         "$_height"                # height
         01 00                   # 1 color plane
         20 00                   # 32 bits per pixel
-        $comp 00 00 00          # compression
+        "$comp" 00 00 00          # compression
         "$_pixbytes"              # size of pixel data
         13 0b 00 00             # ~72 dpi horizontal
         13 0b 00 00             # ~72 dpi vertical
@@ -176,8 +176,8 @@ function rect() {
 }
 
 output_bmp() {
-    local _bmp=(${bmp_header[@]/#/'\x'})
-    _bmp+=(${pixels[@]/#/'\x'})
+    local _bmp=("${bmp_header[@]/#/'\x'}")
+    _bmp+=("${pixels[@]/#/'\x'}")
 
     local IFS=''
     #echo -ne "${_bmp[*]}" >/tmp/mtop.bmp
@@ -275,7 +275,7 @@ get_disk_stats() {
     local IFS=$'\n'
     local i dfdata dudata diskname
 
-    dfdata=($(df -H))
+    dfdata=("$(df -H)")
 
     IFS=$OLDIFS
     for ((i = 0; i < ${#dfdata[@]}; i++)); do
