@@ -199,7 +199,7 @@ init_bmp() {
     if [ ${#pixels[@]} -ne $pixbytes ]; then
         pixels=()
         for ((i = 0; i < width * height; i++)); do
-            pixels+=(${curcol[@]});
+            pixels+=("${curcol[@]}");
         done
     fi
 }
@@ -228,9 +228,9 @@ fi
 # alert condition: free capacity < 2%. 
 determine_col() {
   if (( $1 < 98 )); then
-  	retval=(${fgcol[@]})
+  	retval=("${fgcol[@]}")
   else
-  	retval=(${fgcol_alert[@]})
+  	retval=("${fgcol_alert[@]}")
   fi
 }
 
@@ -239,10 +239,10 @@ determine_col() {
 
 init_bar() {
     pixels=()
-    curcol=(${bgcol[@]})
+    curcol=("${bgcol[@]}")
     init_bmp $bmp_ver "$1" "$2"
-    determine_col "$root_capacity"; col=(${retval[@]})
-    curcol=(${col[@]})
+    determine_col "$root_capacity"; col=("${retval[@]}")
+    curcol=("${col[@]}")
     rect 0 0 "$1" "$2"
 }
 
@@ -278,13 +278,13 @@ get_disk_stats() {
     dfdata=("$(df -H)")
 
     IFS=$OLDIFS
-    for ((i = 0; i < ${#dfdata[@]}; i++)); do
-        line=(${dfdata[$i]})
+    for ((i = 0; i < "${#dfdata[@]}"; i++)); do
+        line=("${dfdata[$i]}")
         if [ "${line[8]}" = "/" ]; then
             root_capacity="${line[4]/\%}"            
         fi
         if [[ "${line[0]}" == /dev/* ]]; then
-            dudata=($(diskutil info "${line[0]}" | grep "Volume Name"))
+            dudata=("$(diskutil info "${line[0]}" | grep "Volume Name")")
             diskname="${dudata[*]:2}"
             disk+=("${diskname:-Untitled}")
             used+=("${line[2]}")
