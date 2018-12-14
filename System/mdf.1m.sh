@@ -90,16 +90,16 @@ make_bmp_header() {
     # Common bits for version 1 and 5
     bmp_header+=(
         42 4d                   # "BM" magic
-        "$_filebytes"             # size of file
+        $_filebytes             # size of file
         00 00                   # reserved
         00 00                   # reserved
-        "$_pixoffset"             # offset of pixel data
-        "$_headerbytes"           # remaining bytes in header
-        "$_width"                 # width
-        "$_height"                # height
+        $_pixoffset             # offset of pixel data
+        $_headerbytes           # remaining bytes in header
+        $_width                 # width
+        $_height                # height
         01 00                   # 1 color plane
         20 00                   # 32 bits per pixel
-        "$comp" 00 00 00          # compression
+        $comp 00 00 00          # compression
         "$_pixbytes"              # size of pixel data
         13 0b 00 00             # ~72 dpi horizontal
         13 0b 00 00             # ~72 dpi vertical
@@ -176,8 +176,8 @@ function rect() {
 }
 
 output_bmp() {
-    local _bmp=("${bmp_header[@]/#/'\x'}")
-    _bmp+=("${pixels[@]/#/'\x'}")
+    local _bmp=(${bmp_header[@]/#/'\x'})
+    _bmp+=(${pixels[@]/#/'\x'})
 
     local IFS=''
     #echo -ne "${_bmp[*]}" >/tmp/mtop.bmp
@@ -199,7 +199,7 @@ init_bmp() {
     if [ ${#pixels[@]} -ne $pixbytes ]; then
         pixels=()
         for ((i = 0; i < width * height; i++)); do
-            pixels+=("${curcol[@]}");
+            pixels+=(${curcol[@]});
         done
     fi
 }
@@ -228,9 +228,9 @@ fi
 # alert condition: free capacity < 2%. 
 determine_col() {
   if (( $1 < 98 )); then
-  	retval=("${fgcol[@]}")
+  	retval=(${fgcol[@]})
   else
-  	retval=("${fgcol_alert[@]}")
+  	retval=(${fgcol_alert[@]})
   fi
 }
 
@@ -239,10 +239,10 @@ determine_col() {
 
 init_bar() {
     pixels=()
-    curcol=("${bgcol[@]}")
+    curcol=(${bgcol[@]})
     init_bmp $bmp_ver "$1" "$2"
-    determine_col "$root_capacity"; col=("${retval[@]}")
-    curcol=("${col[@]}")
+    determine_col "$root_capacity"; col=(${retval[@]})
+    curcol=(${col[@]})
     rect 0 0 "$1" "$2"
 }
 
@@ -275,16 +275,16 @@ get_disk_stats() {
     local IFS=$'\n'
     local i dfdata dudata diskname
 
-    dfdata=("$(df -H)")
+    dfdata=($(df -H))
 
     IFS=$OLDIFS
-    for ((i = 0; i < "${#dfdata[@]}"; i++)); do
-        line=("${dfdata[$i]}")
+    for ((i = 0; i < ${#dfdata[@]}; i++)); do
+        line=(${dfdata[$i]})
         if [ "${line[8]}" = "/" ]; then
             root_capacity="${line[4]/\%}"            
         fi
         if [[ "${line[0]}" == /dev/* ]]; then
-            dudata=("$(diskutil info "${line[0]}" | grep "Volume Name")")
+            dudata=($(diskutil info "${line[0]}" | grep "Volume Name"))
             diskname="${dudata[*]:2}"
             disk+=("${diskname:-Untitled}")
             used+=("${line[2]}")
