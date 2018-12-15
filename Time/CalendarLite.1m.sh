@@ -25,7 +25,7 @@ echo "Last month: $last_m_name, $year|trim=false font=$font"
 cal -d "$year"-"$last_m" |awk 'NF'|sed 's/ *$//'| while IFS= read -r i; do echo "--$i|trim=false font=$font"; done 
 echo "---"
 
-cal |awk 'NF'|sed 's/ $//' |while IFS= read -r i; do echo " $i|trim=false font=$font color=$color"|  perl -pe '$b="\b";s/ _$b(\d)_$b(\d) /(\1\2)/' |perl -pe '$b="\b";s/_$b _$b(\d) /(\1)/' ; done
+cal |awk 'NF'|sed 's/ $//' |while IFS= read -r i; do echo " $i|trim=false font=$font color=$color"|  perl -pe '$b="\b";s/ _$b(\d)_$b(\d)/(\1\2)/' |perl -pe '$b="\b";s/_$b _$b(\d)/(\1)/' ; done
 
 #Comment out these lines to remove "next month"
 echo "---"

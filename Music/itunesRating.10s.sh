@@ -62,9 +62,9 @@ fi
 rating_icon_black="★"
 rating_icon_white="☆"
 
-track=$(osascript -e 'tell application "iTunes" to name of current track as string');
-artist=$(osascript -e 'tell application "iTunes" to artist of current track as string');
-rating=$(osascript -e 'tell application "iTunes" to rating of current track as string');
+track=$(osascript -e 'tell application "iTunes" to name of current track as string' 2>/dev/null);
+artist=$(osascript -e 'tell application "iTunes" to artist of current track as string' 2>/dev/null);
+rating=$(osascript -e 'tell application "iTunes" to rating of current track as string' 2>/dev/null);
 
 case $rating in
     00)
