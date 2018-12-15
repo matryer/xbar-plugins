@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <bitbar.title>Habitica</bitbar.title>
-// <bitbar.version>v1.1</bitbar.version>
+// <bitbar.version>v1.2</bitbar.version>
 // <bitbar.author>Stefan du Fresne</bitbar.author>
 // <bitbar.author.github>SCdF</bitbar.author.github>
 // <bitbar.desc>Allows you to manage your Habitica tasks, habits and to-dos. See: habitica.com</bitbar.desc>
@@ -327,6 +327,10 @@ const HABITICA_ICON =
 // NB: DEBUG on means refreshing post-action doesn't work
 const DEBUG = false;
 
+const REQUEST_TIMEOUT = 30 * 1000;
+
+const NEW_DAY = '🌅';
+
 const UNCHECKED = '◻️';
 const CHECKED = '☑️';
 const HEALTH = '💗';
@@ -338,12 +342,7 @@ const SCORE_DOWN = '➖';
 
 const SCORE_TASK = 'scoreTask';
 const SCORE_CHECKLIST_ITEM = 'scoreChecklistItem';
-
-const failure = function(reason) {
-  console.log('☹');
-  console.log('---');
-  console.log(reason);
-};
+const START_NEW_DAY = 'startNewDay';
 
 //   ========================================================================
 //   =  ====  =====  =====      ====    ==        ==    ====     ======  ====
@@ -364,6 +363,7 @@ const options = function(method, endpoint) {
     method: method,
     hostname: 'habitica.com',
     path: '/api/v3/' + endpoint,
+    timeout: REQUEST_TIMEOUT,
     headers: {
       'x-api-user': USER_ID,
       'x-api-key': API_TOKEN
@@ -385,7 +385,7 @@ const request = function(method, endpoint) {
     });
 
     req.end();
-    req.on('error', failure);
+    req.on('error', reject);
   });
 };
 
@@ -434,6 +434,9 @@ const processArguments = function() {
         throw Error(SCORE_CHECKLIST_ITEM + ' missing params');
       }
       break;
+    }
+    case START_NEW_DAY: {
+      return request('POST', 'cron');
     }
     default:
       throw Error('Unsupported action ' + action);
@@ -569,24 +572,38 @@ const outputProfile = function(userData) {
   console.log([MAGIC, progressBar(mp, maxMp), mp, '/', maxMp, font].join(' '));
 };
 
-const icon = function(numDailies, isSleeping) {
+const outputIcon = function(numDailies, isSleeping, needsCron) {
   if (isSleeping) {
-    console.log('Zzz|templateImage="' + HABITICA_ICON+ '"');
+    console.log(`Zzz|templateImage="${HABITICA_ICON}"`);
   } else {
     if (numDailies) {
-      console.log(numDailies + '|image="' + HABITICA_ICON + "'\n");
+      numDailies = needsCron ? `(${numDailies})` : numDailies;
+      console.log(`${numDailies}|image="${HABITICA_ICON}"`);
     } else {
-      console.log('|templateImage="' + HABITICA_ICON+ '"');
+      console.log(`|templateImage="${HABITICA_ICON}"`);
     }
   }
 };
 
+const outputNeedsCron = () => {
+  console.log('You left Dailies unchecked yesterday!|size=11');
+  console.log('Either check them off now or…|size=11');
+  console.log(NEW_DAY + ' Start My New Day|' + action('startNewDay'));
+};
+
 const output = function(dailies, habits, todos, userData) {
-    icon(dailies.length, userData.preferences.sleep);
+    outputIcon(dailies.length,
+               userData.preferences.sleep,
+               userData.needsCron);
+
+    if (userData.needsCron) {
+      sep();
+      outputNeedsCron();
+    }
 
     if (dailies.length) {
       sep();
-      outputTasks('Dailies', dailies);
+      outputTasks((userData.needsCron ? 'Yesterday\'s ' : '') + 'Dailies', dailies);
     }
 
     if (habits.length) {
@@ -603,6 +620,7 @@ const output = function(dailies, habits, todos, userData) {
     outputProfile(userData);
     sep();
     console.log('Go to website|href="https://habitica.com"');
+    console.log('Refresh|refresh=true');
 };
 
 //   ==============================================
@@ -617,14 +635,23 @@ const output = function(dailies, habits, todos, userData) {
 //   =  ========        ====    =======  ====  ====
 //   ==============================================
 
+const failure = function(reason) {
+  console.log('☹');
+  console.log('---');
+  console.log(reason);
+};
+
 if (USER_ID === 'YOUR_USER_ID_HERE' || API_TOKEN === 'YOUR_TOKEN_HERE') {
   return failure('Please configure the plugin with your userid and token');
 }
 
 get('status')
+.catch(err => {
+  throw new Error('habitica api is down');
+})
 .then(result => {
   if (result.data.status !== 'up') {
-    throw Error('habitica api is down');
+    throw new Error('habitica api is down');
   }
 })
 .then(() => {
