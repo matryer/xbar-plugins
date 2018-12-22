@@ -13,7 +13,10 @@
 
 import urllib
 import json
+import sys
 
+reload(sys)
+sys.setdefaultencoding('utf8')
 ip_url = 'http://ip-api.com/json'
 
 try:
