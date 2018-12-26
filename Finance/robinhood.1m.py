@@ -1,8 +1,15 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
+# <bitbar.title>Robinhood</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Jonathan Grant</bitbar.author>
+# <bitbar.author.github>jonathangrant</bitbar.author.github>
+# <bitbar.desc>Shows your total portfolio value.</bitbar.desc>
+# <bitbar.dependencies>python,Robinhood</bitbar.dependencies>
+
+
 from Robinhood import Robinhood as R
-from pprint import pprint
 
 me = R()
 me.login(username="Your Username Here", password="Your Password Here")
