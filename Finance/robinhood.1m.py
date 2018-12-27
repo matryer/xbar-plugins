@@ -22,4 +22,4 @@ if difference > 0:
     color = 'green'
 elif difference < 0:
     color = 'red'
-print('${}|color={}'.format(now, color))
+print('${:,.2f}|color={}'.format(float(now), color))
