@@ -23,3 +23,6 @@ if difference > 0:
 elif difference < 0:
     color = 'red'
 print('${:,.2f}|color={}'.format(float(now), color))
+print('---')
+print('Start of Day: ${:,.2f}|color={}'.format(float(start), 'white'))
+print('Difference: ${:,.2f}|color={}'.format(float(difference), color))
