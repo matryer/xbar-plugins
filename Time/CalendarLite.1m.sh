@@ -31,5 +31,8 @@ cal |awk 'NF'|sed 's/ $//' |while IFS= read -r i; do echo " $i|trim=false font=$
 echo "---"
 next_m=$(date -v+1m +%m)
 next_m_name=$(date -jf %Y-%m-%d "$year"-"$next_m"-01 '+%b')
+if [ $next_m = "01" ];then
+    year=$((year+1))
+fi
 echo "Next month: $next_m_name, $year|trim=false font=$font"
 cal -d "$year"-"$next_m" | awk 'NF'|sed 's/ *$//' | while IFS= read -r i; do echo "--$i|trim=false font=$font";done
