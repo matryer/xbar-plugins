@@ -7,6 +7,12 @@
 
 HOSTS_LOCATION=""
 
+flushcache(){
+	killall -HUP mDNSResponder &>/dev/null
+	sudo killall mDNSResponderHelper &>/dev/null
+	sudo dscacheutil -flushcache &>/dev/null
+}
+
 if [ -z "$HOSTS_LOCATION" ]; then
 	ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 	echo ":warning: Click and readme! | color=red"
@@ -15,12 +21,24 @@ if [ -z "$HOSTS_LOCATION" ]; then
 	echo "Please open the script and fill correcty HOSTS_LOCATION variable. | color=red"
 	echo "Open ${BASH_SOURCE[0]}| color=blue terminal=false bash=/usr/bin/open param1=$ABSOLUTE_PATH"
 else
-	if [ ! -z "$1" ] && [ ! -z "$2" ]; then
-		if [ "$1" = "switch" ]; then
-			/usr/bin/osascript -e "do shell script \"ln -f ${2} /etc/hosts && dscacheutil -flushcache && killall -HUP mDNSResponder\" with administrator privileges"
-		else
-			open "$2"
-		fi
+	COMMAND=$1
+	HOST_FILE=$2
+	if [ ! -z "$COMMAND" ]; then
+		case $COMMAND in
+			"switch")
+				if [ ! -z "$HOST_FILE" ]; then
+					/usr/bin/osascript -e "do shell script \"ln -f ${HOST_FILE} /etc/hosts && flushcache\" with administrator privileges"
+				fi
+				;;
+			"open")
+				if [ ! -z "$HOST_FILE" ]; then
+					open "$HOST_FILE"
+				fi
+				;;
+			"flush")
+				/usr/bin/osascript -e "do shell script \"flushcache\" with administrator privileges"
+				;;
+		esac
 	fi
 
 	CURRENT_FILE=$(find "$HOSTS_LOCATION" -samefile '/etc/hosts' -exec basename {} +)
@@ -48,5 +66,6 @@ else
 
 	echo "---"
 	echo "Open host files folder | terminal=false refresh=true bash=$0 param1=open param2=$HOSTS_LOCATION"
+	echo "Flush dns cache | terminal=false refresh=true bash=$0 param1=flush"
 
 fi
