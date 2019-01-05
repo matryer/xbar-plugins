@@ -8,7 +8,7 @@
 # <bitbar.image>http://i.imgur.com/SBlrP2t.png</bitbar.image>
 # <bitbar.dependencies>emacs</bitbar.dependencies>
 
-EMACS=$(which emacs)
+EMACS=$(command -v emacs)
 
 exit_with_error() {
   echo "🐮err | color=red";
