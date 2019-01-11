@@ -21,16 +21,17 @@ color="red"
 last_month=$(date -v-1m +%m)
 last_year=$(date -v-1m +%Y)
 last_month_name=$(date -jf %Y-%m-%d "$last_year"-"$last_month"-01 '+%b')
-echo "Last month: $last_month_name, $last_year|trim=false font=$font"
+echo "Prev: $last_month_name $last_year|trim=false font=$font"
 cal -d "$last_year"-"$last_month" |awk 'NF'|sed 's/ *$//'| while IFS= read -r i; do echo "--$i|trim=false font=$font"; done 
 echo "---"
 
-cal |awk 'NF'|sed 's/ $//' |while IFS= read -r i; do echo " $i|trim=false font=$font color=$color"|  perl -pe '$b="\b";s/ _$b(\d)_$b(\d)/(\1\2)/' |perl -pe '$b="\b";s/_$b _$b(\d)/(\1)/' ; done
+#cal |awk 'NF'|while IFS= read -r i; do echo " $i|trim=false font=$font color=$color"|  perl -pe '$b="\b";s/ _$b(\d)_$b(\d) /(\1\2)/' |perl -pe '$b="\b";s/_$b _$b(\d) /(\1)/' |sed 's/ *$//'; done 
+cal |awk 'NF'|while IFS= read -r i; do echo "$i"|perl -pe '$b="\b";s/ _$b(\d)_$b(\d) /(\1\2)/' |perl -pe '$b="\b";s/_$b _$b(\d) /(\1)/' |sed 's/ *$//' |sed "s/$/|trim=false font=$font color=$color/"; done 
 
 #Comment out these lines to remove "next month"
 echo "---"
 next_month=$(date -v+1m +%m)
 next_year=$(date -v+1m +%Y)
 next_month_name=$(date -jf %Y-%m-%d "$next_year"-"$next_month"-01 '+%b')
-echo "Next month: $next_month_name, $next_year|trim=false font=$font"
+echo "Next: $next_month_name $next_year|trim=false font=$font"
 cal -d "$next_year"-"$next_month" | awk 'NF'|sed 's/ *$//' | while IFS= read -r i; do echo "--$i|trim=false font=$font";done
