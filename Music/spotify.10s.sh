@@ -47,10 +47,12 @@ if [ "$1" = 'launch' ]; then
   exit
 fi
 
-if [ "$1" = 'lyrics' ]; then
-  osascript -e "do shell script \"open 'https://www.musixmatch.com/search/$track $artist'\""
-  exit
-fi
+first="$(echo "$1" | head -n 1 | awk '{print $1;}')"
+case "$first" in
+  'playpause' | 'previous' | 'next' | 'set')
+    tellspotify "$1"
+    exit
+esac
 
 if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
   echo "♫"
@@ -60,13 +62,6 @@ if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
   exit
 fi
 
-first="$(echo "$1" | head -n 1 | awk '{print $1;}')"
-case "$first" in
-  'playpause' | 'previous' | 'next' | 'set')
-    tellspotify "$1"
-    exit
-esac
-
 ## Get Spotify info
 
 state=$(tellspotify 'player state as string');
@@ -74,6 +69,36 @@ track=$(tellspotify 'name of current track as string');
 artist=$(tellspotify 'artist of current track as string');
 album=$(tellspotify 'album of current track as string');
 
+# Handle last early-return case (needed $track and $artist to look up lyrics).
+if [ "$1" = 'lyrics' ]; then
+  open "https://www.musixmatch.com/search/$track $artist"
+  exit
+fi
+
+if [ "$state" = "playing" ]; then
+  state_icon="▶"
+else
+  state_icon="❚❚"
+fi
+
+# Clean up track and/or album names
+if [[ $CLEAN_TRACK_NAMES ]]; then
+  track="$(echo -e "${track/ - /\\n}" | head -n 1)"
+  track="$(echo -e "${track/ (Remastered/\\n}" | head -n 1)"
+fi
+
+## Truncate track and artist
+trunc_track=$track
+if [ ${#trunc_track} -gt $TRUNC_LEN ];then
+  trunc_track=${trunc_track:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
+fi
+
+trunc_artist=$artist
+if [ ${#trunc_artist} -gt $TRUNC_LEN ];then
+  trunc_artist=${trunc_artist:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
+fi
+
+# Get position and duration of track
 if [[ $SHOW_TIME ]]; then
   position=$(osascript -e \
                        "tell application \"Spotify\"
@@ -99,29 +124,6 @@ if [[ $SHOW_TIME ]]; then
                             end if
                             return time_min as text & \":\" & time_sec as text
                         end tell");
-fi
-
-if [ "$state" = "playing" ]; then
-  state_icon="▶"
-else
-  state_icon="❚❚"
-fi
-
-if [[ $CLEAN_TRACK_NAMES ]]; then
-  track="$(echo -e "${track/ - /\\n}" | head -n 1)"
-  track="$(echo -e "${track/ (Remastered/\\n}" | head -n 1)"
-fi
-
-## Truncate track and artist
-
-trunc_track=$track
-if [ ${#trunc_track} -gt $TRUNC_LEN ];then
-  trunc_track=${trunc_track:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
-fi
-
-trunc_artist=$artist
-if [ ${#trunc_artist} -gt $TRUNC_LEN ];then
-  trunc_artist=${trunc_artist:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
 fi
 
 ## Print the display
