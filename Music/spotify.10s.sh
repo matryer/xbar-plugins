@@ -22,8 +22,10 @@ SHOW_TIME=1
 # "Remastered", "Single Version", or other garbage that Spotify likes to
 # include.
 #
-# You can comment out this line if you want the full track names.
+# Comment out this line if you want the full track names.
 CLEAN_TRACK_NAMES=1
+# Comment out this line if you want the full album names.
+CLEAN_ALBUM_NAMES=1
 
 # The length of a track/artist name after which to truncate.
 TRUNC_LEN=18
@@ -85,6 +87,10 @@ fi
 if [[ $CLEAN_TRACK_NAMES ]]; then
   track="$(echo -e "${track/ - /\\n}" | head -n 1)"
   track="$(echo -e "${track/ (Remastered/\\n}" | head -n 1)"
+fi
+if [[ $CLEAN_ALBUM_NAMES ]]; then
+  album="$(echo -e "${album/ - /\\n}" | head -n 1)"
+  album="$(echo -e "${album/ (Remastered/\\n}" | head -n 1)"
 fi
 
 ## Truncate track and artist
