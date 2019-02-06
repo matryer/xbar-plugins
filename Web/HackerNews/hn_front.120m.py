@@ -18,6 +18,7 @@ try:
 except exceptions.RequestException:    
     print('---')
     print("Internet Connection Not available")
+    print("Manually refresh | refresh = true")
     exit(1)
 ids = content.json()
 story_base = "https://hacker-news.firebaseio.com/v0/item/"
