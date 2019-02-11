@@ -3,6 +3,7 @@
 # <bitbar.version>0.1.0</bitbar.version>
 # <bitbar.desc>For Diabetics using Nightscout to track CGM data: Display current Blood Sugar data and trend from Nightscout</bitbar.desc>
 # <bitbar.dependencies>bash, curl, bc</bitbar.dependencies>
+# <bitbar.author>Jeremy Hay Draude</bitbar.author>
 # <bitbar.author.github>badgerpapa</bitbar.author.github>
 # <bitbar.image>https://raw.githubusercontent.com/badgerpapa/NightscoutBitBar/master/Preview.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/badgerpapa/NightscoutBitBar/blob/master/README.md</bitbar.abouturl>
