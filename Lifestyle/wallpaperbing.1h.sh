@@ -7,7 +7,9 @@
 # <bitbar.desc>A new wallpaper from Bing every hour</bitbar.desc>
 # <bitbar.dependencies>JQ</bitbar.dependencies>
 
+export PATH="/usr/local/bin:$PATH"
 
+JQ=$(command -v jq)
 
 imageurls=(/tmp/imageurls.txt)
 
@@ -17,10 +19,7 @@ random=$((1 + RANDOM % 8))
 
 # check if JQ is installed
 
-if [ -e "/usr/local/bin/jq" ]; then
-
-    JQ=/usr/local/bin/jq
-else
+if [ ! -e $JQ ]; then
 
     echo "Please install JQ with brew install JQ"
 
