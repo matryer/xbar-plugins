@@ -19,7 +19,7 @@ random=$((1 + RANDOM % 8))
 
 # check if JQ is installed
 
-if [ ! -e $JQ ]; then
+if [ ! -e "$JQ" ]; then
 
     echo "Please install JQ with brew install JQ"
 
