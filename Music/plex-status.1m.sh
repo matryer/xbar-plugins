@@ -17,7 +17,7 @@ pinghost="plex-01"
 
 # To do: Automate this from a curl response
 # The UUID of your Plex Server.  This can be obtained from the browser address bar after selecting an item (it's between /server/ and /detail/)
-serverid="8dc5fecf6d99d5f515cea1cb108c18448cd6af92"
+serverid="867c53098dc5feccea1cb108c18448cd6af92"
 
 # Temp filename
 tmpfile="/tmp/image.jpg"
