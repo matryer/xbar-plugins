@@ -11,9 +11,6 @@
 
 import requests
 import json
-import signal
-import os
-import time
 
 YTchannel1="UC-lHJZR3Gqxm24_Vd_AJ5Yw" #pewdiepie
 YTchannel2="UCq-Fj5jknLsUf-MWSy4_brA" #tseries
