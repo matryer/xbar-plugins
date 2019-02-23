@@ -8,22 +8,20 @@
 # <bitbar.image>https://res.cloudinary.com/cyberge/image/upload/v1550627901/icons/plex_878759_eey690.png</bitbar.image>
 # <bitbar.dependencies>bash,imagemagick</bitbar.dependencies>
 
-# For more information, visit: https://github.com/chrisbergeron/bitbar-plex
-
 # Put your plex hostname here
 plexhost="plex-01"
-curlcmd=$(which curl)
+curlcmd=$(command -v curl)
 
-# Put host to ping here
+# Put host to ping here (useful for vpn connections)
 pinghost="plex-01"
 
 # To do: Automate this from a curl response
 # The UUID of your Plex Server.  This can be obtained from the browser address bar after selecting an item (it's between /server/ and /detail/)
-serverid="867c53098dc5feccea1cb108c18448cd6af92"
+serverid="8dc5fecf6d99d5f515cea1cb108c18448cd6af92"
 
 # Temp filename
 tmpfile="/tmp/image.jpg"
-touch /tmp/image.jpg
+touch $tmpfile
 echo > /tmp/output.txt
 
 # To do, retrieve Plex Token automatically, send username/password in Auth Request Header
@@ -35,8 +33,7 @@ echo > /tmp/output.txt
 plextoken=YOUR_PLEX_API_TOKEN_HERE
 
 # If host is unreachable, display message and stop
-/sbin/ping -c1 $plexhost > /dev/null 2>&1
-if [ $? -ne 0 ]; then
+if [ /sbin/ping -c1 $plexhost > /dev/null 2>&1 -ne 0 ]; then
   echo "❌"
   echo "---"
   echo "Can't connect to $pinghost"
@@ -44,20 +41,19 @@ if [ $? -ne 0 ]; then
 fi
 
 # If we can connect to Plex, let's see what's playing and display it
-$curlcmd -s http://$plexhost:32400/identity > /dev/null 2>&1
-if [ $? -ne 0 ]; then
+if [ $curlcmd -s http://$plexhost:32400/identity > /dev/null 2>&1 -ne 0 ]; then
   echo "❌"
   echo "---"
   echo "Plex is unreachable | color=red"
   echo "$plexhost"
 fi
 
-# Get our session data from Plex
-xmldata=`curl -s -X GET \
+# get our session data from Plex
+xmldata=$(curl -s -X GET \
   'http://plex-01:32400/status/sessions?X-Plex-Token='"$plextoken" \
   -H 'Content-Length: 0' \
   -H 'X-Plex-Client-Identifier: my-app' \
-  -H 'cache-control: no-cache'`
+  -H 'cache-control: no-cache')
 
 #echo "XMLDATA is: ($xmldata)" >> /tmp/output.txt
 
@@ -72,8 +68,7 @@ fi
 
 # Check to see if a trailer is playing, if so, exit
 # To do: Display trailer info
-echo $xmldata | grep "subtype=\"trailer\"" > /dev/null 2>&1
-if [ $? -eq 0 ]; then
+if [ echo "$xmldata" | grep "subtype=\"trailer\"" > /dev/null 2>&1 -eq 0 ]; then
   echo "D"
   echo "---"
   echo "Preview Trailer Playing"
@@ -81,11 +76,10 @@ if [ $? -eq 0 ]; then
 fi
 
 # If metadata is a movie, parse it separately
-echo "$xmldata" | grep "movie" > /dev/null 2>&1
-if [ $? -eq 0 ]; then
+if [ echo "$xmldata" | grep "movie" > /dev/null 2>&1 -eq 0 ]; then
   # We're watching a movie, parse as such
   thumblink=$(echo "$xmldata" | sed -e 's/>/\>\n/g' | head -n3 | tail -n1 | cut -f4 -d "\"" | sed -e 's/art/thumb/g')
-  keydata="%2Flibrary%2Fmetadata%2F`echo "$thumblink" | cut -f4 -d "/"`"
+  keydata="%2Flibrary%2Fmetadata%2F"$(echo "$thumblink" | cut -f4 -d "/")
 else
   # We're watching TV, parse as such
   thumblink=$(echo "$xmldata" | /usr/local/bin/sed -e 's/" /\n/g' | /usr/bin/grep grandparentThumb | cut -f2 -d "\""| /usr/bin/head -n1)
