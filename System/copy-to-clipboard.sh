@@ -18,17 +18,12 @@ Some Text 2
 Some moreText 3
 "
 
-if [[ "$1" == "copy" ]]; then
-  echo -n "$(echo -n "$2")" | pbcopy
-  exit
-fi
-
 echo "📋"
 echo '---'
 echo "Clear Clipboard | bash='$0' param1=copy param2=' ' terminal=false"
 echo "---"
 while read -r line; do
   if ! [ "$line" == "" ]; then
-    echo "$line | bash='$0' param1=copy param2='$line' terminal=false"
+    echo "$line | bash='/bin/bash' param1='-c' param2='/bin/echo $line | pbcopy' terminal=false"
   fi
 done <<< "$LIST"
