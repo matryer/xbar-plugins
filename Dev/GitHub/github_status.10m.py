@@ -20,7 +20,7 @@ except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen
 
-body = urlopen("https://www.githubstatus.com/api/v2/status.json").read()
+body = urlopen("https://kctbh9vrtdwd.statuspage.io/api/v2/status.json").read()
 obj = json.loads(body.decode('utf-8'))
 
 if obj["status"]["indicator"] == "none":
@@ -30,7 +30,7 @@ else:
     print("✕ | color=red image=iVBORw0KGgoAAAANSUhEUgAAABgAAAAQCAYAAAF7I48DAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJOSURBVHjaYvzPAAeHGP4zMHz6z8DA8J+B4T8AAAD//2L4z8Bg8J+BgeH///8MjHBl//8zAAAAAP//gnGQtDIwMPz/z8jEwMCgzcDAwAjFDAwMDH8YGBgYAAAAAP//ZMwxDQAgEMDAPgKwhH8DBB0YKMvzIWHo0OUQVsIIQy33YwBablQR+1JT8OG6ygEAAP//gnH+Q/E7KP3vPwPDZ7g41F6YhllIGnDhKpgGJgYGBk0GBobJDAwMomjug7E3MTAwqCM8A8HN/xkY7vxnYBD6z8Ag8J+BQfA/A4MY1IkpyE4CAAAA//9s0rEJAmEMhuEHucrCAcRKdBYXcAcbJ3EF5xAsbgvdQBzAykrOwuh9egZCQvhDvuT9X8vQxnLpp3z8btiG1mvFS9RW2TDCPM49rTiL2iJ5DAn9s6KW5PZf9Ho/Dpt7mveOTeW7uppfcI38s7SVHzAOBR9ranSHNW6Y4IwlHqkfnozTsUpDUQwG4K+LgyjUOgqCoos4CJ0cxaGPIU6Cm6O7+AIWnBx8hw6d+gYdBDcHR4soiugiSBwMej3cqz2QITkJyZ/8/w9Pf1NhGCzm33KwHiylvxaMi/yV8l4lhJ1i0h4eTP+2cVt/ETanIPd/dh+06xC0gpuCLBNc5QE6mM/dv+MFT+l30a7UjUTs1iGY5BTXFQ3sBf34ImZVGwvBZdBLvxM8f9fXIBCcZsJZFq1WoB8XDS4y/hjMZGyQsYOmBoKTTDpqUHWT9bNuv4lFrUKYGzjHFl7T3vCRe59Lm8UIhyLu/qLX5wCSNr11XIiJWQAAAABJRU5ErkJggg==")
 
 print("---")
-print(obj["status"]["description"] + " | href=https://www.githubstatus.com/")
+print(obj["status"]["description"] + " | href=" + obj["page"]["url"])
 
 # convert UTC to local
 utc_date = datetime.strptime(obj["page"]["updated_at"], '%Y-%m-%dT%H:%M:%S.%fZ')
