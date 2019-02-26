@@ -20,6 +20,7 @@ except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen
 
+# See https://www.githubstatus.com/api
 body = urlopen("https://kctbh9vrtdwd.statuspage.io/api/v2/status.json").read()
 obj = json.loads(body.decode('utf-8'))
 
