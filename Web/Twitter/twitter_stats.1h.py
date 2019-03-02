@@ -12,7 +12,6 @@
 
 import tweepy
 
-
 consumer_key = 'XXXX'
 consumer_secret = 'XXXX'
 access_key = 'XXXX-XXXX'
