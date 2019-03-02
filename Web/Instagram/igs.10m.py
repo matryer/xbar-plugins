@@ -38,5 +38,4 @@ user_info = json.loads(json_str)
 follower_count = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_followed_by"]['count']
 following_count = user_info['entry_data']['ProfilePage'][0]['graphql']['user']["edge_follow"]['count']
 
-
 print("IG-{}/{}".format(follower_count, following_count))

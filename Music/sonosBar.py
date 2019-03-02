@@ -26,7 +26,7 @@ try:
 except ImportError:
     print("Error")
     print("---")
-    print("You need to istall >>soco<< | href=https://github.com/SoCo/SoCo")
+    print("You need to install >>soco<< | href=https://github.com/SoCo/SoCo")
     sys.exit(0)
 
 def parse_ip(ip_string):

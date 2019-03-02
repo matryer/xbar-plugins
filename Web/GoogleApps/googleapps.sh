@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Google Docs</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Jens SchumacherSteffen Froehlich</bitbar.author>
+# <bitbar.title>Google Apps</bitbar.title>
+# <bitbar.version>v1.0.1</bitbar.version>
+# <bitbar.author>Jens Schumacher</bitbar.author>
 # <bitbar.author.github>jeschu</bitbar.author.github>
 # <bitbar.desc>This plugin's dropdown menu will open Google Documents, Spreadsheets or Presentations in App-Mode of Chromium or Google Chrome.</bitbar.desc>
-# <bitbar.image>https://www.gstatic.com/images/branding/product/2x/docs_48dp.png</bitbar.image>
+# <bitbar.image>https://lh3.googleusercontent.com/dZhJy5gcVrm77Y0upTcDnnDd7ZuIvVPCCZaBrcP8qFFdXdk3gZIj5WyfXF1Unl2sAW58UxDP7feASybLUyEt-RMBuk2ZAdBkoo2c</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
 function openBrowser() {
-  if [[ -d /Applications/Chromium.appp ]]; then
+  if [[ -d /Applications/Chromium.app ]]; then
     BROWSER="/Applications/Chromium.app"
   elif [[ -d /Applications/Google\ Chrome.app ]]; then
     BROWSER="/Applications/Google Chrome.app"
