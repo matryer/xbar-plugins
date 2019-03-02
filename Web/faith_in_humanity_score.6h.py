@@ -9,7 +9,6 @@
 # <bitbar.image>https://i.imgur.com/Zpf5Rf3.png</bitbar.image>
 #
 # by impshum
-# suggested .15m
 
 from requests import get
 
