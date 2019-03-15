@@ -4,7 +4,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Chongyu Yuan</bitbar.author>
 # <bitbar.author.github>nnnggel</bitbar.author.github>
-# <bitbar.desc>Real-time Air Quality Index</bitbar.desc>
+# <bitbar.desc>Real-time Air Quality Index, you need an 'aqi api token' and install 'jq' first.</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/7bc5qqh.jpg</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>http://www.yuanchongyu.com</bitbar.abouturl>
