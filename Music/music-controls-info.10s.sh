@@ -26,7 +26,7 @@ cmus_cachefile="$HOME/.config/cmus/cache"
 display_length=60
 
 # Enables features that are still under development
-EXPERIMENTAL_MODE=1
+EXPERIMENTAL_MODE=0
 
 NONE="none"
 CMUS="cmus"
