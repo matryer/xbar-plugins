@@ -23,7 +23,7 @@ pianobar_stationsfile="$HOME/.config/pianobar/stations"
 pianobar_playingfile="$HOME/.config/pianobar/playing"
 cmus_cachefile="$HOME/.config/cmus/cache"
 
-display_length=60
+display_length=40
 
 # Enables features that are still under development
 EXPERIMENTAL_MODE=0
@@ -184,18 +184,18 @@ function library_info
   if [[ $current_source = "$CMUS" ]]; then
     echo "My cmus library"
 
-    exif=$(xxd -p $cmus_cachefile | tr -d '\n' | awk '{print $1"0"}' | perl -ne "$_.=q{0000};@exif=$_=~/(?<=f{112})(.*?)(?=0000)/g;print joinq{\n},@exif" | awk '{print "0066696c6500"$1}')
+    exif=$(xxd -p "$cmus_cachefile" | tr -d '\n' | awk '{print $1"0"}' | perl -ne '$_.="0000";@exif=$_=~/(?<=f{112})(.*?)(?=0000)/g;print join"\n",@exif' | awk '{print "0066696c6500"$1}')
 
     # Experimental mode: TODO (sebbas): Album tag
     if [[ $EXPERIMENTAL_MODE = 1 ]]; then
       data=$(echo "$exif" | perl -ne '$_=~s/\n/00\n/g;@a=$_=~/(?<=0066696c6500)(.*?)(?=00)|(?<=0061727469737400)(.*?)(?=00)|(?<=00616c62756d00)(.*?)(?=00)|(?<=007469746c6500)(.*?)(?=00)/g; print "@a\n"; ')
       sorted=$(echo "$data" | sort -f -k 2)
-      echo -e "$sorted" | perl -ne '$display_length=30; @a=split(/\s+/,$_); $a[0]=~s/\G..\K(?=.)/\\x/sg; $file="\\x".$a[0]; $artist=$a[1]; $album=$a[2]; $track=$a[3]; $file.="0" if(length($file) % 2 == 1); $artist.="0" if(length($artist) % 2 == 1); $album.="0" if(length($album) % 2 == 1); $track.="0" if(length($track) % 2 == 1); use Encode; binmode STDOUT, ":utf8"; $artist=Encode::decode("UTF-8", pack(q{H*}, $artist)); $album=Encode::decode("UTF-8", pack(q{H*}, $album)); $track=Encode::decode("UTF-8", pack(q{H*}, $track)); next if ($file eq "" || $artist eq "" || $album eq "" || $track eq ""); print "$artist | length=$display_length\n" if("$old_artist" ne "$artist"); print "--$album\n" if ("$old_album" ne "$album"); print "--$track | bash='$0' param1='cmus_song' param2=\"$file\" terminal=false refresh=false length=$display_length\n"; $old_artist=$artist; $old_album=$album;'
+      echo -e "$sorted" | perl -ne '$display_length=40; @a=split(/\s+/,$_); $a[0]=~s/\G..\K(?=.)/\\x/sg; $file="\\x".$a[0]; $artist=$a[1]; $album=$a[2]; $track=$a[3]; $file.="0" if(length($file) % 2 == 1); $artist.="0" if(length($artist) % 2 == 1); $album.="0" if(length($album) % 2 == 1); $track.="0" if(length($track) % 2 == 1); use Encode; binmode STDOUT, ":utf8"; $artist=Encode::decode("UTF-8", pack(q{H*}, $artist)); $album=Encode::decode("UTF-8", pack(q{H*}, $album)); $track=Encode::decode("UTF-8", pack(q{H*}, $track)); next if ($file eq "" || $artist eq "" || $album eq "" || $track eq ""); print "$artist | length=$display_length\n" if("$old_artist" ne "$artist"); print "--$album\n" if ("$old_album" ne "$album"); print "--$track | bash='"'$0'"' param1=\"cmus_song\" param2=\"$file\" terminal=false refresh=false length=$display_length\n"; $old_artist=$artist; $old_album=$album;'
 
     else
       data=$(echo "$exif" | perl -ne '$_=~s/\n/00\n/g;@a=$_=~/(?<=0066696c6500)(.*?)(?=00)|(?<=0061727469737400)(.*?)(?=00)|(?<=007469746c6500)(.*?)(?=00)/g; print "@a\n"; ')
       sorted=$(echo "$data" | sort -f -k 2)
-      echo -e "$sorted" | perl -ne '$display_length=30; @a=split(/\s+/,$_); $a[0]=~s/\G..\K(?=.)/\\x/sg; $file="\\x".$a[0]; $artist=$a[1]; $track=$a[2]; $file.="0" if(length($file) % 2 == 1); $artist.="0" if(length($artist) % 2 == 1); $track.="0" if(length($track) % 2 == 1); use Encode; binmode STDOUT, ":utf8"; $artist=Encode::decode("UTF-8", pack(q{H*}, $artist)); $track=Encode::decode("UTF-8", pack(q{H*}, $track)); next if ($file eq "" || $artist eq "" || $track eq ""); print "$artist | length=$display_length\n" if("$oa" ne "$artist"); print "--$track | bash='$0' param1='cmus_song' param2=\"$file\" terminal=false refresh=false length=$display_length\n"; $oa=$artist;'
+      echo -e "$sorted" | perl -ne '$display_length=30; @a=split(/\s+/,$_); $a[0]=~s/\G..\K(?=.)/\\x/sg; $file="\\x".$a[0]; $artist=$a[1]; $track=$a[2]; $file.="0" if(length($file) % 2 == 1); $artist.="0" if(length($artist) % 2 == 1); $track.="0" if(length($track) % 2 == 1); use Encode; binmode STDOUT, ":utf8"; $artist=Encode::decode("UTF-8", pack(q{H*}, $artist)); $track=Encode::decode("UTF-8", pack(q{H*}, $track)); next if ($file eq "" || $artist eq "" || $track eq ""); print "$artist | length=$display_length\n" if("$oa" ne "$artist"); print "--$track | bash='"'$0'"' param1=\"cmus_song\" param2=\"$file\" terminal=false refresh=false length=$display_length\n"; $oa=$artist;'
     fi
 
   elif [[ $current_source = "$PIANOBAR" ]]; then
