@@ -67,7 +67,7 @@ if [[ "$1" = 'spotify_next' ]]; then
   exit
 fi
 if [[ "$1" = 'pianobar_station' ]]; then
-  echo -ne "\ns$2\n" > $pianobar_ctlfile
+  echo -ne "\ns$2\n" > "$pianobar_ctlfile"
   exit
 fi
 
@@ -121,8 +121,8 @@ function playing_info
     album=$(osascript -e 'try' -e 'tell application "iTunes" to album of current track as string' -e 'on error errText' -e '""' -e 'end try');
   elif [[ $current_source = "$PIANOBAR" ]]; then
     # First check if 'playing' file exists
-    if [ -f $pianobar_playingfile ]; then
-      IFS=$'\n' read -d '' -r -a lines < $pianobar_playingfile
+    if [ -f "$pianobar_playingfile" ]; then
+      IFS=$'\n' read -d '' -r -a lines < "$pianobar_playingfile"
       artist="${lines[0]}"
       track="${lines[1]}"
       album="${lines[2]}"
@@ -168,7 +168,7 @@ function playing_info
       highres_pattern="500W_500H"
       lowres_pattern="130W_130H"
       thumb_url=${cover_url/$highres_pattern/$lowres_pattern}
-      base64=$(curl -s $thumb_url | openssl base64 | tr -d '\n')
+      base64=$(curl -s "$thumb_url" | openssl base64 | tr -d '\n')
       echo " | image=$base64 length=$display_length trim=false"
     fi
 
@@ -184,7 +184,7 @@ function library_info
   if [[ $current_source = "$CMUS" ]]; then
     echo "My cmus library"
 
-    exif=$(xxd -p $cmus_cachefile | tr -d '\n' | awk '{print $1"0"}' | perl -ne '$_.="0000";@exif=$_=~/(?<=f{112})(.*?)(?=0000)/g;print join"\n",@exif' | awk '{print "0066696c6500"$1}')
+    exif=$(xxd -p $cmus_cachefile | tr -d '\n' | awk '{print $1"0"}' | perl -ne "$_.=q{0000};@exif=$_=~/(?<=f{112})(.*?)(?=0000)/g;print joinq{\n},@exif" | awk '{print "0066696c6500"$1}')
 
     # Experimental mode: TODO (sebbas): Album tag
     if [[ $EXPERIMENTAL_MODE = 1 ]]; then
@@ -200,16 +200,15 @@ function library_info
 
   elif [[ $current_source = "$PIANOBAR" ]]; then
     echo "My Pandora stations"
-    while read line; do
-      checked=false
+    while read -r line; do
 
       # Split station number and name from each other, closing bracket is delimiter
       station_num="$(sed 's/).*//' <<< "$line")"
       station_name="$(sed 's/^[^)]*)//' <<< "$line")"
 
       # Remove leading and trailing white space
-      station_num=$(echo $station_num | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-      station_name=$(echo $station_name | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+      station_num=$(echo "$station_num" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+      station_name=$(echo "$station_name" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
       # Checked items are still beta, leaving this in anyways
       if [[ "$station_name" = "$station" ]]; then
@@ -217,7 +216,7 @@ function library_info
       else
         echo -e "$station_name | bash='$0' param1='pianobar_station' param2='$station_num' terminal=false refresh=false length=$display_length"
       fi
-    done < $pianobar_stationsfile
+    done < "$pianobar_stationsfile"
   fi
 }
 
