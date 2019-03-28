@@ -6,7 +6,7 @@
 # <bitbar.desc>Automounter for GoCryptFS</bitbar.desc>
 # <bitbar.image>http://warmup.mypump.de/cryptbar10.jpg</bitbar.image>
 # <bitbar.dependencies>Shell-Script for GoCryptFS</bitbar.dependencies>
-
+   
 gocryptfspath="/usr/local/bin/"
 homepath=`defaults read com.matryer.Bitbar | grep "pluginsDirectory" | cut -d"\"" -f 2`
 
