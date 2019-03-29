@@ -22,9 +22,13 @@ def create_output_string(stock):
 	output = stock
 	output += " - $"
 	output += "{:0.2f}".format(response["latestPrice"])
-	output += " (" + "{:0.2f}".format(response["changePercent"] * 100.00) + "%)"
-
-	color = "red" if response["changePercent"] < 0 else "green"
+	
+	color = "gray"
+	
+	if response["changePercent"]:
+		output += " (" + "{:0.2f}".format(response["changePercent"] * 100.00) + "%)"
+		color = "red" if response["changePercent"] < 0 else "green"
+		
 	quote_url = 'https://www.finance.yahoo.com/quote/' + stock
 	output += " | color=" + color + " href=" + quote_url
 
