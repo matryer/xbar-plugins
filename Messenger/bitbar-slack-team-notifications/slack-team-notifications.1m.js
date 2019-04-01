@@ -1,5 +1,5 @@
 #!/usr/bin/env /usr/local/bin/node
-/* jshint esversion: 6 */
+/* jshint esversion: 8 */
 /* jshint asi: true */
 
 
@@ -7,11 +7,12 @@
 // <bitbar.version>v1.0.0</bitbar.version>
 // <bitbar.author>Benji Encalada Mora</bitbar.author>
 // <bitbar.author.github>benjifs</bitbar.author.github>
+// <bitbar.image>https://i.imgur.com/x1SoIto.jpg</bitbar.image>
 // <bitbar.desc>Show notifications for Slack teams and channels with option to mark as read.</bitbar.desc>
 // <bitbar.dependencies>node.js superagent</bitbar.dependencies>
 
 const request = require('superagent');
-const tokens = require('./tokens.js');
+const tokens = require('./.tokens.js');
 
 // Set DARK_MODE = true to force white icon
 const DARK_MODE = process.env.BitBarDarkMode;
@@ -80,7 +81,7 @@ if (process.argv.indexOf('--mark') > 0) {
 				'ts': Math.floor(Date.now() / 1000)
 			})
 				.then((body) => {
-					console.log('  Success: ' + args[0] + ':' + channels[j]);
+					// console.log('  Success: ' + args[0] + ':' + channels[j]);
 				});
 		}
 	}
@@ -88,7 +89,7 @@ if (process.argv.indexOf('--mark') > 0) {
 }
 
 function debug(message) {
-	DEBUG && console.log(message);
+	return DEBUG && console.log(message);
 }
 
 function slack_request(URL, query) {
@@ -210,7 +211,9 @@ function get_team_notifications(token) {
 		})
 		.then((channels) => {
 			for (let i in channels) {
-				channels[i] && channel_output(channels[i]);
+				if (channels[i]) {
+					channel_output(channels[i]);
+				}
 			}
 		});
 }
