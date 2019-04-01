@@ -2,8 +2,8 @@ language: objective-c
 osx_image: xcode9
 
 before_install:
-  - rvm install 2.0.0-p648
-  - rvm use 2.0.0-p648
+  - rvm install 2.2.10
+  - rvm use 2.2.10
   - brew update
   - brew outdated python || brew upgrade python
   - brew install python@2
