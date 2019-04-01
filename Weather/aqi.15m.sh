@@ -41,7 +41,7 @@ function colorize {
   fi
 }
 
-echo 😷"${AQI}" | color=$(colorize "${AQI}") "${MENUFONT}"
+echo 😷"${AQI}"" | color="$(colorize "${AQI}")" ${MENUFONT}"
 
 echo "---"
 echo "Detail... | href=${URL}"
