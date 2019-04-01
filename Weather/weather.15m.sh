@@ -23,6 +23,9 @@ AQI_DETAIL_URL="http://aqicn.org/city/${AQI_CITY}/"
 
 
 WEATHER_DATA=`curl -s "http://apis.juhe.cn/simpleWeather/query?city=${WEATHER_CITY}&key=${WEATHER_TOKEN}"`
+# DELETE ME, TEST DATA
+WEATHER_DATA="{\"reason\":\"查询成功!\",\"result\":{\"city\":\"上海\",\"realtime\":{\"temperature\":\"15\",\"humidity\":\"25\",\"info\":\"晴\",\"wid\":\"00\",\"direct\":\"北风\",\"power\":\"0级\",\"aqi\":\"55\"},\"future\":[{\"date\":\"2019-04-01\",\"temperature\":\"9\\/17℃\",\"weather\":\"晴转多云\",\"wid\":{\"day\":\"00\",\"night\":\"01\"},\"direct\":\"南风\"},{\"date\":\"2019-04-02\",\"temperature\":\"11\\/16℃\",\"weather\":\"阴转多云\",\"wid\":{\"day\":\"02\",\"night\":\"01\"},\"direct\":\"东南风转东风\"},{\"date\":\"2019-04-03\",\"temperature\":\"11\\/17℃\",\"weather\":\"阴\",\"wid\":{\"day\":\"02\",\"night\":\"02\"},\"direct\":\"东风转东南风\"},{\"date\":\"2019-04-04\",\"temperature\":\"13\\/15℃\",\"weather\":\"小雨\",\"wid\":{\"day\":\"07\",\"night\":\"07\"},\"direct\":\"东南风转南风\"},{\"date\":\"2019-04-05\",\"temperature\":\"13\\/19℃\",\"weather\":\"多云\",\"wid\":{\"day\":\"01\",\"night\":\"01\"},\"direct\":\"西北风转南风\"}]},\"error_code\":0}"
+
 WEATHER_RES_REALTIME=`echo "${WEATHER_DATA}" | /usr/local/bin/jq '.result.realtime'`
 WEATHER_RES_REALTIME_INFO=`echo ${WEATHER_RES_REALTIME} | /usr/local/bin/jq -r '.info'`
 WEATHER_RES_REALTIME_TEMPERATURE=`echo ${WEATHER_RES_REALTIME} | /usr/local/bin/jq -r '.temperature'`
@@ -30,6 +33,9 @@ WEATHER_FUTURE=`echo "${WEATHER_DATA}" | /usr/local/bin/jq '.result.future'`
 WEATHER_FUTURE_LENGTH=`echo "${WEATHER_FUTURE}" | /usr/local/bin/jq 'length'`
 
 AQI_DATA=`curl -s "http://api.waqi.info/feed/${AQI_CITY}/?token=${AQI_TOKEN}"`
+# DELETE ME, TEST DATA
+AQI_DATA="{\"status\":\"ok\",\"data\":{\"aqi\":824,\"idx\":1437,\"attributions\":[{\"url\":\"http://www.semc.gov.cn/\",\"name\":\"Shanghai Environment Monitoring Center(上海市环境监测中心)\"},{\"url\":\"http://106.37.208.233:20035/emcpublish/\",\"name\":\"China National Urban air quality real-time publishing platform (全国城市空气质量实时发布平台)\"},{\"url\":\"https://china.usembassy-china.org.cn/embassy-consulates/shanghai/air-quality-monitor-stateair/\",\"name\":\"U.S. Consulate Shanghai Air Quality Monitor\"},{\"url\":\"https://waqi.info/\",\"name\":\"World Air Quality Index Project\"}],\"city\":{\"geo\":[31.2047372,121.4489017],\"name\":\"Shanghai (上海)\",\"url\":\"https://aqicn.org/city/shanghai\"},\"dominentpol\":\"pm25\",\"iaqi\":{\"co\":{\"v\":6.4},\"h\":{\"v\":20.4},\"no2\":{\"v\":20.2},\"o3\":{\"v\":67.5},\"p\":{\"v\":1019.2},\"pm10\":{\"v\":57},\"pm25\":{\"v\":824},\"so2\":{\"v\":4.6},\"t\":{\"v\":17.5},\"w\":{\"v\":0.3}},\"time\":{\"s\":\"2019-04-01 17:00:00\",\"tz\":\"+08:00\",\"v\":1554138000},\"debug\":{\"sync\":\"2019-04-01T18:49:19+09:00\"}}}"
+
 # how to install jq -> https://stedolan.github.io/jq/download/
 AQI_RES=`echo "${AQI_DATA}" | /usr/local/bin/jq '.data.aqi'`
 
