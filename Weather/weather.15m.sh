@@ -55,7 +55,7 @@ function aqi_colorize {
   fi
 }
 
-COLOR="$(aqi_colorize ${AQI_RES})"
+COLOR="$(aqi_colorize "${AQI_RES}")"
 echo "🌡️${WEATHER_RES_REALTIME_INFO}${WEATHER_RES_REALTIME_TEMPERATURE}℃😷${AQI_RES} | color=${COLOR} ${MENUFONT}"
 echo "---"
 for(( i=0;i<WEATHER_FUTURE_LENGTH;i++)) do

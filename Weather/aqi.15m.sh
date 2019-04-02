@@ -41,7 +41,7 @@ function colorize {
   fi
 }
 
-COLOR="$(colorize ${AQI})"
+COLOR="$(colorize "${AQI}")"
 echo "😷${AQI} | color=${COLOR} ${MENUFONT}"
 
 echo "---"
