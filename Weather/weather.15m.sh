@@ -55,14 +55,15 @@ function aqi_colorize {
   fi
 }
 
-echo 🌡️"${WEATHER_RES_REALTIME_INFO}""${WEATHER_RES_REALTIME_TEMPERATURE}"℃😷"${AQI_RES}"" | color="$(aqi_colorize "${AQI_RES}")" ${MENUFONT}"
+COLOR="$(aqi_colorize ${AQI_RES})"
+echo "🌡️${WEATHER_RES_REALTIME_INFO}${WEATHER_RES_REALTIME_TEMPERATURE}℃😷${AQI_RES} | color=${COLOR} ${MENUFONT}"
 echo "---"
 for(( i=0;i<WEATHER_FUTURE_LENGTH;i++)) do
   WEATHER_FUTURE_N=$(echo "${WEATHER_FUTURE}" | /usr/local/bin/jq ".[${i}]")
   WEATHER_FUTURE_N_DATE=$(echo "${WEATHER_FUTURE_N}" | /usr/local/bin/jq -r '.date')
   WEATHER_FUTURE_N_WEATHER=$(echo "${WEATHER_FUTURE_N}" | /usr/local/bin/jq -r '.weather')
   WEATHER_FUTURE_N_TEMPERATURE=$(echo "${WEATHER_FUTURE_N}" | /usr/local/bin/jq -r '.temperature')
-  echo "${WEATHER_FUTURE_N_DATE}"" ${WEATHER_FUTURE_N_WEATHER}""（${WEATHER_FUTURE_N_TEMPERATURE}）";
+  echo "${WEATHER_FUTURE_N_DATE} ${WEATHER_FUTURE_N_WEATHER}（${WEATHER_FUTURE_N_TEMPERATURE}）";
 done;
 echo "AQI Detail... | href=${AQI_DETAIL_URL}"
 echo "Refresh... | refresh=true"
