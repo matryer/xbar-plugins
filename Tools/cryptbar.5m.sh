@@ -6,7 +6,7 @@
 # <bitbar.desc>Automounter for GoCryptFS</bitbar.desc>
 # <bitbar.image>http://warmup.mypump.de/cryptbar10.jpg</bitbar.image>
 # <bitbar.dependencies>Shell-Script for GoCryptFS</bitbar.dependencies>
-   
+
 gocryptfspath="/usr/local/bin/"
 homepath=`defaults read com.matryer.Bitbar | grep "pluginsDirectory" | cut -d"\"" -f 2`
 
@@ -37,7 +37,9 @@ function read_para {
 	while read line; do
 		if [ "${line:0:1}" == "#" ]; then continue; fi
 		crypt[$i]=`cut -d';' -f 1 <<< "${line}" | sed 's/\\\//g'`
+		if [ "${crypt[$i]:(-1)}" == "/" ]; then crypt[$i]=`echo "${crypt[$i]%%?}"`; fi
     	mountpoint[$i]=`cut -d';' -f 2 <<< "${line}" | sed 's/\\\//g'`
+		if [ "${mountpoint[$i]:(-1)}" == "/" ]; then mountpoint[$i]=`echo "${mountpoint[$i]%%?}"`; fi
     	password[$i]=`cut -d';' -f 3 <<< "${line}" | sed 's/\\\//g'`
 		auto[$i]=`cut -d';' -f 4 <<< "${line}"`
     	params[$i]=`cut -d';' -f 5 <<< "${line}"`
@@ -49,7 +51,8 @@ function read_para {
 
 function write_para {
 	echo "#Path to Crypt-Folder;Mounting Point;Password-File;Auto Mount [on|off];Parameters for gocryptfs (optional);" > "$homepath/.cryptbar_para"
-	for((i=0; i<${#crypt[*]}; i++))
+	#for((i=0; i<${#crypt[*]}; i++))
+	for((i=0; i<=$last; i++))
 	do
 		echo "${crypt[$i]};${mountpoint[$i]};${password[$i]};${auto[$i]};${params[$i]};" >> "$homepath/.cryptbar_para"
 	done
@@ -89,7 +92,7 @@ function menu {
 		echo "----Status: ${status[$i]}"
 	done
 	echo "---"
-	echo "Settings | color=black bash='$0' param1=edit terminal=false refresh=true>"
+	echo "Edit Table | color=black bash='$0' param1=edit terminal=false refresh=true>"
 }
 
 # --- Buttons ---
@@ -104,8 +107,12 @@ fi
 if [ "$1" = 'umount' ]; then
     read_para
 	i=$2
-	umount "${crypt[$i]}" 2&>/dev/null
-    exit
+	umount "${crypt[$i]}" &>/dev/null
+	code="$?"
+	if	[ $code -ne 0 ]; then
+		osascript -e 'display notification "'"Error $code - Drive is busy!"'" with title "'"GoCryptFS-Mounter"'" sound name "glass"'
+    fi
+	exit
 fi
 
 if [ "$1" = 'open' ]; then
