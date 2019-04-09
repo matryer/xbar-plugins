@@ -25,6 +25,9 @@ import commands
 # get yours at https://darksky.net/dev
 api_key = ''
 
+# get yours API key for encode location at https://opencagedata.com
+geo_api_key = '00a7cb233d8f43948f9e35fc53c9b5ec'
+
 # set to si for metric, leave blank for imperial
 units = ''
 
@@ -50,9 +53,10 @@ def auto_loc_lookup():
 
 def reverse_latlong_lookup(loc):
   try:
-    location = json.load(urllib2.urlopen('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + loc  + '&sensor=true'))
+    location_url = 'https://api.opencagedata.com/geocode/v1/json?q=' + loc + '&key=' + geo_api_key + '&language=en&pretty=1'
+    location = json.load(urllib2.urlopen(location_url))
     if 'results' in location:
-      return location['results'][0]['formatted_address'].encode('UTF-8')
+      return location['results'][0]['formatted'].encode('UTF-8')
     else:
       return 'Could not lookup location name'
   except:
