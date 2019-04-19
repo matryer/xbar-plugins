@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # <bitbar.title>Bing Wallpapers</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.0</bitbar.version>
 # <bitbar.author>Tok1</bitbar.author>
 # <bitbar.author.github>Tokfrans03</bitbar.author.github>
 # <bitbar.desc>A new wallpaper from Bing every hour</bitbar.desc>
@@ -9,13 +9,25 @@
 
 export PATH="/usr/local/bin:$PATH"
 
-readsetting=$(defaults read wallpaperbing setting)
-
 JQ=$(command -v jq)
 
 imageurls=(/tmp/imageurls.txt)
 
-#  wallpaperpath=$(if [ -e "/tmp/wallpaper.jpg" ] && [ ! -e "/tmp/wallpaper1.jpg" ]; then echo "/tmp/wallpaper1.jpg"; rm /tmp/wallpaper.jpg; else echo "/tmp/wallpaper.jpg"; if [ -e /tmp/wallpaper1.jpg ]; then rm /tmp/wallaper.jpg; fi; fi)
+first_time=$(defaults read wallpaperbing path 2>&1 | grep exist)
+
+# If it's the first time we create a domain
+
+if [ ! "$first_time" = '' ]; then 
+
+    defaults write wallpaperbing path /tmp/wallpaper.jpg
+
+    defaults write wallpaperbing setting today
+
+fi
+
+readsetting=$(defaults read wallpaperbing setting)
+
+defaultspath=$(defaults read wallpaperbing path)
 
 # Create a random number for random URL selection
 
@@ -23,7 +35,7 @@ random=$((1 + RANDOM % 8))
 
 # check if JQ is installed
 
-if [ ! -e "$JQ" ]; then
+if [ ! -e $JQ ]; then
 
     echo "Please install JQ with brew install JQ"
 
@@ -69,7 +81,7 @@ if [ "$1" = '' ]; then
 
     else
     
-    echo "Current setting: Random"
+      echo "Current setting: Random"
 
         $0 random
 
@@ -95,29 +107,63 @@ fi
 
 if [ "$1" = 'today' ]; then
 
-# Create setting to remember
+    # Decide path for the wallpaper 
 
-defaults write wallpaperbing setting today
+    if [ "$defaultspath" = "/tmp/wallpaper1.jpg" ]; then
 
-echo "$json" | $JQ '.[0]' | $JQ '.url' | sed s/'"'// | sed s/'"'// | sed s/'\/'/'https:\/\/bing.com\/'/ > /tmp/imageurls.txt
+        wallpaperpath=("/tmp/wallpaper1.jpg")
 
-curl -s -L "$(cat "${imageurls[0]}")" -o "/tmp/wallpaper.jpg"
+        defaults write wallpaperbing path /tmp/wallpaper.jpg
 
-# Get comment
+        rm /tmp/wallpaper.jpg 2>&-
 
-Comment=$(echo "$json" | $JQ '.[0]' | $JQ '.copyright' | sed s/'"'// | sed s/'"'//)
+    else
 
-echo $Comment
+        wallpaperpath=("/tmp/wallpaper.jpg")
 
-# Set dummy image as wallpaper so Finder will change the wallpaper to the pic that we want
+        defaults write wallpaperbing path /tmp/wallpaper1.jpg
 
-echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" | base64 -D -o "/tmp/dummyimg.jpg"
+        rm /tmp/wallpaper1.jpg 2>&-
 
-osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/private/tmp/dummyimg.jpg"'
+        echo aaaaa
 
-# Set image as wallpaper
+        echo $wallpaperpath
 
-osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper.jpg"'
+    fi
+
+    # Create setting to remember
+
+    defaults write wallpaperbing setting today
+
+    echo "$json" | $JQ '.[0]' | $JQ '.url' | sed s/'"'// | sed s/'"'// | sed s/'\/'/'https:\/\/bing.com\/'/ > /tmp/imageurls.txt
+
+    curl -s -L "$(cat "${imageurls[0]}")" -o "$wallpaperpath"
+
+    # Get comment
+
+    Comment=$(echo "$json" | $JQ '.[0]' | $JQ '.copyright' | sed s/'"'// | sed s/'"'//)
+
+    echo $Comment
+
+    # Set dummy image as wallpaper so Finder will change the wallpaper to the pic that we want
+
+    # No langer needed as we choose a new name every time
+
+    # echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" | base64 -D -o "/tmp/dummyimg.jpg"
+
+    # osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/private/tmp/dummyimg.jpg"'
+
+    # Set image as wallpaper
+
+    if [ "$wallpaperpath" = "/tmp/wallpaper.jpg" ]; then
+    
+    osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper.jpg"'
+
+    else
+
+    osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper1.jpg"'
+
+fi
 
 # Cleanup
  
@@ -127,6 +173,26 @@ exit
 fi
 
 if [ "$1" = 'random' ]; then
+
+    # Decide path for the wallpaper 
+
+    if [ "$defaultspath" = "/tmp/wallpaper1.jpg" ]; then
+
+        wallpaperpath=("/tmp/wallpaper1.jpg")
+
+        defaults write wallpaperbing path /tmp/wallpaper.jpg
+
+        rm /tmp/wallpaper.jpg 2>&-
+
+    else
+
+        wallpaperpath=("/tmp/wallpaper.jpg")
+
+        defaults write wallpaperbing path /tmp/wallpaper1.jpg
+
+        rm /tmp/wallpaper1.jpg 2>&-
+
+    fi
 
     # Create setting to remember
 
@@ -153,17 +219,27 @@ if [ "$1" = 'random' ]; then
 
     # Download image from the server
 
-    curl -s -L "$randomurl" -o "/tmp/wallpaper.jpg"
+    curl -s -L "$randomurl" -o "$wallpaperpath"
 
     # Set dummy image as wallpaper so Finder will change the wallpaper to the pic that we want
 
-    echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" | base64 -D -o "/tmp/dummyimg.jpg"
+    # No langer needed as we choose a new name every time
 
-    osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/private/tmp/dummyimg.jpg"'
+    # echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" | base64 -D -o "/tmp/dummyimg.jpg"
+
+    # osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/private/tmp/dummyimg.jpg"'
 
     # Set image as wallpaper
 
+    if [ "$wallpaperpath" = "/tmp/wallpaper.jpg" ]; then
+ 
     osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper.jpg"'
+
+    else
+
+    osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper1.jpg"'
+
+    fi
 
     # Cleanup
 
@@ -173,5 +249,3 @@ if [ "$1" = 'random' ]; then
 
     exit
 fi
-
-
