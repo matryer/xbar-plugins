@@ -6,9 +6,12 @@
 # <bitbar.desc>Automounter for GoCryptFS</bitbar.desc>
 # <bitbar.image>http://warmup.mypump.de/cryptbar10.jpg</bitbar.image>
 # <bitbar.dependencies>Shell-Script for GoCryptFS</bitbar.dependencies>
-# next and last try
+
+# letzten BAckslash im Pfad wenn vorhanden entfernen
+# Mount - Fehler anzeigen, wenn Busy
+
 gocryptfspath="/usr/local/bin/"
-homepath=`defaults read com.matryer.Bitbar | grep "pluginsDirectory" | cut -d"\"" -f 2`
+homepath=$(defaults read com.matryer.Bitbar | grep "pluginsDirectory" | cut -d"\"" -f 2)
 
 # --- Functions ---
 function checkmount {
@@ -18,11 +21,11 @@ function checkmount {
 	if [ ! -d "${mountpoint[$i]}" ]; then pathcheck[$i]="${pathcheck[$i]}Mount-Path not found\n"; fi
 	if [ ! -e "${password[$i]}" ]; then pathcheck[$i]="${pathcheck[$i]}Password-File not found"; fi
 	if [ "${pathcheck[$i]}" == "" ]; then
-    	local check=`df -h | grep -i -c -a "${mountpoint[$i]}"`
+    	check=$(df -h | grep -i -c -a "${mountpoint[$i]}")
     	if [ "$check" != "1" ]; then
-			color[$i]=="gainsboro"
+			color[$i]="gainsboro"
     	else
-			color[$i]=="black"
+			color[$i]="black"
 			status[$i]="mounted | color=DarkGreen "
     	fi
 	fi
@@ -36,13 +39,14 @@ function read_para {
 	i=0
 	while read line; do
 		if [ "${line:0:1}" == "#" ]; then continue; fi
-		crypt[$i]=`cut -d';' -f 1 <<< "${line}" | sed 's/\\\//g'`
-		if [ "${crypt[$i]:(-1)}" == "/" ]; then crypt[$i]=`echo "${crypt[$i]%%?}"`; fi
-    	mountpoint[$i]=`cut -d';' -f 2 <<< "${line}" | sed 's/\\\//g'`
-		if [ "${mountpoint[$i]:(-1)}" == "/" ]; then mountpoint[$i]=`echo "${mountpoint[$i]%%?}"`; fi
-    	password[$i]=`cut -d';' -f 3 <<< "${line}" | sed 's/\\\//g'`
-		auto[$i]=`cut -d';' -f 4 <<< "${line}"`
-    	params[$i]=`cut -d';' -f 5 <<< "${line}"`
+		${t%/}
+		crypt[$i]=$(cut -d';' -f 1 <<< "${line}"); crypt[$i]=${crypt[$i]%/}
+		if [ "${crypt[$i]:(-1)}" == "/" ]; then crypt[$i]=$(echo "${crypt[$i]%%?}"); fi
+    	mountpoint[$i]=$(cut -d';' -f 2 <<< "${line}"); mountpoint[$i]=${mountpoint[$i]%/}
+		if [ "${mountpoint[$i]:(-1)}" == "/" ]; then mountpoint[$i]=$(echo "${mountpoint[$i]%%?}"); fi
+    	password[$i]=$(cut -d';' -f 3 <<< "${line}"); password[$i]=${password[$i]%/}
+		auto[$i]=$(cut -d';' -f 4 <<< "${line}")
+    	params[$i]=$(cut -d';' -f 5 <<< "${line}")
 		checkmount
 		i=$((i + 1))
 	done < "$homepath/.cryptbar_para"
@@ -68,7 +72,7 @@ function mount {
 			prefix="⚠️"
 			error[$i]="⚠️"
 			osascript -e 'display notification "'"Error $code mounting ${mountpoint[$i]} "'" with title "'"GoCryptFS-Mounter"'" sound name "glass"'
-			color[$i]=="red"
+			color[$i]="red"
 		else
 			prefix=""
 			error[$i]=""
@@ -118,7 +122,7 @@ fi
 if [ "$1" = 'open' ]; then
     read_para
 	i=$2
-	open ${mountpoint[$i]}
+	open "${mountpoint[$i]}"
     exit
 fi
 
