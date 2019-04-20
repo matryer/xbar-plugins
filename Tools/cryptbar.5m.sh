@@ -37,16 +37,16 @@ function read_para {
 		echo "CryptPath;Mountpoint;Password-File;AutoMount;Params;" >> "$homepath/.cryptbar_para"
 	fi
 	i=0
-	while read line; do
+	while read -r line; do
 		if [ "${line:0:1}" == "#" ]; then continue; fi
-		${t%/}
 		crypt[$i]=$(cut -d';' -f 1 <<< "${line}"); crypt[$i]=${crypt[$i]%/}
-		if [ "${crypt[$i]:(-1)}" == "/" ]; then crypt[$i]=$(echo "${crypt[$i]%%?}"); fi
+		#if [ "${crypt[$i]:(-1)}" == "/" ]; then crypt[$i]=$(echo "${crypt[$i]%%?}"); fi
     	mountpoint[$i]=$(cut -d';' -f 2 <<< "${line}"); mountpoint[$i]=${mountpoint[$i]%/}
-		if [ "${mountpoint[$i]:(-1)}" == "/" ]; then mountpoint[$i]=$(echo "${mountpoint[$i]%%?}"); fi
+		#if [ "${mountpoint[$i]:(-1)}" == "/" ]; then mountpoint[$i]=$(echo "${mountpoint[$i]%%?}"); fi
     	password[$i]=$(cut -d';' -f 3 <<< "${line}"); password[$i]=${password[$i]%/}
 		auto[$i]=$(cut -d';' -f 4 <<< "${line}")
     	params[$i]=$(cut -d';' -f 5 <<< "${line}")
+    	if [ "${params[$i]}" == "" ]; then params[$i]="-q"; fi
 		checkmount
 		i=$((i + 1))
 	done < "$homepath/.cryptbar_para"
@@ -56,7 +56,7 @@ function read_para {
 function write_para {
 	echo "#Path to Crypt-Folder;Mounting Point;Password-File;Auto Mount [on|off];Parameters for gocryptfs (optional);" > "$homepath/.cryptbar_para"
 	#for((i=0; i<${#crypt[*]}; i++))
-	for((i=0; i<=$last; i++))
+	for((i=0; i<=last; i++))
 	do
 		echo "${crypt[$i]};${mountpoint[$i]};${password[$i]};${auto[$i]};${params[$i]};" >> "$homepath/.cryptbar_para"
 	done
@@ -65,7 +65,7 @@ function write_para {
 function mount {
 	if [ "${status[$i]:0:7}" != "mounted" ]; then
 		line="-passfile=${password[$i]} ${params[$i]} ${crypt[$i]} ${mountpoint[$i]}"
-		$gocryptfspath/gocryptfs -passfile="${password[$i]}" ${params[$i]} "${crypt[$i]}" "${mountpoint[$i]}" &>/dev/null
+		$gocryptfspath/gocryptfs -passfile="${password[$i]}" "${params[$i]}" "${crypt[$i]}" "${mountpoint[$i]}" &>/dev/null
 		code="$?"
 		checkmount
 		if	[ $code -ne 0 ]; then
@@ -141,7 +141,7 @@ fi
 
 # --- MAIN ---
 read_para
-for((i=0; i<=$last; i++))
+for((i=0; i<=last; i++))
 do
 	if [ "${auto[$i]}" == "on" ] && [ "${color[$i]}" != "red" ]; then
     	mount
@@ -162,7 +162,7 @@ do
 			fi
 		fi
 	fi
-	menu[$i]="   ▶︎ ${error[$i]}${mountpoint[$i]} | color=${color[$i]} $button trim=false"
+	menu[$i]="   ▶︎ ${error[$i]}${mountpoint[$i]} | color=${color[$i]} trim=false"
 done
 
 menu
