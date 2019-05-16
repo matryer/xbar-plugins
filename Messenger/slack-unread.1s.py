@@ -18,6 +18,7 @@ except ImportError:
 
 import json
 from time import sleep
+from threading import Thread
 
 #
 # USER TOKEN
@@ -126,42 +127,62 @@ def get_channel_unreads(url, token, id, scope = None):
 			print(e)
 
 		sleep(2)
-
-for token in tokens:
-	# Only groups
-	if debug_mode:
-		print('Loading groups: %s' % (token))
-
+		
+		
+def groups(token):
+	all_threads = []
 	for id in get_list(groups_list_url + '?token=' + token + '&exclude_archived=true', 'groups'):
 		if debug_mode:
 			print('Loading groups unreads: %s, id: %s' % (token, id))
 
-		get_channel_unreads(groups_info_url, token, id, 'group')
+		t = Thread(target=get_channel_unreads, args=(groups_info_url, token, id, 'group'))
+		t.start()
+		all_threads.append(t)
 
-	# Only channels
-	if debug_mode:
-		print('--------------')
-		print('Loading channels: %s' % (token))
+	for t in all_threads:
+		t.join()
 
+
+def channels(token):
+	all_threads = []
 	for id in get_list(channels_list_url + '?token=' + token + '&exclude_archived=true', 'channels'):
 		if debug_mode:
 			print('Loading channel unreads: %s, id: %s' % (token, id))
 
-		get_channel_unreads(channels_info_url, token, id, 'channel')
+		t = Thread(target=get_channel_unreads, args=(channels_info_url, token, id, 'channel'))
+		t.start()
+		all_threads.append(t)
 
-	# Private messages
-	if debug_mode:
-		print('--------------')
-		print('Loading private messages: %s' % (token))
+	for t in all_threads:
+		t.join()
 
+
+def privates(token):
+	all_threads = []
 	for id in get_list(conversations_list_url + '?token=' + token + '&types=public_channel,private_channel,mpim,im', 'channels', 'user'):
 		if debug_mode:
 			print('Loading private channel unreads: %s, id: %s' % (token, id))
 
-		get_channel_unreads(conversations_info_url, token, id)
+		t = Thread(target=get_channel_unreads, args=(conversations_info_url, token, id))
+		t.start()
+		all_threads.append(t)
 
-	if debug_mode:
-		print('--------------')
+	for t in all_threads:
+		t.join()
+		
+		
+for token in tokens:
+	print('Processing token: %s' % (token))
+	g = Thread(target=groups, args=(token,))
+	c = Thread(target=channels, args=(token,))
+	p = Thread(target=privates, args=(token,))
+	g.start()
+	c.start()
+	p.start()
+
+	g.join()
+	c.join()
+	p.join()
 
 # THIS IS A SPECIAL FEATURE FOR USERS WITH DARK MENU BAR ENABLED
 # REMOVE COMMENTING OUT TO USE
