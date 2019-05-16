@@ -172,7 +172,8 @@ def privates(token):
 		
 		
 for token in tokens:
-	print('Processing token: %s' % (token))
+	if debug_mode:
+		print('Processing token: %s' % (token))
 	g = Thread(target=groups, args=(token,))
 	c = Thread(target=channels, args=(token,))
 	p = Thread(target=privates, args=(token,))
