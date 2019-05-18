@@ -9,7 +9,10 @@
 // <bitbar.dependencies>node</bitbar.dependencies>
 // <bitbar.abouturl>https://github.com/mullwar/bitbar-plugins</bitbar.abouturl>
 
+"use strict";
+
 /* jshint -W100 */
+/* jshint esversion: 6 */
 
 const https = require('https');
 
