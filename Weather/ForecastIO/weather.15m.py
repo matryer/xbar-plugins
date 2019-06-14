@@ -26,13 +26,27 @@ import commands
 api_key = ''
 
 # get yours API key for encode location at https://opencagedata.com
-geo_api_key = '00a7cb233d8f43948f9e35fc53c9b5ec'
+geo_api_key = ''
+
+# if you want to set manual location, define following two vars. If left empty, script will try to determine the location
+# example:
+# manual_city = 'Novi Sad'
+# manual_latlng = '45.2526331,19.7817785'
+manual_city = ''
+manual_latlng = ''
+
 
 # set to si for metric, leave blank for imperial
 units = ''
 
 # optional, see message above
 core_location_cli_path = '~/CoreLocationCLI'
+
+def manual_location_lookup():
+  if manual_latlng == "" or manual_city == "":
+     return False;
+  else:
+     return { "loc": manual_latlng, "preformatted": manual_city }
 
 def mac_location_lookup():
   try:
@@ -110,7 +124,7 @@ def get_wx():
   if api_key == "":
     return False
 
-  location = mac_location_lookup() or auto_loc_lookup()
+  location = manual_location_lookup() or mac_location_lookup() or auto_loc_lookup()
 
   if location is False:
     return False
