@@ -2,10 +2,11 @@
 # frozen_string_literal: true
 
 # <bitbar.title>PR Counts for Github and Bitbucket</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.1.1</bitbar.version>
 # <bitbar.author>Marco Cabazal</bitbar.author>
 # <bitbar.author.github>MarcoCabazal</bitbar.author.github>
 # <bitbar.desc>Gets Pull Request Counts for Github and Bitbucket Repos</bitbar.desc>
+# <bitbar.image>https://marcocabazal.github.io/images/gpr_snap.png</bitbar.image>
 # <bitbar.dependencies>ruby >= 2</bitbar.dependencies>
 
 ###### README
