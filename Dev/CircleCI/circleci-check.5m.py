@@ -87,11 +87,11 @@ def updateStatuses(projects):
         output.append(u'{}/{} | href={}'.format(user_name, repo_name, repo_href))
 
         for branch_name, branch in sorted(branches.iteritems()):
-            if branch['running_builds']:
+            if 'running_builds' in branch and len(branch['running_builds']) > 0:
                 branch['running_builds'][0]['branch_name'] = branch_name
                 running_builds.append(branch['running_builds'][0])
 
-            if branch['recent_builds']:
+            if 'recent_builds' in branch and len(branch['recent_builds']) > 0:
                 branch['recent_builds'][0]['branch_name'] = branch_name
                 recent_builds.append(branch['recent_builds'][0])
 
