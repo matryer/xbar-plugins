@@ -159,7 +159,6 @@ if [ ! -f "$tmp_file" ]; then
             save resImg
             close resImg
         end tell
-        tmpName
     on error errText
         ""
     end try
