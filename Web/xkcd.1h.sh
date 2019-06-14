@@ -24,6 +24,6 @@ echo "| image=$IMAGE"
 echo ---
 echo "$TITLE | size=14 href='https://www.xkcd.com/$IMG_RAND/'"
 echo "${SUB_TITLE}"
-echo "Explain XKCD wiki | href='https://www.explainxkcd.com/$IMG_RAND"
+echo "Explain XKCD wiki | href='https://www.explainxkcd.com/$IMG_RAND'"
 echo ---
 echo "Refresh... | refresh=true"
