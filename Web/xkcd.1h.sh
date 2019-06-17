@@ -19,7 +19,7 @@ CURL=$(curl --silent "https://xkcd.com/$IMG_RAND/info.0.json")
 IMG_URL=$(echo "${CURL}" | $JQ -r '.img')
 TITLE=$(echo "${CURL}" | $JQ -r '.safe_title')
 SUB_TITLE=$(echo "${CURL}" | $JQ -r '.alt' | fold -w 100 -s)
-IMAGE=$(base64 <(curl --silent "$IMG_URL"))
+IMAGE=$(base64 -w 0 <(curl --silent "$IMG_URL"))
 echo "| image=$IMAGE"
 echo ---
 echo "$TITLE | size=14 href='https://www.xkcd.com/$IMG_RAND/'"
