@@ -25,13 +25,16 @@ import commands
 # get yours at https://darksky.net/dev
 api_key = ''
 
+# get yours API key for encode location at https://opencagedata.com
+geo_api_key = ''
+
 # if you want to set manual location, define following two vars. If left empty, script will try to determine the location
 # example:
 # manual_city = 'Novi Sad'
 # manual_latlng = '45.2526331,19.7817785'
-
 manual_city = ''
 manual_latlng = ''
+
 
 # set to si for metric, leave blank for imperial
 units = ''
@@ -64,9 +67,10 @@ def auto_loc_lookup():
 
 def reverse_latlong_lookup(loc):
   try:
-    location = json.load(urllib2.urlopen('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + loc  + '&sensor=true'))
+    location_url = 'https://api.opencagedata.com/geocode/v1/json?q=' + loc + '&key=' + geo_api_key + '&language=en&pretty=1'
+    location = json.load(urllib2.urlopen(location_url))
     if 'results' in location:
-      return location['results'][0]['formatted_address'].encode('UTF-8')
+      return location['results'][0]['formatted'].encode('UTF-8')
     else:
       return 'Could not lookup location name'
   except:
