@@ -7,6 +7,9 @@
 // <bitbar.desc>Shows hours completed today, hours completed this week.</bitbar.desc>
 // <bitbar.image>https://i.imgur.com/1dlNZLW.png</bitbar.image>
 // <bitbar.dependencies>node</bitbar.dependencies>
+
+/*jshint esversion: 6 */
+
 const fs = require('fs');
 
 // TODO: Add month-long work leveling
