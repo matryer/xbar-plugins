@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # <bitbar.title>WaniKani Stats</bitbar.title>
-# <bitbar.version>v0.1.0</bitbar.version>
+# <bitbar.version>v0.2.0</bitbar.version>
 # <bitbar.author>Nzebo</bitbar.author>
 # <bitbar.author.github>Nzebo</bitbar.author.github>
 # <bitbar.desc>Displays user details & review + lesson tracking for WaniKani.</bitbar.desc>
@@ -200,6 +200,10 @@ class WaniKani
 
     level_data = wanikani_api('https://api.wanikani.com/v2/level_progressions')
 
+    if level_data['data'][level_data['data'].length - 1]['data']['started_at'].nil?
+      return 0
+    end
+
     level_start_time = Time.parse(level_data['data'][level_data['data'].length - 1]['data']['started_at'])
 
     now = Time.now
@@ -238,7 +242,10 @@ class WaniKani
 
       start_time = assignment['data']['started_at']
 
-      next if start_time.nil?
+      if start_time.nil?
+        totals[assignment['data']['subject_type'].capitalize.to_sym][:total] += 1
+        next
+      end
 
       next if Time.parse(start_time) < reset_time
 
@@ -319,29 +326,31 @@ class WaniKani
     puts '---'
     puts 'Current Level Progress | size=12 color=#BFBFBF'
     level_percentage = calc_level_percentage
-    level_percentage.each do |key, val|
-      puts "#{key} [#{val[:passed]}/#{val[:total]}] - #{((val[:passed].to_f / val[:total].to_f) * 100).round(0)}%"
+    unless level_percentage == 0
+      level_percentage.each do |key, val|
+        puts "#{key} [#{val[:passed]}/#{val[:total]}] - #{((val[:passed].to_f / val[:total].to_f) * 100).round(0)}%"
 
-      header = ''
-      level_percentage[key.to_sym][:items].sort_by!{|obj| obj[:srs_stage_id]}.each do |item|
-        if item[:srs_stage] != header
-          header = item[:srs_stage]
-          color = if header.include? 'Apprentice'
-                    '#FF00AA'
-                  elsif header.include? 'Guru'
-                    '#7c04b7'
-                  else
-                    '#BFBFBF'
-                  end
-          puts "-- #{header} | size=12 color=#{color}"
+        header = ''
+        level_percentage[key.to_sym][:items].sort_by!{|obj| obj[:srs_stage_id]}.each do |item|
+          if item[:srs_stage] != header
+            header = item[:srs_stage]
+            color = if header.include? 'Apprentice'
+                      '#FF00AA'
+                    elsif header.include? 'Guru'
+                      '#7c04b7'
+                    else
+                      '#BFBFBF'
+                    end
+            puts "-- #{header} | size=12 color=#{color}"
+          end
+          if !item[:character].nil?
+            puts "--  #{item[:character]} | href=#{item[:document_url]}"
+          else
+            puts "--  Non UTF-8 character | href=#{item[:document_url]}"
+          end
         end
-        if !item[:character].nil?
-          puts "--  #{item[:character]} | href=#{item[:document_url]}"
-        else
-          puts "--  Non UTF-8 character | href=#{item[:document_url]}"
-        end
+
       end
-
     end
     puts '---'
     puts 'Lessons | size=12 color=#BFBFBF'
