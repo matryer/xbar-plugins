@@ -1,0 +1,26 @@
+{
+  "name": "bitbar-slack-team-notifications",
+  "version": "1.0.0",
+  "description": "Show notifications for Slack teams and channels with option to mark as read.",
+  "main": "slack-team-notifications.1m.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjifs/bitbar-slack-team-notifications.git"
+  },
+  "keywords": [
+    "bitbar",
+    "slack"
+  ],
+  "author": "Benji Encalada Mora",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjifs/bitbar-slack-team-notifications/issues"
+  },
+  "homepage": "https://github.com/benjifs/bitbar-slack-team-notifications#readme",
+  "dependencies": {
+    "superagent": "3.8.3"
+  }
+}
