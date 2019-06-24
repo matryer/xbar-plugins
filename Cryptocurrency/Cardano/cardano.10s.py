@@ -74,7 +74,7 @@ class Cardano:
     @staticmethod
     def main():
         currency = 'USD'
-        coinId = '2207'
+        coinId = '9'
         getCoin = CoinRankingAPI.getCoin(currency, coinId)
         if (getCoin):
             result = json.loads(getCoin)
