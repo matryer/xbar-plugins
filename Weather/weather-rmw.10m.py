@@ -1,20 +1,20 @@
 #!/usr/bin/env /anaconda3/bin/python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>OpenWeatherMap Emoji Weather</bitbar.title>
+# <bitbar.title>Weather - OpenWeatherMap</bitbar.title>
 # <bitbar.version>v1.0.2</bitbar.version>
-# <bitbar.author>Reed M. Williams, Daniel Seripap</bitbar.author>
-# <bitbar.author.github>rmwphd</bitbar.author.github>
-# <bitbar.desc>Gets weather info from OpenWeatherMap and displays it in a compact form. Just add your api key and location from OpenWeatherMap and you're on your way! This plugin owes a lot to Daniel Seripap (github: seripap).</bitbar.desc>
-# <bitbar.dependencies>python3, python emoji package</bitbar.dependencies>
+# <bitbar.author>Daniel Seripap</bitbar.author>
+# <bitbar.author.github>seripap</bitbar.author.github>
+# <bitbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</bitbar.desc>
+# <bitbar.dependencies>python</bitbar.dependencies>
 
 import json
 import urllib.request, urllib.error
-import emoji, math # you might need to install the emoji package
+import emoji
 from random import randint
 
-location = 'your location code from OpenWeatherMap goes here!'
-api_key = 'your api key goes here!'
+location = '5102922'
+api_key = '4bccba5d61d516608bd9d2adf5bf04af'
 units = 'imperial' # kelvin, metric, imperial
 lang = 'en'
 
@@ -58,7 +58,7 @@ def render_wx():
   701 : ":fog:",  711 : ":fog:",  721 : ":fog:",  731 : ":fog:",  741 : ":fog:",  751 : ":fog:",  761 : ":fog:",  762 : ":fog:",  771 : ":fog:",
   781 : ":cyclone:",
   800 : ":sunny:",
-  801 : "::partly_sunny::",  802 : "::partly_sunny::",  803 : ":cloud:",  804 : ":cloud:",
+  801 : ":partly_sunny:",  802 : ":partly_sunny:",  803 : ":cloud:",  804 : ":cloud:",
   }
   tridash = '\n' + '---' + '\n'
 
