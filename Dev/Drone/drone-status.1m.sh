@@ -23,6 +23,16 @@ DRONE_URL="https://drone.example.com"
 # The Account token from Webinterface -> Account -> Show Token
 TOKEN="some.long.token"
 
+# If the full list of projects in Drone is too large
+# you can specify only some projects to check
+# WHITE_LIST=(
+#    owner1/project1
+#    owner2/project2
+# )
+WHITE_LIST=(
+)
+
+
 ##################
 # Implementation #
 ##################
@@ -45,6 +55,11 @@ for i in "${!repos[@]}"; do
     build=${builds[$i]}
 
     build_location="repos/$repo/builds"
+    if [[ ${#WHITE_LIST[*]} != 0 ]]; then 
+        if ! $(echo ${WHITE_LIST[*]} | grep -wq "$repo"); then
+            continue
+        fi
+    fi
 
     # Get the status of the last build from the repo
     json=$(curl --silent -sb -H "Accept: application/json" -H "Authorization: $TOKEN" -X GET "$DRONE_URL/api/$build_location")
