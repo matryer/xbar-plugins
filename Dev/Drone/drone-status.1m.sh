@@ -40,9 +40,11 @@ WHITE_LIST=(
 json=$(curl --silent -sb -H "Accept: application/json" -H "Authorization: $TOKEN" -X GET "$DRONE_URL/api/user/repos")
 
 # Parse active repo names from JSON
-repos=($(echo "$json" | jq '.[] | select(.last_build>0) | {name: .full_name, active: .last_build}' | grep name | awk '{ print $2}'))
+repos=()
+while IFS='' read -r line; do repos+=("$line"); done < <(echo "$json" | jq '.[] | select(.last_build>0) | {name: .full_name, active: .last_build}' | grep name | awk '{ print $2}')
 # Parse last build number from JSON
-builds=($(echo "$json" | jq '.[] | select(.last_build>0) | {name: .full_name, active: .last_build}' | grep active | awk '{ print $2}'))
+builds=()
+while IFS='' read -r line; do builds+=("$line"); done < <(echo "$json" | jq '.[] | select(.last_build>0) | {name: .full_name, active: .last_build}' | grep active | awk '{ print $2}')
 
 success=0
 failure=0
