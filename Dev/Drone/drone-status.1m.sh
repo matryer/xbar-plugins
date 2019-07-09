@@ -56,7 +56,7 @@ for i in "${!repos[@]}"; do
 
     build_location="repos/$repo/builds"
     if [[ ${#WHITE_LIST[*]} != 0 ]]; then 
-        if ! $(echo ${WHITE_LIST[*]} | grep -wq "$repo"); then
+        if ! echo "${WHITE_LIST[*]}" | grep -wq "$repo"; then
             continue
         fi
     fi
