@@ -5,6 +5,7 @@
 # <bitbar.author.github>bbstilson</bitbar.author.github>
 # <bitbar.desc>Shows current queue stats for specified AWS SQS queues. Updates every minute.</bitbar.desc>
 # <bitbar.dependencies>awscli,jq</bitbar.dependencies>
+# <bitbar.image>https://i.imgur.com/UFhXIL5.png</bitbar.image>
 
 # Dependencies:
 #   awscli (https://aws.amazon.com/cli/)
