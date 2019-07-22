@@ -25,7 +25,7 @@ stock_symbols = ["MSFT", "AAPL", "AMZN"]
 
 response = urllib2.urlopen("https://cloud.iexapis.com/stable/stock/market/batch?symbols=" + ','.join(stock_symbols) + "&types=quote&filter=symbol,latestPrice,change,changePercent&displayPercent=true&token=" + api_token)
 json_data = json.loads(response.read())
-print(json_data)
+
 for stock_symbol in stock_symbols:
     stock_quote = json_data[stock_symbol]["quote"]
     price_current = stock_quote["latestPrice"]
