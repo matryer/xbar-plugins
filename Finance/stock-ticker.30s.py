@@ -32,7 +32,7 @@ for stock_symbol in stock_symbols:
     price_changed = stock_quote["change"]
     price_percent_changed = stock_quote["changePercent"]
 
-    if not price_changed:
+    if price_changed is not None:
         color = "red" if float(price_changed) < 0 else "green"
         print("{} {:.2f} {:.2f} ({:.2f}%) | color={}".format(stock_symbol, price_current, price_changed, price_percent_changed, color))
     else:
