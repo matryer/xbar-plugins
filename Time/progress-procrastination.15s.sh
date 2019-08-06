@@ -49,14 +49,14 @@ now=$(date +%s)
 
 Y=$(date +%Y)
 Y_start=$(date -j 01010000 +%s)
-Y_end=$(date -jr $Y_start -v +1y +%s)
+Y_end=$(date -jr "$Y_start" -v +1y +%s)
 Y_progress=$(
     echo "($now - $Y_start) * 100 / ($Y_end - $Y_start)" | bc -l
 )
 
 m=$(date +%m)
-m_start=$(date -j $(date +%m)010000 +%s)
-m_end=$(date -jr $m_start -v +1m +%s)
+m_start=$(date -j "$(date +%m)"010000 +%s)
+m_end=$(date -jr "$m_start" -v +1m +%s)
 m_progress=$(
     echo "($now - $m_start) * 100 / ($m_end - $m_start)" | bc -l
 )
@@ -68,10 +68,10 @@ d=$(date +%d)
 d_start=$(date -j $working_start +%s) # starttime of today
 
 # set the end time
-d_today=$(date -j $(date +%m%d)0000 +%s)
+d_today=$(date -j "$(date +%m%d)"0000 +%s)
 if [ $working_end -eq 0000 ]
 then
-    d_end=$(date -jr $d_today -v +1d +%s) # beginning of next day
+    d_end=$(date -jr "$d_today" -v +1d +%s) # beginning of next day
 else
     d_end=$(date -j "$(date +%m%d)$working_end" +%s) # set to working_end time of today
 fi
@@ -91,35 +91,35 @@ round() { printf %.0f "$1"; }
 
 # progress bar display function
 progress() {
-    filled=$(round $(echo "$1 * $width / 100" | bc -l))
+    filled=$(round "$(echo "$1 * $width / 100" | bc -l)")
     empty=$((width - filled))
     # repeat the characters using printf
-    printf "$fill_char%0.s" $(seq $filled)
+    printf "$fill_char%0.s" $(seq "$filled")
     printf "$empty_char%0.s" $(seq $empty)
 }
 
 ## output to bitbar
 # menu bar line
-if [ $now -lt $d_end ] # tell me to stop if I'm past $working_end
+if [ "$now" -lt "$d_end" ] # tell me to stop if I'm past $working_end
 then
-    if [ $now -lt $d_start ] # basically captures post-midnight oil-burning
+    if [ "$now" -lt "$d_start" ] # basically captures post-midnight oil-burning
     then
         echo "😴SLEEP!🛌 | $bitbar size=12 font=SF Compact Text Regular"
     else
-        echo "P: $(round $d_progress)% | $bitbar size=12 font=SF Compact Text Regular"
+        echo "P: $(round "$d_progress")% | $bitbar size=12 font=SF Compact Text Regular"
     fi
 else
     echo "🛑STOP!✋ | $bitbar size=12 font=SF Compact Text Regular"
 fi
 echo ---
 # day + progress bar
-echo "$Y-$m-$d $padding $(round $d_progress)%   | $bitbar"
-echo "$(progress $d_progress)                   | $bitbar"
+echo "$Y-$m-$d $padding $(round "$d_progress")%   | $bitbar"
+echo "$(progress "$d_progress")                   | $bitbar"
 echo ---
 # month + progress bar
-echo "$Y-$m    $padding $(round $m_progress)%   | $bitbar"
-echo "$(progress $m_progress)                   | $bitbar"
+echo "$Y-$m    $padding $(round "$m_progress")%   | $bitbar"
+echo "$(progress "$m_progress")                   | $bitbar"
 echo ---
 # year + progress bar
-echo "$Y       $padding $(round $Y_progress)%   | $bitbar"
-echo "$(progress $Y_progress)                   | $bitbar"
+echo "$Y       $padding $(round "$Y_progress")%   | $bitbar"
+echo "$(progress "$Y_progress")                   | $bitbar"
