@@ -41,6 +41,10 @@ Pathname.class_eval do
   def delete_dir
     FileUtils.remove_dir(expand_path)
   end
+
+  def encode
+    to_s.gsub(' ', '%20')
+  end
 end
 
 class DesktopCleaner
@@ -71,8 +75,10 @@ class DesktopCleaner
   end
 
   def backup_dir
-    config['backup_dir'].tap do |it|
-      raise 'backup_dir is not configured' if it.nil?
+    @backup_dir ||= begin
+      backup_dir = config['backup_dir']
+      raise 'backup_dir is not configured' unless backup_dir
+      Pathname.new(backup_dir)
     end
   end
 
@@ -120,12 +126,11 @@ begin
 
   puts 'Desktop'
   puts '---'
-  puts "Open | href='file://#{cleaner.desktop_path.gsub(' ', '%20')}'"
-  puts "Open Backups | href='file://#{cleaner.backup_dir.gsub(' ', '%20')}'"
+  puts "Open | href='file://#{cleaner.desktop_path.encode}'"
+  puts "Open Backups | href='file://#{cleaner.backup_dir.encode}'"
 rescue StandardError => e
   puts '⚠ Desktop | color=yellow'
   puts "---"
   puts e.message
   puts "Open usage | href='https://github.com/tomorrowkey/desktop_cleaner'"
 end
-
