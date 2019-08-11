@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # <bitbar.title>Todoist Today</bitbar.title>
-# <bitbar.version>v2.0.0</bitbar.version>
+# <bitbar.version>v2.1.0</bitbar.version>
 # <bitbar.author>K.Kobayashi, et al</bitbar.author>
 # <bitbar.author.github>kobayashi,gingerbeardman</bitbar.author.github>
 # <bitbar.desc>Today's task in your menu bar!</bitbar.desc>
@@ -39,8 +39,12 @@ else:
         for item in items:
             if (item['due']): 
                 due = item['due']['date'] # due date of a task
-                if (due == today):
-                    print((comment + item['content']).encode('utf-8'))
+                if (due.startswith(today)):
+                    if ("T" in due): 
+                        time = "@%s " % due[-8:-3]
+                    else:
+                        time = ""
+                    print((comment + time + item['content']).encode('utf-8'))
     finally:
         r.close()
 
