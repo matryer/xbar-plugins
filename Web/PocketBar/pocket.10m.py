@@ -195,7 +195,7 @@ def main():
                             title=i.get('resolved_title', i.get('given_title')),
                             cmd=CMD
                         )
-                        for i in sorted(raw_articles['list'].values(), key=lambda x: x['time_added'], reverse=True) if i['status'] == '0']
+                        for i in sorted(raw_articles['list'].values(), key=lambda x: x.get('time_added', ''), reverse=True) if i['status'] == '0']
     print(f'{len(adapted_articles)}|font=Verdana size=14 templateImage={pocket_icon()}')
     print('---')
     print(*adapted_articles, sep='\n')
