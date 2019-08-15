@@ -16,7 +16,7 @@ FANS=$(/usr/local/bin/smc -k FNum -r | awk '{ printf "%d\n", $4}')
 # FAN_LABEL=("CPU" "ODD" "HDD") # Uncomment to add label, must 1-to-1 map the above array
 FAN_SPEEDS="♨︎ " # Set your own prefix
 
-for ((i = 0; i < $FANS; i++)) ; do
+for ((i = 0; i < FANS; i++)) ; do
   FAN_SPEED=$(/usr/local/bin/smc -k F${i}Ac -r | awk '{ printf "%s\n", $3}' | grep '^[0-9]*[.][0-9]*$' | awk '{ printf "%d\n", $1}')
   if [ "$FAN_SPEED" != "" ] ; then
     if [ -n "${FAN_LABEL+x}" ]; then
