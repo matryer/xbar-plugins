@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/bash
 
 # <bitbar.title>Switch Timezones</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
@@ -6,17 +6,15 @@
 # <bitbar.author.github>wasapl</bitbar.author.github>
 # <bitbar.desc>Allows to switch timezone for current time shown in the Bar. </bitbar.desc>
 # <bitbar.image>https://i.imgur.com/0Oevp2W.png</bitbar.image>
-# <bitbar.dependencies>zsh</bitbar.dependencies>
-SCRIPT_NAME=$(basename $0)
-SCRIPT_DIR=$(dirname $0)
-typeset -a TZS
-TZS=(
-"Moscow" "Europe/Moscow"
-"London" "Europe/London"
-"NewYork" "US/Eastern"
-"SanFrancisco" "US/Pacific"
-"UTC" "UTC"
-)
+# <bitbar.dependencies>BASH</bitbar.dependencies>
+SCRIPT_NAME=$(basename "$0")
+SCRIPT_DIR=$(dirname "$0")
+declare -A TZS
+TZS["Moscow"]="Europe/Moscow"
+TZS["London"]="Europe/London"
+TZS["NewYork"]="US/Eastern"
+TZS["SanFrancisco"]="US/Pacific"
+TZS["UTC"]="UTC"
 
 TEMP_FILE="$TMPDIR/${SCRIPT_NAME%%.*}.tmp"
 if [ -s "${TEMP_FILE}" ]; then
@@ -30,14 +28,10 @@ function get_time() {
 }
 
 function menu() {
-    cur_time=$(get_time "${TZS[TZS[(i)$CUR_CITY]+1]}"); echo "${CUR_CITY} ${cur_time}"
+    cur_time=$(get_time "${TZS[$CUR_CITY]}"); echo "${CUR_CITY} ${cur_time}"
     echo "---"
-    i=0
-    for city in ${(k)TZS}; do
-        ((i++))
-        if ((i % 2)); then
-            cur_time=$(get_time "${TZS[TZS[(i)$city]+1]}"); echo "$city ${cur_time} | bash="${SCRIPT_DIR}/${SCRIPT_NAME}" param1=chcity param2=$city terminal=false refresh=true"
-        fi
+    for city in "${!TZS[@]}"; do
+            cur_time=$(get_time "${TZS[$city]}"); echo "$city ${cur_time} | bash="${SCRIPT_DIR}/${SCRIPT_NAME}" param1=chcity param2=$city terminal=false refresh=true"
     done
     echo "---"
     cur_time=$(date +%s); echo "Epoch $cur_time | bash="${SCRIPT_DIR}/${SCRIPT_NAME}" param1=copy param2=\"$cur_time\" terminal=false"
