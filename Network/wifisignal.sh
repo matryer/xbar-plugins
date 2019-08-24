@@ -61,7 +61,7 @@ QUALITY=$((QUALITY < 100 ? QUALITY : 100))
 
 echo "📶 $SSID | color=$COLOR"
 echo "---"
-echo "Signal: $SIGNAL ($RATING)"
-echo "Quality: $QUALITY% ($SNR dBm)"
+echo "Signal: $SIGNAL dbM ($RATING)"
+echo "Quality: $QUALITY% ($SNR dBm SNR)"
 echo "---"
 echo "Refresh... | refresh=true"
