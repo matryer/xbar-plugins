@@ -15,7 +15,7 @@ SSID=$(echo "$WIFIDATA" | awk '/ SSID/ {print substr($0, index($0, $2))}')
 SIGNAL=$(echo "$WIFIDATA" | awk '/ agrCtlRSSI/ {print substr($0, index($0, $2))}')
 NOISE=$(echo "$WIFIDATA" | awk '/ agrCtlNoise/ {print substr($0, index($0, $2))}')
 
-SNR=$(("$SIGNAL" - "$NOISE"))
+SNR="$((SIGNAL - NOISE))"
 
 # Signal Strength – 0dBm (strongest) and --100dBm (weakest). 
 ## -30 dBm  Amazing
@@ -56,8 +56,8 @@ fi
 ## Medium quality: 50% ~= -75dBm
 ## Low quality: 30% ~= -85dBm
 ## Unusable quality: 8% ~= -96dBm
-QUALITY=$((2 * "$SNR"))
-QUALITY=$((QUALITY < 100 ? QUALITY : 100))
+QUALITY="$((2 * SNR))"
+QUALITY="$((QUALITY < 100 ? QUALITY : 100))"
 
 echo "📶 $SSID | color=$COLOR"
 echo "---"
