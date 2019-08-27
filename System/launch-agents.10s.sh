@@ -16,10 +16,8 @@
 
 # ==============================================================================
 
-launchctl=$(which launchctl)
-defaults=$(which defaults)
 open=$(which open)
-servicespath="$HOME/Library/LaunchAgents/"
+servicespath="$HOME/Library/LaunchAgents"
 compgen -G "$servicespath"/*.plist &> /dev/null && services=("$servicespath"/*.plist)
 
 if [[ $1 = start ]]
