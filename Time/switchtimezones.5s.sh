@@ -31,12 +31,12 @@ function menu() {
     cur_time=$(get_time "${TZS[$CUR_CITY]}"); echo "${CUR_CITY} ${cur_time}"
     echo "---"
     for city in "${!TZS[@]}"; do
-            cur_time=$(get_time "${TZS[$city]}"); echo "$city ${cur_time} | bash="${SCRIPT_DIR}/${SCRIPT_NAME}" param1=chcity param2=$city terminal=false refresh=true"
+            cur_time=$(get_time "${TZS[$city]}"); echo "$city ${cur_time} | bash='${SCRIPT_DIR}/${SCRIPT_NAME}' param1=chcity param2=$city terminal=false refresh=true"
     done
     echo "---"
-    cur_time=$(date +%s); echo "Epoch $cur_time | bash="${SCRIPT_DIR}/${SCRIPT_NAME}" param1=copy param2=\"$cur_time\" terminal=false"
-    cur_time=$(date +'%Y%m%d'); echo "YMD $cur_time | bash="${SCRIPT_DIR}/${SCRIPT_NAME}" param1=copy param2=\"$cur_time\" terminal=false"
-    cur_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ"); echo "ISO 8601 $cur_time | bash="${SCRIPT_DIR}/${SCRIPT_NAME}" param1=copy param2=\"$cur_time\" terminal=false"
+    cur_time=$(date +%s); echo "Epoch $cur_time | bash='${SCRIPT_DIR}/${SCRIPT_NAME}' param1=copy param2=\"$cur_time\" terminal=false"
+    cur_time=$(date +'%Y%m%d'); echo "YMD $cur_time | bash='${SCRIPT_DIR}/${SCRIPT_NAME}' param1=copy param2=\"$cur_time\" terminal=false"
+    cur_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ"); echo "ISO 8601 $cur_time | bash='${SCRIPT_DIR}/${SCRIPT_NAME}' param1=copy param2=\"$cur_time\" terminal=false"
 }
 
 if [[ "$#" -ge 1 ]];then
