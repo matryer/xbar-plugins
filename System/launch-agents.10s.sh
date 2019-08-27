@@ -5,7 +5,7 @@
 # <bitbar.author>Paul W. Rankin</bitbar.author>
 # <bitbar.author.github>rnkn</bitbar.author.github>
 # <bitbar.desc>Shows and manages user Launch Agents.</bitbar.desc>
-# <bitbar.image>http://photos.paulwrankin.com/screenshots/launch-agents.png</bitbar.image>
+# <bitbar.image>https://f002.backblazeb2.com/file/pwr-share/launch-agents.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 
 # BitBar Launch Agents plugin
@@ -16,43 +16,41 @@
 
 # ==============================================================================
 
-launchctl=$(which launchctl)
-defaults=$(which defaults)
-open=$(which open)
-servicespath="$HOME/Library/LaunchAgents/"
-compgen -G "$servicespath"*.plist &> /dev/null && services=("$servicespath"*.plist)
+open=$(command -v open)
+servicespath="$HOME/Library/LaunchAgents"
+compgen -G "$servicespath"/*.plist &> /dev/null && services=("$servicespath"/*.plist)
 
 if [[ $1 = start ]]
-then "$launchctl" start "$2"
+then launchctl start "$2"
 fi
 
 if [[ $1 = stop ]]
-then "$launchctl" stop "$2"
+then launchctl stop "$2"
 fi
 
 if [[ $1 = load ]]
-then "$launchctl" load "$2"
+then launchctl load "$2"
 fi
 
 if [[ $1 = unload ]]
-then "$launchctl" unload "$2"
+then launchctl unload "$2"
 fi
 
 if [[ $1 = reload ]]
-then "$launchctl" unload "$2"
-     "$launchctl" load "$2"
+then launchctl unload "$2"
+     launchctl load "$2"
 fi
 
 function service_pid {
-    "$launchctl" list | grep "$1\$" | sed -E 's/^([-0-9]+).*([0-9]+).*/\1/'
+    launchctl list | grep "$1\$" | sed -E 's/^([-0-9]+).*([0-9]+).*/\1/'
 }
 
 function service_status {
-    "$launchctl" list | grep "$1\$" | sed -E 's/^([-0-9]+).*([0-9]+).*/\2/'
+    launchctl list | grep "$1\$" | sed -E 's/^([-0-9]+).*([0-9]+).*/\2/'
 }
 
 function service_property {
-    "$defaults" read "$1" "$2" 2> /dev/null
+    defaults read "$1" "$2" 2> /dev/null
 }
 
 # shellcheck disable=SC2154
