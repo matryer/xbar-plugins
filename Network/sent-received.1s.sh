@@ -15,7 +15,7 @@ TMPFILE="${TMPDIR}/bitbar-sent-received"
 
 if [[ -r "${TMPFILE}" ]]
 then
-    read -ra offsets < "${TMPFILE}"
+    read offsets < "${TMPFILE}"
 else
     echo "0 0" > "${TMPFILE}"
     offsets=(0 0)
