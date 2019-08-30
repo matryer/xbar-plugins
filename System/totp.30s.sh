@@ -18,14 +18,14 @@ else
   echo "my codes"
   echo "---"
 
-  /usr/local/bin/ykman oath code | while read line
+  /usr/local/bin/ykman oath code | while read -r line
   do
-    account=$(echo $line | cut -d':' -f1 )
-    code=$(echo $line | sed 's/.*\([0-9]\{6\}\)$/\1/')
+    account=$(echo "$line" | cut -d':' -f1 )
+    code=$(echo "$line" | sed 's/.*\([0-9]\{6\}\)$/\1/')
 
     # align left with padding
-    numspaces=`expr 19 - ${#account} + 1`
-    padding=$(printf '%*s' "$numspaces")
+    numspaces=$((20-${#account}))
+    padding=$(printf "%*s" "$numspaces" "")
     item="$account $padding $code"
 
     echo "$item | color=orange font=Menlo size=12 bash='$0' param1=copy param2=$account param3=$code refresh=true terminal=false"
