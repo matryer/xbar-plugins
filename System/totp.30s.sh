@@ -32,7 +32,7 @@ else
     width=$((account_length_max - ${#account} + code_length_max))
     item=$(printf "%s %*s" "$account" $width "$code")
 
-    echo "$item | color=green font=Menlo size=13 bash='$0' param1=copy param2=$account param3=$code refresh=true terminal=false"
+    echo "$item | color=green font=Menlo size=13 bash='$0' param1=copy param2=\"$account\" param3=$code refresh=true terminal=false"
   done
 
   exit
