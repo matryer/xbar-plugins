@@ -10,12 +10,12 @@
 # <bitbar.version>1.0</bitbar.version>
 # clicking on an item will copy the code to the clipboard
 
-if [[ "$1"  && "$1" = "copy" && "$2" && "$3" ]]; then
+if [ $# -eq 3 ] && [ "$1" = "copy" ]; then
   echo -n "$3" | pbcopy
-  osascript -e "display notification \"copied $3 to clipboard\" with title \"$2\"" &> /dev/null
+  osascript -e "display notification \" $3 copied to clipboard\" with title \"$2\"" &> /dev/null
   exit
 else
-  echo "my codes"
+  echo "TOTP"
   echo "---"
 
   /usr/local/bin/ykman oath code | while read -r line
@@ -23,12 +23,16 @@ else
     account=${line/%:* *[0-9]/}
     code=${line##* }
 
-    # align left with padding
-    numspaces=$((20-${#account}))
-    padding=$(printf "%*s" "$numspaces" "")
-    item="$account $padding $code"
+    # trim account name to max characters
+    account_length_max=20
+    account=${account:0:account_length_max}
 
-    echo "$item | color=orange font=Menlo size=12 bash='$0' param1=copy param2=$account param3=$code refresh=true terminal=false"
+    # pad code to for alignment
+    code_length_max=6
+    width=$((account_length_max - ${#account} + code_length_max))
+    item=$(printf "%s %*s" "$account" $width "$code")
+
+    echo "$item | color=green font=Menlo size=13 bash='$0' param1=copy param2=$account param3=$code refresh=true terminal=false"
   done
 
   exit
