@@ -20,8 +20,8 @@ else
 
   /usr/local/bin/ykman oath code | while read -r line
   do
-    account=$(echo "$line" | cut -d':' -f1 )
-    code=$(echo "$line" | sed 's/.*\([0-9]\{6\}\)$/\1/')
+    account=${line/%:* *[0-9]/}
+    code=${line##* }
 
     # align left with padding
     numspaces=$((20-${#account}))
