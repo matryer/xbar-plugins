@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Battery remaining (Python)</bitbar.title>
 # <bitbar.version>v1.0.0</bitbar.version>
