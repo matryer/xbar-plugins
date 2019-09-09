@@ -1,6 +1,6 @@
 #!/bin/bash
 # <bitbar.title>AnyConnect Umbrella Status</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Jason Masker</bitbar.author>
 # <bitbar.author.github>jasmas</bitbar.author.github>
 # <bitbar.desc>Check and toggle status of Umbrella Roaming Security Module for Cisco AnyConnect.</bitbar.desc>
@@ -74,9 +74,9 @@ case "$1" in
 
         echo '---'
 
-        (verify_plugin_disabled &&
-        echo "Enable Cisco Umbrella| terminal=false refresh=true bash='$0' param1=enable") ||
         (check_status &&
-        echo "Disable Cisco Umbrella| terminal=false refresh=true bash='$0' param1=disable")
+        echo "Disable Cisco Umbrella| terminal=false refresh=true bash='$0' param1=disable") ||
+        (verify_plugin_disabled &&
+        echo "Enable Cisco Umbrella| terminal=false refresh=true bash='$0' param1=enable")
 
 esac
