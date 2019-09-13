@@ -14,11 +14,11 @@ ps c -Ao pcpu,command,pid -r | head -n 4 | awk 'NR>1'\
   | while read -r pcpu command pid ; do
 
     if [ "${counter}" -eq "1" ]; then 
-      echo "$pcpu $command"
+      echo "$pcpu% $command"
       echo "---"
     fi
 
-    echo "$pcpu $command $pid | bash='kill -9 ${pid//[!0-9]/} ; exit' terminal=true"
+    echo "$pcpu% $command $pid | bash='kill -9 ${pid//[!0-9]/} ; exit' terminal=true"
 
     counter=$((counter +1))
 
