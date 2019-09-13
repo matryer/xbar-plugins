@@ -5,6 +5,7 @@
 # <bitbar.author>Alex M.</bitbar.author>
 # <bitbar.author.github>Aleksandern</bitbar.author.github>
 # <bitbar.desc>Shows top 3 consuming processes with opportunity to kill them.</bitbar.desc>
+# <bitbar.image>https://raw.githubusercontent.com/Aleksandern/devman/master/images/BitBarCpuUsageKill.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 
 
