@@ -134,13 +134,6 @@ fi
 for i in "${apps[@]}"; do
     # is the app running?
     app_state=$(osascript -e "application \"$i\" is running")
-
-    if [ "$?" != "0" ]; then
-        # just exit if there was an error determining the app's state
-        # (the app might be in the middle of quitting)
-        exit
-    fi
-
     if [ "$app_state" = "true" ]; then
         echo "---"
         echo "Open $app | color=#1db954 bash='$0' param1=open param2=$app terminal=false"
