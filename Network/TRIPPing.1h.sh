@@ -15,8 +15,6 @@
 # h for hour(s)
 # d for day(s)
 
-emojize=true
-
 # Notify the user
 notify () {
     osascript -e "display notification \"Number of hops: $1\" with title \"TRIPPing\""	
@@ -26,13 +24,16 @@ notify () {
 EXTERNAL_IP4=$(curl -4 --connect-timeout 3 -s http://v4.ipv6-test.com/api/myip.php || echo None)
 EXTERNAL_IP6=$(curl -6 --connect-timeout 3 -s http://v6.ipv6-test.com/api/myip.php || echo None)
 
+# GUI Bar
+[[ "$EXTERNAL_IP4" == "None" && "$EXTERNAL_IP6" == "None" ]]  && echo ":negative_squared_cross_mark:" || echo ":space_invader:	"
+
 # Sites to ping
 SITES_TO_PING=(dns.google www.wikipedia.org www.pastebin.com)
 
+# Traceroute 1.1.1.1
 TRACEROUTE=$(traceroute 1.1.1.1 2>/dev/null)
 
 # GUI
-[[ "$EXTERNAL_IP4" == "None" && "$EXTERNAL_IP6" == "None" ]]  && echo ":negative_squared_cross_mark:" || echo ":space_invader:	"
 echo "---"
 echo ":arrows_counterclockwise: Refresh... | color=black refresh=true"
 echo "---"
@@ -43,12 +44,12 @@ echo "---"
 echo "Ping output: | color=red"
 for i in "${SITES_TO_PING[@]}"
 do
-   echo "$(ping -c 1 $i |grep -vE 'transmitted|statistics|ttl' | sed 's/---//g' | sed '/^$/d')"
-   echo "-"
+	echo "$(ping -c 1 "$i" |grep -vE 'transmitted|statistics|ttl' | sed 's/---//g' | sed '/^$/d')"
+   	echo "-"
 done
 echo "---"
 echo "Traceroute output: | color=red"
 echo "${TRACEROUTE}"
 
-HOPS=`echo $TRACEROUTE | awk -F " " '{print $(NF-8)}'`
-notify $HOPS
+HOPS=$(echo $TRACEROUTE | awk -F " " '{print $(NF-8)}')
+notify "$HOPS"
