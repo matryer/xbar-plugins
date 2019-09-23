@@ -51,5 +51,5 @@ echo "---"
 echo "Traceroute output: | color=red"
 echo "${TRACEROUTE}"
 
-HOPS=$(echo $TRACEROUTE | awk -F " " '{print $(NF-8)}')
+HOPS=$(echo ${TRACEROUTE} | awk -F " " '{print $(NF-8)}')
 notify "$HOPS"
