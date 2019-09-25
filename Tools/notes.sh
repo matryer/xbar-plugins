@@ -24,19 +24,19 @@ refresh="open bitbar://refreshPlugin?name=notes.sh"
 # Function to delete the selected note
 if [ "$1" = "delete" ]; then
     # equivalent to: sed -i '' <linenumber>d ~/bitbar_plugins/support_files/notes.txt
-    sed -i '' $2$3 $notefile
+    sed -i '' "$2""$3" $notefile
     $refresh
 fi
 
 # Function to copy note to clipboard
 ## Note: for some unknown reason, it adds a new line character (\n) to the end of what is copied
 if [ "$1" = "copy" ]; then
-    sed -n $2$3 $notefile | pbcopy
+    sed -n "$2""$3" $notefile | pbcopy
 fi
 
 # Function that overrites the notes.txt file with nothing, clearing all notes
 if [ "$1" = "clear" ]; then
-    > $notefile
+    true > "$notefile"
     $refresh
 fi
 
@@ -45,7 +45,7 @@ if [ "$1" = "new" ]; then
     # Opens a system dialog box and saves input to notes file
 	text=$(osascript -e 'Tell application "System Events" to display dialog "New Note:" default answer "" ' -e 'text returned of result')
 	if [ "$text" != "" ]; then
-		echo $text >>$notefile
+		echo "$text" >> $notefile
 	fi
 	$refresh
 fi
