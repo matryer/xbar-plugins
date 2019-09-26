@@ -5,7 +5,7 @@
 #<bitbar.author>Kevin Bowers</bitbar.author>
 #<bitbar.author.github>kevinbowers73</bitbar.author.github>
 #<bitbar.desc>A simple plugin to store single line notes</bitbar.desc>
-#<bitbar.image>http://www.imgur.com/a/O07kDGe</bitbar.image>
+
 #<bitbar.dependencies>bash</bitbar.dependencies>
 #<bitbar.abouturl></bitbar.abouturl>
 
