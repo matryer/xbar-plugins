@@ -9,7 +9,7 @@ before_install:
   - brew install python@2
   - pip2 install pyflakes
   - pip3 install pyflakes
-#   - gem install rubocop -v 0.50.0 --no-document
+  - gem install rubocop -v 0.50.0 --no-document
   - brew install shellcheck
   - brew install luarocks
   - luarocks install luacheck
