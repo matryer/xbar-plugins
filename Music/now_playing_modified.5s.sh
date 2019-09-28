@@ -5,7 +5,7 @@
 # <bitbar.author>Kevin Bowers</bitbar.author>
 # <bitbar.author.github>kevinbowers73</bitbar.author.github>
 # <bitbar.desc>Shows and controls the music that is now playing. Supports Spotify, iTunes and Vox</bitbar.desc>
-# <bitbar.image>https://www.imgur.com/a/HenNmI4</bitbar.image>
+# <bitbar.image>https://i.imgur.com/6X3tjtEl.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
