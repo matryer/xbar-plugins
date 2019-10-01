@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 # -*- coding: utf-8 -*-
 # <bitbar.title>Battery remaining (Python)</bitbar.title>
 # <bitbar.version>v1.0.0</bitbar.version>
@@ -41,7 +41,7 @@ def parse_pmset():
 
 def main():
     battery = parse_pmset()
-    refresh_interval = sys.argv[0].split('.')[2]
+    refresh_interval = sys.argv[0].split('.')[1]
     print("{}| size=12".format(battery["charge"]))
     print("---")
     print("Status: {}".format(battery["status"]))
