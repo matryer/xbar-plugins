@@ -19,6 +19,9 @@ ln -s {CLONED_REPO_DIRECTORY}/slack-team-notifications.1m.js slack-team-notifica
 ```
 
 ## Configure
+
+If you'd only like to see the count for mentions and DMs, changes the `MENTIONS_ONLY` constant to true.
+
 You will need to get your [Slack Legacy Tokens](https://api.slack.com/custom-integrations/legacy-tokens) for every team you want to get notifications from. After getting the legacy tokens, add them to the `.tokens.js` file:
 
 ```
