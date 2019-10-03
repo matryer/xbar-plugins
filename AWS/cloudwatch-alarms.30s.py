@@ -7,6 +7,7 @@
 # <bitbar.author.github>sebasrp</bitbar.author.github>
 # <bitbar.desc>Monitor the status of your CloudWatch Alarms</bitbar.desc>
 # <bitbar.dependencies>python, boto3</bitbar.dependencies>
+# <bitbar.image>https://i.imgur.com/qiqHX32.png</bitbar.image>
 
 import boto3
 
