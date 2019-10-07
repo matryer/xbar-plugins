@@ -13,7 +13,7 @@
 # metadata
 # <bitbar.title>Music Now Playing</bitbar.title>
 # <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Dan Turkel, Jason Tokoph, Aleš Farčnik</bitbar.author>
+# <bitbar.author>Dan Turkel, Jason Tokoph, Aleš Farčnik, Jeffrey Munowitch</bitbar.author>
 # <bitbar.author.github>daturkel</bitbar.author.github>
 # <bitbar.desc>Display currently playing Music song with artwork. Play/pause, skip forward, skip backward.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/lBfoFdY.png</bitbar.image>
