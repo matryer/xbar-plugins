@@ -20,11 +20,10 @@
 export PATH="$PATH:/usr/local/bin"
 
 function shorten {
-  from_index=1
   length=20
   ellipsis='…'
   read -r string
-  echo "$string" | sed -E "s/(.{${${from_index}-${length}}}).*$/\\1${ellipsis}/"
+  echo "$string" | sed -E "s/(.{${length}}).*$/\\1${ellipsis}/"
 }
 
 case "$1" in

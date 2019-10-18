@@ -8,7 +8,7 @@
 # <bitbar.image>http://i.imgur.com/SBlrP2t.png</bitbar.image>
 # <bitbar.dependencies>emacs</bitbar.dependencies>
 
-EMACS=$(which emacs)
+EMACS=$(command -v emacs)
 
 exit_with_error() {
   echo "🐮err | color=red";
@@ -59,7 +59,9 @@ cat <<EOE > /tmp/emacs-package-updates.el
     (message "%s (%s < %s)"
              pkg-name
              (my-package-version (cadr (assoc pkg-name package-alist)))
-             (my-package-version pkg-desc))))
+             (my-package-version pkg-desc)))
+  (message "---")
+  (message "Refresh... | refresh=true"))
 EOE
 
 ($EMACS -Q --batch -l /tmp/emacs-package-updates.el 2>&1 || exit_with_error) | sed -ne '/🐮/,$p'

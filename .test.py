@@ -7,6 +7,8 @@ import argparse
 import warnings
 from distutils.spawn import find_executable
 
+ignore_file_types = ['.md']
+ignore_file_names = ['package.json', 'package-lock.json']
 allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
 required_metadata = ['author', 'author.github', 'title']
 recommended_metadata = ['image', 'desc', 'version']
@@ -240,8 +242,12 @@ for _file in args.files:
     components = _file.split('/')
     if components[0] == ".":
         del components[0]
-    if any(s[0] == '.' for s in components) or file_ext == '.md':
+    if any(s[0] == '.' for s in components):
         debug('skipping file %s' % _file)
+    elif file_ext in ignore_file_types:
+        debug('ignoring file by type %s' % _file)
+    elif components[-1] in ignore_file_names:
+        debug('ignoring file by name %s' % _file)
     else:
         debug('checking file %s' % _file)
         check_file(os.path.join(os.getcwd(), _file), args.pr)
