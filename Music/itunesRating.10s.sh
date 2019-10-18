@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Get current iTunes rating
+# Get current Music rating
 #
 # Sebastian Winkler
 #
@@ -12,59 +12,59 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Sebastian Winkler, Dan Turkel</bitbar.author>
 # <bitbar.author.github>sw82</bitbar.author.github>
-# <bitbar.desc>Display currently rating from iTunes song and modify it.</bitbar.desc>
+# <bitbar.desc>Display currently rating from Music song and modify it.</bitbar.desc>
 # <bitbar.image>http://www.mindfuckbox.com/wp-content/uploads/2016/01/iTunes_Rating.png</bitbar.image>
 
 
 if [ "$1" = 'launch' ]; then
-  osascript -e 'tell application "iTunes" to activate'
+  osascript -e 'tell application "Music" to activate'
   exit
 fi
 
-if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
+if [ "$(osascript -e 'application "Music" is running')" = "false" ]; then
   echo "♫"
   echo "---"
-  echo "iTunes is not running"
-  echo "Launch iTunes | bash='$0' param1=launch terminal=false"
+  echo "Music is not running"
+  echo "Launch Music | bash='$0' param1=launch terminal=false"
   exit
 fi
 
 if [ "$1" = 'zero' ]; then
-  osascript -e 'tell application "iTunes" to set rating of current track to 00'
+  osascript -e 'tell application "Music" to set rating of current track to 00'
   exit
 fi
 
 if [ "$1" = 'one' ]; then
-  osascript -e 'tell application "iTunes" to set rating of current track to 20'
+  osascript -e 'tell application "Music" to set rating of current track to 20'
   exit
 fi
 
 if [ "$1" = 'two' ]; then
-  osascript -e 'tell application "iTunes" to set rating of current track to 40'
+  osascript -e 'tell application "Music" to set rating of current track to 40'
   exit
 fi
 
 if [ "$1" = 'three' ]; then
-  osascript -e 'tell application "iTunes" to set rating of current track to 60'
+  osascript -e 'tell application "Music" to set rating of current track to 60'
   exit
 fi
 
 if [ "$1" = 'four' ]; then
-  osascript -e 'tell application "iTunes" to set rating of current track to 80'
+  osascript -e 'tell application "Music" to set rating of current track to 80'
   exit
 fi
 
 if [ "$1" = 'five' ]; then
-  osascript -e 'tell application "iTunes" to set rating of current track to 100'
+  osascript -e 'tell application "Music" to set rating of current track to 100'
   exit
 fi
 
 rating_icon_black="★"
 rating_icon_white="☆"
 
-track=$(osascript -e 'tell application "iTunes" to name of current track as string' 2>/dev/null);
-artist=$(osascript -e 'tell application "iTunes" to artist of current track as string' 2>/dev/null);
-rating=$(osascript -e 'tell application "iTunes" to rating of current track as string' 2>/dev/null);
+track=$(osascript -e 'tell application "Music" to name of current track as string' 2>/dev/null);
+artist=$(osascript -e 'tell application "Music" to artist of current track as string' 2>/dev/null);
+rating=$(osascript -e 'tell application "Music" to rating of current track as string' 2>/dev/null);
 
 case $rating in
     00)
