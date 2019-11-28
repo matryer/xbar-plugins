@@ -8,7 +8,6 @@
 require 'open-uri'
 require 'nokogiri'
 
-
 class TransferAmount
 	def initialize
 		@has_error = false
@@ -125,24 +124,6 @@ class WarningDetector
 		@limited = limited
 	end
 
-	def today_status
-		@status = :ok
-
-		if @percentage >= 33.00
-			@status = :over
-		elsif @percentage >= 23.10
-			@status = :warn
-		end
-
-		if @limited
-			@sign = @symbols[:limited]
-		else
-			@sign = @symbols[@status]
-		end
-
-		@status
-	end
-
 	def total_status
 		@status = :ok
 
@@ -156,33 +137,15 @@ class WarningDetector
 		@status
 	end
 
-	def old_status
-		@status = :ok
-
-		if @percentage >= 33.00
-			@status = :over
-		elsif @percentage >= 23.10
-			@status = :warn
-		end
-
-		if @limited
-			@sign = @symbols[:limited]
-		else
-			@sign = @symbols[@status]
-		end
-
-		@status
-	end
-
 	def today_left_value
 		value = 0
 
 		case @status
 		when :warn
-			value = scale_down(3.33-@amount).round(2)
+			value = scale_down(10.00-@amount).round(2)
 			value = value.round
 		when :ok
-			value = scale_down(2.31-@amount).round(2)
+			value = scale_down(7.00-@amount).round(2)
 			value = value.round
 		end
 
@@ -209,16 +172,13 @@ else
 
 	usage = a.today_data_usage
 	wc = WarningDetector.new(usage[:amount], usage[:percentage], symbols, a.limited?)
-	wc.today_status
+	wc.total_status
 
 	y_usage = a.yesterday_data_usage
 	wt = WarningDetector.new(y_usage[:amount], y_usage[:percentage], symbols, false)
 	wt.total_status
 
-	wo = WarningDetector.new(y_usage[:amount]-usage[:amount], y_usage[:percentage]-usage[:percentage], symbols, false)
-	wo.old_status
-
-	puts "#{wc.sign}#{wc.today_left_value}MB(#{wc.amount}#{usage[:label]})" # today
+	puts "#{wc.sign}#{wc.today_left_value}MB(#{wc.amount}#{usage[:label]})"
 	puts "---"
 	puts "admin page|href=http://speedwifi-next.home"
 	puts "hardware page|href=https://www.uqwimax.jp/wimax/products/w06/"
@@ -226,9 +186,9 @@ else
 	puts "until today usage"
 	puts "#{wc.sign}#{wc.amount}#{usage[:label]}"
 	puts "--#{symbols[:limited]} restricted now"
-	puts "--#{symbols[:over]} over 3.33GB (100%)"
-	puts "--#{symbols[:warn]} over 2.31GB ( 70%)"
-	puts "--#{symbols[:ok]} less 2.31GB"
+	puts "--#{symbols[:over]} over 10GB (100%)"
+	puts "--#{symbols[:warn]} over  7GB ( 70%)"
+	puts "--#{symbols[:ok]} less 7GB"
 	puts "--today + 1 day ago + 2 days ago"
 	puts "until yesterday usage"
 	puts "#{wt.sign}#{wt.amount}#{y_usage[:label]}"
@@ -236,9 +196,4 @@ else
 	puts "--#{symbols[:warn]} over  7GB ( 70%)"
 	puts "--#{symbols[:ok]} less  7GB"
 	puts "--1 day ago + 2 days ago + 3 days ago"
-	puts "3 days ago"
-	puts "#{wo.sign}#{wo.amount}GB"
-	puts "--#{symbols[:over]} over 3.33GB (100%)"
-	puts "--#{symbols[:warn]} over 2.31GB ( 70%)"
-	puts "--#{symbols[:ok]} less 2.31GB"
 end
