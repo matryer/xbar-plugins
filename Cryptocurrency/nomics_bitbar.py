@@ -9,7 +9,7 @@
 # <bitbar.author.github>dtand</bitbar.author.github>
 # <bitbar.desc>Provides price updates and 24h change for the top ten cryptocurrencies by marketcap.</bitbar.desc>
 # <bitbar.image>https://i.ibb.co/4SD8cZs/Screen-Shot-2019-11-25-at-6-16-56-PM.png</bitbar.image>
-# <bitbar.dependencies>python2.7,requests</bitbar.dependencies>
+# <bitbar.dependencies>python,requests</bitbar.dependencies>
 # <bitbar.abouturl>https://nomics.com</bitbar.abouturl>
 import time
 import requests
