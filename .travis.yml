@@ -1,11 +1,11 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode9.4
 
 before_install:
   - rvm install 2.2.10
   - rvm use 2.2.10
   - brew update
-  - brew uninstall python && brew install python
+  - brew outdated python || brew upgrade python
   - brew install python@2
   - pip2 install pyflakes
   - pip3 install pyflakes
