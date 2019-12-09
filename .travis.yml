@@ -5,7 +5,7 @@ before_install:
   - rvm install 2.2.10
   - rvm use 2.2.10
   - brew update
-  - brew install python
+  - brew uninstall python && brew install python
   - brew install python@2
   - pip2 install pyflakes
   - pip3 install pyflakes
