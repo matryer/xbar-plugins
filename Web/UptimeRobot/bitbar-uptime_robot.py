@@ -4,7 +4,7 @@
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Finn LeSueur</bitbar.author>
 # <bitbar.author.github>finnito</bitbar.author.github>
-# <bitbar.desc>Get UptimeRobot statistics from a public status page.</bitbar.desc>
+# <bitbar.desc>Get UptimeRobot statistics for an account.</bitbar.desc>
 # <bitbar.image>https://uptimerobot.com/assets/img/logo_plain.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl>https://gitlab.com/Finnito/bitbar-uptime_robot</bitbar.abouturl>
