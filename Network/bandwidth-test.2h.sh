@@ -14,5 +14,10 @@
 #   speedtest-cli (https://github.com/sivel/speedtest-cli)
 
 # modify this path according your prefs
-OUTPUT=$(~/bin/speedtest-cli --simple)
+if command -v "/usr/local/bin/speedtest-cli" >/dev/null 2>&1; then
+	OUTPUT=$(/usr/local/bin/speedtest-cli --simple)
+else
+	OUTPUT=$(~/bin/speedtest-cli --simple)
+fi
+
 echo "$OUTPUT"
