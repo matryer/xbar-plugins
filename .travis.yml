@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode9.4
+osx_image: xcode11.2
 
 before_install:
   - rvm install 2.2.10
@@ -7,6 +7,8 @@ before_install:
   - brew update
   - brew outdated python || brew upgrade python
   - brew outdated python@2 || brew upgrade python@2
+  - brew install openssl
+  - brew link openssl --force
   - pip2 install pyflakes
   - pip3 install pyflakes
   - gem install rubocop
