@@ -11,7 +11,7 @@ before_install:
   - brew link openssl --force
   - pip2 install pyflakes
   - pip3 install pyflakes
-  - gem install rubocop
+  - PATH="$(brew --prefix)/opt/openssl@1.1/bin:$PATH" LDFLAGS="-L$(brew --prefix)/opt/openssl@1.1/lib" CPPFLAGS="-I$(brew --prefix)/opt/openssl@1.1/include" gem install rubocop
   - brew install shellcheck
   - brew install luarocks
   - luarocks install luacheck
