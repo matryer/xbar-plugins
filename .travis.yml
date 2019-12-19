@@ -7,7 +7,7 @@ before_install:
   - brew update
   - brew outdated python || brew upgrade python
   - brew outdated python@2 || brew upgrade python@2
-  - brew install openssl
+  - brew reinstall openssl
   - brew link openssl --force
   - pip2 install pyflakes
   - pip3 install pyflakes
