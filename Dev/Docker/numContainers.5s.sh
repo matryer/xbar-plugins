@@ -8,8 +8,11 @@
 # <bitbar.dependencies>docker</bitbar.dependencies>
 
 CONTAINERS=$(/usr/local/bin/docker ps --format '{{.Names}}' | sort)
-NUM_CONTAINERS=$(echo "${CONTAINERS}" | wc -l)
-
+NUM_CONTAINERS=0
+if [ ! -z "$CONTAINERS" ]
+then
+	NUM_CONTAINERS=$(echo "${CONTAINERS}" | wc -l | tr -d '[:space:]')
+fi
 echo "$(printf "🐳 %.0f \n" "${NUM_CONTAINERS}") | size=13"
 echo "---"
 echo "${CONTAINERS}"
