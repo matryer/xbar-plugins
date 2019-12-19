@@ -58,6 +58,7 @@ class DesktopCleaner
 
     desktop_path.children.each do |path|
       next if path.dot_file?
+      next if path.symlink?
 
       if path.is_older_than(threshold_time)
         if archive_extnames.include?(path.extname)
