@@ -97,7 +97,7 @@ class Language(object):
 Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117,SC2164,SC2183,SC2196,SC2197,SC2206,SC2207,SC2215,SC2219,SC2230,SC2236']))
 Language.registerLanguage(Language(['.py', '.py2'], 'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.py', '.py3'], 'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RescueWithoutErrorClass']))
+Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RedundantStringCoercion,Lint/BigDecimalNew']))
 Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
 Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
 Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
