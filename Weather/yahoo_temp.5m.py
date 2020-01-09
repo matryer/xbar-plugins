@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 #
 # <bitbar.title>Yahoo Weather</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
+# <bitbar.version>v3.0</bitbar.version>
 # <bitbar.author>mgjo5899</bitbar.author>
 # <bitbar.author.github>mgjo5899</bitbar.author.github>
 # <bitbar.desc>It tells you the current weather condition of the location where your computer is located at.  It knows the location of the computer by using its public IP.  You can also manually set the city and region through modifying the file. </bitbar.desc>
@@ -11,50 +11,94 @@
 #
 # by mgjo5899
 
-import urllib
-import json
+import json, uuid, time, hmac, hashlib
 
-ip_url = 'http://ip-api.com/json'
+from base64 import b64encode
+from urllib.request import urlopen, Request
+from urllib.parse import urlencode, quote
 
-try:
-  r = urllib.urlopen(ip_url).read()
-except IOError:
-  print("Server loading...")
-  exit(1)
-
-j = json.loads(r)
-city = str(j['city'])
-region = str(j['region'])
-
-####### IF YOU WANT TO MANUALLY CHOOSE THE LOCATION #########
-#############################################################
-# 1. Set the city and region as needed
-#city = 'quebec'
-#region = 'canada'
-
-url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22' + city + '%2C%20' + region + '%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'
-
-try:
-  r = urllib.urlopen(url).read()
-except IOError:
-  print("Server loading...")
-  exit(1)
-
-j = json.loads(r)
-
-# change unit to 'c' if you want celsius
-# change unit to 'f' if you want fahrenheit
+# Change unit to 'c' for celsius and 'f' for fahrenheit
 unit = 'c'
 
-try:
-  cond = j['query']['results']['channel']['item']['condition']['text']
-  temp = float(j['query']['results']['channel']['item']['condition']['temp'])
-except TypeError:
-  print("Server Loading...")
-  exit(1)
+# General Placeholders
+url = 'https://weather-ydn-yql.media.yahoo.com/forecastrss'
+method = 'GET'
+concat = '&'
+
+# Credentials
+app_id = 'f776QQ32'
+consumer_key = 'dj0yJmk9RlJhbUVpUEpsSUxEJmQ9WVdrOVpqYzNObEZSTXpJbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTk0'
+consumer_secret = '75c592717d22c5cce623d2c2a1d5a5b36786d865'
+
+# Query and authentication related
+query = {'location': f'seoul,korea', 'format': 'json', 'u': unit}
+oauth = {
+    'oauth_consumer_key': consumer_key,
+    'oauth_nonce': uuid.uuid4().hex,
+    'oauth_signature_method': 'HMAC-SHA1',
+    'oauth_timestamp': str(int(time.time())),
+    'oauth_version': '1.0'
+}
+
+
+# Error handling decorator
+def exception_handler(msg="Something is wrong"):
+    def decorator(func):
+        def new_func(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except:
+                print(f"Error: {msg}")
+                exit(1)
+        return new_func
+    return decorator
+
+
+@exception_handler(msg="Location service")
+def get_location_using_ip():
+    service_endpoint = 'http://ip-api.com/json'
+    r = urlopen(service_endpoint).read()
+    j = json.loads(r)
+    city = j['city']
+    region = j['region']
+
+    return f"{city},{region}"
+
+
+def get_auth_header():
+    global oauth
+    merged_params = query.copy()
+    merged_params.update(oauth)
+    sorted_params = [k + '=' + quote(merged_params[k], safe='') for k in sorted(merged_params.keys())]
+    signature_base_str =  method + concat + quote(url, safe='') + concat + quote(concat.join(sorted_params))
+    composite_key = quote(consumer_secret, safe='') + concat
+    oauth_signature = b64encode(hmac.new(composite_key.encode(), msg=signature_base_str.encode(), digestmod=hashlib.sha1).digest()).decode()
+    oauth['oauth_signature'] = oauth_signature
+    auth_header = 'OAuth ' + ', '.join(['{}="{}"'.format(k,v) for k,v in oauth.items()])
+
+    return auth_header
+
+
+@exception_handler(msg="Yahoo Weather API")
+def get_weather(auth_header):
+    request_url = url + '?' + urlencode(query)
+    request = Request(request_url)
+    request.add_header('Authorization', auth_header)
+    request.add_header('X-Yahoo-App-Id', app_id)
+    r = urlopen(request).read()
+    j = json.loads(r)
+    condition_data = j['current_observation']['condition']
+    condition = condition_data['text']
+    temperature = condition_data['temperature']
+
+    return (condition, temperature)
+
+location = get_location_using_ip()
+query['location'] = location
+auth_header = get_auth_header()
+condition, temperature = get_weather(auth_header)
 
 if unit == 'c':
-  temp = (temp  - 32.0) * 5.0 / 9.0
-  print(str(cond) + ' : ' + str(int(temp)) + '°C')
+  print(str(condition) + ' : ' + str(int(temperature)) + '°C')
 elif unit == 'f':
-  print(str(cond) + ' : ' + str(int(temp)) + '°F')
+  print(str(condition) + ' : ' + str(int(temperature)) + '°F')
