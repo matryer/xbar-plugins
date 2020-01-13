@@ -83,7 +83,7 @@ module BitBar
 
       def self.find_all_by(username:)
         [].tap do |contributions|
-          html = open(url_for(username: username)) { |f| f.read }
+          html = URI.send(:open, url_for(username: username)) { |f| f.read }
 
           html.scan(RE_CONTRIBUTION) do |count, date|
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
