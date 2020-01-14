@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # <bitbar.title>Github Contribution</bitbar.title>
-# <bitbar.version>v0.0.1</bitbar.version>
+# <bitbar.version>v0.0.2</bitbar.version>
 # <bitbar.author>mizoR</bitbar.author>
 # <bitbar.author.github>mizoR</bitbar.author.github>
 # <bitbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</bitbar.image>
@@ -49,6 +49,8 @@ module BitBar
           section = sections[$1.to_sym] = {}
           next
         end
+
+        next unless section
 
         if line =~ /(.+)=(.+)/
           name  = $1.strip.to_sym
