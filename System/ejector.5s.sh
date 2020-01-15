@@ -104,8 +104,8 @@ for details in $( diskutil info -all ); do
     [[ $protocol = 'USB' ]] && ((total_usb++))
 
     if [ "$mount_point" != '' ]; then
-        echo "$name | color=black bash='$0' param1=eject param2=$mount_point terminal=false"
-        echo "$name [unmount] | alternate=true color=black bash='$0' param1=unmount param2=$mount_point terminal=false"
+        echo "$name | color=black bash='$0' param1=eject param2='$mount_point' terminal=false"
+        echo "$name [unmount] | alternate=true color=black bash='$0' param1=unmount param2='$mount_point' terminal=false"
         echo "├─ Available: $free_space"
         echo "└─ Capacity: $total_size"
     else
