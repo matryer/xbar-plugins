@@ -9,8 +9,12 @@
 # <bitbar.abouturl>https://github.com/typerlc/bitbar-weather/</bitbar.abouturl>
 # <bitbar.image>https://github.com/typerlc/bitbar-weather/raw/master/weather_preview.png</bitbar.image>
 
+script_dir=$(dirname "$0")
+script_name=$(basename "$0")
+location_config="${script_dir:-.}/.$script_name.location"
+
 # shellcheck source=/dev/null
-[ -f ."$0".location ] && . ."$0".location
+[ -f "$location_config" ] && . "$location_config"
 
 print_weather_icon() {
     case $1 in
