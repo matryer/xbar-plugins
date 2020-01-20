@@ -21,7 +21,7 @@ print_weather_icon() {
         clear*) echo -n ☀️  ;;
         cloud*) echo -n ☁️ ;;
         fog|haze*|mist) echo -n 🌫 ;;
-        partly-cloudy) echo -n ⛅️ ;;
+        partly-cloudy*) echo -n ⛅️ ;;
         rain) echo -n 🌧 ;;
         sleet|snow) echo -n 🌨 ;;
         thunderstorm) echo -n ⛈  ;;
