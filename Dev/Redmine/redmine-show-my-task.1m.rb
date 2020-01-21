@@ -49,7 +49,25 @@ begin
     }
   end
 
+  dark_mode = `defaults read -g AppleInterfaceStyle 2>/dev/null`
+  if dark_mode.include? "Dark" then
+    main_color = "#FFFFFF"
+    project_color = "#FEFEFE"
+    issue_color = "#CCCCCC"
+    tracker_color = "#33BFDB"
+    status_color = "#58BE89"
+  else
+    main_color = "black"
+    project_color = "black"
+    issue_color = "black"
+    tracker_color = "#33BFDB"
+    status_color = "#58BE89"
+  end
+
+  last_issue_id = 0
+
   issues.each do | v |
+    last_issue_id = v[:id] if last_issue_id == 0 
     project_id   = v[:project][:id]
     project_name = v[:project][:name]
     status_id    = v[:status][:id]
@@ -63,20 +81,21 @@ begin
   end
 
   issue_total_count = result[:total_count] > 99 ? '99+' : result[:total_count]
-  puts issues.empty? ? "✦ | color=#7d7d7d" : "✦ #{issue_total_count}"
+  issue_last = last_issue_id != 0 ? " - ##{last_issue_id}" : ""
+  puts issues.empty? ? "✦ | color=#7d7d7d" : "✦ #{issue_total_count}#{issue_last}"
   puts "---"
-  puts "Redmine | color=black href=#{redmine_url}"
+  puts "Redmine | color=#{main_color} href=#{redmine_url}"
   puts "---"
 
   projects.each do | _, project |
-    puts "#{project[:name]}: #{project[:issues_count]} | size=11"
+    puts "#{project[:name]}: #{project[:issues_count]} | color=#{project_color} size=11"
     project[:trackers].each do | _, tracker |
-      puts "➠ #{tracker[:name]} | color=#33BFDB size=11"
+      puts "➠ #{tracker[:name]} | color=#{tracker_color} size=11"
       tracker[:issues].each do | _, status |
-        puts "[#{status.first[:status][:name]}] | color=#58BE89 size=11"
+        puts "[#{status.first[:status][:name]}] | color=#{status_color} size=11"
         status.each do | issue |
           prefix = status.last == issue ? "└" : "├"
-          puts "#{prefix} ##{issue[:id]} #{issue[:subject]} | color=black href=#{redmine_url}/issues/#{issue[:id]} size=11"
+          puts "#{prefix} ##{issue[:id]} #{issue[:subject]} | color=#{issue_color} href=#{redmine_url}/issues/#{issue[:id]} size=11"
         end
       end
     end
