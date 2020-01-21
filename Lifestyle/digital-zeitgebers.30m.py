@@ -5,7 +5,7 @@
 # <bitbar.author>Edward Qiu</bitbar.author>
 # <bitbar.author.github>edwardqiu</bitbar.author.github>
 # <bitbar.desc>A fuzzy clock that reminds you of certain sleep hyigene recommendations, such as when to avoid blue light, caffeine, etc., at the proper time.</bitbar.desc>
-# <bitbar.image>https://github.com/edwardqiu/digital-zeitgebers/blob/master/docs/banner.png</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/edwardqiu/digital-zeitgebers/master/docs/banner.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/edwardqiu/digital-zeitgebers/</bitbar.abouturl>
 
