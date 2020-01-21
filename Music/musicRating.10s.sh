@@ -14,7 +14,7 @@
 # <bitbar.image>http://www.mindfuckbox.com/wp-content/uploads/2016/01/iTunes_Rating.png</bitbar.image>
 
 vercomp () {
-    if [[ $1 == $2 ]]; then
+    if [[ $1 == "$2" ]]; then
         return 0
     fi
     local IFS=.
@@ -41,7 +41,7 @@ vercomp () {
 MusicApp="Music"
 SysVersion=$(sw_vers -productVersion)
 MacOSCatalina="10.15"
-vercomp $MacOSCatalina $SysVersion
+vercomp $MacOSCatalina "$SysVersion"
 if (($? >  1)); then
     MusicApp="iTunes"
 fi

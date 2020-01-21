@@ -203,7 +203,9 @@ function library_info
     while read -r line; do
 
       # Split station number and name from each other, closing bracket is delimiter
+      # shellcheck disable=SC2001
       station_num="$(sed 's/).*//' <<< "$line")"
+      # shellcheck disable=SC2001
       station_name="$(sed 's/^[^)]*)//' <<< "$line")"
 
       # Remove leading and trailing white space

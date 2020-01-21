@@ -12,7 +12,7 @@ drives=( $(df -Hl | grep /Volumes/ | sed 's/.*\/Volumes\/*//') )
 
 IFS=$'**********'
 for details in $( diskutil info -all ); do
-    drives+=( $(echo $details | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "EFI\|Preboot\|Recovery" | awk '{print $3}') )
+    drives+=( $(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "EFI\|Preboot\|Recovery" | awk '{print $3}') )
 done
 
 if [ "$1" = 'eject' ]; then
