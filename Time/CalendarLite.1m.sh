@@ -5,7 +5,7 @@
 # <bitbar.author>Weibing Chen</bitbar.author>
 # <bitbar.author.github>WeibingChen17</bitbar.author.github>
 # <bitbar.desc>A clock with a simple calendar</bitbar.desc>
-# <bitbar.image>https://ibb.co/JsCTB1S</bitbar.image>
+# <bitbar.image>https://i.ibb.co/Krmg0P8/Screen-Shot-2019-11-08-at-23-04-29.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/WeibingChen17/</bitbar.abouturl>
 
