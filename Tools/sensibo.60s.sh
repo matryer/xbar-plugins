@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # <bitbar.title>Sensibo QuickControl</bitbar.title>
-# <bitbar.version>v1.2.0</bitbar.version>
+# <bitbar.version>v1.2.1</bitbar.version>
 # <bitbar.author>Madalin Tache</bitbar.author>
 # <bitbar.author.github>niladam</bitbar.author.github>
 # <bitbar.dependencies>jq</bitbar.dependencies>
@@ -165,6 +165,7 @@ fi
 #     askForDuration
 #     exit 0
 # fi
+
 # Menubar Title (blue color, with Sensibo Logo)
 echo "SENSIBO | color=#3e8fcc image=iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAl1JREFUOBFlU01rE1EUPfNlMhNrm69qv01FdEKFCCqo0IUIddmNiC6KP0HonxChdlH/ggsXbtxYXBbsQkWhlrrQagalBKNpapxMMp/e+9KZJngXw7x3zz333PPek+ZX30XoC17oMrDvR3jbDaHSunJMRk6T4ISA1IflX4IeRa9Ywsd2IBKbi6exsVhCmlAfaI+JB7r1E3AiRYBXfz3cmTDwfMnEVXMUl87m8WypjPtTGcr5AtNPkijg4m3qslbJ4dHdMiYKGSHtwHZRHE7j4b0ynlzMCwxj40h+FUlCzQsxndehqTL8gAamMNIqvtdtyJQvFXTU3BCMjUMQsKQgjHAupWD9UwMd14eqyIiiCEZKhesHsDseNncPUCRDQ9qPxxAEzOfSziRpe1rr4Ee9LRqEPRE4YWh4vVPHTqOLM0RAQpPTSEZgRk2W8IckblWbgiBGjY7o2PjcxPuWh+OKhENegUkIWIVPY8zSmb2xWvB8mpUIeTQe58rMECy+F7QXy2eGAQI7iDCXUXHjfBY/m47oEH8uzIxgjEZ0ifDIwkOCnnzAouHMbArXzSJajidq2X2O8YKB22O6UEE2JCqEAoaoBNyj+a/NDiOja0hpinCe6/lIeb1g5rDbDcQxxiqSEXw6mnGi/vbLoblDTBUzcAjMwR6wJxblTmmy8EUkOBf/kD8o6woebDVQ3e9i+VYJJ7O6SO/9bmPl5Vc8tmzcHFLB2FiB1P8a2QudXN52fExSp5WFaeH68rqFL1RVMVR6kYMmJgq4FbMyYI6UNOk5z7+oitt4mW5oxVD+K+aafyol6OP5jf33AAAAAElFTkSuQmCC"
 echo "---"
@@ -178,11 +179,18 @@ do
     POD_NAME=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.room.name')
     # POD_LOC=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.room.icon')
     POD_AC_STATE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.on')
-    POD_TEMPERATURE=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.measurements.temperature')
+    POD_TEMPERATURE_ORIGINAL=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.measurements.temperature')
     POD_TEMPERATURE_UNIT=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.temperatureUnit')
     POD_HUMIDITY=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.measurements.humidity')
     POD_SWING=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.swing')
     POD_FAN=$(echo "$POD_DATA" | /usr/local/bin/jq -r '.result.acState.fanLevel')
+
+    ## If user-defined temperature unit is Fahrenheit, then convert Celsius temperature value to Fahrenheit. If Celsius, keep value obtained from API call as-is.
+    if [ "$POD_TEMPERATURE_UNIT" = "F" ]; then
+        POD_TEMPERATURE=$(echo "$POD_TEMPERATURE_ORIGINAL * 1.8 + 32" | bc)
+    else
+        POD_TEMPERATURE=$POD_TEMPERATURE_ORIGINAL
+    fi
 
     # Pod is turned on.
     # @TODO: maybe check if theres an error..
