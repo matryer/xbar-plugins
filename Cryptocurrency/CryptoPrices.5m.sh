@@ -43,10 +43,10 @@ siaPoloniex=$(curl -s https://poloniex.com/public?command=returnTicker | tr '}' 
 
 btc_usd=$(curl -s "https://api.bitfinex.com/v1/pubticker/BTCUSD" | tr '"' '\n' | grep -A2 last_price | tail -1)
 printf "%.*f | image=%s\n" 2 "$btc_usd" "$bitcoin_icon"
-printf "%.*f | image=%s\n" 5 "$ethPoloniex" "$eth_icon"
-printf "%.*f | image=%s\n" 5 "$xmrPoloniex" "$monero_icon"
-printf "%.*f | image=%s\n" 5 "$dcrPoloniex" "$dcr_icon"
-printf "%.*f | image=%s\n" 5 "$dashPoloniex" "$dash_icon"
-printf "%.*f | image=%s\n" 5 "$ltcPoloniex" "$ltc_icon"
+printf "%.*f | image=%s\n" 8 "$ethPoloniex" "$eth_icon"
 printf "%.*f | image=%s\n" 8 "$xrpPoloniex" "$xrp_icon"
+printf "%.*f | image=%s\n" 5 "$ltcPoloniex" "$ltc_icon"
+printf "%.*f | image=%s\n" 5 "$xmrPoloniex" "$monero_icon"
+printf "%.*f | image=%s\n" 5 "$dashPoloniex" "$dash_icon"
+printf "%.*f | image=%s\n" 5 "$dcrPoloniex" "$dcr_icon"
 printf "%.*f | image=%s\n" 8 "$siaPoloniex" "$sia_icon"
