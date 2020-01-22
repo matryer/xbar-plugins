@@ -127,7 +127,7 @@ if [ "$1" = 'today' ]; then
 
         # echo aaaaa
 
-        echo "{$wallpaperpath[0]}"
+        echo "${wallpaperpath[0]}"
 
     fi
 
@@ -137,7 +137,7 @@ if [ "$1" = 'today' ]; then
 
     echo "$json" | $JQ '.[0]' | $JQ '.url' | sed s/'"'// | sed s/'"'// | sed s/'\/'/'https:\/\/bing.com\/'/ > /tmp/imageurls.txt
 
-    curl -s -L "$(cat "${imageurls[0]}")" -o "{$wallpaperpath[0]}"
+    curl -s -L "$(cat "${imageurls[0]}")" -o "${wallpaperpath[0]}"
 
     # Get comment
 
@@ -155,7 +155,7 @@ if [ "$1" = 'today' ]; then
 
     # Set image as wallpaper
 
-    if [ "{$wallpaperpath[0]}" = "/tmp/wallpaper.jpg" ]; then
+    if [ "${wallpaperpath[0]}" == "/tmp/wallpaper.jpg" ]; then
     
     osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper.jpg"'
 
@@ -219,7 +219,7 @@ if [ "$1" = 'random' ]; then
 
     # Download image from the server
 
-    curl -s -L "$randomurl" -o "$wallpaperpath"
+    curl -s -L "$randomurl" -o ${wallpaperpath[0]}
 
     # Set dummy image as wallpaper so Finder will change the wallpaper to the pic that we want
 
@@ -231,7 +231,7 @@ if [ "$1" = 'random' ]; then
 
     # Set image as wallpaper
 
-    if [ "{$wallpaperpath[0]}" = "/tmp/wallpaper.jpg" ]; then
+    if [ "${wallpaperpath[0]}" == "/tmp/wallpaper.jpg" ]; then
  
     osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper.jpg"'
 
