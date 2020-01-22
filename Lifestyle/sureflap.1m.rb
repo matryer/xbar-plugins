@@ -81,7 +81,7 @@ def with_fresh_token
   retried = false
 
   begin
-    token = File.exists?(TOKEN_PATH) && File.read(TOKEN_PATH) || refresh_token()
+    token = File.exist?(TOKEN_PATH) && File.read(TOKEN_PATH) || refresh_token()
     yield(token)
   rescue StaleTokenError
     raise if retried  # Avoid endless loops.
