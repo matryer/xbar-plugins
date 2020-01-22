@@ -80,9 +80,10 @@ case "$1" in
 
   launch)
     
-    num=$(ps aux | grep -v grep | grep -v "$0" | grep -ci "pianobar")
+    #shellcheck disable 
+    num=$(pgrep "pianobar")
     
-    if [ $num -eq 0 ] 
+    if [ "$num" -eq 0 ] 
       then
         screen -dmS pb /usr/local/bin/pianobar
     fi
@@ -96,7 +97,7 @@ esac
 
 [ -e ~/.config/pianobar/nowplaying ] && nowplaying=$(<~/.config/pianobar/nowplaying)
 
-num=$(ps aux | grep -v grep | grep -v "$0" | grep -ci "pianobar")
+num=$(pgrep "pianobar")
 # (ps aux | grep -v grep | grep -v pianobarctl.15s.sh | grep -ci "pianobar") 
 # echo $num
 if [ "$num" -eq 0 ] 
@@ -110,7 +111,7 @@ echo pianobar #$state
 
 echo ---
 [ $state = "on" ] && echo "$nowplaying" 
-[ $state = "off" ] && echo "Launch | bash="$0" param1=launch terminal=false refresh=true"
-[ $state = "on" ] && echo "Pause / Unpause | bash="$0" param1=togglepause terminal=false"
-[ $state = "on" ] && echo "Next | bash="$0" param1=next terminal=false"
-[ $state = "on" ] && echo "Quit | bash="$0" param1=quit terminal=false refresh=true"
+[ $state = "off" ] && echo "Launch | bash=\"$0\" param1=launch terminal=false refresh=true"
+[ $state = "on" ] && echo "Pause / Unpause | bash=\"$0\" param1=togglepause terminal=false"
+[ $state = "on" ] && echo "Next | bash=\"$0\" param1=next terminal=false"
+[ $state = "on" ] && echo "Quit | bash=\"$0\" param1=quit terminal=false refresh=true"
