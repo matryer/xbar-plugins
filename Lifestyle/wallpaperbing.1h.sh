@@ -35,7 +35,7 @@ random=$((1 + RANDOM % 8))
 
 # check if JQ is installed
 
-if [ ! -e $JQ ]; then
+if [ ! -e "$JQ" ]; then
 
     echo "Please install JQ with brew install JQ"
 
@@ -73,7 +73,7 @@ if [ "$1" = '' ]; then
     
 
 
-    if [ $readsetting = "today" ]; then
+    if [ "$readsetting" = "today" ]; then
 
         echo "Current setting: Today"
 
@@ -125,9 +125,9 @@ if [ "$1" = 'today' ]; then
 
         rm /tmp/wallpaper1.jpg 2>&-
 
-        echo aaaaa
+        # echo aaaaa
 
-        echo $wallpaperpath
+        echo "{$wallpaperpath[0]}"
 
     fi
 
@@ -137,13 +137,13 @@ if [ "$1" = 'today' ]; then
 
     echo "$json" | $JQ '.[0]' | $JQ '.url' | sed s/'"'// | sed s/'"'// | sed s/'\/'/'https:\/\/bing.com\/'/ > /tmp/imageurls.txt
 
-    curl -s -L "$(cat "${imageurls[0]}")" -o "$wallpaperpath"
+    curl -s -L "$(cat "${imageurls[0]}")" -o "{$wallpaperpath[0]}"
 
     # Get comment
 
     Comment=$(echo "$json" | $JQ '.[0]' | $JQ '.copyright' | sed s/'"'// | sed s/'"'//)
 
-    echo $Comment
+    echo "$Comment"
 
     # Set dummy image as wallpaper so Finder will change the wallpaper to the pic that we want
 
@@ -155,7 +155,7 @@ if [ "$1" = 'today' ]; then
 
     # Set image as wallpaper
 
-    if [ "$wallpaperpath" = "/tmp/wallpaper.jpg" ]; then
+    if [ "{$wallpaperpath[0]}" = "/tmp/wallpaper.jpg" ]; then
     
     osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper.jpg"'
 
@@ -231,7 +231,7 @@ if [ "$1" = 'random' ]; then
 
     # Set image as wallpaper
 
-    if [ "$wallpaperpath" = "/tmp/wallpaper.jpg" ]; then
+    if [ "{$wallpaperpath[0]}" = "/tmp/wallpaper.jpg" ]; then
  
     osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/tmp/wallpaper.jpg"'
 
