@@ -9,7 +9,7 @@
 
 CONTAINERS=$(/usr/local/bin/docker ps --format '{{.Names}}' | sort)
 NUM_CONTAINERS=0
-if [ ! -z "$CONTAINERS" ]
+if [ -n "$CONTAINERS" ]
 then
 	NUM_CONTAINERS=$(echo "${CONTAINERS}" | wc -l | tr -d '[:space:]')
 fi
