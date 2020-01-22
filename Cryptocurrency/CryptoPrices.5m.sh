@@ -41,7 +41,8 @@ siaPoloniex=$(curl -s https://poloniex.com/public?command=returnTicker | tr '}' 
 
 #echo  "$spot_price | templateImage=$bitcoin_icon" ß
 
-echo -n "$B "; curl -s "https://api.bitfinex.com/v1/pubticker/BTCUSD" | tr '"' '\n' | grep -A2 last_price | tail -1
+btc_usd=$(curl -s "https://api.bitfinex.com/v1/pubticker/BTCUSD" | tr '"' '\n' | grep -A2 last_price | tail -1)
+printf "%.*f | image=%s\n" 2 "$btc_usd" "$bitcoin_icon"
 printf "%.*f | image=%s\n" 5 "$ethPoloniex" "$eth_icon"
 printf "%.*f | image=%s\n" 5 "$xmrPoloniex" "$monero_icon"
 printf "%.*f | image=%s\n" 5 "$dcrPoloniex" "$dcr_icon"
