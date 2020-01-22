@@ -57,7 +57,7 @@ class TransferAmount
 			end
 		end
 		@payload.freeze
-	rescue => error
+	rescue
 		@has_error = true
 	end
 
