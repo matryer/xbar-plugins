@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 # <bitbar.title>Ejector</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Carlson Orozco</bitbar.author>
+# <bitbar.version>v1.2</bitbar.version>
+# <bitbar.author>Carlson Orozco && Brian Hartvigsen && Matt Sephton</bitbar.author>
 # <bitbar.author.github>carlsonorozco</bitbar.author.github>
 # <bitbar.desc>Ejector is a plugin for BitBar that enables you to eject all mounted disk / drive / installers / USB connected drives and volumes instantly.</bitbar.desc>
 # <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</bitbar.image>
@@ -10,10 +10,37 @@
 
 drives=( $(df -Hl | grep /Volumes/ | sed 's/.*\/Volumes\/*//') )
 
+IFS=$'**********'
+for details in $( diskutil info -all ); do
+    drives+=( $(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "EFI\|Preboot\|Recovery" | awk '{print $3}') )
+done
+
 if [ "$1" = 'eject' ]; then
     status=$(diskutil eject "$2" | sed -e 's/\/Volumes\///g')
     if [ "$status" = "" ]; then
         osascript -e "display notification \"Disk $2 failed to eject\" with title \"Ejector\""
+    else
+        osascript -e "display notification \"$status\" with title \"Ejector\""
+    fi
+
+    exit
+fi
+
+if [ "$1" = 'mount' ]; then
+    status=$(diskutil mount "$2")
+    if [ "$status" = "" ]; then
+        osascript -e "display notification \"Disk $2 failed to mount\" with title \"Ejector\""
+    else
+        osascript -e "display notification \"$status\" with title \"Ejector\""
+    fi
+
+    exit
+fi
+
+if [ "$1" = 'unmount' ]; then
+    status=$(diskutil unmount "$2")
+    if [ "$status" = "" ]; then
+        osascript -e "display notification \"Disk $2 failed to unmount\" with title \"Ejector\""
     else
         osascript -e "display notification \"$status\" with title \"Ejector\""
     fi
@@ -67,6 +94,7 @@ for details in $( diskutil info -all ); do
     name=$(echo "$details" | grep "Volume Name:" | sed 's/.*Volume Name:[[:space:]]*//')
     ! [[ ${drives[*]} =~ $name ]] && continue
 
+    device_node=$(echo "$details" | grep "Device Node:" | sed 's/.*Device Node:[[:space:]]*//')
     mount_point=$(echo "$details" | grep "Mount Point:" | sed 's/.*Mount Point:[[:space:]]*//')
     free_space=$(echo "$details" | grep -E "Volume (Available|Free) Space:" | sed 's/.*Volume Free Space:[[:space:]]*//;s/.*Volume Available Space:[[:space:]]*//' | cut -d ' ' -f -2)
     total_size=$(echo "$details" | grep -E "(Disk|Total) Size:" | sed 's/.*Total Size:[[:space:]]*//;s/.*Disk Size:[[:space:]]*//' | cut -d ' ' -f -2)
@@ -75,9 +103,15 @@ for details in $( diskutil info -all ); do
     [[ $protocol = 'Disk Image' ]] && ((total_dmg++))
     [[ $protocol = 'USB' ]] && ((total_usb++))
 
-    echo "$name | color=black bash='$0' param1=eject param2=$mount_point terminal=false"
-    echo "├─ Available: $free_space"
-    echo "└─ Capacity: $total_size"
+    if [ "$mount_point" != '' ]; then
+        echo "$name | color=black bash='$0' param1=eject param2='$mount_point' terminal=false"
+        echo "$name [unmount] | alternate=true color=black bash='$0' param1=unmount param2='$mount_point' terminal=false"
+        echo "├─ Available: $free_space"
+        echo "└─ Capacity: $total_size"
+    else
+        echo "$name | color=black bash='$0' param1=mount param2=$device_node terminal=false"
+        echo "└─ Unmounted: $device_node"
+    fi
 done
 
 if [ ${#drives[@]} -ge 2 ]; then

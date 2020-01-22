@@ -11,7 +11,6 @@
 # <bitbar.image>https://i.ibb.co/4SD8cZs/Screen-Shot-2019-11-25-at-6-16-56-PM.png</bitbar.image>
 # <bitbar.dependencies>python,requests</bitbar.dependencies>
 # <bitbar.abouturl>https://nomics.com</bitbar.abouturl>
-import time
 import requests
 
 
@@ -75,10 +74,8 @@ def generate_bitbar_format(tickers):
         col_one = pad_string(symbol + ": " + price, 24)
 
         if float(ticker['1d']['price_change_pct']) >= 0:
-            link = ticker['id'] + "-" + ticker['name']
             std_out_strings.append(col_one + "\t+" + percent + " | color=green")
         else:
-            link = ticker['id'] + "-" + ticker['name']
             std_out_strings.append(col_one + "\t-" + percent + " | color=red")
 
         i = i + 1

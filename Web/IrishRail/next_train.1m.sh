@@ -12,7 +12,7 @@
 STATIONID='PERSE'
 # Replace the DIRECTION with the appropriate DIRECTION
 DIRECTION='Southbound'
-json=$(curl -s https://dublin-trains.herokuapp.com/api/stations/$STATIONID/trains |  /usr/local/bin/jq -r '.["'$DIRECTION'"]')
-echo "$json" | /usr/local/bin/jq -r 'map(select(.scheduled | contains ("--") | not) )| .[0].last_update'
+json=$(curl -s "https://dublin-trains.herokuapp.com/api/stations/$STATIONID/trains" |  /usr/local/bin/jq -r '[ .[] | select(.direction ==  "'$DIRECTION'")| select(.train_type ==  "DART")]')
+echo "$json" | /usr/local/bin/jq -r 'map(select(.scheduled | contains ("--") | not) )| .[0] | "\(.last_update) - \(.due_in)"'
 echo '---'
-echo "$json" | /usr/local/bin/jq -r 'map(select(.scheduled | contains ("--") | not) )| .[] | "\(.destination): \(.last_update)"'
+echo "$json" | /usr/local/bin/jq -r 'map(select(.scheduled | contains ("--") | not) )| .[] | "\(.destination): \(.last_update) - \(.actual)"'

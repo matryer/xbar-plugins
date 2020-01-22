@@ -18,6 +18,10 @@ network_service="Wi-FI"
 
 # add or remove list of DNS options below, don't forget to make it enabled. see below
 # shellcheck disable=2034
+cloudflare="1.1.1.1
+            1.0.0.1"
+
+# shellcheck disable=2034
 google="8.8.8.8
         8.8.4.4
 
@@ -51,7 +55,7 @@ norton="199.85.126.10
 # shellcheck disable=2034
 default="empty"
 
-enabled_dns_address=(google level3 opendns norton default)
+enabled_dns_address=(cloudflare google level3 opendns norton default)
 ########################
 
 

@@ -33,7 +33,7 @@ if(len(sys.argv) >= 2):
     if (sys.argv[1] == "-n"): 
         cmd = "osascript -e \'set theString to text returned of (display dialog \"Please Enter The Note To Add \" with icon note default answer \"\n\n\n\" buttons {\"OK\",\"Cancel\"} default button 1) \'" 
         note = run_script(cmd)
-        if len(note) is 0:
+        if len(note) == 0:
              sys.exit(1)
         if "\n" in note:
             i = note.index('\n')
