@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # <bitbar.title>Simple Gmail Checker</bitbar.title>
 # <bitbar.version>v0.1.0</bitbar.version>
 # <bitbar.author>Murat Bastas</bitbar.author>
@@ -10,7 +10,7 @@ USERNAME="example@gmail.com"
 PASSWORD="verysecretpassword"
 
 RESULT=$(curl -s -u $USERNAME:$PASSWORD "https://mail.google.com/mail/feed/atom" | xmllint --format -)
-COUNT=$(echo "$RESULT" | egrep -o '<fullcount>[0-9]*' | cut -c 12-)
+COUNT=$(echo "$RESULT" | grep -E -o '<fullcount>[0-9]*' | cut -c 12-)
 ENTRIES=$(echo "$RESULT" | sed -n 's|<title>\(.*\)</title>|\1|p' | tr -s ' ')
 
 if [ "$COUNT" -ne 0 ]; then
@@ -21,7 +21,7 @@ fi
 echo "---"
 
 count=0
-echo "$ENTRIES" | while read line || [[ -n $line ]];
+echo "$ENTRIES" | while read -r line || [[ -n $line ]];
 do
   if [ $count -eq 1 ]; then
     echo "---"
