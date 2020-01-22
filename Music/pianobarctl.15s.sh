@@ -82,7 +82,7 @@ case "$1" in
     
     num=$(pgrep "pianobar")
     
-    if [ -z "$num" ] 
+    if [ "$num" -eq 0 ] 
       then
         screen -dmS pb /usr/local/bin/pianobar
     fi
@@ -99,7 +99,7 @@ esac
 num=$(pgrep "pianobar")
 # (ps aux | grep -v grep | grep -v pianobarctl.15s.sh | grep -ci "pianobar") 
 # echo $num
-if [ -z "$num" ] 
+if [ "$num" -eq 0 ] 
   then
     state="off";
 else
