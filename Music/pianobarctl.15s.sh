@@ -80,7 +80,6 @@ case "$1" in
 
   launch)
     
-    #shellcheck disable 
     num=$(pgrep "pianobar")
     
     if [ "$num" -eq 0 ] 
