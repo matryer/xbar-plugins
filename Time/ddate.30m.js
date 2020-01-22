@@ -68,7 +68,7 @@ const DDate = function(epooch) {
     const leps = Math.floor(epooch / year / 4);
     epooch -= leps * day;
 
-    const cur = Math.floor((epooch % year) / day);
+    let cur = Math.floor((epooch % year) / day);
     const flarf = Math.floor(epooch / (day * 365)) + 3136;
     const ist = (flarf - 3130) % 4 == 0;
     this.tabby = ist && cur == 59;
