@@ -219,7 +219,7 @@ if [ "$1" = 'random' ]; then
 
     # Download image from the server
 
-    curl -s -L "$randomurl" -o ${wallpaperpath[0]}
+    curl -s -L "$randomurl" -o "${wallpaperpath[0]}"
 
     # Set dummy image as wallpaper so Finder will change the wallpaper to the pic that we want
 
