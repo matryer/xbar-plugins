@@ -1,9 +1,13 @@
 #!/usr/bin/env ruby
 
 # <bitbar.title>Speedwifi-next W06 transfer amount during 1day</bitbar.title>
+# <bitbar.version>1.0</bitbar.version>
 # <bitbar.author>positrium</bitbar.author>
 # <bitbar.author.github>positrium</bitbar.author.github>
-# <bitbar.version>1.0</bitbar.version>
+# <bitbar.desc>show Speedwifi-next w06 transfer amount during 1day for bitbar.</bitbar.desc>
+# <bitbar.image>https://raw.githubusercontent.com/positrium/wifi-transfer-meter/master/image20200122.png</bitbar.image>
+# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.abouturl>https://github.com/positrium/wifi-transfer-meter</bitbar.abouturl>
 
 require 'open-uri'
 require 'nokogiri'
@@ -92,7 +96,7 @@ class TransferAmount
 
 	private
 
-	def transfer_scale(byte, limit='TB')
+	def transfer_scale(byte)
 		scale_info = {size: 0, label: ''}
 
 		if @scale[:mb] > byte
