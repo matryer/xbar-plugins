@@ -1,4 +1,5 @@
 #!/usr/bin/env /usr/local/bin/node
+/* jshint esversion:9 */
 const https = require('https');
 
 /* EDIT HERE */
