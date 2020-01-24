@@ -10,8 +10,6 @@
 # <bitbar.abouturl>https://www.stefanoteodorani.it/</bitbar.abouturl>
 
 
-import http.client
-import http.cookiejar
 import requests
 import json
 import base64
@@ -75,10 +73,6 @@ class Jira:
                         print(line)
                     elif assignee == assignee:
                         print(line)
-                else:
-                    if assignee == assignee:
-                        a=1
-                        #print(status + '-' + line)
 
     def render_icon_string(self, iconurl):
         if 'viewavatar' in iconurl:
