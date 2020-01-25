@@ -53,17 +53,8 @@ LATITUDE=$(echo "$WEATHER_DATA" | jq -r '.latitude')
 LONGITUDE=$(echo "$WEATHER_DATA" | jq -r '.longitude')
 UNITS=$(echo "$WEATHER_DATA" | jq -r '.flags.units')
 
-NOW_ALERTS=$(echo "$WEATHER_DATA" | jq -r '.alerts')
-NOW_SUMMARY=$(echo "$WEATHER_DATA" | jq -r '.currently.summary')
 NOW_TEMP=$(echo "$WEATHER_DATA" | jq -r '.currently.temperature')
 NOW_ICON=$(echo "$WEATHER_DATA" | jq -r '.currently.icon')
-NOW_HUMIDITY=$(echo "$WEATHER_DATA" | jq -r '.currently.humidity')
-NOW_PRECIP_TYPE=$(echo "$WEATHER_DATA" | jq -r '.currently.precipType')
-NOW_PRECIP_PROB=$(echo "$WEATHER_DATA" | jq -r '.currently.precipProbability')
-NOW_PRECIP_PROB=$(echo "$WEATHER_DATA" | jq -r '.currently.precipProbability')
-
-FORECAST_SUMMARY=$(echo "$WEATHER_DATA" | jq -r '.daily.summary')
-FORECAST_ICON=$(echo "$WEATHER_DATA" | jq -r '.daily.icon')
 
 echo "$(print_weather_icon "$NOW_ICON")   $(print_temperature "$NOW_TEMP" "$UNITS")"
 echo "---"
