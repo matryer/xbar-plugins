@@ -5,7 +5,7 @@
 # <bitbar.author>Paul W. Rankin</bitbar.author>
 # <bitbar.author.github>rnkn</bitbar.author.github>
 # <bitbar.desc>Shows and manages user Launch Agents.</bitbar.desc>
-# <bitbar.image>https://f002.backblazeb2.com/file/pwr-share/launch-agents.png</bitbar.image>
+# <bitbar.image>https://i.imgur.com/KDxKpGe.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 
 # BitBar Launch Agents plugin
