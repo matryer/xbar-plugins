@@ -3,11 +3,11 @@
 
 #
 # <bitbar.title>Taskpaper Current Task</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Marcin Biegun</bitbar.author>
 # <bitbar.author.github>marcinbiegun</bitbar.author.github>
 # <bitbar.desc>This plugin will display first task in your file having the specified tag</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/xFXPoNY.png</bitbar.image>
+# <bitbar.image>https://i.imgur.com/2I3eU0D.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 #
 
