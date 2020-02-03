@@ -24,36 +24,38 @@ const errorStatus = '🔴|size=10';
 // const warningStatus = '●|color=orange';
 // const errorStatus = '●|color=red';
 
-async function main() {
-  const serviceStatuses = await Promise.all(services.map(checkStatus));
-  const allSuccess = serviceStatuses.every(s => s.status === 'success');
-  const allError = serviceStatuses.every(s => s.status === 'error');
+function main() {
+  Promise.all(services.map(checkStatus))
+      .then(serviceStatuses => {
+        const allSuccess = serviceStatuses.every(s => s.status === 'success');
+        const allError = serviceStatuses.every(s => s.status === 'error');
 
-  let globalStatusIcon;
+        let globalStatusIcon;
 
-  if (allSuccess) globalStatusIcon = successStatus;
-  else if (allError) globalStatusIcon = errorStatus;
-  else globalStatusIcon = warningStatus;
+        if (allSuccess) globalStatusIcon = successStatus;
+        else if (allError) globalStatusIcon = errorStatus;
+        else globalStatusIcon = warningStatus;
 
-  console.log(`${globalStatusIcon}`);
-  console.log('---');
+        console.log(`${globalStatusIcon}`);
+        console.log('---');
 
-  serviceStatuses.forEach(s => {
-    const color = s.status === 'success' ? 'green' : 'red';
-    console.log(`${s.service.name} |color=${color}`);
-    if (s.status === 'success') {
-      console.log(`${s.res.statusCode} ${s.res.statusMessage} |size=10`);
-    } else {
-      console.log(`${s.error} |size=10`);
-    }
-    console.log('---');
-  });
+        serviceStatuses.forEach(s => {
+          const color = s.status === 'success' ? 'green' : 'red';
+          console.log(`${s.service.name} |color=${color}`);
+          if (s.status === 'success') {
+            console.log(`${s.res.statusCode} ${s.res.statusMessage} |size=10`);
+          } else {
+            console.log(`${s.error} |size=10`);
+          }
+          console.log('---');
+        });
 
-  if (!serviceStatuses.length) console.log('There are no configured services to check!\n---');
+        if (!serviceStatuses.length) console.log('There are no configured services to check!\n---');
+      });
 }
 main();
 
-async function checkStatus(service) {
+function checkStatus(service) {
   return new Promise(resolve => {
     const req = https.get(service.url, res => {
       if (res.statusCode === 200) {
