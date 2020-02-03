@@ -22,7 +22,7 @@ require 'pathname'
 SCRIPT_PATH = Pathname.new($0).realpath()
 BREW = "/usr/local/bin/brew"
 BREW_LINK = "http://brew.sh/"
-BREW_SERVICES = "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-services/cmd/brew-services.rb"
+BREW_SERVICES = "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-services/cmd/services.rb"
 BREW_SERVICES_LINK = "https://github.com/Homebrew/homebrew-services"
 
 REFRESH = "---\nRefresh | refresh=true"
