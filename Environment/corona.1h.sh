@@ -22,13 +22,15 @@ PARAMS='f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelInterse
 
 # Check internet
 COUNT=6
-until (( COUNT == 0 )); do
-  $FPING_PATH -c1 -t300 8.8.8.8 2>/dev/null 1>/dev/null
-  if (( $? == 0 )); then
+until (( COUNT == 0 ))
+do
+  if $FPING_PATH -c1 -t300 8.8.8.8 2>/dev/null 1>/dev/null
+  then
     break
   fi
 
-  if (( --COUNT == 0 )); then
+  if (( --COUNT == 0 ))
+  then
     echo "-"
     exit
   fi
@@ -36,18 +38,19 @@ until (( COUNT == 0 )); do
   sleep 10
 done
 
-RESPONSE=$($CURL_PATH -s -X GET $API_URL?$PARAMS -H 'Accept: application/json')
-CONFIRMED=$(echo $RESPONSE | $JQ_PATH "[.features[].attributes.Confirmed] | reduce .[] as \$num (0; .+\$num)")
-DEATHS=$(echo $RESPONSE | $JQ_PATH "[.features[].attributes.Deaths] | reduce .[] as \$num (0; .+\$num)")
-RECOVERED=$(echo $RESPONSE | $JQ_PATH "[.features[].attributes.Recovered] | reduce .[] as \$num (0; .+\$num)")
-COUNTRIES_INFECTED=$(echo $RESPONSE | $JQ_PATH ".features | length")
+RESPONSE=$($CURL_PATH -s -X GET "$API_URL?$PARAMS" -H 'Accept: application/json')
+CONFIRMED=$(echo "$RESPONSE" | $JQ_PATH "[.features[].attributes.Confirmed] | reduce .[] as \$num (0; .+\$num)")
+DEATHS=$(echo "$RESPONSE" | $JQ_PATH "[.features[].attributes.Deaths] | reduce .[] as \$num (0; .+\$num)")
+RECOVERED=$(echo "$RESPONSE" | $JQ_PATH "[.features[].attributes.Recovered] | reduce .[] as \$num (0; .+\$num)")
+COUNTRIES_INFECTED=$(echo "$RESPONSE" | $JQ_PATH ".features | length")
 
-IN_COUNTRY=$(echo $RESPONSE | $JQ_PATH "[.features[].attributes.Country_Region] | map(select(. == \"$COUNTRY\")) | if . == [] then \"false\" else \"true\" end")
+IN_COUNTRY=$(echo "$RESPONSE" | $JQ_PATH "[.features[].attributes.Country_Region] | map(select(. == \"$COUNTRY\")) | if . == [] then \"false\" else \"true\" end")
 
-if [ "$IN_COUNTRY" = '"true"' ]; then
-   COUNTRY_CONFIRMED=$(echo $RESPONSE | $JQ_PATH "[.features[].attributes] | map(select(.Country_Region == \"$COUNTRY\")) | .[].Confirmed")
-   COUNTRY_DEATHS=$(echo $RESPONSE | $JQ_PATH "[.features[].attributes] | map(select(.Country_Region == \"$COUNTRY\")) | .[].Deaths")
-   COUNTRY_RECOVERED=$(echo $RESPONSE | $JQ_PATH "[.features[].attributes] | map(select(.Country_Region == \"$COUNTRY\")) | .[].Recovered")
+if [ "$IN_COUNTRY" = '"true"' ]
+then
+   COUNTRY_CONFIRMED=$(echo "$RESPONSE" | $JQ_PATH "[.features[].attributes] | map(select(.Country_Region == \"$COUNTRY\")) | .[].Confirmed")
+   COUNTRY_DEATHS=$(echo "$RESPONSE" | $JQ_PATH "[.features[].attributes] | map(select(.Country_Region == \"$COUNTRY\")) | .[].Deaths")
+   COUNTRY_RECOVERED=$(echo "$RESPONSE" | $JQ_PATH "[.features[].attributes] | map(select(.Country_Region == \"$COUNTRY\")) | .[].Recovered")
 
    if [ "$COUNTRY_CONFIRMED" -gt "$WARNING_THRESHOLD" ]; then
       echo "$COUNTRY_FLAG 🔴 😷"
