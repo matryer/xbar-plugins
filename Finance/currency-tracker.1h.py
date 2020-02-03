@@ -21,7 +21,7 @@ urlParamTo = currTo[0]
 if len(currTo) > 1:
     urlParamTo = ",".join(currTo)
 
-url = "https://exchangeratesapi.io/api/latest?base=" + currFrom + "&symbols=" + urlParamTo
+url = "https://api.exchangeratesapi.io/latest?base=" + currFrom + "&symbols=" + urlParamTo
 
 result = urllib2.urlopen(url).read()
 

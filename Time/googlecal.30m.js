@@ -9,11 +9,11 @@
 <bitbar.desc>Shows upcoming events from your Google Calendar - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-googlecal</bitbar.desc>
 <bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-googlecal/master/screenshot.png</bitbar.image>
 <bitbar.dependencies>node, npm</bitbar.dependencies>
-<bitbar.dependencies.npm>npm/home-config, npm/googleapis, npm/google-auth-library, npm/hapi, npm/moment, npm/open</bitbar.dependencies.npm>
+<bitbar.dependencies.npm>npm/home-config, npm/googleapis, npm/@hapi/hapi, npm/moment, npm/open</bitbar.dependencies.npm>
 <bitbar.abouturl>https://github.com/kodie/bitbar-googlecal</bitbar.abouturl>
 */
 
-var ver = '1.2.0';
+var ver = '1.2.1';
 
 var defaults = {
   clientId: '529707498278-prhql6kn67hevctqkt0qkgeha51bdhv7.apps.googleusercontent.com',
@@ -123,21 +123,19 @@ if (process.env.BitBar) {
   console.log('---');
 }
 
-var npmDeps = 'home-config googleapis google-auth-library hapi moment open';
+var npmDeps = 'home-config@0.1.0 googleapis@44 @hapi/hapi@18.4.0 moment@2.24.0 open@7.0.0';
 var dirHome = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE);
 var dirPlugins = process.argv[1].split('/').slice(0, -1).join('/');
 
 try {
   var cfg = Object.assign({}, defaults, require('home-config').load('.bitbarrc').googlecal);
   var fs = require('fs');
-  var google = require('googleapis');
-  var googleAuth = require('google-auth-library');
-  var Hapi = require('hapi');
+  var { google } = require('googleapis');
+  var Hapi = require('@hapi/hapi');
   var moment = require('moment');
   var open = require('open');
 
-  var auth = new googleAuth();
-  var oauth2Client = new auth.OAuth2(cfg.clientId, cfg.clientSecret, cfg.clientRedirect);
+  var oauth2Client = new google.auth.OAuth2(cfg.clientId, cfg.clientSecret, cfg.clientRedirect);
 } catch(e) {
   if (process.env.BitBar) {
     console.log(`Run Installation | bash="cd ${dirPlugins} && npm install ${npmDeps} && rm package-lock.json || true && node ${process.argv[1]} getNewToken"`);
@@ -168,27 +166,31 @@ function getNewToken() {
   console.log(authUrl);
   console.log('');
 
-  var server = new Hapi.Server();
-  server.connection({ port: cfg.serverPort, host: cfg.serverHost });
+  var server = new Hapi.server({
+    port: cfg.serverPort,
+    host: cfg.serverHost,
+  });
 
   server.route({
     method: 'GET',
     path: '/',
-    handler: function(request, reply) {
+    handler: function(request, h) {
       var code = request.query.code;
 
-      oauth2Client.getToken(code, function(error, token) {
-        if (!error) {
-          fs.writeFileSync(cfg.tokenFile, JSON.stringify(token));
-          refresh();
-          msg = 'We\'re all done here! You may now close this window.';
-        } else {
-          msg = 'An error occured while trying to get your authorization code: ' + error.message;
-        }
-
-        console.log(msg);
-        reply(msg);
-        server.stop();
+      return new Promise((resolve) => {
+        oauth2Client.getToken(code, function(error, token) {
+          if (!error) {
+            fs.writeFileSync(cfg.tokenFile, JSON.stringify(token));
+            refresh();
+            msg = 'We\'re all done here! You may now close this window.';
+          } else {
+            msg = 'An error occured while trying to get your authorization code: ' + error.message;
+          }
+  
+          server.stop({ timeout: 2000 });
+          console.log(msg);
+          resolve(msg);
+        });
       });
     }
   });
@@ -225,7 +227,7 @@ function refreshToken(oauth2Client, cb) {
 }
 
 function listEvents(oauth2Client) {
-  var calendar = google.calendar('v3');
+  var calendar = google.calendar({ version: 'v3', auth: oauth2Client });
   var processedCalendars = 0;
   var today = moment().format('L');
   var tomorrow = moment().add(1, 'days').format('L');
@@ -248,7 +250,6 @@ function listEvents(oauth2Client) {
 
   for (var i = 0; i < cfg.calendarId.length; i++) {
     calendar.events.list({
-      auth: oauth2Client,
       calendarId: cfg.calendarId[i],
       timeMin: (cfg.showAllOfFirstDay ? (new Date(moment(start).format('L'))) : (new Date(moment(start)))).toISOString(),
       maxResults: cfg.limit,

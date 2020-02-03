@@ -8,7 +8,7 @@
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/haringsrob/</bitbar.abouturl>
 
-if [[ $(lsof -i :9000) ]]; then
+if lsof -i :9000 | grep -q phpstorm; then
     echo 'Xdebug on | color=#008000'
 else
     echo 'Xdebug off | color=#FF0000'

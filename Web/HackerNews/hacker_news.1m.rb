@@ -101,7 +101,7 @@ def print_title(title)
 end
 
 def print(s)
-  puts "#{s[:title]} | href=#{s[:url]} color=black"
+  puts "#{s[:title]} | href=#{s[:url]}"
   puts "Score: #{s[:score]} Comments: #{s[:descendants]} | href=#{'https://news.ycombinator.com/item?id=' + s[:id].to_s} color=#FF6600"
   puts '---'
 end

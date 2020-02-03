@@ -7,6 +7,8 @@ import argparse
 import warnings
 from distutils.spawn import find_executable
 
+ignore_file_types = ['.md']
+ignore_file_names = ['package.json', 'package-lock.json']
 allowed_image_content_types = ['image/png', 'image/jpeg', 'image/gif']
 required_metadata = ['author', 'author.github', 'title']
 recommended_metadata = ['image', 'desc', 'version']
@@ -92,10 +94,10 @@ class Language(object):
         return subprocess.check_output(command, stderr=subprocess.STDOUT)
 
 
-Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117', '-e', 'SC2164', '-e', 'SC2196', '-e', 'SC2197', '-e', 'SC2206', '-e', 'SC2207', '-e', 'SC2215', '-e', 'SC2219', '-e', 'SC2183', '-e', 'SC2230']))
+Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117,SC2164,SC2183,SC2196,SC2197,SC2206,SC2207,SC2215,SC2219,SC2230,SC2236']))
 Language.registerLanguage(Language(['.py', '.py2'], 'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.py', '.py3'], 'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RescueWithoutErrorClass']))
+Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RedundantStringCoercion,Lint/BigDecimalNew']))
 Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
 Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
 Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
@@ -240,8 +242,12 @@ for _file in args.files:
     components = _file.split('/')
     if components[0] == ".":
         del components[0]
-    if any(s[0] == '.' for s in components) or file_ext == '.md':
+    if any(s[0] == '.' for s in components):
         debug('skipping file %s' % _file)
+    elif file_ext in ignore_file_types:
+        debug('ignoring file by type %s' % _file)
+    elif components[-1] in ignore_file_names:
+        debug('ignoring file by name %s' % _file)
     else:
         debug('checking file %s' % _file)
         check_file(os.path.join(os.getcwd(), _file), args.pr)

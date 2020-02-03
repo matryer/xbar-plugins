@@ -15,6 +15,9 @@ begin
   country_code = cc['countryCode'].chomp.split ''
   c1, c2 = *country_code.map { |c| (c.ord + 0x65).chr.force_encoding 'UTF-8' }
   puts "\xF0\x9F\x87#{c1}\xF0\x9F\x87#{c2}"
+  puts "---"
+  puts "Public IP : " + cc['query']
+  puts "ISP : " + cc['isp']
 rescue StandardError => err
   puts "🚩"
   puts "---"

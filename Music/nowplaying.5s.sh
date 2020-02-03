@@ -10,7 +10,7 @@
 # <bitbar.abouturl></bitbar.abouturl>
 
 # first, determine if there's an app that's playing or paused
-apps=(Spotify iTunes Vox)
+apps=(iTunes Music Spotify Vox)
 playing=""
 paused=""
 

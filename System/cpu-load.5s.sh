@@ -5,7 +5,7 @@
 # <bitbar.author>Paul W. Rankin</bitbar.author>
 # <bitbar.author.github>rnkn</bitbar.author.github>
 # <bitbar.desc>Shows CPU load as a percentage (without using top).</bitbar.desc>
-# <bitbar.image>http://photos.paulwrankin.com/screenshots/cpu-load.png</bitbar.image>
+# <bitbar.image>https://i.imgur.com/B6VAsDg.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 
 # BitBar CPU Load plugin
