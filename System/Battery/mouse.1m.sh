@@ -8,7 +8,7 @@
 
 # works fine with Magic Mouse
 
-PERCENTAGE=$(ioreg -n BNBMouseDevice | fgrep BatteryPercent | fgrep -v \{ | sed 's/[^[:digit:]]//g')
+PERCENTAGE=$(ioreg -c AppleDeviceManagementHIDEventService -r -l | grep BatteryPercent | sed 's/[^[:digit:]]//g')
 
 if [ "$PERCENTAGE" ]; then
         echo "Mouse: $PERCENTAGE%"
