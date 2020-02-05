@@ -7,7 +7,7 @@
 // <bitbar.author>Benji Encalada Mora</bitbar.author>
 // <bitbar.author.github>benjifs</bitbar.author.github>
 // <bitbar.image>https://i.imgur.com/x1SoIto.jpg</bitbar.image>
-// <bitbar.desc>Show notifications for Slack teams and channels with option to mark as read.</bitbar.desc>
+// <bitbar.desc>Show notifications for Slack teams and channels with option to mark as read. See https://github.com/benjifs/bitbar-slack-team-notifications for configuration instructions.</bitbar.desc>
 // <bitbar.dependencies>node.js superagent</bitbar.dependencies>
 
 const request = require('superagent');

@@ -5,7 +5,7 @@
 # <bitbar.author>Paul W. Rankin</bitbar.author>
 # <bitbar.author.github>rnkn</bitbar.author.github>
 # <bitbar.desc>Displays total sent and received wifi data for current sesssion.</bitbar.desc>
-# <bitbar.image>https://photos.paulwrankin.com/screenshots/sent-received.png</bitbar.image>
+# <bitbar.image>https://i.imgur.com/KxXfbKn.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 
 # BitBar Network Sent/Received plugin

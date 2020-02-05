@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Show tasks due Today in Things 3
+# Show tasks due Today in Things
 #
 # by Max Clayton Clowes (maxcc@me.com)
 #
@@ -9,43 +9,43 @@
 # Only shows 20 todos - too many stops todos from being completed
 
 # metadata
-# <bitbar.title>Things tasks</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.title>Things 3 Today</bitbar.title>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Max Clayton Clowes</bitbar.author>
 # <bitbar.author.github>mcclowes</bitbar.author.github>
 # <bitbar.desc>Display tasks due today in Things 3.</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/2IvhNws.png</bitbar.image>
 
 function tellthings() {
-	osascript -e "tell application \"Things3\" 
+	osascript -e "tell application \"Things3\"
 	$1
 end tell"
 }
 
 if [ "$1" = 'launch' ]; then
-  tellthings 'activate'
-  exit
+	tellthings 'activate'
+	exit
 fi
 
 case "$1" in
-  'show quick entry panel' | 'log completed now' | 'empty trash')
-    tellthings "$1"
-    exit
+	'show quick entry panel' | 'log completed now' | 'empty trash')
+		tellthings "$1"
+		exit
 esac
 
 if [ "$1" = 'complete' ]; then
-  tellthings "set toDo to to do named \"$2\" of list \"Today\"
+	tellthings "set toDo to to do named \"$2\" of list \"Today\"
 	set status of toDo to completed
 	delay 1.3"
-  exit
+	exit
 fi
 
 if [ "$(osascript -e 'application "Things3" is running')" = "false" ]; then
-  echo "☑"
-  echo "---"
-  echo "Things 3 is not running"
-  echo "Launch Things3 | bash='$0' param1=launch terminal=false"
-  exit
+	echo "☑"
+	echo "---"
+	echo "Things 3 is not running"
+	echo "Launch Things3 | bash='$0' param1=launch terminal=false"
+	exit
 fi
 
 echo "☑"
@@ -54,22 +54,30 @@ echo "---"
 
 echo "Today..."
 
-items=$(tellthings 'set the_list to {}
+items=$(tellthings 'set targetList to {}
 repeat with n from 1 to count of to dos of list "Today"
 	set toDo to item n of to dos of list "Today"
-	set toDoName to name of toDo
-	if status of toDo = open then
-		set the_list to the_list & toDoName
+	if activation date of toDo is equal to missing value then
+	else
+		copy name of toDo & "|" & status of toDo to the end of the targetList
 	end if
-  if n > 20 then
-    return the_list
-  end if
+	if n > 20 then
+		return targetList
+	end if
 end repeat
-return the_list');
+return targetList');
 
 IFS=","
 for i in $items; do
-	echo "☐ $i | bash='$0' param1='complete' param2='$i' terminal=false"
+	IFS="|";
+	# shellcheck disable=SC2086
+	set "--" ${i};
+	if [ "$2" = "open" ]; then
+		item="☐ ${1}";
+	else 
+		item="☑ ${1}";
+	fi
+	echo "${item} | bash=$0 param1=complete param2='${1}' terminal=false"
 done
 
 echo "View more... | color=#aaaaaa bash='$0' param1=launch terminal=false"
