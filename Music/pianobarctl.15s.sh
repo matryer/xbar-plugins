@@ -4,7 +4,7 @@
 # <bitbar.author>danlogan</bitbar.author>
 # <bitbar.author.github>danlogan</bitbar.author.github>
 # <bitbar.desc>Simple pianobar controls from the menu bar.</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://i.imgur.com/xWjlIDr.png</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
