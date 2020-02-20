@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# coding=utf-8
+#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
 #
 # <bitbar.title>Yahoo Weather</bitbar.title>
 # <bitbar.version>v3.0</bitbar.version>
