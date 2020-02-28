@@ -5,7 +5,7 @@
 # <bitbar.author>vxider</bitbar.author>
 # <bitbar.author.github>vxider</bitbar.author.github>
 # <bitbar.desc>The AC power adapter wattage for macos</bitbar.desc>
-# <bitbar.image>https://imgur.com/4N0xk1g</bitbar.image>
+# <bitbar.image>https://i.imgur.com/4N0xk1g.jpg</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 # <bitbar.abouturl></bitbar.abouturl>
 
