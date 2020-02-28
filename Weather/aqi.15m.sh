@@ -10,7 +10,7 @@
 # <bitbar.abouturl>http://www.yuanchongyu.com</bitbar.abouturl>
 
 MENUFONT="size=12 font=UbuntuMono-Bold"
-COLORS=("#0ed812" "#ffde33" "#ff9933" "#cc0033" "#660099" "#7e0023", "#404040")
+COLORS=("#0ed812" "#ffde33" "#ff9933" "#cc0033" "#660099" "#7e0023" "#404040")
 
 # where to get the token -> https://aqicn.org/api/
 TOKEN="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
