@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 # <bitbar.title>SureFlap Pet Status</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
+# <bitbar.version>v1.1.0</bitbar.version>
 # <bitbar.author>Henrik Nyh</bitbar.author>
 # <bitbar.author.github>henrik</bitbar.author.github>
-# <bitbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door.</bitbar.desc>
+# <bitbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</bitbar.desc>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 
 # By Henrik Nyh <https://henrik.nyh.se> 2019-12-16 under the MIT license.
@@ -15,6 +15,7 @@
 # NOTE: You can configure these if you like:
 PETS_IN_SUMMARY = [ ]  # You can exclude e.g. indoor-only cats from the menu bar by listing only the names of outdoor cats here. (But all cats show if you click it.) Example: [ "Foocat", "Barcat" ]
 HIDE_PETS = [ ]  # You can hide cats entirely by listing their names here. Example: [ "Foocat", "Barcat" ]
+NOTIFICATIONS = true  # Show a notification when in/out state changes?
 
 require "net/http"
 require "json"
@@ -105,24 +106,35 @@ with_fresh_token do |token|
       is_inside = (position_data.fetch("where") == 1)
       since = Time.parse(position_data.fetch("since"))
 
-      [ name, [ is_inside, since ] ]
+      [ name, [ id, is_inside, since ] ]
     }.to_h
 
   overlapping_pets_in_summary = (PETS_IN_SUMMARY & data.keys) - HIDE_PETS
   pets_in_summary = overlapping_pets_in_summary.any? ? overlapping_pets_in_summary : data.keys
 
-  icon = ->(is_inside) { is_inside ? ":house:" : ":deciduous_tree:" }
+  icon = ->(is_inside) { is_inside ? "🏠" : "🌳" }
 
   puts pets_in_summary.map { |name|
-    is_inside, _since = data.fetch(name)
+    _id, is_inside, _since = data.fetch(name)
     "#{icon.(is_inside)} #{name}"
   }.join("  ")
 
   puts "---"
 
   today = Date.today
-  data.each do |name, (is_inside, since)|
+  data.each do |name, (id, is_inside, since)|
     next if HIDE_PETS.include?(name)
+
+    if NOTIFICATIONS
+      inside_state_path = "/tmp/sureflap_#{id}_is_inside"
+      previous_is_inside_string = File.read(inside_state_path) rescue nil
+
+      if previous_is_inside_string && previous_is_inside_string != is_inside.to_s
+        system("osascript", "-e", %{display notification "#{icon.(is_inside)} #{name} #{is_inside ? "has entered… Hi #{name}!" : "has left… Bye #{name}!" }" with title "Cat flap"})
+      end
+
+      File.write(inside_state_path, is_inside)
+    end
 
     formatting_string =
       case since.to_date
