@@ -107,8 +107,10 @@ elif [ -n "$START_TIME" ]; then
 
 	echo "◉ $CLOCK"
 	echo "---"
+	echo "$START_TEXT| bash='$0' param1=resume terminal=false refresh=true"
 	echo "$STOP_TEXT| bash='$0' param1=pause terminal=false refresh=true"
-
+	echo "$RESET_TEXT| bash='$0' param1=reset terminal=false refresh=true"
+	
 	if [ "$MAX_SPLITS" -gt 0 ]; then
 		echo "$SPLIT_TEXT| bash='$0' param1=split terminal=false refresh=true"
 	fi
