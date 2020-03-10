@@ -24,7 +24,7 @@ JSONOUT=$(curl --silent $NSURL/api/v1/entries/current.json)
 
 JSDATE=$(jq '.[0].date' <<< "$JSONOUT")
 #NS Returns date as ms since epoch. BASH likes Seconds since epoch
-EPOCHTS=$(($JSDATE / 1000))
+EPOCHTS=$((JSDATE / 1000))
 TIMESTRING=$(date -r $EPOCHTS)
 
 EPOCHNOW=$(date +%s) # Convert current time to epoch time
