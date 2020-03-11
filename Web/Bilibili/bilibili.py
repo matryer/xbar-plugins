@@ -29,6 +29,6 @@ for video in subMitVideosRes["data"]["vlist"]:
     print("    投稿时间:" + datetime.fromtimestamp(video["created"]).strftime("%Y-%m-%d %H:%M:%S") +
           "    时长:" + str(video["length"]) +
           "    播放:{0:6}".format(video["play"]) +
-          "    搜藏:" + str(video["favorites"]) +
+          "    收藏:" + str(video["favorites"]) +
           "    评论:" + str(video["comment"]) +
           "    弹幕:" + str(video["video_review"]))
