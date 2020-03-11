@@ -12,7 +12,7 @@
 
 require 'yaml'
 
-output = YAML.load(`system_profiler SPBluetoothDataType`);
+output = YAML.load(`system_profiler SPBluetoothDataType 2> /dev/null`);
 
 output['Bluetooth']['Devices (Paired, Configured, etc.)'].each do |device|
         puts "Keyboard: "+device[1]['Battery Level'].to_s if device[1]['Minor Type'].eql?('Keyboard') && device[1].has_key?('Battery Level')
