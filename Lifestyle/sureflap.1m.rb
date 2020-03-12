@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # <bitbar.title>SureFlap Pet Status</bitbar.title>
-# <bitbar.version>v1.1.0</bitbar.version>
+# <bitbar.version>v1.2.0</bitbar.version>
 # <bitbar.author>Henrik Nyh</bitbar.author>
 # <bitbar.author.github>henrik</bitbar.author.github>
 # <bitbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</bitbar.desc>
@@ -13,9 +13,19 @@
 # Has no dependencies outside the Ruby standard library (uses Net::HTTP directly and painfully).
 
 # NOTE: You can configure these if you like:
-PETS_IN_SUMMARY = [ ]  # You can exclude e.g. indoor-only cats from the menu bar by listing only the names of outdoor cats here. (But all cats show if you click it.) Example: [ "Foocat", "Barcat" ]
-HIDE_PETS = [ ]  # You can hide cats entirely by listing their names here. Example: [ "Foocat", "Barcat" ]
-NOTIFICATIONS = true  # Show a notification when in/out state changes?
+
+# You can exclude e.g. indoor-only pets from the menu bar by listing their names here. (But all pets show if you click the menu bar item.)
+# Example: [ "Foocat", "Bardog" ]
+HIDE_PETS_IN_MENU_BAR = [ ]
+
+# You can ignore pets entirely by listing their names here. They won't be listed anywhere, and no notifications sent.
+# Example: [ "Foocat", "Bardog" ]
+IGNORE_PETS_ENTIRELY = [ ]
+
+# Show a notification when in/out state changes?
+NOTIFICATIONS = true
+
+# End of configuration.
 
 require "net/http"
 require "json"
@@ -109,8 +119,8 @@ with_fresh_token do |token|
       [ name, [ id, is_inside, since ] ]
     }.to_h
 
-  overlapping_pets_in_summary = (PETS_IN_SUMMARY & data.keys) - HIDE_PETS
-  pets_in_summary = overlapping_pets_in_summary.any? ? overlapping_pets_in_summary : data.keys
+  pets_in_summary = data.keys - HIDE_PETS_IN_MENU_BAR - IGNORE_PETS_ENTIRELY
+  raise "There are no pets to summarize!" if pets_in_summary.empty?
 
   icon = ->(is_inside) { is_inside ? "🏠" : "🌳" }
 
@@ -123,7 +133,7 @@ with_fresh_token do |token|
 
   today = Date.today
   data.each do |name, (id, is_inside, since)|
-    next if HIDE_PETS.include?(name)
+    next if IGNORE_PETS_ENTIRELY.include?(name)
 
     if NOTIFICATIONS
       inside_state_path = "/tmp/sureflap_#{id}_is_inside"
