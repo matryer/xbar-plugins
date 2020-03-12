@@ -12,6 +12,7 @@
 #
 # Has no dependencies outside the Ruby standard library (uses Net::HTTP directly and painfully).
 
+
 # NOTE: You can configure these if you like:
 
 # You can exclude e.g. indoor-only pets from the menu bar by listing their names here. (But all pets show if you click the menu bar item.)
@@ -25,13 +26,19 @@ IGNORE_PETS_ENTIRELY = [ ]
 # Show a notification when in/out state changes?
 NOTIFICATIONS = true
 
+# Increase this number when you add 😻, remove 😿 or rename pets or flaps/doors. You don't need to increase it if you just change the configuration above.
+# As long as this number remains unchanged, we will assume nothing's changed, which makes things faster and means we can check status more frequently.
+CACHE_VERSION = 1
+
 # End of configuration.
+
 
 require "net/http"
 require "json"
 require "pp"
 require "time"
 require "fileutils"
+require "digest"
 
 ENDPOINT = "https://app.api.surehub.io"
 TOKEN_PATH = File.expand_path("~/.sureflap_token")
@@ -60,7 +67,12 @@ def post(path, data)
   hash
 end
 
-def get(path, token:)
+def get(path, token:, cache:)
+  if cache
+    cache_file = "/tmp/sureflap_#{Digest::SHA256.hexdigest("#{path}-#{token}")}_v#{CACHE_VERSION}"
+    return JSON.parse(File.read(cache_file)) if File.exists?(cache_file)
+  end
+
   uri = URI.join(ENDPOINT, path)
   req = Net::HTTP::Get.new(uri,
     "Content-Type" => "application/json",
@@ -68,7 +80,8 @@ def get(path, token:)
   )
 
   res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
-  hash = JSON.parse(res.body)
+  raw_json = res.body
+  hash = JSON.parse(raw_json)
 
   error_message = "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}" unless res.code == "200"
 
@@ -78,6 +91,7 @@ def get(path, token:)
     raise error_message
   end
 
+  File.write(cache_file, raw_json) if cache
   hash
 end
 
@@ -105,19 +119,21 @@ end
 
 with_fresh_token do |token|
   # We assume a single household.
-  household_id = get("/api/household", token: token).dig("data", 0, "id")
+  household_id = get("/api/household", token: token, cache: true).dig("data", 0, "id")
 
   data =
-    get("/api/household/#{household_id}/pet", token: token).fetch("data").map { |pet_data|
+    get("/api/household/#{household_id}/pet", token: token, cache: true).fetch("data").map { |pet_data|
       id = pet_data.fetch("id")
-      position_data = get("/api/pet/#{id}/position", token: token).fetch("data")
-
       name = pet_data.fetch("name")
+      next if IGNORE_PETS_ENTIRELY.include?(name)
+
+      position_data = get("/api/pet/#{id}/position", token: token, cache: false).fetch("data")
+
       is_inside = (position_data.fetch("where") == 1)
       since = Time.parse(position_data.fetch("since"))
 
       [ name, [ id, is_inside, since ] ]
-    }.to_h
+    }.compact.to_h
 
   pets_in_summary = data.keys - HIDE_PETS_IN_MENU_BAR - IGNORE_PETS_ENTIRELY
   raise "There are no pets to summarize!" if pets_in_summary.empty?
@@ -133,8 +149,6 @@ with_fresh_token do |token|
 
   today = Date.today
   data.each do |name, (id, is_inside, since)|
-    next if IGNORE_PETS_ENTIRELY.include?(name)
-
     if NOTIFICATIONS
       inside_state_path = "/tmp/sureflap_#{id}_is_inside"
       previous_is_inside_string = File.read(inside_state_path) rescue nil
