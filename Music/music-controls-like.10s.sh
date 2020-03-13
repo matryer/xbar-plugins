@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Like the current track in iTunes or pianobar.
+# Like the current track in iTunes, Music or pianobar.
 #
 # Special thanks to Google for providing the open-source icons: https://github.com/google/material-design-icons
 # and to mcchrish and alekseysotnikov for their helpful existing BitBar scripts
@@ -10,7 +10,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Sebastián Barschkis</bitbar.author>
 # <bitbar.author.github>sebbas</bitbar.author.github>
-# <bitbar.desc>Likes the current track in iTunes or pianobar.</bitbar.desc>
+# <bitbar.desc>Likes the current track in iTunes, Music or pianobar.</bitbar.desc>
 # <bitbar.image>https://raw.githubusercontent.com/sebbas/music-controls-bitbar/master/music-controls-screenshot.png</bitbar.image>
 # <bitbar.abouturl>http://github.com/sebbas/music-controls-bitbar</bitbar.abouturl>
 
@@ -22,6 +22,7 @@ pianobar_ctlfile="$HOME/.config/pianobar/ctl"
 NONE="none"
 CMUS="cmus"
 ITUNES="iTunes"
+MUSIC="Music"
 SPOTIFY="Spotify"
 PIANOBAR="pianobar"
 
@@ -31,6 +32,10 @@ like_icon_dark="iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAA
 # Trigger like track in music application
 if [[ "$1" = 'itunes_like' ]]; then
   osascript -e 'tell application "iTunes"' -e 'if loved of current track is true then' -e 'set loved of current track to false' -e 'else' -e 'set loved of current track to true' -e 'end if' -e 'end tell'
+  exit
+fi
+if [[ "$1" = 'music_like' ]]; then
+  osascript -e 'tell application "Music"' -e 'if loved of current track is true then' -e 'set loved of current track to false' -e 'else' -e 'set loved of current track to true' -e 'end if' -e 'end tell'
   exit
 fi
 if [[ "$1" = 'pianobar_like' ]]; then
@@ -49,18 +54,22 @@ current_source="$NONE"
 # Get pid of music apps to see if they are currently running
 cmus_pid=$(pgrep -x "$CMUS")
 itunes_pid=$(pgrep -x "$ITUNES")
+music_pid=$(pgrep -x "$MUSIC")
 spotify_pid=$(pgrep -x "$SPOTIFY")
 pianobar_pid=$(pgrep -x "$PIANOBAR")
 
 # Keep track of music source
 # Reorder items in for-loop to your liking to change order of precendece
 # (i.e. if available, left-most audio source will be used first)
-for s in "$CMUS" "$ITUNES" "$SPOTIFY" "$PIANOBAR"; do
+for s in "$CMUS" "$ITUNES" "$MUSIC" "$SPOTIFY" "$PIANOBAR"; do
   if [[ $s = "$CMUS" && $cmus_pid ]]; then
     # cmus does not support likes
     exit
   elif [[ $s = "$ITUNES" && $itunes_pid ]]; then
     current_source="$ITUNES"
+    break
+  elif [[ $s = "$MUSIC" && $music_pid ]]; then
+    current_source="$MUSIC"
     break
   elif [[ $s = "$SPOTIFY" && $spotify_pid ]]; then
     # spotify (applescript) api does not support likes
@@ -86,6 +95,8 @@ fi
 # Trigger like track in correct music app
 if [[ $current_source = "$ITUNES" ]]; then
   echo " | image=$icon bash='$0' param1='itunes_like' terminal=false refresh=false"
+elif [[ $current_source = "$MUSIC" ]]; then
+  echo " | image=$icon bash='$0' param1='music_like' terminal=false refresh=false"
 elif [[ $current_source = "$PIANOBAR" ]]; then
   echo " | image=$icon bash='$0' param1='pianobar_like' terminal=false refresh=false"
 fi
