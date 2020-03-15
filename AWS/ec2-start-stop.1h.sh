@@ -56,7 +56,8 @@ print_instance(){
 
 main() {
   json=$( $CMD_AWS --profile $AWS_CLI_PROFILE ec2 describe-instances --output json )
-  instances=$( echo "$json" | $CMD_JQ -r 'def count(s): reduce s as $_ (0;.+1);.Reservations | .[] | .Instances | .[] | .InstanceId as $i | $i +"__--SEP--__" + (if count (.Tags[] | select(.Key=="Name")) == 0 then $i else (.Tags[] | select(.Key=="Name")|.Value) end) +"__--SEP--__" + .State.Name' )
+  #We cannot use $CMD_JQ below for jq command since the CI in pull request cannot pass shellcheck SC2016
+  instances=$( echo "$json" | jq -r 'def count(s): reduce s as $_ (0;.+1);.Reservations | .[] | .Instances | .[] | .InstanceId as $i | $i +"__--SEP--__" + (if count (.Tags[] | select(.Key=="Name")) == 0 then $i else (.Tags[] | select(.Key=="Name")|.Value) end) +"__--SEP--__" + .State.Name' )
   #if no Name tag found, it will use instance id instead
 
   for row in $instances; do
