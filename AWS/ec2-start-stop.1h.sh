@@ -34,21 +34,21 @@ STATUS_STARTED="🍏"
 #   $1, instance details in format:
 #   "<instance_id>__--SEP--__<instance_tag_name>__--SEP--__<instance_status>"
 print_instance(){
-  local instance_id=$(echo $1 | awk -F "__--SEP--__" '{print $1}')
-  local instance_tag_name=$(echo $1 | awk -F "__--SEP--__" '{print $2}')
-  local instance_status=$(echo $1 | awk -F "__--SEP--__" '{print $3}')
+  instance_id=$(echo "$1" | awk -F "__--SEP--__" '{print $1}')
+  instance_tag_name=$(echo "$1" | awk -F "__--SEP--__" '{print $2}')
+  instance_status=$(echo "$1" | awk -F "__--SEP--__" '{print $3}')
   
-  if [ $instance_status = "running" ]; then
+  if [ "$instance_status" = "running" ]; then
     echo "$STATUS_STARTED $instance_tag_name"
   else
     echo "$STATUS_STOPPED $instance_tag_name"
   fi
   echo "----"
   echo "--status: $instance_status"
-  if [ $instance_status = "running" ]; then
+  if [ "$instance_status" = "running" ]; then
     echo "--start | color=$DISABLED_ITEM_COLOR"
     echo "--stop | bash='$0' param1=$instance_id param2=$instance_tag_name param3=stop-instances refresh=false terminal=false"
-  elif [ $instance_status = "stopped" ]; then
+  elif [ "$instance_status" = "stopped" ]; then
     echo "--start | bash='$0' param1=$instance_id param2=$instance_tag_name param3=start-instances refresh=false terminal=false"
     echo "--stop | color=$DISABLED_ITEM_COLOR"
   fi
@@ -60,15 +60,15 @@ main() {
   #if no Name tag found, it will use instance id instead
 
   for row in $instances; do
-    print_instance $row
+    print_instance "$row"
   done
 
   if [ "$ARG3_ACTION" ]; then
-    local CMD_NOTIFY=$(command -v osascript)
+    CMD_NOTIFY=$(command -v osascript)
     if [ "$CMD_NOTIFY" ]; then
       osascript -e "display notification \"$ARG2_NAME $ARG3_ACTION\" "
     fi
-    $CMD_AWS --profile $AWS_CLI_PROFILE ec2 $ARG3_ACTION --instance-ids $ARG1_INSTANCE_ID
+    $CMD_AWS --profile $AWS_CLI_PROFILE ec2 "$ARG3_ACTION" --instance-ids "$ARG1_INSTANCE_ID"
   fi
 }
 
