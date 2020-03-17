@@ -52,19 +52,52 @@ end
 EMAIL, PASSWORD = File.read(AUTH_PATH).strip.split(" / ")
 AUTH_DATA = { email_address: EMAIL, password: PASSWORD, device_id: "0" }
 
+# From https://github.com/barsoom/net_http_timeout_errors/blob/master/lib/net_http_timeout_errors.rb
+NETWORK_ERRORS = [
+  EOFError,
+  Errno::ECONNREFUSED,
+  Errno::ECONNRESET,
+  Errno::EHOSTUNREACH,
+  Errno::EINVAL,
+  Errno::ENETUNREACH,
+  Errno::EPIPE,
+  Errno::ETIMEDOUT,
+  Net::HTTPBadResponse,
+  Net::HTTPHeaderSyntaxError,
+  Net::ProtocolError,
+  Net::ReadTimeout,
+  SocketError,
+  Timeout::Error,  # Also covers subclasses like Net::OpenTimeout.
+]
+
 class StaleTokenError < StandardError; end
 
+def handle_network_errors
+  yield
+rescue *NETWORK_ERRORS => e
+  puts "🙀"
+  puts "---"
+  puts "Network error when trying to communicate with the SureFlap API!"
+  puts "Check that you're not offline."
+  puts "---"
+  puts "Technical details:"
+  puts "#{e.class.name}: #{e.message}"
+  exit 1
+end
+
 def post(path, data)
-  uri = URI.join(ENDPOINT, path)
-  req = Net::HTTP::Post.new(uri, "Content-Type" => "application/json")
-  req.body = data.to_json
+  handle_network_errors do
+    uri = URI.join(ENDPOINT, path)
+    req = Net::HTTP::Post.new(uri, "Content-Type" => "application/json")
+    req.body = data.to_json
 
-  res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
-  hash = JSON.parse(res.body)
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+    hash = JSON.parse(res.body)
 
-  raise "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}" unless res.code == "200"
+    raise "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}" unless res.code == "200"
 
-  hash
+    hash
+  end
 end
 
 def get(path, token:, cache:)
@@ -73,26 +106,28 @@ def get(path, token:, cache:)
     return JSON.parse(File.read(cache_file)) if File.exists?(cache_file)
   end
 
-  uri = URI.join(ENDPOINT, path)
-  req = Net::HTTP::Get.new(uri,
-    "Content-Type" => "application/json",
-    "Authorization" => "Bearer #{token}",
-  )
+  handle_network_errors do
+    uri = URI.join(ENDPOINT, path)
+    req = Net::HTTP::Get.new(uri,
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{token}",
+    )
 
-  res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
-  raw_json = res.body
-  hash = JSON.parse(raw_json)
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+    raw_json = res.body
+    hash = JSON.parse(raw_json)
 
-  error_message = "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}" unless res.code == "200"
+    error_message = "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}" unless res.code == "200"
 
-  if res.code == "401" && hash.dig("error", "message") == [ "Token Signature could not be verified." ]
-    raise StaleTokenError, error_message
-  elsif res.code != "200"
-    raise error_message
+    if res.code == "401" && hash.dig("error", "message") == [ "Token Signature could not be verified." ]
+      raise StaleTokenError, error_message
+    elsif res.code != "200"
+      raise error_message
+    end
+
+    File.write(cache_file, raw_json) if cache
+    hash
   end
-
-  File.write(cache_file, raw_json) if cache
-  hash
 end
 
 def refresh_token
