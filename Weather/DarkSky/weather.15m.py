@@ -67,7 +67,7 @@ def auto_loc_lookup():
 
 def reverse_latlong_lookup(loc):
   try:
-    location_url = 'https://api.opencagedata.com/geocode/v1/json?q=' + loc + '&key=' + geo_api_key + '&language=en&pretty=1'
+    location_url = 'https://api.opencagedata.com/geocode/v1/json?q=' + loc + '&key=' + geo_api_key + '&language=en&no_annotations=1&pretty=1'
     location = json.load(urllib2.urlopen(location_url))
     if 'results' in location:
       return location['results'][0]['formatted'].encode('UTF-8')
