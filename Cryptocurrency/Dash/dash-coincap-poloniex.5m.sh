@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # <bitbar.title>Dash tickers: Coincap.io and Poloniex.com</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>UdjinM6</bitbar.author>
 # <bitbar.author.github>UdjinM6</bitbar.author.github>
 # <bitbar.desc>Shows the latest Dash info from Coincap.io and Poloniex.com</bitbar.desc>
