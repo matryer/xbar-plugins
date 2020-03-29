@@ -5,7 +5,7 @@
 # <bitbar.author>Wilson Goode</bitbar.author>
 # <bitbar.author.github>wilsongoode</bitbar.author.github>
 # <bitbar.desc>Displays stats of US COVID-19 cases, with a submenu for user-defineable States. Can also be configured to show the top n states.</bitbar.desc>
-# <bitbar.image>https://github.com/wilsongoode/covid-bitbar/blob/master/covid-19_top15_states.png</bitbar.image>
+# <bitbar.image>https://github.com/wilsongoode/covid-bitbar/blob/master/screens/covid-19_top15_states.png</bitbar.image>
 # <bitbar.dependencies>node, npm, corona-cli</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/wilsongoode/covid-bitbar</bitbar.abouturl>
 
