@@ -66,7 +66,7 @@ BLUE='\033[01;36m'
 NONE='\033[0m'
 
 # Top line for USA data
-cat ~/Code/bitbar_plugins/.corona_usa_cache |
+cat $BITBAR_DIR/.corona_usa_cache |
     grep "USA" |
     sed -E 's/[[:space:]][[:space:]][[:space:]]*/;/g' |
     awk -v r=$RED -v y=$YELLOW -v g=$GREEN -v b=$BLUE -v n=$NONE -F';' \
@@ -75,7 +75,7 @@ cat ~/Code/bitbar_plugins/.corona_usa_cache |
 echo "---"
 
 # Submenu for States of Interest
-cat ~/Code/bitbar_plugins/.corona_states_cache | 
+cat $BITBAR_DIR/.corona_states_cache | 
     grep $MOD_GREP_A $MOD_GREP_STATES |
     sed -E 's/[[:space:]][[:space:]][[:space:]]*/;/g ; 
         s/District Of Columbia/Washington, D.C./ ;
