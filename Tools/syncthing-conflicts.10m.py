@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
     syncthing-conflicts.10m.py
     Python 2 and 3 compatible.
