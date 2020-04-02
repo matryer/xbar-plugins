@@ -6,7 +6,7 @@
 # <bitbar.author.github>nzer0</bitbar.author.github>
 # <bitbar.desc>Count the days to the submission deadlines of AI conferences.</bitbar.desc>
 # <bitbar.image>https://github.com/nzer0/bitbar-aideadlines/blob/master/aid-screenshot.png?raw=true</bitbar.image>
-# <bitbar.dependencies>python3 (pyyaml, pytz, tzlocal)</bitbar.dependencies>
+# <bitbar.dependencies>python3 (pyyaml, pytz, tzlocal, wget)</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/nzer0/bitbar-aideadlines</bitbar.abouturl>
 
 
@@ -35,11 +35,12 @@ try:
 	import yaml
 	from pytz import timezone
 	from tzlocal import get_localzone
+	import wget
 except:
 	print("Install Dependencies")
 	print("---")
 	print("Please install the dependencies by clicking below | color=black")
-	print("$ pip install pyyaml pytz tzlocal | color=green bash='pip install pyyaml pytz tzlocal' refresh=true")
+	print("$ pip install pyyaml pytz tzlocal wget | color=green bash='pip install pyyaml pytz tzlocal wget' refresh=true")
 	print("---")
 	print("If it is still not working, click below | color=black")
 	print(f"Ammend shebang | color=green bash='{SHB_FNAME}' param1={ME_PATH}")
@@ -125,7 +126,6 @@ def seldl(conf_title):
 
 '''Get the deadlines list from aideadlin.es and process it'''
 def getdl():
-	import wget
 	if os.path.exists(DL_FNAME):
 			os.remove(DL_FNAME)
 	wget.download(AID_URL, DL_FNAME, False)
@@ -161,4 +161,3 @@ if __name__ == "__main__":
 
 	elif sys.argv[1] == 'getdl':
 		getdl()
-
