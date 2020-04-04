@@ -2,9 +2,8 @@
 
 # Get current status of a OpenFortiVPN connection with options to connect/disconnect.
 # Commands that require admin permissions should be whitelisted with 'visudo', e.g.:
-#YOURUSERNAME ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
-#YOURUSERNAME ALL=(ALL) NOPASSWD: /usr/bin/killall -2 openconnect
-#
+# YOURUSERNAME ALL=(ALL) NOPASSWD: /usr/local/bin/openfortivpn
+# YOURUSERNAME ALL=(ALL) NOPASSWD: /usr/bin/killall -2 openfortivpn
 # To use openfortivpn in an easy way you can create file like: /Documents/.fortivpn-config and put your crential in it as following:
 #
 # host=123.45.678.9
