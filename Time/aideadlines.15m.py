@@ -40,7 +40,7 @@ except:
 	print("Install Dependencies")
 	print("---")
 	print("Please install the dependencies by clicking below | color=black")
-	print("$ pip install pyyaml pytz tzlocal wget | color=green bash='pip install pyyaml pytz tzlocal wget' refresh=true")
+	print("$ pip3 install pyyaml pytz tzlocal wget | color=green bash='pip3 install pyyaml pytz tzlocal wget' refresh=true")
 	print("---")
 	print("If it is still not working, click below | color=black")
 	print(f"Ammend shebang | color=green bash='{SHB_FNAME}' param1={ME_PATH}")
