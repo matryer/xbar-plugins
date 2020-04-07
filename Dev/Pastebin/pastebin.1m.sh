@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #
-# <bitbar.title>Check Pastebin For New Pastes</bitbar.title>
+# <bitbar.title>Check Pastebin</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Tyllis Xu</bitbar.author>
 # <bitbar.author.github>LivelyCarpet87</bitbar.author.github>
 # <bitbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://ibb.co/f84H9nr</bitbar.image>
 # <bitbar.abouturl></bitbar.abouturl>
 #
 
@@ -17,43 +17,67 @@ dev_key=""
 #Pastebin user key
 usr_key=""
 
+
 #Constants
-#Pastebin API Get_Paste URL
-get_paste_url="https://pastebin.com/api/api_post.php"
+#Pastebin API List Paste URL
+list_paste_url="https://pastebin.com/api/api_post.php"
+#Pastebin API Get Paste URL
+get_paste_url="https://pastebin.com/api/api_raw.php"
+
+
 #empty pastes arrays
 pasteNameArr=()
 pasteLinkArr=()
 
-queryResults=$(curl --silent -X POST -d "api_option=list&api_user_key=$usr_key&api_dev_key=$dev_key" $get_paste_url)
+queryResults=$(curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST -d "api_option=list&api_user_key=$usr_key&api_dev_key=$dev_key" $list_paste_url)
 
-titles=$(echo "$queryResults" | egrep "<paste_title>(\S*)<\/paste_title>" --context=0 | sed s+\<paste_title\>\<\/paste_title\>+Untitled+g | sed s+\<paste_title\>++g | sed s+\<\/paste_title\>++g)
+titles=$(echo "$queryResults" | grep -E "<paste_title>([^\r]*)" --context=0 | sed s+'<paste_title></paste_title>'+Untitled+g | sed s+\<paste_title\>++g | sed s+'</paste_title>'++g |tr '\r' ' ')
 
-pasteURLs=$(echo "$queryResults" | egrep "<paste_url>(\S*)<\/paste_url>" --context=0 | sed s+\<paste_url\>++g | sed s+\<\/paste_url\>++g)
+pasteURLs=$(echo "$queryResults" | grep -E "<paste_key>(\S*)</paste_key>" --context=0 | sed s+\<paste_key\>++g | sed s+'</paste_key>'++g |tr '\r' ' ')
 SAVEIFS=$IFS
-IFS=$'\n' 
+IFS=$'\n\r' 
 pasteNameArr=($titles)
 pasteLinkArr=($pasteURLs)
+pasteContentArr=()
 IFS=$SAVEIFS 
 
 totalPastes=$((${#pasteNameArr[@]}))
 
+
+
+# test if the request response was valid
+if [[ $(echo "queryResults" | grep "Bad API Request" -c) == 0 ]]
+then
+
 echo Pastes Found: $totalPastes
 
 i=0
-
 while [[ $i < $totalPastes ]]
 do
-printf '%s\n' "Paste $(($i + 1)): ${pasteNameArr[$i]}"
+printf '%s\n' "$(($i + 1)): ${pasteNameArr[$i]} | length=15 dropdown=false" 
 i=$(($i + 1))
 done
 
 echo "---"
-
 i=0
 while [[ $i < $totalPastes ]]
 do
-
-
-printf '%s\n' " Paste $(($i + 1)) | href=${pasteLinkArr[$i]}"
+printf '%s\n' "Paste $(($i + 1)): ${pasteNameArr[$i]} |href=https://pastebin.com/${pasteLinkArr[$i]}"
+echo -- $(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteLinkArr[$i]}"  $get_paste_url)
 i=$(($i + 1))
 done
+
+# test if it is a connectivity issue
+elif [[ $(curl https://pastebin.com/api/api_post.php --silent --connect-timeout 15 --speed-time 15 --speed-limit 500| grep "Bad API request" -c) == 0  ]]
+then
+
+echo "Disconnected | color=yellow"
+echo "---"
+echo "Refresh Now | refresh=true color=blue"
+
+else
+
+echo "Bad API Request | color=red"
+echo Please check keys for errors
+echo "---"
+echo "Refresh Now | refresh=true color=blue"
