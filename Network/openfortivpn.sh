@@ -17,7 +17,7 @@
 # <bitbar.author>Emran Mobaraki Novin</bitbar.author>
 # <bitbar.author.github>emranovin</bitbar.author.github>
 # <bitbar.desc>Displays status of a OpenFortiVPN interface with option to connect/disconnect.</bitbar.desc>
-# <bitbar.image>https://imgur.com/v2aW5mo</bitbar.image>
+# <bitbar.image>https://i.imgur.com/v2aW5mo.png</bitbar.image>
 
 VPN_EXECUTABLE=/usr/local/bin/openfortivpn
 VPN_EXECUTABLE_PARAMS="-c$HOME/Documents/.fortivpn-config" # Optional
@@ -30,7 +30,7 @@ VPN_DISCONNECT_CMD="sudo killall -2 openfortivpn"
 case "$1" in
     connect)
         # VPN connection command, should eventually result in $VPN_CONNECTED,
-        sudo "$VPN_EXECUTABLE" $VPN_EXECUTABLE_PARAMS &> /dev/null &
+        sudo "$VPN_EXECUTABLE" "$VPN_EXECUTABLE_PARAMS" &> /dev/null &
         # Wait for connection so menu item refreshes instantly
         until eval "$VPN_CONNECTED"; do sleep 1; done
         ;;
