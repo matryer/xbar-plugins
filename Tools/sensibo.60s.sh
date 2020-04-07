@@ -117,13 +117,13 @@ stopAfterMinutes () {
 
 # Function to turn climate react ON
 turnClimateReactON () {
-    ENABLE_CLIMATE_REACT='{"enabled": 'true'}'
+    ENABLE_CLIMATE_REACT='{"enabled": "true"}'
     curl -X PUT "https://home.sensibo.com/api/v2/pods/$1/smartmode/?apiKey=$API_KEY" -d "$ENABLE_CLIMATE_REACT"
 }
 
 # Function to turn climate react OFF
 turnClimateReactOFF () {
-    DISABLE_CLIMATE_REACT='{"enabled": 'false'}'
+    DISABLE_CLIMATE_REACT='{"enabled": "false"}'
     curl -X PUT "https://home.sensibo.com/api/v2/pods/$1/smartmode/?apiKey=$API_KEY" -d "$DISABLE_CLIMATE_REACT"
 }
 
@@ -224,9 +224,9 @@ do
 
     # If climate react enabled is set to true then relable as ON, else relable as OFF
     if [ "$POD_CLIMATE_REACT_ENABLED" = "true" ]; then
-        POD_CLIMATE_REACT_STATUS=$(echo "ON")
+        POD_CLIMATE_REACT_STATUS="ON"
     else
-        POD_CLIMATE_REACT_STATUS=$(echo "OFF")
+        POD_CLIMATE_REACT_STATUS="OFF"
     fi
 
     # Pod is turned on.
