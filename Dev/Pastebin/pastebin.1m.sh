@@ -6,7 +6,7 @@
 # <bitbar.author>Tyllis Xu</bitbar.author>
 # <bitbar.author.github>LivelyCarpet87</bitbar.author.github>
 # <bitbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </bitbar.desc>
-# <bitbar.image>https://ibb.co/f84H9nr</bitbar.image>
+# <bitbar.image>https://i.ibb.co/wJM47wp/pastebin.png</bitbar.image>
 # <bitbar.abouturl></bitbar.abouturl>
 #
 
@@ -35,11 +35,12 @@ titles=$(echo "$queryResults" | grep -E "<paste_title>([^\r]*)" --context=0 | se
 
 pasteURLs=$(echo "$queryResults" | grep -E "<paste_key>(\S*)</paste_key>" --context=0 | sed s+\<paste_key\>++g | sed s+'</paste_key>'++g |tr '\r' ' ')
 SAVEIFS=$IFS
-IFS=$'\n\r' 
+IFS=$'\n\r'
+#shellcheck disable=SC2206
 pasteNameArr=($titles)
+#shellcheck disable=SC2206
 pasteLinkArr=($pasteURLs)
-pasteContentArr=()
-IFS=$SAVEIFS 
+IFS=$SAVEIFS
 
 totalPastes=$((${#pasteNameArr[@]}))
 
@@ -54,17 +55,17 @@ echo Pastes Found: $totalPastes
 i=0
 while [[ $i < $totalPastes ]]
 do
-printf '%s\n' "$(($i + 1)): ${pasteNameArr[$i]} | length=15 dropdown=false" 
-i=$(($i + 1))
+printf '%s\n' "$((i + 1)): ${pasteNameArr[$i]} | length=15 dropdown=false"
+i=$((i + 1))
 done
 
 echo "---"
 i=0
 while [[ $i < $totalPastes ]]
 do
-printf '%s\n' "Paste $(($i + 1)): ${pasteNameArr[$i]} |href=https://pastebin.com/${pasteLinkArr[$i]}"
-echo -- $(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteLinkArr[$i]}"  $get_paste_url)
-i=$(($i + 1))
+printf '%s\n' "Paste $((i + 1)): ${pasteNameArr[$i]} |href=https://pastebin.com/${pasteLinkArr[$i]}"
+echo -- "$(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteLinkArr[$i]}"  $get_paste_url)"
+i=$((i + 1))
 done
 
 # test if it is a connectivity issue
@@ -81,3 +82,5 @@ echo "Bad API Request | color=red"
 echo Please check keys for errors
 echo "---"
 echo "Refresh Now | refresh=true color=blue"
+
+fi
