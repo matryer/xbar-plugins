@@ -103,7 +103,7 @@ end
 def get(path, token:, cache:)
   if cache
     cache_file = "/tmp/sureflap_#{Digest::SHA256.hexdigest("#{path}-#{token}")}_v#{CACHE_VERSION}"
-    return JSON.parse(File.read(cache_file)) if File.exists?(cache_file)
+    return JSON.parse(File.read(cache_file)) if File.exist?(cache_file)
   end
 
   handle_network_errors do
