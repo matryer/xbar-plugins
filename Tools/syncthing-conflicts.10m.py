@@ -11,9 +11,9 @@
     This is a Bitbar plugin for MacOS
     https://github.com/matryer/bitbar
 
-    <bitbar.title>Syncthing-conflicts/bitbar.title>
+    <bitbar.title>Syncthing-conflicts</bitbar.title>
     <bitbar.version>v1.0</bitbar.version>
-    <bitbar.author>Tim Battersby/bitbar.author>
+    <bitbar.author>Tim Battersby</bitbar.author>
     <bitbar.author.github>uglygus</bitbar.author.github>
     <bitbar.desc>Bitbar - Syncthing conflicts helper.</bitbar.desc>
     <bitbar.dependencies>python</bitbar.dependencies>
