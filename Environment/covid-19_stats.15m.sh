@@ -1,11 +1,11 @@
-#!/bin/zsh
+#!/bin/bash
 
 # <bitbar.title>COVID-19 Stats</bitbar.title>
 # <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Wilson Goode</bitbar.author>
 # <bitbar.author.github>wilsongoode</bitbar.author.github>
 # <bitbar.desc>Displays stats of US COVID-19 cases, with a submenu for user-defineable States. Can also be configured to show the top n states.</bitbar.desc>
-# <bitbar.image>https://github.com/wilsongoode/covid-bitbar/blob/master/screens/covid-19_top15_states.png</bitbar.image>
+# <bitbar.image>https://github.com/wilsongoode/covid-bitbar/raw/master/screens/covid-19_top15_states.png</bitbar.image>
 # <bitbar.dependencies>jq</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/wilsongoode/covid-bitbar</bitbar.abouturl>
 
@@ -114,7 +114,7 @@ curl -s https://corona.lmao.ninja/states\?sort\=cases |
         s/United States Virgin Islands/US Virgin Islands/;
         s/Diamond Princess Cruise/Diamond Princess Cr./' |
     # Grabs specific states/lines or every line, depending on configuration
-    grep $GREP_LIMIT $MOD_STATES |
+    grep $GREP_LIMIT "$MOD_STATES" |
     # Prints numbers with comma as thousands place separators
     awk -F'\t' '{ if ($0 ~ "State") { print $0 } else 
         if ($0 ~ "---") { print $0 } else 
