@@ -47,7 +47,7 @@ totalPastes=$((${#pasteNameArr[@]}))
 
 
 # test if the request response was valid
-if [[ $(echo "queryResults" | grep "Bad API Request" -c) == 0 ]]
+if [[ $(echo "$queryResults" | grep "Bad API request" -c) == 0 ]]
 then
 
 echo Pastes Found: $totalPastes
