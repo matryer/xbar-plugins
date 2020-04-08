@@ -2,7 +2,7 @@
 
 #
 # <bitbar.title>Check Pastebin</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Tyllis Xu</bitbar.author>
 # <bitbar.author.github>LivelyCarpet87</bitbar.author.github>
 # <bitbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </bitbar.desc>
@@ -47,7 +47,7 @@ totalPastes=$((${#pasteNameArr[@]}))
 
 
 # test if the request response was valid
-if [[ $(echo "queryResults" | grep "Bad API Request" -c) == 0 ]]
+if [[ $(echo "$queryResults" | grep "paste" -c) > 0 || $(echo "$queryResults" | grep "No pastes found" -c) == 1 ]]
 then
 
 echo Pastes Found: $totalPastes
