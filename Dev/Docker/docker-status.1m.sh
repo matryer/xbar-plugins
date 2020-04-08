@@ -6,7 +6,7 @@
 # <bitbar.author.github>manojlds</bitbar.author.github>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/191378/12255368/1e671b32-b919-11e5-8166-6d975396f408.png</bitbar.image>
 # <bitbar.desc>Displays the status of docker machines and running containers</bitbar.desc>
-# <bitbar.dependencies>shell,docker,docker-machine</bitbar.dependencies>
+# <bitbar.dependencies>shell,docker</bitbar.dependencies>
 #
 # Docker status plugin
 # by Manoj Mahalingam (@manojlds)
@@ -36,10 +36,15 @@ function containers() {
     done
   fi
 }
-
-DOCKER_MACHINES="$(docker-machine ls -q)"
-DLITE="$(which dlite)"
-DOCKER_NATIVE="$(which docker)"
+if command -v docker-machine; then
+    DOCKER_MACHINES="$(docker-machine ls -q)"
+fi
+if command -v dlite; then
+    DLITE="$(which dlite)"
+fi
+if command -v docker; then
+    DOCKER_NATIVE="$(which docker)"
+fi
 
 if test -z "$DOCKER_MACHINES" && test -z "$DLITE" && test -z "$DOCKER_NATIVE"; then
   echo "No docker machine, dlite or docker native found"
