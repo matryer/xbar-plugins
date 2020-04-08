@@ -2,7 +2,7 @@
 
 #
 # <bitbar.title>Check Pastebin</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Tyllis Xu</bitbar.author>
 # <bitbar.author.github>LivelyCarpet87</bitbar.author.github>
 # <bitbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </bitbar.desc>
