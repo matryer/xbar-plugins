@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
 # <bitbar.title>Docker Status</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Manoj Mahalingam</bitbar.author>
 # <bitbar.author.github>manojlds</bitbar.author.github>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/191378/12255368/1e671b32-b919-11e5-8166-6d975396f408.png</bitbar.image>
 # <bitbar.desc>Displays the status of docker machines and running containers</bitbar.desc>
-# <bitbar.dependencies>shell,docker,docker-machine</bitbar.dependencies>
+# <bitbar.dependencies>shell,docker</bitbar.dependencies>
 #
 # Docker status plugin
 # by Manoj Mahalingam (@manojlds)
@@ -30,16 +30,22 @@ function containers() {
       SYM="├ 💻 "
       if [ "$CONTAINER" = "$LAST_CONTAINER" ]; then SYM="└ 💻 "; fi
       case "$CONTAINER_STATE" in
-        *Up*) echo "$SYM $CONTAINER_NAME | color=green bash=$(which docker) param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
-        *Exited*) echo "$SYM $CONTAINER_NAME | color=red bash=$(which docker) param1=start param2=$CONTAINER_ID terminal=false refresh=true";;
+        *Up*) echo "$SYM $CONTAINER_NAME | color=green bash=\"$(command -v docker)\" param1=stop param2=$CONTAINER_ID terminal=false refresh=true";;
+        *Exited*) echo "$SYM $CONTAINER_NAME | color=red bash=\"$(command -v docker)\" param1=start param2=$CONTAINER_ID terminal=false refresh=true";;
       esac
     done
   fi
 }
 
-DOCKER_MACHINES="$(docker-machine ls -q)"
-DLITE="$(which dlite)"
-DOCKER_NATIVE="$(which docker)"
+if command -v docker-machine > /dev/null; then
+    DOCKER_MACHINES="$(docker-machine ls -q)"
+fi
+if command -v dlite > /dev/null; then
+    DLITE="$(command -v dlite)"
+fi
+if command -v docker > /dev/null; then
+    DOCKER_NATIVE="$(command -v docker)"
+fi
 
 if test -z "$DOCKER_MACHINES" && test -z "$DLITE" && test -z "$DOCKER_NATIVE"; then
   echo "No docker machine, dlite or docker native found"
@@ -47,37 +53,38 @@ if test -z "$DOCKER_MACHINES" && test -z "$DLITE" && test -z "$DOCKER_NATIVE"; t
 fi
 
 if [ -n "$DOCKER_NATIVE" ]; then
-  MACHINE="$(docker -v)"
-  CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
+  MACHINE="$($DOCKER_NATIVE -v)"
+  CONTAINERS="$($DOCKER_NATIVE ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
   if [ -n "$CONTAINERS" ]; then
-    echo "🔵  $MACHINE | bash=$(which docker) param1=stop terminal=false refresh=true"
+    echo "🔵  $MACHINE | bash=\"$DOCKER_NATIVE\" param1=stop terminal=false refresh=true"
     containers
   fi
   exit 0
 fi
 
 if [ -n "$DLITE" ]; then
-  MACHINE="$(dlite ip)"
+  MACHINE="$($DLITE ip)"
   CONTAINERS="$(docker ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}")"
   if [ -z "$CONTAINERS" ]; then
-    echo "🔴  $MACHINE | bash=$(which dlite) param1=start terminal=false refresh=true"
+    echo "🔴  $MACHINE | bash=\"$DLITE\" param1=start terminal=false refresh=true"
   else
-    echo "🔵  $MACHINE | bash=$(which dlite) param1=stop terminal=false refresh=true"
+    echo "🔵  $MACHINE | bash=\"$DLITE\" param1=stop terminal=false refresh=true"
     containers
   fi
   exit 0
 fi
 
 if [ -n "$DOCKER_MACHINES" ]; then
+  DM_EXEC=$(command -v docker-machine)
   echo "${DOCKER_MACHINES}" | while read -r machine; do
-    STATUS=$(docker-machine status "$machine")
+    STATUS=$($DM_EXEC status "$machine")
     if [ "$STATUS" = "Running" ]; then
-      echo "🔵  $machine | bash=$(which docker-machine) param1=stop param2=$machine terminal=false refresh=true"
-      ENV=$(docker-machine env --shell sh "$machine")
+      echo "🔵  $machine | bash=\"$DM_EXEC\" param1=stop param2=$machine terminal=false refresh=true"
+      ENV=$($DM_EXEC env --shell sh "$machine")
       eval "$ENV"
       containers
     else
-      echo "🔴  $machine | bash=$(which docker-machine) param1=start param2=$machine terminal=false refresh=true"
+      echo "🔴  $machine | bash=\"$DM_EXEC\" param1=start param2=$machine terminal=false refresh=true"
     fi
     echo "---"
   done
@@ -87,5 +94,3 @@ if [ -n "$CONTAINERS" ]; then
   echo "Docker VM Containers"
   containers
 fi
-
-
