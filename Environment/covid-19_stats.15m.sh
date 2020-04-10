@@ -62,7 +62,7 @@ N_STATES=500
 # Modifies settings based on TOP_N configuration
 if [[ $TOP_N = "true" ]]; then
     MOD_STATES="$" # Select every line
-    GREP_LIMIT="-m$((2 + $N_STATES))" # Off-by-2 due to header and divider
+    GREP_LIMIT="-m$((2 + N_STATES))" # Off-by-2 due to header and divider
     TOP_CONFIG="Showing the top $N_STATES states"
 else
     MOD_STATES="State\|---" # Select header and divider
@@ -92,7 +92,7 @@ curl -s https://corona.lmao.ninja/countries/USA |
     awk -F'\t' '{ printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n",
         $1, $2, $3, $4, $5 }' |
     # Pretty-prints with colors and spacing and emojis
-    awk -v r=$RED -v y=$YELLOW -v g=$GREEN -v b=$BLUE -v n=$NONE -F'\t' \
+    awk -v "r=$RED" -v "y=$YELLOW" -v "g=$GREEN" -v "b=$BLUE" -v "n=$NONE" -F'\t' \
         '{ printf ("%15s %15s %15s %15s %15s |font=AndaleMono\n",
             n$1, "😷"b$2, g"("$3"▲)", "💀"r$4, y"("$5"▲)") }'
 echo "---"
@@ -102,7 +102,7 @@ echo "---"
 # cases, todayCases, deaths, todayDeaths, recovered, active, critical,
 # casesPerOneMillion, deathsPerOneMillion
 # As the data source updates, it is possible more sort options will be added
-curl -s https://corona.lmao.ninja/states\?sort\=cases |
+curl -s https://corona.lmao.ninja/states\?sort=cases |
     # Manipulates data and exports tab-delimited (tsv)
     jq -r '["State", "Cases", "Cases (today)", "Deaths", "Deaths (today)"],
         ["---"],
@@ -121,7 +121,7 @@ curl -s https://corona.lmao.ninja/states\?sort\=cases |
         { printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n",
             $1, $2, $3, $4, $5 } }' |
     # Pretty-prints with colors and spacing
-    awk -v r=$RED -v y=$YELLOW -v g=$GREEN -v b=$BLUE -v n=$NONE -F'\t' \
+    awk -v "r=$RED" -v "y=$YELLOW" -v "g=$GREEN" -v "b=$BLUE" -v "n=$NONE" -F'\t' \
         '{if ($0 ~ "---" ) { print $0 } else
         { printf "%-30s %20s %30s %20s %30s |font=AndaleMono size=12\n",
             y$1, b$2, g$3"▲", r$4, y$5"▲" }}'
@@ -137,7 +137,7 @@ curl -s https://corona.lmao.ninja/all |
     awk -F'\t' '{ printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n",
         $1, $2, $3, $4, $5 }' |
     # Pretty-prints with colors and spacing
-    awk -v r=$RED -v y=$YELLOW -v g=$GREEN -v b=$BLUE -v n=$NONE -F'\t' \
+    awk -v "r=$RED" -v "y=$YELLOW" -v "g=$GREEN" -v "b=$BLUE" -v "n=$NONE" -F'\t' \
         '{ printf "%-30s %20s %30s %20s %30s |font=AndaleMono size=12\n",
             y$1, b$2, g$3"▲", r$4, y$5"▲"}'
 echo "---"
