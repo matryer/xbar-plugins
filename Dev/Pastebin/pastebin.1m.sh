@@ -101,13 +101,13 @@ echo "-- $(printf "$pasteContent" | tr '\n' '$' |  tr '\r' '$' | sed 's/\$\$/; /
 echo "$pasteContent" > /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt
 
 #display the paste in terminal
-echo "---- Read | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt |less'"
+echo "---- Read :book: | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt |less'"
 
 
 #if a save directory is given, offer to save the paste
 if [[ $saveDir != "" && -d $saveDir ]]
 then
-echo "---- Save | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt > $saveDir/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt' terminal=false"
+echo "---- Save :arrow_down: | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt > $saveDir/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt' terminal=false"
 else
 echo "---- Save Disabled | color=yellow"
 echo "------ Go to config section to enable"
@@ -134,14 +134,14 @@ done
 elif [[ $(curl https://pastebin.com/api/api_post.php --silent --connect-timeout 15 --speed-time 15 --speed-limit 500| grep "Bad API request" -c) == 0  ]]
 then
 
-echo "Disconnected | color=yellow"
+echo ":warning: Disconnected | color=yellow"
 echo "---"
 echo "Refresh Now | refresh=true color=blue"
 
 else
 
-echo "Bad API Request | color=red"
-echo Please check keys for errors
+echo ":warning: Bad API Request | color=red"
+echo :warning: Please check keys for errors
 echo "---"
 echo "Refresh Now | refresh=true color=blue"
 
