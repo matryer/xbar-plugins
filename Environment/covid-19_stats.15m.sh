@@ -16,45 +16,45 @@ LANG=en_US.UTF-8 # needed in BitBar env for awk to format numbers
 export LANG
 
 # ==============================DEPENDENCIES=================================
-# This script requires jq for manipulating JSON data.                        
-# Requires: https://stedolan.github.io/jq/                                   
-# Install via brew:  `brew install jq`                                       
+# This script requires jq for manipulating JSON data.
+# Requires: https://stedolan.github.io/jq/
+# Install via brew:  `brew install jq`
 # ===========================================================================
 
 # ===============================DATA SOURCE=================================
 # This script curls JSON data from the NovelCOVID API, available at:
 # https://corona.lmao.ninja
-# GitHub: https://github.com/novelcovid/api    
-# There are a few other APIs or tools for pulling COVID-19 data, several of 
-# which point back to this one. v1.0 of this script used a node.js-based CLI 
-# to pull data, leading to formatting issues across systems and some 
-# inconsistencies in iTerm/Terminal and in the BitBar output.                               
+# GitHub: https://github.com/novelcovid/api
+# There are a few other APIs or tools for pulling COVID-19 data, several of
+# which point back to this one. v1.0 of this script used a node.js-based CLI
+# to pull data, leading to formatting issues across systems and some
+# inconsistencies in iTerm/Terminal and in the BitBar output.
 # ===========================================================================
 
-                                                                
+
 # ==============================CONFIGURATION================================
-# READ THIS SECTION:                                                         
-# Set these variables to configure the output to your liking.                                                            
-#                                                                            
-# Choose which states you want stats for. Any states you add here will       
-# be shown within the dropdown menu. Be sure to separate each state in       
-# its own parentheses with a space between each string.                      
-# Example:                                                                   
-# STATES=("North Carolina" "New York" "California")                                                   
-STATES=("North Carolina" "New York" "California")                             
+# READ THIS SECTION:
+# Set these variables to configure the output to your liking.
 #
-# ALTERNATIVE TOP STATES MODE: 
-# Instead of choosing states, you can choose to have the top n states ranked 
+# Choose which states you want stats for. Any states you add here will
+# be shown within the dropdown menu. Be sure to separate each state in
+# its own parentheses with a space between each string.
+# Example:
+# STATES=("North Carolina" "New York" "California")
+STATES=("North Carolina" "New York" "California")
+#
+# ALTERNATIVE TOP STATES MODE:
+# Instead of choosing states, you can choose to have the top n states ranked
 # by number of cases, where n is a number you set with the variable N_STATES.
-# Comment/uncomment one of the next two lines to set your preference.        
-TOP_N=true     # Sets the script to show the top states                     
-# TOP_N=false    # Sets the script to show user-selected states              
-#                                                                            
+# Comment/uncomment one of the next two lines to set your preference.
+TOP_N=true     # Sets the script to show the top states
+# TOP_N=false    # Sets the script to show user-selected states
+#
 # Set the number of states you want to see when TOP_N is true. The data
-# source has 57 entries, including Puerto Rice, US Virgin Islands, and the 
-# Diamond Princess cruise. In case the maintainers add more entries, set the 
+# source has 57 entries, including Puerto Rice, US Virgin Islands, and the
+# Diamond Princess cruise. In case the maintainers add more entries, set the
 # number to something much higher (it won't effect performance)
-N_STATES=500                                                                   
+N_STATES=500
 # ===========================================================================
 # ==============================SCRIPT BELOW=================================
 
@@ -70,10 +70,10 @@ else
     TOP_CONFIG="Showing user-selected states"
     for state in "${STATES[@]}"
         # Adds each user-selected state to the grep call
-        do 
+        do
             MOD_STATES="$MOD_STATES\\|$state"
         done
-fi 
+fi
 
 # Setting ANSI colors for output with awk.
 RED='\033[01;31m'
@@ -89,7 +89,7 @@ curl -s https://corona.lmao.ninja/countries/USA |
     # Removes quotes
     sed -E 's/"//g' |
     # Prints numbers with comma as thousands place separators
-    awk -F'\t' '{ printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n", 
+    awk -F'\t' '{ printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n",
         $1, $2, $3, $4, $5 }' |
     # Pretty-prints with colors and spacing and emojis
     awk -v r=$RED -v y=$YELLOW -v g=$GREEN -v b=$BLUE -v n=$NONE -F'\t' \
@@ -99,16 +99,16 @@ echo "---"
 
 # STATES data for the submenu
 # HINT: you can change the sort order to one of the following:
-# cases, todayCases, deaths, todayDeaths, recovered, active, critical, 
+# cases, todayCases, deaths, todayDeaths, recovered, active, critical,
 # casesPerOneMillion, deathsPerOneMillion
 # As the data source updates, it is possible more sort options will be added
 curl -s https://corona.lmao.ninja/states\?sort\=cases |
     # Manipulates data and exports tab-delimited (tsv)
-    jq -r '["State", "Cases", "Cases (today)", "Deaths", "Deaths (today)"], 
+    jq -r '["State", "Cases", "Cases (today)", "Deaths", "Deaths (today)"],
         ["---"],
         (.[] | [.state, .cases, .todayCases, .deaths, .todayDeaths]) | @tsv' |
     # Removes quotes, shortens a few of the longer names
-    sed -E 's/"//g; 
+    sed -E 's/"//g;
         s/District Of Columbia/Washington D.C./;
         s/Northern Mariana Islands/N. Mariana Islands/;
         s/United States Virgin Islands/US Virgin Islands/;
@@ -116,13 +116,13 @@ curl -s https://corona.lmao.ninja/states\?sort\=cases |
     # Grabs specific states/lines or every line, depending on configuration
     grep $GREP_LIMIT "$MOD_STATES" |
     # Prints numbers with comma as thousands place separators
-    awk -F'\t' '{ if ($0 ~ "State") { print $0 } else 
-        if ($0 ~ "---") { print $0 } else 
-        { printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n", 
+    awk -F'\t' '{ if ($0 ~ "State") { print $0 } else
+        if ($0 ~ "---") { print $0 } else
+        { printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n",
             $1, $2, $3, $4, $5 } }' |
     # Pretty-prints with colors and spacing
     awk -v r=$RED -v y=$YELLOW -v g=$GREEN -v b=$BLUE -v n=$NONE -F'\t' \
-        '{if ($0 ~ "---" ) { print $0 } else 
+        '{if ($0 ~ "---" ) { print $0 } else
         { printf "%-30s %20s %30s %20s %30s |font=AndaleMono size=12\n",
             y$1, b$2, g$3"▲", r$4, y$5"▲" }}'
 echo "---"
@@ -134,7 +134,7 @@ curl -s https://corona.lmao.ninja/all |
     # Removes quotes
     sed -E 's/"//g' |
     # Prints numbers with comma as thousands place separators
-    awk -F'\t' '{ printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n", 
+    awk -F'\t' '{ printf "%s\t%\047d\t%\047d\t%\047d\t%\047d\n",
         $1, $2, $3, $4, $5 }' |
     # Pretty-prints with colors and spacing
     awk -v r=$RED -v y=$YELLOW -v g=$GREEN -v b=$BLUE -v n=$NONE -F'\t' \
