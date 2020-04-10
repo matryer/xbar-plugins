@@ -92,7 +92,7 @@ do
 printf '%s\n' "$((i + 1)): ${pasteNameArr[$i]} |href=https://pastebin.com/${pasteKeyArr[$i]}"
 
 #get and display paste content with slight modifications to prevent breaking Bitbar display
-pasteContent="$(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}"  $get_paste_url | sed s+\r+\n+g)"
+pasteContent="$(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}"  $get_paste_url)"
 
 echo "-- $(printf "$pasteContent" | tr '\n' '$' |  tr '\r' '$' | sed 's/\$\$/; /g' | sed 's/;;/; /g')"
 
