@@ -2,7 +2,7 @@
 
 #
 # <bitbar.title>Check Pastebin</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Tyllis Xu</bitbar.author>
 # <bitbar.author.github>LivelyCarpet87</bitbar.author.github>
 # <bitbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </bitbar.desc>
@@ -14,9 +14,19 @@
 
 #Pastebin developer key
 dev_key=""
+
 #Pastebin user key
 usr_key=""
 
+#Save-To Directory
+#Saved pastes will be saved to this directory
+saveDir=""
+
+#Enable Deletion of pastes
+# 0=disabled | 1=enabled
+deleteEnabled=1
+
+#End Configuration
 
 #Constants
 #Pastebin API List Paste URL
@@ -27,19 +37,34 @@ get_paste_url="https://pastebin.com/api/api_raw.php"
 
 #empty pastes arrays
 pasteNameArr=()
-pasteLinkArr=()
+pasteKeyArr=()
+
+#Initialize the temp directory if it does not exist
+if [[ $(ls /tmp | grep pastebinReader -c) == 0 ]]
+then
+mkdir /tmp/pastebinReader
+fi
+
+#clear the temp directory
+rm -f /tmp/pastebinReader/*
+
+
+#get a list of all the pastes
 
 queryResults=$(curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST -d "api_option=list&api_user_key=$usr_key&api_dev_key=$dev_key" $list_paste_url)
+
+#parse the paste titles and keys
 
 titles=$(echo "$queryResults" | grep -E "<paste_title>([^\r]*)" --context=0 | sed s+'<paste_title></paste_title>'+Untitled+g | sed s+\<paste_title\>++g | sed s+'</paste_title>'++g |tr '\r' ' ')
 
 pasteURLs=$(echo "$queryResults" | grep -E "<paste_key>(\S*)</paste_key>" --context=0 | sed s+\<paste_key\>++g | sed s+'</paste_key>'++g |tr '\r' ' ')
+
 SAVEIFS=$IFS
 IFS=$'\n\r'
 #shellcheck disable=SC2206
 pasteNameArr=($titles)
 #shellcheck disable=SC2206
-pasteLinkArr=($pasteURLs)
+pasteKeyArr=($pasteURLs)
 IFS=$SAVEIFS
 
 totalPastes=$((${#pasteNameArr[@]}))
@@ -63,9 +88,46 @@ echo "---"
 i=0
 while [[ $i < $totalPastes ]]
 do
-printf '%s\n' "Paste $((i + 1)): ${pasteNameArr[$i]} |href=https://pastebin.com/${pasteLinkArr[$i]}"
-echo -- "$(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteLinkArr[$i]}"  $get_paste_url)"
+#print paste title
+printf '%s\n' "Paste $((i + 1)): ${pasteNameArr[$i]} |href=https://pastebin.com/${pasteKeyArr[$i]}"
+
+#get and display paste content with slight modifications to prevent breaking Bitbar display
+pasteContent="$(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}"  $get_paste_url | sed s+\r+\n+g)"
+
+echo "-- $(printf "$pasteContent" | tr '\n' '$' |  tr '\r' '$' | sed 's/\$\$/; /g' | sed 's/;;/; /g')"
+
+#save paste contents temporarily until next refresh
+
+echo "$pasteContent" > /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt
+
+#display the paste in terminal
+echo "---- Read | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt |less'"
+
+
+#if a save directory is given, offer to save the paste
+if [[ $saveDir != "" && -d $saveDir ]]
+then
+echo "---- Save | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt > $saveDir/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt' terminal=false"
+else
+echo "---- Save Disabled | color=yellow"
+echo "------ Go to config section to enable"
+fi
+
+#if delete is enabled, give user a choice to delete paste
+
+if [[ $deleteEnabled == 1 ]]
+then
+echo "---- Delete"
+echo "api_option=delete&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}" > /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_')_delete_request.txt
+echo "------ Confirm | color = red bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data @/tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_')_delete_request.txt $list_paste_url' terminal=false"
+else
+echo Delete Disabled
+fi
+
 i=$((i + 1))
+
+
+
 done
 
 # test if it is a connectivity issue
