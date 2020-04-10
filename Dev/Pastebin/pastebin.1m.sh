@@ -4,10 +4,10 @@
 # <bitbar.title>Check Pastebin</bitbar.title>
 # <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Tyllis Xu</bitbar.author>
-# <bitbar.author.github>LivelyCarpet87</bitbar.author.github>
+# <bitbar.author.github>livelycarpet87</bitbar.author.github>
 # <bitbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </bitbar.desc>
 # <bitbar.image>https://i.ibb.co/wJM47wp/pastebin.png</bitbar.image>
-# <bitbar.abouturl></bitbar.abouturl>
+# <bitbar.abouturl>https://github.com/LivelyCarpet87/BitBar-Pastebin#bitbar-pastebin</bitbar.abouturl>
 #
 
 #Requires Configuration Here
