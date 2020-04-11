@@ -9,11 +9,13 @@
 
 #Configuration START
 
+#Fairness is set to three to convince user to read the config. It is the only invalid value
+
 #Fairness
 # 2: extreme realism
 # 1: fair
 # 0: Unfair
-fair=0
+fair=3
 #Probability for favored outcome
 #This does not influence fair flips
 # 50 to 100
