@@ -75,12 +75,12 @@ totalPastes=$((${#pasteNameArr[@]}))
 if [[ $(echo "$queryResults" | grep "paste" -c) > 0 || $(echo "$queryResults" | grep "No pastes found" -c) == 1 ]]
 then
 
-echo Pastes Found: $totalPastes
+echo "Found: $totalPastes"
 
 i=0
 while [[ $i < $totalPastes ]]
 do
-printf '%s\n' "$((i + 1)): ${pasteNameArr[$i]} | length=15 dropdown=false"
+printf '%s\n' "$((i + 1)): ${pasteNameArr[$i]} | length=7 dropdown=false"
 i=$((i + 1))
 done
 
@@ -119,7 +119,7 @@ if [[ $deleteEnabled == 1 ]]
 then
 echo "---- Delete"
 echo "api_option=delete&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}" > /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_')_delete_request.txt
-echo "------ Confirm | color = red bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data @/tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_')_delete_request.txt $list_paste_url' terminal=false"
+echo "------ Confirm | color=#800000 bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data @/tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_')_delete_request.txt $list_paste_url' terminal=false"
 else
 echo Delete Disabled
 fi
@@ -134,13 +134,13 @@ done
 elif [[ $(curl https://pastebin.com/api/api_post.php --silent --connect-timeout 15 --speed-time 15 --speed-limit 500| grep "Bad API request" -c) == 0  ]]
 then
 
-echo ":warning: Disconnected | color=yellow"
+echo ":warning: Disconnected | color=#DAA520"
 echo "---"
 echo "Refresh Now | refresh=true color=blue"
 
 else
 
-echo ":warning: Bad API Request | color=red"
+echo ":warning: Bad API Request | color=#800000"
 echo :warning: Please check keys for errors
 echo "---"
 echo "Refresh Now | refresh=true color=blue"
