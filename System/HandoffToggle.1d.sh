@@ -17,12 +17,12 @@ ICON_ENABLED="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB70lEQVR4AWJwL/ABtF
 ICON_DISABLED="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB9ElEQVR4Ae2Wg69cYRDFa4a1bQe1bdtuVDtYe/eytsK6caPun7b9nfLZ3z7dJCffeM7MZZeNV7e1KgICAYFKSkAgm82Oyufzl3K53B3k2y0J1VRt9aiVgGVZGwuFwq1MJrOfwAMtCdVUbfWolQABW23b3m9q3aqtHrUSIGALqzoo2QRUWz2aRaBUKnXlWk5krTNTqdQ0QbLjOBPkM06AZotY4yFwmaZ5gZwr2A/JZ54AjRKJxFhNS3xfQTK20el0+qBxAvgPc0dPqGrHNk53u3ECNDpWGwH5jBNgzce5Cecx7bK/NvQN3BPjOc0T0Jq1Ac4vuvOJV064bJeAJnv+EBgFvgnFYrFH2Qn8KfgdPSW57ASIOwMuoL8jby6P4fgmEYhEIj1Atz8BW7iZ6izCjbZbNyCxH6X7vj8Y/YfrulPx7a8rV7XVQ/L+/fu7f/jwobuajtBdzHmUQjfBXXCaKc/o/AtiTv2xP+GcXrW4bPhe/I2tCnzKV231OEK/1TxRA5WsLfSD3VgC52BciHP5X5C4gnOlQMwqkh8gT65hvZPxPbcsay111iGv/wvy1qhOMplcgD4bjGJzvZv0R6TrrFdxVbtsmsz4L9mf5345Uw5jouGCZE3I9rYYJ8A6+0Pghud5L2n8GDyULJt8wV9xQKDdEfgJKdr5nu4nT60AAAAASUVORK5CYII=";
 
 function get_handoff_state {
-    state=$(defaults read ${PREF_FILE} ActivityAdvertisingAllowed)
+    state=$(defaults read "${PREF_FILE}" ActivityAdvertisingAllowed)
 }
 
 function toggle_handoff {
-    defaults write ${PREF_FILE} ActivityAdvertisingAllowed $1
-    defaults write ${PREF_FILE} ActivityReceivingAllowed $1
+    defaults write "${PREF_FILE}" ActivityAdvertisingAllowed "$1"
+    defaults write "${PREF_FILE}" ActivityReceivingAllowed "$1"
 }
 
 if [[ "$1" = "enable" ]]; then
