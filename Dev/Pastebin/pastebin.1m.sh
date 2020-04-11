@@ -40,7 +40,7 @@ pasteNameArr=()
 pasteKeyArr=()
 
 #Initialize the temp directory if it does not exist
-if [[ $(ls /tmp | grep pastebinReader -c) == 0 ]]
+if [ ! -d /tmp/pastebinReader ]
 then
 mkdir /tmp/pastebinReader
 fi
@@ -72,7 +72,7 @@ totalPastes=$((${#pasteNameArr[@]}))
 
 
 # test if the request response was valid
-if [[ $(echo "$queryResults" | grep "paste" -c) > 0 || $(echo "$queryResults" | grep "No pastes found" -c) == 1 ]]
+if [[ $(echo "$queryResults" | grep "paste" -c) -gt 0 || $(echo "$queryResults" | grep "No pastes found" -c) == 1 ]]
 then
 
 echo "Found: $totalPastes"
@@ -94,11 +94,16 @@ printf '%s\n' "$((i + 1)): ${pasteNameArr[$i]} |href=https://pastebin.com/${past
 #get and display paste content with slight modifications to prevent breaking Bitbar display
 pasteContent="$(curl --silent -X POST --connect-timeout 15 --speed-time 15 --speed-limit 500 -d "api_option=show_paste&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}"  $get_paste_url)"
 
-echo "-- $(printf "$pasteContent" | tr '\n' '$' |  tr '\r' '$' | sed 's/\$\$/; /g' | sed 's/;;/; /g')"
+echo "-- $(echo "$pasteContent" | tr '\n' '$' |  tr '\r' '$' | sed 's/\$\$/; /g' | sed 's/;;/; /g')"
 
 #save paste contents temporarily until next refresh
 
-echo "$pasteContent" > /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt
+fname=$(echo "${pasteNameArr[$i]}_${pasteKeyArr[$i]}"|tr ' ' '_'|tr '	' '_')
+tempname="/tmp/pastebinReader/${fname}.txt"
+echo "$pasteContent" > "$tempname"
+
+#display the paste in terminal
+echo "---- Read :book: | bash='cat \"$tempname\" |less'"
 
 #display the paste in terminal
 echo "---- Read :book: | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt |less'"
@@ -107,7 +112,7 @@ echo "---- Read :book: | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]
 #if a save directory is given, offer to save the paste
 if [[ $saveDir != "" && -d $saveDir ]]
 then
-echo "---- Save :arrow_down: | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt > $saveDir/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt' terminal=false"
+echo "---- Save :arrow_down: | bash='cat \"$tempname\" > \"$saveDir/${fname}.txt\"' terminal=false"
 else
 echo "---- Save Disabled | color=yellow"
 echo "------ Go to config section to enable"
@@ -118,8 +123,8 @@ fi
 if [[ $deleteEnabled == 1 ]]
 then
 echo "---- Delete"
-echo "api_option=delete&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}" > /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_')_delete_request.txt
-echo "------ Confirm | color=#800000 bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data @/tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_')_delete_request.txt $list_paste_url' terminal=false"
+echo "api_option=delete&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}" > "/tmp/pastebinReader/${fname}_delete_request.txt"
+echo "------ Confirm | color = red bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data \"@/tmp/pastebinReader/${fname}_delete_request.txt\" $list_paste_url' terminal=false"
 else
 echo Delete Disabled
 fi
