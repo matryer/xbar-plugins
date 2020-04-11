@@ -105,9 +105,6 @@ echo "$pasteContent" > "$tempname"
 #display the paste in terminal
 echo "---- Read :book: | bash='cat \"$tempname\" |less'"
 
-#display the paste in terminal
-echo "---- Read :book: | bash='cat /tmp/pastebinReader/$(echo ${pasteNameArr[$i]}_${pasteKeyArr[$i]}|tr ' ' '_'|tr '	' '_').txt |less'"
-
 
 #if a save directory is given, offer to save the paste
 if [[ $saveDir != "" && -d $saveDir ]]
