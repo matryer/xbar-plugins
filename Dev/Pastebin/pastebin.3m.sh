@@ -98,18 +98,18 @@ echo "-- $(echo "$pasteContent" | tr '\n' '$' |  tr '\r' '$' | sed 's/\$\$/; /g'
 
 #save paste contents temporarily until next refresh
 
-fname=$(echo "${pasteNameArr[$i]}_${pasteKeyArr[$i]}"|tr ' ' '_'|tr '	' '_')
+fname=$(echo "${pasteNameArr[$i]}_${pasteKeyArr[$i]}"| tr ' ' '_'| tr '' '_'| tr '#' 'H'|tr '$' 'S'| tr '&' '+'| tr -d '>'| tr -d '<'| tr -d '[' | tr -d ']'| tr -d '(' | tr -d ')' | tr -d '`' | tr -d '"' | tr -d '\''| tr -d '\' | tr -d '|' | tr -d ';' |tr -d '*' | tr -d '?'| tr -d '~' | tr -d '/')
 tempname="/tmp/pastebinReader/${fname}.txt"
 echo "$pasteContent" > "$tempname"
 
 #display the paste in terminal
-echo "---- Read :book: | bash='cat \"$tempname\" |less'"
-
+#quotes around tempname has been removed. Bitbar seems to fail to parse the rest of the command when there are quotes. This should be fine as the spaces and tabs have been replaced with underscores in tempname variable. 
+echo "---- Read :book: | bash='cat $tempname |less'"
 
 #if a save directory is given, offer to save the paste
 if [[ $saveDir != "" && -d $saveDir ]]
 then
-echo "---- Save :arrow_down: | bash='cat \"$tempname\" > \"$saveDir/${fname}.txt\"' terminal=false"
+echo "---- Save :arrow_down: | bash='cat $tempname > $saveDir/${fname}.txt' terminal=false"
 else
 echo "---- Save Disabled | color=yellow"
 echo "------ Go to config section to enable"
@@ -121,7 +121,7 @@ if [[ $deleteEnabled == 1 ]]
 then
 echo "---- Delete"
 echo "api_option=delete&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}" > "/tmp/pastebinReader/${fname}_delete_request.txt"
-echo "------ Confirm | color = red bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data \"@/tmp/pastebinReader/${fname}_delete_request.txt\" $list_paste_url' terminal=false"
+echo "------ Confirm | color = red bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data @/tmp/pastebinReader/${fname}_delete_request.txt $list_paste_url' terminal=false"
 else
 echo Delete Disabled
 fi
