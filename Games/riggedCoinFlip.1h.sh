@@ -5,17 +5,15 @@
 # <bitbar.author>Tyllis Xu</bitbar.author>
 # <bitbar.author.github>livelycarpet87</bitbar.author.github>
 # <bitbar.image>https://i.ibb.co/YjYbHms/Rigged-Coin-Flip.png</bitbar.image>
-# <bitbar.desc>A elaborately rigged coin flip. It can be set to varying degrees of unfairness and results (and its fairness) can be modified by the option key. </bitbar.desc>
+# <bitbar.desc>An elaborately rigged coin flip. It can be set to varying degrees of unfairness and results (and its fairness) can be modified by the option key and in its configuration. </bitbar.desc>
 
 #Configuration START
-
-#Fairness is set to three to convince user to read the config. It is the only invalid value
 
 #Fairness
 # 2: extreme realism
 # 1: fair
 # 0: Unfair
-fair=3
+fair=0
 #Probability for favored outcome
 #This does not influence fair flips
 # 50 to 100
@@ -27,7 +25,7 @@ favored=T
 # 1: Reverse Favored Outcome
 # 2: Reverse Fairness
 # 3: Print Config (NOT RECOMMENDED)
-opt=1
+opt=2
 
 #Configuration END
 
@@ -37,33 +35,33 @@ fairFlip(){
   let "i=$RANDOM % 100 + 1"
   if [[ $i -le 50 ]]
   then
-    printf "H"
+    echo "H"
   else
-    printf "T"
+    echo "T"
   fi
 }
 unfairFlip(){
   let "i=$RANDOM % 100 + 1"
   if [[ $i -le $prob ]]
   then
-    printf "$favored"
+    echo "$favored"
   elif [[ $i -le 100 ]]
  then
-    printf "$favored"
+    echo "$favored"
   else
-    printf "Invalid Configuration!"
+    echo "Invalid Configuration!"
   fi
 }
 realFlip(){
   let "i=$RANDOM % 6000 + 1"
   if [[ $i == 1 ]]
   then
-    printf "The coin lands on its side and is perfectly still..."
+    echo "The coin lands on its side and is perfectly still..."
   elif [[ $i -le 2940 ]] 
   then
-    printf "$unfavored"
+    echo "$unfavored"
   else
-    printf "$favored"
+    echo "$favored"
   fi
 }
 
@@ -73,12 +71,12 @@ then
   let "i=$RANDOM % 100 + 1"
   if [[ $i -le $prob ]]
   then
-    printf "$unfavored"
+    echo "$unfavored"
   elif [[ $i -le 100 ]]
  then
-    printf "$favored"
+    echo "$favored"
   else
-    printf "Invalid Configuration!"
+    echo "Invalid Configuration!"
   fi
 elif [[ $opt == 2 ]]
 then
@@ -89,13 +87,13 @@ then
   then
     fairFlip
   else
-    printf "Invalid Configuration!"
+    echo "Invalid Configuration!"
   fi
 elif [[ $opt == 3 ]]
 then
-  printf "Fairness is $fair. Probability of favored outcome is $prob. Favored outcome is $favored. Option key setting is NO. $opt. Enjoy. "
+  echo "Fairness is $fair. Probability of favored outcome is $prob. Favored outcome is $favored. Option key setting is NO. $opt. Enjoy. "
 else
-    printf "Invalid Configuration!"
+    echo "Invalid Configuration!"
 fi
 }
 
