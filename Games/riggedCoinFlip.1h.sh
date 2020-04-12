@@ -5,7 +5,7 @@
 # <bitbar.author>Tyllis Xu</bitbar.author>
 # <bitbar.author.github>livelycarpet87</bitbar.author.github>
 # <bitbar.image>https://i.ibb.co/YjYbHms/Rigged-Coin-Flip.png</bitbar.image>
-# <bitbar.desc>An elaborately rigged coin flip. It can be set to varying degrees of unfairness and results (and its fairness) can be modified by the option key and in its configuration. </bitbar.desc>
+# <bitbar.desc>A elaborately rigged coin flip. It can be set to varying degrees of unfairness and results (and its fairness) can be modified by the option key. </bitbar.desc>
 
 #Configuration START
 
@@ -32,7 +32,7 @@ opt=2
 #Start Functions
 
 fairFlip(){
-  let "i=$RANDOM % 100 + 1"
+  ((i=$RANDOM % 100 + 1))
   if [[ $i -le 50 ]]
   then
     echo "H"
@@ -41,7 +41,7 @@ fairFlip(){
   fi
 }
 unfairFlip(){
-  let "i=$RANDOM % 100 + 1"
+  ((i=$RANDOM % 100 + 1))
   if [[ $i -le $prob ]]
   then
     echo "$favored"
@@ -53,7 +53,7 @@ unfairFlip(){
   fi
 }
 realFlip(){
-  let "i=$RANDOM % 6000 + 1"
+  ((i=$RANDOM % 6000 + 1))
   if [[ $i == 1 ]]
   then
     echo "The coin lands on its side and is perfectly still..."
@@ -68,7 +68,7 @@ realFlip(){
 alternative(){
 if [[ $opt == 1 ]]
 then
-  let "i=$RANDOM % 100 + 1"
+  ((i=$RANDOM % 100 + 1))
   if [[ $i -le $prob ]]
   then
     echo "$unfavored"
