@@ -103,7 +103,7 @@ tempname="/tmp/pastebinReader/${fname}.txt"
 echo "$pasteContent" > "$tempname"
 
 #display the paste in terminal
-#quotes around tempname has been removed. Bitbar seems to fail to parse the rest of the command when there are quotes. This should be fine as the spaces and tabs have been replaced with underscores in tempname variable. 
+#quotes around tempname has been removed. Bitbar seems to fail to parse the rest of the command when there are quotes. This should be fine as the spaces and tabs have been replaced with underscores in tempname variable.
 echo "---- Read :book: | bash='cat $tempname |less'"
 
 #if a save directory is given, offer to save the paste
@@ -121,7 +121,7 @@ if [[ $deleteEnabled == 1 ]]
 then
 echo "---- Delete"
 echo "api_option=delete&api_user_key=$usr_key&api_dev_key=$dev_key&api_paste_key=${pasteKeyArr[$i]}" > "/tmp/pastebinReader/${fname}_delete_request.txt"
-echo "------ Confirm | color = red bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data @/tmp/pastebinReader/${fname}_delete_request.txt $list_paste_url' terminal=false"
+echo "------ Confirm | color = red bash='curl --silent --connect-timeout 15 --speed-time 15 --speed-limit 500  -X POST --data @/tmp/pastebinReader/${fname}_delete_request.txt $list_paste_url' terminal=true"
 else
 echo Delete Disabled
 fi
