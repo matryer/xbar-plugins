@@ -32,7 +32,7 @@ opt=2
 #Start Functions
 
 fairFlip(){
-  ((i=$RANDOM % 100 + 1))
+  ((i=RANDOM % 100 + 1))
   if [[ $i -le 50 ]]
   then
     echo "H"
@@ -41,7 +41,7 @@ fairFlip(){
   fi
 }
 unfairFlip(){
-  ((i=$RANDOM % 100 + 1))
+  ((i=RANDOM % 100 + 1))
   if [[ $i -le $prob ]]
   then
     echo "$favored"
@@ -53,11 +53,11 @@ unfairFlip(){
   fi
 }
 realFlip(){
-  ((i=$RANDOM % 6000 + 1))
+  ((i=RANDOM % 6000 + 1))
   if [[ $i == 1 ]]
   then
     echo "The coin lands on its side and is perfectly still..."
-  elif [[ $i -le 2940 ]] 
+  elif [[ $i -le 2940 ]]
   then
     echo "$unfavored"
   else
@@ -68,7 +68,7 @@ realFlip(){
 alternative(){
 if [[ $opt == 1 ]]
 then
-  ((i=$RANDOM % 100 + 1))
+  ((i=RANDOM % 100 + 1))
   if [[ $i -le $prob ]]
   then
     echo "$unfavored"
@@ -133,4 +133,4 @@ else
   echo "Invalid Configuration!"
 fi
 
-echo "Flip another coin. | refresh=true" 
+echo "Flip another coin. | refresh=true"
