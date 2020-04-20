@@ -165,7 +165,7 @@ with_fresh_token do |token|
       position_data = get("/api/pet/#{id}/position", token: token, cache: false).fetch("data")
 
       is_inside = (position_data.fetch("where") == 1)
-      since = Time.parse(position_data.fetch("since"))
+      since = Time.parse(position_data.fetch("since")).localtime  # Convert from UTC to local time.
 
       [ name, [ id, is_inside, since ] ]
     }.compact.to_h
