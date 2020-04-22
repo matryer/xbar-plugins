@@ -9,7 +9,7 @@
 // The menu bar shows a count of MRs requiring your approval (🔎), WIP MRs (🛠️), Un-mergable MRs (⛔), MRs with failed pipelines (⚠️), MRs with unresolved discussions (🚧), MRs with running pipeline (🚀), MRs pending approval (💬) and Approved/Ready to Merge (❇️).
 // Each MR in the dropdown is grouped by project and displays `<Unmergable> "Title"; "Pipeline Status" : "Approval Status"`, clicking on an MR opens it in the browser</bitbar.desc>
 // <bitbar.dependencies>node.js</bitbar.dependencies>
-// <bitbar.image>https://imgur.com/a/phTMLsc</bitbar.image>
+// <bitbar.image>https://i.imgur.com/t0TtQXO.png</bitbar.image>
 
 /**
  * Information
