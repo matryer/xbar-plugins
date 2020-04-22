@@ -30,7 +30,7 @@ consumer_key = 'dj0yJmk9RlJhbUVpUEpsSUxEJmQ9WVdrOVpqYzNObEZSTXpJbWNHbzlNQS0tJnM9
 consumer_secret = '75c592717d22c5cce623d2c2a1d5a5b36786d865'
 
 # Query and authentication related
-query = {'location': f'seoul,korea', 'format': 'json', 'u': unit}
+query = {'location': 'seoul,korea', 'format': 'json', 'u': unit}
 oauth = {
     'oauth_consumer_key': consumer_key,
     'oauth_nonce': uuid.uuid4().hex,
