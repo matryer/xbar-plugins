@@ -98,7 +98,7 @@ echo "-- $(echo "$pasteContent" | tr '\n' '$' |  tr '\r' '$' | sed 's/\$\$/; /g'
 
 #save paste contents temporarily until next refresh
 
-fname=$(echo "${pasteNameArr[$i]}_${pasteKeyArr[$i]}"| tr ' ' '_'| tr '' '_'| tr '#' 'H'|tr '$' 'S'| tr '&' '+'| tr -d '>'| tr -d '<'| tr -d '[' | tr -d ']'| tr -d '(' | tr -d ')' | tr -d '`' | tr -d '"' | tr -d \'| tr -d '\' | tr -d '|' | tr -d ';' |tr -d '*' | tr -d '?'| tr -d '~' | tr -d '/')
+fname=$(echo "${pasteNameArr[$i]}_${pasteKeyArr[$i]}"| tr ' ' '_'| tr '' '_'| tr '#' 'H'|tr '$' 'S'| tr '&' '+'| tr -d '>'| tr -d '<'| tr -d '[' | tr -d ']'| tr -d '(' | tr -d ')' | tr -d '`' | tr -d '"' | tr -d \'| tr -d \\ | tr -d '|' | tr -d ';' |tr -d '*' | tr -d '?'| tr -d '~' | tr -d '/')
 tempname="/tmp/pastebinReader/${fname}.txt"
 echo "$pasteContent" > "$tempname"
 
