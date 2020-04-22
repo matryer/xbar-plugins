@@ -7,7 +7,7 @@
 # <bitbar.author>Long Do</bitbar.author>
 # <bitbar.author.github>longpdo</bitbar.author.github>
 # <bitbar.desc>Shows YouTube subscribers, Facebook likes, Instagram and Twitter followers.</bitbar.desc>
-# <bitbar.image>https://github.com/longpdo/bitbar-plugins-custom/blob/master/img/social_media_stats.png?raw=true</bitbar.image>
+# <bitbar.image>https://github.com/longpdo/bitbar-plugins-custom/raw/master/images/social_media_stats.png</bitbar.image>
 # <bitbar.dependencies>python3,beautifulsoup4,requests</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/longpdo/bitbar-plugins-custom</bitbar.abouturl>
 #
