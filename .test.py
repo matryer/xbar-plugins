@@ -98,6 +98,9 @@ class Language(object):
 
 
 class Python2(Language):
+    def __init__(self):
+        super().__init__(['.py', '.py2'], r'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes'])
+
     def lint(self, file, pr):
         if pr:
             raise subprocess.CalledProcessError(
@@ -106,9 +109,25 @@ class Python2(Language):
         else:
             return super(Python2, self).lint(file, pr)
 
+
+class Rscript(Language):
+    def __init__(self):
+        super().__init__(['.r', '.R'], '(r|R)script$', ['Rscript'])
+
+    def lint(self, file, pr):
+        if not self.enabled:
+            return None
+        result = subprocess.check_output([
+            'Rscript',
+            '-e',
+            'library(lintr); l=lint("%s", with_defaults(line_length_linter = NULL));l; quit(status=if (length(l) > 0) { 1 } else { 0 })' % file
+        ], stderr=subprocess.STDOUT)
+        return result
+
+
 Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117,SC2164,SC2183,SC2196,SC2197,SC2206,SC2207,SC2215,SC2219,SC2230,SC2236']))
-Language.registerLanguage(Python2(['.py', '.py2'], 'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.py', '.py3'], 'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
+Language.registerLanguage(Python2())
+Language.registerLanguage(Language(['.py', '.py3'], r'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
 Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RedundantStringCoercion,Lint/BigDecimalNew']))
 Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
 Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
@@ -119,6 +138,7 @@ Language.registerLanguage(Language(['.rkt'], 'racket$', ['raco', 'make']))
 # go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
 Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
 Language.registerLanguage(Language(['.lua'], 'lua$', ['luacheck']))
+Language.registerLanguage(Rscript())
 
 
 def check_file(file_full_path, pr=False):

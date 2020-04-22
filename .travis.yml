@@ -1,4 +1,4 @@
-language: objective-c
+os: osx
 osx_image: xcode11.2
 
 
@@ -12,6 +12,7 @@ addons:
             - cpanminus
             - clisp
             - golang
+            - r
         casks:
             - racket
 
@@ -29,7 +30,9 @@ install:
   - npm install -g jshint
   - sudo cpanm Mozilla::CA
   - go get -u golang.org/x/lint/golint
-  - raco pkg install --deps search-auto rackjure
   - export PATH="$PATH:${GOROOT:-$HOME/go}/bin"
+  - raco pkg install --deps search-auto rackjure
+  - Rscript -e 'install.packages("lintr", repos="http://cran.rstudio.com/")'
+
 
 script: ./.test.py
