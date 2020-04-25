@@ -161,21 +161,21 @@ do
 done
 
 # Show Today
-if [ -z "$yesterday_diff" ] ; then
+if [ -z "$r_yesterday_diff" ] ; then
     echo "🌝" There isn\'t reviews data for yesterday
 else 
     [ $r_yesterday_diff -ne 0 ] && echo "🌝" $r_yesterday_diff new reviews today! || echo "🌝" No new reviews today
 fi
 
 # Show This week
-if [ -z "$last_week_diff" ] ; then
+if [ -z "$r_last_week_diff" ] ; then
     echo "🌓" There isn\'t reviews data for last week
 else 
     [ $r_last_week_diff -ne 0 ] && echo "🌓" $r_last_week_diff new reviews this week! || echo "🌓" No new reviews this week
 fi
 
 # Show This month
-if [ -z "$last_month_diff" ] ; then
+if [ -z "$r_last_month_diff" ] ; then
     echo "🌑" There isn\'t reviews data for last month
 else 
     [ $r_last_month_diff -ne 0 ] && echo "🌑" $r_last_month_diff new reviews this month! || echo "🌑" No new reviews this month
