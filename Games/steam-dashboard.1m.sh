@@ -18,7 +18,7 @@ CACHE_FOLDER="/Users/naezith/Documents/BitBar/naezith_cache" # Previous days wil
 PATH=/usr/local/bin:${PATH}
 export PATH
 
-# Unicode support
+# Unicode support 
 LANG=en_US.UTF-8 
 export LANG
 
@@ -41,9 +41,9 @@ logs=$CACHE_FOLDER
 
 # Fetch store page
 store_info=$(curl -s https://store.steampowered.com/api/appdetails\?json=1\&appids=$APP_ID | jq ".[\"$APP_ID\"].data")
-game_name=$(echo $store_info | jq '.name' | sed 's/\"//g')
-website=$(echo $store_info | jq '.website' | sed 's/\"//g')
-header_image_url=$(echo $store_info | jq '.header_image' | cut -d "\"" -f2)
+game_name=$(echo "$store_info" | jq '.name' | sed 's/\"//g')
+website=$(echo "$store_info" | jq '.website' | sed 's/\"//g')
+header_image_url=$(echo "$store_info" | jq '.header_image' | cut -d "\"" -f2)
 picture=$(curl -s "$header_image_url" | openssl base64 -A)
 
 # Fetch online count
@@ -51,15 +51,15 @@ online_count=$(curl -s https://api.steampowered.com/ISteamUserStats/GetNumberOfC
 
 # Fetch all reviews, Steam and Key activations for texts
 review_info_all=$(curl -s https://store.steampowered.com/appreviews/$APP_ID\?json=1\&start_offset=0\&day_range=9223372036854775807\&language=all\&filter=recent\&num_per_page=100\&purchase_type=all\&review_type=all)
-reviews=$(echo $review_info_all | jq '.reviews')
+reviews=$(echo "$review_info_all" | jq '.reviews')
 
 # Fetch only Steam purchases for stats
 review_info=$(curl -s https://store.steampowered.com/appreviews/$APP_ID\?json=1\&start_offset=0\&day_range=9223372036854775807\&language=all\&filter=recent\&num_per_page=20\&purchase_type=$REVIEW_STATS\&review_type=all)
-query_summary=$(echo $review_info | jq '.query_summary')
-review_score_desc=$(echo $query_summary | jq '.review_score_desc')
-total_positive=$(echo $query_summary | jq '.total_positive')
-total_negative=$(echo $query_summary | jq '.total_negative')
-total_reviews=$(echo $query_summary | jq '.total_reviews')
+query_summary=$(echo "$review_info" | jq '.query_summary')
+review_score_desc=$(echo "$query_summary" | jq '.review_score_desc')
+total_positive=$(echo "$query_summary" | jq '.total_positive')
+total_negative=$(echo "$query_summary" | jq '.total_negative')
+total_reviews=$(echo "$query_summary" | jq '.total_reviews')
 
 # Prepare dates
 today=$(date +%F)
@@ -71,26 +71,26 @@ last_week_file=$logs/$last_week
 last_month_file=$logs/$last_month
 
 # Save today's data
-echo $total_reviews $total_positive $total_negative > $logs/$today
+echo "$total_reviews" "$total_positive" "$total_negative" > $logs/"$today"
 
 # Function: Get review count from file
 get_review_count () { 
-    echo $(cat $1 | cut -d ' ' -f1)
+    cut -d ' ' -f1 < "$1"
 }
 
 # Function Get review count difference from file
 get_review_diff () { 
-    pl=$(get_review_count $1)
+    pl=$(get_review_count "$1")
     echo "$total_reviews-$pl" | bc
 }
 
 # Get differences
-[ -r "$yesterday_file" ] && r_yesterday_diff=$(get_review_diff $yesterday_file) || r_yesterday_diff=0 # Shows at taskbar so set it to zero if there is no data
-[ -r "$last_week_file" ] && r_last_week_diff=$(get_review_diff $last_week_file)
-[ -r "$last_month_file" ] && r_last_month_diff=$(get_review_diff $last_month_file)
+[ -r "$yesterday_file" ] && r_yesterday_diff=$(get_review_diff "$yesterday_file") || r_yesterday_diff=0 # Shows at taskbar so set it to zero if there is no data
+[ -r "$last_week_file" ] && r_last_week_diff=$(get_review_diff "$last_week_file")
+[ -r "$last_month_file" ] && r_last_month_diff=$(get_review_diff "$last_month_file")
 
 # Menu bar
-echo $online_count $r_yesterday_diff | awk -v "bl=$BLACK" -v "w=$WHITE" -v "y=$YELLOW" -v "b=$BLUE" -v "c=$CYAN" -v "g=$GREEN" -v "m=$MAGENTA" -v "n=$NONE" '{printf g"🟢"$1 bl"⁃⁃" m"✍🏻"$2n}'
+echo "$online_count" $r_yesterday_diff | awk -v "bl=$BLACK" -v "w=$WHITE" -v "y=$YELLOW" -v "b=$BLUE" -v "c=$CYAN" -v "g=$GREEN" -v "m=$MAGENTA" -v "n=$NONE" '{printf g"🟢"$1 bl"⁃⁃" m"✍🏻"$2n}'
     
         
 # Dropdown Menu
@@ -103,22 +103,22 @@ echo "${game_name} | href=$website"
 echo "---"
 
 # Player info
-[ $online_count -ne 0 ] && echo "🟢" $online_count players are currently online! || echo "🟢" There isn\'t any online player 
+[ "$online_count" -ne 0 ] && echo "🟢" "$online_count" players are currently online! || echo "🟢" There isn\'t any online player 
 
 # Seperator
 echo "---"
 
 # Review Stats
 reviews_url="| href=https://store.steampowered.com/app/$APP_ID/#app_reviews_hash" 
-review_perc=$(awk -v a=$total_positive -v b=$total_reviews 'BEGIN{printf("%.2f\n",100*a/b)}')
-echo "✍🏻" $review_perc%, ${review_score_desc//\"/} $total_reviews reviews $reviews_url
-echo "👍🏻" $total_positive positive and "👎🏻" $total_negative negative $reviews_url
+review_perc=$(awk -v a="$total_positive" -v b="$total_reviews" 'BEGIN{printf("%.2f\n",100*a/b)}')
+echo "✍🏻" "$review_perc"%, "${review_score_desc//\"/}" "$total_reviews" reviews "$reviews_url"
+echo "👍🏻" "$total_positive" positive and "👎🏻" "$total_negative" negative "$reviews_url"
 
 # Recent reviews
 for review in $(echo "${reviews}" | jq -r '.[] | @base64')
 do
     _jq() { 
-        echo ${review} | base64 --decode | jq -r ${1}
+        echo "${review}" | base64 --decode | jq -r "${1}"
     }
 
     # Print reviews
@@ -148,15 +148,15 @@ do
     fi
 
     # Other values
-    t_date=$(date -r $timestamp_created | cut -d ' ' -f-4 | cut -d ":" -f-2)
-    t_play_time=$(printf 'Playtime: %dh %dm\n' $(($mins/60)) $(($mins%60)))
-    t_l2w=$(printf 'Last two weeks: %dh %dm\n' $(($mins_l2w/60)) $(($mins_l2w%60)))
-    t_lang=$(tr '[:lower:]' '[:upper:]' <<< ${language:0:1})${language:1}
+    t_date=$(date -r "$timestamp_created" | cut -d ' ' -f-4 | cut -d ":" -f-2)
+    t_play_time=$(printf 'Playtime: %dh %dm\n' $((mins/60)) $((mins%60)))
+    t_l2w=$(printf 'Last two weeks: %dh %dm\n' $((mins_l2w/60)) $((mins_l2w%60)))
+    t_lang=$(tr '[:lower:]' '[:upper:]' <<< "${language:0:1}")${language:1}
     t_href=" | href=https://steamcommunity.com/profiles/$(_jq '.author.steamid')/recommended/$APP_ID/"
 
     
     printf "%-2s %-20s ${c_date}%-40s${NONE} ${c_activation}%-40s${NONE} ${MAGENTA}%-40s${NONE} ${BLUE}%-50s${NONE} ${WHITE}%s${NONE} %s\n" '--' "$t_vote" "$t_date" "$t_activation" "$t_play_time" "$t_l2w" "$t_lang" "$t_href"
-    echo --$(_jq '.review')
+    echo --"$(_jq '.review')"
     echo --"---"
 done
 
@@ -171,14 +171,14 @@ fi
 if [ -z "$r_last_week_diff" ] ; then
     echo "🌓" There isn\'t reviews data for last week
 else 
-    [ $r_last_week_diff -ne 0 ] && echo "🌓" $r_last_week_diff new reviews this week! || echo "🌓" No new reviews this week
+    [ "$r_last_week_diff" -ne 0 ] && echo "🌓" "$r_last_week_diff" new reviews this week! || echo "🌓" No new reviews this week
 fi
 
 # Show This month
 if [ -z "$r_last_month_diff" ] ; then
     echo "🌑" There isn\'t reviews data for last month
 else 
-    [ $r_last_month_diff -ne 0 ] && echo "🌑" $r_last_month_diff new reviews this month! || echo "🌑" No new reviews this month
+    [ "$r_last_month_diff" -ne 0 ] && echo "🌑" "$r_last_month_diff" new reviews this month! || echo "🌑" No new reviews this month
 fi
 
 # Seperator
