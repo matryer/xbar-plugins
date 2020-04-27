@@ -153,12 +153,14 @@ do
     t_l2w=$(printf 'Last two weeks: %dh %dm\n' $((mins_l2w/60)) $((mins_l2w%60)))
     t_lang=$(tr '[:lower:]' '[:upper:]' <<< "${language:0:1}")${language:1}
     t_href=" | href=https://steamcommunity.com/profiles/$(_jq '.author.steamid')/recommended/$APP_ID/"
-
+    t_review=$(_jq '.review' | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g')
     
     printf "%-2s %-20s ${c_date}%-40s${NONE} ${c_activation}%-40s${NONE} ${MAGENTA}%-40s${NONE} ${BLUE}%-50s${NONE} ${WHITE}%s${NONE} %s\n" '--' "$t_vote" "$t_date" "$t_activation" "$t_play_time" "$t_l2w" "$t_lang" "$t_href"
-    echo --"$(_jq '.review')"
+    printf "%-2s %s\n" '--' "$t_review"
     echo --"---"
 done
+
+echo "---"
 
 # Show Today
 if [ -z "$r_yesterday_diff" ] ; then
