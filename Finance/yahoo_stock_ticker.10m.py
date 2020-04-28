@@ -1,10 +1,10 @@
 #!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
 #
 # <bitbar.title>Yahoo Stock Ticker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Long Do</bitbar.author>
 # <bitbar.author.github>longpdo</bitbar.author.github>
-# <bitbar.desc>Shows major stock indices in the menu bar and stock symbols in the dropdown menu. You can also set price alarms for BUY/SELL limits, which will notify you when the limit is reached.</bitbar.desc>
+# <bitbar.desc>Shows major stock indices in the menu bar and stock symbols in the dropdown menu by pulling data from the Yahoo Finance API. Similar to finance.yahoo.com the prices are delayed, but no API key is necessary. You can also set price alarms for BUY/SELL limits, which will notify you when the limit is reached.</bitbar.desc>
 # <bitbar.image>https://github.com/longpdo/bitbar-plugins-custom/raw/master/images/yahoo-stock-ticker.png</bitbar.image>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/longpdo/bitbar-plugins-custom/blob/master/README.md#yahoo-stock-ticker</bitbar.abouturl>
@@ -21,6 +21,14 @@ import subprocess
 # ---------------------------------------------------------------------------------------------------------------------
 # Enter your stock symbols here in the format: ["symbol1", "symbol2", ...]
 symbols = ["FB", "AAPL", "AMZN", "NFLX", "GOOG", "BIDU", "BABA", "TCEHY"]
+
+# Enter the order how you want to sort the stock list:
+# 'name'                     : Sort alphabetically by name from A to Z
+# 'market_change_winners'    : Sort by value from top winners to losers
+# 'market_change_losers'     : Sort by value from top losers to winners
+# 'market_change_volatility' : Sort by absolute value from top to bottom
+# '' or other values         : Sort by your custom order from the symbols array above
+sort_by = 'market_change_winners'
 # ---------------------------------------------------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -39,6 +47,7 @@ GREEN = '\033[32m'
 RED = '\033[31m'
 RESET = '\033[0m'
 FONT = "| font='Menlo'"
+# ---------------------------------------------------------------------------------------------------------------------
 
 
 # macOS Alerts, Prompts and Notifications -----------------------------------------------------------------------------
@@ -194,8 +203,8 @@ def print_index(index, name):
 
     # Setting color and emojis depending on the market state and the market change
     if market_state != 'REGULAR':
-        # Set change to 0.00% with a moon emoji for closed markets
-        colored_change = '🌛(0.00%)'
+        # Set change with a moon emoji for closed markets
+        colored_change = '🌛' + '(' + '{:.2f}'.format(change) + '%) '
     if market_state == 'REGULAR':
         # Set color for positive and negative values
         color = ''
@@ -217,9 +226,9 @@ def print_stock(s):
 
     # Setting color and emojis depending on the market state and the market change
     if market_state != 'REGULAR':
-        # Set change to 0.00% with a moon emoji for closed markets
         market = 'CLOSED'
-        colored_change = '🌛(0.00%)'
+        # Set change with a moon emoji for closed markets
+        colored_change = '🌛' + '(' + '{:.2f}'.format(change) + '%) '
     if market_state == 'REGULAR':
         # Set color for positive and negative values
         color = ''
@@ -291,6 +300,8 @@ if __name__ == '__main__':
 
     # Normal execution by BitBar without any parameters
     if len(sys.argv) == 1:
+        stocks = []
+
         # Check if hidden .db file exists
         try:
             price_limit_list = read_data_file(data_file)
@@ -303,12 +314,25 @@ if __name__ == '__main__':
             index = get_stock_data(symbol)
             print_index(index, name)
 
+        # For each symbol: curl the data, check against the .db file for limits
+        for symbol in symbols:
+            stock = get_stock_data(symbol)
+            stocks.append(stock)
+            check_price_limits(symbol, stock['regularMarketPrice'], price_limit_list, data_file)
+
+        # Set order of stocks
+        if sort_by == 'name':
+            stocks = sorted(stocks, key=lambda k: k['shortName'])
+        if sort_by == 'market_change_winners':
+            stocks = sorted(stocks, key=lambda k: k['regularMarketChangePercent'], reverse=True)
+        if sort_by == 'market_change_losers':
+            stocks = sorted(stocks, key=lambda k: k['regularMarketChangePercent'])
+        if sort_by == 'market_change_volatility':
+            stocks = sorted(stocks, key=lambda k: abs(k['regularMarketChangePercent']), reverse=True)
+
         # Print the stock information inside the dropdown menu
         print('---')
-        for symbol in symbols:
-            # For each symbol: curl the data, check against the .db file for limits, then print it
-            stock = get_stock_data(symbol)
-            check_price_limits(symbol, stock['regularMarketPrice'], price_limit_list, data_file)
+        for stock in stocks:
             print_stock(stock)
 
         # Print the price limit section inside the dropdown
