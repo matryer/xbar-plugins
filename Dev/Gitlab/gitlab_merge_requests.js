@@ -246,9 +246,9 @@ async function getMRs() {
       excludedEvents.push(`${project_id}_${source_branch}`);
 
       const isReviewer =
-        author.id !== userId &&
-        assignee.id !== userId &&
-        !assignees.find(({ id }) => id === userId);
+        (!author || author.id !== userId) &&
+        (!assignee || assignee.id !== userId) &&
+        (!assignees || !assignees.find(({ id }) => id === userId));
 
       await registerProject(project_id);
 
