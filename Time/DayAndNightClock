@@ -7,7 +7,7 @@
 # <bitbar.desc>A clock that can do many things.</bitbar.desc>
 # <bitbar.image>https://i.ibb.co/6YQYS0k/Screen-Shot-2020-04-24-at-11-38-18-AM.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>http://url-to-about.com/</bitbar.abouturl>
+# <bitbar.abouturl>https://github.com/FusionX13/</bitbar.abouturl>
 
 # Gets Emoji Moon
 get_phase_day () {
