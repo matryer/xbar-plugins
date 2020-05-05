@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Plays the previous track in cmus, iTunes or Spotify.
+# Plays the previous track in cmus, iTunes Music, or Spotify.
 #
 # Special thanks to Google for providing the open-source icons: https://github.com/google/material-design-icons
 # and to mcchrish and alekseysotnikov for their helpful existing BitBar scripts
@@ -10,7 +10,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Sebastián Barschkis</bitbar.author>
 # <bitbar.author.github>sebbas</bitbar.author.github>
-# <bitbar.desc>Plays the previous track in cmus, iTunes or Spotify.</bitbar.desc>
+# <bitbar.desc>Plays the previous track in cmus, iTunes, Music or Spotify.</bitbar.desc>
 # <bitbar.image>https://raw.githubusercontent.com/sebbas/music-controls-bitbar/master/music-controls-screenshot.png</bitbar.image>
 # <bitbar.abouturl>http://github.com/sebbas/music-controls-bitbar</bitbar.abouturl>
 
@@ -20,6 +20,7 @@ export LC_CTYPE="UTF-8"
 NONE="none"
 CMUS="cmus"
 ITUNES="iTunes"
+MUSIC="Music"
 SPOTIFY="Spotify"
 PIANOBAR="pianobar"
 
@@ -35,6 +36,10 @@ if [[ "$1" = 'itunes_prev' ]]; then
   osascript -e 'tell application "iTunes" to previous track'
   exit
 fi
+if [[ "$1" = 'music_prev' ]]; then
+  osascript -e 'tell application "Music" to previous track'
+  exit
+fi
 if [[ "$1" = 'spotify_prev' ]]; then
   osascript -e 'tell application "Spotify" to previous track'
   exit
@@ -46,18 +51,22 @@ current_source="$NONE"
 # Get pid of music apps to see if they are currently running
 cmus_pid=$(pgrep -x "$CMUS")
 itunes_pid=$(pgrep -x "$ITUNES")
+music_pid=$(pgrep -x "$MUSIC")
 spotify_pid=$(pgrep -x "$SPOTIFY")
 pianobar_pid=$(pgrep -x "$PIANOBAR")
 
 # Keep track of music source
 # Reorder items in for -loop to your liking to change order of precendece
 # (i.e. if available, left-most audio source will be used first)
-for s in "$CMUS" "$ITUNES" "$SPOTIFY" "$PIANOBAR"; do
+for s in "$CMUS" "$ITUNES" "$MUSIC" "$SPOTIFY" "$PIANOBAR"; do
   if [[ $s = "$CMUS" && $cmus_pid ]]; then
     current_source="$CMUS"
     break
   elif [[ $s = "$ITUNES" && $itunes_pid ]]; then
     current_source="$ITUNES"
+    break
+  elif [[ $s = "$MUSIC" && $music_pid ]]; then
+    current_source="$MUSIC"
     break
   elif [[ $s = "$SPOTIFY" && $spotify_pid ]]; then
     current_source="$SPOTIFY"
@@ -85,6 +94,8 @@ if [[ $current_source = "$CMUS" ]]; then
   echo " | image=$icon bash='$0' param1='cmus_prev' terminal=false refresh=false"
 elif [[ $current_source = "$ITUNES" ]]; then
   echo " | image=$icon bash='$0' param1='itunes_prev' terminal=false refresh=false"
+elif [[ $current_source = "$MUSIC" ]]; then
+  echo " | image=$icon bash='$0' param1='music_prev' terminal=false refresh=false"
 elif [[ $current_source = "$SPOTIFY" ]]; then
   echo " | image=$icon bash='$0' param1='spotify_prev' terminal=false refresh=false"
 fi

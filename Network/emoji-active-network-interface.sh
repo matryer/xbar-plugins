@@ -5,7 +5,6 @@
 # <bitbar.author>Zachary O. Toups</bitbar.author>
 # <bitbar.author.github>toupsz</bitbar.author.github>
 # <bitbar.desc>Displays an emoji to indicate if the active network interface is wifi or another connection.</bitbar.desc>
-# <bitbar.image>https://dept-wp.nmsu.edu/pixl/files/2018/06/EANII-image.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/toupsz/emoji-active-network-interface-indicator</bitbar.abouturl>
 
