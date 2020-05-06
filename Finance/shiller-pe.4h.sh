@@ -2,7 +2,9 @@
 
 # <bitbar.title>Shiller PE ratio</bitbar.title>
 # <bitbar.author>Jørgen</bitbar.author>
+# <bitbar.author.github>jtorvald</bitbar.author.github>
 # <bitbar.desc>Gets the current Shiller PE ratio. Information is provided ‘as is’ and solely for informational purposes, not for trading purposes or advice, and may be delayed.</bitbar.desc>
+# <bitbar.dependencies>bash, curl</bitbar.dependencies>
 
 SHILLER_PE=$(curl -s https://www.multpl.com/shiller-pe | grep "Current Shiller PE Ratio is" | awk '{print $16}' | cut -d, -f1)
 
