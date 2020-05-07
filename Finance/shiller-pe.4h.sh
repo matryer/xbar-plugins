@@ -8,10 +8,10 @@
 
 SHILLER_PE=$(curl -s https://www.multpl.com/shiller-pe | grep "Current Shiller PE Ratio is" | awk '{print $16}' | cut -d, -f1)
 
-if [ $(echo "17 > $SHILLER_PE" | bc -l) -eq 1 ]; then
+if [ "$(echo "17 > $SHILLER_PE" | bc -l)" -eq 1 ]; then
 	ICON="💸 "	
 	COLOR=green
-elif [ $(echo "21 > $SHILLER_PE" | bc -l) -eq 1 ]; then
+elif [ "$(echo "21 > $SHILLER_PE" | bc -l)" -eq 1 ]; then
 	ICON="💵 "
 	COLOR=orange
 else
