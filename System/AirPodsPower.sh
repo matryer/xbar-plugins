@@ -24,5 +24,5 @@ if [[ "${CONNECTED}" ]]; then
     done
     echo "${OUTPUT}"
 else
-    printf "${OUTPUT}\n---\nNot connected"
+    printf "%s\n---\nNot connected" "${OUTPUT}"
 fi
