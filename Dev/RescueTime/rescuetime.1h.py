@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 # /usr/local/bin/python3
+#!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
 # <bitbar.title>RescueTime</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Paul Traylor</bitbar.author>
