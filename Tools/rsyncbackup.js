@@ -1,5 +1,5 @@
 #!/usr/bin/env /usr/local/bin/node
-
+// jshint esversion: 8
 // <bitbar.title>RSync Backup Bitbar Plugin</bitbar.title>
 // <bitbar.version>v1.0</bitbar.version>
 // <bitbar.author>Gregory S. Read</bitbar.author>
@@ -368,8 +368,8 @@ async function init() {
         let source = untildify(globals.configuration.source);
         // If destination includes a colon, we'll treat it as a ssh server path.
         // Otherwise, make sure the tilde gets translated.
-        let destination = globals.configuration.destination.includes(':')
-            ? globals.configuration.destination
+        let destination = globals.configuration.destination.includes(':') ?
+            globals.configuration.destination
             : untildify(globals.configuration.destination);
         // Merge additional arguments with our default arguments
         globals.rsyncArgs = [
@@ -668,9 +668,9 @@ function loadConfiguration() {
         error = 'destination must be set';
     }
     // Check whether our rsync arguments is a legit string array
-    else if(!configuration.rsyncAdditionalArguments
-        || !Array.isArray(configuration.rsyncAdditionalArguments)
-        || !configuration.rsyncAdditionalArguments.reduce((prev, curr) => typeof prev === 'string' || typeof curr === 'string')) {
+    else if(!configuration.rsyncAdditionalArguments ||
+        !Array.isArray(configuration.rsyncAdditionalArguments) ||
+        !configuration.rsyncAdditionalArguments.reduce((prev, curr) => typeof prev === 'string' || typeof curr === 'string')) {
         error = 'rsyncAdditionalArguments is invalid'
     }
 
@@ -697,16 +697,12 @@ function getFrequencyInMinutes(frequency) {
         switch(unit) {
             case 's':
                 return value / 60;
-                break;
             case 'm':
                 return value;
-                break;
             case 'h':
                 return value * 60;
-                break;
             case 'd':
                 return value * 1440;
-                break;
         }
     }
 
