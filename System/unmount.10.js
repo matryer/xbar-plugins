@@ -1,5 +1,5 @@
 #!/usr/local/bin/node
-// <bitbar.title>Ejector</bitbar.title>
+// <bitbar.title>Unmount</bitbar.title>
 // <bitbar.version>v1.0</bitbar.version>
 // <bitbar.author>Nigel Scott</bitbar.author>
 // <bitbar.author.github>gruntfuggly</bitbar.author.github>
