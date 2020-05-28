@@ -8,8 +8,8 @@
 # <bitbar.image>https://imgur.com/GYOuLJ1</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 
-if [[ $1 = true ]]; then
-    cd ~/.ssh && pbcopy < "$2"
+if [[ $1 ]]; then
+    cd ~/.ssh && pbcopy < "$1"
 fi
 
 # display icon
@@ -19,5 +19,5 @@ echo "---"
 # navigate to key directory (provide the location if the plugin doesn't work)
 cd ~/.ssh || echo "Please configure ssh key location"
 for filename in *.pub;do
-    echo "${filename} | bash='$0' param1='true' param2='${filename}' terminal=false"
+    echo "${filename} | bash='$0' param1='${filename}' terminal=false"
 done
