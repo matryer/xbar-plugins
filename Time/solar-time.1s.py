@@ -6,7 +6,7 @@
 # <bitbar.author>Alexandre André</bitbar.author>
 # <bitbar.author.github>XanderLeaDaren</bitbar.author.github>
 # <bitbar.desc>Displays the apparent solar time. Specify your longitude in the script.</bitbar.desc>
-# <bitbar.image>ttps://github.com/XanderLeaDaren/bitbar-solar-time/blob/master/bitbar_solar-time.jpg?raw=true</bitbar.image>
+# <bitbar.image>https://github.com/XanderLeaDaren/bitbar-solar-time/blob/master/bitbar_solar-time.jpg?raw=true</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/XanderLeaDaren/bitbar-solar-time</bitbar.abouturl>
 
