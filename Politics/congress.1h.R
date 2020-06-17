@@ -25,11 +25,12 @@ bb_head(icon = "\U0001f3db", refresh = TRUE) # Classical Building
 
 # Check Credentials ----
 
-if(key_congress == "") stop("Register for an API Key | href=https://www.propublica.org/datastore/api/propublica-congress-api")
+if (key_congress == "") stop("Register for an API Key | href=https://www.propublica.org/datastore/api/propublica-congress-api")
 
 # Helper Functions ----
+
 pp_tibble <- # Parse return from ProPublica Congress API into tibbles.
-  function(pp_result){
+  function(pp_result) {
     pp_result %>%
       pluck("results", 1) %>%
       enframe() %>%
@@ -45,8 +46,8 @@ bills_recent <-
     ProPublicaR::recent_bills_by_type(116, chamber = "house", type = "updated", myAPI_Key = key_congress) %>% pp_tibble(),
     ProPublicaR::recent_bills_by_type(116, chamber = "senate", type = "updated", myAPI_Key = key_congress) %>% pp_tibble(),
   )
-
-bb_print("Bills:")
+%>%
+  bb_print("Bills:")
 
 Recent <-
   bills_recent %>%
@@ -73,15 +74,14 @@ bills_upcoming <-
   bind_rows(
     ProPublicaR::get_upcoming_bills("house", myAPI_Key = key_congress) %>%
       pp_tibble() %>%
-      { if(dim(.)[1] == 0) tribble(~chamber, ~bill, ~info, "House", "No bills to show.", "") },
+      { if (dim(.)[1] == 0) tribble(~chamber, ~bill, ~info, "House", "No bills to show.", "") },
     ProPublicaR::get_upcoming_bills("senate", myAPI_Key = key_congress) %>%
       pp_tibble() %>%
-      { if(dim(.)[1] == 0) tribble(~chamber, ~bill, ~info, "Senate", "No bills to show.", "") },
+      { if (dim(.)[1] == 0) tribble(~chamber, ~bill, ~info, "Senate", "No bills to show.", "") },
   )
 
 Upcoming <- tryCatch(
-  {
-    bills_upcoming %>%
+  { bills_upcoming %>%
       transmute(
         menu_title = "Upcoming Bills"
         , chamber
@@ -107,8 +107,8 @@ Upcoming <- tryCatch(
 
 members_all <-
   bind_rows(
-    ProPublicaR::list_members_chamber_congress(116, "house", myAPI_Key = key_congress) %>%  pp_tibble(),
-    ProPublicaR::list_members_chamber_congress(116, "senate", myAPI_Key = key_congress) %>%  pp_tibble(),
+    ProPublicaR::list_members_chamber_congress(116, "house", myAPI_Key = key_congress) %>% pp_tibble(),
+    ProPublicaR::list_members_chamber_congress(116, "senate", myAPI_Key = key_congress) %>% pp_tibble(),
   ) %>%
   na_if("") %>%
   filter(in_office == TRUE) %>%
@@ -138,15 +138,15 @@ bb_print("---")
 bb_print("Members:")
 
 Members <-
-  members_all %>% 
-  mutate(menu_title = "All") %>% 
-  bb_nest(menu_title, chamber, state, last_first, info) %T>% 
+  members_all %>%
+  mutate(menu_title = "All") %>%
+  bb_nest(menu_title, chamber, state, last_first, info) %T>%
   bb_print()
-  
+
 Leadership <-
-  members_all %>% 
-  filter(!is.na(leadership)) %>% 
-  arrange(desc(seniority)) %>% 
-  mutate(menu_title = "Leadership") %>% 
-  bb_nest(menu_title, chamber, leadership_role, info) %T>% 
+  members_all %>%
+  filter(!is.na(leadership)) %>%
+  arrange(desc(seniority)) %>%
+  mutate(menu_title = "Leadership") %>%
+  bb_nest(menu_title, chamber, leadership_role, info) %T>%
   bb_print()
