@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # <bitbar.title>Meta Package Manager</bitbar.title>
-# <bitbar.version>v2.5.0</bitbar.version>
+# <bitbar.version>v3.3.0</bitbar.version>
 # <bitbar.author>Kevin Deldycke</bitbar.author>
 # <bitbar.author.github>kdeldycke</bitbar.author.github>
 # <bitbar.desc>List outdated packages and manage upgrades.</bitbar.desc>
@@ -15,6 +15,9 @@ Bitbar plugin for Meta Package Manager (a.k.a. the :command:`mpm` CLI).
 Default update cycle is set to 7 hours so we have a chance to get user's
 attention once a day. Higher frequency might ruin the system as all checks are
 quite resource intensive, and Homebrew might hit GitHub's API calls quota.
+
+Minimal BitBar requirement is Mac OS X Lion (10.7), which ships with Python
+2.7.1. So this plugin is supposed to support Python 2.7.1 or newer.
 """
 
 from __future__ import print_function, unicode_literals
@@ -28,12 +31,14 @@ from subprocess import PIPE, Popen
 PY2 = sys.version_info[0] == 2
 
 
-FLAT_LAYOUT = True
+SUBMENU_LAYOUT = bool(os.environ.get('BITBAR_MPM_SUBMENU', False) in {
+    True, 1, 'True', 'true', '1', 'y', 'yes', 'Yes'})
 """ Define the rendering mode of outdated packages list.
 
-Set this constant to ``False`` to replace the default flat layout with an
-alternative structure where all upgrade actions are put into submenus, one for
-each manager.
+Edit this script to force this constant to ``True``, or use the
+``BITBAR_MPM_SUBMENU`` environment variable. This will replace the default flat
+layout with an alternative structure where all upgrade actions are put into
+submenus, one for each manager.
 """
 
 
@@ -47,8 +52,8 @@ FONTS = {
     'package': '',                              # Indiviual packages
     'error':   'color=red font=Menlo size=12',  # Errors
 }
-# Use a monospaced font when using submenus
-if not FLAT_LAYOUT:
+# Use a monospaced font when using submenus.
+if SUBMENU_LAYOUT:
     FONTS['summary'] = 'font=Menlo size=12'
 
 
@@ -110,28 +115,38 @@ def print_error(message, submenu=""):
 
     A red, fixed-width font is used to preserve traceback and exception layout.
     """
-    for line in message.strip().split("\n"):
+    for line in message.strip().splitlines():
         echo(
             "{}{} | {f_error} trim=false emojize=false"
             "".format(submenu, line, f_error=FONTS['error']))
 
 
+def print_cli_item(item):
+    """Print two CLI entries:
+    * one that is silent
+    * a second one that is the exact copy of the above but forces the execution
+      by the way of a visible terminal
+    """
+    echo("{} terminal=false".format(item))
+    echo("{} terminal=true alternate=true".format(item))
+
+
 def print_package_items(packages, submenu=""):
     """Print a menu entry for each outdated packages available for upgrade."""
     for pkg_info in packages:
-        echo(
+        print_cli_item(
             "{}{name} {installed_version} → {latest_version} | {upgrade_cli}"
-            " terminal=false refresh=true {f_package} emojize=false".format(
+            " refresh=true {f_package} emojize=false".format(
                 submenu, f_package=FONTS['package'], **pkg_info))
 
 
 def print_upgrade_all_item(manager, submenu=""):
     """Print the menu entry to upgrade all outdated package of a manager."""
     if manager.get('upgrade_all_cli'):
-        if not FLAT_LAYOUT:
+        if SUBMENU_LAYOUT:
             echo("-----")
-        echo(
-            "{}Upgrade all | {} terminal=false refresh=true {f_normal}".format(
+        print_cli_item(
+            "{}Upgrade all | {} refresh=true {f_normal}".format(
                 submenu, manager['upgrade_all_cli'], f_normal=FONTS['normal']))
 
 
@@ -139,11 +154,6 @@ def print_menu():
     """Print menu structure using BitBar's plugin API.
 
     See: https://github.com/matryer/bitbar#plugin-api
-
-    .. todo
-
-        Add minimal requirement on ``meta-package-manager`` module in the
-        invoked ``pip`` command.
     """
     # Search for generic mpm CLI on system.
     code, _, error = run('mpm')
@@ -154,9 +164,11 @@ def print_menu():
         print_error(error)
         echo("---")
         echo(
-            "Install / upgrade `mpm` CLI. | bash=pip param1=install "
-            "param2=--upgrade param3=meta-package-manager terminal=true "
-            "refresh=true {f_error}".format(f_error=FONTS['error']))
+            "Install / upgrade `mpm` CLI. | bash=python param1=-m param2=pip "
+            "param3=install param4=--upgrade "
+            "param5=\\\"meta-package-manager>=2.7.0\\\" terminal=true "
+            "refresh=true {f_error}".format(
+                f_error=FONTS['error']))
         return
 
     # Fetch list of all outdated packages from all package manager available on
@@ -182,31 +194,19 @@ def print_menu():
         " ⚠️{}".format(total_errors) if total_errors else ""))
 
     # Print a full detailed section for each manager.
-    submenu = "--" if not FLAT_LAYOUT else ""
+    submenu = "--" if SUBMENU_LAYOUT else ""
 
-    if not FLAT_LAYOUT:
+    if SUBMENU_LAYOUT:
         # Compute maximal manager's name length.
         label_max_length = max([len(m['name']) for m in managers])
         max_outdated = max([len(m['packages']) for m in managers])
-
-    if not FLAT_LAYOUT:
         echo("---")
 
     for manager in managers:
-        if FLAT_LAYOUT:
-            echo("---")
-
         package_label = "package{}".format(
-            's' if len(manager['packages']) != 1 else '')
+            's' if len(manager['packages']) > 1 else '')
 
-        if FLAT_LAYOUT:
-            echo("{0} outdated {1} {2} | {f_summary} emojize=false".format(
-                len(manager['packages']),
-                manager['name'],
-                package_label,
-                f_summary=FONTS['summary']))
-
-        else:
+        if SUBMENU_LAYOUT:
             # Non-flat layout use a compact table-like rendering of manager
             # summary.
             echo(
@@ -219,13 +219,20 @@ def print_menu():
                     max_length=label_max_length + 1,
                     max_outdated=len(str(max_outdated)),
                     f_summary=FONTS['summary']))
+        else:
+            echo("---")
+            echo("{0} outdated {1} {2} | {f_summary} emojize=false".format(
+                len(manager['packages']),
+                manager['name'],
+                package_label,
+                f_summary=FONTS['summary']))
 
         print_package_items(manager['packages'], submenu)
 
         print_upgrade_all_item(manager, submenu)
 
         for error_msg in manager.get('errors', []):
-            echo("---" if FLAT_LAYOUT else "-----")
+            echo("-----" if SUBMENU_LAYOUT else "---")
             print_error(error_msg, submenu)
 
 
