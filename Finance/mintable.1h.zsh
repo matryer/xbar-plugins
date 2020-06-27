@@ -24,5 +24,5 @@ fi
 
 echo $output_status
 echo ---
-echo
-echo $output
+echo "..."
+echo $output | tail -n 10
