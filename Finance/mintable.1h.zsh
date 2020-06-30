@@ -25,4 +25,12 @@ fi
 echo $output_status
 echo ---
 echo "..."
-echo $output | tail -n 10
+echo $output | tail -n 15 | head -n 12
+
+echo "---"
+link=`echo $output | tail -n 1`
+echo $link
+echo "View Spreadsheet | color=#b7ff00 href=$link"
+
+echo "---"
+echo "Refresh Now | color=#00a0eb refresh=true"
