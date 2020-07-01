@@ -4,7 +4,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>CodinCafe</bitbar.author>
 # <bitbar.author.github>codincafe</bitbar.author.github>
-# <bitbar.desc>This plugin will show your current expternal / public IP and allow you to copy the same to clipboard</bitbar.desc>
+# <bitbar.desc>This plugin will show your current external / public IP and allow you to copy the same to clipboard</bitbar.desc>
 # <bitbar.image>https://i.imgur.com/Ar1JABA.png</bitbar.image>
 # <bitbar.dependencies>curl</bitbar.dependencies>
 
