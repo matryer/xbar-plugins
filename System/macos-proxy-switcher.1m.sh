@@ -53,24 +53,18 @@ current_socks5_proxy_status=$(networksetup -getsocksfirewallproxy $INTERFACE | a
 current_http_proxy_status=$(networksetup -getwebproxy $INTERFACE | awk 'NR=1{print $2; exit}')
 
 # SOCK5 PROXY
-if [[ $current_socks5_proxy_status == "Yes" ]]; then
+if [[ $current_socks5_proxy_status == "Yes" ]] || [[ $current_http_proxy_status == "Yes" ]]; then
   echo '🌎'
-  # echo '---'
-  # echo "socks_proxy_enabled = $socks_proxy_enabled"
   echo '---'
-  networksetup -getsocksfirewallproxy $INTERFACE
-else
-  echo "➖"
-  echo '---'
-fi
+ 
+  if [[ $current_socks5_proxy_status == "Yes" ]]; then
+    echo '---'
+    networksetup -getsocksfirewallproxy $INTERFACE
+  fi
 
-# HTTP_PROXY
-if [[ $current_http_proxy_status == "Yes" ]]; then
-  echo '🌏'
-  # echo '---'
-  # echo "socks_proxy_enabled = $socks_proxy_enabled"
-  echo '---'
-  networksetup -getwebproxy $INTERFACE
+  if [[ $current_http_proxy_status == "Yes" ]]; then
+    networksetup -getwebproxy $INTERFACE
+  fi
 else
   echo "➖"
   echo '---'
