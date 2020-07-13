@@ -5,7 +5,7 @@
 # <bitbar.author>glowinthedark</bitbar.author>
 # <bitbar.author.github>glowinthedark</bitbar.author.github>
 # <bitbar.desc>Set http and socks5 proxy settings on MacOS.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/glowinthedark/bitbar-plugins/macos-proxy-switcher/images/mac-proxy-switcher.png.png</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/glowinthedark/bitbar-plugins/macos-proxy-switcher/images/mac-proxy-switcher.png</bitbar.image>
 # <bitbar.dependencies></bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/glowinthedark/bitbar-plugins/System/macos-proxy-switcher.1m.sh</bitbar.abouturl>
 
