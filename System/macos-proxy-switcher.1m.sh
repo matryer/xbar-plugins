@@ -59,7 +59,6 @@ if [[ $current_socks5_proxy_status == "Yes" ]] || [[ $current_http_proxy_status 
   echo '---'
  
   if [[ $current_socks5_proxy_status == "Yes" ]]; then
-    echo '---'
     networksetup -getsocksfirewallproxy $INTERFACE
   fi
 
@@ -87,7 +86,7 @@ else
 fi
 
 echo '---'
-echo "✏️ Edit this file | bash='$0' param1="edit_this_script" terminal=false"
+echo "📝 Edit this file | bash='$0' param1="edit_this_script" terminal=false"
 
 echo '---'
 echo "🔃 Refresh... | refresh=true"
