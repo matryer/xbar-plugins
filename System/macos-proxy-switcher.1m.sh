@@ -54,6 +54,7 @@ current_http_proxy_status=$(networksetup -getwebproxy $INTERFACE | awk 'NR=1{pri
 
 # SOCK5 PROXY
 if [[ $current_socks5_proxy_status == "Yes" ]] || [[ $current_http_proxy_status == "Yes" ]]; then
+  ## TODO: If tunneling to another country then put here the flag of the country, e.g. 🇺🇸 etc
   echo '🌎'
   echo '---'
  
@@ -66,6 +67,7 @@ if [[ $current_socks5_proxy_status == "Yes" ]] || [[ $current_http_proxy_status 
     networksetup -getwebproxy $INTERFACE
   fi
 else
+  ## TODO: put here the emoji for your real IP country e.g. 🇪🇸 🇫🇷 🇮🇹 🇩🇪 🇨🇳 🇺🇸 🇬🇧 etc
   echo "➖"
   echo '---'
 fi
