@@ -193,6 +193,10 @@ const OPTIONS = {
   NUMBER_OF_SCHEDULED_MATCHES: USER_OPTIONS && USER_OPTIONS.NUMBER_OF_SCHEDULED_MATCHES || 3
 };
 
+if (!OPTIONS.FOOTBALL_DATA_API_KEY) {
+  console.log('MISSING API KEY');
+}
+
 if (OPTIONS.NUMBER_OF_FINISHED_MATCHES > 7) {
   OPTIONS.NUMBER_OF_FINISHED_MATCHES = 7;
 }
@@ -249,7 +253,7 @@ if (OPTIONS.NUMBER_OF_FINISHED_MATCHES > 7) {
   if (finishedMatches) {
     let idx = 0; // Use for..of here instead of forEach because it plays nice with async/await
 
-    for (match of finishedMatches) {
+    for (const match of finishedMatches) {
       if (idx >= finishedMatches.length - OPTIONS.NUMBER_OF_FINISHED_MATCHES) {
         // Determine winner
         const isDraw = match.score.winner === 'DRAW';
@@ -289,8 +293,6 @@ if (OPTIONS.NUMBER_OF_FINISHED_MATCHES > 7) {
 
       idx++;
     }
-
-    ;
   } // Scheduled/upcoming matches
 
 
