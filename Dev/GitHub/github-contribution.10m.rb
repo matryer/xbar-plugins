@@ -80,13 +80,16 @@ module BitBar
 
     class Contribution < Struct.new(:username, :contributed_on, :count)
       RE_CONTRIBUTION = %r|<rect class="day" .+ data-count="(\d+)" data-date="(\d\d\d\d-\d\d-\d\d)"/>|
-
       def self.find_all_by(username:)
         [].tap do |contributions|
-          html = URI.send(:open, url_for(username: username)) { |f| f.read }
-
+          today = Date.parse(DateTime.now.to_s).to_s
+          year = today.split("-")[0];
+          html = URI.send(:open, "https://github.com/users/#{username}/contributions?to=#{today}#year-link-#{year}") { |f| f.read };
+        
           html.scan(RE_CONTRIBUTION) do |count, date|
+      
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
+
           end
         end
       end
@@ -134,7 +137,7 @@ module BitBar
         def contribution_activity_for(contribution)
           query    = "from=#{contribution.contributed_on}"
           fragment = "year-link-#{contribution.contributed_on.year}"
-
+          
           "https://github.com/#{contribution.username}?#{query}##{fragment}"
         end
       end
