@@ -85,11 +85,8 @@ module BitBar
           today = Date.parse(DateTime.now.to_s).to_s
           year = today.split("-")[0];
           html = URI.send(:open, "https://github.com/users/#{username}/contributions?to=#{today}#year-link-#{year}") { |f| f.read };
-        
           html.scan(RE_CONTRIBUTION) do |count, date|
-      
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
-
           end
         end
       end
@@ -105,10 +102,6 @@ module BitBar
         when 4..9 then ':herb:'
         else           ':deciduous_tree:'
         end
-      end
-
-      def self.url_for(username:)
-        "https://github.com/users/#{username}/contributions"
       end
     end
 
@@ -135,7 +128,7 @@ module BitBar
         end
 
         def contribution_activity_for(contribution)
-          query    = "from=#{contribution.contributed_on}"
+          query    = "to=#{contribution.contributed_on}"
           fragment = "year-link-#{contribution.contributed_on.year}"
           
           "https://github.com/#{contribution.username}?#{query}##{fragment}"
