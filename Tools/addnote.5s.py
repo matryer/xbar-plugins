@@ -45,8 +45,6 @@ if(len(sys.argv) >= 2):
         cmd2 = "osascript -e 'tell application \"Notes\" \n tell account \"iCloud\" \n make new note at folder \"Notes\" with properties {name:\"%s\", body:\"%s\"} \n end tell \n end tell'" % (header, body)
         run_script2(cmd2)
         sys.exit(1)
-
-print "📔"
-print "---"
-print("Add Note | trim=false, color=yellow bash=" + fullPathFileName +  " param1=-n param2=null terminal=false refresh=true") 
+note_icon = "iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAf9JREFUOI21lE1rE1EYhc97c9PG2C+VIp0mLpqg0I0EV67FneBvqEL/hQGrC8GNiiJFXGRR/4Eg1PqBbqxiFwVta03BTKdJtHWSaeajM3NfFyUlhgqJmR54V+fycO/hvJcA4NHtqTRArypGbcKy9gQzoxsNDPTx6NhwdaVYuv648PI5ANDsnekzv8rW+rfVYlwp1RWwVUSE9ERabdXMa0/nFgrCte35tZXeoADAzCgVS+KcNvoAwMnY+UzqvlVvUE/UFjlO0N+XFG+F+dsRUUH3wS4ms2MX5JWrZxH4XmRgohg+fSmTvHQ5C7AfGRggbGxtxwTQXbU6kVJKRJrvgYSAdG0f4DBCKkGFCjJxTAKIrG37YJA4gowZIYd8JBlzGJJ0bB8U4a2ZAQ4pJhNJGTk4CAKI8s+gRvFTaB+j3OiBrkhkcjc0w6jU2z3TtPFDN/+Lq5iFBGBncvnU96UZXdNODzVNP1AwjDo8J0B6fKRjqO8rLH7W9WYrrEwun9o0KlbzQFwK9Cdi2HU8VHd2kUjKjsYJAu/F69WPrXWzsrm81gpvanun0VEsZs3F3XsLcwC+HrZyQ+tLM7qhVwdd7+/v9MTIcaTHhw95fgiz7u49fPLu2Wzhwy0AxX/t8uD01MWb7HO83YhLEQKAIFIAQES8vLZpvHm/sQhgGYAJAH8As2PnfRzL6c4AAAAASUVORK5CYII="
+print " | image={}".format(note_icon) + " trim=false, color=yellow bash=" + fullPathFileName +  " param1=-n param2=null terminal=false refresh=true"
 
