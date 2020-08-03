@@ -9,7 +9,7 @@ import json
 
 fullPathFileName = os.path.realpath(__file__)
 commuterdir = "commuter_data"
-commuterdir_path = os.path.dirname(os.path.abspath(__file__))+'/bitbar-plugins/'+commuterdir
+commuterdir_path = os.path.dirname(os.path.abspath(__file__))+'/'+commuterdir
 
 key_filename = "google-map-api.txt"
 key_path = commuterdir_path+'/'+key_filename
@@ -152,7 +152,7 @@ else:
 #debug = True
 if debug:
     print "---"
-    print "debug | color=#DB4437"
+    print "🐞 debug | color=#DB4437"
     json_formatted_str = json.dumps(result, indent=2)
     print('-- Result| color=white')
     for line in json_formatted_str.split('\n'):
@@ -162,6 +162,6 @@ if debug:
         print('---- ' + directions + '|  color=#4285F4 href=%s ' % (directions))
 ###############################################################################################################################################################################################################################################
 print "---"
-print "🔄 Refresh | trim=false, bash=" + fullPathFileName +  " param1=null param2=null terminal=false refresh=true"
+print "🔄 Refresh | refresh=true"
 
 
