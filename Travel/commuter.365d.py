@@ -156,7 +156,7 @@ if debug:
     json_formatted_str = json.dumps(result, indent=2)
     print('-- Result| color=white')
     for line in json_formatted_str.split('\n'):
-        print('----' + line)
+        print("----" + '‎‎' + line + "| color=white size=11 font='Courier New'")
     if 'directions' in vars():    
         print('-- Directions URL | color=white')
         print('---- ' + directions + '|  color=#4285F4 href=%s ' % (directions))
