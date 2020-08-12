@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
+# <bitbar.title>Commuter</bitbar.title>
+# <bitbar.author>Frak Nuaimy</bitbar.author>
+# <bitbar.author.github>frakman1</bitbar.author.github>
+# <bitbar.image>https://i.imgur.com/JN8ad03.png</bitbar.image>
+# <bitbar.desc>Show commute details (GoogleMaps API)</bitbar.desc>
+# <bitbar.dependencies>python, simplejson</bitbar.dependencies>
+# <bitbar.version>v1.0</bitbar.version>
 import os, sys
 import argparse
 import subprocess
