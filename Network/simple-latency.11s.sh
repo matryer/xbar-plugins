@@ -1,12 +1,11 @@
 #! /bin/zsh
-# <bitbar.title>Simple Latency</bitbar.title>
+# <bitbar.title>Simple-Latency</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Jerome</bitbar.author>
 # <bitbar.author.github>fine-fiddle</bitbar.author.github>
 # <bitbar.desc>Display a color categorized running average of your pingtime to an endpoint, plus any dropped packets.</bitbar.desc>
-# <bitbar.image>http://www.hosted-somewhere/pluginimage</bitbar.image>
+# <bitbar.image>https://imgur.com/oGuCKUd</bitbar.image>
 # <bitbar.dependencies>zsh</bitbar.dependencies>
-# <bitbar.abouturl>http://url-to-about.com/</bitbar.abouturl>
 
 
 GREEN='\033[1;32m';
