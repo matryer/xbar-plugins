@@ -47,7 +47,7 @@ puts "#{republicanName}: #{table[0]["ev_inc"].to_i}"
 if thirdParty.to_s.length > 0
   puts "#{thirdPartyName}: #{table[0]["ev_3rd"]}"
 end
-puts "💆 No majority: #{table[0]["ec_nomajority"]}"
+puts "💆 No majority: #{"%.1f" % (table[0]["ec_nomajority"].to_f*100.0)}%"
 
 puts "---"
 puts "Popular Vote:"
