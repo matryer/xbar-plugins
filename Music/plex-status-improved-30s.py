@@ -72,5 +72,8 @@ if __name__ == '__main__':
     plexhost = "YOUR PLEX HOST"
     myip = "YOUR IP" #This is your IP, from the Plex Host's perspective. So your local IP if the server is on your network, and public IP if it's not
     myuserid = "1" #This is usually 1, but might not be.
-    plexXML = getPlexStatus(plextoken, plexhost)
-    print(parseXML(plexXML, myip, myuserid))
+    try:
+        plexXML = getPlexStatus(plextoken, plexhost)
+        print(parseXML(plexXML, myip, myuserid))
+    except:
+        print("🚫\n---\nCould not connect to Plex server " + plexhost + "\nServer may be offline, or token may be invalid.")
