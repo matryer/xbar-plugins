@@ -59,11 +59,11 @@ def parseXML(rawXML, myip, myuserid):
     root = tree.getroot()
     trackInfo = "|\n---\nNothing Playing"
     if root.attrib['size'] == "1":
-        trackInfo = plexMediaInfo(root[0])
+        trackInfo = plexMediaInfo(root[0], myip, myuserid)
     else:
         for mc in root:
             if mc.find("Player").attrib['address'] == myip:
-                trackInfo = plexMediaInfo(mc, myuserid)
+                trackInfo = plexMediaInfo(mc, myip, myuserid)
     return trackInfo
 
 #This is the function to be used with the script is called by itself by BitBar. But the file is written so that if you want, you can just import these functions into another python script if you want to.
