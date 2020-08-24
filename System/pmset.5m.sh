@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+if [[ "$1" = "pmset_disable_battery_sleep" ]]; then
+  osascript -e 'display dialog "Disable system sleep while on battery?" buttons {"Cancel", "DISABLE NOW! (System will NOT sleep!)"}
+do shell script "/usr/bin/pmset -a disablesleep 1" with administrator privileges'
+  exit
+fi
+
+if [[ "$1" = "pmset_restore_battery_sleep" ]]; then
+  osascript -e 'display dialog "Restore sleep mode back to normal?" buttons {"Cancel", "RESTORE NORMAL SLEEP"}
+do shell script "/usr/bin/pmset -a disablesleep 0" with administrator privileges'
+  exit
+fi
+
 if [[ "$1" = "stop_caffeinate" ]]; then
   pkill caffeinate
   exit
@@ -20,7 +32,6 @@ sleep_disabled=$(pmset -g | grep SleepDisabled | awk '{print $2}')
 is_caffeinate_running=$(pgrep caffeinate)
 
 if [[ $sleep_disabled == "0" ]]; then
-
   if [[ $is_caffeinate_running -eq 0 ]] ; then  # "1" = no processes found
     echo "🔵"
     status="💤 Sleeping normally"
@@ -28,11 +39,11 @@ if [[ $sleep_disabled == "0" ]]; then
     echo "☕️"
     status="caffeinating... ☕️"
   fi
-  cmd="🔋 pmset: Disable sleep on battery | bash=sudo param1=/usr/bin/pmset param2=-a param3=disablesleep param4=1 terminal=true refresh=true"
+  cmd="🔋 pmset: Disable sleep on battery | bash='$0' param1=pmset_disable_battery_sleep terminal=false refresh=true"
 else
   echo "‼️"
   status="‼️ Preventing sleep on battery"
-  cmd="🔥 pmset: RE-enable sleep on battery | bash=sudo color=indianred param1=/usr/bin/pmset param2=-a param3=disablesleep param4=0 terminal=true refresh=true"
+  cmd="🔥 pmset: RESTORE sleep on battery | bash='$0' color=indianred param1=pmset_restore_battery_sleep terminal=false refresh=true"
 fi
 
 echo '---'
@@ -46,7 +57,6 @@ else
   echo "❌ [caffeinate already running] KILL NOW | bash='$0' color=indianred param1=stop_caffeinate refresh=true terminal=false"
 fi
 echo '---'
-echo "Edit this file | bash='$0' param1="edit_this_script" terminal=false"
-
+echo "✏️ Edit this file | bash='$0' param1="edit_this_script" terminal=false"
 echo '---'
 echo "🔃 Refresh... | refresh=true"
