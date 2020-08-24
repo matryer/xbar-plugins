@@ -30,7 +30,7 @@ def plexTVInfo(el):
     return trackInfo
 
 def plexMediaInfo(mc, myip, myuserid):
-    trackInfo = "|\n---\nNothing Playing"
+    trackInfo = "❯\n---\nNothing Playing"
     if mc.find("User").attrib["id"] == myuserid:
         if str(mc.tag) == "Track":
             if mc.find("Player").attrib["state"] == "playing":
@@ -57,7 +57,7 @@ def getPlexStatus(plextoken, plexhost):
 def parseXML(rawXML, myip, myuserid):
     tree = ET.ElementTree(ET.fromstring(rawXML))
     root = tree.getroot()
-    trackInfo = "|\n---\nNothing Playing"
+    trackInfo = "❯\n---\nNothing Playing"
     if root.attrib['size'] == "1":
         trackInfo = plexMediaInfo(root[0], myip, myuserid)
     else:
