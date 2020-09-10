@@ -3,13 +3,13 @@
 # Icons made by Freepik (https://www.flaticon.com/authors/freepik)
 #
 # <bitbar.title>Social Media Stats</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Long Do</bitbar.author>
 # <bitbar.author.github>longpdo</bitbar.author.github>
-# <bitbar.desc>Shows YouTube subscribers, Facebook likes, Instagram and Twitter followers.</bitbar.desc>
+# <bitbar.desc>Shows YouTube subscribers, Facebook likes and Instagram followers.</bitbar.desc>
 # <bitbar.image>https://github.com/longpdo/bitbar-plugins-custom/raw/master/images/social_media_stats.png</bitbar.image>
 # <bitbar.dependencies>python3,beautifulsoup4,requests</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/longpdo/bitbar-plugins-custom</bitbar.abouturl>
+# <bitbar.abouturl>https://github.com/longpdo/bitbar-plugins-custom/blob/master/README.md#social-media-stats</bitbar.abouturl>
 #
 # by longpdo (https://github.com/longpdo)
 
@@ -23,7 +23,6 @@ import re
 # e.g. youtube_url = ''
 instagram_url = 'https://www.instagram.com/belle.dara'
 facebook_url = 'https://facebook.com/Cristiano'
-twitter_url = 'https://twitter.com/billieeilish'
 youtube_url = 'https://www.youtube.com/channel/UCtxCXg-UvSnTKPOzLH4wJaQ'
 
 
@@ -44,7 +43,7 @@ def get_instagram_followers():
 
     if request.status_code == 200:
         soup = BeautifulSoup(request.text, 'html.parser')
-        data = json.loads(soup.find('script', type='application/ld+json').text)
+        data = json.loads(soup.find('script', type='application/ld+json').contents[0])
         result = data['mainEntityofPage']['interactionStatistic']['userInteractionCount']
         result = '{0:,}'.format(int(result))
         result = result.replace(',', '.')
@@ -66,21 +65,6 @@ def get_facebook_likes():
         print(result + ' | image=' + facebook_icon)
 
 
-def get_twitter_followers():
-    if twitter_url == '':
-        return
-
-    request = requests.get(twitter_url)
-    if request.status_code != 200:
-        return
-
-    if request.status_code == 200:
-        soup = BeautifulSoup(request.text, 'html.parser')
-        data = soup.find('li', {'class': 'ProfileNav-item--followers'})
-        result = re.sub('[^0-9.]+', '', str(data.find('a')['title']))
-        print(result + ' | image=' + twitter_icon)
-
-
 def get_youtube_subscribers():
     if youtube_url == '':
         return
@@ -91,15 +75,15 @@ def get_youtube_subscribers():
 
     if request.status_code == 200:
         soup = BeautifulSoup(request.text, 'html.parser')
-        data = soup.find('span', {'class': 'subscribed'})
-        result = re.sub('[^0-9.,MK]+', '', str(data['aria-label']))
-        if result[-1] == '.':
-            result = result[:-1]
-        print(result + ' | image=' + youtube_icon)
+        script = soup.findAll('script')[27].contents[0]
+        script_content = script[31:-110]
+        data = json.loads(script_content)
+        result = data['header']['c4TabbedHeaderRenderer']['subscriberCountText']['runs'][0]['text']
+        result_filtered = re.sub('[^0-9.]+', '', result)
+        print(result_filtered + ' | image=' + youtube_icon)
 
 
 if __name__ == '__main__':
     get_instagram_followers()
     get_facebook_likes()
-    get_twitter_followers()
     get_youtube_subscribers()
