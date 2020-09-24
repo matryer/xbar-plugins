@@ -9,6 +9,8 @@
 
 export PATH=/usr/local/bin:"${PATH}"
 
-echo "k8s pods"
+numpods=$(kubectl get pods -A 2> /dev/null | grep -v NAME | wc -l)
+echo "$numpods pods running"
 echo "---"
-kubectl get pods | while read -r line; do echo "${line} | font=Menlo"; done
+if [[ "$numpods" -eq 0 ]]; then exit; fi
+kubectl get pods -A | while read -r line; do echo "${line} | font=Menlo"; done
