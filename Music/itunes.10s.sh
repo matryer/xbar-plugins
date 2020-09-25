@@ -1,53 +1,53 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Get current Music status with play/pause button
+# Get current iTunes status with play/pause button
 #
 # based on Spotify script by Jason Tokoph (jason@tokoph.net),
 # tweaked by Dan Turkel (daturkel@gmail.com),
 # additionally tweaked by Aleš Farčnik (@alesf)
 #
-# Shows current track information from Music
+# Shows current track information from iTunes
 # 10 second refresh might be a little too quick. Tweak to your liking.
 
 # metadata
-# <bitbar.title>Music Now Playing</bitbar.title>
+# <bitbar.title>iTunes Now Playing</bitbar.title>
 # <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Dan Turkel, Jason Tokoph, Aleš Farčnik, Robert Prince</bitbar.author>
+# <bitbar.author>Dan Turkel, Jason Tokoph, Aleš Farčnik</bitbar.author>
 # <bitbar.author.github>daturkel</bitbar.author.github>
-# <bitbar.desc>Display currently playing Music song with artwork. Play/pause, skip forward, skip backward.</bitbar.desc>
+# <bitbar.desc>Display currently playing iTunes song with artwork. Play/pause, skip forward, skip backward.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/lBfoFdY.png</bitbar.image>
 
 if [ "$1" = 'launch' ]; then
-  osascript -e 'tell application "Music" to activate'
+  osascript -e 'tell application "iTunes" to activate'
   exit
 fi
 
 if [ "$1" = 'open' ]; then
-  osascript -e 'tell application "Music" to reopen'
-  osascript -e 'tell application "Music" to activate'
+  osascript -e 'tell application "iTunes" to reopen'
+  osascript -e 'tell application "iTunes" to activate'
   exit
 fi
 
-if [ "$(osascript -e 'application "Music" is running')" = "false" ]; then
+if [ "$(osascript -e 'application "iTunes" is running')" = "false" ]; then
   echo "♫ | size=12"
   echo "---"
-  echo "Music is not running"
-  echo "Launch Music | bash='$0' param1=launch terminal=false"
+  echo "iTunes is not running"
+  echo "Launch iTunes | bash='$0' param1=launch terminal=false"
   exit
 fi
 
 if [ "$1" = 'playpause' ]; then
-  osascript -e 'tell application "Music" to playpause'
+  osascript -e 'tell application "iTunes" to playpause'
   exit
 fi
 
 if [ "$1" = 'previous' ]; then
-  osascript -e 'tell application "Music" to previous track'
+  osascript -e 'tell application "iTunes" to previous track'
   exit
 fi
 
 if [ "$1" = 'next' ]; then
-  osascript -e 'tell application "Music" to next track';
+  osascript -e 'tell application "iTunes" to next track';
   exit
 fi
 
@@ -66,7 +66,7 @@ fi
 
 state=$(osascript -e '
 try 
-  tell application "Music"
+  tell application "iTunes"
     with timeout 3 seconds
       player state as string
     end timeout
@@ -78,13 +78,13 @@ end try
 if [ "$state" = "not available" ]; then
   echo "♫ | size=12"
   echo "---"
-  echo "Music is not available"
+  echo "iTunes is not available"
   exit
 fi
 
 track=$(osascript -e'
 try
-tell application "Music" to name of current track as string
+tell application "iTunes" to name of current track as string
 on error errText
   "no track selected"
 end try
@@ -92,7 +92,7 @@ end try
 
 artist=$(osascript -e'
 try
-	tell application "Music" to artist of current track as string
+	tell application "iTunes" to artist of current track as string
 on error errText
     ""
 end try
@@ -100,7 +100,7 @@ end try
 
 album=$(osascript -e'
 try
-	tell application "Music" to album of current track as string
+	tell application "iTunes" to album of current track as string
 on error errText
     ""
 end try
@@ -108,7 +108,7 @@ end try
 
 tmp_file=$(osascript -e'
 try
-    tell application "Music"
+    tell application "iTunes"
         tell artwork 1 of current track
             if format is JPEG picture then
                 set imgFormat to ".jpg"
@@ -132,7 +132,7 @@ end try
 if [ ! -f "$tmp_file" ]; then
     osascript -e'
     try
-        tell application "Music"
+        tell application "iTunes"
             tell artwork 1 of current track
                 set srcBytes to raw data
                 if format is JPEG picture then
