@@ -6,15 +6,14 @@
 # <bitbar.author.github>DerAndre</bitbar.author.github>
 # <bitbar.image>https://imgur.com/a/EGgp04H</bitbar.image>
 # <bitbar.desc>View docker containers state, start or stop containers</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <bitbar.dependencies>Python3</bitbar.dependencies>
 # <bitbar.version>v1.0</bitbar.version>
 
 import os
 import sys
-import argparse
 import subprocess
 
-
+# Path to local docker executable, differs from system to system
 DOCKER_PATH = '/usr/local/bin/docker'
 FILE_PATH = os.path.realpath(__file__)
 WHALE = """
@@ -33,19 +32,23 @@ def run_subprocess(command):
     return (subprocess.run(command, check=True, stdout=subprocess.PIPE))
 
 
-def get_containers(take_all=True):
+def get_containers(filter_running=False):
+    # Return list docker containers (dict: id, name, state)
+    # if filter_running return only running containers, else return all containers
     containers = []
     args = [DOCKER_PATH, 'container', 'ps']
-    if take_all:
-        args.append('-a')
-    else:
+    if filter_running:
         args.extend(['--filter', 'status=running'])
+    else:
+        args.append('-a')
     args.extend(['--format', '{{.ID}} {{.Names}} {{.Status}}'])
     try:
         result = run_subprocess(args).stdout.decode()
+        # If result is empty (no containers found)
         if result == '':
             return containers
         result = result.split('\n')
+        # Remove blank line after string split if exists
         if '' in result:
             result.remove('')
         for element in result:
@@ -80,12 +83,10 @@ def to_terminal():
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--stop', action='store_true',
-                        help='Stop all docker container')
+    # Check if script is called with args (first args is script path by default)
     if(len(sys.argv) >= 2):
         if sys.argv[1] == "--stop":
-            containers = get_containers(take_all=False)
+            containers = get_containers(filter_running=True)
             stop_containers(containers)
             sys.exit(1)
         elif sys.argv[1] == "--console":
@@ -105,6 +106,9 @@ def main():
 
     containers = get_containers()
     running_containers = False
+
+    # List all docker containers sorted by state (running first)
+    # On click: start / stop container depending on current state
     for container in sorted(containers, key=lambda c: c['state'], reverse=True):
         if container["state"] == 'Up':
             color = 'green'
