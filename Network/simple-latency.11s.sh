@@ -17,21 +17,24 @@ NC='\033[0m';
 
 # NOTE- this must be less than the refresh time in the filename of this plugin. 
 PINGSPERITERATION=10;
-PINGDESTINATION=8.8.8.8;
+PINGDESTINATIONS=(8.8.8.8);
+PINGINTERVAL=0.1;
 
-PINGOUT=$(ping -c ${PINGSPERITERATION} ${PINGDESTINATION} | tail -n 2);
-LATENCY=$(echo "${PINGOUT}" | tail -n 1 | sed 's/.*= //' | awk 'BEGIN { FS="/" } ; { print $2 }');
-DROPPED=$(echo "${PINGOUT}" | head -n 1 | awk '{ print $7 }');
+for PINGDESTINATION in "${PINGDESTINATIONS[@]}"; do
+  PINGOUT=$(ping -i ${PINGINTERVAL} -c ${PINGSPERITERATION} ${PINGDESTINATION} | tail -n 2);
+  LATENCY=$(echo "${PINGOUT}" | tail -n 1 | sed 's/.*= //' | awk 'BEGIN { FS="/" } ; { print $2 }');
+  DROPPED=$(echo "${PINGOUT}" | head -n 1 | awk '{ print $7 }');
 
-if [[ $LATENCY -lt 15 ]]; then PREFIX=$GREEN; fi;
-if [[ $LATENCY -ge 15 ]]; then PREFIX=$BLUE; fi;
-if [[ $LATENCY -ge 40 ]]; then PREFIX=$PURPLE; fi;
-if [[ $LATENCY -ge 70 ]]; then PREFIX=$RED; fi;
+  if [[ $LATENCY -lt 15 ]]; then PREFIX=$GREEN; fi;
+  if [[ $LATENCY -ge 15 ]]; then PREFIX=$BLUE; fi;
+  if [[ $LATENCY -ge 40 ]]; then PREFIX=$PURPLE; fi;
+  if [[ $LATENCY -ge 70 ]]; then PREFIX=$RED; fi;
 
-if [[ $DROPPED != "0.0%" ]]; then 
-    PREFIX=$RED; 
-    echo "${PREFIX}$LATENCY•$DROPPED${NC}";
-    return 0;
-fi;
+  if [[ $DROPPED != "0.0%" ]]; then
+      PREFIX=$RED;
+      echo "${PINGDESTINATION/.[a-z]*/} ${PREFIX}$LATENCY•$DROPPED${NC}";
+      continue;
+  fi;
 
-echo "${PREFIX}$LATENCY${NC}";
+  echo "${PINGDESTINATION/.[a-z]*/} ${PREFIX}$LATENCY${NC}";
+done
