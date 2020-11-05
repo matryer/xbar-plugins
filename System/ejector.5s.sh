@@ -8,7 +8,7 @@
 # <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</bitbar.image>
 # <bitbar.abouturl>https://github.com/carlsonorozco/ejector</bitbar.abouturl>
 
-drives=( $(df -Hl | grep /Volumes/ | sed 's/.*\/Volumes\/*//') )
+drives=( $(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//') )
 
 IFS=$'**********'
 for details in $( diskutil info -all ); do
@@ -86,7 +86,7 @@ if [ ${#drives[@]} = 0 ]; then
     exit
 fi
 
-echo "⏏ | color=black"
+echo "⏏"
 echo '---'
 
 IFS=$'**********'
@@ -104,12 +104,12 @@ for details in $( diskutil info -all ); do
     [[ $protocol = 'USB' ]] && ((total_usb++))
 
     if [ "$mount_point" != '' ]; then
-        echo "$name | color=black bash='$0' param1=eject param2='$mount_point' terminal=false"
-        echo "$name [unmount] | alternate=true color=black bash='$0' param1=unmount param2='$mount_point' terminal=false"
+        echo "$name | bash='$0' param1=eject param2='$mount_point' terminal=false"
+        echo "$name [unmount] | alternate=true bash='$0' param1=unmount param2='$mount_point' terminal=false"
         echo "├─ Available: $free_space"
         echo "└─ Capacity: $total_size"
     else
-        echo "$name | color=black bash='$0' param1=mount param2=$device_node terminal=false"
+        echo "$name | bash='$0' param1=mount param2=$device_node terminal=false"
         echo "└─ Unmounted: $device_node"
     fi
 done
