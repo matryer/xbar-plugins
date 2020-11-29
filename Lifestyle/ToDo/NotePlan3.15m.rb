@@ -19,6 +19,9 @@
 #     - ignore tasks with dates scheduled into the future
 #     - improve some non-tasks it was including
 #     - code clean up
+#   2020/11/29:
+#     - auto-detect storage type (CloudKit > iCloud Drive > Drobpox if there are multiple)
+#     - add option to specify the file extension in use (default to md, but can be txt)
 #
 # Modifications by Guillaume Barrette
 #   2017/07/01:
@@ -71,7 +74,7 @@ show_alt_task = true             # If true, tasks marked with the alternate char
 show_subtasks = true             # If true, subtasks would be shown in the list
 divide_with_header = true        # If true, headers would be listed and a separator is put between lists
 archive_task_at_end = false      # If true, the task would get archived to the end of the note
-STORAGE_TYPE = 'CloudKit'        # NP storage choice: 'iCloudDrive', 'CloudKit', or 'Dropbox'
+file_extension = '.md'            # Defaults to file extension type 'md' -- can change to '.txt'
 
 standard_font = ''               # Font used for tasks
 header_font   = 'Helvetica-Bold' # Font used for headers if listed with 'divide_with_header'
@@ -80,15 +83,16 @@ header_font   = 'Helvetica-Bold' # Font used for headers if listed with 'divide_
 Encoding.default_internal = Encoding::UTF_8
 Encoding.default_external = Encoding::UTF_8
 
-data_root_filepath = if STORAGE_TYPE == 'Dropbox'
-                       '~/Dropbox/Apps/NotePlan/Documents'
-                     elsif STORAGE_TYPE == 'iCloudDrive'
-                       '~/Library/Mobile Documents/iCloud~co~noteplan~NotePlan/Documents' # for iCloud storage (default)
-                     else
-                       '~/Library/Containers/co.noteplan.NotePlan3/Data/Library/Application Support/co.noteplan.NotePlan3' # for CloudKit storage (from NP 3.0.15 beta)
-                     end
+USERNAME = ENV['LOGNAME'] # pull username from environment
+USER_DIR = ENV['HOME'] # pull home directory from environment
+DROPBOX_DIR = "#{USER_DIR}/Dropbox/Apps/NotePlan/Documents".freeze
+ICLOUDDRIVE_DIR = "#{USER_DIR}/Library/Mobile Documents/iCloud~co~noteplan~NotePlan/Documents".freeze
+CLOUDKIT_DIR = "#{USER_DIR}/Library/Containers/co.noteplan.NotePlan3/Data/Library/Application Support/co.noteplan.NotePlan3".freeze
+data_root_filepath = DROPBOX_DIR if Dir.exist?(DROPBOX_DIR) && Dir[File.join(DROPBOX_DIR, '**', '*')].count { |file| File.file?(file) } > 1
+data_root_filepath = ICLOUDDRIVE_DIR if Dir.exist?(ICLOUDDRIVE_DIR) && Dir[File.join(ICLOUDDRIVE_DIR, '**', '*')].count { |file| File.file?(file) } > 1
+data_root_filepath = CLOUDKIT_DIR if Dir.exist?(CLOUDKIT_DIR) && Dir[File.join(CLOUDKIT_DIR, '**', '*')].count { |file| File.file?(file) } > 1
 
-todo_file_loc = File.expand_path(data_root_filepath + '/Calendar/' + Date.today.strftime('%Y%m%d') + '.txt')
+todo_file_loc = File.expand_path(data_root_filepath + '/Calendar/' + Date.today.strftime('%Y%m%d') + file_extension)
 
 if ARGV.empty?
   # Add further priority labels here
