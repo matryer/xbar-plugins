@@ -12,7 +12,6 @@
 function get_darkmode_state {
 state=$(osascript <<EOD
 tell application "System Events" to tell appearance preferences
-	get properties
 	set currentValue to dark mode
 		return currentValue
 end tell
@@ -30,13 +29,13 @@ EOD
 
 if [[ "$1" = "activate" ]]; then
   toggle_darkmode;
-	--osascript -e 'tell application "Finder" to display notification "Enabled" with title "Dark Mode"'
+	osascript -e 'tell application "Finder" to display notification "Enabled" with title "Dark Mode"'
 	exit
 fi
 
 if [[ "$1" = "desactivate" ]]; then
   toggle_darkmode;
-  	--osascript -e 'tell application "Finder" to display notification "Disabled" with title "Dark Mode"'
+  	osascript -e 'tell application "Finder" to display notification "Disabled" with title "Dark Mode"'
 	exit
 fi
 
