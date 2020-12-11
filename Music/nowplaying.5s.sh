@@ -10,9 +10,15 @@
 # <bitbar.abouturl></bitbar.abouturl>
 
 # first, determine if there's an app that's playing or paused
-apps=(iTunes Music Spotify Vox)
+apps=(Music Spotify Vox)
 playing=""
 paused=""
+
+# Determine if we are running a pre-Catalina OS X version and adjust the apps accordingly.
+osx_ver_before_catalina=$(sw_vers -productVersion | grep -E "10\.\d[0-4]+\..*")
+if [ -n "$osx_ver_before_catalina" ]; then
+  apps=(iTunes Spotify Vox)
+fi
 
 for i in "${apps[@]}"; do
 	# is the app running?
@@ -87,7 +93,7 @@ else
 		track_query="track"
 		artist_query="artist"
 	fi
-	
+
 	# output the track and artist
 	track=$(osascript -e "tell application \"$app\" to $track_query")
 	artist=$(osascript -e "tell application \"$app\" to $artist_query")
