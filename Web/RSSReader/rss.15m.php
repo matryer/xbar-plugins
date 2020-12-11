@@ -80,6 +80,12 @@ class RSSParser
         $this->loadLogData();
 
         $feed_data = @file_get_contents(FEED_URL);
+
+        if ($feed_data === '') {
+            $this->title = 'No new items at this time.';
+            return;
+        }
+
         $this->feed = new DOMDocument();
         $this->feed->loadXML($feed_data);
 
