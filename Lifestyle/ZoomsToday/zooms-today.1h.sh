@@ -9,6 +9,7 @@
 # <bitbar.author>Luis Cruz</bitbar.author>
 # <bitbar.author.github>sprak3000</bitbar.author.github>
 # <bitbar.desc>Display a list of Zoom based meetings in your calendar today. Selecting a meeting will take you to the Zoom session associated with it.</bitbar.desc>
+# <bitbar.image>https://sprak3000.github.io/assets/images/blog/zooms-today.png</bitbar.image>
 # <bitbar.dependencies>icalBuddy</bitbar.dependencies>
 #
 # Dependencies:
