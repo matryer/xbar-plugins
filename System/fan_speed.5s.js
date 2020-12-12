@@ -4,7 +4,7 @@
 // <bitbar.author>Masayuki Sunahara</bitbar.author>
 // <bitbar.author.github>tamanishi</bitbar.author.github>
 // <bitbar.desc>Shows fan speed. Strongly inpired by Eric Ripa's "Fan Speed" plugin.</bitbar.desc>
-// <bitbar.image>https://github.com/tamanishi/fan_speed/blob/master/image.png</bitbar.image>
+// <bitbar.image>https://github.com/tamanishi/fan_speed/blob/master/image.png?raw=true</bitbar.image>
 // <bitbar.dependencies>node</bitbar.dependencies>
 // <bitbar.abouturl>https://github.com/tamanishi/fan_speed</bitbar.abouturl> 
 
