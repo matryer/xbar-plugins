@@ -6,6 +6,7 @@
 # <bitbar.author>Adam Jilling</bitbar.author>
 # <bitbar.author.github>ajilling</bitbar.author.github>
 # <bitbar.desc>Shows your total portfolio value and daily change</bitbar.desc>
+# <bitbar.image>https://i.ibb.co/SBY7NXy/bitbar-robinhood.png</bitbar.image>
 # <bitbar.dependencies>python,robin_stocks</bitbar.dependencies>
 
 import robin_stocks as rh
