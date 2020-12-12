@@ -5,6 +5,7 @@
 # <bitbar.author>Chen Luxin</bitbar.author>
 # <bitbar.author.github>chenlujjj</bitbar.author.github>
 # <bitbar.desc>Show NBA game scores in bar.</bitbar.desc>
+# <bitbar.image>https://user-images.githubusercontent.com/17081528/101980272-3b763000-3c9f-11eb-9f0e-a14163725805.png</bitbar.image>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 
 import json
