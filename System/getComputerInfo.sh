@@ -5,7 +5,7 @@
 # <bitbar.author>Sarah Keenan</bitbar.author>
 # <bitbar.author.github>SKeenan07</bitbar.author.github>
 # <bitbar.desc>This plugin gets the IP address and the computer name.</bitbar.desc>
-# <bitbar.image>https://github.com/SKeenan07/portfolio/blob/master/images/BitBarPlugin.png</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/SKeenan07/portfolio/master/images/BitBarPlugin.png?raw=true</bitbar.image>
 
 activeNetworkAdapter=$(echo 'show State:/Network/Global/IPv4' | scutil | grep PrimaryInterface | sed 's/ PrimaryInterface : //')
 
