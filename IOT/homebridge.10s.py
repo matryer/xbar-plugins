@@ -5,6 +5,7 @@
 # <bitbar.author>Eric Andrechek</bitbar.author>
 # <bitbar.author.github>EricAndrechek</bitbar.author.github>
 # <bitbar.desc>Control Homebridge and connected devices.</bitbar.desc>
+# <bitbar.image>https://user-images.githubusercontent.com/35144594/102293908-0b849200-3f16-11eb-9778-7ce25edcc7ec.png</bitbar.image>
 # <bitbar.dependencies>python, requests module</bitbar.dependencies>
 # <bitbar.abouturl>https://homebridge.io/</bitbar.abouturl>
 
