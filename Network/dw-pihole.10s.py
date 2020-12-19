@@ -5,7 +5,7 @@
 # <bitbar.author>Albert Steiner</bitbar.author>
 # <bitbar.author.github>alst-ovh</bitbar.author.github>
 # <bitbar.desc>Show Summary and Manage Pi-hole from Menubar.</bitbar.desc>
-# <bitbar.abouturl>https://github.com/alst-ovh/bitbar-dw-pihole/blob/master/dw-pihole.png</bitbar.abouturl>
+# <bitbar.abouturl>https://user-images.githubusercontent.com/35896287/86492400-5480c980-bd6e-11ea-83c1-081a11c3d63c.png</bitbar.abouturl>
 import json
 import os
 import ssl
