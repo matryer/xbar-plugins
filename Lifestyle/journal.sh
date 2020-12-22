@@ -9,7 +9,7 @@
 # <bitbar.dependencies>bash,applescript,The Archive</bitbar.dependencies>
 # <bitbar.abouturl>https://forum.zettelkasten.de/discussion/1559/better-journaling-with-the-archive-and-bitbar</bitbar.abouturl>
 
-ZK_PATH="/Users/brunoc/Dropbox/Fichas/Φ/"
+ZK_PATH="" # path to note archive
 
 SCRIPT_NAME=$(basename "$0")
 SCRIPT_DIR=$(dirname "$0")
