@@ -14,6 +14,7 @@ SCRIPT_DIR=$(dirname "$0")
 FLAG_FILE="$TMPDIR/remember-journal.tmp"
 MENU_LINE="| bash='${SCRIPT_DIR}/${SCRIPT_NAME}' param1=click terminal=false"
 DAY=`date +%Y%m%d`
+ALERT_MODE=0
 
 # Bookmark icon by Kiranshastry
 # https://pngtree.com/so/bookmark-icon
@@ -28,10 +29,14 @@ CUR_ICON=${ICON}
 
 if [[ -f "${FLAG_FILE}" ]]; then
     CUR_ICON=${ICON_ALERT}
+    ALERT_MODE=1
 fi
 
 function switchTheArchive() {
-    osascript <<EOF
+    if [[ "${ALERT_MODE}" = 1 ]] ; then
+        open "thearchive://match/${DAY}"
+    else
+        osascript <<EOF
 tell application "System Events"
     set activeApp to name of application processes whose frontmost is true
     if (activeApp begins with "The Archive") then
@@ -41,6 +46,7 @@ tell application "System Events"
     end if
 end tell
 EOF
+    fi
 }
 
 if [[ "$1" = "click" ]]; then
