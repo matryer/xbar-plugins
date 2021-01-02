@@ -87,6 +87,7 @@ module BitBar
           html = URI.send(:open, "https://github.com/users/#{username}/contributions?to=#{today}#year-link-#{year}") { |f| f.read };
           html.scan(RE_CONTRIBUTION) do |count, date|
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
+            break if Date.parse(date) == Date.parse(DateTime.now.to_s)
           end
         end
       end
