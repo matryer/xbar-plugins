@@ -54,7 +54,7 @@ class Team:
 
     @classmethod
     def from_data(cls, data: dict):
-        team = cls(data['triCode'], int(data['score']), data['linescore'])
+        team = cls(data['triCode'], int(data['score'] or 0), data['linescore'])
         return team
 
     @property
