@@ -67,11 +67,11 @@ def doStuff(token, url, icon, command, unit):
                     pass
                 if update is True:
                     numUpdates += 1
-                updates.append("{} v{} - {} v{} | href={}".format(name, plugin['installedVersion'], "up to date" if not update else "new update", plugin['latestVersion'], link))
+                updates.append("{} v{} - {} | href={}".format(name, plugin['installedVersion'], "up to date" if not update else "new update v{}".format(plugin['latestVersion']), link))
         nodeJSRequest = requests.get('{}/api/status/nodejs'.format(url), headers=headers)
         if nodeJSRequest.status_code == 200:
             nodeVersion = nodeJSRequest.json()
-            updates.append("NodeJS {} - {} {}".format(nodeVersion['currentVersion'], "up to date" if not nodeVersion['updateAvailable'] else "new update", nodeVersion['latestVersion']))
+            updates.append("NodeJS {} - {}".format(nodeVersion['currentVersion'], "up to date" if not nodeVersion['updateAvailable'] else "new update {}".format(nodeVersion['latestVersion'])))
             numUpdates += 1
         numUpdates = "Avaliable Updates: " + str(numUpdates)
 
