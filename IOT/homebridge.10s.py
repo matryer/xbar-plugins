@@ -116,13 +116,9 @@ def doStuff(token, url, icon, command, unit):
             for plugin in updatesRequest.json():
                 name = plugin['name']
                 update = plugin['updateAvailable']
-                link = ""
+                link = "https://github.com/" + plugin['author'] + '/' + plugin['name'] + '/releases/latest'
                 try:
                     name = plugin['displayName']
-                except:
-                    pass
-                try:
-                    link = plugin['links']["homepage"]
                 except:
                     pass
                 if update is True:
@@ -131,12 +127,12 @@ def doStuff(token, url, icon, command, unit):
         nodeJSRequest = requests.get('{}/api/status/nodejs'.format(url), headers=headers)
         if nodeJSRequest.status_code == 200:
             nodeVersion = nodeJSRequest.json()
-            updates.append("NodeJS {} - {}".format(nodeVersion['currentVersion'], "up to date" if not nodeVersion['updateAvailable'] else "new update {}".format(nodeVersion['latestVersion'])))
+            updates.append("NodeJS {} - {} | href=https://github.com/nodejs/node/releases/latest".format(nodeVersion['currentVersion'], "up to date" if not nodeVersion['updateAvailable'] else "new update {}".format(nodeVersion['latestVersion'])))
             numUpdates += 1 if nodeVersion['updateAvailable'] else 0
         homebridgeRequest = requests.get('{}/api/status/homebridge-version'.format(url), headers=headers)
         if homebridgeRequest.status_code == 200:
             hbVersion = homebridgeRequest.json()
-            updates.append("Homebridge v{} - {}".format(hbVersion['installedVersion'], "up to date" if not hbVersion['updateAvailable'] else "new update v{}".format(hbVersion['latestVersion'])))
+            updates.append("Homebridge v{} - {} | href=https://github.com/homebridge/homebridge/releases/latest".format(hbVersion['installedVersion'], "up to date" if not hbVersion['updateAvailable'] else "new update v{}".format(hbVersion['latestVersion'])))
             numUpdates += 1 if hbVersion['updateAvailable'] else 0
         numUpdates = "Avaliable Updates: " + str(numUpdates)
 
@@ -163,9 +159,11 @@ def doStuff(token, url, icon, command, unit):
         
         statusRequest = requests.get('{}/api/status/homebridge'.format(url), headers=headers)
         if statusRequest.status_code == 200:
-            status = "Homebridge is " + statusRequest.json()["status"] + ""
             if statusRequest.json()["status"] == "up":
                 state = True
+            upWord = "up"
+            downWord = "down"
+            status = "Homebridge is " + upWord if state else downWord
         
         ico = ""
         if icon.upper() == "CPU":
