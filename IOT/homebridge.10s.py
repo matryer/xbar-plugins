@@ -132,7 +132,12 @@ def doStuff(token, url, icon, command, unit):
         if nodeJSRequest.status_code == 200:
             nodeVersion = nodeJSRequest.json()
             updates.append("NodeJS {} - {}".format(nodeVersion['currentVersion'], "up to date" if not nodeVersion['updateAvailable'] else "new update {}".format(nodeVersion['latestVersion'])))
-            numUpdates += 1
+            numUpdates += 1 if nodeVersion['updateAvailable'] else 0
+        homebridgeRequest = requests.get('{}/api/status/homebridge-version'.format(url), headers=headers)
+        if homebridgeRequest.status_code == 200:
+            hbVersion = homebridgeRequest.json()
+            updates.append("Homebridge v{} - {}".format(hbVersion['installedVersion'], "up to date" if not hbVersion['updateAvailable'] else "new update v{}".format(hbVersion['latestVersion'])))
+            numUpdates += 1 if hbVersion['updateAvailable'] else 0
         numUpdates = "Avaliable Updates: " + str(numUpdates)
 
         cpuRequest = requests.get('{}/api/status/cpu'.format(url), headers=headers)
