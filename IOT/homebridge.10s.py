@@ -155,7 +155,7 @@ def doStuff(token, url, icon, command, unit):
         
         ramRequest = requests.get('{}/api/status/ram'.format(url), headers=headers)
         if ramRequest.status_code == 200:
-            ram = "RAM: " + str(round((int(ramRequest.json()["mem"]["used"]) / int(ramRequest.json()["mem"]["total"])) * 100)) + "%"
+            ram = "RAM: " + str(100 - round((int(ramRequest.json()["mem"]["available"]) / int(ramRequest.json()["mem"]["total"])) * 100)) + "%"
         
         uptimeRequest = requests.get('{}/api/status/uptime'.format(url), headers=headers)
         if uptimeRequest.status_code == 200:
