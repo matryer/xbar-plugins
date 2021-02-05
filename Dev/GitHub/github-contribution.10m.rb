@@ -79,7 +79,7 @@ module BitBar
     ConfigurationError = Class.new(StandardError)
 
     class Contribution < Struct.new(:username, :contributed_on, :count)
-      RE_CONTRIBUTION = %r|<rect class="day" .+ data-count="(\d+)" data-date="(\d\d\d\d-\d\d-\d\d)"/>|
+      RE_CONTRIBUTION = %r|<rect .+ class="ContributionCalendar-day" .+ data-count="(\d+)" data-date="(\d\d\d\d-\d\d-\d\d)" .+>|
       def self.find_all_by(username:)
         [].tap do |contributions|
           today = Date.parse(DateTime.now.to_s).to_s
@@ -156,11 +156,12 @@ module BitBar
       end
 
       def run
+        # (DateTime.now-7).to_s
         contributions = Contribution.find_all_by(username: @username)
                                     .sort_by(&:contributed_on)
+                                    .select{|l| l.contributed_on < DateTime.now}
                                     .reverse
                                     .slice(0, @max_contributions)
-
         View.new(contributions: contributions).render
       end
 
