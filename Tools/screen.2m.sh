@@ -14,8 +14,8 @@ PATH="/usr/local/bin:$PATH" SCREEN_COMMAND=$(command -v screen)
 echo "💻"
 echo '---'
 SCREENS=$(${SCREEN_COMMAND} -list | grep -o '\s*.*\s*(.*)')
-if [[ -z ${SCREENS} ]]; then
-  echo "no screens"
+if [[ -z ${SCREENS} ]] || [[ ${SCREENS} =~ ^.*empty.*$ ]]; then
+  echo "new screen session | refresh=true bash=${SCREEN_COMMAND}";
 else
   (
     IFS=$'\n'; for LINE in $(screen -list); do
