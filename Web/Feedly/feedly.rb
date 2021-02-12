@@ -11,7 +11,7 @@ require 'json'
 ARTICLE_LIMIT = 20.freeze
 
 ## PROCEDURE TO GET AUTH TOKEN ##
-# http://blog.morizyun.com/posts/feedly-feed-api-script-bitbar
+# https://blog.morizyun.com/blog/feedly-feed-api-script-bitbar/index.html
 FEEDLY_AUTH_TOKEN = 'YOUR access_token'.freeze
 
 def get_json_by_feedly_api(url)

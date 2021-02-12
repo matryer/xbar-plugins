@@ -10,7 +10,7 @@
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Sebastián Barschkis</bitbar.author>
 # <bitbar.author.github>sebbas</bitbar.author.github>
-# <bitbar.desc>Plays the next track in cmus, iTunes, Spotify or pianobar.</bitbar.desc>
+# <bitbar.desc>Plays the next track in cmus, iTunes, Music, Spotify or pianobar.</bitbar.desc>
 # <bitbar.dependencies>perl</bitbar.dependencies>
 # <bitbar.image>https://raw.githubusercontent.com/sebbas/music-controls-bitbar/master/music-controls-screenshot.png</bitbar.image>
 # <bitbar.abouturl>http://github.com/sebbas/music-controls-bitbar</bitbar.abouturl>
@@ -31,6 +31,7 @@ EXPERIMENTAL_MODE=0
 NONE="none"
 CMUS="cmus"
 ITUNES="iTunes"
+MUSIC="Music"
 SPOTIFY="Spotify"
 PIANOBAR="pianobar"
 
@@ -62,6 +63,10 @@ if [[ "$1" = 'itunes_next' ]]; then
   osascript -e 'tell application "iTunes" to next track'
   exit
 fi
+if [[ "$1" = 'music_next' ]]; then
+  osascript -e 'tell application "Music" to next track'
+  exit
+fi
 if [[ "$1" = 'spotify_next' ]]; then
   osascript -e 'tell application "Spotify" to next track'
   exit
@@ -82,18 +87,22 @@ current_source="$NONE"
 # Get pid of music apps to see if they are currently running
 cmus_pid=$(pgrep -x "$CMUS")
 itunes_pid=$(pgrep -x "$ITUNES")
+music_pid=$(pgrep -x "$MUSIC")
 spotify_pid=$(pgrep -x "$SPOTIFY")
 pianobar_pid=$(pgrep -x "$PIANOBAR")
 
 # Keep track of music source
 # Reorder items in for -loop to your liking to change order of precendece
 # (i.e. if available, left-most audio source will be used first)
-for s in "$CMUS" "$ITUNES" "$SPOTIFY" "$PIANOBAR"; do
+for s in "$CMUS" "$ITUNES" "$MUSIC" "$SPOTIFY" "$PIANOBAR"; do
   if [[ $s = "$CMUS" && $cmus_pid ]]; then
     current_source="$CMUS"
     break
   elif [[ $s = "$ITUNES" && $itunes_pid ]]; then
     current_source="$ITUNES"
+    break
+  elif [[ $s = "$MUSIC" && $music_pid ]]; then
+    current_source="$MUSIC"
     break
   elif [[ $s = "$SPOTIFY" && $spotify_pid ]]; then
     current_source="$SPOTIFY"
@@ -119,6 +128,10 @@ function playing_info
     track=$(osascript -e 'try' -e 'tell application "iTunes" to name of current track as string' -e 'on error errText' -e '""' -e 'end try');
     artist=$(osascript -e 'try' -e 'tell application "iTunes" to artist of current track as string' -e 'on error errText' -e '""' -e 'end try');
     album=$(osascript -e 'try' -e 'tell application "iTunes" to album of current track as string' -e 'on error errText' -e '""' -e 'end try');
+  elif [[ $current_source = "$MUSIC" ]]; then
+    track=$(osascript -e 'try' -e 'tell application "Music" to name of current track as string' -e 'on error errText' -e '""' -e 'end try');
+    artist=$(osascript -e 'try' -e 'tell application "Music" to artist of current track as string' -e 'on error errText' -e '""' -e 'end try');
+    album=$(osascript -e 'try' -e 'tell application "Music" to album of current track as string' -e 'on error errText' -e '""' -e 'end try');
   elif [[ $current_source = "$PIANOBAR" ]]; then
     # First check if 'playing' file exists
     if [ -f "$pianobar_playingfile" ]; then
@@ -203,7 +216,9 @@ function library_info
     while read -r line; do
 
       # Split station number and name from each other, closing bracket is delimiter
+      # shellcheck disable=SC2001
       station_num="$(sed 's/).*//' <<< "$line")"
+      # shellcheck disable=SC2001
       station_name="$(sed 's/^[^)]*)//' <<< "$line")"
 
       # Remove leading and trailing white space

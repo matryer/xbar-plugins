@@ -13,7 +13,7 @@ import datetime
 def idle():
     print(':bell:')
     print("---")
-    print("01 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
+    print("01 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=1 terminal=false refresh=true")
     print("05 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
     print("10 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=10 terminal=false refresh=true")
     print("30 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=30 terminal=false refresh=true")

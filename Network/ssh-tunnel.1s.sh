@@ -31,7 +31,7 @@ function hosts() {
         $1 == "DynamicForward" || $1 == "LocalForward" {
             print host;
         }
-    ' "$1"
+    ' "$1" | uniq
 }
 
 for h in $(hosts ~/.ssh/config); do

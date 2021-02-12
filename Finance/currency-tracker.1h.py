@@ -31,7 +31,8 @@ rates = jsonCurr["rates"]
 keys = rates.keys()
 
 for key in reversed(keys):
-	print key + ": " + str(rates[key])
+	# round down to four decimals
+	print key + ": " + ("%.4f" % rates[key])
 
 print "---"
 print "From: " + currFrom

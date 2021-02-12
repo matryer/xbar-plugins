@@ -1,11 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import re
 import os
 import subprocess
-import urllib2
 import argparse
 import warnings
 from distutils.spawn import find_executable
+from tempfile import NamedTemporaryFile
+from urllib.request import urlopen
 
 ignore_file_types = ['.md']
 ignore_file_names = ['package.json', 'package-lock.json']
@@ -18,25 +19,25 @@ error_count = 0
 def debug(s):
     global args
     if args.debug:
-        print "\033[1;44mDBG!\033[0;0m %s\n" % s
+        print("\033[1;44mDBG!\033[0;0m %s\n" % s)
 
 
 def passed(s):
     global args
     if args.verbose:
-        print "\033[1;42mPASS\033[0;0m %s\n" % s
+        print("\033[1;42mPASS\033[0;0m %s\n" % s)
 
 
 def warn(s):
     global args
     if args.warn:
-        print "\033[1;43mWRN!\033[0;0m %s\n" % s
+        print("\033[1;43mWRN!\033[0;0m %s\n" % s)
 
 
 def error(s):
     global error_count
     error_count += 1
-    print "\033[1;41mERR!\033[0;0m %s\n" % s
+    print("\033[1;41mERR!\033[0;0m %s\n" % s)
 
 
 class Language(object):
@@ -81,23 +82,53 @@ class Language(object):
                 lines = fp.readlines()[1:]
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    tmpfile = os.tmpnam()
-                with open(tmpfile, 'w') as tp:
-                    tp.writelines(lines)
-                file = tmpfile
+                with NamedTemporaryFile(mode='w', delete=False) as t:
+                    file = t.name
+                    t.writelines(lines)
         command = list(self.cmd)
         if is_pr and self.pr:
             command.extend(self.pr)
         elif not is_pr and self.full:
             command.extend(self.full)
         command.append(file)
-        return subprocess.check_output(command, stderr=subprocess.STDOUT)
+        result = subprocess.check_output(command, stderr=subprocess.STDOUT)
+        if self.trim:
+            os.remove(file)
+        return result
+
+
+class Python2(Language):
+    def __init__(self):
+        super().__init__(['.py', '.py2'], r'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes'])
+
+    def lint(self, file, pr):
+        if pr:
+            raise subprocess.CalledProcessError(
+                cmd="", returncode=1,
+                output=b"python3 support required for all PRs")
+        else:
+            return super(Python2, self).lint(file, pr)
+
+
+class Rscript(Language):
+    def __init__(self):
+        super().__init__(['.r', '.R'], '(r|R)script$', ['Rscript'])
+
+    def lint(self, file, pr):
+        if not self.enabled:
+            return None
+        result = subprocess.check_output([
+            'Rscript',
+            '-e',
+            'library(lintr); l=lint("%s", with_defaults(line_length_linter = NULL));l; quit(status=if (length(l) > 0) { 1 } else { 0 })' % file
+        ], stderr=subprocess.STDOUT)
+        return result
 
 
 Language.registerLanguage(Language(['.sh'], '(bash|ksh|zsh|sh|fish)$', ['shellcheck'], full_options=['-e', 'SC1117,SC2164,SC2183,SC2196,SC2197,SC2206,SC2207,SC2215,SC2219,SC2230,SC2236']))
-Language.registerLanguage(Language(['.py', '.py2'], 'python(|2(\.\d+)?)$', ['python2', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.py', '.py3'], 'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
-Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RescueWithoutErrorClass']))
+Language.registerLanguage(Python2())
+Language.registerLanguage(Language(['.py', '.py3'], r'python(|3(\.\d+)?)$', ['python3', '-m', 'pyflakes']))
+Language.registerLanguage(Language(['.rb'], 'ruby$', ['rubocop', '-l'], full_options=['--except', 'Lint/RedundantStringCoercion,Lint/BigDecimalNew']))
 Language.registerLanguage(Language(['.js'], 'node$', ['jshint']))
 Language.registerLanguage(Language(['.php'], 'php$', ['php', '-l']))
 Language.registerLanguage(Language(['.pl'], 'perl( -[wW])?$', ['perl', '-MO=Lint']))
@@ -107,6 +138,7 @@ Language.registerLanguage(Language(['.rkt'], 'racket$', ['raco', 'make']))
 # go does not actually support shebang on line 1.  gorun works around this, so we need to strip it before we lint
 Language.registerLanguage(Language(['.go'], 'gorun$', ['golint', '-set_exit_status'], trim_shebang=True))
 Language.registerLanguage(Language(['.lua'], 'lua$', ['luacheck']))
+Language.registerLanguage(Rscript())
 
 
 def check_file(file_full_path, pr=False):
@@ -170,8 +202,8 @@ def check_file(file_full_path, pr=False):
 
     if metadata.get('image', False):
         try:
-            response = urllib2.urlopen(metadata['image'])
-            response_content_type = response.info().getheader('Content-Type')
+            response = urlopen(metadata['image'])
+            response_content_type = response.info().get('Content-Type')
             if response_content_type not in allowed_image_content_types:
                 error('%s image metadata has bad content type: %s' % (file_full_path, response_content_type))
             else:
@@ -196,7 +228,7 @@ def check_file(file_full_path, pr=False):
     for e in errors:
         error('%s failed linting with "%s", please correct the following:' %
               (file_full_path, " ".join(e['linter'].cmd)))
-        print e['output']
+        print(e['output'].decode('UTF-8'))
 
 
 def boolean_string(string):
@@ -225,7 +257,7 @@ if args.pr:
         warn('No changed files in this PR... weird...')
         exit(0)
     else:
-        args.files = output.split('\n')
+        args.files = output.decode("UTF-8").split('\n')
     args.verbose = True
 elif not args.files:
     for root, dirs, files_in_folder in os.walk("."):

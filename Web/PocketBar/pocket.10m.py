@@ -105,7 +105,7 @@ def print_refresh():
 def print_secrets_error():
     print('!|color=#ECB935')
     print('---')
-    print(f'Need authorization')
+    print('Need authorization')
     print('---')
     print(f'Authorize...|bash={CMD} param1=--secrets terminal=false refresh=true')
 
@@ -113,9 +113,9 @@ def print_secrets_error():
 def print_import_error():
     print('!|color=#ECB935')
     print('---')
-    print(f'Need to install pocket-api or/and keyring packages')
+    print('Need to install pocket-api or/and keyring packages')
     print('---')
-    print(f'Install (with PIP)...|bash=pip3 param1=install param2=-U param3=pocket-api param4=keyring terminal=true refresh=true')
+    print('Install (with PIP)...|bash=pip3 param1=install param2=-U param3=pocket-api param4=keyring terminal=true refresh=true')
 
 
 def get_cache(cache_path):

@@ -70,7 +70,6 @@ def parseMonitors(resp):
     with the name of the monitor and
     its status using emoji.
     """
-    upMonitors = 0
     output = []
     fmtString = "{1}  {0} ({3}ms)|href={2}"
 

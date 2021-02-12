@@ -30,6 +30,12 @@ IMPACT = {
             "high": 70,
             "low": 30
         }
+    },
+    6: {
+        "MacBook Pro": {
+            "high": 80,
+            "low": 30
+        }
     }
 }
 
@@ -70,7 +76,7 @@ def main():
     if impact == "high":
         color = "red"
     refresh_interval = sys.argv[0].split('.')[2]
-    print("%.1fW| color=%s size=12" % (machine['current_watt'], color))
+    print("%.1fW | color=%s" % (machine['current_watt'], color))
     print("---")
     print("Refresh (current interval: %s) | refresh=true" % refresh_interval)
 

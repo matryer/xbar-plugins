@@ -5,11 +5,16 @@
 # <bitbar.author>Weibing Chen</bitbar.author>
 # <bitbar.author.github>WeibingChen17</bitbar.author.github>
 # <bitbar.desc>A clock with a simple calendar</bitbar.desc>
-# <bitbar.image>http://i65.tinypic.com/260sz1t.png</bitbar.image>
+# <bitbar.image>https://i.ibb.co/Krmg0P8/Screen-Shot-2019-11-08-at-23-04-29.png</bitbar.image>
 # <bitbar.dependencies>bash</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/WeibingChen17/</bitbar.abouturl>
 
+# If using alongside apples default clock, one can uncomment the following - 
+#formatted_date=$(date '+%d/%b/%Y')
+#printf '\xF0\x9F\x93\x85 %s\n' "$formatted_date"
+# don't forget to comment out the following `date ` command:
 date "+%l:%M %p"
+
 echo "---"
 font="Monaco"
 color="red"

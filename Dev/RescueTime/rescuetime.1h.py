@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
 # <bitbar.title>RescueTime</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Paul Traylor</bitbar.author>
@@ -13,7 +13,7 @@ import datetime
 import json
 import os
 import urllib
-import urllib2
+from urllib.request import urlopen
 
 API_KEY = os.path.expanduser('~/Library/RescueTime.com/api.key')
 
@@ -28,8 +28,8 @@ MAPPING = {
 
 def get(url, params):
     '''Simple function to mimic the signature of requests.get'''
-    params = urllib.urlencode(params)
-    result = urllib2.urlopen(url + '?' + params).read()
+    params = urllib.parse.urlencode(params)
+    result = urlopen(url + '?' + params).read()
     return json.loads(result)
 
 if not os.path.exists(API_KEY):
