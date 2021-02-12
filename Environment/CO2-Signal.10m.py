@@ -7,7 +7,7 @@
 # <bitbar.desc>This plugin displays the current carbon (gC02equivalent) emmissions per kWh of produced electric energy in the requested country/region </bitbar.desc>
 # <bitbar.dependencies>python, CO2 Signal</bitbar.dependencies>
 # <bitbar.abouturl>https://docs.co2signal.com/</bitbar.abouturl>
-
+# <bitbar.image>https://raw.githubusercontent.com/pygoner/Plugin-Bitbar/main/Bitbar%20C02%20Signal%20Plugin%20Image.png</bitbar.image>
 
 import requests
 import sys
