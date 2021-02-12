@@ -19,23 +19,23 @@ echo "---"
 #---ISO8601
 
 YMD=$(date +%F)
-echo "$YMD | bash=$0 param1=copy param2=$YMD terminal=false"
+echo "$YMD |bash='$0' param1=copy param2=$YMD terminal=false"
 
 DATETIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-echo "$DATETIME | bash=$0 param1=copy param2=$DATETIME terminal=false"
+echo "$DATETIME |bash='$0' param1=copy param2=$DATETIME terminal=false"
 
 echo "---"
 
 #---USA
 
 MDY=$(date "+%D")
-echo "$MDY | bash=$0 param1=copy param2=$MDY terminal=false"
+echo "$MDY |bash='$0' param1=copy param2=$MDY terminal=false"
 
  MonDY=$(date +"%b %d %Y")
- echo "$MonDY | bash=$0 param1=copy param2=\"$MonDY\" terminal=false"
+ echo "$MonDY |bash='$0' param1=copy param2=\"$MonDY\" terminal=false"
 
 TIME12=$(date +"%r")
-echo "$TIME12 | bash=$0 param1=copy param2=\"$TIME12\" terminal=false"
+echo "$TIME12 |bash='$0' param1=copy param2=\"$TIME12\" terminal=false"
 
 echo "---"
 
@@ -43,17 +43,17 @@ echo "---"
 #---REST OF THE WORLD
 
 DMY=$(date +"%d/%m/%y")
-echo "$DMY | bash=$0 param1=copy param2=$YMD terminal=false"
+echo "$DMY |bash='$0' param1=copy param2=$YMD terminal=false"
 
 DMonY=$(date +"%d %b %Y")
-echo "$DMonY | bash=$0 param1=copy param2=\"$DMonY\" terminal=false"
+echo "$DMonY |bash='$0' param1=copy param2=\"$DMonY\" terminal=false"
 
 TIMESTAMP=$(date +"%T %D")
-echo "$TIMESTAMP | bash=$0 param1=copy param2=\"$TIMESTAMP\" terminal=false"
+echo "$TIMESTAMP |bash='$0' param1=copy param2=\"$TIMESTAMP\" terminal=false"
 
 
 TIME24=$(date +"%R:%S")
-echo "$TIME24 | bash=$0 param1=copy param2=\"$TIME24\" terminal=false"
+echo "$TIME24 |bash='$0' param1=copy param2=\"$TIME24\" terminal=false"
 
 
 

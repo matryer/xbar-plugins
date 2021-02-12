@@ -13,7 +13,7 @@
 # -----------------------------------------------------------------------------------
 # For a more accurate location lookup, download and install CoreLocationCLI
 # Available here: https://github.com/fulldecent/corelocationcli/releases
-# This will allow a more percise location lookup as it uses native API for loc lookup
+# This will allow a more precise location lookup as it uses native API for loc lookup
 # -----------------------------------------------------------------------------------
 
 import json
