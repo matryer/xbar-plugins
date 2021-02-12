@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # <bitbar.title>ETH Gas Price</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.0.1</bitbar.version>
 # <bitbar.author>Biran Yucel</bitbar.author>
 # <bitbar.author.github>biranyucel</bitbar.author.github>
 # <bitbar.desc>ETH GasPrice forecast system.</bitbar.desc>
@@ -10,7 +10,7 @@
 #
 #ETH GasPrice forecast system based on SparkPool Pending Transaction Mempool
 
-response=$(curl -s https://www.gasnow.org/api/v3/gas/price\?utm_source\=:)
+response=$(curl -s https://www.gasnow.org/api/v3/gas/price)
 read code rapid fast standard slow timestamp <<<${response//[^0-9]/ }
 echo "𝚵 Rapid ${rapid:0:((${#rapid} - 9))} | color=green" 
 echo "𝚵 Fast ${fast:0:((${#fast} - 9))} | color=orange"
