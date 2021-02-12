@@ -3,8 +3,8 @@
 
 # <bitbar.title>Weather - OpenWeatherMap</bitbar.title>
 # <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>rmwphd</bitbar.author>
-# <bitbar.author.github>rmwphd</bitbar.author.github>
+# <bitbar.author>Daniel Seripap</bitbar.author>
+# <bitbar.author.github>seripap</bitbar.author.github>
 # <bitbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</bitbar.desc>
 # <bitbar.dependencies>python,emoji</bitbar.dependencies>
 
