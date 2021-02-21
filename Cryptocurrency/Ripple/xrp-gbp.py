@@ -6,7 +6,7 @@
 # <bitbar.author>impshum</bitbar.author>
 # <bitbar.author.github>impshum</bitbar.author.github>
 # <bitbar.desc>Displays current Ripplecoin price for £1 from Coinmarketcap</bitbar.desc>
-# <bitbar.image>hhttp://i.imgur.com/4gDDXp2.jpg</bitbar.image>
+# <bitbar.image></bitbar.image>
 #
 # by impshum
 
