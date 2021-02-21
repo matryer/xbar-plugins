@@ -57,25 +57,16 @@ def notify(title, subtitle, message):
 
 
 def upload_image(upload):
-    md5 = hashlib.md5()
-    with open(upload, "rb") as data:
-        for chunk in iter(lambda: data.read(4096), b""):
-            md5.update(chunk)
-        token_response = requests.post("http://static.md/api/v2/get-token/",
-                                       data={"md5": md5.hexdigest()}).json()
-
-        if token_response["error"]:
-            raise Exception(token_response["error"])
-
-    time.sleep(token_response["token_valid_after_seconds"])
-    image_response = requests.post("http://static.md/api/v2/upload/",
-                                   data={"token": token_response["token"]},
-                                   files={"image": open(upload, "rb")}).json()
-    if image_response["error"]:
-        raise Exception(image_response["error"])
-
-    return image_response["image"]
-
+    # upload is the path of the image
+    headers = {
+        'authorization': 'Client-ID 6fcd294cd0e8aa1',
+    }  
+    files = {
+        'image': (open(upload, 'rb')),
+    }
+    r = requests.post('https://api.imgur.com/3/upload', headers=headers, files=files)
+    import json
+    return json.loads(r.text)['data']['link']
 
 class Command(object):
     def __init__(self, title, name):
