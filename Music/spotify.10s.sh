@@ -11,7 +11,7 @@
 # metadata
 # <bitbar.title>Spotify Now Playing</bitbar.title>
 # <bitbar.version>v1.3</bitbar.version>
-# <bitbar.author>Benji Encalada Mora, Marcin S., Jason Tokoph</bitbar.author>
+# <bitbar.author>Jason Tokoph, Marcin S,.Benji Encalada Mora</bitbar.author>
 # <bitbar.author.github>jtokoph</bitbar.author.github>
 # <bitbar.desc>Display currently playing Spotify song and podcast. Play/pause, skip forward, skip backward.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/y1SZwfq.png</bitbar.image>
