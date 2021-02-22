@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 # <bitbar.title>Screenshot</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Brandon Barker</bitbar.author>
+# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.author>Brandon Barker, Soumya Ranjan Mohanty</bitbar.author>
 # <bitbar.author.github>ProjectBarks</bitbar.author.github>
 # <bitbar.desc>Allows for screenshots to be uploaded, saved, and added to the clipboard</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/51rg3EJ.png</bitbar.image>
