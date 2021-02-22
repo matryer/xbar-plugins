@@ -3,7 +3,7 @@
 # <bitbar.title>Screenshot</bitbar.title>
 # <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Brandon Barker, Soumya Ranjan Mohanty</bitbar.author>
-# <bitbar.author.github>ProjectBarks</bitbar.author.github>
+# <bitbar.author.github>ProjectBarks, geekysrm</bitbar.author.github>
 # <bitbar.desc>Allows for screenshots to be uploaded, saved, and added to the clipboard</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/51rg3EJ.png</bitbar.image>
 # <bitbar.dependencies>python</bitbar.dependencies>
