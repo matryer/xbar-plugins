@@ -8,13 +8,17 @@
 # <bitbar.desc>Check International Space Station Pass Times Over !</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
 
+import time
 from time import localtime
 from requests import get
 
 LATITUDE = -27.591665  # Put your latitude here
 LONGITUDE = -48.589599  # Put your longitude here
 ALTITUDE = 12  # Put your altitude here
+TZONE = ''
 
+    if (time.timezone) < 0 :
+     TZONE = '+'
 
 def iss_overhead():
     url = "http://api.open-notify.org/iss-pass.json?lat={}&lon={}&alt={}".format(LATITUDE, LONGITUDE, ALTITUDE)
@@ -29,10 +33,11 @@ def iss_overhead():
             ts = overhead['risetime']
             year, month, day, hour, minute, seconds, weekday, year_day, is_dst = localtime(ts)
 
-            print("🛰 {}/{} - {}:{} UTC".format(day, month, hour, minute))
+            print("🛰 {}/{} - {:0>2}:{:0>2}".format(day, month, hour, minute))
     else:
         print("☠ Invalid response.")
-
+    
+    print('Timezone: UTC', TZONE, time.timezone / -3600)
 
 def separator():
     print('---')
