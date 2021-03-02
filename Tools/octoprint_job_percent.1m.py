@@ -11,10 +11,10 @@ import requests
 import re
 
 # edit to your octoprint ip address:port
-url = "http://192.168.1.39:5000/api/job"
+url = "http://octopi.local/api/job"
 
 # update to your api-key 
-headers = {"Accept": "application/json", "X-Api-Key": "FCDD9CAD9EEA41B2AADABD51B1CC93A3"}
+headers = {"Accept": "application/json", "X-Api-Key": "FCDD9CAD9XXXXXXXXXXXXXXXXXX"}
 
 result = requests.get(url,headers=headers)
 
