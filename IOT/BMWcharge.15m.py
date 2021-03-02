@@ -57,6 +57,7 @@ hv_charge_level = vehicle.state.charging_level_hv
 fuel_percent = vehicle.state.vehicle_status.attributes.get("fuelPercent", 999)
 electric_range = vehicle.state.remaining_range_electric
 topstring = "BMW"
+charging_menu_str = ""
 
 if charging is ChargingState.CHARGING:
     remaining_charge_time = vehicle.state.charging_time_remaining
@@ -68,20 +69,19 @@ if charging is ChargingState.CHARGING:
         )
         charging_menu_str = f"Charging, {remaining_str} left | color=#FFFFFF"
     else:
-        topstring = f":electric_plug: {hv_charge_level}%, {electric_range}km left"
+        topstring = f":electric_plug: {hv_charge_level}% / {electric_range}km"
         charging_menu_str = "Charged (still connected) | color=#FFFFFF"
 elif charging in (
     ChargingState.NOT_CHARGING,
     ChargingState.FINISHED_FULLY_CHARGED,
     ChargingState.FINISHED_NOT_FULL,
+    ChargingState.INVALID,
 ):
-    topstring = f":battery: {hv_charge_level}%, {electric_range}km left"
+    topstring = f":battery: {hv_charge_level}% / {electric_range}km"
 elif charging is ChargingState.WAITING_FOR_CHARGING:
     topstring = f":alarm_clock: {hv_charge_level}%, waiting…"
 elif charging is ChargingState.ERROR:
     topstring = ":warning: Charging Error"
-elif charging is ChargingState.INVALID:
-    topstring = ":warning: Charging invalid"
 
 print(f"{topstring} | emojize=true templateImage=" + LOGO)
 print("---")
