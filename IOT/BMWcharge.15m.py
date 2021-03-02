@@ -61,9 +61,15 @@ topstring = "BMW"
 if charging is ChargingState.CHARGING:
     remaining_charge_time = vehicle.state.charging_time_remaining
     remaining_str = "h".join(str(remaining_charge_time).split(":")[:2]) + "m"
-    time_full_charge = datetime.datetime.now() + remaining_charge_time
-    topstring = f":electric_plug: {hv_charge_level}%, full @ {time_full_charge:%H:%M}"
-    charging_menu_str = f"Charging, {remaining_str} left | color=#FFFFFF"
+    if remaining_charge_time:
+        time_full_charge = datetime.datetime.now() + remaining_charge_time
+        topstring = (
+            f":electric_plug: {hv_charge_level}%, full @ {time_full_charge:%H:%M}"
+        )
+        charging_menu_str = f"Charging, {remaining_str} left | color=#FFFFFF"
+    else:
+        topstring = f":electric_plug: {hv_charge_level}%, {electric_range}km left"
+        charging_menu_str = f"Charged (still connected) | color=#FFFFFF"
 elif charging in (
     ChargingState.NOT_CHARGING,
     ChargingState.FINISHED_FULLY_CHARGED,
