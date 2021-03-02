@@ -69,7 +69,7 @@ if charging is ChargingState.CHARGING:
         charging_menu_str = f"Charging, {remaining_str} left | color=#FFFFFF"
     else:
         topstring = f":electric_plug: {hv_charge_level}%, {electric_range}km left"
-        charging_menu_str = f"Charged (still connected) | color=#FFFFFF"
+        charging_menu_str = "Charged (still connected) | color=#FFFFFF"
 elif charging in (
     ChargingState.NOT_CHARGING,
     ChargingState.FINISHED_FULLY_CHARGED,
