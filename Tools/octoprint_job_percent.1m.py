@@ -5,6 +5,7 @@
 # <bitbar.author.github>tavdog</bitbar.author.github>
 # <bitbar.desc>Simple python octoprint job percent display</bitbar.desc>
 # <bitbar.dependencies>python</bitbar.dependencies>
+# <bitbar.image>http://wildc.net/tmp/bitbar_octo_percent.png</bitbar.image>
 
 import requests
 import re
