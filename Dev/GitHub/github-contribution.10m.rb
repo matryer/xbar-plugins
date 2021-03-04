@@ -86,6 +86,7 @@ module BitBar
           html = open(url_for(username: username)) { |f| f.read }
           html.scan(RE_CONTRIBUTION) do |count, date|
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
+            break if Date.parse(date) == Date.parse(DateTime.now.to_s)
           end
         end
       end
@@ -159,11 +160,12 @@ module BitBar
       end
 
       def run
+        # (DateTime.now-7).to_s
         contributions = Contribution.find_all_by(username: @username)
                                     .sort_by(&:contributed_on)
+                                    .select{|l| l.contributed_on < DateTime.now}
                                     .reverse
                                     .slice(0, @max_contributions)
-
         View.new(contributions: contributions).render
       end
 

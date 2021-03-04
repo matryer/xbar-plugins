@@ -2,16 +2,21 @@
 # coding: utf-8
 
 # <bitbar.title>Todo Today for NotePlan v3</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v2.2</bitbar.version>
 # <bitbar.author>Jonathan Clark</bitbar.author>
 # <bitbar.author.github>jgclark</bitbar.author.github>
 # <bitbar.desc>A todo list taken from NotePlan v3 and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo.NotePlan" by Richard Guay which in turn was based on "Todo Colour" plugin by Srdgh.</bitbar.desc>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://noteplan.co/static/icon-aef6fdb335c829b1363315ef21c3146d.png</bitbar.image>
 # <bitbar.abouturl>https://noteplan.co/</bitbar.abouturl>
 #
 # Modifications by Jonathan Clark
-#   2020/10/30:
+#   v2.2, 2021/01/29:
+#     - tweak default 'priority_label' to suit planned change in NP3
+#   v2.1, 2020/11/29:
+#     - auto-detect storage type (CloudKit > iCloud Drive > Drobpox if there are multiple)
+#     - add option to specify the file extension in use (default to md, but can be txt)
+#   v2.0, 2020/10/30:
 #     - Update NP data storage filepaths for NotePlan 3 beta
 #       (including CloudKit change at v3.0.15 beta)
 #     - Make CloudKit location the default
@@ -19,9 +24,6 @@
 #     - ignore tasks with dates scheduled into the future
 #     - improve some non-tasks it was including
 #     - code clean up
-#   2020/11/29:
-#     - auto-detect storage type (CloudKit > iCloud Drive > Drobpox if there are multiple)
-#     - add option to specify the file extension in use (default to md, but can be txt)
 #
 # Modifications by Guillaume Barrette
 #   2017/07/01:
@@ -74,8 +76,9 @@ show_alt_task = true             # If true, tasks marked with the alternate char
 show_subtasks = true             # If true, subtasks would be shown in the list
 divide_with_header = true        # If true, headers would be listed and a separator is put between lists
 archive_task_at_end = false      # If true, the task would get archived to the end of the note
-file_extension = '.md'            # Defaults to file extension type 'md' -- can change to '.txt'
-
+file_extension = '.md'           # Defaults to file extension type 'md' -- can change to '.txt'
+priority_labels = ['@urgent', '#high', '#⭐️']
+priority_marker = '⭐'
 standard_font = ''               # Font used for tasks
 header_font   = 'Helvetica-Bold' # Font used for headers if listed with 'divide_with_header'
 #################################
@@ -95,12 +98,6 @@ data_root_filepath = CLOUDKIT_DIR if Dir.exist?(CLOUDKIT_DIR) && Dir[File.join(C
 todo_file_loc = File.expand_path(data_root_filepath + '/Calendar/' + Date.today.strftime('%Y%m%d') + file_extension)
 
 if ARGV.empty?
-  # Add further priority labels here
-  priority_labels = ['@urgent', '#high']
-
-  # Change priority color here
-  priority_marker = '🔴'
-
   # Customise label color-code here:
   labels = {
     '@admin' => 'orange',
