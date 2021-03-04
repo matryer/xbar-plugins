@@ -11,7 +11,7 @@
 # <bitbar.author>Dan Engel</bitbar.author>
 # <bitbar.author.github>dengel29</bitbar.author.github>
 # <bitbar.desc>Display and kill running processes</bitbar.desc>
-# <bitbar.image>https://assets.stickpng.com/images/5aafaf097603fc558cffc095.png</bitbar.image>
+# <bitbar.image>https://user-images.githubusercontent.com/8292535/108005602-1651c500-7034-11eb-982f-edc41a9554db.png</bitbar.image>
 
 echo "Current PIDs"
 echo "---"
