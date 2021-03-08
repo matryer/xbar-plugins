@@ -304,7 +304,7 @@ function get_team_notifications(token) {
 			}
 		})
 		.then((user_id) => {
-			slack_output[token]['user_id'] = user_id;
+			slack_output[token].user_id = user_id;
 			return get_team_conversations(token);
 		})
 		.then((channels) => {
@@ -425,7 +425,7 @@ function check_conversation_history(channel, token) {
 	})
 		.then((body) => {
 			if (body && body.unread_count_display > 0) {
-				const user_id = slack_output[token]['user_id'];
+				const user_id = slack_output[token].user_id;
 				if (channel.is_im || channel.is_mpim) {
 					return Promise.resolve(body.unread_count_display);
 				}
