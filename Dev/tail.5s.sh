@@ -22,4 +22,4 @@
 echo -n "↧ "
 basename "$VAR_FILE"
 echo ---
-tail -n "$VAR_LINES" "$VAR_FILE"
+tail -n $VAR_LINES $VAR_FILE
