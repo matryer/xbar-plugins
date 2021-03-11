@@ -203,7 +203,7 @@ def check_file(file_full_path, pr=False):
     if metadata.get('image', False):
         try:
             response = urlopen(metadata['image'])
-            response_content_type = response.info().get('Content-Type')
+            response_content_type = response.info().get_content_type()
             if response_content_type not in allowed_image_content_types:
                 error('%s image metadata has bad content type: %s' % (file_full_path, response_content_type))
             else:
