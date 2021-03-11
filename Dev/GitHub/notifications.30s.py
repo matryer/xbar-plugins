@@ -47,7 +47,7 @@ def make_github_request( url, method='GET', data=None, enterprise = False ):
         if data is not None:
             data = json.dumps(data)
             headers['Content-Type'] = 'application/json'
-            headers['Contnet-Length'] = len(data)
+            headers['Content-Length'] = len(data)
         request = urllib2.Request( url, headers=headers )
         request.get_method = lambda: method
         response = urllib2.urlopen( request, data )
