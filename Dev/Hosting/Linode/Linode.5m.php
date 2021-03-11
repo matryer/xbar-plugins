@@ -9,7 +9,7 @@
 // <bitbar.dependencies>linode-cli,php</bitbar.dependencies>
 
 $status = true;
-$json = shell_exec('/usr/local/bin/linode list -j');
+$json = shell_exec('/usr/local/bin/linode-cli linodes list --json');
 $servers = json_decode($json);
 $output = '---' . "\n";
 foreach($servers as $server)
