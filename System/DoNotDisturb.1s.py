@@ -1,4 +1,5 @@
-#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
+#!/usr/bin/env LC_ALL=en_US.UTF-8 python3
+# /usr/local/bin/python3
 # <bitbar.title>Do Not Disturb</bitbar.title>
 # <bitbar.author>Weibing Chen</bitbar.author>
 # <bitbar.author.github>weibingchen17</bitbar.author.github>
@@ -11,14 +12,18 @@ import os,sys
 import datetime
 
 def idle():
-    print(':bell:')
+    print('DnD')
     print("---")
-    print("01 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=1 terminal=false refresh=true")
-    print("05 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
-    print("10 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=10 terminal=false refresh=true")
-    print("30 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=30 terminal=false refresh=true")
-    print("60 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=60 terminal=false refresh=true")
-    print("Custom | trim=false, color=blue bash=" + fullPathFileName +  " param1=set terminal=false refresh=true")
+    options()
+
+def options():
+    print("01 min | trim=false, bash=" + fullPathFileName +  " param1=1 terminal=false refresh=true")
+    print("05 min | trim=false, bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
+    print("10 min | trim=false, bash=" + fullPathFileName +  " param1=10 terminal=false refresh=true")
+    print("15 min | trim=false, bash=" + fullPathFileName +  " param1=15 terminal=false refresh=true")
+    print("30 min | trim=false, bash=" + fullPathFileName +  " param1=30 terminal=false refresh=true")
+    print("60 min | trim=false, bash=" + fullPathFileName +  " param1=60 terminal=false refresh=true")
+    print("Custom | trim=false, bash=" + fullPathFileName +  " param1=set terminal=false refresh=true")
 
 def touch(a_file):
     with open(a_file, 'a'):
@@ -31,36 +36,51 @@ def setATime(a_time):
     triggerDND()
 
 def cancel():
-    triggerDND()
+    triggerCANCEL()
     if os.path.isfile(setFile):
         os.remove(setFile)
     idle()
 
 def alert():
     cancel()
-    for _ in range(10):
+    for _ in range(0):
         os.system('afplay /System/Library/Sounds/Tink.aiff')
+
+def triggerCANCEL():
+    TriggerDND = '''defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturb -boolean false
+    killall NotificationCenter
+    '''
+
+    os.popen(TriggerDND)
+
 
 def triggerDND():
     # Here is why only Sierra and High Sierra is supported: menu bar 1 is used
-    TriggerDND = '''osascript -e 'tell application "System Events"
-	tell application process "SystemUIServer"
-		try
-			if exists menu bar item "Notification Center, Do Not Disturb enabled" of menu bar 1 then
-				key down option
-				click menu bar item "Notification Center, Do Not Disturb enabled" of menu bar 1
-				key up option
-			else
-				key down option
-				click menu bar item "Notification Center" of menu bar 1
-				key up option
-			end if
-		on error
-			key up option
-		end try
-	end tell
-end tell' 2>/dev/null
-'''
+#     TriggerDND = '''osascript -e 'tell application "System Events"
+#   tell application process "SystemUIServer"
+#       try
+#           if exists menu bar item "Notification Center, Do Not Disturb enabled" of menu bar 1 then
+#               key down option
+#               click menu bar item "Notification Center, Do Not Disturb enabled" of menu bar 1
+#               key up option
+#           else
+#               key down option
+#               click menu bar item "Notification Center" of menu bar 1
+#               key up option
+#           end if
+#       on error
+#           key up option
+#       end try
+#   end tell
+# end tell' 2>/dev/null
+# '''
+
+    # https://apple.stackexchange.com/questions/145487/how-to-enable-disable-do-not-disturb-from-shell-on-mavericks
+    TriggerDND = '''defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturb -boolean true
+    defaults -currentHost write ~/Library/Preferences/ByHost/com.apple.notificationcenterui doNotDisturbDate -date "`date -u +\"%Y-%m-%d %H:%M:%S +0000\"`"
+    killall NotificationCenter
+    '''
+
     os.popen(TriggerDND)
 
 lockFile = '/tmp/DoNotDisturb.lock'
@@ -79,15 +99,17 @@ if len(sys.argv) == 1:
         if td <= 0: 
             alert()
         else:
-            print(':no_bell: Do Not Disturb')
-            print("---")
             minute, second = divmod(td, 60)
+            print('DnD ' + str(int(minute)) + 'min') #On ✓ 
+            print("---")
             if minute < 60:
                 print(str(int(minute)) + ':' + '{0:02d}'.format(int(second)))
             else:
                 hour, minute = divmod(minute, 60)
                 print(str(int(hour)) + ':' + '{0:02d}'.format(int(minute)) + ':' + '{0:02d}'.format(int(second)))
             print("Cancel | color=red bash=" + os.path.realpath(__file__) +  " param1=cancel terminal=false refresh=true")
+            print("---")
+            options()
 else:
     # A new "Do Not Disturb" is requested
     if sys.argv[1].isdigit():
