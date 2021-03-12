@@ -3,7 +3,7 @@
 # <bitbar.title>Clipboard History</bitbar.title>
 # <bitbar.author>Jason Tokoph (jason@tokoph.net)</bitbar.author>
 # <bitbar.author.github>jtokoph</bitbar.author.github>
-# <bitbar.desc>Tracks up to 10 clipboard items.
+# <bitbar.desc>Tracks up to 10 clipboard items (customizable).
 # <bitbar.version>1.0</bitbar.version>
 # Clicking on a previous item will copy it back to the clipboard.
 # Clicking "Clear history" will remove history files from the filesystem.</bitbar.desc>
@@ -11,6 +11,9 @@
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"
 
+icon='✄'
+count=50
+width=36
 tmp_dir="/tmp/bitbar-clipboard-history_$USER"
 
 # Make sure temporary directory exists
@@ -44,7 +47,7 @@ if [ "$CLIPBOARD" != "" ]; then
   if [ "$?" != "0" ]; then
 
     # Move the history backwards
-    for i in {9..1}
+    for i in $(seq $((count - 1)) 1)
     do
       j=$((i+1))
 
@@ -62,14 +65,14 @@ if [ "$CLIPBOARD" != "" ]; then
 fi
 
 # Print icon
-echo '✄'
+echo $icon
 echo "---"
 
 # Print up to 36 characters of the current clipboard
 echo "Current"
 
-content="$(pbpaste | head -c 36)"
-if (( $(pbpaste | wc -c) > 36 )); then
+content="$(pbpaste | head -c $width)"
+if (( $(pbpaste | wc -c) > width )); then
   content="$content..."
 fi
 echo "${content//|/ }"
@@ -82,11 +85,11 @@ if [[ -e "$tmp_dir/item-1.pb" ]]; then
   echo 'History (Click to copy)'
 
   # Print up to 36 characters of each historical item
-  for i in {1..10}
+  for i in $(seq 1 $count)
   do
     if [ -e "$tmp_dir/item-$i.pb" ]; then
-      content="$(head -c 36 "$tmp_dir/item-$i.pb")"
-      if (( $(wc -c "$tmp_dir/item-$i.pb" | awk '{print $1}') > 36 )); then
+      content="$(head -c $width "$tmp_dir/item-$i.pb")"
+      if (( $(wc -c "$tmp_dir/item-$i.pb" | awk '{print $1}') > width )); then
         content="$content..."
       fi
       echo "${content//|/ }|bash='$0' param1=copy param2=$i refresh=true terminal=false"
