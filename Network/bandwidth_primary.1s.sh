@@ -11,7 +11,7 @@
 # based on bandwidth.1s.sh by Ant Cosentino
 
 # only gather stats from interface en0
-# no need to samlpe unused interfaces
+# no need to sample unused interfaces
 INTERFACE="en0"
 
 
