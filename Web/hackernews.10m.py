@@ -7,10 +7,9 @@
 # <bitbar.author.github>terror</bitbar.author.github>
 # <bitbar.desc>View top Hacker News articles in your status bar!</bitbar.desc>
 # <bitbar.image>https://reports.exodus-privacy.eu.org/reports/51731/icon</bitbar.image>
-# <bitbar.dependencies>python, requests, json</bitbar.dependencies>
+# <bitbar.dependencies>python3, requests</bitbar.dependencies>
 
 import requests
-import json
 from dataclasses import dataclass
 
 static_type = "item"
