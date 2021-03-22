@@ -58,7 +58,7 @@ else
 	done
 
 	color="#008000"
-	if [ ! -s $tmpfile ]; then
+	if [ ! -s "$tmpfile" ]; then
 		echo "Please insert your yubikey then select this line to refresh | font=Menlo size=13 refresh=true terminal=false" >> "$tmpfile"
 		color="black"
 	fi 
