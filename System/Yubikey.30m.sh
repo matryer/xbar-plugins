@@ -6,7 +6,7 @@
 # <bitbar.author.github>jebabin</bitbar.author.github>
 # <bitbar.desc>generates totp codes using yubikey and copy to clipboard, supports touch and touchless code generation</bitbar.desc>
 # <bitbar.dependencies>bash,perl</bitbar.dependencies>
-# <bitbar.version>1.0</bitbar.version>
+# <bitbar.version>1.1</bitbar.version>
 
 # <xbar.var>string(VAR_YKMAN): Path to the ykman binary (optional).</xbar.var>
 
