@@ -21,7 +21,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 if [ ! -x "$VAR_YKMAN" ]; then
-	if [ ! -x "/Applications/YubiKey Manager.app/Contents/MacOS/ykman" ]; then
+	if [ -x "/Applications/YubiKey Manager.app/Contents/MacOS/ykman" ]; then
 		VAR_YKMAN="/Applications/YubiKey Manager.app/Contents/MacOS/ykman"
 	else
 		VAR_YKMAN=ykman
@@ -32,7 +32,7 @@ if [ $# -eq 3 ] && [ "$1" = "copy" ]; then
 	if [ "$3" -eq 1 ]; then
 		osascript -e "display notification \"You need to touch your yubikey to get the code\" with title \"$2\"" &> /dev/null
 	fi
-	code=$("/Applications/YubiKey Manager.app/Contents/MacOS/ykman" oath code "$2" | sed 's/.*[[:space:]]//')
+	code=$("$VAR_YKMAN" oath code "$2" | sed 's/.*[[:space:]]//')
 	echo -n "$code" | pbcopy
 	osascript -e "display notification \" $code copied to clipboard\" with title \"$2\"" &> /dev/null
 
@@ -41,7 +41,7 @@ else
  
 	tmpfile=$(mktemp)
 
-	"/Applications/YubiKey Manager.app/Contents/MacOS/ykman" oath code | while read -r line
+	"$VAR_YKMAN" oath code | while read -r line
 	do
 		parsed=$(echo "${line}" | perl -ne 'm/^([^:]+):(.*?)\s+(\d+|\[Touch Credential\])$/; print sprintf(int($3) ? 0 : 1).";$1 ($2)\n"')
 		name=$(echo "${parsed}" | cut -c 3-100)
