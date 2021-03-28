@@ -19,7 +19,7 @@ then
 fi
 
 
-LOCAL_IP=$(ipconfig getifaddr ${VAR_NETWORK_INTERFACE} 2>&1)
+LOCAL_IP=$(ipconfig getifaddr "${VAR_NETWORK_INTERFACE}" 2>&1)
 LOCAL_OK=$?
 
 if [[ $LOCAL_OK != 0 ]] ; then
