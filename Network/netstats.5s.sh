@@ -24,7 +24,7 @@ LOCAL_OK=$?
 
 if [[ $LOCAL_OK != 0 ]] ; then
     LOCAL_PART="❌"
-    ROUTER_PART="❌ - Router | font=Courier"
+    ROUTER_PART="❌ - Router"
 else
     LOCAL_PART=$LOCAL_IP
 
@@ -32,9 +32,9 @@ else
     ROUTER_OK=$?
 
     if [[ $ROUTER_OK != 0 ]] ; then
-        ROUTER_PART="Unable to determine router IP? | color=orange font=Courier"
+        ROUTER_PART="Unable to determine router IP? | color=orange"
     else
-        ROUTER_PART="$ROUTER"" - Router | font=Courier"
+        ROUTER_PART="$ROUTER"" - Router"
     fi
 fi
 
@@ -117,7 +117,7 @@ echo "$LOCAL_PART | $(topcolour $SPEED_WARNING $REMOTE_WARNING) font=Courier"
 echo "---"
 
 echo "$LOCAL_PART - Local | font=Courier"
-echo "$ROUTER_PART"
+echo "$ROUTER_PART | font=Courier"
 echo "$SPEED_PART - LAN Speed | $(speedcolour $SPEED_WARNING) font=Courier"
 echo "$REMOTE_PART - WAN | $(wancolour $REMOTE_WARNING) font=Courier"
 
