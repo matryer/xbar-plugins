@@ -22,10 +22,10 @@ function kilo_to_mega {
 }
 
 function get_ifstat {
-    interface=$1
+    IFSTAT_INTERFACE=$1
     # 1 sample for 0.5 second interval
     # outputs two values (in/out) in kilobits per second
-    /usr/local/bin/ifstat -n -w -i "${VAR_NETWORK_INTERFACE}" -b 0.5 1 | tail -n 1
+    /usr/local/bin/ifstat -n -w -i "${IFSTAT_INTERFACE}" -b 0.5 1 | tail -n 1
 }
 
 function print_ifstat {
