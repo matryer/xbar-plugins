@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 # -*- coding: utf-8 -*-
-# <bitbar.title>Memento Mori</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Sufiyan Yasa</bitbar.author>
-# <bitbar.author.github>xr1337</bitbar.author.github>
-# <bitbar.desc>Memento Mori - Remember, thou art mortal</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>https://www.sufiyanyasa.com/img/avatar.jpg</bitbar.image>
+# <xbar.title>Memento Mori</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Sufiyan Yasa</xbar.author>
+# <xbar.author.github>xr1337</xbar.author.github>
+# <xbar.desc>Memento Mori - Remember, thou art mortal</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>https://www.sufiyanyasa.com/img/avatar.jpg</xbar.image>
 
 
 from datetime import datetime as dt

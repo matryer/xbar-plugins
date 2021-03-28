@@ -2,12 +2,12 @@
 
 # Shows (Ask, Bid, Mid, High, Low, Volume and Timestamp from Bitfinex REST API Ticker BTCUSD 
 #
-# <bitbar.title>Bitfinex REST API Ticker BTCUSD plugin</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Roberto Santacroce Martins</bitbar.author>
-# <bitbar.author.github>mileschet</bitbar.author.github>
-# <bitbar.desc>Shows (Ask, Bid, Mid, High, Low, Volume and Timestamp from Bitfinex REST API Ticker BTCUSD </bitbar.desc>
-# <bitbar.image>http://i.imgur.com/V8dABjz.png</bitbar.image>
+# <xbar.title>Bitfinex REST API Ticker BTCUSD plugin</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Roberto Santacroce Martins</xbar.author>
+# <xbar.author.github>mileschet</xbar.author.github>
+# <xbar.desc>Shows (Ask, Bid, Mid, High, Low, Volume and Timestamp from Bitfinex REST API Ticker BTCUSD </xbar.desc>
+# <xbar.image>http://i.imgur.com/V8dABjz.png</xbar.image>
 #
 # by Roberto Santacroce Martins
 # Based on Coinbase bitbar plugin by Mat Ryer

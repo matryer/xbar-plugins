@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>VSO Pullrequests</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Jelle Kralt</bitbar.author>
-// <bitbar.author.github>jellekralt</bitbar.author.github>
-// <bitbar.desc>Lists open pull requests from VSO</bitbar.desc>
-// <bitbar.dependencies>node</bitbar.dependencies>
-// <bitbar.image>http://i.imgur.com/b3KTgcg.png</bitbar.image>
+// <xbar.title>VSO Pullrequests</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Jelle Kralt</xbar.author>
+// <xbar.author.github>jellekralt</xbar.author.github>
+// <xbar.desc>Lists open pull requests from VSO</xbar.desc>
+// <xbar.dependencies>node</xbar.dependencies>
+// <xbar.image>http://i.imgur.com/b3KTgcg.png</xbar.image>
 
 var https = require('https');
 

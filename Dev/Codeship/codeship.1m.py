@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Codeship</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Daniel Seripap</bitbar.author>
-# <bitbar.author.github>seripap</bitbar.author.github>
-# <bitbar.desc>Latest build status for all projects in Codeship</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/683200/16809335/fadc3746-48ed-11e6-8c86-517dd94412ff.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Codeship</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Daniel Seripap</xbar.author>
+# <xbar.author.github>seripap</xbar.author.github>
+# <xbar.desc>Latest build status for all projects in Codeship</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/683200/16809335/fadc3746-48ed-11e6-8c86-517dd94412ff.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import json
 import urllib2

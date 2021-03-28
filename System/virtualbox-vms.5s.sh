@@ -1,11 +1,11 @@
 #!/bin/sh
 #
-# <bitbar.title>Virtualbox VM status</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Johan Bloemberg</bitbar.author>
-# <bitbar.author.github>aequitas</bitbar.author.github>
-# <bitbar.desc>Show current number of running Virtualbox VM's. Allow to shut them all down.</bitbar.desc>
-# <bitbar.image>https://gist.githubusercontent.com/aequitas/7c57111556900aae6178/raw/76e4e457d700d31af6b2f32cbbb206ed1668b511/virtualbox.png</bitbar.image>
+# <xbar.title>Virtualbox VM status</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Johan Bloemberg</xbar.author>
+# <xbar.author.github>aequitas</xbar.author.github>
+# <xbar.desc>Show current number of running Virtualbox VM's. Allow to shut them all down.</xbar.desc>
+# <xbar.image>https://gist.githubusercontent.com/aequitas/7c57111556900aae6178/raw/76e4e457d700d31af6b2f32cbbb206ed1668b511/virtualbox.png</xbar.image>
 
 if test -x /usr/local/bin/VBoxManage;then
     VBOX=/usr/local/bin/VBoxManage

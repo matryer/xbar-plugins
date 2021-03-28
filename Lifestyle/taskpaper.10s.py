@@ -5,13 +5,13 @@ import re
 import sys
 
 #
-# <bitbar.title>Taskpaper Today</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Ernst Widerberg</bitbar.author>
-# <bitbar.author.github>ernstwi</bitbar.author.github>
-# <bitbar.desc>This plugin will display all tasks tagged @today and not @done in a given Taskpaper file.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/XODr2PY.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Taskpaper Today</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Ernst Widerberg</xbar.author>
+# <xbar.author.github>ernstwi</xbar.author.github>
+# <xbar.desc>This plugin will display all tasks tagged @today and not @done in a given Taskpaper file.</xbar.desc>
+# <xbar.image>http://i.imgur.com/XODr2PY.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # Read more about the Taskpaper format at taskpaper.com.
 #

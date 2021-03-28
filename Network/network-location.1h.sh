@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>Show / Edit network location</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Florian Fittschen</bitbar.author>
-# <bitbar.author.github>ffittschen</bitbar.author.github>
-# <bitbar.desc>Displays the currently active network location and adds the ability to change it.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/in3ZiPi.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Network/network-location.1h.sh</bitbar.abouturl>
+# <xbar.title>Show / Edit network location</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Florian Fittschen</xbar.author>
+# <xbar.author.github>ffittschen</xbar.author.github>
+# <xbar.desc>Displays the currently active network location and adds the ability to change it.</xbar.desc>
+# <xbar.image>http://i.imgur.com/in3ZiPi.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Network/network-location.1h.sh</xbar.abouturl>
 
 current_location=$(networksetup -getcurrentlocation)
 network_locations=$(networksetup -listlocations) 

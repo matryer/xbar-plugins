@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>GitHub status</bitbar.title>
-# <bitbar.version>v0.2</bitbar.version>
-# <bitbar.author>Brett Jones</bitbar.author>
-# <bitbar.author.github>blockloop</bitbar.author.github>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/3022496/12325555/a4b2bd9a-ba90-11e5-8254-9de54c2c6847.png</bitbar.image>
-# <bitbar.desc>Shows the current status of www.githubstatus.com. Find out if Github is having DDOS problems which will affect pushes/pulls.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>GitHub status</xbar.title>
+# <xbar.version>v0.2</xbar.version>
+# <xbar.author>Brett Jones</xbar.author>
+# <xbar.author.github>blockloop</xbar.author.github>
+# <xbar.image>https://cloud.githubusercontent.com/assets/3022496/12325555/a4b2bd9a-ba90-11e5-8254-9de54c2c6847.png</xbar.image>
+# <xbar.desc>Shows the current status of www.githubstatus.com. Find out if Github is having DDOS problems which will affect pushes/pulls.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 
 import json

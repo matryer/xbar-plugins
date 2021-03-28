@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Bandwidth (Mbit/s)</bitbar.title>
-# <bitbar.version>v0.0.2</bitbar.version>
-# <bitbar.author>Dan Rohtbart</bitbar.author>
-# <bitbar.author.github>danrohtbart</bitbar.author.github>
-# <bitbar.desc>Displays total bandwidth usage for all interfaces in Megabits/s. Especially useful if you are frequently switching between wi-fi and ethernet connections.</bitbar.desc>
-# <bitbar.dependencies>ifstat</bitbar.dependencies>
+# <xbar.title>Bandwidth (Mbit/s)</xbar.title>
+# <xbar.version>v0.0.2</xbar.version>
+# <xbar.author>Dan Rohtbart</xbar.author>
+# <xbar.author.github>danrohtbart</xbar.author.github>
+# <xbar.desc>Displays total bandwidth usage for all interfaces in Megabits/s. Especially useful if you are frequently switching between wi-fi and ethernet connections.</xbar.desc>
+# <xbar.dependencies>ifstat</xbar.dependencies>
 
 # based on bandwidth.1s.sh by Ant Cosentino
 # based on bandwidth_primary.1s.sh by Kaspars Mickevics

@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 // jshint esversion: 8
-// <bitbar.title>RSync Backup Bitbar Plugin</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Gregory S. Read</bitbar.author>
-// <bitbar.author.github>readgs</bitbar.author.github>
-// <bitbar.desc>Schedule and monitor rsync backups via BitBar</bitbar.desc>
-// <bitbar.dependencies>node npm/path npm/untildify npm/yargs npm/bitbar npm/mkdirp npm/jsonc npm/lockfile npm/execa npm/moment</bitbar.dependencies>
-// <bitbar.abouturl></bitbar.abouturl>
+// <xbar.title>RSync Backup Bitbar Plugin</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Gregory S. Read</xbar.author>
+// <xbar.author.github>readgs</xbar.author.github>
+// <xbar.desc>Schedule and monitor rsync backups via BitBar</xbar.desc>
+// <xbar.dependencies>node npm/path npm/untildify npm/yargs npm/bitbar npm/mkdirp npm/jsonc npm/lockfile npm/execa npm/moment</xbar.dependencies>
+// <xbar.abouturl></xbar.abouturl>
 
 /**
  * Quick Install

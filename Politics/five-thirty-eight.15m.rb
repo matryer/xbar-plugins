@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
- # <bitbar.title>Election Tracker</bitbar.title>
- # <bitbar.version>v1.0</bitbar.version>
- # <bitbar.author>Chris Metcalf</bitbar.author>
- # <bitbar.author.github>chrismetcalf</bitbar.author.github>
- # <bitbar.desc>Scrapes election odds from FiveThirtyEight's election tracker</bitbar.desc>
- # <bitbar.image>http://i.imgur.com/1NeqVZ6.png</bitbar.image>
- # <bitbar.dependencies>ruby</bitbar.dependencies>
- # <bitbar.abouturl>https://github.com/chrismetcalf/bitbar-plugins</bitbar.abouturl>
+ # <xbar.title>Election Tracker</xbar.title>
+ # <xbar.version>v1.0</xbar.version>
+ # <xbar.author>Chris Metcalf</xbar.author>
+ # <xbar.author.github>chrismetcalf</xbar.author.github>
+ # <xbar.desc>Scrapes election odds from FiveThirtyEight's election tracker</xbar.desc>
+ # <xbar.image>http://i.imgur.com/1NeqVZ6.png</xbar.image>
+ # <xbar.dependencies>ruby</xbar.dependencies>
+ # <xbar.abouturl>https://github.com/chrismetcalf/bitbar-plugins</xbar.abouturl>
 
 require 'open-uri'
 require 'nokogiri'

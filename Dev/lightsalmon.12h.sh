@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Lightsalmon</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Isaac</bitbar.author>
-# <bitbar.author.github>irstacks</bitbar.author.github>
-# <bitbar.desc>Shows all 140 named web colors (sorted). Click copies corresponding hex to your clipboard.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/YE0P2ww.png</bitbar.image>
+# <xbar.title>Lightsalmon</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Isaac</xbar.author>
+# <xbar.author.github>irstacks</xbar.author.github>
+# <xbar.desc>Shows all 140 named web colors (sorted). Click copies corresponding hex to your clipboard.</xbar.desc>
+# <xbar.image>http://i.imgur.com/YE0P2ww.png</xbar.image>
 
 if [[ "$1" = "copy" ]]; then
   echo "$2" | tr -d '\n' | pbcopy

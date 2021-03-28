@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Coinbase Prices</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Mustafa Türksavaş, UdjinM6</bitbar.author>
-# <bitbar.author.github>mustafaturksavas</bitbar.author.github>
-# <bitbar.desc>Displays Coinbase buy prices of Bitcoin, Ethereum, Litecoin, Dash.</bitbar.desc>
-# <bitbar.image>https://media.giphy.com/media/3oEhmKvAlkJHoqalFK/giphy.gif</bitbar.image>
-# <bitbar.dependencies>bash, python</bitbar.dependencies>
+# <xbar.title>Coinbase Prices</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Mustafa Türksavaş, UdjinM6</xbar.author>
+# <xbar.author.github>mustafaturksavas</xbar.author.github>
+# <xbar.desc>Displays Coinbase buy prices of Bitcoin, Ethereum, Litecoin, Dash.</xbar.desc>
+# <xbar.image>https://media.giphy.com/media/3oEhmKvAlkJHoqalFK/giphy.gif</xbar.image>
+# <xbar.dependencies>bash, python</xbar.dependencies>
 #
 # Based on Cryptocurrency Prices plugin by viiraj (github.com/viiraj).
 #

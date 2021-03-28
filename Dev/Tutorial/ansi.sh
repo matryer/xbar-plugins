@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Show ANSI colors</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Kent Karlsson</bitbar.author>
-# <bitbar.author.github>vogonistic</bitbar.author.github>
-# <bitbar.desc>Example of how to use ANSI color codes</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/kGVgf6y.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Tutorial/ansi.sh</bitbar.abouturl>
+# <xbar.title>Show ANSI colors</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Kent Karlsson</xbar.author>
+# <xbar.author.github>vogonistic</xbar.author.github>
+# <xbar.desc>Example of how to use ANSI color codes</xbar.desc>
+# <xbar.image>http://i.imgur.com/kGVgf6y.png</xbar.image>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Tutorial/ansi.sh</xbar.abouturl>
 
 echo -e "\033[34mA\033[32mN\033[31mS\033[33mI\033[0m | ansi=true"
 echo "---"

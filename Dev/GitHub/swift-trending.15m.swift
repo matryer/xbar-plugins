@@ -1,13 +1,13 @@
 #!/usr/bin/swift
 
-// # <bitbar.title>Trending Swift on GitHub</bitbar.title>
-// # <bitbar.version>v1.0</bitbar.version>
-// # <bitbar.author>Reda Lemeden</bitbar.author>
-// # <bitbar.author.github>kaishin</bitbar.author.github>
-// # <bitbar.desc>List Swift repositories tending on GitHub in a given period.</bitbar.desc>
-// # <bitbar.image>https://github.com/kaishin/swift-trending-bitbar/raw/master/screenshot.png</bitbar.image>
-// # <bitbar.dependencies>swift</bitbar.dependencies>
-// # <bitbar.abouturl>https://github.com/kaishin/swift-trending-bitbar</bitbar.abouturl>
+// # <xbar.title>Trending Swift on GitHub</xbar.title>
+// # <xbar.version>v1.0</xbar.version>
+// # <xbar.author>Reda Lemeden</xbar.author>
+// # <xbar.author.github>kaishin</xbar.author.github>
+// # <xbar.desc>List Swift repositories tending on GitHub in a given period.</xbar.desc>
+// # <xbar.image>https://github.com/kaishin/swift-trending-bitbar/raw/master/screenshot.png</xbar.image>
+// # <xbar.dependencies>swift</xbar.dependencies>
+// # <xbar.abouturl>https://github.com/kaishin/swift-trending-bitbar</xbar.abouturl>
 
 import Foundation
 

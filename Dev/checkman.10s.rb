@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Checkman Simulator</bitbar.title>
-# <bitbar.version>v0.1.1</bitbar.version>
-# <bitbar.author>Deluan Quintao</bitbar.author>
-# <bitbar.author.github>deluan</bitbar.author.github>
-# <bitbar.desc>This plugin reuses Checkman's configurations and plugins, so you don't need to install it :) It has checks for: HTTP, GoCD, Concourse, Jenkins, Travis, Semaphore, Codeship, CircleCI, Airbrake, GitHub, Pivotal Tracker, TDDium and SnapCI, and you can even create your own plugins to leverage Checkman's streamlined UI and configuration files. More info: https://gist.github.com/deluan/3f6fa6bcff2a355ae89181bb15590b88#file-readme-md</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/irmlsOX.jpg</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://goo.gl/SdNXj2</bitbar.abouturl>
+# <xbar.title>Checkman Simulator</xbar.title>
+# <xbar.version>v0.1.1</xbar.version>
+# <xbar.author>Deluan Quintao</xbar.author>
+# <xbar.author.github>deluan</xbar.author.github>
+# <xbar.desc>This plugin reuses Checkman's configurations and plugins, so you don't need to install it :) It has checks for: HTTP, GoCD, Concourse, Jenkins, Travis, Semaphore, Codeship, CircleCI, Airbrake, GitHub, Pivotal Tracker, TDDium and SnapCI, and you can even create your own plugins to leverage Checkman's streamlined UI and configuration files. More info: https://gist.github.com/deluan/3f6fa6bcff2a355ae89181bb15590b88#file-readme-md</xbar.desc>
+# <xbar.image>http://i.imgur.com/irmlsOX.jpg</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://goo.gl/SdNXj2</xbar.abouturl>
 
 # This plugin simulates Checkman functionality, allowing you to use all its
 # plugins and creating checks in external files. It downloads Checkman's plugins

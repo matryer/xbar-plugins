@@ -3,14 +3,14 @@
 # shellcheck disable=SC2154
 # shellcheck source=/dev/null
 
-# <bitbar.title>Bitbucket Pull Requests</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Mikey Beck</bitbar.author>
-# <bitbar.author.github>mikeybeck</bitbar.author.github>
-# <bitbar.desc>Shows Bitbucket open pull request information</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/mikeybeck/bitbar-bitbucketPRs/master/screenshot.png</bitbar.image>
-# <bitbar.dependencies>jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/mikeybeck/bitbar-bitbucketPRs</bitbar.abouturl>
+# <xbar.title>Bitbucket Pull Requests</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Mikey Beck</xbar.author>
+# <xbar.author.github>mikeybeck</xbar.author.github>
+# <xbar.desc>Shows Bitbucket open pull request information</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/mikeybeck/bitbar-bitbucketPRs/master/screenshot.png</xbar.image>
+# <xbar.dependencies>jq</xbar.dependencies>
+# <xbar.abouturl>https://github.com/mikeybeck/bitbar-bitbucketPRs</xbar.abouturl>
 
 # Relevant documentation for BitBucket: http://web.archive.org/web/20150530151816/https://confluence.atlassian.com/display/BITBUCKET/pullrequests+Resource#pullrequests
 

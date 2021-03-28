@@ -1,10 +1,10 @@
 #!/bin/sh
-# <bitbar.title>Amazon ECS Cluster Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Bob Zoller</bitbar.author>
-# <bitbar.author.github>bobzoller</bitbar.author.github>
-# <bitbar.desc>Shows statistics about your Amazon ECS cluster.</bitbar.desc>
-# <bitbar.dependencies>awscli,jq</bitbar.dependencies>
+# <xbar.title>Amazon ECS Cluster Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Bob Zoller</xbar.author>
+# <xbar.author.github>bobzoller</xbar.author.github>
+# <xbar.desc>Shows statistics about your Amazon ECS cluster.</xbar.desc>
+# <xbar.dependencies>awscli,jq</xbar.dependencies>
 
 # Dependencies: 
 #   awscli (https://aws.amazon.com/cli/)

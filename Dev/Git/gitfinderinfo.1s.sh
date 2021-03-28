@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Finder Git Info</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Miguel Carvalho</bitbar.author>
-# <bitbar.author.github>mmcarvalho</bitbar.author.github>
-# <bitbar.desc>Displays the active git branch of the focused finder Window in the menu bar. When open, lists all finder windows with active git projects.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/mmcarvalho/git-finder-info/main/gitfinderinfo-screenshot.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/mmcarvalho/git-finder-info</bitbar.abouturl>
+# <xbar.title>Finder Git Info</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Miguel Carvalho</xbar.author>
+# <xbar.author.github>mmcarvalho</xbar.author.github>
+# <xbar.desc>Displays the active git branch of the focused finder Window in the menu bar. When open, lists all finder windows with active git projects.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/mmcarvalho/git-finder-info/main/gitfinderinfo-screenshot.png</xbar.image>
+# <xbar.abouturl>https://github.com/mmcarvalho/git-finder-info</xbar.abouturl>
 #
 # Dependencies: none.
 

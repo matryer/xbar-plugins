@@ -1,12 +1,12 @@
 #!/bin/sh
-# <bitbar.title>Todo List for menu bar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Julian Naumann</bitbar.author>
-# <bitbar.author.github>JulianNaumann</bitbar.author.github>
-# <bitbar.desc>Display a todo list in the menu bar with items taken from the macos' Reminders.app from the list called 'Today'. Click the item to complete the reminder and display the next one.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/d4cBUKW.png</bitbar.image>
-# <bitbar.dependencies>bash,osascript</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/JulianNaumann/bitbar-todolist</bitbar.abouturl>
+# <xbar.title>Todo List for menu bar</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Julian Naumann</xbar.author>
+# <xbar.author.github>JulianNaumann</xbar.author.github>
+# <xbar.desc>Display a todo list in the menu bar with items taken from the macos' Reminders.app from the list called 'Today'. Click the item to complete the reminder and display the next one.</xbar.desc>
+# <xbar.image>https://i.imgur.com/d4cBUKW.png</xbar.image>
+# <xbar.dependencies>bash,osascript</xbar.dependencies>
+# <xbar.abouturl>https://github.com/JulianNaumann/bitbar-todolist</xbar.abouturl>
 
 # Icon credit, all icons from <https://www.flaticon.com>:
 # - Bell icon made by Nice And Serious <https://niceandserious.com>

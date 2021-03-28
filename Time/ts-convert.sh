@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Clipboard Timestamp converter</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>M. Peter</bitbar.author>
-# <bitbar.author.github>mpneuried</bitbar.author.github>
-# <bitbar.desc>This plugin converts timestamps from the clipboard to a date.
-# It's inspired by the original clipboard-base64-encoder plugin</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/dXzJNOS.jpg?1</birtbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Clipboard Timestamp converter</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>M. Peter</xbar.author>
+# <xbar.author.github>mpneuried</xbar.author.github>
+# <xbar.desc>This plugin converts timestamps from the clipboard to a date.
+# It's inspired by the original clipboard-base64-encoder plugin</xbar.desc>
+# <xbar.image>http://i.imgur.com/dXzJNOS.jpg?1</birtbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"

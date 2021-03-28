@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Day/Night Color Profile Selector</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Nadav G</bitbar.author>
-# <bitbar.author.github>nadigo</bitbar.author.github>
-# <bitbar.desc>Simple menubar day/night icc selector</bitbar.desc>
-# <bitbar.dependencies>bash, customdisplayprofiles</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/nadigo/</bitbar.abouturl>
+# <xbar.title>Day/Night Color Profile Selector</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Nadav G</xbar.author>
+# <xbar.author.github>nadigo</xbar.author.github>
+# <xbar.desc>Simple menubar day/night icc selector</xbar.desc>
+# <xbar.dependencies>bash, customdisplayprofiles</xbar.dependencies>
+# <xbar.abouturl>https://github.com/nadigo/</xbar.abouturl>
 #-----------------------------------------------------------------
 #----- required: https://github.com/timsutton/customdisplayprofiles 
 #----- move 'customdisplayprofiles' to /usr/local/bin

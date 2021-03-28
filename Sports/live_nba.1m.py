@@ -1,12 +1,12 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
-# <bitbar.title>Live NBA Game Stat</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Chen Luxin</bitbar.author>
-# <bitbar.author.github>chenlujjj</bitbar.author.github>
-# <bitbar.desc>Show NBA game scores in bar.</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/17081528/101980272-3b763000-3c9f-11eb-9f0e-a14163725805.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
+# <xbar.title>Live NBA Game Stat</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Chen Luxin</xbar.author>
+# <xbar.author.github>chenlujjj</xbar.author.github>
+# <xbar.desc>Show NBA game scores in bar.</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/17081528/101980272-3b763000-3c9f-11eb-9f0e-a14163725805.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
 
 import json
 import urllib.request

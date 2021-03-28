@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 # Bitbar Metadata
-# <bitbar.title>Aria2</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>sinkerine</bitbar.author>
-# <bitbar.author.github>15cm</bitbar.author.github>
-# <bitbar.desc>Monitor Aria2 Tasks</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/15cm/bitbar-plugin/master/aria2/screenshot.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/15cm/bitbar-plugin/tree/master/aria2</bitbar.abouturl>
+# <xbar.title>Aria2</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>sinkerine</xbar.author>
+# <xbar.author.github>15cm</xbar.author.github>
+# <xbar.desc>Monitor Aria2 Tasks</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/15cm/bitbar-plugin/master/aria2/screenshot.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.abouturl>https://github.com/15cm/bitbar-plugin/tree/master/aria2</xbar.abouturl>
 
 # { Aria2
 import json

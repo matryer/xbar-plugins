@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-# <bitbar.title>Countdown Timer 2</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Federico Ferri</bitbar.author>
-# <bitbar.author.github>fferri</bitbar.author.github>
-# <bitbar.desc>Simple countdown timer.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>https://raw.githubusercontent.com/fferri/bitbar-countdown-timer/master/screenshot.gif</bitbar.image>
-# <bitbar.abouturl>https://github.com/fferri/bitbar-countdown-timer</bitbar.abouturl>
+# <xbar.title>Countdown Timer 2</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Federico Ferri</xbar.author>
+# <xbar.author.github>fferri</xbar.author.github>
+# <xbar.desc>Simple countdown timer.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>https://raw.githubusercontent.com/fferri/bitbar-countdown-timer/master/screenshot.gif</xbar.image>
+# <xbar.abouturl>https://github.com/fferri/bitbar-countdown-timer</xbar.abouturl>
 
 import os
 import re

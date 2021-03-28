@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# <bitbar.title>Active WIFI Signal</bitbar.title>
-# <bitbar.author>Bryan Stone</bitbar.author>
-# <bitbar.author.github>aegixx</bitbar.author.github>
-# <bitbar.desc>Displays currently connected WIFI Signal</bitbar.desc>
+# <xbar.title>Active WIFI Signal</xbar.title>
+# <xbar.author>Bryan Stone</xbar.author>
+# <xbar.author.github>aegixx</xbar.author.github>
+# <xbar.desc>Displays currently connected WIFI Signal</xbar.desc>
 
 # Themes copied from here: http://colorbrewer2.org/
 # shellcheck disable=SC2034

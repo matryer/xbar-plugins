@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>AirPods Power</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Gonzalo Serrano Revuelta</bitbar.author>
-# <bitbar.author.github>gonzaloserrano</bitbar.author.github>
-# <bitbar.desc>Displays AirPods battery</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>AirPods Power</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Gonzalo Serrano Revuelta</xbar.author>
+# <xbar.author.github>gonzaloserrano</xbar.author.github>
+# <xbar.desc>Displays AirPods battery</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 # Based on AirPods Battery CLI, Version 2.3 - https://github.com/duk242/AirPodsBatteryCLI
 

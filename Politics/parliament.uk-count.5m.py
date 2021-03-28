@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Parliament.uk Count</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Keith Cirkel</bitbar.author>
-# <bitbar.author.github>keithamus</bitbar.author.github>
-# <bitbar.desc>See the vote count for a Parliament.uk petition</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/I38h0UJ.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Parliament.uk Count</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Keith Cirkel</xbar.author>
+# <xbar.author.github>keithamus</xbar.author.github>
+# <xbar.desc>See the vote count for a Parliament.uk petition</xbar.desc>
+# <xbar.image>https://i.imgur.com/I38h0UJ.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import json
 import urllib2

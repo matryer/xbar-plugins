@@ -1,10 +1,10 @@
 #!/usr/bin/env perl
-# <bitbar.title>Vagrant Global Status</bitbar.title>
-# <bitbar.version>1.1</bitbar.version>
-# <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
-# <bitbar.author.github>alexandregz</bitbar.author.github>
-# <bitbar.desc>Show vagrant images running, from vagrant global-status command</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/4YAFZC6.png</bitbar.image>
+# <xbar.title>Vagrant Global Status</xbar.title>
+# <xbar.version>1.1</xbar.version>
+# <xbar.author>Alexandre Espinosa Menor</xbar.author>
+# <xbar.author.github>alexandregz</xbar.author.github>
+# <xbar.desc>Show vagrant images running, from vagrant global-status command</xbar.desc>
+# <xbar.image>http://i.imgur.com/4YAFZC6.png</xbar.image>
 #
 # "running" line run command "vagrant suspend"
 # "saved, poweroff, aborted" line run command "vagrant up"

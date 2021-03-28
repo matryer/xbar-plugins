@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>GoSquared Visitors Online Now Count</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>David Barker</bitbar.author>
-# <bitbar.author.github>davidbarker</bitbar.author.github>
-# <bitbar.desc>The total of all the sites you list is displayed. Drop-down menu shows individual visitor count for each site. Clicking on a menu option opens the relevant GoSquared stats page for that site in your browser.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/04lL6Ox.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://www.gosquared.com/</bitbar.abouturl>
+# <xbar.title>GoSquared Visitors Online Now Count</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>David Barker</xbar.author>
+# <xbar.author.github>davidbarker</xbar.author.github>
+# <xbar.desc>The total of all the sites you list is displayed. Drop-down menu shows individual visitor count for each site. Clicking on a menu option opens the relevant GoSquared stats page for that site in your browser.</xbar.desc>
+# <xbar.image>http://i.imgur.com/04lL6Ox.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://www.gosquared.com/</xbar.abouturl>
 
 
 # Change these variables (required)

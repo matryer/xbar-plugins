@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #
-# <bitbar.title>Check Pastebin</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Tyllis Xu</bitbar.author>
-# <bitbar.author.github>livelycarpet87</bitbar.author.github>
-# <bitbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </bitbar.desc>
-# <bitbar.image>https://i.ibb.co/cym797V/Pastebin2.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/LivelyCarpet87/BitBar-Pastebin#bitbar-pastebin</bitbar.abouturl>
+# <xbar.title>Check Pastebin</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Tyllis Xu</xbar.author>
+# <xbar.author.github>livelycarpet87</xbar.author.github>
+# <xbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </xbar.desc>
+# <xbar.image>https://i.ibb.co/cym797V/Pastebin2.png</xbar.image>
+# <xbar.abouturl>https://github.com/LivelyCarpet87/BitBar-Pastebin#bitbar-pastebin</xbar.abouturl>
 #
 
 #Requires Configuration Here

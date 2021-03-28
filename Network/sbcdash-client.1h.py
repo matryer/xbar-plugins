@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-# <bitbar.title>SBCDash</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>phntxx</bitbar.author>
-# <bitbar.author.github>phntxx</bitbar.author.github>
-# <bitbar.desc>Shows the CPU temperature, RAM and space usage of your SBC.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://phntxx.github.io/sbcdash</bitbar.abouturl>
+# <xbar.title>SBCDash</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>phntxx</xbar.author>
+# <xbar.author.github>phntxx</xbar.author.github>
+# <xbar.desc>Shows the CPU temperature, RAM and space usage of your SBC.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://phntxx.github.io/sbcdash</xbar.abouturl>
 
 #import required modules
 import urllib2

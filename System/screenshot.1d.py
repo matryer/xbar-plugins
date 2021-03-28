@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
-# <bitbar.title>Screenshot</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Brandon Barker, Soumya Ranjan Mohanty</bitbar.author>
-# <bitbar.author.github>ProjectBarks, geekysrm</bitbar.author.github>
-# <bitbar.desc>Allows for screenshots to be uploaded, saved, and added to the clipboard</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/51rg3EJ.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/screenshot.1d.py</bitbar.abouturl>
+# <xbar.title>Screenshot</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Brandon Barker, Soumya Ranjan Mohanty</xbar.author>
+# <xbar.author.github>ProjectBarks, geekysrm</xbar.author.github>
+# <xbar.desc>Allows for screenshots to be uploaded, saved, and added to the clipboard</xbar.desc>
+# <xbar.image>http://i.imgur.com/51rg3EJ.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/screenshot.1d.py</xbar.abouturl>
 
 import os, subprocess, tempfile, hashlib, requests, sys, platform, time
 from distutils.version import StrictVersion

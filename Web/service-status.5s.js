@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 const https = require('https');
 
-// <bitbar.title>Service Status</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Vitaly Emelyanov</bitbar.author>
-// <bitbar.author.github>VitalyEmelyanov</bitbar.author.github>
-// <bitbar.desc>Simple plugin to monitor your services/websites availability</bitbar.desc>
-// <bitbar.image>https://hsto.org/webt/dd/yv/qn/ddyvqnycz-hytbdolo5ti48pii4.png</bitbar.image>
-// <bitbar.dependencies>nodejs</bitbar.dependencies>
+// <xbar.title>Service Status</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Vitaly Emelyanov</xbar.author>
+// <xbar.author.github>VitalyEmelyanov</xbar.author.github>
+// <xbar.desc>Simple plugin to monitor your services/websites availability</xbar.desc>
+// <xbar.image>https://hsto.org/webt/dd/yv/qn/ddyvqnycz-hytbdolo5ti48pii4.png</xbar.image>
+// <xbar.dependencies>nodejs</xbar.dependencies>
 
 // Customize as you wish!
 const services = [

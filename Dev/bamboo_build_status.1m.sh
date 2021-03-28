@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>Bamboo Build Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Nathan Jovin</bitbar.author>
-# <bitbar.author.github>njovin</bitbar.author.github>
-# <bitbar.desc>Displays Bamboo build status</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/RPYrUok.png</bitbar.image>
-# <bitbar.dependencies>jq,curl</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Dev/Bamboo/bamboo_build_status.1m.sh</bitbar.abouturl>
+# <xbar.title>Bamboo Build Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Nathan Jovin</xbar.author>
+# <xbar.author.github>njovin</xbar.author.github>
+# <xbar.desc>Displays Bamboo build status</xbar.desc>
+# <xbar.image>http://i.imgur.com/RPYrUok.png</xbar.image>
+# <xbar.dependencies>jq,curl</xbar.dependencies>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Dev/Bamboo/bamboo_build_status.1m.sh</xbar.abouturl>
 #
 # Displays the status of a single Bamboo build
 # Runs 2 REST calls - one to find out if a build is currently runnning and another to get the last build status if one is not currently running

@@ -12,12 +12,12 @@
 # password=MYPASSWORDCHARACHTERS
 # trusted-cert=MYCERTIFICATECHARACHTERS
 
-# <bitbar.title>OpenFortiVPN</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Emran Mobaraki Novin</bitbar.author>
-# <bitbar.author.github>emranovin</bitbar.author.github>
-# <bitbar.desc>Displays status of a OpenFortiVPN interface with option to connect/disconnect.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/v2aW5mo.png</bitbar.image>
+# <xbar.title>OpenFortiVPN</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Emran Mobaraki Novin</xbar.author>
+# <xbar.author.github>emranovin</xbar.author.github>
+# <xbar.desc>Displays status of a OpenFortiVPN interface with option to connect/disconnect.</xbar.desc>
+# <xbar.image>https://i.imgur.com/v2aW5mo.png</xbar.image>
 
 VPN_EXECUTABLE=/usr/local/bin/openfortivpn
 VPN_EXECUTABLE_PARAMS="-c$HOME/Documents/.fortivpn-config" # Optional

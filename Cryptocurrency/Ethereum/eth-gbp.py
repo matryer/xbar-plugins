@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # coding=utf-8
 #
-# <bitbar.title>Etherium Ticker (£1GBP)</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>impshum</bitbar.author>
-# <bitbar.author.github>impshum</bitbar.author.github>
-# <bitbar.desc>Displays current Etherium price for £1 from Coinmarketcap</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/3NK6mXt.jpg</bitbar.image>
+# <xbar.title>Etherium Ticker (£1GBP)</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>impshum</xbar.author>
+# <xbar.author.github>impshum</xbar.author.github>
+# <xbar.desc>Displays current Etherium price for £1 from Coinmarketcap</xbar.desc>
+# <xbar.image>https://i.imgur.com/3NK6mXt.jpg</xbar.image>
 #
 # by impshum
 

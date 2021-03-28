@@ -1,11 +1,11 @@
 #!/usr/bin/env LC_ALL=en_US.UTF-8 ruby
 
-# <bitbar.title>Keybase Encrypt/Decrypt</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Ash Wu(hSATAC), Aaron Huang(aar0ntw)</bitbar.author>
-# <bitbar.author.github>pan-cat</bitbar.author.github>
-# <bitbar.desc>A helper for keybase encryption and decryption. Simply copy content you want to decrypt/encrypt and click action, the result will be copied into your clipboard.</bitbar.desc>
-# <bitbar.dependencies>ruby,keybase</bitbar.dependencies>
+# <xbar.title>Keybase Encrypt/Decrypt</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Ash Wu(hSATAC), Aaron Huang(aar0ntw)</xbar.author>
+# <xbar.author.github>pan-cat</xbar.author.github>
+# <xbar.desc>A helper for keybase encryption and decryption. Simply copy content you want to decrypt/encrypt and click action, the result will be copied into your clipboard.</xbar.desc>
+# <xbar.dependencies>ruby,keybase</xbar.dependencies>
 
 #--- User parameters ----------------------------------------------------------
 KEYBASE = "/usr/local/bin/keybase"

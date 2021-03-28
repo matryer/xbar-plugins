@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# <bitbar.title>Emacs Menu Controller</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Ken Mankoff</bitbar.author>
-# <bitbar.author.github>mankoff</bitbar.author.github>
-# <bitbar.desc>Emacs controlled</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/ZTScWDa.png</bitbar.image>
+# <xbar.title>Emacs Menu Controller</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Ken Mankoff</xbar.author>
+# <xbar.author.github>mankoff</xbar.author.github>
+# <xbar.desc>Emacs controlled</xbar.desc>
+# <xbar.image>http://i.imgur.com/ZTScWDa.png</xbar.image>
 
 PATH=/usr/local/bin:$PATH  # where is emacsclient?
 

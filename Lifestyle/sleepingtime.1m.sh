@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>sleepingtime</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Matteo Ferrando</bitbar.author>
-# <bitbar.author.github>chamini2</bitbar.author.github>
-# <bitbar.desc>Show the next sleeping cycles if we fell asleep in `falling_asleep` minutes.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/JTqosty.png</bitbar.image>
+# <xbar.title>sleepingtime</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Matteo Ferrando</xbar.author>
+# <xbar.author.github>chamini2</xbar.author.github>
+# <xbar.desc>Show the next sleeping cycles if we fell asleep in `falling_asleep` minutes.</xbar.desc>
+# <xbar.image>http://i.imgur.com/JTqosty.png</xbar.image>
 
 # Time in minutes to fall asleep; the mean is 15 minutes
 falling_asleep=15

@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>Simple Gmail Checker</bitbar.title>
-# <bitbar.version>v0.1.0</bitbar.version>
-# <bitbar.author>Murat Bastas</bitbar.author>
-# <bitbar.author.github>murat</bitbar.author.github>
-# <bitbar.desc>Checks gmail and displays inbox count + unread mails' subjects</bitbar.desc>
-# <bitbar.dependencies>sh,libxml2</bitbar.dependencies>
+# <xbar.title>Simple Gmail Checker</xbar.title>
+# <xbar.version>v0.1.0</xbar.version>
+# <xbar.author>Murat Bastas</xbar.author>
+# <xbar.author.github>murat</xbar.author.github>
+# <xbar.desc>Checks gmail and displays inbox count + unread mails' subjects</xbar.desc>
+# <xbar.dependencies>sh,libxml2</xbar.dependencies>
 
 USERNAME="example@gmail.com"
 PASSWORD="verysecretpassword"

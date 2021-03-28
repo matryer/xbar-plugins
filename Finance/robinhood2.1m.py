@@ -1,13 +1,13 @@
 #!/usr/local/bin/python3
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Robinhood2</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Adam Jilling</bitbar.author>
-# <bitbar.author.github>ajilling</bitbar.author.github>
-# <bitbar.desc>Shows your total portfolio value and daily change</bitbar.desc>
-# <bitbar.image>https://i.ibb.co/SBY7NXy/bitbar-robinhood.png</bitbar.image>
-# <bitbar.dependencies>python,robin_stocks</bitbar.dependencies>
+# <xbar.title>Robinhood2</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Adam Jilling</xbar.author>
+# <xbar.author.github>ajilling</xbar.author.github>
+# <xbar.desc>Shows your total portfolio value and daily change</xbar.desc>
+# <xbar.image>https://i.ibb.co/SBY7NXy/bitbar-robinhood.png</xbar.image>
+# <xbar.dependencies>python,robin_stocks</xbar.dependencies>
 
 import robin_stocks as rh
 

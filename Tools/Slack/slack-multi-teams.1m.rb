@@ -19,14 +19,14 @@
 # Feel free to customize settings, colors, all-done-messages, etc.
 #
 # metadata
-# <bitbar.title>Slack Multi-Teams Overview</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Harry Löwen</bitbar.author>
-# <bitbar.author.github>harryloewen</bitbar.author.github>
-# <bitbar.desc>Provides an overview of unread channels, unread messages and channel histories.</bitbar.desc>
-# <bitbar.image>https://drive.google.com/uc?export=preview&id=1vxQ5qr8opWaHhiqFlJZmi0oCOG3ik0uJ</bitbar.image>
-# <bitbar.dependencies>ruby<bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/harryloewen/bitbar-slack-multi-teams/</bitbar.abouturl>
+# <xbar.title>Slack Multi-Teams Overview</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Harry Löwen</xbar.author>
+# <xbar.author.github>harryloewen</xbar.author.github>
+# <xbar.desc>Provides an overview of unread channels, unread messages and channel histories.</xbar.desc>
+# <xbar.image>https://drive.google.com/uc?export=preview&id=1vxQ5qr8opWaHhiqFlJZmi0oCOG3ik0uJ</xbar.image>
+# <xbar.dependencies>ruby<xbar.dependencies>
+# <xbar.abouturl>https://github.com/harryloewen/bitbar-slack-multi-teams/</xbar.abouturl>
 
 require 'net/http'
 require 'open-uri'

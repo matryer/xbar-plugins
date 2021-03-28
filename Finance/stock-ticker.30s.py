@@ -1,12 +1,12 @@
 #!/usr/bin/python
-# <bitbar.title>Stock Ticker</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Robert Kanter</bitbar.author>
-# <bitbar.author.github>rkanter</bitbar.author.github>
-# <bitbar.desc>Provides a rotating stock ticker in your menu bar, with color and percentage changes</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/Nf4jiRd.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/rkanter</bitbar.abouturl>
+# <xbar.title>Stock Ticker</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Robert Kanter</xbar.author>
+# <xbar.author.github>rkanter</xbar.author.github>
+# <xbar.desc>Provides a rotating stock ticker in your menu bar, with color and percentage changes</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/Nf4jiRd.png</xbar.image>
+# <xbar.abouturl>https://github.com/rkanter</xbar.abouturl>
 import urllib2
 import json
 

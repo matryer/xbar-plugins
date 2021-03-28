@@ -5,13 +5,13 @@
 /* jshint asi: true */
 
 /*
- * <bitbar.title>Gulp Launcher</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Aaron Crawford</bitbar.author>
- * <bitbar.author.github>aaroncrawford</bitbar.author.github>
- * <bitbar.image>https://i.imgur.com/RAxo5tG.png</bitbar.image>
- * <bitbar.desc>Quickly launch gulp processes on projects.  Useful for agency developers with a lot of projects.  Editing of file required to list your projects.</bitbar.desc>
- * <bitbar.dependencies>node</bitbar.dependencies>
+ * <xbar.title>Gulp Launcher</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Aaron Crawford</xbar.author>
+ * <xbar.author.github>aaroncrawford</xbar.author.github>
+ * <xbar.image>https://i.imgur.com/RAxo5tG.png</xbar.image>
+ * <xbar.desc>Quickly launch gulp processes on projects.  Useful for agency developers with a lot of projects.  Editing of file required to list your projects.</xbar.desc>
+ * <xbar.dependencies>node</xbar.dependencies>
  */
 
 // EDIT ME

@@ -2,12 +2,12 @@
 
 # Shows last BTC price (in USD) on Bitfinex BTCUSD Order Book.
 #
-# <bitbar.title>Bitfinex BTCUSD last price</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Roberto Santacroce Martins</bitbar.author>
-# <bitbar.author.github>mileschet</bitbar.author.github>
-# <bitbar.desc>Shows last BTC price (in USD) on Bitfinex BTCUSD Order Book.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/AJU4wmc.png</bitbar.image>
+# <xbar.title>Bitfinex BTCUSD last price</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Roberto Santacroce Martins</xbar.author>
+# <xbar.author.github>mileschet</xbar.author.github>
+# <xbar.desc>Shows last BTC price (in USD) on Bitfinex BTCUSD Order Book.</xbar.desc>
+# <xbar.image>http://i.imgur.com/AJU4wmc.png</xbar.image>
 #
 # by Roberto Santacroce Martins
 # Based on Coinbase bitbar plugin by Mat Ryer

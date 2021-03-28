@@ -1,13 +1,13 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Weather - OpenWeatherMap</bitbar.title>
-# <bitbar.version>v1.3</bitbar.version>
-# <bitbar.author>Daniel Seripap</bitbar.author>
-# <bitbar.author.github>seripap</bitbar.author.github>
-# <bitbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</bitbar.desc>
-# <bitbar.image>https://poolis.github.io/bitbar-plugins/open-weather-preview.png</bitbar.image>
-# <bitbar.dependencies>python,emoji</bitbar.dependencies>
+# <xbar.title>Weather - OpenWeatherMap</xbar.title>
+# <xbar.version>v1.3</xbar.version>
+# <xbar.author>Daniel Seripap</xbar.author>
+# <xbar.author.github>seripap</xbar.author.github>
+# <xbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</xbar.desc>
+# <xbar.image>https://poolis.github.io/bitbar-plugins/open-weather-preview.png</xbar.image>
+# <xbar.dependencies>python,emoji</xbar.dependencies>
 
 import emoji
 import json

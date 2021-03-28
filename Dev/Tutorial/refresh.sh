@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Refresh Me</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Karl Piper</bitbar.author>
-# <bitbar.author.github>KarlPiper</bitbar.author.github>
-# <bitbar.desc>How to refresh just one plugin, or restart BitBar entirely.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/KarlPiper/Plugins-for-Bitbar/master/images/refresh.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Refresh Me</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Karl Piper</xbar.author>
+# <xbar.author.github>KarlPiper</xbar.author.github>
+# <xbar.desc>How to refresh just one plugin, or restart BitBar entirely.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/KarlPiper/Plugins-for-Bitbar/master/images/refresh.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 if [[ "$1" = "restart" ]]; then
 osascript <<EOD

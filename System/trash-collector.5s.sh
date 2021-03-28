@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Trash Collector</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Carlson Orozco</bitbar.author>
-# <bitbar.author.github>carlsonorozco</bitbar.author.github>
-# <bitbar.desc>Trash Collector is a plugin for BitBar that enables you to empty your trash.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/trash-collector/master/image.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/carlsonorozco/trash-collector</bitbar.abouturl>
+# <xbar.title>Trash Collector</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Carlson Orozco</xbar.author>
+# <xbar.author.github>carlsonorozco</xbar.author.github>
+# <xbar.desc>Trash Collector is a plugin for BitBar that enables you to empty your trash.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/carlsonorozco/trash-collector/master/image.png</xbar.image>
+# <xbar.abouturl>https://github.com/carlsonorozco/trash-collector</xbar.abouturl>
 
 trash_count=$(find "$HOME/.Trash/" | wc -l)
 trash_count=$((trash_count-1))

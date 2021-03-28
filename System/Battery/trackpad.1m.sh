@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# <bitbar.title>Trackpad Battery</bitbar.title>
-# <bitbar.author>Mat Ryer</bitbar.author>
-# <bitbar.author.github>matryer</bitbar.author.github>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>Trackpad Battery</xbar.title>
+# <xbar.author>Mat Ryer</xbar.author>
+# <xbar.author.github>matryer</xbar.author.github>
+# <xbar.version>1.0</xbar.version>
 
 PERCENTAGE=$(ioreg -n BNBTrackpadDevice | fgrep BatteryPercent | fgrep -v \{ | sed 's/[^[:digit:]]//g')
 

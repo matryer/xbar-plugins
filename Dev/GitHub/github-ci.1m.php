@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 <?php
 /**
- * <bitbar.title>Github CI Status</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Jordan Andree</bitbar.author>
- * <bitbar.author.github>jordanandree</bitbar.author.github>
- * <bitbar.desc>Displays Github Pull Request CI Check statuses</bitbar.desc>
- * <bitbar.dependencies>php</bitbar.dependencies>
- * <bitbar.abouturl>https://github.com/jordanandree/bitbar-github-ci</bitbar.abouturl>
+ * <xbar.title>Github CI Status</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Jordan Andree</xbar.author>
+ * <xbar.author.github>jordanandree</xbar.author.github>
+ * <xbar.desc>Displays Github Pull Request CI Check statuses</xbar.desc>
+ * <xbar.dependencies>php</xbar.dependencies>
+ * <xbar.abouturl>https://github.com/jordanandree/bitbar-github-ci</xbar.abouturl>
  *
  * Icon sourced from feather icons: https://feathericons.com/
  *

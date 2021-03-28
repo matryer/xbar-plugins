@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Redis - Memcached</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Hugo Defrane</bitbar.author>
-# <bitbar.author.github>koleror</bitbar.author.github>
-# <bitbar.desc>This plugin will start and stop a memcached and redis server</bitbar.desc>
-# <bitbar.image>http://oi67.tinypic.com/28u1y1g.jpg</birtbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Redis - Memcached</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Hugo Defrane</xbar.author>
+# <xbar.author.github>koleror</xbar.author.github>
+# <xbar.desc>This plugin will start and stop a memcached and redis server</xbar.desc>
+# <xbar.image>http://oi67.tinypic.com/28u1y1g.jpg</birtbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 REDIS_PID=$(/usr/bin/pgrep redis-server)
 MEMCACHED_PID=$(/usr/bin/pgrep memcached)

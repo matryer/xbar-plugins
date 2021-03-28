@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>Authenticator</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Gunasekaran Namachivayam</bitbar.author>
-# <bitbar.author.github>gunasekar</bitbar.author.github>
-# <bitbar.desc>This plugin will generate the TOTP tokens and allows to copy them to clipboard</bitbar.desc>
+# <xbar.title>Authenticator</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Gunasekaran Namachivayam</xbar.author>
+# <xbar.author.github>gunasekar</xbar.author.github>
+# <xbar.desc>This plugin will generate the TOTP tokens and allows to copy them to clipboard</xbar.desc>
 
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"

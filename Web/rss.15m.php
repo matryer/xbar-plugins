@@ -1,12 +1,12 @@
 #!/usr/bin/env php
 <?php
-// <bitbar.title>Simple RSS reader</bitbar.title>
-// <bitbar.version>1.0</bitbar.version>
-// <bitbar.author>Aleš Farčnik</bitbar.author>
-// <bitbar.author.github>alesf</bitbar.author.github>
-// <bitbar.desc>Simple RSS "reader" that will list latest feed items and link to them.</bitbar.desc>
-// <bitbar.image>http://i.imgur.com/JDdgcGH.png</bitbar.image>
-// <bitbar.dependencies>php >= 5.4</bitbar.dependencies>
+// <xbar.title>Simple RSS reader</xbar.title>
+// <xbar.version>1.0</xbar.version>
+// <xbar.author>Aleš Farčnik</xbar.author>
+// <xbar.author.github>alesf</xbar.author.github>
+// <xbar.desc>Simple RSS "reader" that will list latest feed items and link to them.</xbar.desc>
+// <xbar.image>http://i.imgur.com/JDdgcGH.png</xbar.image>
+// <xbar.dependencies>php >= 5.4</xbar.dependencies>
 
 define('FEED_URL', 'http://feedpress.me/sixcolors?type=xml');
 define('ITEM_LIMIT', 25);

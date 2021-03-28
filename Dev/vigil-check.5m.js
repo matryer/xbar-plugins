@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 
 /*
-  <bitbar.title>Vigil Website Monitoring</bitbar.title>
-  <bitbar.version>v1.0</bitbar.version>
-  <bitbar.author>Cameron Rye</bitbar.author>
-  <bitbar.author.github>cameronrye</bitbar.author.github>
-  <bitbar.desc>Displays the status of hosts being monitered by Vigil.</bitbar.desc>
-  <bitbar.image>https://cameronrye.com/img/vigil-check.png</bitbar.image>
-  <bitbar.dependencies>node</bitbar.dependencies>
+  <xbar.title>Vigil Website Monitoring</xbar.title>
+  <xbar.version>v1.0</xbar.version>
+  <xbar.author>Cameron Rye</xbar.author>
+  <xbar.author.github>cameronrye</xbar.author.github>
+  <xbar.desc>Displays the status of hosts being monitered by Vigil.</xbar.desc>
+  <xbar.image>https://cameronrye.com/img/vigil-check.png</xbar.image>
+  <xbar.dependencies>node</xbar.dependencies>
 
   Vigil Website Monitoring
   by Cameron Rye (@cameronrye)

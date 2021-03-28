@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-# <bitbar.title>Songkick - Upcoming events</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Nobuhide Yayoshi</bitbar.author>
-# <bitbar.author.github>yayoc</bitbar.author.github>
-# <bitbar.desc>Upcoming music events on Songkick</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/pu8gJh2.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://www.songkick.com/</bitbar.abouturl>
+# <xbar.title>Songkick - Upcoming events</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Nobuhide Yayoshi</xbar.author>
+# <xbar.author.github>yayoc</xbar.author.github>
+# <xbar.desc>Upcoming music events on Songkick</xbar.desc>
+# <xbar.image>http://i.imgur.com/pu8gJh2.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://www.songkick.com/</xbar.abouturl>
 
 import json
 import urllib2

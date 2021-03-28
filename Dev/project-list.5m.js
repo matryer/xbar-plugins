@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Semaphore CI</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Goran Gajic</bitbar.author>
-// <bitbar.author.github>gorangajic</bitbar.author.github>
-// <bitbar.desc>List your project and their statuses, from semaphoreci.com</bitbar.desc>
-// <bitbar.dependencies>node.js</bitbar.dependencies>
-// <bitbar.image>http://i.imgur.com/tRd1clI.png</bitbar.image>
+// <xbar.title>Semaphore CI</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Goran Gajic</xbar.author>
+// <xbar.author.github>gorangajic</xbar.author.github>
+// <xbar.desc>List your project and their statuses, from semaphoreci.com</xbar.desc>
+// <xbar.dependencies>node.js</xbar.dependencies>
+// <xbar.image>http://i.imgur.com/tRd1clI.png</xbar.image>
 
 var https = require('https');
 var AUTH_TOKEN = ''; // YOUR AUTH TOKEN

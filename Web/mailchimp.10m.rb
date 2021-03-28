@@ -1,11 +1,11 @@
 #!/usr/bin/ruby
-# <bitbar.title>MailChimp Subscribers</bitbar.title>
-# <bitbar.version>v0.1.0</bitbar.version>
-# <bitbar.author>Tim Novis</bitbar.author>
-# <bitbar.author.github>timnovis</bitbar.author.github>
-# <bitbar.desc>Display your MailChimp subscriber count for a given list</bitbar.desc>
-# <bitbar.image>https://www.novis.co/media/misc/mc-bitbar.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>MailChimp Subscribers</xbar.title>
+# <xbar.version>v0.1.0</xbar.version>
+# <xbar.author>Tim Novis</xbar.author>
+# <xbar.author.github>timnovis</xbar.author.github>
+# <xbar.desc>Display your MailChimp subscriber count for a given list</xbar.desc>
+# <xbar.image>https://www.novis.co/media/misc/mc-bitbar.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 require 'net/http'
 require 'json'
