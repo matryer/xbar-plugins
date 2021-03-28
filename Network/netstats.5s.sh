@@ -129,6 +129,8 @@ echo "Terminal: ifconfig| bash='ifconfig'"
 echo "Terminal: Wireless Adapter Info| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I'"
 echo "Terminal: Wireless Scan| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s'"
 
-echo "---"
 
-echo "Router Web Config | href=http://$ROUTER_PART"
+if [[ $LOCAL_OK = 0 ]] ; then
+  echo "---"
+  echo "Router Web Config | href=http://$ROUTER"
+fi
