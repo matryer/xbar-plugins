@@ -8,32 +8,21 @@
 # <xbar.image>https://raw.githubusercontent.com/skhg/BitBar-Plugins/master/NetworkInfo/ip_info.jpg</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 # <xbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/NetworkInfo</xbar.abouturl>
+# <xbar.var>number(VAR_WARNING_SPEED=20): When the connection to the router drops below this speed (Mbps) your IP address will be highlighted in orange</xbar.var>
+# <xbar.var>string(VAR_NETWORK_INTERFACE="en0"): The interface to track (Usual interface for MacOS wifi is en0)</xbar.var>
 
 
+if [[ -z "${VAR_NETWORK_INTERFACE}" ]]
+then
+    # VAR_NETWORK_INTERFACE is not set. Get it with help from @hoondi (https://github.com/matryer/xbar-plugins/issues/1512)
+    VAR_NETWORK_INTERFACE=$(route -n get default | grep -o "interface: .*" | sed -e 's/interface: //')
+fi
 
 
-
-# When the connection to the router drops below this speed (Mbps)
-# your IP address will be highlighted in orange
-
-WARNING_SPEED=20
-
-
-
-
-
-
-
-
-
-
-
-# You don't need to change anything below here...
-
-LOCAL_IP=$(ipconfig getifaddr en0 2>&1)
+LOCAL_IP=$(ipconfig getifaddr ${VAR_NETWORK_INTERFACE} 2>&1)
 LOCAL_OK=$?
 
-if [ $LOCAL_OK != 0 ] ; then
+if [[ $LOCAL_OK != 0 ]] ; then
     LOCAL_PART="❌"
     ROUTER_PART="❌ - Router | font=Courier"
 else
@@ -42,7 +31,7 @@ else
     ROUTER=$(netstat -nr | grep default | grep -E -o '\d+\.\d+\.\d+\.\d+' 2>&1)
     ROUTER_OK=$?
 
-    if [ $ROUTER_OK != 0 ] ; then
+    if [[ $ROUTER_OK != 0 ]] ; then
         ROUTER_PART="Unable to determine router IP? | color=orange font=Courier"
     else
         ROUTER_PART="$ROUTER"" - Router | font=Courier"
@@ -55,7 +44,7 @@ REMOTE_IP=$(dig +short myip.opendns.com @resolver1.opendns.com 2>&1)
 
 REMOTE_OK=$?
 
-if [ $REMOTE_OK != 0 ] ; then
+if [[ $REMOTE_OK != 0 ]] ; then
     REMOTE_PART="❌"
 else
     REMOTE_PART="$REMOTE_IP"
@@ -63,13 +52,13 @@ fi
 
 SPEED=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | grep 'lastTxRate:' | grep -o '\d\+' 2>&1)
 
-if [ $LOCAL_OK != 0 ] ; then
+if [[ $LOCAL_OK != 0 ]] ; then
     SPEED_PART="❌"
     SPEED_WARNING=0
 else
     SPEED_PART="$SPEED""Mbps"
 
-    if [ "$SPEED" -lt $WARNING_SPEED ] ; then
+    if [[ "$SPEED" -lt ${VAR_WARNING_SPEED} ]] ; then
         SPEED_WARNING=1
     else
         SPEED_WARNING=0
@@ -78,7 +67,7 @@ fi
 
 
 
-if [ $REMOTE_OK != 0 ] ; then
+if [[ $REMOTE_OK != 0 ]] ; then
     REMOTE_WARNING=1
 else
     REMOTE_WARNING=0
@@ -87,7 +76,7 @@ fi
 function speedcolour {
     SPEED=$1
 
-    if [ "$SPEED" == 1 ] ; then
+    if [[ "$SPEED" == 1 ]] ; then
         echo " color=orange"
         return
     fi
@@ -98,7 +87,7 @@ function speedcolour {
 function wancolour {
     WAN=$1
 
-    if [ "$WAN" == 1 ] ; then
+    if [[ "$WAN" == 1 ]] ; then
         echo " color=red"
         return
     fi
@@ -110,12 +99,12 @@ function topcolour {
     SPEED=$1
     WAN=$2
 
-    if [ "$WAN" == 1 ] ; then
+    if [[ "$WAN" == 1 ]] ; then
         wancolour "$WAN"
         return
     fi
 
-    if [ "$SPEED" == 1 ] ; then
+    if [[ "$SPEED" == 1 ]] ; then
         speedcolour "$SPEED"
         return
     fi
