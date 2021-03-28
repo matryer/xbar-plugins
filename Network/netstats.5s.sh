@@ -32,7 +32,7 @@ else
     ROUTER_OK=$?
 
     if [[ $ROUTER_OK != 0 ]] ; then
-        ROUTER_PART="Unable to determine router IP? | color=orange"
+        ROUTER_PART="Unable to determine router IP"
     else
         ROUTER_PART="$ROUTER"" - Router"
     fi
