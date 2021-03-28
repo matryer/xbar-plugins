@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Hacker News</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Liam Scalzulli</bitbar.author>
-# <bitbar.author.github>terror</bitbar.author.github>
-# <bitbar.desc>View top Hacker News articles in your status bar!</bitbar.desc>
-# <bitbar.image>https://reports.exodus-privacy.eu.org/reports/51731/icon</bitbar.image>
-# <bitbar.dependencies>python3, requests</bitbar.dependencies>
+# <xbar.title>Hacker News</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Liam Scalzulli</xbar.author>
+# <xbar.author.github>terror</xbar.author.github>
+# <xbar.desc>View top Hacker News articles in your status bar!</xbar.desc>
+# <xbar.image>https://i.imgur.com/rGZzrB0.png</xbar.image>
+# <xbar.dependencies>python3, requests</xbar.dependencies>
 
 import requests
 from dataclasses import dataclass
