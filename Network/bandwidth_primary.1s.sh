@@ -4,15 +4,11 @@
 # <bitbar.version>v0.0.1</bitbar.version>
 # <bitbar.author>Kaspars Mickevics</bitbar.author>
 # <bitbar.author.github>fxlv</bitbar.author.github>
-# <bitbar.desc>Displays bandwidth usage for the primary interface in Megabits/s</bitbar.desc>
+# <bitbar.desc>Displays bandwidth usage for a network interface in Megabits/s</bitbar.desc>
 # <bitbar.dependencies>ifstat</bitbar.dependencies>
 # <bitbar.image>https://cloud.githubusercontent.com/assets/2462211/12748504/584bbcea-c9b3-11e5-8109-ad8fdcefdc75.png</bitbar.image>
-
+# <xbar.var>string(VAR_NETWORK_INTERFACE="en0"): The interface to track (Usual interface for MacOS wifi is en0)</xbar.var>
 # based on bandwidth.1s.sh by Ant Cosentino
-
-# only gather stats from interface en0
-# no need to sample unused interfaces
-INTERFACE="en0"
 
 
 if [ ! -e /usr/local/bin/ifstat ]; then
@@ -29,7 +25,7 @@ function get_ifstat {
     interface=$1
     # 1 sample for 0.5 second interval
     # outputs two values (in/out) in kilobits per second
-    /usr/local/bin/ifstat -n -w -i "${interface}" -b 0.5 1 | tail -n 1
+    /usr/local/bin/ifstat -n -w -i "${VAR_NETWORK_INTERFACE}" -b 0.5 1 | tail -n 1
 }
 
 function print_ifstat {
@@ -41,5 +37,5 @@ function print_ifstat {
 
 }
 
-print_ifstat "$(get_ifstat ${INTERFACE})"
+print_ifstat "$(get_ifstat ${VAR_NETWORK_INTERFACE})"
 echo "---"
