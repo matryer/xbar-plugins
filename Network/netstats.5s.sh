@@ -125,7 +125,7 @@ echo "---"
 
 echo "Terminal: ifconfig| bash='ifconfig'"
 echo "Terminal: Adapter Info| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I'"
-echo "Terminal: Wireless Scan| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s''"
+echo "Terminal: Wireless Scan| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s'"
 
 echo "---"
 
