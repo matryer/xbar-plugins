@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>YubiKey TOTP to clipboard</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>jebabin</bitbar.author>
-# <bitbar.author.github>jebabin</bitbar.author.github>
-# <bitbar.desc>generates totp codes using yubikey and copy to clipboard, supports touch and touchless code generation</bitbar.desc>
-# <bitbar.dependencies>bash,perl</bitbar.dependencies>
-# <bitbar.version>1.1</bitbar.version>
+# <xbar.title>YubiKey TOTP to clipboard</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>jebabin</xbar.author>
+# <xbar.author.github>jebabin</xbar.author.github>
+# <xbar.desc>generates totp codes using yubikey and copy to clipboard, supports touch and touchless code generation</xbar.desc>
+# <xbar.dependencies>bash,perl</xbar.dependencies>
+# <xbar.version>1.1</xbar.version>
 
 # <xbar.var>string(VAR_YKMAN): Path to the ykman binary (optional).</xbar.var>
 
