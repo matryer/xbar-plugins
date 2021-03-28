@@ -1,16 +1,16 @@
 #!/bin/bash
-
 # <xbar.title>IP Address Info</xbar.title>
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>Jack Higgins</xbar.author>
 # <xbar.author.github>skhg</xbar.author.github>
-# <xbar.desc>Displays your local IP address with useful extra info</xbar.desc>
+# <xbar.desc>Displays your local IP address with useful extra info (some stats/functions are wifi only)</xbar.desc>
 # <xbar.image>https://raw.githubusercontent.com/skhg/BitBar-Plugins/master/NetworkInfo/ip_info.jpg</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 # <xbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/NetworkInfo</xbar.abouturl>
 # <xbar.var>number(VAR_WARNING_SPEED=20): When the connection to the router drops below this speed (Mbps) your IP address will be highlighted in orange</xbar.var>
 # <xbar.var>string(VAR_NETWORK_INTERFACE="en0"): The interface to track (Usual interface for MacOS wifi is en0)</xbar.var>
 
+# NOTE: Speed will only show for wifi interfaces due to using the built-in `airport -I` command.
 
 if [[ -z "${VAR_NETWORK_INTERFACE}" ]]
 then
@@ -118,13 +118,15 @@ echo "---"
 
 echo "$LOCAL_PART - Local | font=Courier"
 echo "$ROUTER_PART | font=Courier"
-echo "$SPEED_PART - LAN Speed | $(speedcolour $SPEED_WARNING) font=Courier"
+if [[ -n "$SPEED" ]]; then
+  echo "$SPEED_PART - ${VAR_NETWORK_INTERFACE} Speed | $(speedcolour $SPEED_WARNING) font=Courier"
+fi
 echo "$REMOTE_PART - WAN | $(wancolour $REMOTE_WARNING) font=Courier"
 
 echo "---"
 
 echo "Terminal: ifconfig| bash='ifconfig'"
-echo "Terminal: Adapter Info| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I'"
+echo "Terminal: Wireless Adapter Info| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I'"
 echo "Terminal: Wireless Scan| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s'"
 
 echo "---"
