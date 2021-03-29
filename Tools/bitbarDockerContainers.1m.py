@@ -4,7 +4,7 @@
 # <bitbar.title>Manage docker containers</bitbar.title>
 # <bitbar.author>Andre Litty</bitbar.author>
 # <bitbar.author.github>DerAndre</bitbar.author.github>
-# <bitbar.image>https://imgur.com/a/EGgp04H</bitbar.image>
+# <bitbar.image>https://i.imgur.com/jFu2b4V.png</bitbar.image>
 # <bitbar.desc>View docker containers state, start or stop containers</bitbar.desc>
 # <bitbar.dependencies>Python3</bitbar.dependencies>
 # <bitbar.version>v1.0</bitbar.version>
