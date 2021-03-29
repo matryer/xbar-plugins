@@ -60,7 +60,7 @@ INTERFACES=$(ifconfig | grep UP | egrep -o '(^en[0-9]*|^utun[0-9]*)' | sort -n)
 # Start building output
 [[ "$EXTERNAL_IP4" == "None" && "$EXTERNAL_IP6" == "None" ]]  && echo "❌" || echo "🌐"
 echo "---"
-echo "🔄 Refresh | colo=black refresh=true"
+echo "🔄 Refresh | color=black refresh=true"
 echo "---"
 echo "Public: "
 echo "IPv4: ${EXTERNAL_IP4}${WHOIS} | terminal=false bash='$0' param1=copy param2=$EXTERNAL_IP4"
