@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
 #
-# <bitbar.title>Ethereum USD Tracker</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>mgjo5899</bitbar.author>
-# <bitbar.author.github>mgjo5899</bitbar.author.github>
-# <bitbar.desc>It tracks Ethereum price in USD</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/YEn5Cnk.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Ethereum USD Tracker</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>mgjo5899</xbar.author>
+# <xbar.author.github>mgjo5899</xbar.author.github>
+# <xbar.desc>It tracks Ethereum price in USD</xbar.desc>
+# <xbar.image>https://i.imgur.com/YEn5Cnk.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # by mgjo5899
 

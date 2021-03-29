@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>Wallpaper refresh</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Anmol Arora</bitbar.author>
-# <bitbar.author.github>anmolarora</bitbar.author.github>
-# <bitbar.desc>A new HD wallpaper every hour.</bitbar.desc>
+# <xbar.title>Wallpaper refresh</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Anmol Arora</xbar.author>
+# <xbar.author.github>anmolarora</xbar.author.github>
+# <xbar.desc>A new HD wallpaper every hour.</xbar.desc>
 
 echo 'W'
 echo ---

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# <bitbar.title>Gitlab status plugin</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Brett Jones</bitbar.author>
-# <bitbar.author.github>blockloop</bitbar.author.github>
-# <bitbar.image>https://dl.dropbox.com/s/r4st2fnfhy7tcsv/gitlab-status-screenshot-bitbar.png</bitbar.image>
-# <bitbar.desc>Shows the current status of status.gitlab.com. Find out if Gitlab is having DDOS problems which will affect pushes/pulls.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Gitlab status plugin</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Brett Jones</xbar.author>
+# <xbar.author.github>blockloop</xbar.author.github>
+# <xbar.image>https://dl.dropbox.com/s/r4st2fnfhy7tcsv/gitlab-status-screenshot-bitbar.png</xbar.image>
+# <xbar.desc>Shows the current status of status.gitlab.com. Find out if Gitlab is having DDOS problems which will affect pushes/pulls.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 
 rawfeed="$(curl -SsL https://status.gitlab.com/ | grep OK)"

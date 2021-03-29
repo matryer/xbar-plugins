@@ -1,11 +1,11 @@
 #!/bin/sh
 
-# <bitbar.title>Amazon EC2 Instance Start/Stop</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Francis Mak</bitbar.author>
-# <bitbar.author.github>franfran</bitbar.author.github>
-# <bitbar.desc>Let you start/stop Amazon EC2 instances</bitbar.desc>
-# <bitbar.dependencies>awscli,jq</bitbar.dependencies>
+# <xbar.title>Amazon EC2 Instance Start/Stop</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Francis Mak</xbar.author>
+# <xbar.author.github>franfran</xbar.author.github>
+# <xbar.desc>Let you start/stop Amazon EC2 instances</xbar.desc>
+# <xbar.dependencies>awscli,jq</xbar.dependencies>
 
 # Dependencies:
 # awscli (https://aws.amazon.com/cli/)

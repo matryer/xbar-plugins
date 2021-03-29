@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>COVID-19 Today</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>CartoonChess</bitbar.author>
-# <bitbar.author.github>cartoonchess</bitbar.author.github>
-# <bitbar.desc>Displays changes in daily and average COVID-19 cases for a given country.</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/43363630/93694795-da7d0700-fb4a-11ea-875b-02f29152e929.png</bitbar.image>
-# <bitbar.dependencies>bash,jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cartoonchess/bitbar-covid-19-today</bitbar.abouturl>
+# <xbar.title>COVID-19 Today</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>CartoonChess</xbar.author>
+# <xbar.author.github>cartoonchess</xbar.author.github>
+# <xbar.desc>Displays changes in daily and average COVID-19 cases for a given country.</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/43363630/93694795-da7d0700-fb4a-11ea-875b-02f29152e929.png</xbar.image>
+# <xbar.dependencies>bash,jq</xbar.dependencies>
+# <xbar.abouturl>https://github.com/cartoonchess/bitbar-covid-19-today</xbar.abouturl>
 
 # ==============================CONFIGURATION================================
 # Set these variables to configure the output to your liking.

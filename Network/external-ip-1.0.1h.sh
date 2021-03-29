@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>My External IP</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>CodinCafe</bitbar.author>
-# <bitbar.author.github>codincafe</bitbar.author.github>
-# <bitbar.desc>This plugin will show your current external / public IP and allow you to copy the same to clipboard</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/Ar1JABA.png</bitbar.image>
-# <bitbar.dependencies>curl</bitbar.dependencies>
+# <xbar.title>My External IP</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>CodinCafe</xbar.author>
+# <xbar.author.github>codincafe</xbar.author.github>
+# <xbar.desc>This plugin will show your current external / public IP and allow you to copy the same to clipboard</xbar.desc>
+# <xbar.image>https://i.imgur.com/Ar1JABA.png</xbar.image>
+# <xbar.dependencies>curl</xbar.dependencies>
 
 echo "🌎"
 echo '---' 

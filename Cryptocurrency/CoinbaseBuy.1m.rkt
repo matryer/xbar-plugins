@@ -1,12 +1,12 @@
 #!/usr/local/bin/racket
 #lang rackjure
 
-; <bitbar.title>Coinbase buy prices</bitbar.title>
-; <bitbar.version>v1.0</bitbar.version>
-; <bitbar.author>Daniel Kvasnicka</bitbar.author>
-; <bitbar.author.github>dkvasnicka</bitbar.author.github>
-; <bitbar.desc>Fetches BUY proces for cryptocurrencies traded at Coinbase</bitbar.desc>
-; <bitbar.dependencies>racket, rackjure package</bitbar.dependencies>
+; <xbar.title>Coinbase buy prices</xbar.title>
+; <xbar.version>v1.0</xbar.version>
+; <xbar.author>Daniel Kvasnicka</xbar.author>
+; <xbar.author.github>dkvasnicka</xbar.author.github>
+; <xbar.desc>Fetches BUY proces for cryptocurrencies traded at Coinbase</xbar.desc>
+; <xbar.dependencies>racket, rackjure package</xbar.dependencies>
  
 (require net/url
          json)

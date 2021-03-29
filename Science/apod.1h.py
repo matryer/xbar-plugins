@@ -8,14 +8,14 @@
 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# <bitbar.title>NASA Picture of the Day</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jake Vossen</bitbar.author>
-# <bitbar.author.github>jakevossen5</bitbar.author.github>
-# <bitbar.desc>Displays a the NASA picture of the day</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/jakevossen5/apodbitbar/master/example.png</bitbar.image>
-# <bitbar.dependencies>python3,pillow</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/jakevossen5/apodbitbar/tree/master</bitbar.abouturl>
+# <xbar.title>NASA Picture of the Day</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jake Vossen</xbar.author>
+# <xbar.author.github>jakevossen5</xbar.author.github>
+# <xbar.desc>Displays a the NASA picture of the day</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/jakevossen5/apodbitbar/master/example.png</xbar.image>
+# <xbar.dependencies>python3,pillow</xbar.dependencies>
+# <xbar.abouturl>https://github.com/jakevossen5/apodbitbar/tree/master</xbar.abouturl>
 
 
 

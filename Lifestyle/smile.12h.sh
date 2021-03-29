@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Smile</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Isaac</bitbar.author>
-# <bitbar.author.github>irstacks</bitbar.author.github>
-# <bitbar.desc>Shows all available Github/Slack/etc emojis by category. Clicking copies corresponding :emoji: to your clipboard.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/5rXS9fU.png</bitbar.image>
+# <xbar.title>Smile</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Isaac</xbar.author>
+# <xbar.author.github>irstacks</xbar.author.github>
+# <xbar.desc>Shows all available Github/Slack/etc emojis by category. Clicking copies corresponding :emoji: to your clipboard.</xbar.desc>
+# <xbar.image>http://i.imgur.com/5rXS9fU.png</xbar.image>
 
 categories=(People Nature Objects Places Symbols)
 

@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>Winkdex.com Buy</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Baron Reznik</bitbar.author>
-# <bitbar.author.github>xiezusan</bitbar.author.github>
-# <bitbar.desc>Shows latest buy values (in USD) for Bitcoins based on the latest price according to WinkDex.</bitbar.desc>
+# <xbar.title>Winkdex.com Buy</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Baron Reznik</xbar.author>
+# <xbar.author.github>xiezusan</xbar.author.github>
+# <xbar.desc>Shows latest buy values (in USD) for Bitcoins based on the latest price according to WinkDex.</xbar.desc>
 
 PRICE=$(curl -s -H "Accept-Encoding: gzip" "https://winkdex.com/api/v0/price" | gzcat | python -c 'import json,sys;obj=json.load(sys.stdin); print obj["price"]';)
 echo -n "WinkDex: $"; echo "$((PRICE/100)).$((PRICE%100))";

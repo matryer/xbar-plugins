@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>Battery Cycles</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Maxime Bertheau</bitbar.author>
-# <bitbar.author.github>maxoumime</bitbar.author.github>
-# <bitbar.desc>Get your battery cycles and condition on the menu bar !</bitbar.desc>
-# <bitbar.image>https://nothingreally.botler.me/bitbar.battery-cycles.png</bitbar.image>
+# <xbar.title>Battery Cycles</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Maxime Bertheau</xbar.author>
+# <xbar.author.github>maxoumime</xbar.author.github>
+# <xbar.desc>Get your battery cycles and condition on the menu bar !</xbar.desc>
+# <xbar.image>https://nothingreally.botler.me/bitbar.battery-cycles.png</xbar.image>
 
 # Get cycles number
 cycles=$(system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}')

@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# <bitbar.title>BTC Markets ETH & BTC Ticker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Fred Wu</bitbar.author>
-# <bitbar.author.github>fredwu</bitbar.author.github>
-# <bitbar.desc>Displays the latest Etherium and Bitcoin prices in AUD and their 24h trade volumes from BTC Markets.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/7UwilDM.png</bitbar.image>
+# <xbar.title>BTC Markets ETH & BTC Ticker</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Fred Wu</xbar.author>
+# <xbar.author.github>fredwu</xbar.author.github>
+# <xbar.desc>Displays the latest Etherium and Bitcoin prices in AUD and their 24h trade volumes from BTC Markets.</xbar.desc>
+# <xbar.image>http://i.imgur.com/7UwilDM.png</xbar.image>
 
 echo -n "ETH "; curl -s https://api.btcmarkets.net/market/ETH/AUD/tick | \
   grep -Eo 'lastPrice":[0-9\.]+' | sed 's/lastPrice"://' | tr -d '\n'; \

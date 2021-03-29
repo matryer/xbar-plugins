@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-# <bitbar.title>Coinone Ticker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sunwoo Lee</bitbar.author>
-# <bitbar.author.github>eldkqmfhf123</bitbar.author.github>
-# <bitbar.desc>coineone.co.kr Ticker</bitbar.desc>
+# <xbar.title>Coinone Ticker</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sunwoo Lee</xbar.author>
+# <xbar.author.github>eldkqmfhf123</xbar.author.github>
+# <xbar.desc>coineone.co.kr Ticker</xbar.desc>
 
 
 import urllib2

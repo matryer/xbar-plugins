@@ -11,12 +11,12 @@
 # 10 second refresh might be a little too quick. Tweak to your liking.
 
 # metadata
-# <bitbar.title>Music Now Playing</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Dan Turkel, Jason Tokoph, Aleš Farčnik, Jeffrey Munowitch</bitbar.author>
-# <bitbar.author.github>daturkel</bitbar.author.github>
-# <bitbar.desc>Display currently playing Music song with artwork. Play/pause, skip forward, skip backward.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/lBfoFdY.png</bitbar.image>
+# <xbar.title>Music Now Playing</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Dan Turkel, Jason Tokoph, Aleš Farčnik, Jeffrey Munowitch</xbar.author>
+# <xbar.author.github>daturkel</xbar.author.github>
+# <xbar.desc>Display currently playing Music song with artwork. Play/pause, skip forward, skip backward.</xbar.desc>
+# <xbar.image>http://i.imgur.com/lBfoFdY.png</xbar.image>
 
 if [ "$1" = 'launch' ]; then
   osascript -e 'tell application "Music" to activate'

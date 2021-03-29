@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Corona info</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Joakim Ramer</bitbar.author>
-# <bitbar.author.github>jramer</bitbar.author.github>
-# <bitbar.desc>Shows corona virus data from https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6 and alerts you when the corona virus comes to your country.</bitbar.desc>
-# <bitbar.dependencies>bash, curl, jq, fping</bitbar.dependencies>
-# <bitbar.image>https://github.com/jramer/bitbar-corona/raw/master/corona_info.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/jramer/bitbar-corona</bitbar.abouturl>
+# <xbar.title>Corona info</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Joakim Ramer</xbar.author>
+# <xbar.author.github>jramer</xbar.author.github>
+# <xbar.desc>Shows corona virus data from https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6 and alerts you when the corona virus comes to your country.</xbar.desc>
+# <xbar.dependencies>bash, curl, jq, fping</xbar.dependencies>
+# <xbar.image>https://github.com/jramer/bitbar-corona/raw/master/corona_info.png</xbar.image>
+# <xbar.abouturl>https://github.com/jramer/bitbar-corona</xbar.abouturl>
 
 COUNTRY='Sweden'
 COUNTRY_FLAG='🇸🇪'

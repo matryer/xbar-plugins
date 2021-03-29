@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Prayer Time</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Kagan Inan</bitbar.author>
-# <bitbar.author.github>kaaninan</bitbar.author.github>
-# <bitbar.desc>Imsak ve aksam ezani saatlerine ne kadar kaldigini takip edin !</bitbar.desc>
+# <xbar.title>Prayer Time</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Kagan Inan</xbar.author>
+# <xbar.author.github>kaaninan</xbar.author.github>
+# <xbar.desc>Imsak ve aksam ezani saatlerine ne kadar kaldigini takip edin !</xbar.desc>
 
 import urllib2
 import json

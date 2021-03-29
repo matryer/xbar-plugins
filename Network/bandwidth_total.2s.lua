@@ -5,13 +5,13 @@
 
 -- Written in lua, this plugin is smaller and faster than shell versions with similar function.
 
--- <bitbar.title>Bandwidth Total</bitbar.title>
--- <bitbar.version>v1.0.0</bitbar.version>
--- <bitbar.author>Charl P. Botha</bitbar.author>
--- <bitbar.author.github>cpbotha</bitbar.author.github>
--- <bitbar.desc>Displays total TX and RX KBytes/s for all active interfaces. Lua = smaller than .sh.</bitbar.desc>
--- <bitbar.dependencies>ifstat, lua</bitbar.dependencies>
--- <bitbar.image>https://cpbotha.net/thingies/bitbar_bandwidth_total_lua.jpg</bitbar.image>
+-- <xbar.title>Bandwidth Total</xbar.title>
+-- <xbar.version>v1.0.0</xbar.version>
+-- <xbar.author>Charl P. Botha</xbar.author>
+-- <xbar.author.github>cpbotha</xbar.author.github>
+-- <xbar.desc>Displays total TX and RX KBytes/s for all active interfaces. Lua = smaller than .sh.</xbar.desc>
+-- <xbar.dependencies>ifstat, lua</xbar.dependencies>
+-- <xbar.image>https://cpbotha.net/thingies/bitbar_bandwidth_total_lua.jpg</xbar.image>
 
 -- to find the network interface connected to default route you could use this:
 -- https://superuser.com/a/627581/130835

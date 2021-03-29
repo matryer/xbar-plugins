@@ -2,15 +2,15 @@
 /* jshint esversion: 6, loopfunc: true */
 
 /*
-<bitbar.title>Google Calendar</bitbar.title>
-<bitbar.version>v1.2.0</bitbar.version>
-<bitbar.author>Kodie Grantham</bitbar.author>
-<bitbar.author.github>kodie</bitbar.author.github>
-<bitbar.desc>Shows upcoming events from your Google Calendar - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-googlecal</bitbar.desc>
-<bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-googlecal/master/screenshot.png</bitbar.image>
-<bitbar.dependencies>node, npm</bitbar.dependencies>
-<bitbar.dependencies.npm>npm/home-config, npm/googleapis, npm/@hapi/hapi, npm/moment, npm/open</bitbar.dependencies.npm>
-<bitbar.abouturl>https://github.com/kodie/bitbar-googlecal</bitbar.abouturl>
+<xbar.title>Google Calendar</xbar.title>
+<xbar.version>v1.2.0</xbar.version>
+<xbar.author>Kodie Grantham</xbar.author>
+<xbar.author.github>kodie</xbar.author.github>
+<xbar.desc>Shows upcoming events from your Google Calendar - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-googlecal</xbar.desc>
+<xbar.image>https://raw.githubusercontent.com/kodie/bitbar-googlecal/master/screenshot.png</xbar.image>
+<xbar.dependencies>node, npm</xbar.dependencies>
+<xbar.dependencies.npm>npm/home-config, npm/googleapis, npm/@hapi/hapi, npm/moment, npm/open</xbar.dependencies.npm>
+<xbar.abouturl>https://github.com/kodie/bitbar-googlecal</xbar.abouturl>
 */
 
 var ver = '1.2.1';

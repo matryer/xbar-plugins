@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Active GPU</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Eric Ripa</bitbar.author>
-# <bitbar.author.github>eripa</bitbar.author.github>
-# <bitbar.desc>Displays an image based on the active GPU in multi-GPU machines, such as the MacBook Pro</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/v2MuPOi.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>Active GPU</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Eric Ripa</xbar.author>
+# <xbar.author.github>eripa</xbar.author.github>
+# <xbar.desc>Displays an image based on the active GPU in multi-GPU machines, such as the MacBook Pro</xbar.desc>
+# <xbar.image>http://i.imgur.com/v2MuPOi.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 from __future__ import print_function
 import subprocess

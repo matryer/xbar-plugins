@@ -3,13 +3,13 @@
 #
 # Taskwarrior
 #
-# <bitbar.title>Taskwarrior</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Christoph Russ</bitbar.author>
-# <bitbar.author.github>christophruss</bitbar.author.github>
-# <bitbar.desc>Task managment through your menu-bar.</bitbar.desc>
-# <bitbar.dependencies>task,python</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/vjEt7Is.jpg</bitbar.image>
+# <xbar.title>Taskwarrior</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Christoph Russ</xbar.author>
+# <xbar.author.github>christophruss</xbar.author.github>
+# <xbar.desc>Task managment through your menu-bar.</xbar.desc>
+# <xbar.dependencies>task,python</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/vjEt7Is.jpg</xbar.image>
 #
 # Dependencies:
 #   taskwarrior (http://taskwarrior.org)

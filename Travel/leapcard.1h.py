@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Leap Card Balance</bitbar.title>
-# <bitbar.version>v1.2.0</bitbar.version>
-# <bitbar.author>Jack Higgins</bitbar.author>
-# <bitbar.author.github>skhg</bitbar.author.github>
-# <bitbar.desc>Displays your current Leap Card balance along with any recent card events.</bitbar.desc>
-# <bitbar.image>https://github.com/skhg/BitBar-Plugins/blob/master/LeapCard/leapcard.jpg?raw=true</bitbar.image>
-# <bitbar.dependencies>python 2 or 3, pyleapcard, lxml</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/LeapCard</bitbar.abouturl>
+# <xbar.title>Leap Card Balance</xbar.title>
+# <xbar.version>v1.2.0</xbar.version>
+# <xbar.author>Jack Higgins</xbar.author>
+# <xbar.author.github>skhg</xbar.author.github>
+# <xbar.desc>Displays your current Leap Card balance along with any recent card events.</xbar.desc>
+# <xbar.image>https://github.com/skhg/BitBar-Plugins/blob/master/LeapCard/leapcard.jpg?raw=true</xbar.image>
+# <xbar.dependencies>python 2 or 3, pyleapcard, lxml</xbar.dependencies>
+# <xbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/LeapCard</xbar.abouturl>
 
 
 

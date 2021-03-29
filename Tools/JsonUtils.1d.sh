@@ -4,14 +4,14 @@
 #
 # by Cnfn (http://github.com/cnfn)
 #
-# <bitbar.title>JSON Utils</bitbar.title>
-# <bitbar.version>v1.4</bitbar.version>
-# <bitbar.author>Cnfn</bitbar.author>
-# <bitbar.author.github>cnfn</bitbar.author.github>
-# <bitbar.desc>Validate, format and compact JSON entity from clipboard and then write to clipboard. More info: https://github.com/cnfn/BitBarPlugins/tree/master/JsonUtils</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_json_utils_main.png</bitbar.image>
-# <bitbar.dependencies>bash,jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cnfn/BitBarPlugins/tree/master/JsonUtils</bitbar.abouturl>
+# <xbar.title>JSON Utils</xbar.title>
+# <xbar.version>v1.4</xbar.version>
+# <xbar.author>Cnfn</xbar.author>
+# <xbar.author.github>cnfn</xbar.author.github>
+# <xbar.desc>Validate, format and compact JSON entity from clipboard and then write to clipboard. More info: https://github.com/cnfn/BitBarPlugins/tree/master/JsonUtils</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_json_utils_main.png</xbar.image>
+# <xbar.dependencies>bash,jq</xbar.dependencies>
+# <xbar.abouturl>https://github.com/cnfn/BitBarPlugins/tree/master/JsonUtils</xbar.abouturl>
 #
 # Dependencies:
 #   jq (https://stedolan.github.io/jq/)

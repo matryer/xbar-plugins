@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding=utf-8
 """
-# <bitbar.title>Crypto Ticker ($1USD)</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>davidosomething</bitbar.author>
-# <bitbar.author.github>davidosomething</bitbar.author.github>
-# <bitbar.desc>
+# <xbar.title>Crypto Ticker ($1USD)</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>davidosomething</xbar.author>
+# <xbar.author.github>davidosomething</xbar.author.github>
+# <xbar.desc>
 #   Displays current crypto/$1 from Coinmarketcap
-# </bitbar.desc>
-# <bitbar.image>https://i.imgur.com/B1nq4AU.jpg</bitbar.image>
+# </xbar.desc>
+# <xbar.image>https://i.imgur.com/B1nq4AU.jpg</xbar.image>
 """
 
 import json

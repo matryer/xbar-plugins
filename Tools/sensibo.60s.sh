@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Sensibo QuickControl</bitbar.title>
-# <bitbar.version>v1.2.2</bitbar.version>
-# <bitbar.author>Madalin Tache</bitbar.author>
-# <bitbar.author.github>niladam</bitbar.author.github>
-# <bitbar.dependencies>jq</bitbar.dependencies>
-# <bitbar.desc>Provides Sensibo pods (sky v2) status (temperature, humidity, swing and fan) in your menubar allowing you to quickly turn/schedule them on or off</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/PyEYqGK.png</bitbar.image>
+# <xbar.title>Sensibo QuickControl</xbar.title>
+# <xbar.version>v1.2.2</xbar.version>
+# <xbar.author>Madalin Tache</xbar.author>
+# <xbar.author.github>niladam</xbar.author.github>
+# <xbar.dependencies>jq</xbar.dependencies>
+# <xbar.desc>Provides Sensibo pods (sky v2) status (temperature, humidity, swing and fan) in your menubar allowing you to quickly turn/schedule them on or off</xbar.desc>
+# <xbar.image>https://i.imgur.com/PyEYqGK.png</xbar.image>
 #
 #
 # This plugin uses some undocumented Sensibo API functionality

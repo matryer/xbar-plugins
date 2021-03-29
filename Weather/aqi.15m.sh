@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>Air Quality Index</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Chongyu Yuan</bitbar.author>
-# <bitbar.author.github>nnnggel</bitbar.author.github>
-# <bitbar.desc>Real-time Air Quality Index, you need an 'aqi api token' and install 'jq' first.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/7bc5qqh.jpg</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>http://www.yuanchongyu.com</bitbar.abouturl>
+# <xbar.title>Air Quality Index</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Chongyu Yuan</xbar.author>
+# <xbar.author.github>nnnggel</xbar.author.github>
+# <xbar.desc>Real-time Air Quality Index, you need an 'aqi api token' and install 'jq' first.</xbar.desc>
+# <xbar.image>https://i.imgur.com/7bc5qqh.jpg</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>http://www.yuanchongyu.com</xbar.abouturl>
 
 MENUFONT="size=12 font=UbuntuMono-Bold"
 COLORS=("#0ed812" "#ffde33" "#ff9933" "#cc0033" "#660099" "#7e0023" "#404040")

@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>Nightscout Reader</bitbar.title>
-# <bitbar.version>0.2.0</bitbar.version>
-# <bitbar.desc>For Diabetics using Nightscout to track CGM data: Display current Blood Sugar data and trend from Nightscout</bitbar.desc>
-# <bitbar.dependencies>bash, curl, bc, jq</bitbar.dependencies>
-# <bitbar.author>Jeremy Hay Draude</bitbar.author>
-# <bitbar.author.github>jhaydraude</bitbar.author.github>
-# <bitbar.image>https://raw.githubusercontent.com/jhaydraude/NightscoutBitBar/master/Preview.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/jhaydraude/NightscoutBitBar/blob/master/README.md</bitbar.abouturl>
+# <xbar.title>Nightscout Reader</xbar.title>
+# <xbar.version>0.2.0</xbar.version>
+# <xbar.desc>For Diabetics using Nightscout to track CGM data: Display current Blood Sugar data and trend from Nightscout</xbar.desc>
+# <xbar.dependencies>bash, curl, bc, jq</xbar.dependencies>
+# <xbar.author>Jeremy Hay Draude</xbar.author>
+# <xbar.author.github>jhaydraude</xbar.author.github>
+# <xbar.image>https://raw.githubusercontent.com/jhaydraude/NightscoutBitBar/master/Preview.png</xbar.image>
+# <xbar.abouturl>https://github.com/jhaydraude/NightscoutBitBar/blob/master/README.md</xbar.abouturl>
 
 export PATH="/usr/local/bin:/usr/bin:$PATH"
 

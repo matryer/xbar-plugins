@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# <bitbar.title>Age Ticker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Gary Thung</bitbar.author>
-# <bitbar.author.github>garythung</bitbar.author.github>
-# <bitbar.desc>Displays your age ticking in years with decimals. Set your birthday in the script.</bitbar.desc>
-# <bitbar.image>https://github.com/garythung/bitbar-age-ticker/blob/master/bitbar-age-ticker.gif?raw=true</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/garythung/bitbar-age-ticker</bitbar.abouturl>
+# <xbar.title>Age Ticker</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Gary Thung</xbar.author>
+# <xbar.author.github>garythung</xbar.author.github>
+# <xbar.desc>Displays your age ticking in years with decimals. Set your birthday in the script.</xbar.desc>
+# <xbar.image>https://github.com/garythung/bitbar-age-ticker/blob/master/bitbar-age-ticker.gif?raw=true</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/garythung/bitbar-age-ticker</xbar.abouturl>
 
 import datetime
 

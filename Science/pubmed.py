@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Pubmed Articles</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Dogancan Ozturan</bitbar.author>
-# <bitbar.author.github>ozturan</bitbar.author.github>
-# <bitbar.desc>Number of publications for a given keyword on Pubmed</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/lqCaAJP.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Pubmed Articles</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Dogancan Ozturan</xbar.author>
+# <xbar.author.github>ozturan</xbar.author.github>
+# <xbar.desc>Number of publications for a given keyword on Pubmed</xbar.desc>
+# <xbar.image>http://i.imgur.com/lqCaAJP.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import urllib2
 from HTMLParser import HTMLParser

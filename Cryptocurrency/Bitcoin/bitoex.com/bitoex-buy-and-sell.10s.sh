@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>BitoEX Buy and Sell</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ryan Chen</bitbar.author>
-# <bitbar.author.github>ryanchentw</bitbar.author.github>
-# <bitbar.desc>Show latest buy and seller values in TWD from BitoEX. BitoEX is a popular BTC exchange in TW https://www.bitoex.com</bitbar.desc>
+# <xbar.title>BitoEX Buy and Sell</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ryan Chen</xbar.author>
+# <xbar.author.github>ryanchentw</xbar.author.github>
+# <xbar.desc>Show latest buy and seller values in TWD from BitoEX. BitoEX is a popular BTC exchange in TW https://www.bitoex.com</xbar.desc>
 
 
 regexp='"([0-9,]+)","([0-9,]+)"'

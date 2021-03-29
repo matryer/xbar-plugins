@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# <bitbar.title>wakeonlan</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Shinya Fujino</bitbar.author>
-# <bitbar.author.github>morinokami</bitbar.author.github>
-# <bitbar.desc>Sends 'magic packets' to turn on a computer.</bitbar.desc>
-# <bitbar.dependencies>wakeonlan</bitbar.dependencies>
+# <xbar.title>wakeonlan</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Shinya Fujino</xbar.author>
+# <xbar.author.github>morinokami</xbar.author.github>
+# <xbar.desc>Sends 'magic packets' to turn on a computer.</xbar.desc>
+# <xbar.dependencies>wakeonlan</xbar.dependencies>
 
 # Dependancies:
 #   wakeonlan (brew install wakeonlan)

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>ISS Pass Finder</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Cian Dowd</bitbar.author>
-# <bitbar.author.github>BrokenFlows</bitbar.author.github>
-# <bitbar.desc>Tells you when the ISS (space station) will pass over your location and for how long it will be above the horizon. Requires user to enter their location data in the script</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/z4Tc4dt.png</bitbar.image>
-# <bitbar.dependencies>jq</bitbar.dependencies>
+# <xbar.title>ISS Pass Finder</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Cian Dowd</xbar.author>
+# <xbar.author.github>BrokenFlows</xbar.author.github>
+# <xbar.desc>Tells you when the ISS (space station) will pass over your location and for how long it will be above the horizon. Requires user to enter their location data in the script</xbar.desc>
+# <xbar.image>http://i.imgur.com/z4Tc4dt.png</xbar.image>
+# <xbar.dependencies>jq</xbar.dependencies>
 
 echo "Please open the script to enter your location information, you can delete this line once you have" 1>&2
 exit 0 #you should also delete this one

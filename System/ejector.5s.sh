@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Ejector</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Carlson Orozco && Brian Hartvigsen && Matt Sephton</bitbar.author>
-# <bitbar.author.github>carlsonorozco</bitbar.author.github>
-# <bitbar.desc>Ejector is a plugin for BitBar that enables you to eject all mounted disk / drive / installers / USB connected drives and volumes instantly.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/carlsonorozco/ejector</bitbar.abouturl>
+# <xbar.title>Ejector</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Carlson Orozco && Brian Hartvigsen && Matt Sephton</xbar.author>
+# <xbar.author.github>carlsonorozco</xbar.author.github>
+# <xbar.desc>Ejector is a plugin for BitBar that enables you to eject all mounted disk / drive / installers / USB connected drives and volumes instantly.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</xbar.image>
+# <xbar.abouturl>https://github.com/carlsonorozco/ejector</xbar.abouturl>
 
 drives=( $(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//') )
 

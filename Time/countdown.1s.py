@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# <bitbar.title>Countdown</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Pere Albujer</bitbar.author>
-# <bitbar.author.github>P4R</bitbar.author.github>
-# <bitbar.desc>Shows countdown of established date.</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/7404532/12356787/ae62636c-bba4-11e5-8ff8-6a1eaffcbfc2.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Countdown</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Pere Albujer</xbar.author>
+# <xbar.author.github>P4R</xbar.author.github>
+# <xbar.desc>Shows countdown of established date.</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/7404532/12356787/ae62636c-bba4-11e5-8ff8-6a1eaffcbfc2.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 
 from datetime import datetime

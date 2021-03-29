@@ -1,13 +1,13 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 # -*- coding: utf-8 -*-
-# <bitbar.title>Bundesliga Matchday</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Alex</bitbar.author>
-# <bitbar.author.github>alexrockt</bitbar.author.github>
-# <bitbar.desc>Shows the next matchday of the Bundesliga</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/alexrockt/misc/master/bundesliga-screenshot.png</bitbar.image>
-# <bitbar.dependencies>Python</bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>Bundesliga Matchday</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Alex</xbar.author>
+# <xbar.author.github>alexrockt</xbar.author.github>
+# <xbar.desc>Shows the next matchday of the Bundesliga</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/alexrockt/misc/master/bundesliga-screenshot.png</xbar.image>
+# <xbar.dependencies>Python</xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 import requests
 import datetime
