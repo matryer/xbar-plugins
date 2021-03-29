@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Exchange Rates</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Mehmet Akif Tütüncü</bitbar.author>
-# <bitbar.author.github>makiftutuncu</bitbar.author.github>
-# <bitbar.image>https://github.com/makiftutuncu/exchange-bitbar/raw/master/Screenshot.png</bitbar.image>
-# <bitbar.desc>This is a BitBar plugin for showing exchange rates of currencies in your menu bar. See https://github.com/makiftutuncu/exchange-bitbar#configuration for configuration.</bitbar.desc>
-# <bitbar.dependencies>shell,curl,jq</bitbar.dependencies>
+# <xbar.title>Exchange Rates</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Mehmet Akif Tütüncü</xbar.author>
+# <xbar.author.github>makiftutuncu</xbar.author.github>
+# <xbar.image>https://github.com/makiftutuncu/exchange-bitbar/raw/master/Screenshot.png</xbar.image>
+# <xbar.desc>This is a BitBar plugin for showing exchange rates of currencies in your menu bar. See https://github.com/makiftutuncu/exchange-bitbar#configuration for configuration.</xbar.desc>
+# <xbar.dependencies>shell,curl,jq</xbar.dependencies>
 #
 # Exchange Rates by Mehmet Akif Tütüncü
 #

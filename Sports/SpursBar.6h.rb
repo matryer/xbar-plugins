@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>SpursBar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>coreyk</bitbar.author>
-# <bitbar.author.github>coreyk</bitbar.author.github>
-# <bitbar.desc>Shows upcoming and previous Tottenham Hotspur match info and headlines</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/2213967/18461786/071d930a-794b-11e6-868c-4b3da43b7639.png</bitbar.image>
-# <bitbar.dependencies>ruby, Spurs webfont</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/coreyk/SpursBar</bitbar.abouturl>
+# <xbar.title>SpursBar</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>coreyk</xbar.author>
+# <xbar.author.github>coreyk</xbar.author.github>
+# <xbar.desc>Shows upcoming and previous Tottenham Hotspur match info and headlines</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/2213967/18461786/071d930a-794b-11e6-868c-4b3da43b7639.png</xbar.image>
+# <xbar.dependencies>ruby, Spurs webfont</xbar.dependencies>
+# <xbar.abouturl>https://github.com/coreyk/SpursBar</xbar.abouturl>
 
 # grab the font from here: http://www.tottenhamhotspur.com/components/fonts/spurs-webfont.ttf
 # and install it with Font Book on your Mac

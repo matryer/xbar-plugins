@@ -6,12 +6,12 @@
 # also shows when there are open blockers
 #
 # metadata
-# <bitbar.title>jira</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Nicolas Gehlert</bitbar.author>
-# <bitbar.author.github>ngehlert</bitbar.author.github>
-# <bitbar.desc>display all tasks that are assigned to you. There are currently two sorting options. Either by type (e.g. Task, Story, Block) or by status (in progress, resolved, ...).</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/HwBF2JX.png</bitbar.image>
+# <xbar.title>jira</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Nicolas Gehlert</xbar.author>
+# <xbar.author.github>ngehlert</xbar.author.github>
+# <xbar.desc>display all tasks that are assigned to you. There are currently two sorting options. Either by type (e.g. Task, Story, Block) or by status (in progress, resolved, ...).</xbar.desc>
+# <xbar.image>http://i.imgur.com/HwBF2JX.png</xbar.image>
 
 USER=""
 PASSWORD=""

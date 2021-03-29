@@ -3,19 +3,19 @@
 #
 # Transmission Remote
 #
-# <bitbar.title>Transmission Remote</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Christoph Russ</bitbar.author>
-# <bitbar.author.github>christophruss</bitbar.author.github>
-# <bitbar.desc>
+# <xbar.title>Transmission Remote</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Christoph Russ</xbar.author>
+# <xbar.author.github>christophruss</xbar.author.github>
+# <xbar.desc>
 # Checking transmission status, info and allowing adjustment to alternative speed.
 # Requires a single initial setup: `python transmission.4m.py init`
 # This plugin displays all not yet completed torrents using "transmission-remote" cli.
 # You can pause any torrent in the list by selecting them.
 # If all active downloads have completed, but some torrents had been paused, the oldest one will be unpaused automatically.
-# </bitbar.desc>
-# <bitbar.dependencies>transmission-remote,python,keyring</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/hUWGq3u.jpg</bitbar.image>
+# </xbar.desc>
+# <xbar.dependencies>transmission-remote,python,keyring</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/hUWGq3u.jpg</xbar.image>
 #
 # Dependencies:
 #   transmission-remote (https://trac.transmissionbt.com/wiki/Building)

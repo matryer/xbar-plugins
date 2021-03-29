@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Pi-hole status</bitbar.title>
-# <bitbar.version>v3.1</bitbar.version>
-# <bitbar.author>Felipe Martin</bitbar.author>
-# <bitbar.author.github>fmartingr</bitbar.author.github>
-# <bitbar.author>Siim Ots</bitbar.author>
-# <bitbar.author.github>siimots</bitbar.author.github>
-# <bitbar.desc>Show summary and manage Pi-Hole from menubar.</bitbar.desc>
-# <bitbar.image>https://files.fmartingrlabs.com/github/bitbar-plugins/pihole.1m.png</bitbar.image>
-# <bitbar.dependencies>pi-hole,python</bitbar.dependencies>
+# <xbar.title>Pi-hole status</xbar.title>
+# <xbar.version>v3.1</xbar.version>
+# <xbar.author>Felipe Martin</xbar.author>
+# <xbar.author.github>fmartingr</xbar.author.github>
+# <xbar.author>Siim Ots</xbar.author>
+# <xbar.author.github>siimots</xbar.author.github>
+# <xbar.desc>Show summary and manage Pi-Hole from menubar.</xbar.desc>
+# <xbar.image>https://files.fmartingrlabs.com/github/bitbar-plugins/pihole.1m.png</xbar.image>
+# <xbar.dependencies>pi-hole,python</xbar.dependencies>
 import json
 import os
 

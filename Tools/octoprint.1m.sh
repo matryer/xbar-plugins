@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>Octoprint</bitbar.title>
-# <bitbar.author>m0a</bitbar.author>
-# <bitbar.author.github>m0a</bitbar.author.github>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.desc>3dprinter control with octoprint api</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/biN2ISe.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Octoprint</xbar.title>
+# <xbar.author>m0a</xbar.author>
+# <xbar.author.github>m0a</xbar.author.github>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.desc>3dprinter control with octoprint api</xbar.desc>
+# <xbar.image>http://i.imgur.com/biN2ISe.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 # please setup 
 APIKEY="222626A0B0794703A203D5E976BE0AEC"

@@ -2,12 +2,12 @@
 
 <?php
 
-# <bitbar.title>MenuMetar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Andrew Larson</bitbar.author>
-# <bitbar.author.github>htmlarson</bitbar.author.github>
-# <bitbar.desc>A simple METAR reporter with direct links to the DarkSky or NWS report.</bitbar.desc>
-# <bitbar.dependencies>php</bitbar.dependencies>
+# <xbar.title>MenuMetar</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Andrew Larson</xbar.author>
+# <xbar.author.github>htmlarson</xbar.author.github>
+# <xbar.desc>A simple METAR reporter with direct links to the DarkSky or NWS report.</xbar.desc>
+# <xbar.dependencies>php</xbar.dependencies>
 
 
 /*

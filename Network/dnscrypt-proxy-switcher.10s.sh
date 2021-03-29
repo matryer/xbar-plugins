@@ -2,13 +2,13 @@
 #
 # dnscrypt-proxy switcher
 #
-# <bitbar.author.github>jedisct1</bitbar.author.github>
-# <bitbar.author>Frank Denis</bitbar.author>
-# <bitbar.desc>Toggle dnscrypt-proxy usage</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/jedisct1/bitbar-dnscrypt-proxy-switcher/master/bitbar-dnscrypt-proxy.jpg</bitbar.image>
-# <bitbar.title>dnscrypt-proxy switcher</bitbar.title>
-# <bitbar.url>https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher</bitbar.url>
-# <bitbar.version>v0.1</bitbar.version>
+# <xbar.author.github>jedisct1</xbar.author.github>
+# <xbar.author>Frank Denis</xbar.author>
+# <xbar.desc>Toggle dnscrypt-proxy usage</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/jedisct1/bitbar-dnscrypt-proxy-switcher/master/bitbar-dnscrypt-proxy.jpg</xbar.image>
+# <xbar.title>dnscrypt-proxy switcher</xbar.title>
+# <xbar.url>https://github.com/jedisct1/bitbar-dnscrypt-proxy-switcher</xbar.url>
+# <xbar.version>v0.1</xbar.version>
 
 # Theme: classic or emoji
 THEME="emoji"

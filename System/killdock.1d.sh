@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>KillDock</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author.github>indapublic</bitbar.author.github>
-# <bitbar.author>indapublic</bitbar.author>
-# <bitbar.desc>Killall Dock</bitbar.desc>
+# <xbar.title>KillDock</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author.github>indapublic</xbar.author.github>
+# <xbar.author>indapublic</xbar.author>
+# <xbar.desc>Killall Dock</xbar.desc>
 
 if [ "$1" = 'kill' ]; then
   killall Dock

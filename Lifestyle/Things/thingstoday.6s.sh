@@ -9,12 +9,12 @@
 # Only shows 20 todos - too many stops todos from being completed
 
 # metadata
-# <bitbar.title>Things 3 Today</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Max Clayton Clowes</bitbar.author>
-# <bitbar.author.github>mcclowes</bitbar.author.github>
-# <bitbar.desc>Display tasks due today in Things 3.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/2IvhNws.png</bitbar.image>
+# <xbar.title>Things 3 Today</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Max Clayton Clowes</xbar.author>
+# <xbar.author.github>mcclowes</xbar.author.github>
+# <xbar.desc>Display tasks due today in Things 3.</xbar.desc>
+# <xbar.image>https://i.imgur.com/2IvhNws.png</xbar.image>
 
 function tellthings() {
 	osascript -e "tell application \"Things3\"

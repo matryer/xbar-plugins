@@ -1,14 +1,14 @@
 #! /usr/bin/env gorun
 
-// <bitbar.title>Check hosts</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Christoph Schlosser</bitbar.author>
-// <bitbar.author.github>christophschlosser</bitbar.author.github>
-// <bitbar.desc>The script tries to open a connection to certain ports or addresses
+// <xbar.title>Check hosts</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Christoph Schlosser</xbar.author>
+// <xbar.author.github>christophschlosser</xbar.author.github>
+// <xbar.desc>The script tries to open a connection to certain ports or addresses
 // to check if a host is available. Available hosts can be opened directly from
-// the drop down if they are up and a protocol is specified.</bitbar.desc>
-// <bitbar.image>https://raw.githubusercontent.com/christophschlosser/bitbar-plugins/checkhosts/Network/checkhosts.png</bitbar.image>
-// <bitbar.dependencies>go</bitbar.dependencies>
+// the drop down if they are up and a protocol is specified.</xbar.desc>
+// <xbar.image>https://raw.githubusercontent.com/christophschlosser/bitbar-plugins/checkhosts/Network/checkhosts.png</xbar.image>
+// <xbar.dependencies>go</xbar.dependencies>
 
 package main
 

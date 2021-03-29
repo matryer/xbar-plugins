@@ -1,11 +1,11 @@
 #!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
-# <bitbar.title>Do Not Disturb</bitbar.title>
-# <bitbar.author>Weibing Chen</bitbar.author>
-# <bitbar.author.github>weibingchen17</bitbar.author.github>
-# <bitbar.image>http://i67.tinypic.com/20ac9kl.png</bitbar.image>
-# <bitbar.desc>Turn on "Do Not Distrub" for certain period. Only for Sierra and High Sierra.</bitbar.desc>
-# <bitbar.dependencies>python3</bitbar.dependencies>
-# <bitbar.version>v1.0</bitbar.version>
+# <xbar.title>Do Not Disturb</xbar.title>
+# <xbar.author>Weibing Chen</xbar.author>
+# <xbar.author.github>weibingchen17</xbar.author.github>
+# <xbar.image>http://i67.tinypic.com/20ac9kl.png</xbar.image>
+# <xbar.desc>Turn on "Do Not Distrub" for certain period. Only for Sierra and High Sierra.</xbar.desc>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.version>v1.0</xbar.version>
 # 
 import os,sys
 import datetime

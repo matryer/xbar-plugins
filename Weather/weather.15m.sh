@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>weather</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Chongyu Yuan</bitbar.author>
-# <bitbar.author.github>nnnggel</bitbar.author.github>
-# <bitbar.desc>real-time Chinese weather info(includes aqi), required jq(https://aqicn.org/api/) and aqi token(https://aqicn.org/api/)(</bitbar.desc>
-# <bitbar.image>https://s2.ax1x.com/2019/04/01/As7pVO.jpg</bitbar.image>
-# <bitbar.dependencies>bash,jq</bitbar.dependencies>
-# <bitbar.abouturl>http://www.yuanchongyu.com</bitbar.abouturl>
+# <xbar.title>weather</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Chongyu Yuan</xbar.author>
+# <xbar.author.github>nnnggel</xbar.author.github>
+# <xbar.desc>real-time Chinese weather info(includes aqi), required jq(https://aqicn.org/api/) and aqi token(https://aqicn.org/api/)(</xbar.desc>
+# <xbar.image>https://s2.ax1x.com/2019/04/01/As7pVO.jpg</xbar.image>
+# <xbar.dependencies>bash,jq</xbar.dependencies>
+# <xbar.abouturl>http://www.yuanchongyu.com</xbar.abouturl>
 
 MENUFONT="size=12 font=UbuntuMono-Bold"
 COLORS=("#0ed812" "#ffde33" "#ff9933" "#cc0033" "#660099" "#7e0023")

@@ -1,10 +1,10 @@
 #!/bin/sh
-# <bitbar.title>Mouse battery</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
-# <bitbar.author.github>alexandregz</bitbar.author.github>
-# <bitbar.desc>Show battery percentage for Bluetooth Mouse</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/IqjZMJg.png</bitbar.image>
+# <xbar.title>Mouse battery</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Alexandre Espinosa Menor</xbar.author>
+# <xbar.author.github>alexandregz</xbar.author.github>
+# <xbar.desc>Show battery percentage for Bluetooth Mouse</xbar.desc>
+# <xbar.image>http://i.imgur.com/IqjZMJg.png</xbar.image>
 
 # works fine with Magic Mouse
 

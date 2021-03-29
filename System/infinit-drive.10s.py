@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-# <bitbar.title>Ifinit Drive Journal Stats</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Dimitrie Hoekstra</bitbar.author>
-# <bitbar.author.github>strages</bitbar.author.github>
-# <bitbar.desc>Short description of what your plugin does.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/strages/infinit-drive-journal-stats-bitbar-plugin/master/screenshot.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/strages/infinit-drive-journal-stats-bitbar-plugin</bitbar.abouturl>
+# <xbar.title>Ifinit Drive Journal Stats</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Dimitrie Hoekstra</xbar.author>
+# <xbar.author.github>strages</xbar.author.github>
+# <xbar.desc>Short description of what your plugin does.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/strages/infinit-drive-journal-stats-bitbar-plugin/master/screenshot.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.abouturl>https://github.com/strages/infinit-drive-journal-stats-bitbar-plugin</xbar.abouturl>
 
 
 import json

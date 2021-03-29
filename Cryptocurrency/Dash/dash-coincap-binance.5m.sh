@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Dash tickers: Coincap.io and Binance.com</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>UdjinM6</bitbar.author>
-# <bitbar.author.github>UdjinM6</bitbar.author.github>
-# <bitbar.desc>Shows the latest Dash info from Coincap.io and Binance.com</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/k4y72tW.png</bitbar.image>
-# <bitbar.abouturl>https://www.dash.org/</bitbar.abouturl>
+# <xbar.title>Dash tickers: Coincap.io and Binance.com</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>UdjinM6</xbar.author>
+# <xbar.author.github>UdjinM6</xbar.author.github>
+# <xbar.desc>Shows the latest Dash info from Coincap.io and Binance.com</xbar.desc>
+# <xbar.image>https://i.imgur.com/k4y72tW.png</xbar.image>
+# <xbar.abouturl>https://www.dash.org/</xbar.abouturl>
 
 # To generate the image, grab PNG and increase the DPI from 72 to 144,
 # then resize it to 32x32 and finally encode the image into base 64

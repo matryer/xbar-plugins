@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Twitch Following</bitbar.title>
-// <bitbar.version>v2.3</bitbar.version>
-// <bitbar.author>Stefan du Fresne</bitbar.author>
-// <bitbar.author.github>SCdF</bitbar.author.github>
-// <bitbar.desc>Shows which channels you follow are live, what they're playing, for how long etc. Lets you watch them with streamlink and open the chat in your browser. Based on the play-with-livestreamer bitbar plugin. Requires a Twitch account.</bitbar.desc>
-// <bitbar.image>https://i.imgur.com/dhscE7r.png</bitbar.image>
-// <bitbar.dependencies>node, streamlink</bitbar.dependencies>
+// <xbar.title>Twitch Following</xbar.title>
+// <xbar.version>v2.3</xbar.version>
+// <xbar.author>Stefan du Fresne</xbar.author>
+// <xbar.author.github>SCdF</xbar.author.github>
+// <xbar.desc>Shows which channels you follow are live, what they're playing, for how long etc. Lets you watch them with streamlink and open the chat in your browser. Based on the play-with-livestreamer bitbar plugin. Requires a Twitch account.</xbar.desc>
+// <xbar.image>https://i.imgur.com/dhscE7r.png</xbar.image>
+// <xbar.dependencies>node, streamlink</xbar.dependencies>
 
 // TOOD: map response into a datastructure we can both use and store
 //       this helps with DRY, since it removes indirection in the native format

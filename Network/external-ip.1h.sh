@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# <bitbar.title>external-ip</bitbar.title>
-# <bitbar.author>Mat Ryer</bitbar.author>
-# <bitbar.author.github>matryer</bitbar.author.github>
-# <bitbar.desc>Gets the current external IP address.</bitbar.desc>
+# <xbar.title>external-ip</xbar.title>
+# <xbar.author>Mat Ryer</xbar.author>
+# <xbar.author.github>matryer</xbar.author.github>
+# <xbar.desc>Gets the current external IP address.</xbar.desc>
 
 EXTERNAL_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 

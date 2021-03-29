@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>Stock Info</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>clark</bitbar.author>
-# <bitbar.author.github>flyingtimes</bitbar.author.github>
-# <bitbar.desc>use baidu stock api to monitor stock price. the price only show up in market time.</bitbar.desc>
+# <xbar.title>Stock Info</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>clark</xbar.author>
+# <xbar.author.github>flyingtimes</xbar.author.github>
+# <xbar.desc>use baidu stock api to monitor stock price. the price only show up in market time.</xbar.desc>
 
 if [ "$(date +%H)" -lt 9 ]; then
   echo "not trade time|color=red"

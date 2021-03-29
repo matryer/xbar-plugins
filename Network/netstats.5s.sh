@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>IP Address Info</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jack Higgins</bitbar.author>
-# <bitbar.author.github>skhg</bitbar.author.github>
-# <bitbar.desc>Displays your local IP address with useful extra info</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/skhg/BitBar-Plugins/master/NetworkInfo/ip_info.jpg</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/NetworkInfo</bitbar.abouturl>
+# <xbar.title>IP Address Info</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jack Higgins</xbar.author>
+# <xbar.author.github>skhg</xbar.author.github>
+# <xbar.desc>Displays your local IP address with useful extra info</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/skhg/BitBar-Plugins/master/NetworkInfo/ip_info.jpg</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/NetworkInfo</xbar.abouturl>
 
 
 

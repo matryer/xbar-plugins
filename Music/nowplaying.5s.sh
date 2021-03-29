@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Now playing</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Adam Kenyon</bitbar.author>
-# <bitbar.author.github>adampk90</bitbar.author.github>
-# <bitbar.desc>Shows and controls the music that is now playing. Currently supports Spotify, iTunes, and Vox.</bitbar.desc>
-# <bitbar.image>https://pbs.twimg.com/media/CbKmTS7VAAA84VS.png:small</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>Now playing</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Adam Kenyon</xbar.author>
+# <xbar.author.github>adampk90</xbar.author.github>
+# <xbar.desc>Shows and controls the music that is now playing. Currently supports Spotify, iTunes, and Vox.</xbar.desc>
+# <xbar.image>https://pbs.twimg.com/media/CbKmTS7VAAA84VS.png:small</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 # first, determine if there's an app that's playing or paused
 apps=(Music Spotify Vox)

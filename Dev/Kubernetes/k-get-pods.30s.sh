@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>List some running Kubernetes things</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Robert Prince</bitbar.author>
-# <bitbar.author.github>robertp</bitbar.author.github>
-# <bitbar.desc>Simple plugin that shows running Kubernetes pods, services, deployments, ...</bitbar.desc>
-# <bitbar.dependencies>brew,kubectl</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/sH9yhBW.png</bitbar.image>
+# <xbar.title>List some running Kubernetes things</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Robert Prince</xbar.author>
+# <xbar.author.github>robertp</xbar.author.github>
+# <xbar.desc>Simple plugin that shows running Kubernetes pods, services, deployments, ...</xbar.desc>
+# <xbar.dependencies>brew,kubectl</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/sH9yhBW.png</xbar.image>
 
 export PATH=/usr/local/bin:"${PATH}"
 

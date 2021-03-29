@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>cal</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Buster Collings</bitbar.author>
-# <bitbar.author.github>busterc</bitbar.author.github>
-# <bitbar.desc>Shows a calendar of the current, previous and next year</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/busterc/bitbar-cal/master/screenshot.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/busterc/bitbar-cal</bitbar.abouturl>
+# <xbar.title>cal</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Buster Collings</xbar.author>
+# <xbar.author.github>busterc</xbar.author.github>
+# <xbar.desc>Shows a calendar of the current, previous and next year</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/busterc/bitbar-cal/master/screenshot.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/busterc/bitbar-cal</xbar.abouturl>
 
 year=$(date +%Y)
 last_year=$((year-1))

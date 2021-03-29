@@ -1,12 +1,12 @@
 #!/usr/local/bin/node
 
-// <bitbar.title>Moon Phase</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Volker Wieban</bitbar.author>
-// <bitbar.author.github>hpcodecraft</bitbar.author.github>
-// <bitbar.desc>Shows the current moon phase</bitbar.desc>
-// <bitbar.image>https://cloud.githubusercontent.com/assets/1476865/24201253/ce0d8c5e-0f0f-11e7-8e44-503654407850.png</bitbar.image>
-// <bitbar.dependencies>node</bitbar.dependencies>
+// <xbar.title>Moon Phase</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Volker Wieban</xbar.author>
+// <xbar.author.github>hpcodecraft</xbar.author.github>
+// <xbar.desc>Shows the current moon phase</xbar.desc>
+// <xbar.image>https://cloud.githubusercontent.com/assets/1476865/24201253/ce0d8c5e-0f0f-11e7-8e44-503654407850.png</xbar.image>
+// <xbar.dependencies>node</xbar.dependencies>
 
 // Moon phase calculations taken from https://github.com/tingletech/moon-phase
 Date.prototype.getJulian = function() {

@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# <bitbar.title>Syncthing</bitbar.title>
-# <bitbar.version>v0.2</bitbar.version>
-# <bitbar.author>blockloop</bitbar.author>
-# <bitbar.author.github>blockloop</bitbar.author.github>
-# <bitbar.desc>Monitor the status of your local (or remote) Syncthing</bitbar.desc>
-# <bitbar.image>https://blockloop.nyc3.digitaloceanspaces.com/images/syncthing.png</bitbar.image>
-# <bitbar.dependencies>curl</bitbar.dependencies>
-# <bitbar.dependencies>jq</bitbar.dependencies>
-# <bitbar.dependencies>bc</bitbar.dependencies>
-# <bitbar.dependencies>dig</bitbar.dependencies>
-# <bitbar.dependencies>awk</bitbar.dependencies>
-# <bitbar.dependencies>xargs</bitbar.dependencies>
-# <bitbar.dependencies>sed</bitbar.dependencies>
-# <bitbar.dependencies>tac</bitbar.dependencies>
+# <xbar.title>Syncthing</xbar.title>
+# <xbar.version>v0.2</xbar.version>
+# <xbar.author>blockloop</xbar.author>
+# <xbar.author.github>blockloop</xbar.author.github>
+# <xbar.desc>Monitor the status of your local (or remote) Syncthing</xbar.desc>
+# <xbar.image>https://blockloop.nyc3.digitaloceanspaces.com/images/syncthing.png</xbar.image>
+# <xbar.dependencies>curl</xbar.dependencies>
+# <xbar.dependencies>jq</xbar.dependencies>
+# <xbar.dependencies>bc</xbar.dependencies>
+# <xbar.dependencies>dig</xbar.dependencies>
+# <xbar.dependencies>awk</xbar.dependencies>
+# <xbar.dependencies>xargs</xbar.dependencies>
+# <xbar.dependencies>sed</xbar.dependencies>
+# <xbar.dependencies>tac</xbar.dependencies>
 
 PATH="/usr/local/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 API_KEY=""

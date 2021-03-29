@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-# <bitbar.title>Memory usage</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Gautam krishna R</bitbar.author>
-# <bitbar.author.github>gautamkrishnar</bitbar.author.github>
-# <bitbar.desc>Shows the current system memmory usage.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/memusage.5s.py</bitbar.abouturl>
+# <xbar.title>Memory usage</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Gautam krishna R</xbar.author>
+# <xbar.author.github>gautamkrishnar</xbar.author.github>
+# <xbar.desc>Shows the current system memmory usage.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/memusage.5s.py</xbar.abouturl>
 import subprocess
 import re
 

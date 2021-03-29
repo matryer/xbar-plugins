@@ -181,7 +181,7 @@ def check_file(file_full_path, pr=False):
             passed("%s has a good shebang (%s)" % (file_full_path, first_line))
 
         for line in fp:
-            match = re.search("<bitbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</bitbar.(?P<rho_tag>[^>]+)>", line)
+            match = re.search("<xbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</xbar.(?P<rho_tag>[^>]+)>", line)
             if match is not None:
                 if match.group('lho_tag') != match.group('rho_tag'):
                     error('%s includes mismatched metatags: %s' % (file_full_path, line))
@@ -203,7 +203,7 @@ def check_file(file_full_path, pr=False):
     if metadata.get('image', False):
         try:
             response = urlopen(metadata['image'])
-            response_content_type = response.info().get('Content-Type')
+            response_content_type = response.info().get_content_type()
             if response_content_type not in allowed_image_content_types:
                 error('%s image metadata has bad content type: %s' % (file_full_path, response_content_type))
             else:

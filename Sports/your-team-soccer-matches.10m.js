@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Your Team: Soccer Matches</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Taylor Sturtz</bitbar.author>
-// <bitbar.author.github>tsturtz</bitbar.author.github>
-// <bitbar.desc>Show completed/upcoming and LIVE matches as well as competition standings for your favorite soccer team.</bitbar.desc>
-// <bitbar.image>https://raw.githubusercontent.com/tsturtz/your-team-soccer-matches/master/your-team-soccer-matches.jpg</bitbar.image>
-// <bitbar.dependencies>node,npm/bitbar,npm/date-fns,npm/node-fetch</bitbar.dependencies>
-// <bitbar.abouturl>https://github.com/tsturtz/your-team-soccer-matches</bitbar.abouturl>
+// <xbar.title>Your Team: Soccer Matches</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Taylor Sturtz</xbar.author>
+// <xbar.author.github>tsturtz</xbar.author.github>
+// <xbar.desc>Show completed/upcoming and LIVE matches as well as competition standings for your favorite soccer team.</xbar.desc>
+// <xbar.image>https://raw.githubusercontent.com/tsturtz/your-team-soccer-matches/master/your-team-soccer-matches.jpg</xbar.image>
+// <xbar.dependencies>node,npm/bitbar,npm/date-fns,npm/node-fetch</xbar.dependencies>
+// <xbar.abouturl>https://github.com/tsturtz/your-team-soccer-matches</xbar.abouturl>
 
 // -----------------------------------------------------------------------------
 // 🙋‍♂️ Start here!

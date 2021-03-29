@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# <bitbar.title>WhereAmI</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
-# <bitbar.author>noyannus</bitbar.author>
-# <bitbar.author.github>noyannus</bitbar.author.github>
-# <bitbar.desc>Displays current system volume, system version, and user's home folder.
-# <bitbar.desc>Useful for staying oriented while booting into multiple test systems.</bitbar.desc>
-# <bitbar.desc>Readme: https://github.com/noyannus/WhereAmI-Readme/blob/master/Readme.md</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/noyannus/WhereAmI-Readme/master/Minimalist.pngg</bitbar.image>
-# <bitbar.image>https://raw.githubusercontent.com/noyannus/WhereAmI-Readme/master/KingSizeInfo.png</bitbar.image>
+# <xbar.title>WhereAmI</xbar.title>
+# <xbar.version>v1.0.1</xbar.version>
+# <xbar.author>noyannus</xbar.author>
+# <xbar.author.github>noyannus</xbar.author.github>
+# <xbar.desc>Displays current system volume, system version, and user's home folder.
+# <xbar.desc>Useful for staying oriented while booting into multiple test systems.</xbar.desc>
+# <xbar.desc>Readme: https://github.com/noyannus/WhereAmI-Readme/blob/master/Readme.md</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/noyannus/WhereAmI-Readme/master/Minimalist.pngg</xbar.image>
+# <xbar.image>https://raw.githubusercontent.com/noyannus/WhereAmI-Readme/master/KingSizeInfo.png</xbar.image>
 
 
 # Use the last `cut` to get only the relevant part of something like "High Sierra beta with Spaghetticode Fork #123 Version 456alpha"

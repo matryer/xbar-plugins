@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Emoji Active Network Interface Indicator</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Zachary O. Toups</bitbar.author>
-# <bitbar.author.github>toupsz</bitbar.author.github>
-# <bitbar.desc>Displays an emoji to indicate if the active network interface is wifi or another connection.</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/toupsz/emoji-active-network-interface-indicator</bitbar.abouturl>
+# <xbar.title>Emoji Active Network Interface Indicator</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Zachary O. Toups</xbar.author>
+# <xbar.author.github>toupsz</xbar.author.github>
+# <xbar.desc>Displays an emoji to indicate if the active network interface is wifi or another connection.</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/toupsz/emoji-active-network-interface-indicator</xbar.abouturl>
 
 # Text above --- displays an antenna emoji if the active network interface name contains "Wi-Fi", shows a plug otherwise.
 

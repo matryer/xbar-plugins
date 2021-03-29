@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Twitch Livestreamer</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Goran Gajic</bitbar.author>
-// <bitbar.author.github>gorangajic</bitbar.author.github>
-// <bitbar.desc>list top 10 twitch streams for provided GAME, defaults to Dota 2</bitbar.desc>
-// <bitbar.dependencies>node.js, livestreamer</bitbar.dependencies>
-// <bitbar.image>http://i.imgur.com/XEQQaxC.png</bitbar.image>
+// <xbar.title>Twitch Livestreamer</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Goran Gajic</xbar.author>
+// <xbar.author.github>gorangajic</xbar.author.github>
+// <xbar.desc>list top 10 twitch streams for provided GAME, defaults to Dota 2</xbar.desc>
+// <xbar.dependencies>node.js, livestreamer</xbar.dependencies>
+// <xbar.image>http://i.imgur.com/XEQQaxC.png</xbar.image>
 
 
 var GAME = "Dota 2"; // game you want to fetch streams for

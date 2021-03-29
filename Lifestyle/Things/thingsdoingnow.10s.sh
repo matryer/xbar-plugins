@@ -6,12 +6,12 @@
 #
 
 # metadata
-# <bitbar.title>Things Doing Now</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Florent Crivello</bitbar.author>
-# <bitbar.author.github>altimor</bitbar.author.github>
-# <bitbar.desc>Show the one task you tagged with `Now` in Things</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/CLtYE1E.gif</bitbar.image>
+# <xbar.title>Things Doing Now</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Florent Crivello</xbar.author>
+# <xbar.author.github>altimor</xbar.author.github>
+# <xbar.desc>Show the one task you tagged with `Now` in Things</xbar.desc>
+# <xbar.image>http://i.imgur.com/CLtYE1E.gif</xbar.image>
 
 function tellthings() {
 	osascript -e "tell application \"Things3\" 

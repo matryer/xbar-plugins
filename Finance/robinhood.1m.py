@@ -1,12 +1,12 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Robinhood</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jonathan Grant</bitbar.author>
-# <bitbar.author.github>jonathangrant</bitbar.author.github>
-# <bitbar.desc>Shows your total portfolio value.</bitbar.desc>
-# <bitbar.dependencies>python,Robinhood</bitbar.dependencies>
+# <xbar.title>Robinhood</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jonathan Grant</xbar.author>
+# <xbar.author.github>jonathangrant</xbar.author.github>
+# <xbar.desc>Shows your total portfolio value.</xbar.desc>
+# <xbar.dependencies>python,Robinhood</xbar.dependencies>
 
 
 from Robinhood import Robinhood as R

@@ -23,14 +23,14 @@ quote_color="black"
 #----------
 
 #BitBar Metadata
-# <bitbar.title>Random Quotes for BitBar</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Jan Groß</bitbar.author>
-# <bitbar.author.github>JanGross</bitbar.author.github>
-# <bitbar.desc>Displays a random quote from the selected category</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/0yTkSta.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>Random Quotes for BitBar</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Jan Groß</xbar.author>
+# <xbar.author.github>JanGross</xbar.author.github>
+# <xbar.desc>Displays a random quote from the selected category</xbar.desc>
+# <xbar.image>http://i.imgur.com/0yTkSta.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 mkdir -p ~/BitBar_quotes
 curl -s $cat_url > ~/BitBar_quotes/quotes

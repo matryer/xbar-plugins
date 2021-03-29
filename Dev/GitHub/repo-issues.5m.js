@@ -1,11 +1,11 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Github Repository Issues</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Tom Genoni</bitbar.author>
-// <bitbar.desc>Lists all pull requests and issues, up to 100 total.</bitbar.desc>
-// <bitbar.author.github>tomgenoni</bitbar.author.github>
-// <bitbar.dependencies>node.js</bitbar.dependencies>
+// <xbar.title>Github Repository Issues</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Tom Genoni</xbar.author>
+// <xbar.desc>Lists all pull requests and issues, up to 100 total.</xbar.desc>
+// <xbar.author.github>tomgenoni</xbar.author.github>
+// <xbar.dependencies>node.js</xbar.dependencies>
 
 $HOSTNAME = ""; // For enterprise Github accounts, e.g., github.tinderforcats.com/api/v3
 $ORG = "matryer";

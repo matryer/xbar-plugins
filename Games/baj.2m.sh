@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>BAJ</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Justin Honold</bitbar.author>
-# <bitbar.author.github>astrostl</bitbar.author.github>
-# <bitbar.desc>Checks for active turns at http://www.boiteajeux.net/ every two minutes</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/1126471/12343875/45b78bbe-bafd-11e5-960f-33b77c5d3e41.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>BAJ</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Justin Honold</xbar.author>
+# <xbar.author.github>astrostl</xbar.author.github>
+# <xbar.desc>Checks for active turns at http://www.boiteajeux.net/ every two minutes</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/1126471/12343875/45b78bbe-bafd-11e5-960f-33b77c5d3e41.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 baj_login='LOGIN'
 baj_password='PASSWORD'

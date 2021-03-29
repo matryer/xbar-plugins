@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# <bitbar.title>Yabai status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Albert Groothedde</bitbar.author>
-# <bitbar.author.github>alber70g</bitbar.author.github>
-# <bitbar.desc>
+# <xbar.title>Yabai status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Albert Groothedde</xbar.author>
+# <xbar.author.github>alber70g</xbar.author.github>
+# <xbar.desc>
 # Shows the status of Yabai. Current space, and whether window is floating, sticky, on top and fullscreen.echo "setting up signals"
 # ```
 # yabai -m signal --add event=space_changed \
@@ -16,8 +16,8 @@
 #   action="set SHELL=/bin/sh && open -g \"bitbar://refreshPlugin?name=yabai-window-info.*?.sh\""
 # echo "signals ready"
 # ```
-# </bitbar.desc>
-# <bitbar.dependencies>yabai,jq</bitbar.dependencies>
+# </xbar.desc>
+# <xbar.dependencies>yabai,jq</xbar.dependencies>
 PATH=$PATH:/usr/local/bin
 
 windowFocused=$(yabai -m query --windows --space | jq '.[] | select(."focused"==1)')

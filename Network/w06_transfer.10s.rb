@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Speedwifi-next W06 transfer amount during 1day</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>positrium</bitbar.author>
-# <bitbar.author.github>positrium</bitbar.author.github>
-# <bitbar.desc>show Speedwifi-next w06 transfer amount during 1day for bitbar.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/positrium/wifi-transfer-meter/master/image20200122.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/positrium/wifi-transfer-meter</bitbar.abouturl>
+# <xbar.title>Speedwifi-next W06 transfer amount during 1day</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>positrium</xbar.author>
+# <xbar.author.github>positrium</xbar.author.github>
+# <xbar.desc>show Speedwifi-next w06 transfer amount during 1day for bitbar.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/positrium/wifi-transfer-meter/master/image20200122.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://github.com/positrium/wifi-transfer-meter</xbar.abouturl>
 
 require 'open-uri'
 require 'nokogiri'
