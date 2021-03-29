@@ -6,6 +6,7 @@
 # <xbar.author.github>Behel</xbar.author.github>
 # <xbar.desc>Last 10 video published on Lenodal Website</xbar.desc>
 # <xbar.image>https://attentionphilippelepara.pet/img/images/2021/01/19/bitbarlnd.png</xbar.image>
+# <bitbar.dependencies>curl</bitbar.dependencies>
 #
 
 export PATH="/usr/local/bin:$PATH"
@@ -15,43 +16,43 @@ echo '---'
 
 getnext () {
    local IFS='>'
-   read -d '<' TAG VALUE
+   read -r -d '<' TAG VALUE
 }
 
 webpage=$(curl -s https://medias.lenodal.com/index.php)
 
 videos=()
-while read line
+while read -r line
 do
   videos+=("$line")
-done < <(echo $webpage | while getnext ; do echo "<$TAG>{$VALUE}"; done | grep "<a class=" | iconv -f 'ISO-8859-1' -t "UTF-8" | grep -Eo "ChangeMessage\('.*','menu'\)\" on" | sed "s/ChangeMessage('//;s/','menu')\" on//;s/,/ - /")
+done < <(echo "$webpage" | while getnext ; do echo "<$TAG>{$VALUE}"; done | grep "<a class=" | iconv -f 'ISO-8859-1' -t "UTF-8" | grep -Eo "ChangeMessage\('.*','menu'\)\" on" | sed "s/ChangeMessage('//;s/','menu')\" on//;s/,/ - /")
 
 ids=()
-while read line
+while read -r line
 do
   ids+=("$line")
-done < <(echo $webpage | while getnext ; do echo "<$TAG>{$VALUE}"; done | grep "<a class=" | iconv -f 'ISO-8859-1' -t "UTF-8" | grep -Eo 'id=[0-9]*' | sed 's/id=//')
+done < <(echo "$webpage" | while getnext ; do echo "<$TAG>{$VALUE}"; done | grep "<a class=" | iconv -f 'ISO-8859-1' -t "UTF-8" | grep -Eo 'id=[0-9]*' | sed 's/id=//')
 
 imgs=()
-while read line
+while read -r line
 do
   imgs+=("$line")
-done < <(echo $webpage | while getnext ; do echo "<$TAG>{$VALUE}"; done | grep "<img ")
+done < <(echo "$webpage" | while getnext ; do echo "<$TAG>{$VALUE}"; done | grep "<img ")
 
-IMG=$(echo ${imgs[10]} | grep -Eo "src=\'.*jpg'" | sed 's/id=//' | sed "s/'//g;s/src=//") 
-base64_img="$(curl -s https://medias.lenodal.com/$IMG --output - | base64)"
+IMG=$(echo "${imgs[10]}" | grep -Eo "src=\'.*jpg'" | sed 's/id=//' | sed "s/'//g;s/src=//") 
+base64_img="$(curl -s https://medias.lenodal.com/"$IMG" --output - | base64)"
 
-echo " | image="$base64_img" href=https://medias.lenodal.com color=#414C92"
+echo " | image=""${base64_img}"" href=https://medias.lenodal.com color=#414C92"
 echo "Les 10 dernières vidéos | href=https://medias.lenodal.com color=#414C92"
 echo "---"
 
-echo ${videos[0]}" | href=https://medias.lenodal.com/video.php?id="${ids[0]}
-echo ${videos[1]}" | href=https://medias.lenodal.com/video.php?id="${ids[1]}
-echo ${videos[2]}" | href=https://medias.lenodal.com/video.php?id="${ids[2]}
-echo ${videos[3]}" | href=https://medias.lenodal.com/video.php?id="${ids[3]}
-echo ${videos[4]}" | href=https://medias.lenodal.com/video.php?id="${ids[4]}
-echo ${videos[5]}" | href=https://medias.lenodal.com/video.php?id="${ids[5]}
-echo ${videos[6]}" | href=https://medias.lenodal.com/video.php?id="${ids[6]}
-echo ${videos[7]}" | href=https://medias.lenodal.com/video.php?id="${ids[7]}
-echo ${videos[8]}" | href=https://medias.lenodal.com/video.php?id="${ids[8]}
-echo ${videos[9]}" | href=https://medias.lenodal.com/video.php?id="${ids[9]}
+echo "${videos[0]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[0]}"
+echo "${videos[1]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[1]}"
+echo "${videos[2]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[2]}"
+echo "${videos[3]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[3]}"
+echo "${videos[4]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[4]}"
+echo "${videos[5]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[5]}"
+echo "${videos[6]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[6]}"
+echo "${videos[7]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[7]}"
+echo "${videos[8]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[8]}"
+echo "${videos[9]}"" | href=https://medias.lenodal.com/video.php?id=""${ids[9]}"
