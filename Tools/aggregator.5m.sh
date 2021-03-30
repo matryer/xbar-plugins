@@ -13,9 +13,9 @@
 
 
 tmpfile=$(mktemp)
-cd aggregator 
-for file in *; do
-	export i=0; "./$file" | grep -E -v '^---$' | while read -r line; do i=$(($i+1)); if [ "$i" -ne 1 ]; then echo -n "--" >> "$tmpfile"; fi; echo "$line" >> "$tmpfile"; done
+for file in $(ls aggregator); do
+
+	$(export i=0; cd aggregator; ./$file | egrep -v '^---$' | while read -r line; do i=$(expr $i + 1); if [ "$i" -ne 1 ]; then echo -n "--" >> "$tmpfile"; fi; echo "$line" >> "$tmpfile"; done)
 
 done
 
