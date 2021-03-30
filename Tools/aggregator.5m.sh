@@ -13,7 +13,7 @@
 
 
 tmpfile=$(mktemp)
-cd aggregator 
+cd aggregator || exit
 for file in *; do
 	export i=0; "./$file" | grep -E -v '^---$' | while read -r line; do i=$((i+1)); if [ "$i" -ne 1 ]; then echo -n "--" >> "$tmpfile"; fi; echo "$line" >> "$tmpfile"; done
 
