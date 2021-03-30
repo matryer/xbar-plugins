@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Get Computer Info</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sarah Keenan</bitbar.author>
-# <bitbar.author.github>SKeenan07</bitbar.author.github>
-# <bitbar.desc>This plugin gets the IP address and the computer name.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/SKeenan07/portfolio/master/images/BitBarPlugin.png?raw=true</bitbar.image>
+# <xbar.title>Get Computer Info</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sarah Keenan</xbar.author>
+# <xbar.author.github>SKeenan07</xbar.author.github>
+# <xbar.desc>This plugin gets the IP address and the computer name.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/SKeenan07/portfolio/master/images/BitBarPlugin.png?raw=true</xbar.image>
 
 activeNetworkAdapter=$(echo 'show State:/Network/Global/IPv4' | scutil | grep PrimaryInterface | sed 's/ PrimaryInterface : //')
 
