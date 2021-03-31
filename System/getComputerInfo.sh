@@ -7,7 +7,7 @@
 # <xbar.desc>This plugin gets the IP address and the computer name.</xbar.desc>
 # <xbar.image>https://raw.githubusercontent.com/SKeenan07/portfolio/master/images/BitBarPlugin.png?raw=true</xbar.image>
 
-activeNetworkAdapter=$(echo 'show State:/Network/Global/IPv4' | scutil | grep PrimaryInterface | sed 's/ PrimaryInterface : //')
+activeNetworkAdapter=$(echo 'show State:/Network/Global/IPv4' | scutil | grep PrimaryInterface | awk -F " . " '{ print $2 }')
 
 computerName=$(system_profiler SPSoftwareDataType | grep "Computer Name")
 
@@ -30,6 +30,6 @@ echo "---"
 if [[ -z "$activeNetworkAdapter" ]]; then
     echo "Not connected to the internet."
 else
-    IPAddress=$(ifconfig $activeNetworkAdapter | grep "inet " | awk '{ print $2 }')
+    IPAddress=$(ifconfig "$activeNetworkAdapter" | grep "inet " | awk '{ print $2 }')
     echo "$IPAddress"
 fi
