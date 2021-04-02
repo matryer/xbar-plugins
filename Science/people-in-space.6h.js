@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>People In Space</bitbar.title>
-// <bitbar.version>v1.2</bitbar.version>
-// <bitbar.author>Mullwar</bitbar.author>
-// <bitbar.author.github>mullwar</bitbar.author.github>
-// <bitbar.desc>How many people are in Space right now?</bitbar.desc>
-// <bitbar.image>http://i.imgur.com/i9biB3R.png</bitbar.image>
-// <bitbar.dependencies>node</bitbar.dependencies>
-// <bitbar.abouturl>https://github.com/mullwar/bitbar-plugins</bitbar.abouturl>
+// <xbar.title>People In Space</xbar.title>
+// <xbar.version>v1.2</xbar.version>
+// <xbar.author>Mullwar</xbar.author>
+// <xbar.author.github>mullwar</xbar.author.github>
+// <xbar.desc>How many people are in Space right now?</xbar.desc>
+// <xbar.image>http://i.imgur.com/i9biB3R.png</xbar.image>
+// <xbar.dependencies>node</xbar.dependencies>
+// <xbar.abouturl>https://github.com/mullwar/bitbar-plugins</xbar.abouturl>
 
 "use strict";
 
