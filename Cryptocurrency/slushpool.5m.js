@@ -1,4 +1,5 @@
 #!/usr/bin/env /usr/local/bin/node
+"use 'esversion: 8'"; // travisci complaining about needing this even when the next line is provided
 "use 'esversion: 9'";
 
 /*
@@ -9,8 +10,8 @@
 # <xbar.author>Mark Phillips</xbar.author>
 # <xbar.author.github>pleasemarkdarkly</xbar.author.github>
 # <xbar.desc>TLDR; Displays Slushpool Profile/Worker information from its API Service. This is an Xbar/Bitbar macOS menu plugin which provided with a SLUSHPOOL API_KEY with at least ACCESS READ-ONLY will provide your hash rate statistic, mining proceeds unconfirmed, confirmed, expected proceeds and details about your workers including OK, OFF, and disconnectd.</xbar.desc>
-# <xbar.image>https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/blob/main/images/slushpool-xbar-plugin.png</xbar.image>
-# <xbar.dependencies> node </xbar.dependencies >
+# <xbar.image>https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/blob/main/images/slushpool-xbar-plugin.png?raw=true</xbar.image>
+# <xbar.dependencies>node</xbar.dependencies>
 # <xbar.abouturl>https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/</xbar.abouturl>
 #
 # This is an Xbar/Bitbar macOS menu plugin which provided with a SLUSHPOOL API_KEY with at least ACCESS READ-ONLY will provide your hash rate statistic, mining proceeds unconfirmed, confirmed, expected proceeds and details about your workers including OK, OFF, and disconnectd. Additional information regarding your participation pool is provided but specifically not used in this plugin however it would be trival to do so. 
@@ -29,7 +30,7 @@ const BITCOIN_ICON = 'iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAAACXBIWXMAAB
 const VAR_SLUSHPOOL_API_KEY = 'Zm1oK8hGaDExOBaE'; // create your own SLUSHPOOL API KEY https://help.slushpool.com/en/support/solutions/articles/77000433512-api-configuration-guide
 let slushpool_api_token = VAR_SLUSHPOOL_API_KEY;  // left over for when I had logic to pull from various locations 
 
-let BTC_EXISTING_BALANCE = .78711908; // previously confirmed rewards or whatever you want, example BTC balance
+let BTC_EXISTING_BALANCE = '.78711908'; // previously confirmed rewards or whatever you want, example BTC balance
 let USD_EXISTING_BTC_BALANCE = 0;
 
 const numberWithCommas = (x) => {
@@ -178,7 +179,7 @@ const printBitbar = async (bitbar) => {
 		if (workers[k].state == 'off') {
 			const worker_name = k.split('.')[1];
 			console.log(`${worker_name.toLowerCase()}`);
-		};
+		}
 	});
 	console.log(`${SLUSHPOOL_MINING_ICON} ${numberWithCommas(parseFloat(hash_rate_5m).toFixed(2))} ${hash_rate_unit} (5m)`);
 	console.log(`${SLUSHPOOL_MINING_ICON} ${numberWithCommas(parseFloat(hash_rate_60m).toFixed(2))} ${hash_rate_unit} (60m)`);
