@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Habitica</bitbar.title>
-// <bitbar.version>v1.2</bitbar.version>
-// <bitbar.author>Stefan du Fresne</bitbar.author>
-// <bitbar.author.github>SCdF</bitbar.author.github>
-// <bitbar.desc>Allows you to manage your Habitica tasks, habits and to-dos. See: habitica.com</bitbar.desc>
-// <bitbar.image>http://i.imgur.com/CUO445t.png</bitbar.image>
-// <bitbar.dependencies>node6</bitbar.dependencies>
+// <xbar.title>Habitica</xbar.title>
+// <xbar.version>v1.2</xbar.version>
+// <xbar.author>Stefan du Fresne</xbar.author>
+// <xbar.author.github>SCdF</xbar.author.github>
+// <xbar.desc>Allows you to manage your Habitica tasks, habits and to-dos. See: habitica.com</xbar.desc>
+// <xbar.image>http://i.imgur.com/CUO445t.png</xbar.image>
+// <xbar.dependencies>node6</xbar.dependencies>
 
 /*jshint esversion: 6 */
 'use strict';

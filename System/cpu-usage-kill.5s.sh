@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>CPU Usage, Kill process</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Alex M.</bitbar.author>
-# <bitbar.author.github>Aleksandern</bitbar.author.github>
-# <bitbar.desc>Shows top 3 consuming processes with opportunity to kill them.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/Aleksandern/devman/master/images/BitBarCpuUsageKill.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>CPU Usage, Kill process</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Alex M.</xbar.author>
+# <xbar.author.github>Aleksandern</xbar.author.github>
+# <xbar.desc>Shows top 3 consuming processes with opportunity to kill them.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/Aleksandern/devman/master/images/BitBarCpuUsageKill.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 
 counter=1

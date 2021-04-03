@@ -2,13 +2,13 @@
 
 # Show running Virtualbox VMs with option to shutdown (save state) using VBoxManage.
 #
-# <bitbar.title>Virtualbox running VMs</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Harald Ringvold</bitbar.author>
-# <bitbar.author.github>haraldringvold</bitbar.author.github>
-# <bitbar.desc>Show running virtualbox VMs with option to shutdown (save state) using VBoxManage.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/YmFrYQH.png</bitbar.image>
-# <bitbar.dependencies>Ruby,VBoxManage</bitbar.dependencies>
+# <xbar.title>Virtualbox running VMs</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Harald Ringvold</xbar.author>
+# <xbar.author.github>haraldringvold</xbar.author.github>
+# <xbar.desc>Show running virtualbox VMs with option to shutdown (save state) using VBoxManage.</xbar.desc>
+# <xbar.image>http://i.imgur.com/YmFrYQH.png</xbar.image>
+# <xbar.dependencies>Ruby,VBoxManage</xbar.dependencies>
 
 
 ENV['PATH'] = ENV['PATH']+':/usr/local/bin'

@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>Show templateImages and images</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Stefan Rakel</bitbar.author>
-# <bitbar.author.github>ibutra</bitbar.author.github>
-# <bitbar.desc>Example of how to use the templateImage and image parameter</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Rva36NL.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Tutorial/images.sh</bitbar.abouturl>
+# <xbar.title>Show templateImages and images</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Stefan Rakel</xbar.author>
+# <xbar.author.github>ibutra</xbar.author.github>
+# <xbar.desc>Example of how to use the templateImage and image parameter</xbar.desc>
+# <xbar.image>http://i.imgur.com/Rva36NL.png</xbar.image>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Tutorial/images.sh</xbar.abouturl>
 #
 # Images defined in the templateImage parameter are used as NSImage with template set to true, allowing Mac OS X to apply appropriate styling for the Menubar to them. This is the recommended way of defining an image for BitBar.
 # Images defined in the image parameter are used as normal Images and can contain colors because no automatic styling is applied by Mac OS X. Note though this can lead to artifacts and other discolorization if the image is used in the statusbar of Mac OS X. Colored Images are not a problem if used in the dropdown menu.

@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 #
-# <bitbar.title>Taskpaper Current Task</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Marcin Biegun</bitbar.author>
-# <bitbar.author.github>marcinbiegun</bitbar.author.github>
-# <bitbar.desc>This plugin will display first task in your file having the specified tag</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/2I3eU0D.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Taskpaper Current Task</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Marcin Biegun</xbar.author>
+# <xbar.author.github>marcinbiegun</xbar.author.github>
+# <xbar.desc>This plugin will display first task in your file having the specified tag</xbar.desc>
+# <xbar.image>https://i.imgur.com/2I3eU0D.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 
 import os

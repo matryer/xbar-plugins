@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Firewall Status Indicator</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Miles Wolbe</bitbar.author>
-# <bitbar.author.github>tinyapps</bitbar.author.github>
-# <bitbar.desc>Display status of the built-in Application Firewall</bitbar.desc>
-# <bitbar.image>https://tinyapps.org/screenshots/bitbar_firewall_status_indicator.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://tinyapps.org/blog/mac/201709100715_mac_firewall_status.html/</bitbar.abouturl>
+# <xbar.title>Firewall Status Indicator</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Miles Wolbe</xbar.author>
+# <xbar.author.github>tinyapps</xbar.author.github>
+# <xbar.desc>Display status of the built-in Application Firewall</xbar.desc>
+# <xbar.image>https://tinyapps.org/screenshots/bitbar_firewall_status_indicator.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://tinyapps.org/blog/mac/201709100715_mac_firewall_status.html/</xbar.abouturl>
 
 state=$(defaults read "/Library/Preferences/com.apple.alf" globalstate)
 

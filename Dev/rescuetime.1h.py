@@ -1,10 +1,10 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
-# <bitbar.title>RescueTime</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Paul Traylor</bitbar.author>
-# <bitbar.author.github>kfdm</bitbar.author.github>
-# <bitbar.desc>Show your RescueTime productivity pulse in the status bar</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>RescueTime</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Paul Traylor</xbar.author>
+# <xbar.author.github>kfdm</xbar.author.github>
+# <xbar.desc>Show your RescueTime productivity pulse in the status bar</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # To install, you will want to generate an API key for rescue time and then store the
 # key in ~/Library/RescueTime.com/api.key

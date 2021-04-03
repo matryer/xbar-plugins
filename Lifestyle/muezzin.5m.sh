@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Muezzin</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Mehmet Akif Tütüncü</bitbar.author>
-# <bitbar.author.github>mehmetakiftutuncu</bitbar.author.github>
-# <bitbar.image>https://github.com/mehmetakiftutuncu/Muezzin-BitBar/raw/master/Screenshot.png</bitbar.image>
-# <bitbar.desc>This is a BitBar plugin for showing Islamic prayer times in your menu bar. See https://github.com/mehmetakiftutuncu/Muezzin-BitBar#configuration for configuration.</bitbar.desc>
-# <bitbar.dependencies>shell,httpie,jq</bitbar.dependencies>
+# <xbar.title>Muezzin</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Mehmet Akif Tütüncü</xbar.author>
+# <xbar.author.github>mehmetakiftutuncu</xbar.author.github>
+# <xbar.image>https://github.com/mehmetakiftutuncu/Muezzin-BitBar/raw/master/Screenshot.png</xbar.image>
+# <xbar.desc>This is a BitBar plugin for showing Islamic prayer times in your menu bar. See https://github.com/mehmetakiftutuncu/Muezzin-BitBar#configuration for configuration.</xbar.desc>
+# <xbar.dependencies>shell,httpie,jq</xbar.dependencies>
 #
 # Muezzin by Mehmet Akif Tütüncü
 #

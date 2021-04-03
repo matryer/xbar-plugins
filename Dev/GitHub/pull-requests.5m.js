@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // jshint esversion: 6, asi: true
 
-// <bitbar.title>Github Pull requests</bitbar.title>
-// <bitbar.version>v2.0</bitbar.version>
-// <bitbar.author>Noam Knispel</bitbar.author>
-// <bitbar.author.github>noamknispel</bitbar.author.github>
-// <bitbar.desc>Get list of pull requests from Github for multiple repositories</bitbar.desc>
-// <bitbar.dependencies>node.js request co bluebird</bitbar.dependencies>
+// <xbar.title>Github Pull requests</xbar.title>
+// <xbar.version>v2.0</xbar.version>
+// <xbar.author>Noam Knispel</xbar.author>
+// <xbar.author.github>noamknispel</xbar.author.github>
+// <xbar.desc>Get list of pull requests from Github for multiple repositories</xbar.desc>
+// <xbar.dependencies>node.js request co bluebird</xbar.dependencies>
 
 // EDIT YOUR INFO BELOW:
 const username = ''

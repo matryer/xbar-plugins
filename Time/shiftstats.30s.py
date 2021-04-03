@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Shift Stats</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Jan Groß</bitbar.author>
-# <bitbar.author.github>JanGross</bitbar.author.github>
-# <bitbar.desc>Shows the remaining time of today's work shift as well as the time of arrival and when its time to leave</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/6VTobzU.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Shift Stats</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Jan Groß</xbar.author>
+# <xbar.author.github>JanGross</xbar.author.github>
+# <xbar.desc>Shows the remaining time of today's work shift as well as the time of arrival and when its time to leave</xbar.desc>
+# <xbar.image>http://i.imgur.com/6VTobzU.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 
 #----- About ---------------------------------------#

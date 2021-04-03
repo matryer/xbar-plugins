@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Gogs Issues</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Christoph Schlosser</bitbar.author>
-// <bitbar.author.github>christophschlosser</bitbar.author.github>
-// <bitbar.desc>Displays the number of issues from Gogs</bitbar.desc>
-// <bitbar.image>https://raw.githubusercontent.com/christophschlosser/bitbar-plugins/gogs-issues/Dev/Gogs/gogs-issues.png</bitbar.image>
-// <bitbar.dependencies>node.js</bitbar.dependencies>
+// <xbar.title>Gogs Issues</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Christoph Schlosser</xbar.author>
+// <xbar.author.github>christophschlosser</xbar.author.github>
+// <xbar.desc>Displays the number of issues from Gogs</xbar.desc>
+// <xbar.image>https://raw.githubusercontent.com/christophschlosser/bitbar-plugins/gogs-issues/Dev/Gogs/gogs-issues.png</xbar.image>
+// <xbar.dependencies>node.js</xbar.dependencies>
 
 // Set these
 HOSTNAME = "gogs.example.cpm";

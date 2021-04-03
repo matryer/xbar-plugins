@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>PianoBar Control</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>danlogan</bitbar.author>
-# <bitbar.author.github>danlogan</bitbar.author.github>
-# <bitbar.desc>Simple pianobar controls from the menu bar.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/xWjlIDr.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>PianoBar Control</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>danlogan</xbar.author>
+# <xbar.author.github>danlogan</xbar.author.github>
+# <xbar.desc>Simple pianobar controls from the menu bar.</xbar.desc>
+# <xbar.image>https://i.imgur.com/xWjlIDr.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 # pianobar should not already be running when you start this script
 

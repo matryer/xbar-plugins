@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Fip - Now Playing</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Bastien L.</bitbar.author>
-# <bitbar.author.github>Behel</bitbar.author.github>
-# <bitbar.desc>What's playing currently on FIP french radio</bitbar.desc>
-# <bitbar.image>https://attentionphilippelepara.pet/img/images/2021/01/18/bitbar.png</bitbar.image>
-# <bitbar.dependencies>jq</bitbar.dependencies>
+# <xbar.title>Fip - Now Playing</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Bastien L.</xbar.author>
+# <xbar.author.github>Behel</xbar.author.github>
+# <xbar.desc>What's playing currently on FIP french radio</xbar.desc>
+# <xbar.image>https://attentionphilippelepara.pet/img/images/2021/01/18/bitbar.png</xbar.image>
+# <xbar.dependencies>jq</xbar.dependencies>
 #
 
 export PATH="/usr/local/bin:$PATH"

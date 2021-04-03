@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Slack Stuatus</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ben Sehl</bitbar.author>
-# <bitbar.author.github>benjaminsehl</bitbar.author.github>
-# <bitbar.desc>Change your status on Slack from the menubar.</bitbar.desc>
-# <bitbar.dependencies>Autocode, Slack</bitbar.dependencies>
+# <xbar.title>Slack Stuatus</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ben Sehl</xbar.author>
+# <xbar.author.github>benjaminsehl</xbar.author.github>
+# <xbar.desc>Change your status on Slack from the menubar.</xbar.desc>
+# <xbar.dependencies>Autocode, Slack</xbar.dependencies>
 
 # Sign up for an account at Autocode
 

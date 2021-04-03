@@ -6,13 +6,13 @@ require 'rest-client'
 require 'pp'
 
 # rubocop:disable all
-# <bitbar.title>Bitbucket Server (Stash) Pull Requests</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Adam Snodgrass</bitbar.author>
-# <bitbar.author.github>asnodgrass</bitbar.author.github>
-# <bitbar.desc>Displays a list of open pull requests in for all repositories in a specified project on Bitbucket Server (aka Stash) in which the user is a participant. Results are sorted by last update (ascending), and are prefixed with a character to indicate participation type: A for author, R for reviewer, and nothing for other (e.g. added a comment). Each entry is clickable and will take you to the pull request page.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/9vp4D6e.png</bitbar.image>
-# <bitbar.dependencies>rest-client gem, ruby_duration gem</bitbar.dependencies>
+# <xbar.title>Bitbucket Server (Stash) Pull Requests</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Adam Snodgrass</xbar.author>
+# <xbar.author.github>asnodgrass</xbar.author.github>
+# <xbar.desc>Displays a list of open pull requests in for all repositories in a specified project on Bitbucket Server (aka Stash) in which the user is a participant. Results are sorted by last update (ascending), and are prefixed with a character to indicate participation type: A for author, R for reviewer, and nothing for other (e.g. added a comment). Each entry is clickable and will take you to the pull request page.</xbar.desc>
+# <xbar.image>http://i.imgur.com/9vp4D6e.png</xbar.image>
+# <xbar.dependencies>rest-client gem, ruby_duration gem</xbar.dependencies>
 # rubocop:enable all
 
 # Change these, or use a wrapper script and pass in via ARGV.

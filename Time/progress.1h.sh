@@ -4,14 +4,14 @@
 #
 # by Mucahit (http://github.com/mucahit)
 #
-# <bitbar.title>Progress Bar of Year, Month and Day</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Mucahit</bitbar.author>
-# <bitbar.author.github>Mucahit</bitbar.author.github>
-# <bitbar.desc>Progress Bar of Year, Month and Day: See the big picture.</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/5108459/43047918-c946f6bc-8de7-11e8-940a-036f44087b92.jpg</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://gist.github.com/mucahit/0bd2ace80ded22328d0c638715a4911b</bitbar.abouturl>
+# <xbar.title>Progress Bar of Year, Month and Day</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Mucahit</xbar.author>
+# <xbar.author.github>Mucahit</xbar.author.github>
+# <xbar.desc>Progress Bar of Year, Month and Day: See the big picture.</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/5108459/43047918-c946f6bc-8de7-11e8-940a-036f44087b92.jpg</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://gist.github.com/mucahit/0bd2ace80ded22328d0c638715a4911b</xbar.abouturl>
 
 width=20
 fill_char="▄"

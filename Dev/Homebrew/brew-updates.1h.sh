@@ -1,8 +1,8 @@
 #!/bin/bash
-# <bitbar.title>Homebrew Updates</bitbar.title>
-# <bitbar.author>killercup</bitbar.author>
-# <bitbar.author.github>killercup</bitbar.author.github>
-# <bitbar.desc>List available updates from Homebrew (OS X)</bitbar.desc>
+# <xbar.title>Homebrew Updates</xbar.title>
+# <xbar.author>killercup</xbar.author>
+# <xbar.author.github>killercup</xbar.author.github>
+# <xbar.desc>List available updates from Homebrew (OS X)</xbar.desc>
 
 exit_with_error() {
   echo "err | color=red";

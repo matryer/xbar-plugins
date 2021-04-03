@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Bitso buys price</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Erick Madrid</bitbar.author>
-# <bitbar.author.github>Neovirxp</bitbar.author.github>
-# <bitbar.desc>Displays Bitso buy prices of Bitcoin, Ethereum, Ripple in MXN</bitbar.desc>
-# <bitbar.image>https://image.ibb.co/h9mWFG/Screen_Shot_2017_11_28_at_7_59_08_PM.png</bitbar.image>
-# <bitbar.dependencies>bash, jq</bitbar.dependencies>
+# <xbar.title>Bitso buys price</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Erick Madrid</xbar.author>
+# <xbar.author.github>Neovirxp</xbar.author.github>
+# <xbar.desc>Displays Bitso buy prices of Bitcoin, Ethereum, Ripple in MXN</xbar.desc>
+# <xbar.image>https://image.ibb.co/h9mWFG/Screen_Shot_2017_11_28_at_7_59_08_PM.png</xbar.image>
+# <xbar.dependencies>bash, jq</xbar.dependencies>
 
 # If you feel this little tool gives you some value, tips are always welcome at the following addresses!
 # Bitcoin: 19sFQuSb1cwGA9Cb5XYVMHeYUVW8ME6ki8

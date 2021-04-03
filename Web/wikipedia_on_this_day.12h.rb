@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
-# <bitbar.title>Wikipedia On This Day</bitbar.title>
-# <bitbar.version>0.1.0</bitbar.version>
-# <bitbar.author>Ryan Scott Lewis</bitbar.author>
-# <bitbar.author.github>RyanScottLewis</bitbar.author.github>
-# <bitbar.desc>Display Wikipedia On This Day information.</bitbar.desc>
-# <bitbar.dependencies>ruby (wikipedia, wikicloth, nokogiri rubygems)</bitbar.dependencies>
+# <xbar.title>Wikipedia On This Day</xbar.title>
+# <xbar.version>0.1.0</xbar.version>
+# <xbar.author>Ryan Scott Lewis</xbar.author>
+# <xbar.author.github>RyanScottLewis</xbar.author.github>
+# <xbar.desc>Display Wikipedia On This Day information.</xbar.desc>
+# <xbar.dependencies>ruby (wikipedia, wikicloth, nokogiri rubygems)</xbar.dependencies>
 
 require "wikipedia" # gem install wikipedia-client
 require "wikicloth" # gem install wikicloth

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Live Tennis Scores</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Anup Sam Abraham</bitbar.author>
-# <bitbar.author.github>anupsabraham</bitbar.author.github>
-# <bitbar.desc>Show live scores for tennis matches using ATP World Tour api</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/5kOPKVv.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>Live Tennis Scores</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Anup Sam Abraham</xbar.author>
+# <xbar.author.github>anupsabraham</xbar.author.github>
+# <xbar.desc>Show live scores for tennis matches using ATP World Tour api</xbar.desc>
+# <xbar.image>http://i.imgur.com/5kOPKVv.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 import urllib2
 import json

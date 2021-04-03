@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Bing Wallpapers</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Tok1</bitbar.author>
-# <bitbar.author.github>Tokfrans03</bitbar.author.github>
-# <bitbar.desc>A new wallpaper from Bing every hour</bitbar.desc>
-# <bitbar.dependencies>JQ</bitbar.dependencies>
+# <xbar.title>Bing Wallpapers</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Tok1</xbar.author>
+# <xbar.author.github>Tokfrans03</xbar.author.github>
+# <xbar.desc>A new wallpaper from Bing every hour</xbar.desc>
+# <xbar.dependencies>JQ</xbar.dependencies>
 
 export PATH="/usr/local/bin:$PATH"
 

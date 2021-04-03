@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>SureFlap Pet Status</bitbar.title>
-# <bitbar.version>v1.2.0</bitbar.version>
-# <bitbar.author>Henrik Nyh</bitbar.author>
-# <bitbar.author.github>henrik</bitbar.author.github>
-# <bitbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>SureFlap Pet Status</xbar.title>
+# <xbar.version>v1.2.0</xbar.version>
+# <xbar.author>Henrik Nyh</xbar.author>
+# <xbar.author.github>henrik</xbar.author.github>
+# <xbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 # By Henrik Nyh <https://henrik.nyh.se> 2019-12-16 under the MIT license.
 # Heavily based on the https://github.com/alextoft/sureflap PHP code by Alex Toft.

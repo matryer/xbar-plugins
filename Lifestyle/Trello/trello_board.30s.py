@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-# <bitbar.title>trello list</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Karim Boumedhel</bitbar.author>
-# <bitbar.author.github>karmab</bitbar.author.github>
-# <bitbar.desc>Lists trello cards in New/In Progress</bitbar.desc>
+# <xbar.title>trello list</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Karim Boumedhel</xbar.author>
+# <xbar.author.github>karmab</xbar.author.github>
+# <xbar.desc>Lists trello cards in New/In Progress</xbar.desc>
 
 
 import os

@@ -1,12 +1,12 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 # -*- coding: utf-8 -*-
-# <bitbar.title>Battery remaining (Python)</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Eric Ripa</bitbar.author>
-# <bitbar.author.github>eripa</bitbar.author.github>
-# <bitbar.desc>Show battery charge percentage and time remaining</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/P6aNey5.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Battery remaining (Python)</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Eric Ripa</xbar.author>
+# <xbar.author.github>eripa</xbar.author.github>
+# <xbar.desc>Show battery charge percentage and time remaining</xbar.desc>
+# <xbar.image>http://i.imgur.com/P6aNey5.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 from __future__ import print_function
 import re

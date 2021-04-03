@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>Irish Rail Trains</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Daniel Burke</bitbar.author>
-# <bitbar.author.github>dan.burke</bitbar.author.github>
-# <bitbar.desc>Retrieves next three trains at a particular station from Irish Rail</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/PRa5B1m.png</bitbar.image>
-# <bitbar.dependencies>bash,jq</bitbar.dependencies>
+# <xbar.title>Irish Rail Trains</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Daniel Burke</xbar.author>
+# <xbar.author.github>dan.burke</xbar.author.github>
+# <xbar.desc>Retrieves next three trains at a particular station from Irish Rail</xbar.desc>
+# <xbar.image>http://i.imgur.com/PRa5B1m.png</xbar.image>
+# <xbar.dependencies>bash,jq</xbar.dependencies>
 # Depends on jq - https://stedolan.github.io/jq/
 
 # Replace the STATIONID with the appropriate ID

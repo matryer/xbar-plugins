@@ -1,12 +1,12 @@
 #!/usr/bin/env -S PATH="${PATH}:/usr/local/bin" python3
 
-# <bitbar.title>Bandwidth.py</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>ChTBoner</bitbar.author>
-# <bitbar.author.github>chtboner</bitbar.author.github>
-# <bitbar.desc>Displays upload and download speeds</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/qDPtOxl.png</bitbar.image>
-# <bitbar.dependencies>python3, psutil</bitbar.dependencies>
+# <xbar.title>Bandwidth.py</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>ChTBoner</xbar.author>
+# <xbar.author.github>chtboner</xbar.author.github>
+# <xbar.desc>Displays upload and download speeds</xbar.desc>
+# <xbar.image>https://i.imgur.com/qDPtOxl.png</xbar.image>
+# <xbar.dependencies>python3, psutil</xbar.dependencies>
 #
 # by ChTBoner
 

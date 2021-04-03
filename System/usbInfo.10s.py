@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-# <bitbar.title>USB Device Details</bitbar.title>
-# <bitbar.author>Raemond Bergstrom-Wood</bitbar.author>
-# <bitbar.author.github>RaemondBW</bitbar.author.github>
-# <bitbar.desc>Displays the device details user input usb devices</bitbar.desc>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>USB Device Details</xbar.title>
+# <xbar.author>Raemond Bergstrom-Wood</xbar.author>
+# <xbar.author.github>RaemondBW</xbar.author.github>
+# <xbar.desc>Displays the device details user input usb devices</xbar.desc>
+# <xbar.version>1.0</xbar.version>
 
 print "USB"
 print '---'

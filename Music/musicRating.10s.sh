@@ -6,12 +6,12 @@
 # Sebastian Winkler (sw2@github), Dan Turkel (daturkel@gmail.com) 
 
 # metadata
-# <bitbar.title>Music Rating</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Weibing Chen, Sebastian Winkler, Dan Turkel</bitbar.author>
-# <bitbar.author.github>weibingchen17</bitbar.author.github>
-# <bitbar.desc>Display currently rating from Music song and modify it.</bitbar.desc>
-# <bitbar.image>http://www.mindfuckbox.com/wp-content/uploads/2016/01/iTunes_Rating.png</bitbar.image>
+# <xbar.title>Music Rating</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Weibing Chen, Sebastian Winkler, Dan Turkel</xbar.author>
+# <xbar.author.github>weibingchen17</xbar.author.github>
+# <xbar.desc>Display currently rating from Music song and modify it.</xbar.desc>
+# <xbar.image>http://www.mindfuckbox.com/wp-content/uploads/2016/01/iTunes_Rating.png</xbar.image>
 
 vercomp () {
     if [[ $1 == "$2" ]]; then

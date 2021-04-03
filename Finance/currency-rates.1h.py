@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# <bitbar.title>Currency Rates</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Parvez</bitbar.author>
-# <bitbar.author.github>parvez</bitbar.author.github>
-# <bitbar.desc>Displays Currency Rates</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Q1PuzbN.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/parvez/bitbar-plugins</bitbar.abouturl>
+# <xbar.title>Currency Rates</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Parvez</xbar.author>
+# <xbar.author.github>parvez</xbar.author.github>
+# <xbar.desc>Displays Currency Rates</xbar.desc>
+# <xbar.image>http://i.imgur.com/Q1PuzbN.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/parvez/bitbar-plugins</xbar.abouturl>
 #
 # by Parvez
 

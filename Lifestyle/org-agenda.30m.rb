@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>Agenda</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>yqrashawn</bitbar.author>
-# <bitbar.author.github>yqrashawn</bitbar.author.github>
-# <bitbar.desc>display emacs org-agenda in bitbar</bitbar.desc>
-# <bitbar.image>https://github.com/yqrashawn/bitbar-plugin-agenda/raw/master/bitbar-ext-org-agenda.png</bitbar.image>
-# <bitbar.dependencies>ruby,emacs</bitbar.dependencies>
-# <bitbar.abouturl>http://yqrashawn.com/2017/11/25/org-agenda-bitbar-plugin/</bitbar.abouturl>
+# <xbar.title>Agenda</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>yqrashawn</xbar.author>
+# <xbar.author.github>yqrashawn</xbar.author.github>
+# <xbar.desc>display emacs org-agenda in bitbar</xbar.desc>
+# <xbar.image>https://github.com/yqrashawn/bitbar-plugin-agenda/raw/master/bitbar-ext-org-agenda.png</xbar.image>
+# <xbar.dependencies>ruby,emacs</xbar.dependencies>
+# <xbar.abouturl>http://yqrashawn.com/2017/11/25/org-agenda-bitbar-plugin/</xbar.abouturl>
 
 # for more information please checkout http://yqrashawn.com/2017/11/25/org-agenda-bitbar-plugin/
 # it's on github https://github.com/yqrashawn/bitbar-plugin-agenda

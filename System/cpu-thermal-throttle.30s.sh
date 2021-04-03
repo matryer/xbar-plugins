@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>CPU thermal throttling</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sampo Juustila</bitbar.author>
-# <bitbar.author.github>plaa</bitbar.author.github>
-# <bitbar.desc>Displays the current CPU thermal throttling speed (using `pmset -g therm`).</bitbar.desc>
+# <xbar.title>CPU thermal throttling</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sampo Juustila</xbar.author>
+# <xbar.author.github>plaa</xbar.author.github>
+# <xbar.desc>Displays the current CPU thermal throttling speed (using `pmset -g therm`).</xbar.desc>
 
 OUTPUT="$(pmset -g therm)"
 SCHEDLIMIT="$(echo "$OUTPUT" | grep CPU_Scheduler_Limit | cut -d= -f2)"

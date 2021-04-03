@@ -1,13 +1,13 @@
 #!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
 #
-# <bitbar.title>Yahoo Stock Ticker</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Long Do</bitbar.author>
-# <bitbar.author.github>longpdo</bitbar.author.github>
-# <bitbar.desc>Shows major stock indices in the menu bar and stock symbols in the dropdown menu by pulling data from the Yahoo Finance API. Similar to finance.yahoo.com the prices are delayed, but no API key is necessary. You can also set price alarms for BUY/SELL limits, which will notify you when the limit is reached.</bitbar.desc>
-# <bitbar.image>https://github.com/longpdo/bitbar-plugins-custom/raw/master/images/yahoo-stock-ticker.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/longpdo/bitbar-plugins-custom/blob/master/README.md#yahoo-stock-ticker</bitbar.abouturl>
+# <xbar.title>Yahoo Stock Ticker</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Long Do</xbar.author>
+# <xbar.author.github>longpdo</xbar.author.github>
+# <xbar.desc>Shows major stock indices in the menu bar and stock symbols in the dropdown menu by pulling data from the Yahoo Finance API. Similar to finance.yahoo.com the prices are delayed, but no API key is necessary. You can also set price alarms for BUY/SELL limits, which will notify you when the limit is reached.</xbar.desc>
+# <xbar.image>https://github.com/longpdo/bitbar-plugins-custom/raw/master/images/yahoo-stock-ticker.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.abouturl>https://github.com/longpdo/bitbar-plugins-custom/blob/master/README.md#yahoo-stock-ticker</xbar.abouturl>
 #
 # by longpdo (https://github.com/longpdo)
 

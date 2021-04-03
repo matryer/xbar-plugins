@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v0.0.0</bitbar.version>
-# <bitbar.author>Richard Colley</bitbar.author>
-# <bitbar.author.github>typerlc</bitbar.author.github>
-# <bitbar.desc>Display local weather collected using darksky-weather (install from brew).</bitbar.desc>
-# <bitbar.dependencies>darksky-weather,curl,jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/typerlc/bitbar-weather/</bitbar.abouturl>
-# <bitbar.image>https://github.com/typerlc/bitbar-weather/raw/master/weather_preview.png</bitbar.image>
+# <xbar.title>Weather</xbar.title>
+# <xbar.version>v0.0.0</xbar.version>
+# <xbar.author>Richard Colley</xbar.author>
+# <xbar.author.github>typerlc</xbar.author.github>
+# <xbar.desc>Display local weather collected using darksky-weather (install from brew).</xbar.desc>
+# <xbar.dependencies>darksky-weather,curl,jq</xbar.dependencies>
+# <xbar.abouturl>https://github.com/typerlc/bitbar-weather/</xbar.abouturl>
+# <xbar.image>https://github.com/typerlc/bitbar-weather/raw/master/weather_preview.png</xbar.image>
 
 script_dir=$(dirname "$0")
 script_name=$(basename "$0")

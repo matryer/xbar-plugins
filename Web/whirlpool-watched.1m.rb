@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Whirlpool watched threads checker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tristan Harmer</bitbar.author>
-# <bitbar.author.github>gondalez</bitbar.author.github>
-# <bitbar.desc>List unread threads from your watch list</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Whirlpool watched threads checker</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tristan Harmer</xbar.author>
+# <xbar.author.github>gondalez</xbar.author.github>
+# <xbar.desc>List unread threads from your watch list</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 require 'json'
 require 'time'

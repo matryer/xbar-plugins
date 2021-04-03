@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Decred BTC price on Poloniex</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>James Hooker</bitbar.author>
-# <bitbar.author.github>g0blinResearch</bitbar.author.github>
-# <bitbar.desc>Shows the last Decred price (in BTC) on the Poloniex exchange</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/g0blinResearch/bitbar-decred-btc-poloniex/master/screenshot.png</bitbar.image>
+# <xbar.title>Decred BTC price on Poloniex</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>James Hooker</xbar.author>
+# <xbar.author.github>g0blinResearch</xbar.author.github>
+# <xbar.desc>Shows the last Decred price (in BTC) on the Poloniex exchange</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/g0blinResearch/bitbar-decred-btc-poloniex/master/screenshot.png</xbar.image>
 #
 # Credit goes to https://www.monero.how for the base of this plugin (see https://raw.githubusercontent.com/matryer/bitbar-plugins/master/Monero/monero-btc-poloniex.30s.sh)
 

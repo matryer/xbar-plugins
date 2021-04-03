@@ -1,14 +1,14 @@
 #!/usr/bin/env php
 <?php
 
-# <bitbar.title>Password Generator</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Adi</bitbar.author>
-# <bitbar.author.github>gomedia-adi</bitbar.author.github>
-# <bitbar.desc>Generates human-friendly strong passwords.</bitbar.desc>
-# <bitbar.image>http://www.greatoceanmedia.com.au/images/63.png</bitbar.image>
-# <bitbar.dependencies>php</bitbar.dependencies>
-# <bitbar.abouturl>http://www.greatoceanmedia.com.au/bitbar/password-bar</bitbar.abouturl>
+# <xbar.title>Password Generator</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Adi</xbar.author>
+# <xbar.author.github>gomedia-adi</xbar.author.github>
+# <xbar.desc>Generates human-friendly strong passwords.</xbar.desc>
+# <xbar.image>http://www.greatoceanmedia.com.au/images/63.png</xbar.image>
+# <xbar.dependencies>php</xbar.dependencies>
+# <xbar.abouturl>http://www.greatoceanmedia.com.au/bitbar/password-bar</xbar.abouturl>
 
 /*
 	BitBar plugin help: https:github.com/matryer/bitbar

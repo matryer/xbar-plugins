@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# <bitbar.title>Jenkins All Build Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Dan Rassi</bitbar.author>
-# <bitbar.author.github>drassi</bitbar.author.github>
-# <bitbar.desc>Show current status of *all* jobs on a Jenkins instance, colors indicating status of each build and overall status. Clicks navigate to console output of last build.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/ARJHMjy.png</bitbar.image>
-# <bitbar.dependencies>python,requests</bitbar.dependencies>
+# <xbar.title>Jenkins All Build Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Dan Rassi</xbar.author>
+# <xbar.author.github>drassi</xbar.author.github>
+# <xbar.desc>Show current status of *all* jobs on a Jenkins instance, colors indicating status of each build and overall status. Clicks navigate to console output of last build.</xbar.desc>
+# <xbar.image>http://i.imgur.com/ARJHMjy.png</xbar.image>
+# <xbar.dependencies>python,requests</xbar.dependencies>
 
 import sys
 import requests

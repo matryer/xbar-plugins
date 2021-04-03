@@ -2,14 +2,14 @@
 /* jshint esversion: 6 */
 
 /*
-<bitbar.title>BitBar Nightscout Plugin</bitbar.title>
-<bitbar.version>1.0</bitbar.version>
-<bitbar.author>Charlie Chrisman</bitbar.author>
-<bitbar.author.github>cachrisman</bitbar.author.github>
-<bitbar.desc>Gets the most recent reading and trend arrow from nightscout</bitbar.desc>
-<bitbar.image>https://raw.githubusercontent.com/cachrisman/bitbar-nightscout/master/screenshot.png</bitbar.image>
-<bitbar.dependencies>node, npm, npm/fs, npm/got</bitbar.dependencies>
-<bitbar.abouturl>https://github.com/cachrisman/bitbar-nightscout</bitbar.abouturl>
+<xbar.title>BitBar Nightscout Plugin</xbar.title>
+<xbar.version>1.0</xbar.version>
+<xbar.author>Charlie Chrisman</xbar.author>
+<xbar.author.github>cachrisman</xbar.author.github>
+<xbar.desc>Gets the most recent reading and trend arrow from nightscout</xbar.desc>
+<xbar.image>https://raw.githubusercontent.com/cachrisman/bitbar-nightscout/master/screenshot.png</xbar.image>
+<xbar.dependencies>node, npm, npm/fs, npm/got</xbar.dependencies>
+<xbar.abouturl>https://github.com/cachrisman/bitbar-nightscout</xbar.abouturl>
 */
 
 // user settings

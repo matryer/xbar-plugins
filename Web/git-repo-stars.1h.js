@@ -1,13 +1,13 @@
 #!/usr/local/bin/node
 /*
-* <bitbar.title>Github Repo Stars</bitbar.title>
-* <bitbar.version>v1.0</bitbar.version>
-* <bitbar.author>Varun Malhotra</bitbar.author>
-* <bitbar.author.github>softvar</bitbar.author.github>
-* <bitbar.image>http://varunmalhotra.xyz/media/images/bitbar-plugin-github-repos-stars.png</bitbar.image>
-* <bitbar.desc>Github repos stars and Emoji notification 🔔 on change in stars count</bitbar.desc>
-* <bitbar.dependencies>node</bitbar.dependencies>
-* <bitbar.abouturl>http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html</bitbar.abouturl>
+* <xbar.title>Github Repo Stars</xbar.title>
+* <xbar.version>v1.0</xbar.version>
+* <xbar.author>Varun Malhotra</xbar.author>
+* <xbar.author.github>softvar</xbar.author.github>
+* <xbar.image>http://varunmalhotra.xyz/media/images/bitbar-plugin-github-repos-stars.png</xbar.image>
+* <xbar.desc>Github repos stars and Emoji notification 🔔 on change in stars count</xbar.desc>
+* <xbar.dependencies>node</xbar.dependencies>
+* <xbar.abouturl>http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html</xbar.abouturl>
 */
 
 

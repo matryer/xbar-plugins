@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Currency Tracker</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Maxime Bertheau</bitbar.author>
-# <bitbar.author.github>maxoumime</bitbar.author.github>
-# <bitbar.desc>Keep an eye on the currencies you choose from your menu bar !</bitbar.desc>
-# <bitbar.image>https://nothingreally.botler.me/bitbar.currency-tracker.png</bitbar.image>
+# <xbar.title>Currency Tracker</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Maxime Bertheau</xbar.author>
+# <xbar.author.github>maxoumime</xbar.author.github>
+# <xbar.desc>Keep an eye on the currencies you choose from your menu bar !</xbar.desc>
+# <xbar.image>https://nothingreally.botler.me/bitbar.currency-tracker.png</xbar.image>
 
 import urllib2
 import json

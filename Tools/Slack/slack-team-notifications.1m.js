@@ -2,13 +2,13 @@
 /* jshint esversion: 8 */
 /* jshint asi: true */
 
-// <bitbar.title>Slack Team Notifications</bitbar.title>
-// <bitbar.version>v1.1.1</bitbar.version>
-// <bitbar.author>Benji Encalada Mora</bitbar.author>
-// <bitbar.author.github>benjifs</bitbar.author.github>
-// <bitbar.image>https://i.imgur.com/ORbsRBx.jpg</bitbar.image>
-// <bitbar.desc>Show notifications for Slack teams and channels with option to mark as read. See https://github.com/benjifs/bitbar-slack-team-notifications for configuration instructions.</bitbar.desc>
-// <bitbar.dependencies>node.js superagent</bitbar.dependencies>
+// <xbar.title>Slack Team Notifications</xbar.title>
+// <xbar.version>v1.1.1</xbar.version>
+// <xbar.author>Benji Encalada Mora</xbar.author>
+// <xbar.author.github>benjifs</xbar.author.github>
+// <xbar.image>https://i.imgur.com/ORbsRBx.jpg</xbar.image>
+// <xbar.desc>Show notifications for Slack teams and channels with option to mark as read. See https://github.com/benjifs/bitbar-slack-team-notifications for configuration instructions.</xbar.desc>
+// <xbar.dependencies>node.js superagent</xbar.dependencies>
 
 const request = require('superagent');
 const tokens = require('./.tokens.js');

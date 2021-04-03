@@ -3,13 +3,13 @@
 #
 # by Sai G (http://github.com/SaiG18)
 #
-# <bitbar.title>Lapse</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>SaiG18</bitbar.author>
-# <bitbar.author.github>SaiG18</bitbar.author.github>
-# <bitbar.desc>Progress Bar of Day, Week, Month, Year, and Life.</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>http://github.com/SaiG18/</bitbar.abouturl>
+# <xbar.title>Lapse</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>SaiG18</xbar.author>
+# <xbar.author.github>SaiG18</xbar.author.github>
+# <xbar.desc>Progress Bar of Day, Week, Month, Year, and Life.</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>http://github.com/SaiG18/</xbar.abouturl>
 
 
 #Design

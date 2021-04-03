@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Life Percentage</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Kerem Bozdaş</bitbar.author>
-# <bitbar.author.github>krmbzds</bitbar.author.github>
-# <bitbar.desc>Shows what percentage of life you have lived.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/DbXIhiS.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Life Percentage</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Kerem Bozdaş</xbar.author>
+# <xbar.author.github>krmbzds</xbar.author.github>
+# <xbar.desc>Shows what percentage of life you have lived.</xbar.desc>
+# <xbar.image>http://i.imgur.com/DbXIhiS.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 # BitBar Life Percentage plugin
 # by Kerem Bozdaş (@krmbzds)
