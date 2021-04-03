@@ -12,12 +12,10 @@
 # <xbar.image>https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/blob/main/images/slushpool-xbar-plugin.png</xbar.image>
 # <xbar.dependencies> node </xbar.dependencies >
 # <xbar.abouturl>https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/</xbar.abouturl>
-
-  This is an Xbar/Bitbar macOS menu plugin which provided with a SLUSHPOOL API_KEY with at least ACCESS READ-ONLY will provide your hash rate statistic, mining proceeds unconfirmed, confirmed, expected proceeds and details about your workers including OK, OFF, and disconnectd. Additional information regarding your participation pool is provided but specifically not used in this plugin however it would be trival to do so. 
-
-  Apparently using node.js as the scripting language for Xbar is somewhat touchy, so I went with the most vanilla inplementation and foregoing the npm package of bitbar. Additionally, I have left a working READ-ONLY key of a handful of workers as to provide a better experience of someone seeking to use this plugin before replacing or modifying information with their own. 
-
-  Obviously, there is no support, or interest to ever touching this script again. But you are welcome to do whatever you want with it. 
+#
+# This is an Xbar/Bitbar macOS menu plugin which provided with a SLUSHPOOL API_KEY with at least ACCESS READ-ONLY will provide your hash rate statistic, mining proceeds unconfirmed, confirmed, expected proceeds and details about your workers including OK, OFF, and disconnectd. Additional information regarding your participation pool is provided but specifically not used in this plugin however it would be trival to do so. 
+# Apparently using node.js as the scripting language for Xbar is somewhat touchy, so I went with the most vanilla inplementation and foregoing the npm package of bitbar. Additionally, I have left a working READ-ONLY key of a handful of workers as to provide a better experience of someone seeking to use this plugin before replacing or modifying information with their own. 
+# This plugin is not supported. Please use at your own risk.
 */
 
 const https = require('https');
