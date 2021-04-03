@@ -8,7 +8,7 @@
 # < xbar.author >Mark Phillips</xbar.author >
 # < xbar.author.github >pleasemarkdarkly </xbar.author.github >
 # < xbar.desc > Displays Slushpool Account/Worker Stats </xbar.desc >
-# < xbar.image > https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/blob/main/images/slushpool-xbar-plugin.png </xbar.image>
+# < xbar.image > https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/blob/main/images/slushpool-xbar-plugin.png?raw=true </xbar.image>
 # < xbar.dependencies > node </xbar.dependencies >
 # < xbar.abouturl > https://github.com/pleasemarkdarkly/slushpool-xbar-plugin/ </xbar.abouturl>
 
