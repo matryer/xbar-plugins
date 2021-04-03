@@ -1,14 +1,14 @@
 #!/usr/bin/php
 <?php
 
-// <bitbar.title>Pantheon - List Sites</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Dave Wikoff</bitbar.author>
-// <bitbar.author.github>derimagia</bitbar.author.github>
-// <bitbar.desc>List and manage all of your sites you are on in Pantheon.</bitbar.desc>
-// <bitbar.dependencies>php, terminus</bitbar.dependencies>
-// <bitbar.image>https://i.imgur.com/VYBizXY.png</bitbar.image>
-// <bitbar.abouturl>https://github.com/derimagia/pantheon-bitbar</bitbar.abouturl>
+// <xbar.title>Pantheon - List Sites</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Dave Wikoff</xbar.author>
+// <xbar.author.github>derimagia</xbar.author.github>
+// <xbar.desc>List and manage all of your sites you are on in Pantheon.</xbar.desc>
+// <xbar.dependencies>php, terminus</xbar.dependencies>
+// <xbar.image>https://i.imgur.com/VYBizXY.png</xbar.image>
+// <xbar.abouturl>https://github.com/derimagia/pantheon-bitbar</xbar.abouturl>
 
 define('TERMINUS_PATH', '/usr/local/bin/terminus');
 define('CONFIG_PATH', '/tmp/pantheon-list-sites-config.json');

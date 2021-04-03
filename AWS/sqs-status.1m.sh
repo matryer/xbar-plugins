@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>Amazon SQS Queue Status</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Brandon Stilson</bitbar.author>
-# <bitbar.author.github>bbstilson</bitbar.author.github>
-# <bitbar.desc>Shows current queue stats for specified AWS SQS queues. Updates every minute.</bitbar.desc>
-# <bitbar.dependencies>awscli,jq</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/UFhXIL5.png</bitbar.image>
+# <xbar.title>Amazon SQS Queue Status</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Brandon Stilson</xbar.author>
+# <xbar.author.github>bbstilson</xbar.author.github>
+# <xbar.desc>Shows current queue stats for specified AWS SQS queues. Updates every minute.</xbar.desc>
+# <xbar.dependencies>awscli,jq</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/UFhXIL5.png</xbar.image>
 
 # Dependencies:
 #   awscli (https://aws.amazon.com/cli/)

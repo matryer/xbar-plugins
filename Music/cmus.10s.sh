@@ -8,12 +8,12 @@
 # Choose to launch cmus in iTerm2 (version 2.9.20150414+ only) or Terminal
 #
 # Metadata:
-# <bitbar.title>Cmus Now Playing</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Michael Chris Lopez</bitbar.author>
-# <bitbar.author.github>mcchrish</bitbar.author.github>
-# <bitbar.desc>Displays currently playing song from cmus. Control cmus in menubar.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/qeZCB0a.png</bitbar.image>
+# <xbar.title>Cmus Now Playing</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Michael Chris Lopez</xbar.author>
+# <xbar.author.github>mcchrish</xbar.author.github>
+# <xbar.desc>Displays currently playing song from cmus. Control cmus in menubar.</xbar.desc>
+# <xbar.image>https://i.imgur.com/qeZCB0a.png</xbar.image>
 
 export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 

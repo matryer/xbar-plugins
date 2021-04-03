@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>Power Wattage</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>vxider</bitbar.author>
-# <bitbar.author.github>vxider</bitbar.author.github>
-# <bitbar.desc>The AC power adapter wattage for macos</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/4N0xk1g.jpg</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>Power Wattage</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>vxider</xbar.author>
+# <xbar.author.github>vxider</xbar.author.github>
+# <xbar.desc>The AC power adapter wattage for macos</xbar.desc>
+# <xbar.image>https://i.imgur.com/4N0xk1g.jpg</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 power_wattage="$(/usr/sbin/system_profiler SPPowerDataType | grep "Wattage (W)" | awk "{print \$3\"W\"}")"
 

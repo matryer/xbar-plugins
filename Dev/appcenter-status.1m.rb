@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Appcenter Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Rishabh Tayal</bitbar.author>
-# <bitbar.desc>Get status for all your Appcenter apps</bitbar.desc>
-# <bitbar.author.github>rishabhtayal</bitbar.author.github>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Appcenter Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Rishabh Tayal</xbar.author>
+# <xbar.desc>Get status for all your Appcenter apps</xbar.desc>
+# <xbar.author.github>rishabhtayal</xbar.author.github>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 require 'json'
 require 'uri'

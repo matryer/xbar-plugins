@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Disk Usage</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ganesh V</bitbar.author>
-# <bitbar.author.github>ganeshv</bitbar.author.github>
-# <bitbar.desc>Disk usage statistics</bitbar.desc>
-# <bitbar.image>https://raw.github.com/ganeshv/mtop/master/screenshots/mdf2.jpg</bitbar.image>
-# <bitbar.about>https://github.com/ganeshv/mtop</bitbar.about>
+# <xbar.title>Disk Usage</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ganesh V</xbar.author>
+# <xbar.author.github>ganeshv</xbar.author.github>
+# <xbar.desc>Disk usage statistics</xbar.desc>
+# <xbar.image>https://raw.github.com/ganeshv/mtop/master/screenshots/mdf2.jpg</xbar.image>
+# <xbar.about>https://github.com/ganeshv/mtop</xbar.about>
 
 # Bash builtins are used as much as possible to reduce performance impact.
 

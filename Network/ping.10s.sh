@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>ping</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Trung Đinh Quang, Grant Sherrick and Kent Karlsson</bitbar.author>
-# <bitbar.author.github>thealmightygrant</bitbar.author.github>
-# <bitbar.desc>Sends pings to a range of sites to determine network latency</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/lk3iGat.png?1</bitbar.image>
-# <bitbar.dependencies>ping</bitbar.dependencies>
+# <xbar.title>ping</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Trung Đinh Quang, Grant Sherrick and Kent Karlsson</xbar.author>
+# <xbar.author.github>thealmightygrant</xbar.author.github>
+# <xbar.desc>Sends pings to a range of sites to determine network latency</xbar.desc>
+# <xbar.image>http://i.imgur.com/lk3iGat.png?1</xbar.image>
+# <xbar.dependencies>ping</xbar.dependencies>
 
 # This is a plugin of Bitbar
 # https://github.com/matryer/bitbar

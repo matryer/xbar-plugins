@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Firewall</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Eddie A Tejeda</bitbar.author>
-# <bitbar.author.github>eddietejeda</bitbar.author.github>
-# <bitbar.desc>This plugin displays the status of the firewall.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/MOBK8cK.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Firewall</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Eddie A Tejeda</xbar.author>
+# <xbar.author.github>eddietejeda</xbar.author.github>
+# <xbar.desc>This plugin displays the status of the firewall.</xbar.desc>
+# <xbar.image>http://i.imgur.com/MOBK8cK.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 enabled=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate);
 

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Mac-Mux</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.image>https://i.imgur.com/7vjC2UU.jpg</bitbar.image>
-# <bitbar.author>etopiei</bitbar.author>
-# <bitbar.author.github>etopiei</bitbar.author.github>
-# <bitbar.desc>This plugin makes it wasy to manage tmux from the menu bar.</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Mac-Mux</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.image>https://i.imgur.com/7vjC2UU.jpg</xbar.image>
+# <xbar.author>etopiei</xbar.author>
+# <xbar.author.github>etopiei</xbar.author.github>
+# <xbar.desc>This plugin makes it wasy to manage tmux from the menu bar.</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 # shellcheck source=/dev/null
 source ~/.bash_profile

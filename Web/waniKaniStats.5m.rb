@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# <bitbar.title>WaniKani Stats</bitbar.title>
-# <bitbar.version>v0.2.0</bitbar.version>
-# <bitbar.author>Nzebo</bitbar.author>
-# <bitbar.author.github>Nzebo</bitbar.author.github>
-# <bitbar.desc>Displays user details & review + lesson tracking for WaniKani.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/orRd3Ga.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>WaniKani Stats</xbar.title>
+# <xbar.version>v0.2.0</xbar.version>
+# <xbar.author>Nzebo</xbar.author>
+# <xbar.author.github>Nzebo</xbar.author.github>
+# <xbar.desc>Displays user details & review + lesson tracking for WaniKani.</xbar.desc>
+# <xbar.image>https://i.imgur.com/orRd3Ga.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 require 'net/http'
 require 'json'

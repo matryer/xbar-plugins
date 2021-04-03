@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>Heroku List List</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Cody Brumfield</bitbar.author>
-# <bitbar.author.github>cody1213</bitbar.author.github>
-# <bitbar.desc>Lists Heroku apps with links to both the live version and, while holding ALT/OPTION, the Heroku dashboard page).</bitbar.desc>
-# <bitbar.dependencies>heroku-toolbelt</bitbar.dependencies>
+# <xbar.title>Heroku List List</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Cody Brumfield</xbar.author>
+# <xbar.author.github>cody1213</xbar.author.github>
+# <xbar.desc>Lists Heroku apps with links to both the live version and, while holding ALT/OPTION, the Heroku dashboard page).</xbar.desc>
+# <xbar.dependencies>heroku-toolbelt</xbar.dependencies>
 
 #If your Heroku Toolbelt command isn't /usr/local/bin/heroku, change it here:
 heroku_cmd="/usr/local/bin/heroku"

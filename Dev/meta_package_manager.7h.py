@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Meta Package Manager</bitbar.title>
-# <bitbar.version>v2.5.0</bitbar.version>
-# <bitbar.author>Kevin Deldycke</bitbar.author>
-# <bitbar.author.github>kdeldycke</bitbar.author.github>
-# <bitbar.desc>List outdated packages and manage upgrades.</bitbar.desc>
-# <bitbar.dependencies>python,mpm</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/CiQpQ42.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/kdeldycke/meta-package-manager</bitbar.abouturl>
+# <xbar.title>Meta Package Manager</xbar.title>
+# <xbar.version>v2.5.0</xbar.version>
+# <xbar.author>Kevin Deldycke</xbar.author>
+# <xbar.author.github>kdeldycke</xbar.author.github>
+# <xbar.desc>List outdated packages and manage upgrades.</xbar.desc>
+# <xbar.dependencies>python,mpm</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/CiQpQ42.png</xbar.image>
+# <xbar.abouturl>https://github.com/kdeldycke/meta-package-manager</xbar.abouturl>
 
 """
 Bitbar plugin for Meta Package Manager (a.k.a. the :command:`mpm` CLI).

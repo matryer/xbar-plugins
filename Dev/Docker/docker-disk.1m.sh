@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Docker disk usage</bitbar.title>
-# <bitbar.version>v0.0.1</bitbar.version>
-# <bitbar.author>Horatiu Ion</bitbar.author>
-# <bitbar.author.github>Link512</bitbar.author.github>
-# <bitbar.desc>Shows docker disk usage (via docker system df).</bitbar.desc>
-# <bitbar.dependencies>bash,docker</bitbar.dependencies>
+# <xbar.title>Docker disk usage</xbar.title>
+# <xbar.version>v0.0.1</xbar.version>
+# <xbar.author>Horatiu Ion</xbar.author>
+# <xbar.author.github>Link512</xbar.author.github>
+# <xbar.desc>Shows docker disk usage (via docker system df).</xbar.desc>
+# <xbar.dependencies>bash,docker</xbar.dependencies>
 #
 # Docker disk usage plugin
 #

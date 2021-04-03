@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Stopwatch</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Tim Baumgard</bitbar.author>
-# <bitbar.author.github>tbaumgard</bitbar.author.github>
-# <bitbar.desc>Simple stopwatch for BitBar.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/tbaumgard/tbaumgard.github.io/master/_/img/bitbar-stopwatch.png</bitbar.image>
+# <xbar.title>Stopwatch</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Tim Baumgard</xbar.author>
+# <xbar.author.github>tbaumgard</xbar.author.github>
+# <xbar.desc>Simple stopwatch for BitBar.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/tbaumgard/tbaumgard.github.io/master/_/img/bitbar-stopwatch.png</xbar.image>
 
 ### Configuration
 

@@ -8,12 +8,12 @@
 # Turkel (daturkel@gmail.com) 
 
 # metadata
-# <bitbar.title>iTunes Rating</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sebastian Winkler, Dan Turkel</bitbar.author>
-# <bitbar.author.github>sw82</bitbar.author.github>
-# <bitbar.desc>Display currently rating from iTunes song and modify it.</bitbar.desc>
-# <bitbar.image>http://www.mindfuckbox.com/wp-content/uploads/2016/01/iTunes_Rating.png</bitbar.image>
+# <xbar.title>iTunes Rating</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sebastian Winkler, Dan Turkel</xbar.author>
+# <xbar.author.github>sw82</xbar.author.github>
+# <xbar.desc>Display currently rating from iTunes song and modify it.</xbar.desc>
+# <xbar.image>http://www.mindfuckbox.com/wp-content/uploads/2016/01/iTunes_Rating.png</xbar.image>
 
 
 if [ "$1" = 'launch' ]; then

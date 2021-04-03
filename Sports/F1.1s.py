@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# <bitbar.title>F1 Countdown</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>DE</bitbar.author>
-# <bitbar.author.github>destroy-everything</bitbar.author.github>
-# <bitbar.desc>Shows countdown to next F1 event normalised to UTC.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/3232EJx.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>F1 Countdown</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>DE</xbar.author>
+# <xbar.author.github>destroy-everything</xbar.author.github>
+# <xbar.desc>Shows countdown to next F1 event normalised to UTC.</xbar.desc>
+# <xbar.image>http://i.imgur.com/3232EJx.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 #SETUP INSTRUCTIONS
 # 1:

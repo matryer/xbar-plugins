@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Weather</bitbar.title>
-# <bitbar.version>v3.5.0</bitbar.version>
-# <bitbar.author>Daniel Seripap</bitbar.author>
-# <bitbar.author.github>seripap</bitbar.author.github>
-# <bitbar.desc>Detailed weather plugin powered by DarkSky with auto location lookup. Supports metric and imperial units. Needs API key from https://darksky.net/dev/.</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/683200/16276583/ff267f36-387c-11e6-9fd0-fc57b459e967.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Weather</xbar.title>
+# <xbar.version>v3.5.0</xbar.version>
+# <xbar.author>Daniel Seripap</xbar.author>
+# <xbar.author.github>seripap</xbar.author.github>
+# <xbar.desc>Detailed weather plugin powered by DarkSky with auto location lookup. Supports metric and imperial units. Needs API key from https://darksky.net/dev/.</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/683200/16276583/ff267f36-387c-11e6-9fd0-fc57b459e967.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 
 # -----------------------------------------------------------------------------------

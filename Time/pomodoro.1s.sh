@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# <bitbar.title>Pomodoro Timer</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Goran Gajic</bitbar.author>
-# <bitbar.author.github>gorangajic</bitbar.author.github>
-# <bitbar.desc>Pomodoro Timer that uses Pomodoro Technique™</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/T0zFY89.png</bitbar.image>
+# <xbar.title>Pomodoro Timer</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Goran Gajic</xbar.author>
+# <xbar.author.github>gorangajic</xbar.author.github>
+# <xbar.desc>Pomodoro Timer that uses Pomodoro Technique™</xbar.desc>
+# <xbar.image>http://i.imgur.com/T0zFY89.png</xbar.image>
 
 WORK_TIME=25
 BREAK_TIME=3

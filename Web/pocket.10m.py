@@ -1,13 +1,13 @@
 #!/usr/bin/env -S PATH="${PATH}:/usr/local/bin" python3
 
-# <bitbar.title>Pocket Bar</bitbar.title>
-# <bitbar.version>v1.6.1</bitbar.version>
-# <bitbar.author>Sergey Shlyapugin</bitbar.author>
-# <bitbar.author.github>inbalboa</bitbar.author.github>
-# <bitbar.desc>Basic Pocket client.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/XQnh7US.png</bitbar.image>
-# <bitbar.dependencies>python3,pocket-api,keyring</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/inbalboa/pocketbar</bitbar.abouturl>
+# <xbar.title>Pocket Bar</xbar.title>
+# <xbar.version>v1.6.1</xbar.version>
+# <xbar.author>Sergey Shlyapugin</xbar.author>
+# <xbar.author.github>inbalboa</xbar.author.github>
+# <xbar.desc>Basic Pocket client.</xbar.desc>
+# <xbar.image>https://i.imgur.com/XQnh7US.png</xbar.image>
+# <xbar.dependencies>python3,pocket-api,keyring</xbar.dependencies>
+# <xbar.abouturl>https://github.com/inbalboa/pocketbar</xbar.abouturl>
 
 from argparse import ArgumentParser
 from dataclasses import dataclass

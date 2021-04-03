@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# <bitbar.title>UptimeRobot Monitor</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Rodrigo Brito</bitbar.author>
-# <bitbar.author.github>rodrigo-brito</bitbar.author.github>
-# <bitbar.desc>Show UptimeRobot status</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/rodrigobrito/uptimerobot-bitbar</bitbar.abouturl>
+# <xbar.title>UptimeRobot Monitor</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Rodrigo Brito</xbar.author>
+# <xbar.author.github>rodrigo-brito</xbar.author.github>
+# <xbar.desc>Show UptimeRobot status</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/rodrigobrito/uptimerobot-bitbar</xbar.abouturl>
 #
 # by Rodrigo Brito
 

@@ -1,11 +1,11 @@
 #!/usr/bin/perl -w
-# <bitbar.title>Gmail Checker Improved</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author.github>axeloz</bitbar.author.github>
-# <bitbar.author>Axel</bitbar.author>
-# <bitbar.desc>Gmail unread emails checker.</bitbar.desc>
-# <bitbar.dependencies>perl,gmail</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/gYYJB7U.png</bitbar.image>
+# <xbar.title>Gmail Checker Improved</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author.github>axeloz</xbar.author.github>
+# <xbar.author>Axel</xbar.author>
+# <xbar.desc>Gmail unread emails checker.</xbar.desc>
+# <xbar.dependencies>perl,gmail</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/gYYJB7U.png</xbar.image>
 
 use strict;
 use LWP::Simple;

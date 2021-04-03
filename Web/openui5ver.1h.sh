@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>OpenUI5 Latest Version Display</bitbar.title>
-# <bitbar.author>DJ Adams</bitbar.author>
-# <bitbar.author.github>qmacro</bitbar.author.github>
-# <bitbar.image>https://i.imgur.com/5GVxySB.png</bitbar.image>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>OpenUI5 Latest Version Display</xbar.title>
+# <xbar.author>DJ Adams</xbar.author>
+# <xbar.author.github>qmacro</xbar.author.github>
+# <xbar.image>https://i.imgur.com/5GVxySB.png</xbar.image>
+# <xbar.version>1.0</xbar.version>
 
 # OpenUI5 Latest Version Display
 # BitBar plugin

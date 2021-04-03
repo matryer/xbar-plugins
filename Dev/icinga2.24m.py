@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 #
-# <bitbar.title>Icinga2 Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Mario Mann</bitbar.author>
-# <bitbar.author.github>mariomann</bitbar.author.github>
-# <bitbar.desc>Displays the amount of Service with state OK, WARNING, CRITICAL and UNKNOWN</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/mariomann/pictures/master/icinga2-api.png</bitbar.image>
-# <bitbar.dependencies>python, icinga2, icinga2-api</bitbar.dependencies>
-# <bitbar.abouturl>http://docs.icinga.org/icinga2/snapshot/doc/module/icinga2/chapter/icinga2-api</bitbar.abouturl>
+# <xbar.title>Icinga2 Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Mario Mann</xbar.author>
+# <xbar.author.github>mariomann</xbar.author.github>
+# <xbar.desc>Displays the amount of Service with state OK, WARNING, CRITICAL and UNKNOWN</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/mariomann/pictures/master/icinga2-api.png</xbar.image>
+# <xbar.dependencies>python, icinga2, icinga2-api</xbar.dependencies>
+# <xbar.abouturl>http://docs.icinga.org/icinga2/snapshot/doc/module/icinga2/chapter/icinga2-api</xbar.abouturl>
 
 import requests, json
 

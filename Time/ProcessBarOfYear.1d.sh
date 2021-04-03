@@ -4,14 +4,14 @@
 #
 # by Cnfn (http://github.com/cnfn)
 #
-# <bitbar.title>Process Bar of Year</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Cnfn</bitbar.author>
-# <bitbar.author.github>cnfn</bitbar.author.github>
-# <bitbar.desc>Process Bar of Year: Dividing the year into 100 pieces. More info: https://github.com/cnfn/BitBarPlugins/tree/master/ProcessBarOfYear</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_process_bar_of_year.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cnfn/BitBarPlugins/tree/master/ProcessBarOfYear</bitbar.abouturl>
+# <xbar.title>Process Bar of Year</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Cnfn</xbar.author>
+# <xbar.author.github>cnfn</xbar.author.github>
+# <xbar.desc>Process Bar of Year: Dividing the year into 100 pieces. More info: https://github.com/cnfn/BitBarPlugins/tree/master/ProcessBarOfYear</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/cnfn/grocery/master/images/blog/bitbar_plugin_process_bar_of_year.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/cnfn/BitBarPlugins/tree/master/ProcessBarOfYear</xbar.abouturl>
 
 get_total_days_of_year() {
 	year=$1

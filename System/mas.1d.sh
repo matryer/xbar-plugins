@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Mac App Store</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>iosdeveloper</bitbar.author>
-# <bitbar.author.github>iosdeveloper</bitbar.author.github>
-# <bitbar.desc>Lists available updates from the Mac App Store using mas-cli (https://github.com/argon/mas). Based on brew-updates.1h.sh</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/yPeXDAj.png</bitbar.image>
-# <bitbar.dependencies>mas</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/mas.1d.sh</bitbar.abouturl>
+# <xbar.title>Mac App Store</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>iosdeveloper</xbar.author>
+# <xbar.author.github>iosdeveloper</xbar.author.github>
+# <xbar.desc>Lists available updates from the Mac App Store using mas-cli (https://github.com/argon/mas). Based on brew-updates.1h.sh</xbar.desc>
+# <xbar.image>http://i.imgur.com/yPeXDAj.png</xbar.image>
+# <xbar.dependencies>mas</xbar.dependencies>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/mas.1d.sh</xbar.abouturl>
 
 if test "$(which /usr/local/bin/mas)" 2> /dev/null; then
   UPDATES=$(/usr/local/bin/mas outdated);

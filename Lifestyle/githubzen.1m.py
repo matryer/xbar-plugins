@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>GitHub Zen</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Josh</bitbar.author>
-# <bitbar.author.github>andjosh</bitbar.author.github>
-# <bitbar.desc>GitHub zen in your menu bar!</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/U4OHxDm.png</bitbar.image>
+# <xbar.title>GitHub Zen</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Josh</xbar.author>
+# <xbar.author.github>andjosh</xbar.author.github>
+# <xbar.desc>GitHub zen in your menu bar!</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/U4OHxDm.png</xbar.image>
 
 import urllib2
 import os

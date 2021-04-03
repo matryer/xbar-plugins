@@ -7,14 +7,14 @@
 MB_KEY=""
 # ----------------------------------------------------------------
 
-# <bitbar.title>Machine Box</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Machina</bitbar.author>
-# <bitbar.author.github>machinabot</bitbar.author.github>
-# <bitbar.desc>Easily start and stop Machine Box boxes.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/gkOYSWH.png</bitbar.image>
-# <bitbar.dependencies>bash,jq,docker</bitbar.dependencies>
-# <bitbar.abouturl>https://machinebox.io/?source=bitbar</bitbar.abouturl>
+# <xbar.title>Machine Box</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Machina</xbar.author>
+# <xbar.author.github>machinabot</xbar.author.github>
+# <xbar.desc>Easily start and stop Machine Box boxes.</xbar.desc>
+# <xbar.image>http://i.imgur.com/gkOYSWH.png</xbar.image>
+# <xbar.dependencies>bash,jq,docker</xbar.dependencies>
+# <xbar.abouturl>https://machinebox.io/?source=bitbar</xbar.abouturl>
 
 export PATH="$PATH:/usr/local/bin"
 command -v jq >/dev/null 2>&1 || { echo >&2 "Click to install jq command... | href=https://stedolan.github.io/jq/?source=bitbar"; exit 0; }

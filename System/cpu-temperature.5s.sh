@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>CPU Temperature</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Eric Ripa</bitbar.author>
-# <bitbar.author.github>eripa</bitbar.author.github>
-# <bitbar.desc>This plugin displays the current CPU temperature (requires external 'smc' binary)</bitbar.desc>
-# <bitbar.dependencies>smc</bitbar.dependencies>
+# <xbar.title>CPU Temperature</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Eric Ripa</xbar.author>
+# <xbar.author.github>eripa</xbar.author.github>
+# <xbar.desc>This plugin displays the current CPU temperature (requires external 'smc' binary)</xbar.desc>
+# <xbar.dependencies>smc</xbar.dependencies>
 #
 # 'smc' can be downloaded from: http://www.eidac.de/smcfancontrol/smcfancontrol_2_4.zip
 # One-liner:

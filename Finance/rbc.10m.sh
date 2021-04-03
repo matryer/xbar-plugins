@@ -8,13 +8,13 @@
 #   pup - github.com/EricChiang/pup
 #   curl - curl.haxx.se
 # They should be added in PATH
-# <bitbar.title>RBC Stock/Currency tracker</bitbar.title>
-# <bitbar.author>schmooser</bitbar.author>
-# <bitbar.author.github>schmooser</bitbar.author.github>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/480160/12206066/ee9db3be-b64f-11e5-96ae-11f7678cb905.png</bitbar.image>
-# <bitbar.desc>russian stock-market indicators from rbc.ru</bitbar.desc>
-# <bitbar.dependencies>jq,pup,curl</bitbar.dependencies>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>RBC Stock/Currency tracker</xbar.title>
+# <xbar.author>schmooser</xbar.author>
+# <xbar.author.github>schmooser</xbar.author.github>
+# <xbar.image>https://cloud.githubusercontent.com/assets/480160/12206066/ee9db3be-b64f-11e5-96ae-11f7678cb905.png</xbar.image>
+# <xbar.desc>russian stock-market indicators from rbc.ru</xbar.desc>
+# <xbar.dependencies>jq,pup,curl</xbar.dependencies>
+# <xbar.version>1.0</xbar.version>
 
 export PATH=/usr/local/bin:~/Applications/go/bin:$PATH
 json=$(curl -s -L http://rbc.ru | pup '.indicators__items json{}')

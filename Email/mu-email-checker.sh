@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Mu Email Checker</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
-# <bitbar.author>Andrew Sanchez</bitbar.author>
-# <bitbar.author.github>andrewsanchez</bitbar.author.github>
-# <bitbar.desc>Displays results of basic mu find commands</bitbar.desc>
-# <bitbar.image>http://i67.tinypic.com/104pa1w.png</bitbar.image>
+# <xbar.title>Mu Email Checker</xbar.title>
+# <xbar.version>v1.0.1</xbar.version>
+# <xbar.author>Andrew Sanchez</xbar.author>
+# <xbar.author.github>andrewsanchez</xbar.author.github>
+# <xbar.desc>Displays results of basic mu find commands</xbar.desc>
+# <xbar.image>http://i67.tinypic.com/104pa1w.png</xbar.image>
 
 # Count total number of emails in inbox, unread mail and drafts indexed with mu
 # Also includes the output for unread emails in the drop down menu

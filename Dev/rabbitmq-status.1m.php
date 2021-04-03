@@ -1,12 +1,12 @@
 #!/usr/bin/env  php
 <?php
-# <bitbar.title>RabbitMQ Status</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Yann Milin</bitbar.author>
-# <bitbar.author.github>ymilin</bitbar.author.github>
-# <bitbar.desc>Keep an eye on your RabbitMQ server status from your menu bar !</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Gz8FCJL.png</bitbar.image>
-# <bitbar.dependencies>php >= 5.4.0</bitbar.dependencies>
+# <xbar.title>RabbitMQ Status</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Yann Milin</xbar.author>
+# <xbar.author.github>ymilin</xbar.author.github>
+# <xbar.desc>Keep an eye on your RabbitMQ server status from your menu bar !</xbar.desc>
+# <xbar.image>http://i.imgur.com/Gz8FCJL.png</xbar.image>
+# <xbar.dependencies>php >= 5.4.0</xbar.dependencies>
 # 
 # RabbitMQ management plugin must be activated on server https://www.rabbitmq.com/management.html
 # RabbitMQ Management HTTP API documentation https://raw.githack.com/rabbitmq/rabbitmq-management/rabbitmq_v3_6_0/priv/www/api/index.html

@@ -3,13 +3,13 @@
 
 # Bitbar plugin showing number of connected players on a Minecraft server
 
-# <bitbar.title>Minecraft connected players</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Páll Hilmarsson</bitbar.author>
-# <bitbar.author.github>pallih</bitbar.author.github>
-# <bitbar.desc>Displays number of connected players on a Minecraft server</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/ImBlVHD.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Minecraft connected players</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Páll Hilmarsson</xbar.author>
+# <xbar.author.github>pallih</xbar.author.github>
+# <xbar.desc>Displays number of connected players on a Minecraft server</xbar.desc>
+# <xbar.image>http://i.imgur.com/ImBlVHD.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 # Heavily based on https://github.com/Fanobii/minestatus-checker
 

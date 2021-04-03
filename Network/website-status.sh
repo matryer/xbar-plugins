@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>website-status</bitbar.title>
-# <bitbar.author>Marc Oehler</bitbar.author>
-# <bitbar.author.github>kemar220</bitbar.author.github>
-# <bitbar.desc>Gets the status of your website</bitbar.desc>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>website-status</xbar.title>
+# <xbar.author>Marc Oehler</xbar.author>
+# <xbar.author.github>kemar220</xbar.author.github>
+# <xbar.desc>Gets the status of your website</xbar.desc>
+# <xbar.version>1.0</xbar.version>
 
 url='http://www.kemar.ch' # replace with your url
 

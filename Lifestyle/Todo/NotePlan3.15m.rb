@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>Todo Today for NotePlan v3</bitbar.title>
-# <bitbar.version>v2.2</bitbar.version>
-# <bitbar.author>Jonathan Clark</bitbar.author>
-# <bitbar.author.github>jgclark</bitbar.author.github>
-# <bitbar.desc>A todo list taken from NotePlan v3 and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo.NotePlan" by Richard Guay which in turn was based on "Todo Colour" plugin by Srdgh.</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.image>https://noteplan.co/static/icon-aef6fdb335c829b1363315ef21c3146d.png</bitbar.image>
-# <bitbar.abouturl>https://noteplan.co/</bitbar.abouturl>
+# <xbar.title>Todo Today for NotePlan v3</xbar.title>
+# <xbar.version>v2.2</xbar.version>
+# <xbar.author>Jonathan Clark</xbar.author>
+# <xbar.author.github>jgclark</xbar.author.github>
+# <xbar.desc>A todo list taken from NotePlan v3 and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo.NotePlan" by Richard Guay which in turn was based on "Todo Colour" plugin by Srdgh.</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.image>https://noteplan.co/static/icon-aef6fdb335c829b1363315ef21c3146d.png</xbar.image>
+# <xbar.abouturl>https://noteplan.co/</xbar.abouturl>
 #
 # Modifications by Jonathan Clark
 #   v2.2, 2021/01/29:

@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>ETH Gas Price</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
-# <bitbar.author>Biran Yucel</bitbar.author>
-# <bitbar.author.github>biranyucel</bitbar.author.github>
-# <bitbar.desc>ETH GasPrice forecast system.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/f1hPKO2.png</bitbar.image>
-# <bitbar.abouturl>https://www.gasnow.org/</bitbar.abouturl>
+# <xbar.title>ETH Gas Price</xbar.title>
+# <xbar.version>v1.0.1</xbar.version>
+# <xbar.author>Biran Yucel</xbar.author>
+# <xbar.author.github>biranyucel</xbar.author.github>
+# <xbar.desc>ETH GasPrice forecast system.</xbar.desc>
+# <xbar.image>https://i.imgur.com/f1hPKO2.png</xbar.image>
+# <xbar.abouturl>https://www.gasnow.org/</xbar.abouturl>
 #
 #ETH GasPrice forecast system based on SparkPool Pending Transaction Mempool
 

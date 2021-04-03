@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>Backlog Show My Task</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>hikouki</bitbar.author>
-# <bitbar.author.github>hikouki</bitbar.author.github>
-# <bitbar.desc>Show Backlog open ticket for mine</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/hikouki/bitbar-backlog/master/preview.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/hikouki</bitbar.abouturl>
+# <xbar.title>Backlog Show My Task</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>hikouki</xbar.author>
+# <xbar.author.github>hikouki</xbar.author.github>
+# <xbar.desc>Show Backlog open ticket for mine</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/hikouki/bitbar-backlog/master/preview.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://github.com/hikouki</xbar.abouturl>
 
 require 'net/http'
 require 'uri'
