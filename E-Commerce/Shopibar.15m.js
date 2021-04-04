@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 
 /*
- * <bitbar.title>Shopibar</bitbar.title>
- * <bitbar.version>v1.0.1</bitbar.version>
- * <bitbar.author>Etka Özdemir</bitbar.author>
- * <bitbar.author.github>m-etka</bitbar.author.github>
- * <bitbar.image>http://i.imgur.com/Dt499Nh.png</bitbar.image>
- * <bitbar.desc>Shopify Admin Plugin for BitBar</bitbar.desc>
- * <bitbar.dependencies>node</bitbar.dependencies>
+ * <xbar.title>Shopibar</xbar.title>
+ * <xbar.version>v1.0.1</xbar.version>
+ * <xbar.author>Etka Özdemir</xbar.author>
+ * <xbar.author.github>m-etka</xbar.author.github>
+ * <xbar.image>http://i.imgur.com/Dt499Nh.png</xbar.image>
+ * <xbar.desc>Shopify Admin Plugin for BitBar</xbar.desc>
+ * <xbar.dependencies>node</xbar.dependencies>
  *
  */
 

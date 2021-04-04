@@ -9,22 +9,21 @@
 # Make sure you have spotctl installed and configured.
 
 # metadata
-# <bitbar.title>Spotify Now Playing (via spotctl)</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Igor Borges</bitbar.author>
-# <bitbar.author.github>Igor1201</bitbar.author.github>
-# <bitbar.desc>Display currently playing Spotify song using spotctl. Play/pause, skip forward, skip backward.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/zAGFguy.png</bitbar.image>
+# <xbar.title>Spotify Now Playing (via spotctl)</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Igor Borges</xbar.author>
+# <xbar.author.github>Igor1201</xbar.author.github>
+# <xbar.desc>Display currently playing Spotify song using spotctl. Play/pause, skip forward, skip backward.</xbar.desc>
+# <xbar.image>https://i.imgur.com/zAGFguy.png</xbar.image>
 
 # That's "$(brew --prefix)/bin" path, but we don't have brew on the $PATH to run it ¯\_(ツ)_/¯
 export PATH="$PATH:/usr/local/bin"
 
 function shorten {
-  from_index=1
   length=20
   ellipsis='…'
   read -r string
-  echo "$string" | sed -E "s/(.{${${from_index}-${length}}}).*$/\\1${ellipsis}/"
+  echo "$string" | sed -E "s/(.{${length}}).*$/\\1${ellipsis}/"
 }
 
 case "$1" in
@@ -34,7 +33,7 @@ case "$1" in
     exit
 esac
 
-state=$(spotctl status | sed -n 1p | grep -o playing || echo paused)
+state=$(spotctl status 2> /dev/null | sed -n 1p | grep -o playing || echo paused)
 
 if [ "$state" = "playing" ]; then
   status=$(spotctl status)

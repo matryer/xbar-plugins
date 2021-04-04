@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>CrossFit Regionals</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Dean Fogarty</bitbar.author>
-# <bitbar.author.github>angrytongan</bitbar.author.github>
-# <bitbar.desc>Display top 3 results from all CrossFit regionals in current year.</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>CrossFit Regionals</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Dean Fogarty</xbar.author>
+# <xbar.author.github>angrytongan</xbar.author.github>
+# <xbar.desc>Display top 3 results from all CrossFit regionals in current year.</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 YEAR=$(date +%Y | sed -e "s/.*\(..\)$/\1/")
 

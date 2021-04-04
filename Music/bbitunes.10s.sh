@@ -8,14 +8,14 @@
 # https://github.com/matryer/bitbar-plugins/blob/master/Music/itunes.10s.sh
 
 # metadata
-# <bitbar.title>iTunes Lite</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Padraic Renaghan</bitbar.author>
-# <bitbar.author.github>prenagha</bitbar.author.github>
-# <bitbar.desc>Display current track info from iTunes</bitbar.desc>
-# <bitbar.image>https://github.com/prenagha/bitbar-itunes/raw/master/bbitunes.png</bitbar.image>
-# <bitbar.dependencies>iTunes Lite applescript</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/prenagha/bitbar-itunes</bitbar.abouturl>
+# <xbar.title>iTunes Lite</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Padraic Renaghan</xbar.author>
+# <xbar.author.github>prenagha</xbar.author.github>
+# <xbar.desc>Display current track info from iTunes</xbar.desc>
+# <xbar.image>https://github.com/prenagha/bitbar-itunes/raw/master/bbitunes.png</xbar.image>
+# <xbar.dependencies>iTunes Lite applescript</xbar.dependencies>
+# <xbar.abouturl>https://github.com/prenagha/bitbar-itunes</xbar.abouturl>
 
 # set this to the directory of the cloned/downloaded github repo
 BBITUNES_DIR="$HOME/Dev/bitbar-itunes"

@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# <bitbar.title>ProtonVPN Server Monitor</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sai Sasidhar Maddali</bitbar.author>
-# <bitbar.author.github>saisasidhar</bitbar.author.github>
-# <bitbar.desc>Displays ProtonVPN server load for free and user defined servers</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/saisasidhar/utils/master/bitbar-argos/ProtonVPN/preview-bitbar.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/saisasidhar/utils/tree/master/bitbar-argos/ProtonVPN</bitbar.abouturl>
+# <xbar.title>ProtonVPN Server Monitor</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sai Sasidhar Maddali</xbar.author>
+# <xbar.author.github>saisasidhar</xbar.author.github>
+# <xbar.desc>Displays ProtonVPN server load for free and user defined servers</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/saisasidhar/utils/master/bitbar-argos/ProtonVPN/preview-bitbar.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/saisasidhar/utils/tree/master/bitbar-argos/ProtonVPN</xbar.abouturl>
 
 try:
     # for python3
@@ -25,7 +25,7 @@ menu_end = []
 free_servers = []
 custom_servers = []
 
-# Change this to track custom VPN servers
+# Change this to track custom VPN servers. For example: ["NL#1", "NL#13", "NL#25"]
 custom_server_names = []
 # Change this to display/hide free VPN servers
 display_free = True
@@ -35,9 +35,9 @@ display_flags = False
 # Nevertheless, this flag can be set to true for argos (gnome extension)
 
 try:
-    api_response = urlopen("https://api.protonmail.ch/vpn/servers")
+    api_response = urlopen("https://api.protonmail.ch/vpn/logicals")
     string_response = api_response.read().decode("utf-8")
-    available_servers = json.loads(string_response)["Servers"]
+    available_servers = json.loads(string_response)["LogicalServers"]
 
     if display_free:
         free_servers = [server for server in available_servers if server["Tier"] == 0]

@@ -5,13 +5,13 @@
 #
 # by Jonathan Keith (http://github.com/joncse)
 #
-# <bitbar.title>AWS ELB Healthy Percentage</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jonathan Keith</bitbar.author>
-# <bitbar.author.github>joncse</bitbar.author.github>
-# <bitbar.desc>Shows the percentage of healthy EC2 instances behind an ELB along with a dropdown to display the healthy and unhealthy totals.</bitbar.desc>
-# <bitbar.dependencies>awscli</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/nQ6LzvZ.png</bitbar.image>
+# <xbar.title>AWS ELB Healthy Percentage</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jonathan Keith</xbar.author>
+# <xbar.author.github>joncse</xbar.author.github>
+# <xbar.desc>Shows the percentage of healthy EC2 instances behind an ELB along with a dropdown to display the healthy and unhealthy totals.</xbar.desc>
+# <xbar.dependencies>awscli</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/nQ6LzvZ.png</xbar.image>
 #
 # Dependencies: 
 #   awscli (https://aws.amazon.com/cli/)

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Waketime</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
-# <bitbar.author>Matthias Vogt</bitbar.author>
-# <bitbar.author.github>matthias-vogt</bitbar.author.github>
-# <bitbar.desc>Shows the time since your mac last woke up in hours:minutes</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/jsB66g9.png</bitbar.image>
+# <xbar.title>Waketime</xbar.title>
+# <xbar.version>v1.0.1</xbar.version>
+# <xbar.author>Matthias Vogt</xbar.author>
+# <xbar.author.github>matthias-vogt</xbar.author.github>
+# <xbar.desc>Shows the time since your mac last woke up in hours:minutes</xbar.desc>
+# <xbar.image>http://i.imgur.com/jsB66g9.png</xbar.image>
 
 wake=$(
 	sysctl -a | grep 'waketime' | grep -o "\d\{10\}" ||

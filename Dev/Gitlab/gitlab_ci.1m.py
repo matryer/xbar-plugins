@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Gitlab CI</bitbar.title>
-# <bitbar.desc>Shows currently running pipelines from your GitLab in your bar. Interested in more advanced GitLab bar integration? Let me know (martin@kluska.cz). This implementation is just quick solution.</bitbar.desc>
-# <bitbar.version>v0.21</bitbar.version>
-# <bitbar.author>Martin Kluska</bitbar.author>
-# <bitbar.author.github>pionl</bitbar.author.github>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>https://raw.githubusercontent.com/pionl/bitbar-gitlab-ci/master/gitlab_ci.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/pionl/bitbar-gitlab-ci</bitbar.abouturl>
+# <xbar.title>Gitlab CI</xbar.title>
+# <xbar.desc>Shows currently running pipelines from your GitLab in your bar. Interested in more advanced GitLab bar integration? Let me know (martin@kluska.cz). This implementation is just quick solution.</xbar.desc>
+# <xbar.version>v0.21</xbar.version>
+# <xbar.author>Martin Kluska</xbar.author>
+# <xbar.author.github>pionl</xbar.author.github>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>https://raw.githubusercontent.com/pionl/bitbar-gitlab-ci/master/gitlab_ci.png</xbar.image>
+# <xbar.abouturl>https://github.com/pionl/bitbar-gitlab-ci</xbar.abouturl>
 #
 
 import json

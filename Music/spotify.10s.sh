@@ -8,12 +8,12 @@
 # Shows current track information for Spotify
 
 # metadata
-# <bitbar.title>Spotify Now Playing</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Marcin S., Jason Tokoph</bitbar.author>
-# <bitbar.author.github>jtokoph</bitbar.author.github>
-# <bitbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/y1SZwfq.png</bitbar.image>
+# <xbar.title>Spotify Now Playing</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Marcin S., Jason Tokoph</xbar.author>
+# <xbar.author.github>jtokoph</xbar.author.github>
+# <xbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</xbar.desc>
+# <xbar.image>http://i.imgur.com/y1SZwfq.png</xbar.image>
 
 # Comment the following line to disable showing times.
 SHOW_TIME=1
@@ -22,8 +22,10 @@ SHOW_TIME=1
 # "Remastered", "Single Version", or other garbage that Spotify likes to
 # include.
 #
-# You can comment out this line if you want the full track names.
+# Comment out this line if you want the full track names.
 CLEAN_TRACK_NAMES=1
+# Comment out this line if you want the full album names.
+CLEAN_ALBUM_NAMES=1
 
 # The length of a track/artist name after which to truncate.
 TRUNC_LEN=18
@@ -47,10 +49,12 @@ if [ "$1" = 'launch' ]; then
   exit
 fi
 
-if [ "$1" = 'lyrics' ]; then
-  osascript -e "do shell script \"open 'https://www.musixmatch.com/search/$track $artist'\""
-  exit
-fi
+first="$(echo "$1" | head -n 1 | awk '{print $1;}')"
+case "$first" in
+  'playpause' | 'previous' | 'next' | 'set')
+    tellspotify "$1"
+    exit
+esac
 
 if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
   echo "♫"
@@ -60,13 +64,6 @@ if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
   exit
 fi
 
-first="$(echo "$1" | head -n 1 | awk '{print $1;}')"
-case "$first" in
-  'playpause' | 'previous' | 'next' | 'set')
-    tellspotify "$1"
-    exit
-esac
-
 ## Get Spotify info
 
 state=$(tellspotify 'player state as string');
@@ -74,6 +71,40 @@ track=$(tellspotify 'name of current track as string');
 artist=$(tellspotify 'artist of current track as string');
 album=$(tellspotify 'album of current track as string');
 
+# Handle last early-return case (needed $track and $artist to look up lyrics).
+if [ "$1" = 'lyrics' ]; then
+  open "https://www.musixmatch.com/search/$track $artist"
+  exit
+fi
+
+if [ "$state" = "playing" ]; then
+  state_icon="▶"
+else
+  state_icon="❚❚"
+fi
+
+# Clean up track and/or album names
+if [[ $CLEAN_TRACK_NAMES ]]; then
+  track="$(echo -e "${track/ - /\\n}" | head -n 1)"
+  track="$(echo -e "${track/ (Remastered/\\n}" | head -n 1)"
+fi
+if [[ $CLEAN_ALBUM_NAMES ]]; then
+  album="$(echo -e "${album/ - /\\n}" | head -n 1)"
+  album="$(echo -e "${album/ (Remastered/\\n}" | head -n 1)"
+fi
+
+## Truncate track and artist
+trunc_track=$track
+if [ ${#trunc_track} -gt $TRUNC_LEN ];then
+  trunc_track=${trunc_track:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
+fi
+
+trunc_artist=$artist
+if [ ${#trunc_artist} -gt $TRUNC_LEN ];then
+  trunc_artist=${trunc_artist:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
+fi
+
+# Get position and duration of track
 if [[ $SHOW_TIME ]]; then
   position=$(osascript -e \
                        "tell application \"Spotify\"
@@ -99,29 +130,6 @@ if [[ $SHOW_TIME ]]; then
                             end if
                             return time_min as text & \":\" & time_sec as text
                         end tell");
-fi
-
-if [ "$state" = "playing" ]; then
-  state_icon="▶"
-else
-  state_icon="❚❚"
-fi
-
-if [[ $CLEAN_TRACK_NAMES ]]; then
-  track="$(echo -e "${track/ - /\\n}" | head -n 1)"
-  track="$(echo -e "${track/ (Remastered/\\n}" | head -n 1)"
-fi
-
-## Truncate track and artist
-
-trunc_track=$track
-if [ ${#trunc_track} -gt $TRUNC_LEN ];then
-  trunc_track=${trunc_track:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
-fi
-
-trunc_artist=$artist
-if [ ${#trunc_artist} -gt $TRUNC_LEN ];then
-  trunc_artist=${trunc_artist:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
 fi
 
 ## Print the display

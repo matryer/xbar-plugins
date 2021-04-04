@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Alarm Clock</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Carlson Orozco</bitbar.author>
-# <bitbar.author.github>carlsonorozco</bitbar.author.github>
-# <bitbar.desc>Alarm Clock is a plugin for BitBar that notifies/make a sound at a specific time.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/alarmclock/master/image.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/carlsonorozco/alarmclock</bitbar.abouturl>
+# <xbar.title>Alarm Clock</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Carlson Orozco</xbar.author>
+# <xbar.author.github>carlsonorozco</xbar.author.github>
+# <xbar.desc>Alarm Clock is a plugin for BitBar that notifies/make a sound at a specific time.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/carlsonorozco/alarmclock/master/image.png</xbar.image>
+# <xbar.abouturl>https://github.com/carlsonorozco/alarmclock</xbar.abouturl>
 
 # Set Alarm
 if [ "$1" = 'set' ]; then

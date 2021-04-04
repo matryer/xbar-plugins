@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# <bitbar.title>Show hidden files in Finder</bitbar.title>
-# <bitbar.version>v0.2</bitbar.version>
-# <bitbar.author>Thomas Kurz</bitbar.author>
-# <bitbar.author.github>dashorty</bitbar.author.github>
-# <bitbar.desc>Show hidden files in Finder</bitbar.desc>
-# <bitbar.image>https://github.com/dashorty/bitbar-showhide-files/blob/master/screenshot.png?raw=true</bitbar.image>
-# <bitbar.abouturl>https://github.com/dashorty/bitbar-showhide-files</bitbar.abouturl>
+# <xbar.title>Show hidden files in Finder</xbar.title>
+# <xbar.version>v0.2</xbar.version>
+# <xbar.author>Thomas Kurz</xbar.author>
+# <xbar.author.github>dashorty</xbar.author.github>
+# <xbar.desc>Show hidden files in Finder</xbar.desc>
+# <xbar.image>https://github.com/dashorty/bitbar-showhide-files/blob/master/screenshot.png?raw=true</xbar.image>
+# <xbar.abouturl>https://github.com/dashorty/bitbar-showhide-files</xbar.abouturl>
 
 import sys
 import os

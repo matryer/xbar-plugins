@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>Multiple Jenkins Status</bitbar.title>
-# <bitbar.desc>Check status of multiple Jenkins projects</bitbar.desc>
-# <bitbar.author>Nocolas Roger</bitbar.author>
-# <bitbar.author.github>nicolasroger17</bitbar.author.github>
-# <bitbar.version>1</bitbar.version>
+# <xbar.title>Multiple Jenkins Status</xbar.title>
+# <xbar.desc>Check status of multiple Jenkins projects</xbar.desc>
+# <xbar.author>Nocolas Roger</xbar.author>
+# <xbar.author.github>nicolasroger17</xbar.author.github>
+# <xbar.version>1</xbar.version>
 
 
 SCHEMA="https"

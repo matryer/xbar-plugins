@@ -1,13 +1,13 @@
 #!/usr/bin/env xcrun swift
 
 /*
- * <bitbar.title>Trackpad Dot</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Manu Wallner</bitbar.author>
- * <bitbar.author.github>milch</bitbar.author.github>
- * <bitbar.desc>Displays a coloured dot in the menu bar that gradually changes from green to yellow to red the lower your Magic Trackpad's battery</bitbar.desc>
- * <bitbar.image>http://i.imgur.com/4G7B76u.png</bitbar.image>
- * <bitbar.dependencies>Xcode,swift</bitbar.dependencies>
+ * <xbar.title>Trackpad Dot</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Manu Wallner</xbar.author>
+ * <xbar.author.github>milch</xbar.author.github>
+ * <xbar.desc>Displays a coloured dot in the menu bar that gradually changes from green to yellow to red the lower your Magic Trackpad's battery</xbar.desc>
+ * <xbar.image>http://i.imgur.com/4G7B76u.png</xbar.image>
+ * <xbar.dependencies>Xcode,swift</xbar.dependencies>
  */
 
 import Foundation

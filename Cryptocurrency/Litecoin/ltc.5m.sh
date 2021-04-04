@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# <bitbar.title>BTC</bitbar.title>
-# <bitbar.image>http://i.imgur.com/V8dABjz.png</bitbar.image>
-# <bitbar.author>Tim Paine</bitbar.author>
-# <bitbar.author.github>theocean154</bitbar.author.github> 
+# <xbar.title>BTC</xbar.title>
+# <xbar.image>http://i.imgur.com/V8dABjz.png</xbar.image>
+# <xbar.author>Tim Paine</xbar.author>
+# <xbar.author.github>theocean154</xbar.author.github> 
 #
 
 # Bitfinex

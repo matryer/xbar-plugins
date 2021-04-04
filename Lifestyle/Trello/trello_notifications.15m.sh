@@ -3,14 +3,14 @@
 # shellcheck disable=SC2154
 # shellcheck source=/dev/null
 
-# <bitbar.title>Trello</bitbar.title>
-# <bitbar.version>1.0.3</bitbar.version>
-# <bitbar.author>Kodie Grantham</bitbar.author>
-# <bitbar.author.github>kodie</bitbar.author.github>
-# <bitbar.desc>Shows unread Trello notification count with a drop-down list of clickable recent notifications</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-trello/master/screenshot.png</bitbar.image>
-# <bitbar.dependencies>jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/kodie/bitbar-trello</bitbar.abouturl>
+# <xbar.title>Trello</xbar.title>
+# <xbar.version>1.0.3</xbar.version>
+# <xbar.author>Kodie Grantham</xbar.author>
+# <xbar.author.github>kodie</xbar.author.github>
+# <xbar.desc>Shows unread Trello notification count with a drop-down list of clickable recent notifications</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/kodie/bitbar-trello/master/screenshot.png</xbar.image>
+# <xbar.dependencies>jq</xbar.dependencies>
+# <xbar.abouturl>https://github.com/kodie/bitbar-trello</xbar.abouturl>
 
 ver="1.0.3"
 

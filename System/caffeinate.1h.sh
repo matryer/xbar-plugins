@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Caffeinate</bitbar.title>
-# <bitbar.version>v0.2</bitbar.version>
-# <bitbar.author>Steffen Froehlich</bitbar.author>
-# <bitbar.author.github>citoki</bitbar.author.github>
-# <bitbar.desc>This plugin will give some caffeine, with lots of sugar, to your Mac to stay awake.
-# Technically the commandline tool 'caffeinate' is executed.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/vsCWLwX.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Caffeinate</xbar.title>
+# <xbar.version>v0.2</xbar.version>
+# <xbar.author>Steffen Froehlich</xbar.author>
+# <xbar.author.github>citoki</xbar.author.github>
+# <xbar.desc>This plugin will give some caffeine, with lots of sugar, to your Mac to stay awake.
+# Technically the commandline tool 'caffeinate' is executed.</xbar.desc>
+# <xbar.image>https://i.imgur.com/vsCWLwX.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 
 function get_program_state {

@@ -1,12 +1,12 @@
 #!/opt/local/bin/python
 # -*- coding: utf-8 -*-
 #
-# <bitbar.title>Renault Zero Emission</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Antoine Coetsier</bitbar.author>
-# <bitbar.author.github>retrack</bitbar.author.github>
-# <bitbar.desc>Pulls your Renault EV battery status current and estimated</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Wb1IUoO.png</bitbar.image>
+# <xbar.title>Renault Zero Emission</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Antoine Coetsier</xbar.author>
+# <xbar.author.github>retrack</xbar.author.github>
+# <xbar.desc>Pulls your Renault EV battery status current and estimated</xbar.desc>
+# <xbar.image>http://i.imgur.com/Wb1IUoO.png</xbar.image>
 #
 # Installation:
 # 1/ adjust your Python Binary location (embedded, Homebrew or Macports)

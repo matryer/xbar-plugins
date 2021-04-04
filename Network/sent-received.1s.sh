@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Network Sent/Received Totals</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Paul W. Rankin</bitbar.author>
-# <bitbar.author.github>rnkn</bitbar.author.github>
-# <bitbar.desc>Displays total sent and received wifi data for current sesssion.</bitbar.desc>
-# <bitbar.image>https://photos.paulwrankin.com/screenshots/sent-received.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Network Sent/Received Totals</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Paul W. Rankin</xbar.author>
+# <xbar.author.github>rnkn</xbar.author.github>
+# <xbar.desc>Displays total sent and received wifi data for current sesssion.</xbar.desc>
+# <xbar.image>https://i.imgur.com/KxXfbKn.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 # BitBar Network Sent/Received plugin
 

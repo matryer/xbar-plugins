@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>Webpack Status</bitbar.title>
-# <bitbar.version>v1.1.2</bitbar.version>
-# <bitbar.author>Francesco Belladonna</bitbar.author>
-# <bitbar.author.github>Fire-Dragon-DoL</bitbar.author.github>
-# <bitbar.desc>Display the current status of webpack server compile: completed/ongoing/failed.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/Fire-Dragon-DoL/bitbar-webpack-status-plugin/master/bitbar-webpack-status-plugin.jpg</bitbar.image>
-# <bitbar.dependencies>node,webpack</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/Fire-Dragon-DoL/bitbar-webpack-status-plugin</bitbar.abouturl>
+# <xbar.title>Webpack Status</xbar.title>
+# <xbar.version>v1.1.2</xbar.version>
+# <xbar.author>Francesco Belladonna</xbar.author>
+# <xbar.author.github>Fire-Dragon-DoL</xbar.author.github>
+# <xbar.desc>Display the current status of webpack server compile: completed/ongoing/failed.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/Fire-Dragon-DoL/bitbar-webpack-status-plugin/master/bitbar-webpack-status-plugin.jpg</xbar.image>
+# <xbar.dependencies>node,webpack</xbar.dependencies>
+# <xbar.abouturl>https://github.com/Fire-Dragon-DoL/bitbar-webpack-status-plugin</xbar.abouturl>
 
 color_red="✘ | color=#ff0000 dropdown=false"
 color_yellow="◉ | color=#ffa500 dropdown=false"

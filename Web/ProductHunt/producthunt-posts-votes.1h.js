@@ -1,13 +1,13 @@
 #!/usr/local/bin/node
 /*
-* <bitbar.title>ProductHunt Posts Votes Count</bitbar.title>
-* <bitbar.version>v1.0</bitbar.version>
-* <bitbar.author>Varun Malhotra</bitbar.author>
-* <bitbar.author.github>softvar</bitbar.author.github>
-* <bitbar.image></bitbar.image>
-* <bitbar.desc>ProductHunt Posts Votes count and Emoji notification 🔔  on change in votes count</bitbar.desc>
-* <bitbar.dependencies>node</bitbar.dependencies>
-* <bitbar.abouturl>http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html</bitbar.abouturl>
+* <xbar.title>ProductHunt Posts Votes Count</xbar.title>
+* <xbar.version>v1.0</xbar.version>
+* <xbar.author>Varun Malhotra</xbar.author>
+* <xbar.author.github>softvar</xbar.author.github>
+* <xbar.image></xbar.image>
+* <xbar.desc>ProductHunt Posts Votes count and Emoji notification 🔔  on change in votes count</xbar.desc>
+* <xbar.dependencies>node</xbar.dependencies>
+* <xbar.abouturl>http://varunmalhotra.xyz/blog/2016/02/bitbar-plugins-for-github-and-producthunt.html</xbar.abouturl>
 */
 
 var https = require('https');
