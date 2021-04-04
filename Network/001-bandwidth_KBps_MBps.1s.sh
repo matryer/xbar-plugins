@@ -6,7 +6,7 @@
 # <xbar.author.github>nguyenvanuyn96</xbar.author.github>
 # <xbar.desc>Displays bandwidth usage for the primary interface in MegaBytes/s or KiloBytes/s</xbar.desc>
 # <xbar.dependencies>ifstat</xbar.dependencies>
-# <xbar.image>https://user-images.githubusercontent.com/13082464/113498697-e8700380-9541-11eb-88e3-4674cf774dbc.png</xbar.image>
+# <xbar.image>https://user-images.githubusercontent.com/13082464/113498791-ba3ef380-9542-11eb-82e4-76e78cac98b7.png</xbar.image>
 
 # based on bandwidth_primary.1s.sh by Kaspars Mickevics
 
