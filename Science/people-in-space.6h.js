@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <xbar.title>People In Space</xbar.title>
-// <xbar.version>v1.1</xbar.version>
+// <xbar.version>v1.2</xbar.version>
 // <xbar.author>Mullwar</xbar.author>
 // <xbar.author.github>mullwar</xbar.author.github>
 // <xbar.desc>How many people are in Space right now?</xbar.desc>
@@ -58,7 +58,7 @@ request(ENDPOINT).then((json) => {
     console.log(`👨🏻‍🚀 ${json.number}`);
     console.log(`---`);
     json.people.forEach((person) => {
-        console.log(`${getEmojiFlag(person.country)} ${person.name} | href=${person.biolink} color=black`);
+        console.log(`${getEmojiFlag(person.country)} ${person.name} | href=${person.biolink}`);
         console.log(`${person.title} – ${person.launchdate.split('-').reverse().join('.')}`);
         console.log(`---`);
     });
