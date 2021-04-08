@@ -59,11 +59,11 @@ else
 				if [ -f "$filename.b64" ]; then
 					if [ "$file" -nt "$filename.b64" ]; then
 #						echo "$file is newer than the b64, updating b64 file" >> "$tmpfile"
-						cat "$file" | base64 > "$filename.b64"
+						base64 < "$file" > "$filename.b64"
 					fi
 				else
 #					echo "no b64 file for $file, creating b64 file" >> "$tmpfile"
-					cat "$file" | base64 > "$filename.b64"
+					base64 < "$file" > "$filename.b64"
 				fi
 			fi
 		done
