@@ -59,11 +59,11 @@ else
 				if [ -f "$filename.b64" ]; then
 					if [ "$file" -nt "$filename.b64" ]; then
 #						echo "$file is newer than the b64, updating b64 file" >> "$tmpfile"
-						cat $file | base64 > "$filename.b64"
+						cat "$file" | base64 > "$filename.b64"
 					fi
 				else
 #					echo "no b64 file for $file, creating b64 file" >> "$tmpfile"
-					cat $file | base64 > "$filename.b64"
+					cat "$file" | base64 > "$filename.b64"
 				fi
 			fi
 		done
@@ -82,7 +82,6 @@ else
 		if [ -e "YubiKey/$issuer.b64" ]; then
 			addimage="image="$(cat "YubiKey/$issuer.b64")
 		fi
-		addurl=""
 		URL=$(defaults read com.xbarapp.plugins.yubikey "$issuer")
 
 		echo "$name | $addimage href=$URL font=Menlo size=13 bash='$0' param1=copy param2=\"$account\" param3=$needtouch terminal=false" >> "$tmpfile"
