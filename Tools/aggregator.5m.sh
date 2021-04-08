@@ -18,8 +18,8 @@
 tmpfile=$(mktemp)
 if [ -d aggregator ]; then
 	cd aggregator || exit
-	filecount=$(ls | wc -l)
-	if [ "$filecount" -eq 0 ]; then
+	filecount=$(find . -not -path '*/\.*' | wc -l)
+	if [ "$filecount" -eq 1 ]; then
 		echo "Your aggregator directory seems empty, put you plugin inside the directory then select this line to refresh | refresh=true" >> "$tmpfile"
 	else
 		for file in *; do
