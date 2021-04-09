@@ -4,6 +4,7 @@
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>jebabin</xbar.author>
 # <xbar.author.github>jebabin</xbar.author.github>
+# <xbar.image>https://i.imgur.com/F1zHc17.png</xbar.image>
 # <xbar.desc>generates totp codes using YubiKey and copy to clipboard, supports touch and touchless code generation</xbar.desc>
 # <xbar.dependencies>bash,perl</xbar.dependencies>
 # <xbar.version>1.2</xbar.version>
@@ -12,7 +13,7 @@
 
 # v1.2
 # Better handle ykman return code
-# Now automatically create and update the .b64 image when a .png, .jpg, etc.. exist in YubiKey directory for the issuer
+# Now automatically create and update the .b64 image when a .png, .jpg, etc.. exist in YubiKey directory for the issuer.
 # Directory changed from Yubikey to YubiKey (uppercase K)
 # You can set http link to open for each issue with the `defaults write com.xbarapp.plugins.yubikey "issuer" "https://..."` command in terminal
 
