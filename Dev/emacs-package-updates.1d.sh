@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# <bitbar.title>Emacs Package Updates</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Takashi Masuda</bitbar.author>
-# <bitbar.author.github>masutaka</bitbar.author.github>
-# <bitbar.desc>List available updates from Emacs package</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/SBlrP2t.png</bitbar.image>
-# <bitbar.dependencies>emacs</bitbar.dependencies>
+# <xbar.title>Emacs Package Updates</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Takashi Masuda</xbar.author>
+# <xbar.author.github>masutaka</xbar.author.github>
+# <xbar.desc>List available updates from Emacs package</xbar.desc>
+# <xbar.image>http://i.imgur.com/SBlrP2t.png</xbar.image>
+# <xbar.dependencies>emacs</xbar.dependencies>
 
 EMACS=$(command -v emacs)
 

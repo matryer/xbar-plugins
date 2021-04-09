@@ -3,14 +3,14 @@
 /* jshint esversion: 6 */
 
 /*
- * <bitbar.title>Track Brazilian Post Office (Correios) packages</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Carlos E. Torres</bitbar.author>
- * <bitbar.author.github>cetorres</bitbar.author.github>
- * <bitbar.desc>EN: Track Brazilian Post Office (Correios) packages. PT: Rastreie encomendas dos Correios.</bitbar.desc>
- * <bitbar.abouturl>https://github.com/cetorres/bitbar-track-correios-packages</bitbar.abouturl>
- * <bitbar.image>https://raw.githubusercontent.com/cetorres/bitbar-track-correios-packages/master/screenshot.png</bitbar.image>
- * <bitbar.dependencies>node</bitbar.dependencies>
+ * <xbar.title>Track Brazilian Post Office (Correios) packages</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Carlos E. Torres</xbar.author>
+ * <xbar.author.github>cetorres</xbar.author.github>
+ * <xbar.desc>EN: Track Brazilian Post Office (Correios) packages. PT: Rastreie encomendas dos Correios.</xbar.desc>
+ * <xbar.abouturl>https://github.com/cetorres/bitbar-track-correios-packages</xbar.abouturl>
+ * <xbar.image>https://raw.githubusercontent.com/cetorres/bitbar-track-correios-packages/master/screenshot.png</xbar.image>
+ * <xbar.dependencies>node</xbar.dependencies>
  */
 
 // Enter the track code here.

@@ -1,11 +1,11 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python
-# <bitbar.title>Text on Menubar</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>clip</bitbar.author>
-# <bitbar.author.github>binderclip</bitbar.author.github>
-# <bitbar.desc>Show your text on menubar</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>https://qn.cdn.cliiip.com/imgs/u/d93e6b5b-52b7-4324-aaef-8969915f91b1.png</bitbar.image>
+# <xbar.title>Text on Menubar</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>clip</xbar.author>
+# <xbar.author.github>binderclip</xbar.author.github>
+# <xbar.desc>Show your text on menubar</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>https://qn.cdn.cliiip.com/imgs/u/d93e6b5b-52b7-4324-aaef-8969915f91b1.png</xbar.image>
 
 import argparse
 import os

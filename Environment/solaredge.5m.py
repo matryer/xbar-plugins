@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# <bitbar.title>SolarEdge Monitoring</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Shaun Grady</bitbar.author>
-# <bitbar.author.github>shaungrady</bitbar.author.github>
-# <bitbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/W4ygbPd.png</bitbar.image>
-# <bitbar.dependencies>solaredge,python</bitbar.dependencies>
+# <xbar.title>SolarEdge Monitoring</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Shaun Grady</xbar.author>
+# <xbar.author.github>shaungrady</xbar.author.github>
+# <xbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</xbar.desc>
+# <xbar.image>http://i.imgur.com/W4ygbPd.png</xbar.image>
+# <xbar.dependencies>solaredge,python</xbar.dependencies>
 
 ####################
 # User Configuration

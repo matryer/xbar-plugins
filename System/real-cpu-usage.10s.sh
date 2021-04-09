@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>Real CPU Usage</bitbar.title>
-# <bitbar.author>Mat Ryer and Tyler Bunnell</bitbar.author>
-# <bitbar.author.github>matryer</bitbar.author.github>
-# <bitbar.desc>Calcualtes and displays real CPU usage stats.</bitbar.desc>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>Real CPU Usage</xbar.title>
+# <xbar.author>Mat Ryer and Tyler Bunnell</xbar.author>
+# <xbar.author.github>matryer</xbar.author.github>
+# <xbar.desc>Calcualtes and displays real CPU usage stats.</xbar.desc>
+# <xbar.version>1.0</xbar.version>
 
 if [ "$1" == "activitymonitor" ]; then
 	open -a "Activity Monitor"

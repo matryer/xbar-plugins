@@ -4,13 +4,13 @@
 # Display a list of Zoom based meetings in your calendar today.
 # Selecting a meeting will take you to the Zoom session associated with it.
 #
-# <bitbar.title>Zoom Meetings for Today</bitbar.title>
-# <bitbar.version>1.0.0</bitbar.version>
-# <bitbar.author>Luis Cruz</bitbar.author>
-# <bitbar.author.github>sprak3000</bitbar.author.github>
-# <bitbar.desc>Display a list of Zoom based meetings in your calendar today. Selecting a meeting will take you to the Zoom session associated with it.</bitbar.desc>
-# <bitbar.image>https://sprak3000.github.io/assets/images/blog/zooms-today.png</bitbar.image>
-# <bitbar.dependencies>icalBuddy</bitbar.dependencies>
+# <xbar.title>Zoom Meetings for Today</xbar.title>
+# <xbar.version>1.0.0</xbar.version>
+# <xbar.author>Luis Cruz</xbar.author>
+# <xbar.author.github>sprak3000</xbar.author.github>
+# <xbar.desc>Display a list of Zoom based meetings in your calendar today. Selecting a meeting will take you to the Zoom session associated with it.</xbar.desc>
+# <xbar.image>https://sprak3000.github.io/assets/images/blog/zooms-today.png</xbar.image>
+# <xbar.dependencies>icalBuddy</xbar.dependencies>
 #
 # Dependencies:
 #	  - icalBuddy: https://hasseg.org/icalBuddy/

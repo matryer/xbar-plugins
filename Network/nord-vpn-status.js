@@ -1,13 +1,13 @@
 #!/usr/local/bin/node
 
-// <bitbar.title>NordVPN Status</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Dustin McBride</bitbar.author>
-// <bitbar.author.github>dustinmcbride</bitbar.author.github>
-// <bitbar.desc>Your nordVPN protected status for bit bar</bitbar.desc>
-// <bitbar.image>https://raw.githubusercontent.com/dustinmcbride/bitbar-nord-vpn-status/master/screenshots/protected.png</bitbar.image>
-// <bitbar.dependencies>node</bitbar.dependencies>
-// <bitbar.abouturl>https://github.com/dustinmcbride/bitbar-nord-vpn-status</bitbar.abouturl>
+// <xbar.title>NordVPN Status</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Dustin McBride</xbar.author>
+// <xbar.author.github>dustinmcbride</xbar.author.github>
+// <xbar.desc>Your nordVPN protected status for bit bar</xbar.desc>
+// <xbar.image>https://raw.githubusercontent.com/dustinmcbride/bitbar-nord-vpn-status/master/screenshots/protected.png</xbar.image>
+// <xbar.dependencies>node</xbar.dependencies>
+// <xbar.abouturl>https://github.com/dustinmcbride/bitbar-nord-vpn-status</xbar.abouturl>
 
 'use strict';
 

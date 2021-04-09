@@ -1,11 +1,11 @@
 #!/usr/bin/perl
-# <bitbar.title>Vagrant</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author.github>axeloz</bitbar.author.github>
-# <bitbar.author>Axel</bitbar.author>
-# <bitbar.desc>Vagrant status checker.</bitbar.desc>
-# <bitbar.dependencies>perl,vagrant</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/Yzrcz9k.png</bitbar.image>
+# <xbar.title>Vagrant</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author.github>axeloz</xbar.author.github>
+# <xbar.author>Axel</xbar.author>
+# <xbar.desc>Vagrant status checker.</xbar.desc>
+# <xbar.dependencies>perl,vagrant</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/Yzrcz9k.png</xbar.image>
 
 use strict;
 use Cwd 'abs_path';

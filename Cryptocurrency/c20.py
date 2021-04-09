@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-# <bitbar.title>Crypto20</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Christopher Chen</bitbar.author>
-# <bitbar.author.github>cchen408</bitbar.author.github>
-# <bitbar.desc>Display Nav and Underlying Asset Information</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/cchen408/bitbar-c20/master/screenshots/chris.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cchen408/bitbar-c20</bitbar.abouturl>
+# <xbar.title>Crypto20</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Christopher Chen</xbar.author>
+# <xbar.author.github>cchen408</xbar.author.github>
+# <xbar.desc>Display Nav and Underlying Asset Information</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/cchen408/bitbar-c20/master/screenshots/chris.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/cchen408/bitbar-c20</xbar.abouturl>
 
 import json
 from urllib import urlopen

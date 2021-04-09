@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Dad Jokes</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Simon Peier</bitbar.author>
-# <bitbar.author.github>simonpeier</bitbar.author.github>
-# <bitbar.desc>The plugin tells you random dad jokes</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/simonpeier/bitbar-dadjokes-plugin/master/screenshot.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://simonpeier.github.io/bitbar-dadjokes-plugin/</bitbar.abouturl>
+# <xbar.title>Dad Jokes</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Simon Peier</xbar.author>
+# <xbar.author.github>simonpeier</xbar.author.github>
+# <xbar.desc>The plugin tells you random dad jokes</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/simonpeier/bitbar-dadjokes-plugin/master/screenshot.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://simonpeier.github.io/bitbar-dadjokes-plugin/</xbar.abouturl>
 
 joke=$(curl -s -H "Accept: text/plain" https://icanhazdadjoke.com/)
 

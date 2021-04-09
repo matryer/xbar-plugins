@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Buildbot 9 Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ryan Sydnor</bitbar.author>
-# <bitbar.author.github>ryansydnor</bitbar.author.github>
-# <bitbar.desc>Displays most recent build status on configurable list of builders.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Buildbot 9 Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ryan Sydnor</xbar.author>
+# <xbar.author.github>ryansydnor</xbar.author.github>
+# <xbar.desc>Displays most recent build status on configurable list of builders.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import os
 import sys

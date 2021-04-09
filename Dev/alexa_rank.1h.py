@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # coding=utf-8
 #
-# <bitbar.title>Alexa rank checker</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Luca Cappelletti</bitbar.author>
-# <bitbar.author.github>LucaCappelletti94</bitbar.author.github>
-# <bitbar.desc>Displays Alexa rank from given websites</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/30YjoCF.jpg</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Alexa rank checker</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Luca Cappelletti</xbar.author>
+# <xbar.author.github>LucaCappelletti94</xbar.author.github>
+# <xbar.desc>Displays Alexa rank from given websites</xbar.desc>
+# <xbar.image>http://i.imgur.com/30YjoCF.jpg</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # by Luca Cappelletti
 

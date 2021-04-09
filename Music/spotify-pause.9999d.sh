@@ -5,13 +5,13 @@
 # by Aleksei Sotnikov (asotnikov.100@gmail.com) 
 # thanks for contribution by Doug Cotler (dcotler@seas.upenn.edu)
 # metadata
-# <bitbar.title>Spotify play/pause button</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Aleksei Sotnikov</bitbar.author>
-# <bitbar.author.github>alekseysotnikov</bitbar.author.github>
-# <bitbar.desc>Play or pause Spotify in one click</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/kLaa2uz.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Spotify play/pause button</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Aleksei Sotnikov</xbar.author>
+# <xbar.author.github>alekseysotnikov</xbar.author.github>
+# <xbar.desc>Play or pause Spotify in one click</xbar.desc>
+# <xbar.image>https://i.imgur.com/kLaa2uz.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 function tellspotify() {
   osascript -e "tell application \"Spotify\" to $1"

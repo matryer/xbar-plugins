@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Docker-Sync Status</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Brendan Shanny</bitbar.author>
-# <bitbar.author.github>brenshanny</bitbar.author.github>
-# <bitbar.desc>Display the current status of docker-sync.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/LbaqXzU.png</bitbar.image>
-# <bitbar.dependencies>docker-sync</bitbar.dependencies>
+# <xbar.title>Docker-Sync Status</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Brendan Shanny</xbar.author>
+# <xbar.author.github>brenshanny</xbar.author.github>
+# <xbar.desc>Display the current status of docker-sync.</xbar.desc>
+# <xbar.image>https://i.imgur.com/LbaqXzU.png</xbar.image>
+# <xbar.dependencies>docker-sync</xbar.dependencies>
 #
 # Docker-Sync Status Plugin
 #

@@ -3,13 +3,13 @@
 
 # BitBar plugin that displays the number of items and some basic information from WaniKani!
 
-# <bitbar.title>WaniKani</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>jakeoid</bitbar.author>
-# <bitbar.author.github>jakeoid</bitbar.author.github>
-# <bitbar.desc>Displays the number of items and some basic information from WaniKani!</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/Tohefs7.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>WaniKani</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>jakeoid</xbar.author>
+# <xbar.author.github>jakeoid</xbar.author.github>
+# <xbar.desc>Displays the number of items and some basic information from WaniKani!</xbar.desc>
+# <xbar.image>https://i.imgur.com/Tohefs7.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import requests
 

@@ -3,14 +3,14 @@
 # Jenkins Build Status
 # by Tony Mai (thetonymai@gmail.com)
 
-# <bitbar.title>Jenkins Build Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tony Mai</bitbar.author>
-# <bitbar.author.github>tonymai</bitbar.author.github>
-# <bitbar.desc>Shows the latest builds of a Jenkins project. Result, Build ID, Timestamp, Duration.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/tonymai/jenkins-bitbar-plugin/master/screenshot.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/tonymai/jenkins-bitbar-plugin</bitbar.abouturl>
+# <xbar.title>Jenkins Build Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tony Mai</xbar.author>
+# <xbar.author.github>tonymai</xbar.author.github>
+# <xbar.desc>Shows the latest builds of a Jenkins project. Result, Build ID, Timestamp, Duration.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/tonymai/jenkins-bitbar-plugin/master/screenshot.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://github.com/tonymai/jenkins-bitbar-plugin</xbar.abouturl>
 
 require 'net/http'
 require 'json'

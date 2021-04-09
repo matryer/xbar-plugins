@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Monero BTC price at Bitfinex</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Monero.how</bitbar.author>
-# <bitbar.author.github>monerohow</bitbar.author.github>
-# <bitbar.desc>Shows the last Monero price (in BTC) on the Bitfinex exchange.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/monerohow/misc/master/mac-menu-bar-light-and-dark.jpg</bitbar.image>
-# <bitbar.abouturl>https://www.monero.how</bitbar.abouturl>
+# <xbar.title>Monero BTC price at Bitfinex</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Monero.how</xbar.author>
+# <xbar.author.github>monerohow</xbar.author.github>
+# <xbar.desc>Shows the last Monero price (in BTC) on the Bitfinex exchange.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/monerohow/misc/master/mac-menu-bar-light-and-dark.jpg</xbar.image>
+# <xbar.abouturl>https://www.monero.how</xbar.abouturl>
 #
 # Visit https://www.monero.how for Monero tutorials, paper wallets and the latest Monero news
 # 

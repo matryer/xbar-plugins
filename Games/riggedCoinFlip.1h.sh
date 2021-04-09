@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Rigged Coin Flip</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tyllis Xu</bitbar.author>
-# <bitbar.author.github>livelycarpet87</bitbar.author.github>
-# <bitbar.image>https://i.ibb.co/YjYbHms/Rigged-Coin-Flip.png</bitbar.image>
-# <bitbar.desc>A elaborately rigged coin flip. It can be set to varying degrees of unfairness and results (and its fairness) can be modified by the option key. </bitbar.desc>
+# <xbar.title>Rigged Coin Flip</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tyllis Xu</xbar.author>
+# <xbar.author.github>livelycarpet87</xbar.author.github>
+# <xbar.image>https://i.ibb.co/YjYbHms/Rigged-Coin-Flip.png</xbar.image>
+# <xbar.desc>A elaborately rigged coin flip. It can be set to varying degrees of unfairness and results (and its fairness) can be modified by the option key. </xbar.desc>
 
 #Configuration START
 

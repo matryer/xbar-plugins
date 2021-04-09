@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Steam Dashboard</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>naezith</bitbar.author>
-# <bitbar.author.github>naezith</bitbar.author.github>
-# <bitbar.desc>Display online player count and track daily/weekly/monthly reviews of a Steam game. Please edit parameters.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/hd7dRju.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://naezith.com/</bitbar.abouturl>
+# <xbar.title>Steam Dashboard</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>naezith</xbar.author>
+# <xbar.author.github>naezith</xbar.author.github>
+# <xbar.desc>Display online player count and track daily/weekly/monthly reviews of a Steam game. Please edit parameters.</xbar.desc>
+# <xbar.image>https://i.imgur.com/hd7dRju.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://naezith.com/</xbar.abouturl>
 
 # Parameters
 APP_ID="590590" # From Steam page like https://store.steampowered.com/app/590590

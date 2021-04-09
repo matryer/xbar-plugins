@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>Dark Mode Toggle</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>huhu</bitbar.author>
-# <bitbar.author.github>Phlooo</bitbar.author.github>
-# <bitbar.desc>Simple toggle for macOS Dark Mode</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/khIIfMg.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/Phlooo/</bitbar.abouturl>
+# <xbar.title>Dark Mode Toggle</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>huhu</xbar.author>
+# <xbar.author.github>Phlooo</xbar.author.github>
+# <xbar.desc>Simple toggle for macOS Dark Mode</xbar.desc>
+# <xbar.image>https://i.imgur.com/khIIfMg.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/Phlooo/</xbar.abouturl>
 
 function get_darkmode_state {
 state=$(osascript <<EOD

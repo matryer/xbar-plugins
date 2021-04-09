@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>COVID-19 Stats</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Wilson Goode</bitbar.author>
-# <bitbar.author.github>wilsongoode</bitbar.author.github>
-# <bitbar.desc>Displays stats of US COVID-19 cases, with a submenu for user-defineable States. Can also be configured to show the top n states.</bitbar.desc>
-# <bitbar.image>https://github.com/wilsongoode/covid-bitbar/raw/master/screens/covid-19_top15_states.png</bitbar.image>
-# <bitbar.dependencies>jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/wilsongoode/covid-bitbar</bitbar.abouturl>
+# <xbar.title>COVID-19 Stats</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Wilson Goode</xbar.author>
+# <xbar.author.github>wilsongoode</xbar.author.github>
+# <xbar.desc>Displays stats of US COVID-19 cases, with a submenu for user-defineable States. Can also be configured to show the top n states.</xbar.desc>
+# <xbar.image>https://github.com/wilsongoode/covid-bitbar/raw/master/screens/covid-19_top15_states.png</xbar.image>
+# <xbar.dependencies>jq</xbar.dependencies>
+# <xbar.abouturl>https://github.com/wilsongoode/covid-bitbar</xbar.abouturl>
 
 # Setting my Bitbar path to include /usr/local/bin. Systems may vary
 PATH=/usr/local/bin:${PATH}

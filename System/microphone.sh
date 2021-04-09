@@ -1,12 +1,12 @@
 #!/usr/local/bin/bash
 
-# <bitbar.title>Mute Mic</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Vasily Pleshakov</bitbar.author>
-# <bitbar.author.github>wasapl</bitbar.author.github>
-# <bitbar.desc>Mutes or unmutes microphone.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/FI64Y5c.png</bitbar.image>
-# <bitbar.dependencies>BASH</bitbar.dependencies>
+# <xbar.title>Mute Mic</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Vasily Pleshakov</xbar.author>
+# <xbar.author.github>wasapl</xbar.author.github>
+# <xbar.desc>Mutes or unmutes microphone.</xbar.desc>
+# <xbar.image>https://i.imgur.com/FI64Y5c.png</xbar.image>
+# <xbar.dependencies>BASH</xbar.dependencies>
 
 SCRIPT_NAME=$(basename "$0")
 SCRIPT_DIR=$(dirname "$0")

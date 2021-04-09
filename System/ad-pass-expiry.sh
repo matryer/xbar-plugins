@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>Active Directory Password Expiration Check</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Galen Sprague</bitbar.author>
-# <bitbar.author.github>gsprague</bitbar.author.github>
-# <bitbar.desc>Shows Active Directory Password Expiration in days</bitbar.desc>
-# <bitbar.image></bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>Active Directory Password Expiration Check</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Galen Sprague</xbar.author>
+# <xbar.author.github>gsprague</xbar.author.github>
+# <xbar.desc>Shows Active Directory Password Expiration in days</xbar.desc>
+# <xbar.image></xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 # Set environment vars
 DOMAIN="yourDomain"

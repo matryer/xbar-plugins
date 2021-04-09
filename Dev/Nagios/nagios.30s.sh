@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Nagios Prod</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Rob DeSanno</bitbar.author>
-# <bitbar.author.github>rdesanno</bitbar.author.github>
-# <bitbar.desc>Nagios status summary</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/JWl2pXx.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Nagios Prod</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Rob DeSanno</xbar.author>
+# <xbar.author.github>rdesanno</xbar.author.github>
+# <xbar.desc>Nagios status summary</xbar.desc>
+# <xbar.image>http://i.imgur.com/JWl2pXx.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 ## set variables
 

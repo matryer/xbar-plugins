@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# <bitbar.title>Binance Price Ticker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Gabriel Age</bitbar.author>
-# <bitbar.author.github>agezao</bitbar.author.github>
-# <bitbar.desc>Displays Binance's ticker price for configured coin pairs</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/zJsoTl8.jpg</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Binance Price Ticker</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Gabriel Age</xbar.author>
+# <xbar.author.github>agezao</xbar.author.github>
+# <xbar.desc>Displays Binance's ticker price for configured coin pairs</xbar.desc>
+# <xbar.image>https://i.imgur.com/zJsoTl8.jpg</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import json
 from urllib import urlopen

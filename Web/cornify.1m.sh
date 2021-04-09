@@ -1,11 +1,11 @@
 #!/bin/sh
 #
-# <bitbar.title>Unicorn!</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Martin Wilhelmi</bitbar.author>
-# <bitbar.author.github>mnin</bitbar.author.github>
-# <bitbar.desc>Unicorn</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/UMphE3q.png</bitbar.image>
+# <xbar.title>Unicorn!</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Martin Wilhelmi</xbar.author>
+# <xbar.author.github>mnin</xbar.author.github>
+# <xbar.desc>Unicorn</xbar.desc>
+# <xbar.image>http://i.imgur.com/UMphE3q.png</xbar.image>
 
 TIMESTAMP=$(date +"%s")
 IMAGE=$(curl -s "http://www.cornify.com/getacorn.php?r=$TIMESTAMP" | base64)

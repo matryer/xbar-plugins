@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Average Review Times</bitbar.title>
-# <bitbar.version>v0.1.2</bitbar.version>
-# <bitbar.author>mfks17</bitbar.author>
-# <bitbar.author.github>mfks17</bitbar.author.github>
-# <bitbar.desc>Average App Store Review Times</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/mfks17/bitbar-plugin-AppStore/master/Screenshots/01.png</bitbar.image>
-# <bitbar.dependencies>ruby, nokogiri</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/mfks17/bitbar-plugin-AppStore</bitbar.abouturl>
+# <xbar.title>Average Review Times</xbar.title>
+# <xbar.version>v0.1.2</xbar.version>
+# <xbar.author>mfks17</xbar.author>
+# <xbar.author.github>mfks17</xbar.author.github>
+# <xbar.desc>Average App Store Review Times</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/mfks17/bitbar-plugin-AppStore/master/Screenshots/01.png</xbar.image>
+# <xbar.dependencies>ruby, nokogiri</xbar.dependencies>
+# <xbar.abouturl>https://github.com/mfks17/bitbar-plugin-AppStore</xbar.abouturl>
 
 require 'open-uri'
 require 'nokogiri'

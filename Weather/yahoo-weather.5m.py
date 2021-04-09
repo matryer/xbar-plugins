@@ -1,12 +1,12 @@
 #!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
 #
-# <bitbar.title>Yahoo Weather</bitbar.title>
-# <bitbar.version>v3.0</bitbar.version>
-# <bitbar.author>mgjo5899</bitbar.author>
-# <bitbar.author.github>mgjo5899</bitbar.author.github>
-# <bitbar.desc>It tells you the current weather condition of the location where your computer is located at.  It knows the location of the computer by using its public IP.  You can also manually set the city and region through modifying the file. </bitbar.desc>
-# <bitbar.image>https://i.imgur.com/YNypf0P.jpg</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Yahoo Weather</xbar.title>
+# <xbar.version>v3.0</xbar.version>
+# <xbar.author>mgjo5899</xbar.author>
+# <xbar.author.github>mgjo5899</xbar.author.github>
+# <xbar.desc>It tells you the current weather condition of the location where your computer is located at.  It knows the location of the computer by using its public IP.  You can also manually set the city and region through modifying the file. </xbar.desc>
+# <xbar.image>https://i.imgur.com/YNypf0P.jpg</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # by mgjo5899
 

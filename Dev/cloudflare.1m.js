@@ -4,13 +4,13 @@
 /* jshint esversion: 6 */
 
 /*
- * <bitbar.title>Cloudflare Development Mode</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Aaron Crawford</bitbar.author>
- * <bitbar.author.github>aaroncrawford</bitbar.author.github>
- * <bitbar.image>https://i.imgur.com/nKXgmxg.png</bitbar.image>
- * <bitbar.desc>Enable or Disable Development Mode from BitBar.  Plugin will need to be edited to include your API key and email to work.</bitbar.desc>
- * <bitbar.dependencies>node</bitbar.dependencies>
+ * <xbar.title>Cloudflare Development Mode</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Aaron Crawford</xbar.author>
+ * <xbar.author.github>aaroncrawford</xbar.author.github>
+ * <xbar.image>https://i.imgur.com/nKXgmxg.png</xbar.image>
+ * <xbar.desc>Enable or Disable Development Mode from BitBar.  Plugin will need to be edited to include your API key and email to work.</xbar.desc>
+ * <xbar.dependencies>node</xbar.dependencies>
  */
 
 // CHANGE THESE AREAS

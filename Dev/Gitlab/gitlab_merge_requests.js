@@ -1,15 +1,15 @@
 #!/usr/bin/env /usr/local/bin/node
 // jshint asi:true
 // jshint esversion: 8
-// <bitbar.title>GitLab Merge Requests</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Simeon Cheeseman</bitbar.author>
-// <bitbar.author.github>simeonc</bitbar.author.github>
-// <bitbar.desc>List of your assigned and created merge requests.
+// <xbar.title>GitLab Merge Requests</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Simeon Cheeseman</xbar.author>
+// <xbar.author.github>simeonc</xbar.author.github>
+// <xbar.desc>List of your assigned and created merge requests.
 // The menu bar shows a count of MRs requiring your approval (🔎), WIP MRs (🛠️), Un-mergable MRs (⛔), MRs with failed pipelines (⚠️), MRs with unresolved discussions (🚧), MRs with running pipeline (🚀), MRs pending approval (💬) and Approved/Ready to Merge (❇️).
-// Each MR in the dropdown is grouped by project and displays `<Unmergable> "Title"; "Pipeline Status" : "Approval Status"`, clicking on an MR opens it in the browser</bitbar.desc>
-// <bitbar.dependencies>node.js</bitbar.dependencies>
-// <bitbar.image>https://i.imgur.com/t0TtQXO.png</bitbar.image>
+// Each MR in the dropdown is grouped by project and displays `<Unmergable> "Title"; "Pipeline Status" : "Approval Status"`, clicking on an MR opens it in the browser</xbar.desc>
+// <xbar.dependencies>node.js</xbar.dependencies>
+// <xbar.image>https://i.imgur.com/t0TtQXO.png</xbar.image>
 
 /**
  * Information

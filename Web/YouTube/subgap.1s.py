@@ -1,13 +1,13 @@
 #!/usr/bin/python
 #
-# <bitbar.title>Youtube Sub gap</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tok1</bitbar.author>
-# <bitbar.author.github>tokfrans03</bitbar.author.github>
-# <bitbar.desc>Displays the sub gap between Pewdiepie and T-series. Set your youtube api key in the script. You can also change the channel ids to check on other sub gaps, just make shure the bigger one is first</bitbar.desc>
-# <bitbar.image>https://github.com/garythung/bitbar-age-ticker/blob/master/bitbar-age-ticker.gif?raw=true</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/tokfrans03/BitBar-sub-gap</bitbar.abouturl>
+# <xbar.title>Youtube Sub gap</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tok1</xbar.author>
+# <xbar.author.github>tokfrans03</xbar.author.github>
+# <xbar.desc>Displays the sub gap between Pewdiepie and T-series. Set your youtube api key in the script. You can also change the channel ids to check on other sub gaps, just make shure the bigger one is first</xbar.desc>
+# <xbar.image>https://github.com/garythung/bitbar-age-ticker/blob/master/bitbar-age-ticker.gif?raw=true</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/tokfrans03/BitBar-sub-gap</xbar.abouturl>
 
 import requests
 import json

@@ -7,7 +7,6 @@
 # <xbar.desc>This plugin will generate the TOTP tokens and allows to copy them to clipboard</xbar.desc>
 # <xbar.image>https://i.imgur.com/1AYh44b.png</xbar.image>
 
-
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"
 

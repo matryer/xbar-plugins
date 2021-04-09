@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Homebrew Cask Updater</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Srdgh</bitbar.author>
-# <bitbar.author.github>srdgh</bitbar.author.github>
-# <bitbar.desc>List out-of-date apps i.e. apps for whch a newer Homebrew cask exists. Click menu item to install cask.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/kBf90TB.png?1</bitbar.image>
+# <xbar.title>Homebrew Cask Updater</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Srdgh</xbar.author>
+# <xbar.author.github>srdgh</xbar.author.github>
+# <xbar.desc>List out-of-date apps i.e. apps for whch a newer Homebrew cask exists. Click menu item to install cask.</xbar.desc>
+# <xbar.image>http://i.imgur.com/kBf90TB.png?1</xbar.image>
 
 #I've taken the next six lines from the brew update plugin.
 exit_with_error() {

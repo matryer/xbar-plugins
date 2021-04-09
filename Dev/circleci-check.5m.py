@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>CircleCI Check</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Florent Segouin</bitbar.author>
-# <bitbar.author.github>fsegouin</bitbar.author.github>
-# <bitbar.desc>This plugin displays the build status of repositories listed on CircleCI.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Qvdgb39.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>CircleCI Check</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Florent Segouin</xbar.author>
+# <xbar.author.github>fsegouin</xbar.author.github>
+# <xbar.desc>This plugin displays the build status of repositories listed on CircleCI.</xbar.desc>
+# <xbar.image>http://i.imgur.com/Qvdgb39.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 # Florent Segouin
 # github.com/fsegouin

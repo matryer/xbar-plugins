@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Tesco Mobile Ireland Balance</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Jack Higgins</bitbar.author>
-# <bitbar.author.github>skhg</bitbar.author.github>
-# <bitbar.desc>Displays your current Tesco Mobile Ireland balance and available data, text and voice allowances</bitbar.desc>
-# <bitbar.image>https://github.com/skhg/BitBar-Plugins/blob/master/TescoMobileIrl/tescobalance.jpg?raw=true</bitbar.image>
-# <bitbar.dependencies>python 2.7 or 3.6, pytescomobileirl</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/TescoMobileIrl</bitbar.abouturl>
+# <xbar.title>Tesco Mobile Ireland Balance</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Jack Higgins</xbar.author>
+# <xbar.author.github>skhg</xbar.author.github>
+# <xbar.desc>Displays your current Tesco Mobile Ireland balance and available data, text and voice allowances</xbar.desc>
+# <xbar.image>https://github.com/skhg/BitBar-Plugins/blob/master/TescoMobileIrl/tescobalance.jpg?raw=true</xbar.image>
+# <xbar.dependencies>python 2.7 or 3.6, pytescomobileirl</xbar.dependencies>
+# <xbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/TescoMobileIrl</xbar.abouturl>
 
 
 

@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # coding=utf-8
 #
-# <bitbar.title>Faith in humanity score</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>impshum</bitbar.author>
-# <bitbar.author.github>impshum</bitbar.author.github>
-# <bitbar.desc>Displays current score from https://faithinhumanityscore.com</bitbar.desc>
+# <xbar.title>Faith in humanity score</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>impshum</xbar.author>
+# <xbar.author.github>impshum</xbar.author.github>
+# <xbar.desc>Displays current score from https://faithinhumanityscore.com</xbar.desc>
 #
 # by impshum
 

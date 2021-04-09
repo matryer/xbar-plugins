@@ -1,11 +1,11 @@
 #!/usr/bin/env python2
 #- * -coding: utf - 8 - * -
 #
-# <bitbar.title>Battery Health</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Andros Fenollosa</bitbar.author>
-# <bitbar.author.github>tanrax</bitbar.author.github>
-# <bitbar.desc>Shows power percentaje and notice when you load</bitbar.desc>
+# <xbar.title>Battery Health</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Andros Fenollosa</xbar.author>
+# <xbar.author.github>tanrax</xbar.author.github>
+# <xbar.desc>Shows power percentaje and notice when you load</xbar.desc>
 
 import os, math, subprocess, pickle, tempfile
 

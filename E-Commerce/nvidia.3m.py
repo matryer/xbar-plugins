@@ -1,12 +1,12 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-# <bitbar.title>1080ti Stock Checker</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Alex Haynes</bitbar.author>
-# <bitbar.author.github>alexh</bitbar.author.github>
-# <bitbar.desc>Checks nvidia site if 1080ti are in stock</bitbar.desc>
-# <bitbar.image>https://images.nvidia.com/pascal/img/gtx1080ti/gallery/gallery-2.jpg</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>1080ti Stock Checker</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Alex Haynes</xbar.author>
+# <xbar.author.github>alexh</xbar.author.github>
+# <xbar.desc>Checks nvidia site if 1080ti are in stock</xbar.desc>
+# <xbar.image>https://images.nvidia.com/pascal/img/gtx1080ti/gallery/gallery-2.jpg</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import urllib.request, json, time
 with urllib.request.urlopen("http://api.findgpu.com/gpus?" + str(int(time.time()))) as url:

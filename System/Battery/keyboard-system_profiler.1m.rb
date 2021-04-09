@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
-# <bitbar.title>Battery Apple Bluetooth keyboard</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Alexandre Espinosa Menor</bitbar.author>
-# <bitbar.author.github>alexandregz</bitbar.author.github>
-# <bitbar.desc>Show battery percentage for Bluetooth Keyboard</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/1FlcPYx.png</bitbar.image>
+# <xbar.title>Battery Apple Bluetooth keyboard</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Alexandre Espinosa Menor</xbar.author>
+# <xbar.author.github>alexandregz</xbar.author.github>
+# <xbar.desc>Show battery percentage for Bluetooth Keyboard</xbar.desc>
+# <xbar.image>http://i.imgur.com/1FlcPYx.png</xbar.image>
 #
 # command from https://github.com/matryer/bitbar-plugins/issues/84 by @keithamus
 # works fine with Apple Keyboard

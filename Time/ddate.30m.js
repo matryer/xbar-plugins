@@ -1,12 +1,12 @@
 #! /usr/local/bin/node
 
-// <bitbar.title>Discordian Date</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Volker Wieban</bitbar.author>
-// <bitbar.author.github>hpcodecraft</bitbar.author.github>
-// <bitbar.desc>Shows the current date of the Discordian calendar</bitbar.desc>
-// <bitbar.image>https://user-images.githubusercontent.com/1476865/69000513-2dee4b00-08d1-11ea-9d23-c4c5aaa8d815.png</bitbar.image>
-// <bitbar.dependencies>bash,node</bitbar.dependencies>
+// <xbar.title>Discordian Date</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Volker Wieban</xbar.author>
+// <xbar.author.github>hpcodecraft</xbar.author.github>
+// <xbar.desc>Shows the current date of the Discordian calendar</xbar.desc>
+// <xbar.image>https://user-images.githubusercontent.com/1476865/69000513-2dee4b00-08d1-11ea-9d23-c4c5aaa8d815.png</xbar.image>
+// <xbar.dependencies>bash,node</xbar.dependencies>
 
 // SETUP
 // You need to have node installed for this to work

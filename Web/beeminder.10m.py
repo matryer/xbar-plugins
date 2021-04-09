@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Beeminder</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ben Congdon</bitbar.author>
-# <bitbar.author.github>bcongdon</bitbar.author.github>
-# <bitbar.image>https://i.imgur.com/XamwU1E.png</bitbar.image>
-# <bitbar.desc>Displays your active Beeminder goals and their due dates/amounts</bitbar.desc>
-# <bitbar.dependencies>python,requests</bitbar.dependencies>
+# <xbar.title>Beeminder</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ben Congdon</xbar.author>
+# <xbar.author.github>bcongdon</xbar.author.github>
+# <xbar.image>https://i.imgur.com/XamwU1E.png</xbar.image>
+# <xbar.desc>Displays your active Beeminder goals and their due dates/amounts</xbar.desc>
+# <xbar.dependencies>python,requests</xbar.dependencies>
 
 import requests
 

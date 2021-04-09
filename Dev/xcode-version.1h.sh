@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>Xcode Version</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Florian Hirschmann</bitbar.author>
-# <bitbar.author.github>hirschfl</bitbar.author.github>
-# <bitbar.desc>Shows the Xcode version that is currently selected with xcode-select.</bitbar.desc>
-# <bitbar.dependencies>xcodebuild</bitbar.dependencies>
+# <xbar.title>Xcode Version</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Florian Hirschmann</xbar.author>
+# <xbar.author.github>hirschfl</xbar.author.github>
+# <xbar.desc>Shows the Xcode version that is currently selected with xcode-select.</xbar.desc>
+# <xbar.dependencies>xcodebuild</xbar.dependencies>
 
 xcodebuild -version | head -1

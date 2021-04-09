@@ -4,13 +4,13 @@
 
 # Comment out the dates you don't need.
 
-# <bitbar.title>Date Picker</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tim Battersby</bitbar.author>
-# <bitbar.author.github>uglygus</bitbar.author.github>
-# <bitbar.desc>Display todays date in various forms including iso8601 and copies to the clipboard.</bitbar.desc>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/GVSUqFX.png</bitbar.image>
+# <xbar.title>Date Picker</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tim Battersby</xbar.author>
+# <xbar.author.github>uglygus</xbar.author.github>
+# <xbar.desc>Display todays date in various forms including iso8601 and copies to the clipboard.</xbar.desc>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.image>https://i.imgur.com/GVSUqFX.png</xbar.image>
 
 # Appears in the menubar YYYY-MM-DD
 date +%F

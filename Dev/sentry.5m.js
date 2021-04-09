@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Sentry</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Tommy Brunn</bitbar.author>
-// <bitbar.author.github>nevon</bitbar.author.github>
-// <bitbar.desc>Shows your most recent error reports from Sentry (https://getsentry.com)</bitbar.desc>
-// <bitbar.dependencies>node.js</bitbar.dependencies>
-// <bitbar.image>http://i.imgur.com/GdEXQfY.png</bitbar.image>
+// <xbar.title>Sentry</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Tommy Brunn</xbar.author>
+// <xbar.author.github>nevon</xbar.author.github>
+// <xbar.desc>Shows your most recent error reports from Sentry (https://getsentry.com)</xbar.desc>
+// <xbar.dependencies>node.js</xbar.dependencies>
+// <xbar.image>http://i.imgur.com/GdEXQfY.png</xbar.image>
 
 // jshint asi:true
 var https = require('https')

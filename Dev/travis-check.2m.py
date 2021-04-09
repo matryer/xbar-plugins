@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>TravisCI Check</bitbar.title>
-# <bitbar.version>v1.3</bitbar.version>
-# <bitbar.author>Chris Tomkins-Tinch</bitbar.author>
-# <bitbar.author.github>tomkinsc</bitbar.author.github>
-# <bitbar.desc>This plugin displays the build status of repositories listed on TravisCI.</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/53064/12126193/a775fada-b3bd-11e5-9ae2-091c9c38b1da.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>TravisCI Check</xbar.title>
+# <xbar.version>v1.3</xbar.version>
+# <xbar.author>Chris Tomkins-Tinch</xbar.author>
+# <xbar.author.github>tomkinsc</xbar.author.github>
+# <xbar.desc>This plugin displays the build status of repositories listed on TravisCI.</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/53064/12126193/a775fada-b3bd-11e5-9ae2-091c9c38b1da.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 # Chris Tomkins-Tinch
 # github.com/tomkinsc

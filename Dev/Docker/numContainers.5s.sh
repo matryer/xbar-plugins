@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>NumContainers</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>cghamburg</bitbar.author>
-# <bitbar.author.github>cghamburg</bitbar.author.github>
-# <bitbar.desc>Print number of running Docker containers with whale unicode char</bitbar.desc>
-# <bitbar.dependencies>docker</bitbar.dependencies>
+# <xbar.title>NumContainers</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>cghamburg</xbar.author>
+# <xbar.author.github>cghamburg</xbar.author.github>
+# <xbar.desc>Print number of running Docker containers with whale unicode char</xbar.desc>
+# <xbar.dependencies>docker</xbar.dependencies>
 
 CONTAINERS=$(/usr/local/bin/docker ps --format '{{.Names}}' | sort)
 NUM_CONTAINERS=0

@@ -3,13 +3,13 @@
 /* jshint esversion: 6 */
 
 /*
- * <bitbar.title>DigitalOcean</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Hasit Mistry</bitbar.author>
- * <bitbar.author.github>hasit</bitbar.author.github>
- * <bitbar.image>http://i.imgur.com/1YTWFSn.png</bitbar.image>
- * <bitbar.desc>View status of DigitalOcean Droplets</bitbar.desc>
- * <bitbar.dependencies>node</bitbar.dependencies>
+ * <xbar.title>DigitalOcean</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Hasit Mistry</xbar.author>
+ * <xbar.author.github>hasit</xbar.author.github>
+ * <xbar.image>http://i.imgur.com/1YTWFSn.png</xbar.image>
+ * <xbar.desc>View status of DigitalOcean Droplets</xbar.desc>
+ * <xbar.dependencies>node</xbar.dependencies>
  */
 
 var https = require('https');

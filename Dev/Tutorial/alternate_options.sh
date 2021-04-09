@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>Alternate Options Tutorial</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Mat Ryer</bitbar.author>
-# <bitbar.author.github>matryer</bitbar.author.github>
-# <bitbar.image>http://i.imgur.com/EDYR52G.png</bitbar.image>
-# <bitbar.desc>Example of how to include alternate items that replace the one before it when the Option key is pressed.</bitbar.desc>
+# <xbar.title>Alternate Options Tutorial</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Mat Ryer</xbar.author>
+# <xbar.author.github>matryer</xbar.author.github>
+# <xbar.image>http://i.imgur.com/EDYR52G.png</xbar.image>
+# <xbar.desc>Example of how to include alternate items that replace the one before it when the Option key is pressed.</xbar.desc>
 echo "Hello"
 echo "Option key is pressed | alternate=true"
 

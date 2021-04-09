@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>ISS Overhead Check</bitbar.title>
-# <bitbar.version>v0.0.1</bitbar.version>
-# <bitbar.author>Thiago Paes</bitbar.author>
-# <bitbar.author.github>mrprompt</bitbar.author.github>
-# <bitbar.desc>Check International Space Station Pass Times Over !</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>ISS Overhead Check</xbar.title>
+# <xbar.version>v0.0.1</xbar.version>
+# <xbar.author>Thiago Paes</xbar.author>
+# <xbar.author.github>mrprompt</xbar.author.github>
+# <xbar.desc>Check International Space Station Pass Times Over !</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
 
 from time import localtime
 from requests import get

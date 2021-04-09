@@ -1,13 +1,13 @@
 #!/usr/local/bin/python3
 
-# <bitbar.title>UptimeRobot Monitor</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Finn LeSueur</bitbar.author>
-# <bitbar.author.github>finnito</bitbar.author.github>
-# <bitbar.desc>Get UptimeRobot statistics for an account.</bitbar.desc>
-# <bitbar.image>https://uptimerobot.com/assets/img/logo_plain.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://gitlab.com/Finnito/bitbar-uptime_robot</bitbar.abouturl>
+# <xbar.title>UptimeRobot Monitor</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Finn LeSueur</xbar.author>
+# <xbar.author.github>finnito</xbar.author.github>
+# <xbar.desc>Get UptimeRobot statistics for an account.</xbar.desc>
+# <xbar.image>https://uptimerobot.com/assets/img/logo_plain.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://gitlab.com/Finnito/bitbar-uptime_robot</xbar.abouturl>
 
 import http.client
 import json

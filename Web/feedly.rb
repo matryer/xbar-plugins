@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Feedly</bitbar.title>
-# <bitbar.author>morizyun</bitbar.author>
-# <bitbar.author.github>morizyun</bitbar.author.github>
-# <bitbar.image>https://farm2.staticflickr.com/1541/25991545133_924f4a1a59_c.jpg</bitbar.image>
+# <xbar.title>Feedly</xbar.title>
+# <xbar.author>morizyun</xbar.author>
+# <xbar.author.github>morizyun</xbar.author.github>
+# <xbar.image>https://farm2.staticflickr.com/1541/25991545133_924f4a1a59_c.jpg</xbar.image>
 
 require 'net/http'
 require 'json'

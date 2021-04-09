@@ -1,12 +1,12 @@
 #!/usr/bin/php
 
 <?php
-// <bitbar.title>Linode Status</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Brendon Cheves</bitbar.author>
-// <bitbar.author.github>misfitius</bitbar.author.github>
-// <bitbar.desc>Uses linode-cli to check the status of your Linodes.</bitbar.desc>
-// <bitbar.dependencies>linode-cli,php</bitbar.dependencies>
+// <xbar.title>Linode Status</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Brendon Cheves</xbar.author>
+// <xbar.author.github>misfitius</xbar.author.github>
+// <xbar.desc>Uses linode-cli to check the status of your Linodes.</xbar.desc>
+// <xbar.dependencies>linode-cli,php</xbar.dependencies>
 
 $status = true;
 $json = shell_exec('/usr/local/bin/linode-cli linodes list --json');

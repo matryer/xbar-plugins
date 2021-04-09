@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Didqus Comments</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Caleb Marble</bitbar.author>
-# <bitbar.author.github>marblenix</bitbar.author.github>
-# <bitbar.desc>Show comment count per post and number of commenets that are pending.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/marblenix/Disqus-Comments/master/disqus.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/marblenix/Disqus-Comments</bitbar.abouturl>
+# <xbar.title>Didqus Comments</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Caleb Marble</xbar.author>
+# <xbar.author.github>marblenix</xbar.author.github>
+# <xbar.desc>Show comment count per post and number of commenets that are pending.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/marblenix/Disqus-Comments/master/disqus.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://github.com/marblenix/Disqus-Comments</xbar.abouturl>
 
 require 'net/http'
 require 'json'

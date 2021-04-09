@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Persian Date</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Ilia Vakili</bitbar.author>
-# <bitbar.author.github>theReticent</bitbar.author.github>
-# <bitbar.desc>Shows Persian date</bitbar.desc>
-# <bitbar.image></bitbar.image>
-# <bitbar.dependencies>jcal</bitbar.dependencies>
+# <xbar.title>Persian Date</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Ilia Vakili</xbar.author>
+# <xbar.author.github>theReticent</xbar.author.github>
+# <xbar.desc>Shows Persian date</xbar.desc>
+# <xbar.image></xbar.image>
+# <xbar.dependencies>jcal</xbar.dependencies>
 
 # To fix the "command not found" caused by installing jcal using brew
 PATH=/usr/local/bin:$PATH

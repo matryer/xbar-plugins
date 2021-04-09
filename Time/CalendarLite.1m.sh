@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Clock with calendar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Weibing Chen</bitbar.author>
-# <bitbar.author.github>WeibingChen17</bitbar.author.github>
-# <bitbar.desc>A clock with a simple calendar</bitbar.desc>
-# <bitbar.image>https://i.ibb.co/Krmg0P8/Screen-Shot-2019-11-08-at-23-04-29.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/WeibingChen17/</bitbar.abouturl>
+# <xbar.title>Clock with calendar</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Weibing Chen</xbar.author>
+# <xbar.author.github>WeibingChen17</xbar.author.github>
+# <xbar.desc>A clock with a simple calendar</xbar.desc>
+# <xbar.image>https://i.ibb.co/Krmg0P8/Screen-Shot-2019-11-08-at-23-04-29.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/WeibingChen17/</xbar.abouturl>
 
 # If using alongside apples default clock, one can uncomment the following - 
 #formatted_date=$(date '+%d/%b/%Y')

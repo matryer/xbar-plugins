@@ -6,13 +6,13 @@
 # and to mcchrish and alekseysotnikov for their helpful existing BitBar scripts
 #
 # metadata
-# <bitbar.title>Music Controls - Next Track Button</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sebastián Barschkis</bitbar.author>
-# <bitbar.author.github>sebbas</bitbar.author.github>
-# <bitbar.desc>Plays the next track in cmus, iTunes, Music, Spotify or pianobar.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/sebbas/music-controls-bitbar/master/music-controls-screenshot.png</bitbar.image>
-# <bitbar.abouturl>http://github.com/sebbas/music-controls-bitbar</bitbar.abouturl>
+# <xbar.title>Music Controls - Next Track Button</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sebastián Barschkis</xbar.author>
+# <xbar.author.github>sebbas</xbar.author.github>
+# <xbar.desc>Plays the next track in cmus, iTunes, Music, Spotify or pianobar.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/sebbas/music-controls-bitbar/master/music-controls-screenshot.png</xbar.image>
+# <xbar.abouturl>http://github.com/sebbas/music-controls-bitbar</xbar.abouturl>
 
 export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 export LC_CTYPE="UTF-8"

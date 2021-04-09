@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Viscosity active connection</bitbar.title>
-# <bitbar.desc>Shows the name of the first active connection</bitbar.desc>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Adam Bogdał</bitbar.author>
-# <bitbar.author.github>bogdal</bitbar.author.github>
-# <bitbar.dependencies>bash,viscosity</bitbar.dependencies>
+# <xbar.title>Viscosity active connection</xbar.title>
+# <xbar.desc>Shows the name of the first active connection</xbar.desc>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Adam Bogdał</xbar.author>
+# <xbar.author.github>bogdal</xbar.author.github>
+# <xbar.dependencies>bash,viscosity</xbar.dependencies>
 
 CONNECTION_NAME=$(osascript -e '
 tell application "Viscosity"
