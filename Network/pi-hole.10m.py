@@ -1,16 +1,30 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-xbar
 # <xbar.title>Pi-hole status</xbar.title>
-# <xbar.version>v3.1</xbar.version>
+# <xbar.version>v3.2</xbar.version>
 # <xbar.author>Felipe Martin</xbar.author>
 # <xbar.author.github>fmartingr</xbar.author.github>
 # <xbar.author>Siim Ots</xbar.author>
 # <xbar.author.github>siimots</xbar.author.github>
 # <xbar.desc>Show summary and manage Pi-Hole from menubar.</xbar.desc>
-# <xbar.image>https://files.fmartingrlabs.com/github/bitbar-plugins/pihole.1m.png</xbar.image>
+# <xbar.image>https://i.imgur.com/3MrdcKl.png</xbar.image>
 # <xbar.dependencies>pi-hole,python</xbar.dependencies>
+
+# <xbar.var>string(VAR_BASE_URL="http://pi.hole/admin"): URL to the pi-hole admin path without trailing slash.</xbar.var>
+
 import json
 import os
+
+# v3.2
+# Add base_url as a xbar variable (VAR_BASE_URL)
+# For a refresh when enabling/disable pi-hole, so that the status update directly
+# Update refresh time to 10m, as it seems useless to refresh every minute considering the refresh "fix"
+# Update <xbar.image> with a working url
+
+# Todo:
+# Allow to disable for a specific time like in the GUI
+# Change icon when disabled
+# Show when update is available
 
 try:  # Python 3
     from urllib.request import urlopen
@@ -25,7 +39,7 @@ PLUGIN_PATH = os.path.join(os.getcwd(), __file__)
 # ---
 
 # URL to the pi-hole admin path without trailing slash
-base_url = "http://pi.hole/admin"
+base_url = os.getenv('VAR_BASE_URL')
 
 # Your Pi-hole password hash (used for management)
 # THIS IS NOT YOUR PIHOLE ADMIN PASSWORD
@@ -95,9 +109,9 @@ def bitbar():
 
     print('Status: %s' % status)
     if enabled:
-        print('Disable Pi-hole | href=%s' % url_disable)
+        print('Disable Pi-hole | refresh=true href=%s' % url_disable)
     else:
-        print('Enable Pi-hole | href=%s' % url_enable)
+        print('Enable Pi-hole | refresh=true href=%s' % url_enable)
 
     separator()
     print("Domains being locked: %s" % summary['domains_being_blocked'])
