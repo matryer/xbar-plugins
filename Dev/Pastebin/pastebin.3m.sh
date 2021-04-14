@@ -119,7 +119,7 @@ fi
 if [[ $VAR_DELETE_ENABLED == 1 ]]
 then
 echo "---- Delete"
-echo "api_option=delete&api_user_key=$VAR_USR_KEY&api_dev_key=$VAR_DEV_KEY&api_paste_key=${pasteKeyArr[$i]}" > /tmp/pastebinReader/${fname}_delete_request.txt
+echo "api_option=delete&api_user_key=$VAR_USR_KEY&api_dev_key=$VAR_DEV_KEY&api_paste_key=${pasteKeyArr[$i]}" > "/tmp/pastebinReader/${fname}_delete_request.txt"
 echo "------ Confirm | color=#800000 shell='curl' param1='-d' param2='@/tmp/pastebinReader/${fname}_delete_request.txt' param3='$list_paste_url' refresh=true terminal=false"
 else
 echo "---- Delete Disabled | color=#DAA520"
