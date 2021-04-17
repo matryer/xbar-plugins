@@ -2,15 +2,16 @@
 
 #
 # <xbar.title>Check Pastebin</xbar.title>
-# <xbar.version>v1.2</xbar.version>
+# <xbar.version>v2.0</xbar.version>
 # <xbar.author>Tyllis Xu</xbar.author>
 # <xbar.author.github>livelycarpet87</xbar.author.github>
 # <xbar.desc>Uses a set of Pastebin API keys to check for pastes created by the user. It will provide links to all the pastes it finds by the user. </xbar.desc>
-# <xbar.image>https://i.ibb.co/cym797V/Pastebin2.png</xbar.image>
-# <xbar.abouturl>https://github.com/LivelyCarpet87/BitBar-Pastebin#bitbar-pastebin</xbar.abouturl>
-# <xbar.var>string(VAR_VAR_DEV_KEY=""): Your Pastebin API developer key</xbar.var>
-# <xbar.var>string(VAR_VAR_USR_KEY=""): Your Pastebin API user key</xbar.var>
-# <xbar.var>string(VAR_VAR_SAVE_DIRECTORY=""): The directory to download pastes to</xbar.var>
+# <xbar.image>https://tyllisxu.com/assets/img/portfolio/BitBar-Pastebin/pastebin.png</xbar.image>
+# <xbar.abouturl>https://github.com/LivelyCarpet87/xbar-Pastebin#xbar-pastebin</xbar.abouturl>
+# #  <xbar.dependencies>bash,curl</xbar.dependencies>
+# <xbar.var>string(VAR_VAR_DEV_KEY=""): Your Pastebin API developer key. This can be obtained at pastebin.com/doc_api after logging in.</xbar.var>
+# <xbar.var>string(VAR_VAR_USR_KEY=""): Your Pastebin API user key. This can be obtained too at pastebin.com/doc_api</xbar.var>
+# <xbar.var>string(VAR_VAR_SAVE_DIRECTORY=""): The directory to save pastes to</xbar.var>
 # <xbar.var>string(VAR_VAR_DELETE_ENABLED=1): Whether if the plugin should be allowed to delete pastes (per user request) [0,1]</xbar.var>
 #
 
