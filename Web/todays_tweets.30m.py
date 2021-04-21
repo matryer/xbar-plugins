@@ -17,7 +17,6 @@
 
 import tweepy
 import datetime
-import pytz
 import time
 
 
