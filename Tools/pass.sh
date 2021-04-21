@@ -19,20 +19,18 @@ echo "Pass"
 # when user click some from list set variable param1 
 # when param1 have a value run command pass -c (copy to clipboard)
 # done
-command -v cut &>/dev/null && \
-  command -v pass &>/dev/null && ( \
+if (command -v cut && command -v pass)&>/dev/null;then
   # get user input (when user click some in list)
-  [[ $1 ]] && pass -c $1
+  [[ $1 ]] && pass -c "$1"
   echo "---"
  
   # location of password-store file
-  cd ~/.password-store
+  cd ~/.password-store || exit
   for filename in **/*.gpg; do
     # remove file extension
     name=$(echo "$filename" | cut -f 1 -d '.')
     echo "${name} | bash='$0' param1='${name}' terminal=false"
   done
-
-  ) || (
+else
   echo "pass or cut insn't installed, please install"
-  )
+fi
