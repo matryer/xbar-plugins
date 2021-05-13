@@ -8,7 +8,7 @@
 #  <xbar.image>https://raw.githubusercontent.com/harrisonpage/unread/main/unread.png</xbar.image>
 set -e
 
-OUTPUT=`osascript -e 'tell Application "Mail"' -e 'unread count of inbox' -e 'end tell'`
+OUTPUT=$(osascript -e 'tell Application "Mail"' -e 'unread count of inbox' -e 'end tell')
 
 if [[ $OUTPUT -gt 0 ]]
 then
