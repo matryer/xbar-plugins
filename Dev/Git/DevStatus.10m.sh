@@ -66,7 +66,3 @@ trap 'case $? in
         11) echo "ssegfault occurred";;
       esac' EXIT
 gitdirtyrepos "$DIRECTORY"
-#Enter list of servers below give it a name and an address
-#echo "ServerName(Edit script file) | bash='ssh user@server'"
-#^Copy to add more servers
-#After adding or changing refresh plugins
