@@ -36,7 +36,7 @@ gitdirty(){
       if [[ "${d:0:1}" == "-" ]]; then
           echo ""
       else
-          cd $d > /dev/null
+          cd "$d" > /dev/null
           if [ -d ".git" ]; then
             DIRTYDIR="${d}"
             ISDIRTY=$(git diff --shortstat 2> /dev/null | tail -n1)
@@ -44,7 +44,7 @@ gitdirty(){
             [[ $ISDIRTY != "" ]] && printf " ${GITDIRTY_ISSUE}${GITDIRTY}${GITDIRTY_NORMAL}%-26s $DIRTYPOST $OPENOPTS \n" "$DIRTYDIR"
             [[ $ISDIRTY == "" ]] && printf " ${GITDIRTY_HIGHLIGHT}${GITCLEAN}${GITCLEAN_NORMAL}%-26s $CLEANPOST $OPENOPTS \n" "$DIRTYDIR"
           else
-            gitdirtyrepos *
+            gitdirtyrepos -- *
           fi
       fi
       cd .. > /dev/null
@@ -55,7 +55,7 @@ gitdirty(){
 
 gitdirtyrepos(){
   #echo "`pwd`"
-  for x in $*; do
+  for x in "$@"; do
     gitdirty "$x"
   done
 }
