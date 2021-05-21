@@ -104,12 +104,12 @@ if [ "$now" -lt "$d_end" ] # tell me to stop if I'm past $working_end
 then
     if [ "$now" -lt "$d_start" ] # basically captures post-midnight oil-burning
     then
-        echo "😴SLEEP!🛌 | $bitbar size=12 font=SF Compact Text Regular"
+        echo "😴SLEEP!🛌 | $bitbar size=12 font='SF Compact Text Regular'"
     else
-        echo "P: $(round "$d_progress")% | $bitbar size=12 font=SF Compact Text Regular"
+        echo "P: $(round "$d_progress")% | $bitbar size=12 font='SF Compact Text Regular'"
     fi
 else
-    echo "🛑STOP!✋ | $bitbar size=12 font=SF Compact Text Regular"
+    echo "🛑STOP!✋ | $bitbar size=12 font='SF Compact Text Regular'"
 fi
 echo ---
 # day + progress bar
