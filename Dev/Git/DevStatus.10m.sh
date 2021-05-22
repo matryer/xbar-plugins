@@ -6,7 +6,7 @@
 # <xbar.author.github>khrome</xbar.author.github>
 # <xbar.desc>Recursive status of any discovered .git repos in the provided directory. </xbar.desc>
 # <xbar.var>string(DIRECTORY="/Users/khrome/Development"): Directory to use.</xbar.var>
-# <xbar.image></xbar.image>
+# <xbar.image>https://user-images.githubusercontent.com/494527/118378290-080e3900-b590-11eb-9af2-ca13c56a9a46.png</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 
 echo "🚧"
