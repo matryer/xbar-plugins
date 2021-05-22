@@ -9,10 +9,10 @@
 # <xbar.image>https://tyllisxu.com/assets/img/portfolio/BitBar-Pastebin/pastebin.png</xbar.image>
 # <xbar.abouturl>https://github.com/LivelyCarpet87/xbar-Pastebin#xbar-pastebin</xbar.abouturl>
 # <xbar.dependencies>bash,curl</xbar.dependencies>
-# <xbar.var>string(VAR_VAR_DEV_KEY=""): Your Pastebin API developer key. This can be obtained at pastebin.com/doc_api after logging in.</xbar.var>
-# <xbar.var>string(VAR_VAR_USR_KEY=""): Your Pastebin API user key. This can be obtained too at pastebin.com/doc_api</xbar.var>
-# <xbar.var>string(VAR_VAR_SAVE_DIRECTORY=""): The directory to save pastes to</xbar.var>
-# <xbar.var>string(VAR_VAR_DELETE_ENABLED=1): Whether if the plugin should be allowed to delete pastes (per user request) [0,1]</xbar.var>
+# <xbar.var>string(VAR_DEV_KEY=""): Your Pastebin API developer key. This can be obtained at pastebin.com/doc_api after logging in.</xbar.var>
+# <xbar.var>string(VAR_USR_KEY=""): Your Pastebin API user key. This can be obtained too at pastebin.com/doc_api</xbar.var>
+# <xbar.var>string(VAR_SAVE_DIRECTORY=""): The directory to save pastes to</xbar.var>
+# <xbar.var>string(VAR_DELETE_ENABLED=1): Whether if the plugin should be allowed to delete pastes (per user request) [0,1]</xbar.var>
 #
 
 if [[ $VAR_DEV_KEY == '' ]]
