@@ -2,14 +2,14 @@
 
 # xbar Metadata
 # <xbar.title>KSing 全民K歌</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v1.2</xbar.version>
 # <xbar.author>xfangfang</xbar.author>
 # <xbar.author.github>xfangfang</xbar.author.github>
 # <xbar.desc>Play songs from KSing</xbar.desc>
 # <xbar.image>https://raw.githubusercontent.com/xfangfang/xfangfang.github.io/master/assets/img/we_sing.png</xbar.image>
 # <xbar.dependencies>requests,requests_futures,playsound,pyobjc</xbar.dependencies>
 # <xbar.abouturl>https://xfangfang.github.io/019</xbar.abouturl>
-# <xbar.var>select(VAR_ID="64999a87232a308d"): User ID. (String of length 16) [64999a87232a308d, 679b9982232b318b]</xbar.var>
+# <xbar.var>select(VAR_ID="679b9982232b318b"): User ID. (String of length 16) [64999a87232a308d, 679b9982232b318b]</xbar.var>
 
 import re
 import os
@@ -18,8 +18,8 @@ import json
 import math
 import time
 import random
-import datetime
 import requests
+from time import strftime, localtime
 from playsound import playsound
 from requests_futures.sessions import FuturesSession
 from concurrent.futures import as_completed
@@ -40,8 +40,6 @@ class jsonEnconding(json.JSONEncoder):
         return o.__dict__
 
 class Object():
-    session = requests.Session()
-    future_session = FuturesSession(session=session)
     CACHE_PATH = '{}/.ksing_cache'.format(os.path.expanduser('~'))
     SETTING_CACHE = '{}/setting.json'.format(CACHE_PATH)
     NUM_PER_PAGE = 8
@@ -66,12 +64,11 @@ class Object():
             }
 
     def getText(self, url):
-        return self.session.get(url, headers=self.headers).text
+        return requests.get(url, headers=self.headers).text
 
     @staticmethod
     def timeConverter(unixTime):
-        dateArray = datetime.datetime.utcfromtimestamp(unixTime)
-        return dateArray.strftime("%Y/%m/%d %H:%M:%S")
+        return strftime('%Y-%m-%d %H:%M',localtime(unixTime))
 
     @staticmethod
     def createCacheDir():
@@ -96,7 +93,7 @@ class Song(Object):
         return self.play_url_video if self.play_url == '' else self.play_url
 
     def getContent(self):
-        return self.session.get(self.getPlayUrl()).content
+        return requests.get(self.getPlayUrl()).content
 
     def __repr__(self):
         return "{} - {}".format(self.timeConverter(self.time), self.title)
@@ -121,10 +118,10 @@ class Player(Object):
         data = re.findall(r'[(](.*)[)]', content)[0]
         return json.loads(data)['data']
 
-    def _getInfoAsync(self, page):
+    def _getInfoAsync(self, page, future_session):
         url = "https://node.kg.qq.com/cgi/fcgi-bin/kg_ugc_get_homepage?type=get_uinfo&" + \
             "start={}&num={}&share_uid={}&callback=MusicJsonCallback".format(page, self.NUM_PER_PAGE, self.userid)
-        return self.future_session.get(url, headers = self.headers)
+        return future_session.get(url, headers = self.headers)
 
     def _addDataToPlaylist(self, songs_data_list):
         for data in songs_data_list:
@@ -152,8 +149,9 @@ class Player(Object):
         self.createSongCacheDir()
         song_path = '{}/{}/{}-{}.m4a'.format(Player.CACHE_PATH, self.userid, song.ksong_mid, song.time)
         if os.path.exists(song_path): return song_path
+        content = song.getContent()
         with open(song_path, 'wb') as f:
-            f.write(song.getContent())
+            f.write(content)
         return song_path
 
     @staticmethod
@@ -181,7 +179,8 @@ class Player(Object):
         self._addDataToPlaylist(content['ugclist'])
         total_page = math.ceil(self.total_num/self.NUM_PER_PAGE)
 
-        futures=[self._getInfoAsync(i) for i in range(2, total_page+1)]
+        future_session = FuturesSession(max_workers = Object.REQUEST_WORKERS)
+        futures=[self._getInfoAsync(i, future_session) for i in range(2, total_page+1)]
         p = 1
         for future in as_completed(futures):
             p += 1
@@ -382,9 +381,12 @@ def checkUpdateTime(setting):
             return player
     return None
 
-def cmd(title, p1, p2='nothing', refresh=False, color='black'):
+def cmd(title, p1, p2='nothing', refresh=False, color=None):
     current = int(round(time.time()))
-    print("{} | shell='{}' param1={} param2={} param3={} terminal=false refresh={} color={}".format(title, sys.argv[0], p1, p2, current, refresh, color))
+    if color == None:
+        print("{} | shell='{}' param1={} param2={} param3={} terminal=false refresh={}".format(title, sys.argv[0], p1, p2, current, refresh))
+    else:
+        print("{} | shell='{}' param1={} param2={} param3={} terminal=false refresh={} color={}".format(title, sys.argv[0], p1, p2, current, refresh, color))
 
 def main():
     setting = loadSetting()
@@ -413,6 +415,8 @@ def main():
             player = Player(setting.current_userid)
             player.getPlaylist()
             player.save()
+            setting.lastupdate = int(round(time.time()))
+            setting.save()
         return
 
     player = checkUpdateTime(setting)
@@ -434,7 +438,7 @@ def main():
             song_name = "{}: {} {}".format(i+1, Object.timeConverter(song.time), song.title.replace("|", "/"))
         else:
             song_name = "{}: {}".format(i+1, song.title.replace("|", "/"))
-        color = 'blue' if setting.currentid == song.shareid else 'black'
+        color = 'red' if setting.currentid == song.shareid else None
         cmd("--{}".format(song_name), "play", i, refresh=True, color=color)
     cmd("Stop", "stop", refresh=True)
     print("Loop - {}".format(setting.loop))
@@ -446,13 +450,13 @@ def main():
     print("Settings")
     print("---")
     print("--UserID:{}".format(USERID))
-    cmd("--Update Song list", "update", refresh=True)
+    cmd("--Update Songs（{}）".format(Object.timeConverter(setting.lastupdate)), "update", refresh=True)
     text = "Hide" if setting.shownotify else "Show"
     cmd("--{} Notification".format(text), "notify", text, refresh=True)
     text = "Hide" if setting.showtime else "Show"
     cmd("--{} PublishTime".format(text), "time", text, refresh=True)
     cmd("--Clear Cache: {}".format(getDirSize(Object.CACHE_PATH)), 'clear', refresh=True)
-    print("--Seting UserID | href=xbar://app.xbarapp.com/openPlugin?path={}".format(SCRIPT_NAME))
+    print("--Set UserID | href=xbar://app.xbarapp.com/openPlugin?path={}".format(SCRIPT_NAME))
     print("--Help | href=https://xfangfang.github.io/019")
 
 
