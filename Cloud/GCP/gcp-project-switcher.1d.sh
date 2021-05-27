@@ -6,6 +6,7 @@
 #  <xbar.version>v1.0</xbar.version>
 #  <xbar.author>Daniel Palma</xbar.author>
 #  <xbar.author.github>danthelion</xbar.author.github>
+#  <xbar.image>http://i.imgur.com/mP8Vec2.png</xbar.image>
 #  <xbar.desc>See current active GCP project and easily switch between others.</xbar.desc>
 
 export PATH='/usr/local/bin:/usr/bin:$PATH'
