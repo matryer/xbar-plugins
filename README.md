@@ -1,4 +1,4 @@
-# xbar Plugins [![Build Status](https://travis-ci.org/matryer/xbar-plugins.svg?branch=master)](https://travis-ci.org/matryer/xbar-plugins)
+# xbar Plugins
 
 This repo contains scripts, programs and command-line tools that add functionality to [xbar](https://github.com/matryer/xbar#get-started).
 
