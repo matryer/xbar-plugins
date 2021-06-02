@@ -8,11 +8,12 @@
 # <xbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</xbar.image>
 # <xbar.abouturl>https://github.com/carlsonorozco/ejector</xbar.abouturl>
 
-drives=( $(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//') )
+
+drives=( $(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data"| grep -v "/System/Volumes/VM" | grep -v "/System/Volumes/Preboot" | grep -v "/System/Volumes/Update" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//') )
 
 IFS=$'**********'
 for details in $( diskutil info -all ); do
-    drives+=( $(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "EFI\|Preboot\|Recovery" | awk '{print $3}') )
+    drives+=( $(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "Boot\|Backup\|Macintosh\|EFI\|Preboot\|Recovery" | awk '{print $3}') )
 done
 
 if [ "$1" = 'eject' ]; then
