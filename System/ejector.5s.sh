@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # <xbar.title>Ejector</xbar.title>
 # <xbar.version>v1.2</xbar.version>
@@ -9,11 +9,11 @@
 # <xbar.abouturl>https://github.com/carlsonorozco/ejector</xbar.abouturl>
 
 
-drives=( $(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data"| grep -v "/System/Volumes/VM" | grep -v "/System/Volumes/Preboot" | grep -v "/System/Volumes/Update" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//') )
+mapfile -t drives < <(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data"| grep -v "/System/Volumes/VM" | grep -v "/System/Volumes/Preboot" | grep -v "/System/Volumes/Update" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//')
 
 IFS=$'**********'
 for details in $( diskutil info -all ); do
-    drives+=( $(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "Boot\|Backup\|Macintosh\|EFI\|Preboot\|Recovery" | awk '{print $3}') )
+    mapfile -t -O "${#drives[@]}" drives <  <(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "Boot\|Backup\|Macintosh\|EFI\|Preboot\|Recovery" | awk '{print $3}')
 done
 
 if [ "$1" = 'eject' ]; then
