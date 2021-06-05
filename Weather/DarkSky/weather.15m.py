@@ -89,9 +89,10 @@ def full_country_name(country):
   except urllib2.URLError:
     return False
 
-def calculate_bearing(degree):
-  cardinals = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
-  return cardinals[int(round(((6 * degree)) / 360))]
+def calculate_bearing(d):
+  dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
+  ix = int(round(d / (360. / len(dirs))))
+  return dirs[ix % len(dirs)]
 
 def get_wx_icon(icon_code):
   if icon_code == 'clear-day':
