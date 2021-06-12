@@ -17,7 +17,6 @@
 # -----------------------------------------------------------------------------------
 
 import json
-import emoji
 import urllib.request, urllib.error, urllib.parse
 import textwrap
 from random import randint
