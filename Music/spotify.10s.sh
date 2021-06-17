@@ -32,6 +32,8 @@ CLEAN_ALBUM_NAMES=1
 TRUNC_LEN=18
 # String used when replacing truncated text.
 TRUNC_SUFFIX="..."
+# Comment out this line to disable cycling through track/artist
+CYCLE_TRACK_ARTIST=1
 
 # Send a series of semicolon-delimited commands to Spotify
 function tellspotify() {
@@ -43,6 +45,24 @@ function tellspotify() {
             end tell";
 }
 
+# Handle launch spotify
+if [ "$1" = 'launch' ]; then
+  tellspotify 'activate'
+  exit
+fi
+# Handle lyrics where param2 is track_title and param3 is artist
+if [ "$1" = 'lyrics' ]; then
+  open "https://www.musixmatch.com/search/$2 $3"
+  exit
+fi
+# Handle play/pause/prev/next commands
+first="$(echo "$1" | head -n 1 | awk '{print $1;}')"
+case "$first" in
+  'playpause' | 'previous' | 'next' | 'set')
+    tellspotify "$1"
+    exit
+esac
+
 function printdefault() {
   echo "♫"
   echo "---"
@@ -50,19 +70,32 @@ function printdefault() {
   echo "Launch Spotify | shell='$0' param1=launch terminal=false"
 }
 
-## Handle early-return cases
-
-if [ "$1" = 'launch' ]; then
-  tellspotify 'activate'
-  exit
-fi
-
-first="$(echo "$1" | head -n 1 | awk '{print $1;}')"
-case "$first" in
-  'playpause' | 'previous' | 'next' | 'set')
-    tellspotify "$1"
-    exit
-esac
+# Truncate or cycle track and artist
+function printtitle() {
+  output=$1
+  # Only cycle title while playing
+  if [ $CYCLE_TRACK_ARTIST ] && [ "$state" = "playing" ]; then
+    while [ ${#output} -gt $TRUNC_LEN ]; do
+      tmp_out=${output:0:$TRUNC_LEN}
+      output=${output:$TRUNC_LEN}
+      echo "$state_icon $tmp_out"
+    done
+    if [ ${#output} -gt 0 ]; then
+      # Show the last $TRUNC_LEN characters of original string
+      if [ ${#1} -lt $TRUNC_LEN ]; then
+        output=$1
+      else
+        output=${1:(-$TRUNC_LEN)}
+      fi
+      echo "$state_icon $output"
+    fi
+  else
+    if [ ${#output} -gt $TRUNC_LEN ];then
+      output=${output:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
+    fi
+    echo "$state_icon $output | length=$((TRUNC_LEN+${#TRUNC_SUFFIX}))"
+  fi
+}
 
 # Check if Spotify is running or if `state` is "stopped"
 if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
@@ -89,12 +122,6 @@ else
   track_type="SONG"
 fi
 
-# Handle last early-return case (needed $track and $artist to look up lyrics).
-if [ "$1" = 'lyrics' ]; then
-  open "https://www.musixmatch.com/search/$track $artist"
-  exit
-fi
-
 if [ "$state" = "playing" ]; then
   state_icon="▶"
 else
@@ -114,17 +141,6 @@ if [[ $CLEAN_TRACK_NAMES ]]; then
 fi
 if [[ $CLEAN_ALBUM_NAMES ]]; then
   album="$(clean_name "$album")"
-fi
-
-## Truncate track and artist
-trunc_track=$track
-if [ ${#trunc_track} -gt $TRUNC_LEN ];then
-  trunc_track=${trunc_track:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
-fi
-
-trunc_artist=$artist
-if [ ${#trunc_artist} -gt $TRUNC_LEN ];then
-  trunc_artist=${trunc_artist:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
 fi
 
 # Get position and duration of track
@@ -157,16 +173,16 @@ fi
 
 ## Print the display
 if [ "$track_type" == "PODCAST" ]; then
-	echo "$state_icon $track - $album | length=$TRUNC_LEN"
-	echo "---"
-	echo -e "Episode: $track"
-	echo -e "Podcast: $album"
+  printtitle "$track - $album"
+  echo "---"
+  echo -e "Episode: $track"
+  echo -e "Podcast: $album"
 elif [ "$track_type" == "SONG" ]; then
-	echo "$state_icon $track - $artist | length=$TRUNC_LEN"
-	echo "---"
-	echo -e "Track:\\t$track"
-	echo -e "Artist:\\t$artist"
-	echo -e "Album:\\t$album"
+  printtitle "$track - $artist"
+  echo "---"
+  echo -e "Track:\\t$track"
+  echo -e "Artist:\\t$artist"
+  echo -e "Album:\\t$album"
 fi
 echo "---"
 
