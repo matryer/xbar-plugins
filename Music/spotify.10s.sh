@@ -4,16 +4,17 @@
 #
 # by Jason Tokoph (jason@tokoph.net)
 #    Marcin Swieczkowski (scatman@bu.edu)
+#    Benji Encalada Mora (@benjifs)
 #
 # Shows current track information for Spotify
 
 # metadata
-# <xbar.title>Spotify Now Playing</xbar.title>
-# <xbar.version>v1.2</xbar.version>
-# <xbar.author>Marcin S., Jason Tokoph</xbar.author>
-# <xbar.author.github>jtokoph</xbar.author.github>
-# <xbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</xbar.desc>
-# <xbar.image>http://i.imgur.com/y1SZwfq.png</xbar.image>
+# <bitbar.title>Spotify Now Playing</bitbar.title>
+# <bitbar.version>v1.3</bitbar.version>
+# <bitbar.author>Jason Tokoph, Marcin S, Benji Encalada Mora</bitbar.author>
+# <bitbar.author.github>jtokoph</bitbar.author.github>
+# <bitbar.desc>Display currently playing Spotify song and podcast. Play/pause, skip forward, skip backward.</bitbar.desc>
+# <bitbar.image>http://i.imgur.com/y1SZwfq.png</bitbar.image>
 
 # Comment the following line to disable showing times.
 SHOW_TIME=1
@@ -42,6 +43,13 @@ function tellspotify() {
             end tell";
 }
 
+function printdefault() {
+  echo "♫"
+  echo "---"
+  echo "Spotify is not running"
+  echo "Launch Spotify | bash='$0' param1=launch terminal=false"
+}
+
 ## Handle early-return cases
 
 if [ "$1" = 'launch' ]; then
@@ -56,20 +64,30 @@ case "$first" in
     exit
 esac
 
+# Check if Spotify is running or if `state` is "stopped"
 if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
-  echo "♫"
-  echo "---"
-  echo "Spotify is not running"
-  echo "Launch Spotify | bash='$0' param1=launch terminal=false"
+  printdefault
+  exit
+fi
+state=$(tellspotify 'player state as string');
+if [ "$state" == "stopped" ]; then
+  printdefault
   exit
 fi
 
 ## Get Spotify info
-
-state=$(tellspotify 'player state as string');
+id=$(tellspotify 'id of current track as string');
 track=$(tellspotify 'name of current track as string');
 artist=$(tellspotify 'artist of current track as string');
 album=$(tellspotify 'album of current track as string');
+
+## Check track type
+if [[ "$id" == *":episode:"* ]]; then
+	track_type="PODCAST"
+	unset CLEAN_TRACK_NAMES
+else
+	track_type="SONG"
+fi
 
 # Handle last early-return case (needed $track and $artist to look up lyrics).
 if [ "$1" = 'lyrics' ]; then
@@ -133,13 +151,18 @@ if [[ $SHOW_TIME ]]; then
 fi
 
 ## Print the display
-
-echo "$state_icon $trunc_track - $trunc_artist"
-echo "---"
-
-echo -e "Track:\\t$track"
-echo -e "Artist:\\t$artist"
-echo -e "Album:\\t$album"
+if [ "$track_type" == "PODCAST" ]; then
+	echo "$state_icon $track - $album | length=$TRUNC_LEN"
+	echo "---"
+	echo -e "Episode: $track"
+	echo -e "Podcast: $album"
+elif [ "$track_type" == "SONG" ]; then
+	echo "$state_icon $track - $artist | length=$TRUNC_LEN"
+	echo "---"
+	echo -e "Track:\\t$track"
+	echo -e "Artist:\\t$artist"
+	echo -e "Album:\\t$album"
+fi
 echo "---"
 
 if [[ $SHOW_TIME ]]; then
@@ -149,19 +172,18 @@ fi
 
 if [ "$state" = "playing" ]; then
   echo -e "❚❚\\tPause | bash='$0' param1=playpause terminal=false refresh=true"
-  echo -e "↩\\tPrevious | bash='$0' param1='set player position to 0;previous track' terminal=false refresh=true"
-  echo -e "↪\\tNext | bash='$0' param1='next track' terminal=false refresh=true"
-  echo -e "↻\\tReplay | bash = '$0' param1='set player position to 0' terminal=false"
 else
   echo -e "▶\\tPlay | bash='$0' param1=playpause terminal=false refresh=true"
-  echo -e "↩\\tPrevious | bash='$0' param1='set player position to 0;previous track;play' terminal=false refresh=true"
-  echo -e "↪\\tNext | bash='$0' param1='next track;play' terminal=false refresh=true"
-  echo -e "↻\\tReplay | bash = '$0' param1='set player position to 0;play' terminal=false refresh=true"
+fi
+echo -e "↩\\tPrevious | bash='$0' param1='set player position to 0;previous track;play' terminal=false refresh=true"
+echo -e "↪\\tNext | bash='$0' param1='next track;play' terminal=false refresh=true"
+echo -e "↻\\tReplay | bash = '$0' param1='set player position to 0;play' terminal=false refresh=true"
+
+echo '---'
+
+if [ "$track_type" == "SONG"  ]; then
+	echo -e "♫\\tLyrics | bash='$0' param1=lyrics terminal=false"
+  echo '---'
 fi
 
-echo '---'
-echo -e "♫\\tLyrics | bash='$0' param1='lyrics' terminal=false"
-echo '---'
-
-echo '---'
 echo "Open Spotify | bash='$0' param1=launch terminal=false"
