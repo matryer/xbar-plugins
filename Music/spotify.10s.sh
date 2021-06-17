@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Get current Spotify status with play/pause button
 #
@@ -47,7 +47,7 @@ function printdefault() {
   echo "♫"
   echo "---"
   echo "Spotify is not running"
-  echo "Launch Spotify | bash='$0' param1=launch terminal=false"
+  echo "Launch Spotify | shell='$0' param1=launch terminal=false"
 }
 
 ## Handle early-return cases
@@ -83,10 +83,10 @@ album=$(tellspotify 'album of current track as string');
 
 ## Check track type
 if [[ "$id" == *":episode:"* ]]; then
-	track_type="PODCAST"
-	unset CLEAN_TRACK_NAMES
+  track_type="PODCAST"
+  unset CLEAN_TRACK_NAMES
 else
-	track_type="SONG"
+  track_type="SONG"
 fi
 
 # Handle last early-return case (needed $track and $artist to look up lyrics).
@@ -171,19 +171,19 @@ if [[ $SHOW_TIME ]]; then
 fi
 
 if [ "$state" = "playing" ]; then
-  echo -e "❚❚\\tPause | bash='$0' param1=playpause terminal=false refresh=true"
+  echo -e "❚❚\\tPause | shell='$0' param1=playpause terminal=false refresh=true"
 else
-  echo -e "▶\\tPlay | bash='$0' param1=playpause terminal=false refresh=true"
+  echo -e "▶\\tPlay | shell='$0' param1=playpause terminal=false refresh=true"
 fi
-echo -e "↩\\tPrevious | bash='$0' param1='set player position to 0;previous track;play' terminal=false refresh=true"
-echo -e "↪\\tNext | bash='$0' param1='next track;play' terminal=false refresh=true"
+echo -e "↩\\tPrevious | shell='$0' param1='set player position to 0;previous track;play' terminal=false refresh=true"
+echo -e "↪\\tNext | shell='$0' param1='next track;play' terminal=false refresh=true"
 echo -e "↻\\tReplay | bash = '$0' param1='set player position to 0;play' terminal=false refresh=true"
 
 echo '---'
 
 if [ "$track_type" == "SONG"  ]; then
-	echo -e "♫\\tLyrics | bash='$0' param1=lyrics terminal=false"
+	echo -e "♫\\tLyrics | shell='$0' param1=lyrics terminal=false"
   echo '---'
 fi
 
-echo "Open Spotify | bash='$0' param1=launch terminal=false"
+echo "Open Spotify | shell='$0' param1=launch terminal=false"
