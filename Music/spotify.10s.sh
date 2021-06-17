@@ -101,14 +101,19 @@ else
   state_icon="❚❚"
 fi
 
+function clean_name() {
+  name=$1
+  name="$(echo -e "${name/ - /\\n}" | head -n 1)"
+  name="$(echo -e "${name/ (Remastered/\\n}" | head -n 1)"
+  echo $name
+}
+
 # Clean up track and/or album names
 if [[ $CLEAN_TRACK_NAMES ]]; then
-  track="$(echo -e "${track/ - /\\n}" | head -n 1)"
-  track="$(echo -e "${track/ (Remastered/\\n}" | head -n 1)"
+  track="$(clean_name "$track")"
 fi
 if [[ $CLEAN_ALBUM_NAMES ]]; then
-  album="$(echo -e "${album/ - /\\n}" | head -n 1)"
-  album="$(echo -e "${album/ (Remastered/\\n}" | head -n 1)"
+  album="$(clean_name "$album")"
 fi
 
 ## Truncate track and artist
@@ -177,12 +182,14 @@ else
 fi
 echo -e "↩\\tPrevious | shell='$0' param1='set player position to 0;previous track;play' terminal=false refresh=true"
 echo -e "↪\\tNext | shell='$0' param1='next track;play' terminal=false refresh=true"
-echo -e "↻\\tReplay | bash = '$0' param1='set player position to 0;play' terminal=false refresh=true"
+echo -e "↻\\tReplay | shell='$0' param1='set player position to 0;play' terminal=false refresh=true"
 
 echo '---'
 
 if [ "$track_type" == "SONG"  ]; then
-	echo -e "♫\\tLyrics | shell='$0' param1=lyrics terminal=false"
+  # Remove quotes in title for lyrics search
+  clean_track=$(echo $track | sed 's/"//g')
+  echo -e "♫\\tLyrics | shell='$0' param1=lyrics param2=\"$clean_track\" param3=\"$artist\" terminal=false"
   echo '---'
 fi
 
