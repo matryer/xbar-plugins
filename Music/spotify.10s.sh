@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Get current Spotify status with play/pause button
 #
 # by Jason Tokoph (jason@tokoph.net)
@@ -7,13 +6,12 @@
 #    Benji Encalada Mora (@benjifs)
 #
 # Shows current track information for Spotify
-
 # metadata
 # <bitbar.title>Spotify Now Playing</bitbar.title>
-# <bitbar.version>v1.3</bitbar.version>
+# <bitbar.version>v1.4</bitbar.version>
 # <bitbar.author>Jason Tokoph, Marcin S, Benji Encalada Mora</bitbar.author>
-# <bitbar.author.github>jtokoph</bitbar.author.github>
-# <bitbar.desc>Display currently playing Spotify song and podcast. Play/pause, skip forward, skip backward.</bitbar.desc>
+# <bitbar.author.github>jtokoph, m-cat, benjifs</bitbar.author.github>
+# <bitbar.desc>Display currently playing Spotify song or podcast. Play/pause, skip forward, skip backward.</bitbar.desc>
 # <bitbar.image>http://i.imgur.com/y1SZwfq.png</bitbar.image>
 
 # Comment the following line to disable showing times.
