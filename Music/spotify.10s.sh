@@ -7,12 +7,12 @@
 #
 # Shows current track information for Spotify
 # metadata
-# <bitbar.title>Spotify Now Playing</bitbar.title>
-# <bitbar.version>v1.4</bitbar.version>
-# <bitbar.author>Jason Tokoph, Marcin S, Benji Encalada Mora</bitbar.author>
-# <bitbar.author.github>jtokoph, m-cat, benjifs</bitbar.author.github>
-# <bitbar.desc>Display currently playing Spotify song or podcast. Play/pause, skip forward, skip backward.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/y1SZwfq.png</bitbar.image>
+# <xbar.title>Spotify Now Playing</xbar.title>
+# <xbar.version>v1.4</xbar.version>
+# <xbar.author>Jason Tokoph, Marcin S, Benji Encalada Mora</xbar.author>
+# <xbar.author.github>jtokoph, m-cat, benjifs</xbar.author.github>
+# <xbar.desc>Display currently playing Spotify song or podcast. Play/pause, skip forward, skip backward.</xbar.desc>
+# <xbar.image>http://i.imgur.com/y1SZwfq.png</xbar.image>
 
 # Comment the following line to disable showing times.
 SHOW_TIME=1
