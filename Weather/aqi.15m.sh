@@ -10,7 +10,7 @@
 # <xbar.abouturl>http://www.yuanchongyu.com</xbar.abouturl>
 # <xbar.var>string(JQ_PATH="/usr/local/bin/jq"): Path to jq JSON processor. See https://stedolan.github.io/jq/download/</xbar.var>
 # <xbar.var>string(API_TOKEN=""): API Token from https://aqicn.org/api/</xbar.var>
-# <xbar.var>string(CITY="shanghai"): Major city or location URL path after `https://aqicn.org/city/``, excluding trailing slash if one exists.</xbar.var>
+# <xbar.var>string(CITY="shanghai"): Major city or location URL path after `https://aqicn.org/city/`, excluding trailing slash if one exists.</xbar.var>
 
 # how to install jq -> https://stedolan.github.io/jq/download/
 # homebrew example: `$ brew install jq`
