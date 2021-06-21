@@ -5,7 +5,7 @@
 # <bitbar.author>Bruno Conte</bitbar.author>
 # <bitbar.author.github>brunocbr</bitbar.author.github>
 # <bitbar.desc>Activates The Archive and remind for Journaling</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.image>https://forum.zettelkasten.de/uploads/editor/xm/regzdy1vfk24.gif</bitbar.image>
 # <bitbar.dependencies>bash,applescript,The Archive</bitbar.dependencies>
 # <bitbar.abouturl>https://forum.zettelkasten.de/discussion/1559/better-journaling-with-the-archive-and-bitbar</bitbar.abouturl>
 
