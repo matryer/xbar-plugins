@@ -11,6 +11,7 @@
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl>https://www.okex.com/about.html</xbar.abouturl>
 # <xbar.var>string(VAR_CURRENCIES="btc,eth"): Currencies, separated with comma.</xbar.var>
+# <xbar.var>string(VAR_FONT_NAME=""): Font name.</xbar.var>
 
 import re
 import os
@@ -87,12 +88,22 @@ def get_ticker_info(currency):
         }
 
 
+def get_extra_parameters():
+    params = []
+    font_name = os.environ.get("VAR_FONT_NAME")
+    if font_name:
+        params.append('font="{}"'.format(font_name.replace('"', '\\"')))
+    return " ".join(params)
+
+
 def main():
     currencies = os.environ.get("VAR_CURRENCIES", DEFAULT_CURRENCIES)
     currencies = [i.upper() for i in re.split(r"\s*,\s*", currencies) if i]
     infos = [get_ticker_info(i) for i in currencies]
     titles = ["{currency}: {title}".format(**i) for i in infos]
-    title = "{} | color=white size=12".format("    ".join(titles))
+    title = "{} | color=white size=12 {}".format(
+        "    ".join(titles), get_extra_parameters()
+    )
     last_updates = [
         "--{}: {}".format(i["currency"], i["updated_at"])
         for i in infos
