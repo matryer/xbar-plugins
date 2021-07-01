@@ -9,7 +9,9 @@
 # <xbar.image>https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/263/fuel-pump_26fd.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl>https://www.gasnow.org/</xbar.abouturl>
+# <xbar.var>string(VAR_FONT_NAME=""): Font name.</xbar.var>
 
+import os
 import json
 import urllib2
 
@@ -30,6 +32,14 @@ def get_fast_avg_gas():
     }
 
 
+def get_extra_parameters():
+    params = []
+    font_name = os.environ.get("VAR_FONT_NAME")
+    if font_name:
+        params.append('font="{}"'.format(font_name.replace('"', '\\"')))
+    return " ".join(params)
+
+
 def main():
     try:
         gas = get_fast_avg_gas()
@@ -46,7 +56,7 @@ def main():
         menu = "Click to reveal"
         color = "red"
     color = "white"
-    bar = u'⛽ {} | color={} size=12 font="Binance Plex"'.format(bar, color)
+    bar = u"⛽ {} | color={} size=12 {}".format(bar, color, get_extra_parameters())
     print bar.encode("utf-8")
     print "---"
     print 'Ethereum Gas Price: {} | href="{}"'.format(menu, GAS_NOW_API)
