@@ -10,6 +10,8 @@
 WORK_TIME=25
 BREAK_TIME=3
 
+TMP_DIR='/tmp'
+
 SAVE_LOCATION=$TMPDIR/bitbar-promodo
 TOMATO='🍅'
 
