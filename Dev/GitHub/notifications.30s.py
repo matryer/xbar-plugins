@@ -165,7 +165,7 @@ else:
         )
         print '---'
     else:
-        print ''
+        print '•'
         exit(0)
 
     print_bitbar_line( title='Refresh', refresh='true' )
