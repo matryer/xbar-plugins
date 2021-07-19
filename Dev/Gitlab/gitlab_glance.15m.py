@@ -43,7 +43,10 @@ class Utils:
 
     @staticmethod
     def get_sub_menu_item(issuable, author=False):
-        iid = f"!{issuable.get('iid')}"
+        if '/merge_requests' in issuable.get('web_url'):
+            iid = f"!{issuable.get('iid')}"
+        else:
+            iid = f"#{issuable.get('iid')}"
         title = issuable.get("title")
         author_name = issuable.get("author").get("name")
         href = f"href='{issuable.get('web_url')}'"
