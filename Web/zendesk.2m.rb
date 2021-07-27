@@ -52,7 +52,7 @@ begin
     count = tickets["results"].length
   end
 
-  puts "#{tickets.length}" + " | " + get_color(count) + " " + get_image(count)
+  puts "#{count}" + " | " + get_color(count) + " " + get_image(count)
 
   puts "---"
 
