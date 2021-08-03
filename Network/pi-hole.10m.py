@@ -120,11 +120,11 @@ def bitbar():
 
     print('Status: %s' % status)
     if enabled:
-        print('Disable Pi-hole | refresh=true href=%s' % url_disable)
-        print('Disable Pi-hole 30s | refresh=true href=%s' % url_disable_30s)
-        print('Disable Pi-hole 5m | refresh=true href=%s' % url_disable_5m)
+        print('Disable Pi-hole | refresh=true shell=curl param1=%s' % url_disable)
+        print('Disable Pi-hole 30s | refresh=true shell=curl param1=%s' % url_disable_30s)
+        print('Disable Pi-hole 5m | refresh=true shell=curl param1=%s' % url_disable_5m)
     else:
-        print('Enable Pi-hole | refresh=true href=%s' % url_enable)
+        print('Enable Pi-hole | refresh=true shell=curl param1=%s' % url_enable)
 
     separator()
     print("Domains being locked: %s" % summary['domains_being_blocked'])
