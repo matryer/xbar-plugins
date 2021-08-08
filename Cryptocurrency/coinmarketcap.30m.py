@@ -5,17 +5,17 @@
 #  <xbar.author>Alvaro Serrano</xbar.author>
 #  <xbar.author.github>https://github.com/alvaroserrrano</xbar.author.github>
 #  <xbar.desc>Your preferred cryptos in the Fiat currency you choose</xbar.desc>
-#  <xbar.image>http://www.hosted-somewhere/pluginimage</xbar.image>
+#  <xbar.image>https://ibb.co/DYFkPPP</xbar.image>
 #  <xbar.dependencies>python3</xbar.dependencies>
 #  <xbar.abouturl></xbar.abouturl>
 
 # Variables become preferences in the app:
 #  <xbar.var>string(VAR_CONVERSION_CURRENCY="USD"): Fiat currency conversion in ISO 8601. See standard for reference (https://www.iso.org/iso-8601-date-and-time-format.html)</xbar.var>
 #  <xbar.var>string(VAR_API_KEY=""): Coinmarketcap API KEY. Get yours at https://pro.coinmarketcap.com/</xbar.var>
-#  <xbar.var>select(VAR_NUMBER_OF_COINS=""): How many coins to display. [1,5,10]</xbar.var>
-#  <xbar.var>select(VAR_SORT_CRITERIA=""): Criteria to select coins by. [market_cap, percent_change_24h, percent_change_7d, market_cap_strict, price, market_cap_by_total_supply_strict, volume_7d, volume_30d, circulating_supply]</xbar.var>
-#  <xbar.var>select(VAR_CRYPTO_TYPE=""): Coins or tokens. [all, coins, tokens]</xbar.var>
-#  <xbar.var>select(VAR_TIME_SCALE=""): Preferred time range. [1h, 24h, 7d, 30d]</xbar.var>
+#  <xbar.var>select(VAR_NUMBER_OF_COINS=5): How many coins to display. [1,5,10]</xbar.var>
+#  <xbar.var>select(VAR_SORT_CRITERIA="market_cap"): Criteria to select coins by. [market_cap, percent_change_24h, percent_change_7d, market_cap_strict, price, market_cap_by_total_supply_strict, volume_7d, volume_30d, circulating_supply]</xbar.var>
+#  <xbar.var>select(VAR_CRYPTO_TYPE="all"): Coins or tokens. [all, coins, tokens]</xbar.var>
+#  <xbar.var>select(VAR_TIME_SCALE="24h"): Preferred time range. [1h, 24h, 7d, 30d]</xbar.var>
 
 
 import os
