@@ -11,7 +11,7 @@
 # <xbar.author>Martin Braun</xbar.author>
 # <xbar.author.github>martin-braun</xbar.author.github>
 # <xbar.desc>Display local and external IP and allow copying it. This plugin will connect to icanhazip.com to determine external IP address.</xbar.desc>
-# <xbar.image>https://i.imgur.com/GGr7V2P.png</xbar.image>
+# <xbar.image>https://i.imgur.com/8eSN3Hw.png</xbar.image>
 
 locip=`osascript -e "IPv4 address of (system info)"`
 pubip=`curl -4 icanhazip.com`
