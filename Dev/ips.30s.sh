@@ -14,7 +14,7 @@
 # <xbar.image>https://i.imgur.com/8eSN3Hw.png</xbar.image>
 
 locip=`osascript -e "IPv4 address of (system info)"`
-pubip=`curl -4 icanhazip.com`
+pubip=`curl -4s icanhazip.com` > /dev/null
 
 if [[ "$1" = 'copy' ]]; then 
   echo "$2" | tr -d '\n' | pbcopy
