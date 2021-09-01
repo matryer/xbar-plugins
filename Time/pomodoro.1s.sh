@@ -44,6 +44,10 @@ function workMode {
     changeStatus "1" "Work Mode" "Blow"
 }
 
+function disabledMode {
+    changeStatus "0" "Disabled" "Pebble"
+}
+
 case "$1" in
 "work")
     workMode
@@ -54,7 +58,7 @@ case "$1" in
     exit
   ;;
 "disable")
-    changeStatus "0" "Disabled"
+    disabledMode
     exit
   ;;
 esac
