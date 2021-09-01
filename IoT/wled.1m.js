@@ -6,7 +6,7 @@
 //  <xbar.author.github>billyjacoby</xbar.author.github>
 //  <xbar.desc>Show and manage WLED devices from the menu bar.</xbar.desc>
 //  <xbar.dependencies>node,wled,axios</xbar.dependencies>
-
+// <xbar.image>https://imgur.com/a/a5gBbjd</xbar.image>
 //  Please install the npm dependencies in a folder named "wled" - I'm open to better ways of doing this too...
 
 // <xbar.var>string(VAR_HOST=""): WLED IP Address or hostname</xbar.var>
