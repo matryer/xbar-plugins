@@ -5,7 +5,7 @@
 #  <xbar.author>Michael R.</xbar.author>
 #  <xbar.author.github>The-Michael-R</xbar.author.github>
 #  <xbar.desc>Small xbar plugin to wake one server/computer using a WoL packet. Needs https://github.com/jpoliv/wakeonlan (brew or place the file wakeonlan to /urs/local/bin</xbar.desc>
-#  <xbar.image>https://github.com/The-Michael-R/xbar-plugins/blob/master/Tools/wol/wol_xbar.png</xbar.image>
+#  <xbar.image>https://raw.githubusercontent.com/The-Michael-R/xbar-plugins/master/Tools/wol/wol_xbar.png</xbar.image>
 #  <xbar.dependencies>bash, wakeonlan (brew install)</xbar.dependencies>
 
 # Parameters (please use use the MAC/IP-Address of your server)
