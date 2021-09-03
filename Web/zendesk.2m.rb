@@ -3,7 +3,7 @@
 # <xbar.title>Zendesk</xbar.title>
 # <xbar.author>Matt Roberts, James Stiff for the icons</xbar.author>
 # <xbar.author.github>mattwoberts</xbar.author.github>
-# <xbar.image>https://imgur.com/a/TGGJILY</xbar.image>
+# <xbar.image>https://i.imgur.com/e6rdUBh.png</xbar.image>
 # <xbar.dependencies>Ruby</xbar.dependencies>
 # <xbar.desc>Shows non-solved Zendesk tickets count</xbar.desc>
 
