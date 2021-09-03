@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/python3
+#!/usr/bin/env python3
 
 # <xbar.title>Yabai Viewer</xbar.title>
 # <xbar.author>Ryan Moore</xbar.author>
@@ -19,10 +19,10 @@
 #  <xbar.var>string(VAR_FOCUSED_COLOR="0"): ANSI escape code for color of focused UI elements (see https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797#256-colors)</xbar.var>
 #  <xbar.var>string(VAR_UNFOCUSED_COLOR="38;5;243): ANSI escape code for color of unfocused UI elements (see https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797#256-colors)</xbar.var>
 
-#  <xbar.var>string(VAR_YABAI_PATH=/opt/homebrew/bin/yabai): Path to yabai binary</xbar.var>
-#  <xbar.var>string(VAR_VIM_PATH=/usr/bin/vim): Path to Vim binary</xbar.var>
-#  <xbar.var>string(VAR_SKHD_PATH=/opt/homebrew/bin/skhd): Path to skhd binary</xbar.var>
-#  <xbar.var>string(VAR_HOMEBREW_PATH=/opt/homebrew/bin/brew): Path to Homebrew binary</xbar.var>
+#  <xbar.var>string(VAR_YABAI_PATH=/usr/bin/env yabai): Path to yabai binary</xbar.var>
+#  <xbar.var>string(VAR_VIM_PATH=/usr/bin/env vim): Path to Vim binary</xbar.var>
+#  <xbar.var>string(VAR_SKHD_PATH=/usr/bin/env skhd): Path to skhd binary</xbar.var>
+#  <xbar.var>string(VAR_HOMEBREW_PATH=/usr/bin/env brew): Path to Homebrew binary</xbar.var>
 
 from collections import Counter
 from json import loads
