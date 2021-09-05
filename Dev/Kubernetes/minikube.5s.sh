@@ -13,6 +13,7 @@ MINIKUBE_LOGO_BW='iVBORw0KGgoAAAANSUhEUgAAAIAAAAB8CAYAAAChbripAAAABGdBTUEAALGPC/
 
 LANG="en_US.UTF-8"
 # You may need to update the PATH to include minikube and kubectl
+#PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export LANG PATH
 
 if [[ $(minikube status | head -n 1) =~ Running ]]; then
