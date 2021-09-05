@@ -12,4 +12,4 @@
 # by Roberto Santacroce Martins
 # Based on Coinbase bitbar plugin by Mat Ryer
 
-echo -n "Ƀ$"; curl -s "https://api.bitfinex.com/v1/pubticker/BTCUSD" | egrep -o '"last_price":"[0-9]+(\.)?([0-9]{0,2}")?' | sed 's/"last_price"://' | sed 's/\"//g'
+echo -n "₿"; curl -s "https://api.bitfinex.com/v1/pubticker/BTCUSD" | egrep -o '"last_price":"[0-9]+(\.)?([0-9]{0,2}")?' | sed 's/"last_price"://'| sed 's/\"//g' | cut -d . -f 1 | sed -re 's/([0-9])([0-9]{3})($|[^0-9])/\1,\2\3/'
