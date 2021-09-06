@@ -5,7 +5,7 @@
 #  <xbar.author>Alvaro Serrano</xbar.author>
 #  <xbar.author.github>https://github.com/alvaroserrrano</xbar.author.github>
 #  <xbar.desc>Your preferred cryptos in the Fiat currency you choose</xbar.desc>
-#  <xbar.image>https://ibb.co/DYFkPPP</xbar.image>
+#  <xbar.image>https://i.ibb.co/nByfqqq/Screen-Shot-2021-08-01-at-2-24-50-PM.png</xbar.image>
 #  <xbar.dependencies>python3</xbar.dependencies>
 #  <xbar.abouturl></xbar.abouturl>
 
