@@ -40,7 +40,7 @@ IMPACT = {
 }
 
 def parse_system_profiler():
-    output = subprocess.check_output(["/usr/sbin/system_profiler", \
+    output = subprocess.check_output(["system_profiler", \
                                      "-xml", "SPPowerDataType", "SPHardwareDataType"])
     plist = loads(output)
     spbattery_info = plist[0]['_items'][0]
