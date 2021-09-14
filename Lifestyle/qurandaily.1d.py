@@ -14,6 +14,7 @@ import json
 import re
 
 from urllib2 import quote, urlopen
+from textwrap import wrap
 
 BASE_URL = "https://api.quran.com/api/v4"
 
@@ -69,10 +70,10 @@ if __name__ == '__main__':
     verse = remove_footnotes(ayah_en(verse_key)['translations'][0]['text'])
     verse += " - " + verse_key
 
-    verse_list = break_in_lines(50, verse)
+    verse = wrap(verse, 50)
 
     output_verse = ''
-    for i, v in enumerate(verse_list):
+    for i, v in enumerate(verse):
         output_verse += set_color(v) + "\n"
 
     print(output_verse.strip())
