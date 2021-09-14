@@ -150,9 +150,8 @@ function request(path) {
           })
           .on("end", () => {
             if (responseBufs.length > 0) {
-              responseStr = Buffer.concat(responseBufs).toString(
-                responseEncoding
-              );
+              responseStr =
+                Buffer.concat(responseBufs).toString(responseEncoding);
             }
 
             resolve(JSON.parse(responseStr));
@@ -215,24 +214,20 @@ async function getMRs() {
     excludedEvents = todaysExcludedEvents;
   }
 
-  const [
-    todaysEvents,
-    createdMRs,
-    assignedMRs,
-    approvalMRs,
-  ] = await Promise.all([
-    request(
-      `/api/v4/users/4557473/events?after=${yesterdayParam}&action=pushed`
-    ),
-    request("/api/v4/merge_requests?scope=created_by_me&state=opened"),
-    request("/api/v4/merge_requests?scope=assigned_to_me&state=opened"),
-    request(
-      `/api/v4/merge_requests?scope=all&state=opened&approver_ids[]=${userId}`
-    ),
-    request(
-      `/api/v4/merge_requests?scope=all&state=opened&reviewer_id[]=${userId}`
-    ),
-  ]);
+  const [todaysEvents, createdMRs, assignedMRs, approvalMRs] =
+    await Promise.all([
+      request(
+        `/api/v4/users/${userId}/events?after=${yesterdayParam}&action=pushed`
+      ),
+      request("/api/v4/merge_requests?scope=created_by_me&state=opened"),
+      request("/api/v4/merge_requests?scope=assigned_to_me&state=opened"),
+      request(
+        `/api/v4/merge_requests?scope=all&state=opened&approver_ids[]=${userId}`
+      ),
+      request(
+        `/api/v4/merge_requests?scope=all&state=opened&reviewer_id[]=${userId}`
+      ),
+    ]);
 
   const allMRs = assignedMRs
     .concat(approvalMRs, createdMRs)
