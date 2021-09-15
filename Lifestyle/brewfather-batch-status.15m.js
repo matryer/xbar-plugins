@@ -6,6 +6,7 @@
 // <xbar.author.github>JoostSlijkoort</xbar.author.github>
 // <xbar.desc>Shows the current status of your batch fermentation in BrewFather.</xbar.desc>
 // <xbar.dependencies>node</xbar.dependencies>
+// <xbar.image>https://i.imgur.com/bJuU1Xp.png</xbar.image>
 
 //  <xbar.var>string(VAR_USERID="ABCWHATEVER"): Your user ID, you see it when creating an API key.</xbar.var>
 //  <xbar.var>string(VAR_APIKEY=123WHATEVER): Your API key.</xbar.var>
