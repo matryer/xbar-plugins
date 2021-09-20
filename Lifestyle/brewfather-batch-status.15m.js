@@ -90,13 +90,13 @@ function fetchBatches() {
         const titleString = completeMap.map(v => `${v.recipe.name}@${v.sg} (${v.progressPercentage}%)`).find((v, i) => i == 0);
 
         if(completeMap.length === 1) {
-          console.log(`:beer: ${titleString}|dropdown=false \n`);
+          console.log(`:beer: ${titleString}|dropdown=false`);
           return;
         }
 
-        const contentString = completeMap.map(v => `${v.recipe.name}@${v.sg} (${v.progressPercentage}%)`).filter((v, i) => i > 0).join('\n');
+        const contentString = completeMap.map(v => `\n${v.recipe.name}@${v.sg} (${v.progressPercentage}%)`).filter((v, i) => i > 0).join('');
 
-        console.log(`:beer: ${titleString}|dropdown=false \n---\n${contentString}`);
+        console.log(`:beer: ${titleString}|dropdown=false \n---${contentString}`);
 
       })
     });
