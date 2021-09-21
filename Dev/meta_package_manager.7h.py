@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # <xbar.title>Meta Package Manager</xbar.title>
-# <xbar.version>v4.1.0</xbar.version>
+# <xbar.version>v4.2.0</xbar.version>
 # <xbar.author>Kevin Deldycke</xbar.author>
 # <xbar.author.github>kdeldycke</xbar.author.github>
 # <xbar.desc>List outdated packages and manage upgrades.</xbar.desc>
 # <xbar.dependencies>python,mpm</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/CiQpQ42.png</xbar.image>
 # <xbar.abouturl>https://github.com/kdeldycke/meta-package-manager</xbar.abouturl>
-# <xbar.var>boolean(VAR_SUBMENU_lAYOUT=false): Group packages into manager sub-menus.</xbar.var>
+# <xbar.var>boolean(VAR_SUBMENU_LAYOUT=false): Group packages into manager sub-menus.</xbar.var>
 
 """
 xbar plugin for Meta Package Manager (a.k.a. the :command:`mpm` CLI).
@@ -27,7 +27,7 @@ from operator import itemgetter
 from subprocess import PIPE, Popen
 
 SUBMENU_LAYOUT = bool(
-    os.environ.get("VAR_SUBMENU_lAYOUT", False)
+    os.environ.get("VAR_SUBMENU_LAYOUT", False)
     in {True, 1, "True", "true", "1", "y", "yes", "Yes"}
 )
 """ Define the rendering mode of outdated packages list.
@@ -49,11 +49,15 @@ FONTS = {
     "normal": "",  # Use default system font
     "summary": "",  # Package summary
     "package": "",  # Indiviual packages
-    "error": "color=red font=Menlo size=12",  # Errors
+    "error": "color=red | font=Menlo | size=12",  # Errors
 }
 # Use a monospaced font when using submenus.
 if SUBMENU_LAYOUT:
-    FONTS["summary"] = "font=Menlo size=12"
+    FONTS["summary"] = "font=Menlo | size=12"
+
+
+# mpm v4.2.0 was the first supporting the new xbar plugin parameter format.
+MPM_MIN_VERSION = (4, 2, 0)
 
 
 def fix_environment():
@@ -91,9 +95,14 @@ def run(*args):
     )
 
 
+def pp(params):
+    """Print all parameters separated by a pipe. Ignore empty items."""
+    print(" | ".join([p for p in params if p]))
+
+
 def print_error_header():
     """Generic header for blockng error."""
-    print("❌ | dropdown=false")
+    pp(["❌", "dropdown=false"])
     print("---")
 
 
@@ -103,7 +112,7 @@ def print_error(message, submenu=""):
     A red, fixed-width font is used to preserve traceback and exception layout.
     """
     for line in message.strip().splitlines():
-        print(f"{submenu}{line} | {FONTS['error']} trim=false emojize=false")
+        pp([f"{submenu}{line}", FONTS["error"], "trim=false", "emojize=false"])
 
 
 def print_cli_item(item):
@@ -112,18 +121,22 @@ def print_cli_item(item):
     * a second one that is the exact copy of the above but forces the execution
       by the way of a visible terminal
     """
-    print(f"{item} terminal=false")
-    print(f"{item} terminal=true alternate=true")
+    pp(item + ["terminal=false"])
+    pp(item + ["terminal=true", "alternate=true"])
 
 
 def print_package_items(packages, submenu=""):
     """Print a menu entry for each outdated packages available for upgrade."""
     for pkg_info in packages:
         print_cli_item(
-            f"{submenu}{pkg_info['name']}"
-            f" {pkg_info['installed_version']} → {pkg_info['latest_version']}"
-            f" | {pkg_info['upgrade_cli']} refresh=true {FONTS['package']}"
-            " emojize=false"
+            [
+                f"{submenu}{pkg_info['name']} "
+                f"{pkg_info['installed_version']} → {pkg_info['latest_version']}",
+                pkg_info["upgrade_cli"],
+                "refresh=true",
+                FONTS["package"],
+                "emojize=false",
+            ]
         )
 
 
@@ -133,8 +146,12 @@ def print_upgrade_all_item(manager, submenu=""):
         if SUBMENU_LAYOUT:
             print("-----")
         print_cli_item(
-            f"{submenu}Upgrade all | {manager['upgrade_all_cli']} refresh=true"
-            f" {FONTS['normal']}"
+            [
+                f"{submenu}Upgrade all",
+                manager["upgrade_all_cli"],
+                "refresh=true",
+                FONTS["normal"],
+            ]
         )
 
 
@@ -151,11 +168,19 @@ def print_menu():
         print_error_header()
         print_error(error)
         print("---")
-        print(
-            "Install / upgrade `mpm` CLI. | shell=python3 param1=-m param2=pip "
-            "param3=install param4=--upgrade "
-            'param5=\\"meta-package-manager>=4.0.0\\" terminal=true '
-            f"refresh=true {FONTS['error']}"
+        pp(
+            [
+                "Install / upgrade `mpm` CLI.",
+                "shell=python3",
+                "param1=-m",
+                "param2=pip",
+                "param3=install",
+                "param4=--upgrade",
+                f"param5=meta-package-manager>={'.'.join(MPM_MIN_VERSION)}",
+                "terminal=true",
+                "refresh=true",
+                FONTS["error"],
+            ]
         )
         return
 
@@ -180,10 +205,13 @@ def print_menu():
     # Print menu bar icon with number of available upgrades.
     total_outdated = sum([len(m["packages"]) for m in managers])
     total_errors = sum([len(m.get("errors", [])) for m in managers])
-    print(
-        "↑{}{} | dropdown=false".format(
-            total_outdated, f" ⚠️{total_errors}" if total_errors else ""
-        )
+    pp(
+        [
+            "↑{}{}".format(
+                total_outdated, f" ⚠️{total_errors}" if total_errors else ""
+            ),
+            "dropdown=false",
+        ]
     )
 
     # Print a full detailed section for each manager.
@@ -201,23 +229,28 @@ def print_menu():
         if SUBMENU_LAYOUT:
             # Non-flat layout use a compact table-like rendering of manager
             # summary.
-            print(
-                "{error}{0:<{max_length}} {1:>{max_outdated}} {2:<8} | "
-                "{f_summary} emojize=false".format(
-                    manager["name"] + ":",
-                    len(manager["packages"]),
-                    package_label,
-                    error="⚠️ " if manager.get("errors", None) else "",
-                    max_length=label_max_length + 1,
-                    max_outdated=len(str(max_outdated)),
-                    f_summary=FONTS["summary"],
-                )
+            pp(
+                [
+                    "{error}{0:<{max_length}} {1:>{max_outdated}} {2:<8}".format(
+                        manager["name"] + ":",
+                        len(manager["packages"]),
+                        package_label,
+                        error="⚠️ " if manager.get("errors", None) else "",
+                        max_length=label_max_length + 1,
+                        max_outdated=len(str(max_outdated)),
+                    ),
+                    FONTS["summary"],
+                    "emojize=false",
+                ]
             )
         else:
             print("---")
-            print(
-                f"{len(manager['packages'])} outdated {manager['name']} {package_label}"
-                f" | {FONTS['summary']} emojize=false"
+            pp(
+                [
+                    f"{len(manager['packages'])} outdated {manager['name']} {package_label}",
+                    FONTS["summary"],
+                    "emojize=false",
+                ]
             )
 
         print_package_items(manager["packages"], submenu)
