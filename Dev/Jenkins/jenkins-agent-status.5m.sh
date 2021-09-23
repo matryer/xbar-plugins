@@ -19,7 +19,7 @@ JQ=$(command -v jq)
 echo "💻"
 echo "---"
 
-[ -n "$JENKINS_URL" ] || { echo "❕ JENKINS_USER_ID not set"; exit; }
+[ -n "$JENKINS_URL" ] || { echo "❕ JENKINS_URL not set"; exit; }
 [ -n "$JENKINS_AGENTS" ] || { echo "❕ JENKINS_AGENTS not set"; exit; }
 [ -n "$JENKINS_USER_ID" ] || { echo "❕ JENKINS_USER_ID not set"; exit; }
 [ -n "$JENKINS_API_TOKEN" ] || { echo "❕ JENKINS_API_TOKEN not set"; exit; }
