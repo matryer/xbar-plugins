@@ -7,7 +7,6 @@
 //  <xbar.author>Tom Schönmann</xbar.author>
 //  <xbar.author.github>flaming-codes</xbar.author.github>
 //  <xbar.desc>See who's on your site at-a-glance.</xbar.desc>
-//  <xbar.image>http://www.hosted-somewhere/pluginimage</xbar.image>
 //  <xbar.dependencies>node</xbar.dependencies>
 //  <xbar.abouturl>http://flaming.codes</xbar.abouturl>
 
