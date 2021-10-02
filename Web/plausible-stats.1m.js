@@ -2,13 +2,13 @@
 
 // Metadata allows your plugin to show up in the app, and website.
 //
-//  <xbar.title>Plausible tracker</xbar.title>
+//  <xbar.title>Plausible Tracker</xbar.title>
 //  <xbar.version>v1.0</xbar.version>
 //  <xbar.author>Tom Schönmann</xbar.author>
 //  <xbar.author.github>flaming-codes</xbar.author.github>
 //  <xbar.desc>See who's on your site at-a-glance.</xbar.desc>
 //  <xbar.dependencies>node</xbar.dependencies>
-//  <xbar.abouturl>http://flaming.codes</xbar.abouturl>
+//  <xbar.abouturl>https://flaming.codes</xbar.abouturl>
 //  <xbar.image>https://raw.githubusercontent.com/flaming-codes/xbar-plausible-stats/main/plausible-icon-36-36-144.png</xbar.image>
 
 //
