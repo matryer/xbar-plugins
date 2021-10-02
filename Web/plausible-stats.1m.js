@@ -16,7 +16,7 @@
 // ! Update the following values with your data.
 //
 
-const SITE_ID = "t";
+const SITE_ID = "";
 const API_KEY = "";
 
 // Possible images to render.
