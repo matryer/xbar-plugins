@@ -9,6 +9,7 @@
 //  <xbar.desc>See who's on your site at-a-glance.</xbar.desc>
 //  <xbar.dependencies>node</xbar.dependencies>
 //  <xbar.abouturl>http://flaming.codes</xbar.abouturl>
+//  <xbar.image>https://raw.githubusercontent.com/flaming-codes/xbar-plausible-stats/main/plausible-icon-36-36-144.png</xbar.image>
 
 //
 // User data.
