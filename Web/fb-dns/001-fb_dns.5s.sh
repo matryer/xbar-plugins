@@ -2,7 +2,7 @@
 
 # <xbar.title>FB DNS</xbar.title>
 # <xbar.version>v1.0.0</xbar.version>
-# <xbar.author>Spencer Brown, WebSpence</xbar.author>
+# <xbar.author>Spencer Brown, @WebSpencer</xbar.author>
 # <xbar.author.github>spenweb</xbar.author.github>
 # <xbar.desc>Monitors Facebook DNS and tracks downtime</xbar.desc>
 # <xbar.image>https://raw.githubusercontent.com/spenweb/fb-dns/main/screen-shot.png</xbar.image>
