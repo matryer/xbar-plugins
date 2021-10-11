@@ -236,8 +236,8 @@ function formatTimeRange() {
 function getLinksMenu() {
   return [
     "---",
-    `􀰿 Open dashboard | href=https://plausible.io/${SITE_ID}?period=realtime`,
-    `􀰿 Made by flaming.codes | href=https://flaming.codes`,
+    `Open dashboard | href=https://plausible.io/${SITE_ID}?period=realtime | image=${getExternalLinkIconWhite()}`,
+    `Made by flaming.codes | href=https://flaming.codes | image=${getExternalLinkIconWhite}`,
   ];
 }
 
