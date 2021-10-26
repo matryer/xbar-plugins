@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: UTF-8
 
-# <bitbar.title>It's time to</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Kouji Anzai</bitbar.author>
-# <bitbar.author.github>kanzmrsw</bitbar.author.github>
-# <bitbar.desc>Shows emoji means that it's time to do something.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/qRgqIVq.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>It's time to</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Kouji Anzai</xbar.author>
+# <xbar.author.github>kanzmrsw</xbar.author.github>
+# <xbar.desc>Shows emoji means that it's time to do something.</xbar.desc>
+# <xbar.image>http://i.imgur.com/qRgqIVq.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import datetime
 

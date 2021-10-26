@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# <bitbar.title>Cryptocurrency rates UK</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Alvin</bitbar.author>
-# <bitbar.author.github>alvinio</bitbar.author.github>
-# <bitbar.desc>Displays Cryptocurrency rates for UK</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/pYEF7hB.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/alvinio/bitbar-plugins</bitbar.abouturl>
+# <xbar.title>Cryptocurrency rates UK</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Alvin</xbar.author>
+# <xbar.author.github>alvinio</xbar.author.github>
+# <xbar.desc>Displays Cryptocurrency rates for UK</xbar.desc>
+# <xbar.image>http://i.imgur.com/pYEF7hB.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/alvinio/bitbar-plugins</xbar.abouturl>
 #
 # by Alvin
 import urllib2

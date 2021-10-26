@@ -1,12 +1,12 @@
 #!/usr/local/bin/python3
-# <bitbar.title>hours</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Udey Rishi</bitbar.author>
-# <bitbar.author.github>udeyrishi</bitbar.author.github>
-# <bitbar.desc>A simple command line tool for managing your work hours and the money you make</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/udeyrishi/hours/master/assets/shift_ongoing.png</bitbar.image>
-# <bitbar.dependencies>Python3</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/udeyrishi/hours</bitbar.abouturl>
+# <xbar.title>hours</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Udey Rishi</xbar.author>
+# <xbar.author.github>udeyrishi</xbar.author.github>
+# <xbar.desc>A simple command line tool for managing your work hours and the money you make</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/udeyrishi/hours/master/assets/shift_ongoing.png</xbar.image>
+# <xbar.dependencies>Python3</xbar.dependencies>
+# <xbar.abouturl>https://github.com/udeyrishi/hours</xbar.abouturl>
 
 from argparse import ArgumentParser
 import csv

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Plex Status</bitbar.title>
-# <bitbar.version>v0.3</bitbar.version>
-# <bitbar.author>Chris Bergeron</bitbar.author>
-# <bitbar.author.github>chrisbergeron</bitbar.author.github>
-# <bitbar.desc>See what's currently playing on your Plex</bitbar.desc>
-# <bitbar.image>https://res.cloudinary.com/cyberge/image/upload/v1550627901/icons/plex_878759_eey690.png</bitbar.image>
-# <bitbar.dependencies>bash,imagemagick</bitbar.dependencies>
+# <xbar.title>Plex Status</xbar.title>
+# <xbar.version>v0.3</xbar.version>
+# <xbar.author>Chris Bergeron</xbar.author>
+# <xbar.author.github>chrisbergeron</xbar.author.github>
+# <xbar.desc>See what's currently playing on your Plex</xbar.desc>
+# <xbar.image>https://res.cloudinary.com/cyberge/image/upload/v1550627901/icons/plex_878759_eey690.png</xbar.image>
+# <xbar.dependencies>bash,imagemagick</xbar.dependencies>
 
 # Put your plex hostname here
 plexhost="plex-01"

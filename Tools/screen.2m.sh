@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 #
-# <bitbar.title>Screen</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jake Gage</bitbar.author>
-# <bitbar.author.github>Dispader</bitbar.author.github>
-# <bitbar.desc>Monitor, attach, and power detach from GNU Screen sessions.</bitbar.desc>
-# <bitbar.dependencies>screen</bitbar.dependencies>
-# <bitbar.image>https://user-images.githubusercontent.com/2664155/54407949-f5490280-46ad-11e9-86fc-9856d64b5a0e.png</bitbar.image>
-# <bitbar.abouturl>http://github.com/Dispader/screen-bitbar-plugin</bitbar.abouturl
+# <xbar.title>Screen</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jake Gage</xbar.author>
+# <xbar.author.github>Dispader</xbar.author.github>
+# <xbar.desc>Monitor, attach, and power detach from GNU Screen sessions.</xbar.desc>
+# <xbar.dependencies>screen</xbar.dependencies>
+# <xbar.image>https://user-images.githubusercontent.com/2664155/54407949-f5490280-46ad-11e9-86fc-9856d64b5a0e.png</xbar.image>
+# <xbar.abouturl>http://github.com/Dispader/screen-bitbar-plugin</xbar.abouturl
 
 set -eu
 PATH="/usr/local/bin:$PATH" SCREEN_COMMAND=$(command -v screen)
 echo "💻"
 echo '---'
 SCREENS=$(${SCREEN_COMMAND} -list | grep -o '\s*.*\s*(.*)')
-if [[ -z ${SCREENS} ]]; then
-  echo "no screens"
+if [[ -z ${SCREENS} ]] || [[ ${SCREENS} =~ ^.*empty.*$ ]]; then
+  echo "new screen session | refresh=true bash=${SCREEN_COMMAND}";
 else
   (
     IFS=$'\n'; for LINE in $(screen -list); do

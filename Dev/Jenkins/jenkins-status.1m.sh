@@ -1,7 +1,7 @@
 #!/bin/bash
-# <bitbar.title>Check status of single Jenkins project</bitbar.title>
-# <bitbar.author>Stratouklos</bitbar.author>
-# <bitbar.author.github>Stratouklos</bitbar.author.github>
+# <xbar.title>Check status of single Jenkins project</xbar.title>
+# <xbar.author>Stratouklos</xbar.author>
+# <xbar.author.github>Stratouklos</xbar.author.github>
 
 USER="username"
 PASS="pass"

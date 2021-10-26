@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>GitHub Notifications</bitbar.title>
-# <bitbar.version>v3.0.2</bitbar.version>
-# <bitbar.author>Matt Sephton, Keith Cirkel, John Flesch</bitbar.author>
-# <bitbar.author.github>flesch</bitbar.author.github>
-# <bitbar.desc>GitHub (and GitHub:Enterprise) notifications in your menu bar!</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/hW7dw9E.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>GitHub Notifications</xbar.title>
+# <xbar.version>v3.0.2</xbar.version>
+# <xbar.author>Matt Sephton, Keith Cirkel, John Flesch</xbar.author>
+# <xbar.author.github>flesch</xbar.author.github>
+# <xbar.desc>GitHub (and GitHub:Enterprise) notifications in your menu bar!</xbar.desc>
+# <xbar.image>https://i.imgur.com/hW7dw9E.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import json
 import urllib2
@@ -47,7 +47,7 @@ def make_github_request( url, method='GET', data=None, enterprise = False ):
         if data is not None:
             data = json.dumps(data)
             headers['Content-Type'] = 'application/json'
-            headers['Contnet-Length'] = len(data)
+            headers['Content-Length'] = len(data)
         request = urllib2.Request( url, headers=headers )
         request.get_method = lambda: method
         response = urllib2.urlopen( request, data )
@@ -165,7 +165,7 @@ else:
         )
         print '---'
     else:
-        print ''
+        print '•'
         exit(0)
 
     print_bitbar_line( title='Refresh', refresh='true' )

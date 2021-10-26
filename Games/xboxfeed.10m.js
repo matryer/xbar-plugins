@@ -2,15 +2,15 @@
 /* jshint esversion: 6 */
 
 /*
-<bitbar.title>Xbox Feed</bitbar.title>
-<bitbar.version>v1.1.1</bitbar.version>
-<bitbar.author>Kodie Grantham</bitbar.author>
-<bitbar.author.github>kodie</bitbar.author.github>
-<bitbar.desc>Shows your Xbox Live friend's recent activity - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-xboxfeed</bitbar.desc>
-<bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-xboxfeed/master/screenshot.png</bitbar.image>
-<bitbar.dependencies>node, npm, npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</bitbar.dependencies>
-<bitbar.dependencies.npm>npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</bitbar.dependencies.npm>
-<bitbar.abouturl>https://github.com/kodie/bitbar-xboxfeed</bitbar.abouturl>
+<xbar.title>Xbox Feed</xbar.title>
+<xbar.version>v1.1.1</xbar.version>
+<xbar.author>Kodie Grantham</xbar.author>
+<xbar.author.github>kodie</xbar.author.github>
+<xbar.desc>Shows your Xbox Live friend's recent activity - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-xboxfeed</xbar.desc>
+<xbar.image>https://raw.githubusercontent.com/kodie/bitbar-xboxfeed/master/screenshot.png</xbar.image>
+<xbar.dependencies>node, npm, npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</xbar.dependencies>
+<xbar.dependencies.npm>npm/deasync, npm/home-config, npm/jimp, npm/node-time-ago, npm/open, npm/request</xbar.dependencies.npm>
+<xbar.abouturl>https://github.com/kodie/bitbar-xboxfeed</xbar.abouturl>
 */
 
 var ver = '1.1.1';

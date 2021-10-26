@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>chunkwm/skhd helper</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Shi Han NG</bitbar.author>
-# <bitbar.author.github>shihanng</bitbar.author.github>
-# <bitbar.desc>Plugin that displays desktop id and desktop mode of chunkwm.</bitbar.desc>
-# <bitbar.dependencies>brew,chunkwm,skhd</bitbar.dependencies>
+# <xbar.title>chunkwm/skhd helper</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Shi Han NG</xbar.author>
+# <xbar.author.github>shihanng</xbar.author.github>
+# <xbar.desc>Plugin that displays desktop id and desktop mode of chunkwm.</xbar.desc>
+# <xbar.dependencies>brew,chunkwm,skhd</xbar.dependencies>
 
 # Info about chunkwm, see: https://github.com/koekeishiya/chunkwm
 # For skhd, see: https://github.com/koekeishiya/skhd

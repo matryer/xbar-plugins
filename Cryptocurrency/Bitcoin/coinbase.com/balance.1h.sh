@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>Coinbase.com Your Balance</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Mat Ryer</bitbar.author>
-# <bitbar.author.github>matryer</bitbar.author.github>
-# <bitbar.desc>Shows your balance in BTC.  Be sure you add your API & account details.</bitbar.desc>
+# <xbar.title>Coinbase.com Your Balance</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Mat Ryer</xbar.author>
+# <xbar.author.github>matryer</xbar.author.github>
+# <xbar.desc>Shows your balance in BTC.  Be sure you add your API & account details.</xbar.desc>
 
 API_KEY="YOUR_API_KEY"
 API_SECRET="YOUR_API_SECRET"

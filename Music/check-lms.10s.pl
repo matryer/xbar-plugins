@@ -1,12 +1,12 @@
 #!/usr/bin/perl -w
 
-# <bitbar.title>Logitech Media Server Status Display</bitbar.title>
-# <bitbar.version>v1.2.0</bitbar.version>
-# <bitbar.author>Michael Herger</bitbar.author>
-# <bitbar.author.github>michaelherger</bitbar.author.github>
-# <bitbar.desc>Show whether Logitech media Server is running or not. Quickly start/stop it, access its UI etc.</bitbar.desc>
-# <bitbar.image>http://www.herger.net/slim/BitBar/lms-bitbar.png</bitbar.image>
-# <bitbar.dependencies>Logitech Media Server</bitbar.dependencies>
+# <xbar.title>Logitech Media Server Status Display</xbar.title>
+# <xbar.version>v1.2.0</xbar.version>
+# <xbar.author>Michael Herger</xbar.author>
+# <xbar.author.github>michaelherger</xbar.author.github>
+# <xbar.desc>Show whether Logitech media Server is running or not. Quickly start/stop it, access its UI etc.</xbar.desc>
+# <xbar.image>http://www.herger.net/slim/BitBar/lms-bitbar.png</xbar.image>
+# <xbar.dependencies>Logitech Media Server</xbar.dependencies>
 
 use strict;
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Launch Agents</bitbar.title>
-# <bitbar.version>v1.4</bitbar.version>
-# <bitbar.author>Paul W. Rankin</bitbar.author>
-# <bitbar.author.github>rnkn</bitbar.author.github>
-# <bitbar.desc>Shows and manages user Launch Agents.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/UsJRDoE.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Launch Agents</xbar.title>
+# <xbar.version>v1.4</xbar.version>
+# <xbar.author>Paul W. Rankin</xbar.author>
+# <xbar.author.github>rnkn</xbar.author.github>
+# <xbar.desc>Shows and manages user Launch Agents.</xbar.desc>
+# <xbar.image>https://i.imgur.com/UsJRDoE.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 # BitBar Launch Agents plugin
 

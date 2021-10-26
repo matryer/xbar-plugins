@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Run fastlane</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Rishabh Tayal</bitbar.author>
-# <bitbar.desc>Run fastlane from menu bar</bitbar.desc>
-# <bitbar.author.github>rishabhtayal</bitbar.author.github>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Run fastlane</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Rishabh Tayal</xbar.author>
+# <xbar.desc>Run fastlane from menu bar</xbar.desc>
+# <xbar.author.github>rishabhtayal</xbar.author.github>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 # ------------- Modify the config below -------------
 configs = [

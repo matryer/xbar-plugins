@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Is It Up?</bitbar.title>
-// <bitbar.version>v1.1</bitbar.version>
-// <bitbar.author>Zachary David Saunders</bitbar.author>
-// <bitbar.author.github>ZacharyDavidSaunders</bitbar.author.github>
-// <bitbar.desc>A MacOs Menu Bar (BitBar) plugin that allows you to check whether or not a website is currently up (online).</bitbar.desc>
-// <bitbar.dependencies>node.js</bitbar.dependencies>
-// <bitbar.image>https://i.imgur.com/BxHFJMn.png</bitbar.image>
+// <xbar.title>Is It Up?</xbar.title>
+// <xbar.version>v1.1</xbar.version>
+// <xbar.author>Zachary David Saunders</xbar.author>
+// <xbar.author.github>ZacharyDavidSaunders</xbar.author.github>
+// <xbar.desc>A MacOs Menu Bar (BitBar) plugin that allows you to check whether or not a website is currently up (online).</xbar.desc>
+// <xbar.dependencies>node.js</xbar.dependencies>
+// <xbar.image>https://i.imgur.com/BxHFJMn.png</xbar.image>
 /*jshint esversion: 6 */
 
 

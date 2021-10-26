@@ -5,14 +5,14 @@
 # https://foldingathome.org/
 # https://stats.foldingathome.org/donors
 #
-# <bitbar.title>Folding@Home score</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Yuichi Tanaka</bitbar.author>
-# <bitbar.author.github>yuichielectric</bitbar.author.github>
-# <bitbar.desc>Displays the score of your Folding@Home account</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/yuichielectric/fah-score-bitbar-plugin/master/screen-capture.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/yuichielectric/fah-score-bitbar-plugin</bitbar.abouturl>
+# <xbar.title>Folding@Home score</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Yuichi Tanaka</xbar.author>
+# <xbar.author.github>yuichielectric</xbar.author.github>
+# <xbar.desc>Displays the score of your Folding@Home account</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/yuichielectric/fah-score-bitbar-plugin/master/screen-capture.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.abouturl>https://github.com/yuichielectric/fah-score-bitbar-plugin</xbar.abouturl>
 
 import json
 import urllib.request

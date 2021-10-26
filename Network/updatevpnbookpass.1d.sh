@@ -1,13 +1,13 @@
 #!/bin/sh
 # Bitbar plugin: Automatically update vpn password. The password is collected from the the VPNBOOK page, then changed on the network settings panel. Required: VPNBOOK must be installed
 # metadata
-# <bitbar.title>Using free VPN more easily: how to automatically update VPNBOOK password</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Joce ‘El Francés’</bitbar.author>
-# <bitbar.author.github>jm462</bitbar.author.github>
-# <bitbar.desc>Automatically update VPNBOOK free password. Go and collect password on the VPNBOOK page, then change it on the network settings panel. The password is managed by the keychain application </bitbar.desc>
-# <bitbar.image>http://colombien.somee.com/images/bitbarpluginpicture.PNG</bitbar.image>
-# <bitbar.dependencies>https://www.vpnbook.com</bitbar.dependencies>
+# <xbar.title>Using free VPN more easily: how to automatically update VPNBOOK password</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Joce ‘El Francés’</xbar.author>
+# <xbar.author.github>jm462</xbar.author.github>
+# <xbar.desc>Automatically update VPNBOOK free password. Go and collect password on the VPNBOOK page, then change it on the network settings panel. The password is managed by the keychain application </xbar.desc>
+# <xbar.image>http://colombien.somee.com/images/bitbarpluginpicture.PNG</xbar.image>
+# <xbar.dependencies>https://www.vpnbook.com</xbar.dependencies>
 #
 # You have to manually give the rights to this script:
 # *  Launch terminal and go inside the bitbar plugins folder

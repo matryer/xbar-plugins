@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>Delete VSCode Temp Files</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author.github>AlexPoulsen</bitbar.author.github>
-# <bitbar.author>AlexPoulsen</bitbar.author>
-# <bitbar.desc>Deletes Visual Studio Code Temporary Files</bitbar.desc>
+# <xbar.title>Delete VSCode Temp Files</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author.github>AlexPoulsen</xbar.author.github>
+# <xbar.author>AlexPoulsen</xbar.author>
+# <xbar.desc>Deletes Visual Studio Code Temporary Files</xbar.desc>
 
 if [ "$1" = 'clean' ]; then
   sudo find /Users/macbookpro/Documents/VSCode\ Projects/ -name "temp*" -d -ok rm {} \;

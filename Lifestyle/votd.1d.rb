@@ -10,14 +10,14 @@
 # Feel free to customize version, language, colors, etc.
 
 # metadata
-# <bitbar.title>Verse of the day</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Harry Löwen</bitbar.author>
-# <bitbar.author.github>harryloewen</bitbar.author.github>
-# <bitbar.desc>Display verse of the day and verse image.</bitbar.desc>
-# <bitbar.image>https://drive.google.com/uc?export=download&id=1dpt4wWamYbk_l49u8IAOVf66wA27cAi0</bitbar.image>
-# <bitbar.dependencies>ruby<bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/harryloewen/bitbar-votd/</bitbar.abouturl>
+# <xbar.title>Verse of the day</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Harry Löwen</xbar.author>
+# <xbar.author.github>harryloewen</xbar.author.github>
+# <xbar.desc>Display verse of the day and verse image.</xbar.desc>
+# <xbar.image>https://drive.google.com/uc?export=download&id=1dpt4wWamYbk_l49u8IAOVf66wA27cAi0</xbar.image>
+# <xbar.dependencies>ruby<xbar.dependencies>
+# <xbar.abouturl>https://github.com/harryloewen/bitbar-votd/</xbar.abouturl>
 
 require 'net/http'
 require 'open-uri'

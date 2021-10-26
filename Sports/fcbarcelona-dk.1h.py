@@ -1,12 +1,12 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
-# <bitbar.title>FCBarcelona.dk</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tuk Bredsdorff</bitbar.author>
-# <bitbar.author.github>tiktuk</bitbar.author.github>
-# <bitbar.desc>News from fcbarcelona.dk.</bitbar.desc>
-# <bitbar.image>http://tiktuk.net/sky/fcb-bitbar.png</bitbar.image>
-# <bitbar.dependencies>python3, requests, BeautifulSoup4</bitbar.dependencies>
+# <xbar.title>FCBarcelona.dk</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tuk Bredsdorff</xbar.author>
+# <xbar.author.github>tiktuk</xbar.author.github>
+# <xbar.desc>News from fcbarcelona.dk.</xbar.desc>
+# <xbar.image>http://tiktuk.net/sky/fcb-bitbar.png</xbar.image>
+# <xbar.dependencies>python3, requests, BeautifulSoup4</xbar.dependencies>
 
 import requests
 from bs4 import BeautifulSoup

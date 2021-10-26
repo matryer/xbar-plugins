@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>TRIPPing</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Anastasios Monachos (secuid0) - [anastasiosm(at)gmail(dot)com]</bitbar.author>
-# <bitbar.author.github>secuid0</bitbar.author.github>
-# <bitbar.desc>TRIPPing (TRaceroute-IP-Ping) plugin aims to regularly monitor the path and ping roundtrip, from your network to fixed IPs and determine if they have suddenly been changed. Greetz to Kim DotCom</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/eKxeuxq.png</bitbar.image>
-# <bitbar.dependencies>bash, osascript</bitbar.dependencies>
+# <xbar.title>TRIPPing</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Anastasios Monachos (secuid0) - [anastasiosm(at)gmail(dot)com]</xbar.author>
+# <xbar.author.github>secuid0</xbar.author.github>
+# <xbar.desc>TRIPPing (TRaceroute-IP-Ping) plugin aims to regularly monitor the path and ping roundtrip, from your network to fixed IPs and determine if they have suddenly been changed. Greetz to Kim DotCom</xbar.desc>
+# <xbar.image>https://i.imgur.com/eKxeuxq.png</xbar.image>
+# <xbar.dependencies>bash, osascript</xbar.dependencies>
 
 # default refresh interval 1h, to change, rename this file accordingly:
 # traceroute-hops-counter.{time}.sh

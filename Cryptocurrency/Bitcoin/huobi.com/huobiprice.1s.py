@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# <bitbar.title>Huobi last price</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sam Xie</bitbar.author>
-# <bitbar.author.github>mountain3th</bitbar.author.github>
-# <bitbar.desc>A very simple huobi last price display tool</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Huobi last price</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sam Xie</xbar.author>
+# <xbar.author.github>mountain3th</xbar.author.github>
+# <xbar.desc>A very simple huobi last price display tool</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # by mountain3th/Sam Xie
 

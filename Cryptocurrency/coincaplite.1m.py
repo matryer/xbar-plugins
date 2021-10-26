@@ -2,13 +2,13 @@
 
 import requests
 
-# <bitbar.title>Coincap Lite</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Peter Stenger</bitbar.author>
-# <bitbar.author.github>reteps</bitbar.author.github>
-# <bitbar.desc>Retrieves trading information about a coin on coinmarketcap using the v2 api. </bitbar.desc>
-# <bitbar.image>https://i.imgur.com/NiRqDUt.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
+# <xbar.title>Coincap Lite</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Peter Stenger</xbar.author>
+# <xbar.author.github>reteps</xbar.author.github>
+# <xbar.desc>Retrieves trading information about a coin on coinmarketcap using the v2 api. </xbar.desc>
+# <xbar.image>https://i.imgur.com/NiRqDUt.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
 
 coins_usd = ['bitcoin','ethereum','litecoin']
 

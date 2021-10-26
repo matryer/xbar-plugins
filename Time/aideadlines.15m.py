@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-# <bitbar.title>AI deadlines counter</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Jiseob Kim</bitbar.author>
-# <bitbar.author.github>nzer0</bitbar.author.github>
-# <bitbar.desc>Count the days to the submission deadlines of AI conferences.</bitbar.desc>
-# <bitbar.image>https://github.com/nzer0/bitbar-aideadlines/blob/master/aid-screenshot.png?raw=true</bitbar.image>
-# <bitbar.dependencies>python3 (pyyaml, pytz, tzlocal, wget)</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/nzer0/bitbar-aideadlines</bitbar.abouturl>
+# <xbar.title>AI deadlines counter</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Jiseob Kim</xbar.author>
+# <xbar.author.github>nzer0</xbar.author.github>
+# <xbar.desc>Count the days to the submission deadlines of AI conferences.</xbar.desc>
+# <xbar.image>https://github.com/nzer0/bitbar-aideadlines/blob/master/aid-screenshot.png?raw=true</xbar.image>
+# <xbar.dependencies>python3 (pyyaml, pytz, tzlocal, wget)</xbar.dependencies>
+# <xbar.abouturl>https://github.com/nzer0/bitbar-aideadlines</xbar.abouturl>
 
 
 import os, re, sys

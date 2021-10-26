@@ -12,14 +12,14 @@
  * @link     https://github.com/dg01d/bitbar-worldcup
  * @category Utility
  * @version  2.1
- * <bitbar.title>World Cup 2018</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Daniel Goldsmith</bitbar.author>
- * <bitbar.author.github>dg01d</bitbar.author.github>
- * <bitbar.desc>Shows current and daily scores from the 2018 World Cup. Needs Steve Edson's bitbar-php: https://github.com/SteveEdson/bitbar-php </bitbar.desc>
- * <bitbar.image>https://raw.githubusercontent.com/dg01d/bitbar-worldcup/master/bitbar-worldcup.png</bitbar.image>
- * <bitbar.dependencies>php,bitbar-php</bitbar.dependencies>
- * <bitbar.abouturl>https://github.com/dg01d/bitbar-worldcup</bitbar.abouturl>
+ * <xbar.title>World Cup 2018</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Daniel Goldsmith</xbar.author>
+ * <xbar.author.github>dg01d</xbar.author.github>
+ * <xbar.desc>Shows current and daily scores from the 2018 World Cup. Needs Steve Edson's bitbar-php: https://github.com/SteveEdson/bitbar-php </xbar.desc>
+ * <xbar.image>https://raw.githubusercontent.com/dg01d/bitbar-worldcup/master/bitbar-worldcup.png</xbar.image>
+ * <xbar.dependencies>php,bitbar-php</xbar.dependencies>
+ * <xbar.abouturl>https://github.com/dg01d/bitbar-worldcup</xbar.abouturl>
  * Instructions: Install bitbar-php following the instructions on that project's github page.
  * Uses the wonderful World Cup API provided by http://worldcup.sfg.io
  */

@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>Handoff Toggle</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Martin Schilliger</bitbar.author>
-# <bitbar.author.github>martinschilliger</bitbar.author.github>
-# <bitbar.desc>Simple toggle for macOS Handoff. Great if there is someone using your second mac or iPad and you don't wanna paste everything the other person copies.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/leZPz8Y.jpg</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/martinschilliger/</bitbar.abouturl>
+# <xbar.title>Handoff Toggle</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Martin Schilliger</xbar.author>
+# <xbar.author.github>martinschilliger</xbar.author.github>
+# <xbar.desc>Simple toggle for macOS Handoff. Great if there is someone using your second Mac or iPad and you don't wanna paste everything the other person copies.</xbar.desc>
+# <xbar.image>https://i.imgur.com/leZPz8Y.jpg</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/martinschilliger/</xbar.abouturl>
 
 #UUID=$(/usr/sbin/system_profiler SPHardwareDataType | grep "Hardware UUID" | cut -c22-57)
 #PREF_FILE="${HOME}/Library/Preferences/ByHost/com.apple.coreservices.useractivityd.${UUID}.plist"
@@ -37,11 +37,14 @@ fi
 
 get_handoff_state;
 if [ "$state" = 1 ]; then
-	echo "| templateImage=${ICON_ENABLED} bash='$0' param1=disable terminal=false refresh=true emojize=false";
+    echo "| templateImage=${ICON_ENABLED}";
     echo "---"
-	exit
+    echo "Deactivate Handoff| bash='$0' param1=disable terminal=false refresh=true emojize=false"
+    exit
 else
-	echo "| templateImage=${ICON_DISABLED} bash='$0' param1=enable terminal=false refresh=true emojize=false";
+    echo "| templateImage=${ICON_DISABLED}";
     echo "---"
-	exit
+    echo "Activate Handoff| bash='$0' param1=enable terminal=false refresh=true emojize=false"
+    exit
 fi
+

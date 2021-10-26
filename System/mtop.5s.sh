@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>CPU Usage Graph</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ganesh V</bitbar.author>
-# <bitbar.author.github>ganeshv</bitbar.author.github>
-# <bitbar.desc>CPU usage bar graph</bitbar.desc>
-# <bitbar.image>https://raw.github.com/ganeshv/mtop/master/screenshots/mtop2.png</bitbar.image>
-# <bitbar.about>https://github.com/ganeshv/mtop</bitbar.about>
+# <xbar.title>CPU Usage Graph</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ganesh V</xbar.author>
+# <xbar.author.github>ganeshv</xbar.author.github>
+# <xbar.desc>CPU usage bar graph</xbar.desc>
+# <xbar.image>https://raw.github.com/ganeshv/mtop/master/screenshots/mtop2.png</xbar.image>
+# <xbar.about>https://github.com/ganeshv/mtop</xbar.about>
 
 # CPU utilization bar graph is rendered onto a 25x16 BMP file created from
 # scratch with no external dependencies. The dropdown contains current usage,

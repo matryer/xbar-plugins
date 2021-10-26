@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>CPU Load</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Paul W. Rankin</bitbar.author>
-# <bitbar.author.github>rnkn</bitbar.author.github>
-# <bitbar.desc>Shows CPU load as a percentage (without using top).</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/B6VAsDg.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>CPU Load</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Paul W. Rankin</xbar.author>
+# <xbar.author.github>rnkn</xbar.author.github>
+# <xbar.desc>Shows CPU load as a percentage (without using top).</xbar.desc>
+# <xbar.image>https://i.imgur.com/B6VAsDg.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 # BitBar CPU Load plugin
 

@@ -7,14 +7,14 @@
 # - teller-cli: https://github.com/sebinsua/teller-cli#from-release
 # - pcregrep: `brew install pcre`
 #
-# <bitbar.title>Track spending at UK banks with Teller</bitbar.title>
-# <bitbar.version>v1.3.1</bitbar.version>
-# <bitbar.author>Seb Insua</bitbar.author>
-# <bitbar.author.github>sebinsua</bitbar.author.github>
-# <bitbar.desc>Track your spending with teller-cli and an account at Teller.io</bitbar.desc>
-# <bitbar.image>https://camo.githubusercontent.com/e0215e6736172334f62effff36ff8df1ab38fed1/687474703a2f2f692e696d6775722e636f6d2f627638545a4c652e706e67</bitbar.image>
-# <bitbar.dependencies>teller-cli, pcregrep</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/sebinsua/teller-cli</bitbar.abouturl>
+# <xbar.title>Track spending at UK banks with Teller</xbar.title>
+# <xbar.version>v1.3.1</xbar.version>
+# <xbar.author>Seb Insua</xbar.author>
+# <xbar.author.github>sebinsua</xbar.author.github>
+# <xbar.desc>Track your spending with teller-cli and an account at Teller.io</xbar.desc>
+# <xbar.image>https://camo.githubusercontent.com/e0215e6736172334f62effff36ff8df1ab38fed1/687474703a2f2f692e696d6775722e636f6d2f627638545a4c652e706e67</xbar.image>
+# <xbar.dependencies>teller-cli, pcregrep</xbar.dependencies>
+# <xbar.abouturl>https://github.com/sebinsua/teller-cli</xbar.abouturl>
 
 export PATH="/usr/local/bin:/usr/bin/:$PATH";
 

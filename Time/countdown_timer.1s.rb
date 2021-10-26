@@ -1,12 +1,12 @@
 #!/usr/bin/ruby
-# <bitbar.title>Countdown Timer</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Chris Yuen</bitbar.author>
-# <bitbar.author.github>kizzx2</bitbar.author.github>
-# <bitbar.desc>Simple countdown timer. Set the time by calling the script from terminal.</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.image>https://raw.githubusercontent.com/kizzx2/bitbar-countdown-timer/master/screenshot.png</bitbar.image>
-# <bitbar.abouturl>http://github.com/kizzx2/bitbar-countdown-timer</bitbar.abouturl>
+# <xbar.title>Countdown Timer</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Chris Yuen</xbar.author>
+# <xbar.author.github>kizzx2</xbar.author.github>
+# <xbar.desc>Simple countdown timer. Set the time by calling the script from terminal.</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.image>https://raw.githubusercontent.com/kizzx2/bitbar-countdown-timer/master/screenshot.png</xbar.image>
+# <xbar.abouturl>http://github.com/kizzx2/bitbar-countdown-timer</xbar.abouturl>
 
 fn = File.join(File.dirname($0), '.countdown')
 

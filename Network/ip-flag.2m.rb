@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>External IP country flag emoji</bitbar.title>
-# <bitbar.version>v1.5 beta 1</bitbar.version>
-# <bitbar.author>Bruce Steedman</bitbar.author>
-# <bitbar.author.github>MatzFan</bitbar.author.github>
-# <bitbar.desc>Displays country flag emoji - e.g. for VPN use</bitbar.desc>
-# <bitbar.dependencies>OS X 10.11</bitbar.dependencies>
+# <xbar.title>External IP country flag emoji</xbar.title>
+# <xbar.version>v1.5 beta 1</xbar.version>
+# <xbar.author>Bruce Steedman</xbar.author>
+# <xbar.author.github>MatzFan</xbar.author.github>
+# <xbar.desc>Displays country flag emoji - e.g. for VPN use</xbar.desc>
+# <xbar.dependencies>OS X 10.11</xbar.dependencies>
 
 require 'open-uri'
 require 'json'

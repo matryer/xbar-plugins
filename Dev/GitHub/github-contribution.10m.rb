@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# <bitbar.title>Github Contribution</bitbar.title>
-# <bitbar.version>v0.0.2</bitbar.version>
-# <bitbar.author>mizoR</bitbar.author>
-# <bitbar.author.github>mizoR</bitbar.author.github>
-# <bitbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Github Contribution</xbar.title>
+# <xbar.version>v0.0.2</xbar.version>
+# <xbar.author>mizoR</xbar.author>
+# <xbar.author.github>mizoR</xbar.author.github>
+# <xbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 #
 # To setup, create or edit your ~/.bitbarrc file with a new section:
 #
@@ -79,14 +79,14 @@ module BitBar
     ConfigurationError = Class.new(StandardError)
 
     class Contribution < Struct.new(:username, :contributed_on, :count)
-      RE_CONTRIBUTION = %r|<rect class="day" .+ data-count="(\d+)" data-date="(\d\d\d\d-\d\d-\d\d)"/>|
+      RE_CONTRIBUTION = %r|<rect .*class="ContributionCalendar-day" .*data-count="(\d+)" .*data-date="(\d\d\d\d-\d\d-\d\d)".*></rect>|
 
       def self.find_all_by(username:)
         [].tap do |contributions|
-          html = URI.send(:open, url_for(username: username)) { |f| f.read }
-
+          html = open(url_for(username: username)) { |f| f.read }
           html.scan(RE_CONTRIBUTION) do |count, date|
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
+            break if Date.parse(date) == Date.parse(DateTime.now.to_s)
           end
         end
       end
@@ -160,11 +160,12 @@ module BitBar
       end
 
       def run
+        # (DateTime.now-7).to_s
         contributions = Contribution.find_all_by(username: @username)
                                     .sort_by(&:contributed_on)
+                                    .select{|l| l.contributed_on < DateTime.now}
                                     .reverse
                                     .slice(0, @max_contributions)
-
         View.new(contributions: contributions).render
       end
 

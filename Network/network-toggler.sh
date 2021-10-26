@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Network Toggler</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>David Shrestha</bitbar.author>
-# <bitbar.author.github>davidshr10</bitbar.author.github>
-# <bitbar.image>https://i.imgur.com/QRNTmet.png</bitbar.image>
-# <bitbar.desc>Provides an easy way to toggle your network connections on and off.</bitbar.desc>
-# <bitbar.dependencies>OS X 10.11</bitbar.dependencies>
+# <xbar.title>Network Toggler</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>David Shrestha</xbar.author>
+# <xbar.author.github>davidshr10</xbar.author.github>
+# <xbar.image>https://i.imgur.com/QRNTmet.png</xbar.image>
+# <xbar.desc>Provides an easy way to toggle your network connections on and off.</xbar.desc>
+# <xbar.dependencies>OS X 10.11</xbar.dependencies>
 
 if [ "$2" == 'toggle_on' ]; then
 	networksetup -setnetworkserviceenabled "$1" on

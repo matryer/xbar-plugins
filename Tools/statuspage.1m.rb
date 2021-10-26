@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>StatusPage.io</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Stephen Yeargin</bitbar.author>
-# <bitbar.author.github>stephenyeargin</bitbar.author.github>
-# <bitbar.desc>Show a StatusPage.io's Status in BitBar</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/FsD4zDD.png</bitbar.image>
+# <xbar.title>StatusPage.io</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Stephen Yeargin</xbar.author>
+# <xbar.author.github>stephenyeargin</xbar.author.github>
+# <xbar.desc>Show a StatusPage.io's Status in BitBar</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/FsD4zDD.png</xbar.image>
 
 require 'open-uri'
 require 'json'

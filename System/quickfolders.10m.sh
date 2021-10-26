@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>QuickFolders</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Alex</bitbar.author>
-# <bitbar.author.github>alexrockt</bitbar.author.github>
-# <bitbar.desc>Quick access to folders, that have files with certain suffix in it. For more details look at https://blog.aruehe.io/quickfolders-a-bitbar-plugin/</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/alexrockt/misc/master/quickfolders-screenshot.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://blog.aruehe.io/quickfolders-a-bitbar-plugin/</bitbar.abouturl>
+# <xbar.title>QuickFolders</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Alex</xbar.author>
+# <xbar.author.github>alexrockt</xbar.author.github>
+# <xbar.desc>Quick access to folders, that have files with certain suffix in it. For more details look at https://blog.aruehe.io/quickfolders-a-bitbar-plugin/</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/alexrockt/misc/master/quickfolders-screenshot.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://blog.aruehe.io/quickfolders-a-bitbar-plugin/</xbar.abouturl>
 
 PATH_TO_FOLDER=/path/to/a/folder
 

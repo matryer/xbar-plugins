@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# <bitbar.title>PostgreSQL server status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Kenji Akiyama</bitbar.author>
-# <bitbar.author.github>artifactsauce</bitbar.author.github>
-# <bitbar.desc>Show the status of PostgreSQL server installed by Homebrew on localhost and manage server boot with shortcut menus</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/l5E4yg8.png</bitbar.image>
-# <bitbar.dependencies>bash,perl,postgresql</bitbar.dependencies>
+# <xbar.title>PostgreSQL server status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Kenji Akiyama</xbar.author>
+# <xbar.author.github>artifactsauce</xbar.author.github>
+# <xbar.desc>Show the status of PostgreSQL server installed by Homebrew on localhost and manage server boot with shortcut menus</xbar.desc>
+# <xbar.image>http://i.imgur.com/l5E4yg8.png</xbar.image>
+# <xbar.dependencies>bash,perl,postgresql</xbar.dependencies>
 
 # TODO Selecting some menus will return warnings because the process has not been completed.
 

@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>Cryptocurrency Prices</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>viiraj, UdjinM6</bitbar.author>
-# <bitbar.author.github>viiraj</bitbar.author.github>
-# <bitbar.desc>Display the spot USD prices of Bitcoin (from Coinbase) and the spot prices of 9 other cryptoassets (from Poloniex) including Monero, Ethereum, Decred, Ripple, Dash, Litecoin, Siacoin.</bitbar.desc>
-# <bitbar.image>https://media.giphy.com/media/xUPGcf2tFHHoAPssy4/giphy.gif</bitbar.image>
+# <xbar.title>Cryptocurrency Prices</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>viiraj, UdjinM6</xbar.author>
+# <xbar.author.github>viiraj</xbar.author.github>
+# <xbar.desc>Display the spot USD prices of Bitcoin (from Coinbase) and the spot prices of 9 other cryptoassets (from Poloniex) including Monero, Ethereum, Decred, Ripple, Dash, Litecoin, Siacoin.</xbar.desc>
+# <xbar.image>https://media.giphy.com/media/xUPGcf2tFHHoAPssy4/giphy.gif</xbar.image>
 #
 # Based on the Monero BTC price at Poloniex Bitbar plugin by Monero.how (github.com/monerohow) and the Coinbase.com Bitcoin Prices Bitbar plugin by Charles Lenhert (github.com/CLL80). Thank you to the original coders who made this job very easy.
 #
