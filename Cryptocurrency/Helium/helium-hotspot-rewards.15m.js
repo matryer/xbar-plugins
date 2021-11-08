@@ -1,7 +1,7 @@
 #!/usr/bin/env /usr/local/bin/node
 
 // <xbar.title>Helium Hotspot Rewards Aggregator</xbar.title>
-// <xbar.description>Sums the rewards for a given list of Helium Hotspot addresses</xbar.description>
+// <xbar.desc>Sums the rewards for a given list of Helium Hotspot addresses</xbar.desc>
 // <xbar.version>v1.0</xbar.version>
 // <xbar.author>Joseph Schultz</xbar.author>
 // <xbar.author.github>acupofjose</xbar.author.github>
