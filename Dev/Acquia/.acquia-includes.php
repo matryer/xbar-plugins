@@ -14,21 +14,21 @@ function checkPrerequisites() {
     print "Error\n";
     print "---\n";
     print "Missing pre-requisite Acquia CLI\n";
-    print "Read Install Instructions|color=red|href=https://github.com/matryer/xbar-plugins/blob/main/Dev/Acquia/INSTALL.md";
+    print "Read Install Instructions|color=red|href=https://github.com/matryer/xbar-plugins/blob/main/Dev/Acquia/.INSTALL.md";
     exit(0);
   }
   if (!file_exists($_SERVER['HOME'] . '/.composer/vendor/autoload.php')) {
     print "Error\n";
     print "---\n";
     print "Missing pre-requisite Composer\n";
-    print "Read Install Instructions|color=red|href=https://github.com/matryer/xbar-plugins/blob/main/Dev/Acquia/INSTALL.md";
+    print "Read Install Instructions|color=red|href=https://github.com/matryer/xbar-plugins/blob/main/Dev/Acquia/.INSTALL.md";
     exit(0);
   }
   if (!file_exists($_SERVER['HOME'] . '/.composer/vendor/steveedson/bitbar-php')) {
     print "Error\n";
     print "---\n";
     print "Missing pre-requisite steveedson/bitbar-php\n";
-    print "Read Install Instructions|color=red|href=https://github.com/matryer/xbar-plugins/blob/main/Dev/Acquia/INSTALL.md";
+    print "Read Install Instructions|color=red|href=https://github.com/matryer/xbar-plugins/blob/main/Dev/Acquia/.INSTALL.md";
     exit(0);
   }
 }

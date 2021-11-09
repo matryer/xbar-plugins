@@ -6,31 +6,34 @@
 #  <xbar.author>Matthew Grasmick</xbar.author>
 #  <xbar.author.github>grasmash</xbar.author.github>
 #  <xbar.desc>List Acquia Cloud IDEs.</xbar.desc>
-#  <xbar.dependencies>php,acli,composer</xbar.dependencies>
+#  <xbar.dependencies>php,acli,composer,steveedson/bitbar-php</xbar.dependencies>
 
 // @see https://github.com/matryer/xbar-plugins/blob/main/CONTRIBUTING.md
-require __DIR__ . '/acquia-includes.php';
+require __DIR__ . '/.acquia-includes.php';
 use SteveEdson\BitBar;
 
 checkPrerequisites();
-$ides = acli("api:accounts:ide-list");
-if (!is_array($ides)) {
-  echo 'Could not get IDE list. Did you authenticate using Acquia CLI?';
-  exit();
-}
-
 // Create BitBar formatter
 // @see https://github.com/SteveEdson/bitbar-php
 $bb = new BitBar();
 $line = $bb->newLine();
 $mainMenu = $line
   ->setText('Acquia IDEs')
-  ->show(true);
+  ->show(TRUE);
+
+$ides = acli("api:accounts:ide-list");
+if (!is_array($ides)) {
+  $mainMenu = $line
+    ->setColor('red')
+    ->setText('Could not get IDE list. Did you authenticate using Acquia CLI?')
+    ->show();
+  exit(0);
+}
 
 $mainMenu = $line
   ->setText('Visit Acquia Cloud')
   ->setUrl('https://cloud.acquia.com/a')
-  ->show(true);
+  ->show(TRUE);
 
 foreach ($ides as $ide) {
   // Set the text and formatting
