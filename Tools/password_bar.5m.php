@@ -1,19 +1,19 @@
 #!/usr/bin/env php
 <?php
 
-# <bitbar.title>Password Generator</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Adi</bitbar.author>
-# <bitbar.author.github>gomedia-adi</bitbar.author.github>
-# <bitbar.desc>Generates human-friendly strong passwords.</bitbar.desc>
-# <bitbar.image>http://www.greatoceanmedia.com.au/images/63.png</bitbar.image>
-# <bitbar.dependencies>php</bitbar.dependencies>
-# <bitbar.abouturl>http://www.greatoceanmedia.com.au/bitbar/password-bar</bitbar.abouturl>
+# <xbar.title>Password Generator</bitbar.title>
+# <xbar.version>v1.0</bitbar.version>
+# <xbar.author>Adi</bitbar.author>
+# <xbar.author.github>gomedia-adi</bitbar.author.github>
+# <xbar.desc>Generates human-friendly strong passwords.</bitbar.desc>
+# <xbar.image>http://www.greatoceanmedia.com.au/images/63.png</bitbar.image>
+# <xbar.dependencies>php</bitbar.dependencies>
+# <xbar.abouturl>http://www.greatoceanmedia.com.au/bitbar/password-bar</bitbar.abouturl>
 
 /*
 	BitBar plugin help: https:github.com/matryer/bitbar
 
-	Plugin updated 22/6/20
+	Plugin updated 12/11/21
 
 	Version history
 		1.0	- also now generates a single obscure password (i.e. one that doesn't contain words)
