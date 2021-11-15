@@ -8,6 +8,9 @@
 # <xbar.desc>GitHub (and GitHub:Enterprise) notifications in your menu bar!</xbar.desc>
 # <xbar.image>https://i.imgur.com/hW7dw9E.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
+# <xbar.var>string(GITHUB_TOKEN): Github's token.</xbar.var>
+# <xbar.var>string(GITHUB_ENTERPRISE_TOKEN): Github's enterprise token.</xbar.var>
+# <xbar.var>string(GITHUB_ENTERPRISE_API="https://github.example.com/api/v3"): Github's enterprise api url.</xbar.var>
 
 import json
 import urllib2
