@@ -141,7 +141,7 @@ def format_notification(notification):
         formatted["href"] = re.sub(
             "api\.|api/v3/|repos/",
             "",
-            re.sub("(pull|commit)s", ur"\1", formatted["href"]),
+            re.sub("(pull|commit)s", r"\1", formatted["href"]),
         )
     if type == "PullRequest":
         if typejson and typejson["merged"]:
