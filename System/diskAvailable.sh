@@ -11,6 +11,6 @@
 #df will report what is actually on the disk
 
 DEVICE=$(/bin/df -h |/usr/bin/awk '$9 ~ /^\/$/{print $1}')
-/usr/sbin/diskutil info "$DEVICE" |/usr/bin/awk '$0 ~ /(Container|Volume) Free Space/ {print $4$5}'
+diskutil info "$DEVICE" |/usr/bin/awk '$0 ~ /(Container|Volume) Free Space/ {print $4$5}'
 
 #/bin/df -h / | awk '{print $4}' |grep -v 'Avail'

@@ -9,11 +9,11 @@
 # <xbar.dependencies></xbar.dependencies>
 # <xbar.abouturl></xbar.abouturl>
 
-power_wattage="$(/usr/sbin/system_profiler SPPowerDataType | grep "Wattage (W)" | awk "{print \$3\"W\"}")"
+power_wattage="$(system_profiler SPPowerDataType | grep "Wattage (W)" | awk "{print \$3\"W\"}")"
 
 if [ -z "$power_wattage" ]
 then
-  echo "🔋" 
+  echo "🔋"
 else
   echo "🔌${power_wattage}"
 fi
