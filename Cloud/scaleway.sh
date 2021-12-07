@@ -6,6 +6,7 @@
 # <xbar.author.github>npenkov</xbar.author.github>
 # <xbar.desc>Let you start/stop scaleway server instances</xbar.desc>
 # <xbar.dependencies>scw,jq</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/GgYNzMQ.png</xbar.image>
 
 # Dependencies:
 # [scw](https://github.com/scaleway/scaleway-cli)
@@ -13,9 +14,14 @@
 
 # Installation:
 # 1. Copy this script to your BitBar plugin folder
-# 2. Ensure the plugin file is executable by running chmod +x scaleway.sh
+# 2. Ensure the plugin file is executable by running chmod +x scaleway.20s.sh
 # 3. Change your SCW profile settings
+unset SCW_ACCESS_KEY SCW_SECRET_KEY SCW_DEFAULT_ORGANIZATION_ID SCW_DEFAULT_REGION SCW_DEFAULT_ZONE SCW_PROFILE
 SCW_CLI_PROFILE="default"
+ACTION="$1"
+INSTANCE="$2"
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
 
 CMD_SCW=$(command -v /usr/local/bin/scw)
 CMD_JQ=$(command -v /usr/local/bin/jq)
@@ -46,14 +52,14 @@ print_instance(){
     # echo "--"
     if [ "$status_info" == "running" ]; then
       echo "--status: $status_info"
-      echo "--stop | bash='$0' bash=$CMD_SCW param1=instance param2=server param3=stop param4=$instance_id refresh=false terminal=false"
+      echo "--stop | bash='$SCRIPTPATH/$0' param1=stop param2=$instance_id refresh=false terminal=false"
     elif [ "$status_info" == "stopping" ]; then
       echo "--status: $status_info"
     elif [ "$status_info" == "starting" ]; then
       echo "--status: $status_info"
     else
       echo "--status: $status_info"
-      echo "--start | bash='$0' bash=$CMD_SCW param1=instance param2=server param3=start param4=$instance_id refresh=false terminal=false"
+      echo "--start | bash='$SCRIPTPATH/$0' param1=start param2=$instance_id refresh=false terminal=false"
     fi
   done
 }
@@ -61,13 +67,12 @@ print_instance(){
 main() {
   print_instance 
 
-  if [ "$ARG1_ACTION" ]; then
-    osascript -e "display notification \"$ARG1_ACTION\" "
-    $CMD_SCW -p$SCW_CLI_PROFILE instance server $ARG1_ACTION $INSTANCE_ID
+  if [ ! -z "$ACTION" ]; then
+    $CMD_SCW -p$SCW_CLI_PROFILE instance server $ACTION $INSTANCE
   fi
 }
 
-echo "SCW"
+echo "☁️ "
 echo "---"
 
 if [ "$CMD_SCW" ]; then
