@@ -14,7 +14,7 @@ import json
 
 
 guild_symbol = "blockchainspace"
-crypto_symbols = {"eth": "Ξ", "usd": "$", "eur": "€", "php": "₱"}
+crypto_symbols = {"usd": "$", "eur": "€", "php": "₱", "hkd": "HK$", "sgd": "SGD$", "idr": "Rp"}
 #-----------------------------------------------------------------------------
 
 message = []
@@ -24,19 +24,18 @@ for currency, val in crypto_symbols.items():
 
     guild_price = result[guild_symbol]
     price_current = guild_price.get(currency, 'N/A')
-    if currency == "eth":
-        price_current = 1/price_current
     price_changed = guild_price.get('%s_24h_change' % currency, 'N/A')
 
     if price_changed is not None:
         color = "red" if float(price_changed) < 0 else "green"
         message.append("$GUILD-{} {}{:.2f} ({:.2f}%) | color={} size=13".format(currency.upper(), val, price_current, price_changed, color))
 
-print (message[1])
-print ("---")
-print (message[2])
-print (message[3])
 print (message[0])
 print ("---")
+print (message[4])
+print (message[3])
+print (message[2])
+print (message[1])
+print ("---")
 print ("More @Coingecko | href=https://www.coingecko.com/en/coins/blockchainspace")
-print ("Visit Blockchainspace site | href=https://blockchainspace.asia")
+print ("Visit BlockchainSpace site | href=https://blockchainspace.asia")
