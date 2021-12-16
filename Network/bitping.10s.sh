@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>bitping/track/graph</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Simon Hudson</bitbar.author>
-# <bitbar.author.github>SimonSays13</bitbar.author.github>
-# <bitbar.desc>Sends pings to one or more sites, display connectivity status, record results to file (separated daily) and graph the last X minutes performance via the dropdown with no external dependencies</bitbar.desc>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl>http://www.provulo.com/</bitbar.abouturl>
+# <xbar.title>bitping/track/graph</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Simon Hudson</xbar.author>
+# <xbar.author.github>SimonSays13</xbar.author.github>
+# <xbar.desc>Sends pings to one or more sites, display connectivity status, record results to file (separated daily) and graph the last X minutes performance via the dropdown with no external dependencies</xbar.desc>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl>http://www.provulo.com/</xbar.abouturl>
 
 # This is a plugin for Bitbar
 # https://github.com/matryer/bitbar

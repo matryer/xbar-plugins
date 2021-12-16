@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>PIA VPN Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Parvez</bitbar.author>
-# <bitbar.author.github>parvez</bitbar.author.github>
-# <bitbar.desc>Displays PIA VPN connection status</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/YqBwZed.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/parvez/bitbar-plugins</bitbar.abouturl>
+# <xbar.title>PIA VPN Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Parvez</xbar.author>
+# <xbar.author.github>parvez</xbar.author.github>
+# <xbar.desc>Displays PIA VPN connection status</xbar.desc>
+# <xbar.image>http://i.imgur.com/YqBwZed.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/parvez/bitbar-plugins</xbar.abouturl>
 #
 # by Parvez
 pia1=$(curl --silent https://www.privateinternetaccess.com/pages/whats-my-ip/)

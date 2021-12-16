@@ -1,18 +1,18 @@
 #!/bin/bash
-# <bitbar.title>CoreAudio Samplerate Display</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Anthony Lauzon</bitbar.author>
-# <bitbar.author.github>anthonylauzon</bitbar.author.github>
-# <bitbar.desc>Displays current samplerate for an audio device.</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl></bitbar.abouturl>
+# <xbar.title>CoreAudio Samplerate Display</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Anthony Lauzon</xbar.author>
+# <xbar.author.github>anthonylauzon</xbar.author.github>
+# <xbar.desc>Displays current samplerate for an audio device.</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl></xbar.abouturl>
 
 IFS='
 '
 
 device_index=0
 
-devices=($(/usr/sbin/system_profiler  \
+devices=($(system_profiler  \
   SPAudioDataType 2>/dev/null | \
   sed '1,/Devices/d' | \
   grep "^        \w" | \
@@ -26,7 +26,7 @@ elif [[ -f ~/.bitbar_audio_device_index ]]; then
 fi
 
 default_device="${devices[$device_index]}"
-samplerate=($(/usr/sbin/system_profiler  \
+samplerate=($(system_profiler  \
   SPAudioDataType 2>/dev/null | \
   sed '1,/'"${default_device}"'/d' | \
   grep SampleRate | \

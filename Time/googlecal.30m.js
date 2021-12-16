@@ -2,31 +2,42 @@
 /* jshint esversion: 6, loopfunc: true */
 
 /*
-<bitbar.title>Google Calendar</bitbar.title>
-<bitbar.version>v1.0.1</bitbar.version>
-<bitbar.author>Kodie Grantham</bitbar.author>
-<bitbar.author.github>kodie</bitbar.author.github>
-<bitbar.desc>Shows upcoming events from your Google Calendar - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-googlecal</bitbar.desc>
-<bitbar.image>https://raw.githubusercontent.com/kodie/bitbar-googlecal/master/screenshot.png</bitbar.image>
-<bitbar.dependencies>node, npm, npm/fs, npm/home-config, npm/googleapis, npm/google-auth-library, npm/http, npm/moment, npm/open</bitbar.dependencies>
-<bitbar.abouturl>https://github.com/kodie/bitbar-googlecal</bitbar.abouturl>
+<xbar.title>Google Calendar</xbar.title>
+<xbar.version>v1.2.0</xbar.version>
+<xbar.author>Kodie Grantham</xbar.author>
+<xbar.author.github>kodie</xbar.author.github>
+<xbar.desc>Shows upcoming events from your Google Calendar - Be sure to read the installation instructions here: https://github.com/kodie/bitbar-googlecal</xbar.desc>
+<xbar.image>https://raw.githubusercontent.com/kodie/bitbar-googlecal/master/screenshot.png</xbar.image>
+<xbar.dependencies>node, npm</xbar.dependencies>
+<xbar.dependencies.npm>npm/home-config, npm/googleapis, npm/@hapi/hapi, npm/moment, npm/open</xbar.dependencies.npm>
+<xbar.abouturl>https://github.com/kodie/bitbar-googlecal</xbar.abouturl>
 */
 
-var ver = '1.0.1';
+var ver = '1.2.1';
 
 var defaults = {
   clientId: '529707498278-prhql6kn67hevctqkt0qkgeha51bdhv7.apps.googleusercontent.com',
   clientSecret: 'TokBYwcOxjSFfxUPk2cxkuyS',
   clientRedirect: 'http://localhost:3000',
   calendarId: 'primary',
+  dateColor: false,
+  dateFont: false,
   dateFormat: 'dddd M/D',
+  dateSize: 12,
   days: 7,
+  eventColor: false,
+  eventFont: false,
+  eventLength: 80,
+  eventSize: false,
   expandEvents: true,
   limit: 25,
   showAllOfFirstDay: true,
   showEmptyDays: false,
+  serverHost: 'localhost',
   serverPort: 3000,
   startDate: Date.now(),
+  textToday: ' (Today)',
+  textTomorrow: ' (Tomorrow)',
   timeFormat: 'h:mma',
   tokenFile: '.googlecal.json'
 };
@@ -112,24 +123,26 @@ if (process.env.BitBar) {
   console.log('---');
 }
 
-var npmDeps = 'fs home-config googleapis google-auth-library http moment open';
+var npmDeps = 'home-config@0.1.0 googleapis@44 @hapi/hapi@18.4.0 moment@2.24.0 open@7.0.0';
 var dirHome = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE);
 var dirPlugins = process.argv[1].split('/').slice(0, -1).join('/');
 
 try {
   var cfg = Object.assign({}, defaults, require('home-config').load('.bitbarrc').googlecal);
   var fs = require('fs');
-  var google = require('googleapis');
-  var googleAuth = require('google-auth-library');
-  var http = require('http');
+  var { google } = require('googleapis');
+  var Hapi = require('@hapi/hapi');
   var moment = require('moment');
   var open = require('open');
 
-  var auth = new googleAuth();
-  var oauth2Client = new auth.OAuth2(cfg.clientId, cfg.clientSecret, cfg.clientRedirect);
+  var oauth2Client = new google.auth.OAuth2(cfg.clientId, cfg.clientSecret, cfg.clientRedirect);
 } catch(e) {
-  console.log(`Run Installation | bash="cd ${dirPlugins} && npm install ${npmDeps} && node ${process.argv[1]} getNewToken"`);
-  footer();
+  if (process.env.BitBar) {
+    console.log(`Run Installation | bash="cd ${dirPlugins} && npm install ${npmDeps} && rm package-lock.json || true && node ${process.argv[1]} getNewToken"`);
+    footer();
+  } else {
+    console.log(e);
+  }
   process.exit(1);
 }
 
@@ -137,7 +150,7 @@ cfg.tokenFile = cfg.tokenFile.replace('~', dirHome);
 if (cfg.tokenFile.indexOf('/') < 0) { cfg.tokenFile = dirPlugins + '/' + cfg.tokenFile; }
 
 function refresh() {
-  open(`bitbar://refreshPlugin?name=googlecal.*?.js`);
+  open('bitbar://refreshPlugin?name=googlecal.*?.js');
 }
 
 function getNewToken() {
@@ -149,44 +162,48 @@ function getNewToken() {
   open(authUrl);
 
   console.log('');
-  console.log('If your browser did not do so automatically, please visit the following URL:', authUrl);
+  console.log('If your browser did not do so automatically, please visit the following URL:');
+  console.log(authUrl);
   console.log('');
 
-  var server = http.createServer(function(request, response) {
-    var code = request.url.match(/code=([^&]*)/);
-    var msg = '';
+  var server = new Hapi.server({
+    port: cfg.serverPort,
+    host: cfg.serverHost,
+  });
 
-    if (code) {
-      code = code.pop();
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: function(request, h) {
+      var code = request.query.code;
 
-      oauth2Client.getToken(code, function(error, token) {
-        response.writeHead(200, {'Content-Type': 'text/html'});
-        response.write('<!doctype html><html><body>');
-
-        if (!error) {
-          fs.writeFileSync(cfg.tokenFile, JSON.stringify(token));
-          refresh();
-
-          msg = 'We\'re all done here! You may now close this window.';
-          response.write(msg);
+      return new Promise((resolve) => {
+        oauth2Client.getToken(code, function(error, token) {
+          if (!error) {
+            fs.writeFileSync(cfg.tokenFile, JSON.stringify(token));
+            refresh();
+            msg = 'We\'re all done here! You may now close this window.';
+          } else {
+            msg = 'An error occured while trying to get your authorization code: ' + error.message;
+          }
+  
+          server.stop({ timeout: 2000 });
           console.log(msg);
-        } else {
-          msg = 'An error occured while trying to get your code.';
-          response.write(msg);
-          console.log(msg);
-        }
-
-        response.write('</body></html>');
-        response.end();
-        process.exit();
+          resolve(msg);
+        });
       });
-    } else {
-      response.end();
     }
   });
 
-  server.listen(cfg.serverPort);
-  console.log('Waiting for code...');
+  server.start(function(error) {
+    if (error) {
+      console.log('An error occured while trying to start the server: ' + error.message);
+      process.exit(1);
+    } else {
+      console.log('Server running at ' + server.info.uri);
+      console.log('Waiting for authorization...');
+    }
+  });
 }
 
 function refreshToken(oauth2Client, cb) {
@@ -198,26 +215,24 @@ function refreshToken(oauth2Client, cb) {
         if (!error) {
           cb(oauth2Client);
         } else {
-          console.log(error.message);
-          footer();
+          footer([error.message]);
           process.exit(1);
         }
       });
     } else {
-      console.log(error.message);
-      footer();
+      footer([error.message]);
       process.exit(1);
     }
   });
 }
 
 function listEvents(oauth2Client) {
-  var calendar = google.calendar('v3');
+  var calendar = google.calendar({ version: 'v3', auth: oauth2Client });
   var processedCalendars = 0;
   var today = moment().format('L');
   var tomorrow = moment().add(1, 'days').format('L');
   var start = moment(new Date(cfg.startDate));
-  var dateLimit, evnts = {};
+  var dateLimit, evnts = {}, errors = [];
 
   if (!(cfg.calendarId instanceof Array)) {
     cfg.calendarId = cfg.calendarId.split(',');
@@ -235,7 +250,6 @@ function listEvents(oauth2Client) {
 
   for (var i = 0; i < cfg.calendarId.length; i++) {
     calendar.events.list({
-      auth: oauth2Client,
       calendarId: cfg.calendarId[i],
       timeMin: (cfg.showAllOfFirstDay ? (new Date(moment(start).format('L'))) : (new Date(moment(start)))).toISOString(),
       maxResults: cfg.limit,
@@ -296,8 +310,15 @@ function listEvents(oauth2Client) {
 
               date = moment(new Date(d).toISOString()).format(cfg.dateFormat);
 
-              if (d == today) { date += ' (Today)'; }
-              if (d == tomorrow) { date += ' (Tomorrow)'; }
+              if (d == today) { date += cfg.textToday; }
+              if (d == tomorrow) { date += cfg.textTomorrow; }
+
+              if (process.env.BitBar) {
+                date += ' |';
+                if (cfg.dateColor) { date += ` color=${cfg.dateColor}`; }
+                if (cfg.dateFont) { date += ` font=${cfg.dateFont}`; }
+                if (cfg.dateSize) { date += ` size=${cfg.dateSize}`; }
+              }
 
               console.log(date);
             }
@@ -312,6 +333,11 @@ function listEvents(oauth2Client) {
 
                 if (process.env.BitBar) {
                   str += ` | href=${evnts[d][s].htmlLink}`;
+
+                  if (cfg.eventColor) { str += ` color=${cfg.eventColor}`; }
+                  if (cfg.eventFont) { str += ` font=${cfg.eventFont}`; }
+                  if (cfg.eventLength) { str += ` length=${cfg.eventLength}`; }
+                  if (cfg.eventSize) { str += ` size=${cfg.eventSize}`; }
                 }
 
                 console.log(str);
@@ -321,21 +347,15 @@ function listEvents(oauth2Client) {
           }
 
           if (Object.keys(evnts).length === 0) {
-            console.log('No upcoming events found');
+            console.log('No upcoming events found.');
           }
         }
       } else {
-        console.log(error.message + ' (calendar: ' + cfg.calendarId[i] +')');
-
-        if (processedCalendars >= cfg.calendarId.length) {
-          footer();
-        }
-
-        process.exit(1);
+        errors.push(error.message + ' (calendar: ' + cfg.calendarId[i] +')');
       }
 
       if (processedCalendars >= cfg.calendarId.length) {
-        footer();
+        footer(errors);
       }
     });
   }
@@ -343,10 +363,32 @@ function listEvents(oauth2Client) {
 
 function run() {
   if (fs.existsSync(cfg.tokenFile)) {
-    var token = fs.readFileSync(cfg.tokenFile);
-    oauth2Client.credentials = JSON.parse(token);
+    var token = fs.readFileSync(cfg.tokenFile, 'utf8');
+    if (token) { oauth2Client.credentials = JSON.parse(token); }
 
-    if (new Date(Date.now()) > oauth2Client.credentials.expiry_date) {
+    if (!oauth2Client.credentials.refresh_token) {
+      fs.unlinkSync(cfg.tokenFile);
+
+      console.log('No refresh token set');
+      console.log('You need to re-authorize this plugin with Google');
+
+      if (process.env.BitBar) {
+        console.log('Click here to view your currently authorized apps | href=https://myaccount.google.com/permissions');
+      } else {
+        console.log('Visit this URL to view your currently authorized apps: https://myaccount.google.com/permissions');
+      }
+
+      console.log('You will want to find this plugin and click \'Remove\'');
+
+      if (process.env.BitBar) {
+        console.log(`After you have done that, click here to re-authorize this plugin | bash=${process.argv[1]} param1=getNewToken refresh=false terminal=true`);
+      } else {
+        console.log('After you have done that, refresh this plugin and run the setup process again');
+      }
+
+      footer();
+      process.exit(1);
+    } else if (new Date(Date.now()) > oauth2Client.credentials.expiry_date) {
       refreshToken(oauth2Client, listEvents);
     } else {
       listEvents(oauth2Client);
@@ -362,7 +404,16 @@ function run() {
   }
 }
 
-function footer() {
+function footer(errors) {
+  if (errors && errors.length) {
+    console.log('---');
+    console.log('Errors:');
+
+    for (var e = 0; e < errors.length; e++) {
+      console.log(errors[e]);
+    }
+  }
+
   if (process.env.BitBar) {
     console.log('---');
     console.log(`BitBar Google Calendar Plugin v${ver}`);

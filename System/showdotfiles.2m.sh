@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Metadata
+# --------
+#  <xbar.title>Show Dot Files</xbar.title>
+#  <xbar.version>v1.0</xbar.version>
+#  <xbar.author>Jerry L Hoover</xbar.author>
+#  <xbar.author.github>realjhoo</xbar.author.github>
+#  <xbar.desc>Show hidden dot files in Finder, and hide them again</xbar.desc>
+#  <xbar.image>https://realjhoo.com/img/showdotfilesxbar.gif</xbar.image>
+#  <xbar.dependencies>bash</xbar.dependencies>
+#  <xbar.abouturl>https://github.com/realjhoo/show-dot-files-xbar</xbar.abouturl>
+
+invisibleIcon="| templateImage=iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAABigAwAEAAAAAQAAABgAAAAAEQ8YrgAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDYuMC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KGV7hBwAAAqhJREFUSA21ld2LTlEUhw/jm6GMj5Iao0gTCZciU/4HN25Q4wLFXzD/B1Myd2hyKeEC+SpGinwkyqWPISJSeJ5z9npnn/OeN0lWPbP2Xnudvfb5rX3e6Svq1lef/r/Z7JatZxHLaUn5c+gwKetT2pws3Y2bZsyctrVabsgySvQXTMFAysiLOF4MS2BeWg/nHj0LxcIQSffAIg9gBWjLYAJewVv4CM9hEo7CGgiLw8a840PzVURuQbPIQWI/4Dt8TevmyDSMwVzQehaZX60XO/FuFkVCrrXEfKt+GIb9cAGi0G3Gg6B1FYnABhZfgA99S165VkLYwhgkvwf/CHzmJXQViR54socp8SLeU95NcxuvfNpuUP/tTpL57CWwiAfyMmjl3qH/OAETfNVFoHnyO2D8fprjikOg9lucJFNinzX3VIrF3sVIWviMVyZtQeWK03gfEt9kNWgWOVeOZhq8kbl7mLs3rZXucgqeSMG4577qG7Afj6FZZBcx5dHiFh1nbN5Vg/EK4X8abFj0yFtzBbaBPVK+G/AFNDfVWvfydUzIJYq3UAbXJmAHxI3JexK5m1j/BOYre2lR0ca4YKNsWNgwg/fgmh9aXF/n9iS+eIbFNTB+0glW7h0SqLdXzASvXGjLsLwt5/HvwNtzBvKfFeXSDsBNWOoEi707X94gQT8WiyjFCOSmFHG7PN11MFe5loMWcnU2r8Izn7dF4j77sD8HNngzeDLZCvvAppsjUxBvEjeKUN3iJ8OEMZiG2ECv/nkPjL2GJ+DYItGTUn/mXRZFXPCn+AhMwjP4ADb8KZyFY+BPiCdXJovoh0DrkqkKVwt5IeNq60WQNgkGiEfjRxlrzT2qaPbXE/ifrO0kShBrem0dxObO/8osktN8uKfmzcR/mXuAmiy/Af7Wl2WtE4gSAAAAAElFTkSuQmCC"
+
+visibleIcon="| templateImage=iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAABigAwAEAAAAAQAAABgAAAAAEQ8YrgAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDYuMC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KGV7hBwAAAiZJREFUSA3FlctOFFEQhse7MUZXLBRjIokGUHwGLzwBW/UZ8Al4EJ7AWxziTmIyOzVsSDTqkiWI6IaQGEXh+5r+256ZnglEiX/yTVfXqarTp87pnlbrkHXkAPV7Y3cOkDsw1KLHobe4CcPGHC/UlOiA/qPwy5tSJ7meKO2fXH+Utpdj8Bv6VtU0gcEpfAF7Bm7DFIyA+gLvoQPPYRVUPXfP0/NrgPJJ5+Ar+FThO7bk3qsxxmZ1qYGrWxm4jPsNpMgC9n24DudKtO9BGxJnjrkqtfbuao4x7BUw6RPchbrcB6nrFjfvwBxzr4CqJsk+nMG5DAYuwnmIbmI8g/WSp1zdk+gsxksw1xrWUkVtT4uaBwPewmmIJjG+gWPbJdr2fgKiUxhprbVUarfucGPSJlwDlVY8wXbM0zIKF8HV6HsMKrFXsa3hmDUrdbB0Piw9SXCpn8Ent3h0CcOjvAZpR3Jm8VnLmn+W4A1yYJCGjdVzqrbUnfUWuUyVJ0qLbItPLm1wwkegEjuOvQWOVS3KjNnk1wy6YZEbmRfOtogFNsCCka1aAse6NrnpmHrkfKkij6QrWS/RvgGRR/oVWLzvmBqUl2IMewUM/AjVMrGVrUg7Cgc/0/ABzDG370XDVyiTNH0qHhDhE/ukoq3vBVhYhn4qGC+USf7Zxy79zwRencSNVH/9uW6awML6PV2ZSJ+9zyd53384Jg6TEx3KX2bTpL2rdWP/v3YBVY2SLwF+qwMAAAAASUVORK5CYII="
+
+if [ "$1" = 'showDotFiles' ]
+then
+  defaults write com.apple.finder AppleShowAllFiles YES
+  killall Finder
+elif [ "$1" = 'hideDotFiles' ]
+then
+  defaults write com.apple.finder AppleShowAllFiles NO
+  killall Finder
+fi
+
+showAllFiles=`defaults read com.apple.finder AppleShowAllFiles`
+
+if [ $showAllFiles = "NO" ]
+then
+  # Show Dot Files
+  echo $invisibleIcon
+  echo '---'
+  echo "Show Dot Files | shell='$0' param1=showDotFiles terminal=false refresh=true"
+  echo "Show Dot Files Version 1.0 | disabled=true"
+else
+  # Hide Dot Files
+  echo $visibleIcon
+  echo '---'
+  echo "Hide Dot Files | shell=$0 param1=hideDotFiles terminal=false refresh=true"
+  echo "Show Dot Files v1.0 | disabled=true"
+fi

@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# <bitbar.title>SolarEdge Monitoring</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Shaun Grady</bitbar.author>
-# <bitbar.author.github>shaungrady</bitbar.author.github>
-# <bitbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/W4ygbPd.png</bitbar.image>
-# <bitbar.dependencies>solaredge,python</bitbar.dependencies>
+# <xbar.title>SolarEdge Monitoring</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Shaun Grady</xbar.author>
+# <xbar.author.github>shaungrady</xbar.author.github>
+# <xbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</xbar.desc>
+# <xbar.image>http://i.imgur.com/W4ygbPd.png</xbar.image>
+# <xbar.dependencies>solaredge,python</xbar.dependencies>
 
 ####################
 # User Configuration
@@ -133,19 +133,19 @@ print(icon_prefix + toolbar_output + "| font='SF Compact Text Regular'")
 
 if system_wattage > 0:
     print("---")
-    print(efficiency + " efficiency | href:https://monitoring.solaredge.com/")
+    print(efficiency + " efficiency | href=https://monitoring.solaredge.com/")
 
 print("---")
-print(energy_mtd + " this month | href:https://monitoring.solaredge.com/")
-print(energy_ytd + " this year | href:https://monitoring.solaredge.com/")
+print(energy_mtd + " this month | href=https://monitoring.solaredge.com/")
+print(energy_ytd + " this year | href=https://monitoring.solaredge.com/")
 # If YTD and lifetime energy are within 1 kWh, consider them equal and
 # suppress the total energy data from the dropdown menu
 if raw_energy_total - raw_energy_ytd > 1000:
-    print(energy_total + " lifetime | href:https://monitoring.solaredge.com/")
+    print(energy_total + " lifetime | href=https://monitoring.solaredge.com/")
 
 if co2_lbs_per_MWh > 0:
     print("---")
-    print(co2_offset + " CO₂ offset | href:https://monitoring.solaredge.com/")
+    print(co2_offset + " CO₂ offset | href=https://monitoring.solaredge.com/")
 
-# print("---")
-# print(json['overview']['lastUpdateTime'] + " | size:11")
+print("---")
+print(json['overview']['lastUpdateTime'] + " | size=11")

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # - * -coding: utf - 8 - * -
 #
-# <bitbar.title>Offlineimap Checker and notification</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Andros Fenollosa</bitbar.author>
-# <bitbar.author.github>tanrax</bitbar.author.github>
-# <bitbar.desc>Alert new emails and displays inbox count</bitbar.desc>
-# <bitbar.image>https://programadorwebvalencia.com/wp-content/uploads/2016/07/Screen-Shot-2016-07-06-at-18.42.35.jpg</bitbar.image>
+# <xbar.title>Offlineimap Checker and notification</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Andros Fenollosa</xbar.author>
+# <xbar.author.github>tanrax</xbar.author.github>
+# <xbar.desc>Alert new emails and displays inbox count</xbar.desc>
+# <xbar.image>https://programadorwebvalencia.com/wp-content/uploads/2016/07/Screen-Shot-2016-07-06-at-18.42.35.jpg</xbar.image>
 import os
 import pickle
 import tempfile

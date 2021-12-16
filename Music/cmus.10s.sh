@@ -8,12 +8,12 @@
 # Choose to launch cmus in iTerm2 (version 2.9.20150414+ only) or Terminal
 #
 # Metadata:
-# <bitbar.title>Cmus Now Playing</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Michael Chris Lopez</bitbar.author>
-# <bitbar.author.github>mcchrish</bitbar.author.github>
-# <bitbar.desc>Displays currently playing song from cmus. Control cmus in menubar.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/qeZCB0a.png</bitbar.image>
+# <xbar.title>Cmus Now Playing</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Michael Chris Lopez</xbar.author>
+# <xbar.author.github>mcchrish</xbar.author.github>
+# <xbar.desc>Displays currently playing song from cmus. Control cmus in menubar.</xbar.desc>
+# <xbar.image>https://i.imgur.com/qeZCB0a.png</xbar.image>
 
 export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 
@@ -44,7 +44,9 @@ if [ "$1" = 'launch-terminal' ]; then
   exit
 fi
 
-if cmus-remote -C status > /dev/null 2>&1; then
+state=$(cmus-remote -C status | sed -n 1p | cut -d " " -f2)
+
+if [ "$state" = "" ]; then
   echo "♫"
   echo "---"
   echo "cmus is not running"
@@ -52,8 +54,6 @@ if cmus-remote -C status > /dev/null 2>&1; then
   echo "Launch cmus in Terminal | bash='$0' param1=launch-terminal terminal=false refresh=true"
   exit
 fi
-
-state=$(cmus-remote -C status | sed -n 1p | cut -d " " -f2)
 
 if [ "$1" = 'playpause' ]; then
   cmus-remote --pause
@@ -80,7 +80,7 @@ track=$(cmus-remote -C "format_print %{title}")
 artist=$(cmus-remote -C "format_print %{artist}")
 album=$(cmus-remote -C "format_print %{album}")
 
-echo "$state_icon $track - $artist | length=40"
+echo "$state_icon"
 echo "---"
 
 case "$0" in

@@ -1,14 +1,14 @@
 #!/usr/local/bin/python3
 
-# <bitbar.title>Watt Meter</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Eric Ripa</bitbar.author>
-# <bitbar.author.github>eripa</bitbar.author.github>
-# <bitbar.desc>Show current watt drain, tries to be smart and highlight high power usage</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/blj2KCP.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
+# <xbar.title>Watt Meter</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Eric Ripa</xbar.author>
+# <xbar.author.github>eripa</xbar.author.github>
+# <xbar.desc>Show current watt drain, tries to be smart and highlight high power usage</xbar.desc>
+# <xbar.image>http://i.imgur.com/blj2KCP.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
 
-from plistlib import readPlistFromBytes
+from plistlib import loads
 import sys
 import subprocess
 
@@ -30,13 +30,19 @@ IMPACT = {
             "high": 70,
             "low": 30
         }
+    },
+    6: {
+        "MacBook Pro": {
+            "high": 80,
+            "low": 30
+        }
     }
 }
 
 def parse_system_profiler():
-    output = subprocess.check_output(["/usr/sbin/system_profiler", \
+    output = subprocess.check_output(["system_profiler", \
                                      "-xml", "SPPowerDataType", "SPHardwareDataType"])
-    plist = readPlistFromBytes(output)
+    plist = loads(output)
     spbattery_info = plist[0]['_items'][0]
 
     machine = {
@@ -70,7 +76,7 @@ def main():
     if impact == "high":
         color = "red"
     refresh_interval = sys.argv[0].split('.')[2]
-    print("%.1fW| color=%s size=12" % (machine['current_watt'], color))
+    print("%.1fW | color=%s" % (machine['current_watt'], color))
     print("---")
     print("Refresh (current interval: %s) | refresh=true" % refresh_interval)
 

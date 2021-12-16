@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-# <bitbar.title>Product Hunt - Today in Tech</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>John Flesch</bitbar.author>
-# <bitbar.author.github>flesch</bitbar.author.github>
-# <bitbar.desc>Today's featured tech hunts on Product Hunt</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/13259/12370591/3039c57e-bbdc-11e5-9b42-e4ab9f6bf851.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://www.producthunt.com/</bitbar.abouturl>
+# <xbar.title>Product Hunt - Today in Tech</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>John Flesch</xbar.author>
+# <xbar.author.github>flesch</xbar.author.github>
+# <xbar.desc>Today's featured tech hunts on Product Hunt</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/13259/12370591/3039c57e-bbdc-11e5-9b42-e4ab9f6bf851.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://www.producthunt.com/</xbar.abouturl>
 
 import json
 import urllib2

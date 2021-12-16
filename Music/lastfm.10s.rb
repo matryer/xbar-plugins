@@ -7,13 +7,13 @@
 # (or scrobbled from another service)
 # Includes link to track info page in the dropdown
 
-# <bitbar.title>Last.fm Now Playing</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Eric Stiens</bitbar.author>
-# <bitbar.author.github>estiens</bitbar.author.github>
-# <bitbar.desc>Displays currently playing song from Last.fm (or scrobbles)</bitbar.desc>
-# <bitbar.image>https://s3.amazonaws.com/f.cl.ly/items/400E102E353y3U1x2r2U/Screen%20Shot%202016-02-09%20at%2012.19.47%20PM.png?v=36addc99</bitbar.image>
-# <bitbar.dependencies>ruby, xml-simple</bitbar.dependencies>
+# <xbar.title>Last.fm Now Playing</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Eric Stiens</xbar.author>
+# <xbar.author.github>estiens</xbar.author.github>
+# <xbar.desc>Displays currently playing song from Last.fm (or scrobbles)</xbar.desc>
+# <xbar.image>https://s3.amazonaws.com/f.cl.ly/items/400E102E353y3U1x2r2U/Screen%20Shot%202016-02-09%20at%2012.19.47%20PM.png?v=36addc99</xbar.image>
+# <xbar.dependencies>ruby, xml-simple</xbar.dependencies>
 
 require 'open-uri'
 require 'xmlsimple'
