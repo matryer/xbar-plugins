@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Your time on earth</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tim Regener</bitbar.author>
-# <bitbar.author.github>timlapluie</bitbar.author.github>
-# <bitbar.desc>Displays the time you are already living.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/EzUARsL.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Your time on earth</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tim Regener</xbar.author>
+# <xbar.author.github>timlapluie</xbar.author.github>
+# <xbar.desc>Displays the time you are already living.</xbar.desc>
+# <xbar.image>http://i.imgur.com/EzUARsL.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 # --------------------- #
 # EDIT THESE VARIABLES. #

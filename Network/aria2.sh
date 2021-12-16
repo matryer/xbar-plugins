@@ -2,11 +2,11 @@
 #
 # Quickly aria2c
 #
-# <bitbar.title>aria2c</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>cnsworder</bitbar.author>
-# <bitbar.author.github>cnsworder</bitbar.author.github>
-# <bitbar.desc>Quickly aria2c</bitbar.desc>
+# <xbar.title>aria2c</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>cnsworder</xbar.author>
+# <xbar.author.github>cnsworder</xbar.author.github>
+# <xbar.desc>Quickly aria2c</xbar.desc>
 
 echo "aria2c"
 echo "---"

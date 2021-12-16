@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>ping</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Trung Đinh Quang, Grant Sherrick and Kent Karlsson</bitbar.author>
-# <bitbar.author.github>thealmightygrant</bitbar.author.github>
-# <bitbar.desc>Sends pings to a range of sites to determine network latency</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/lk3iGat.png?1</bitbar.image>
-# <bitbar.dependencies>ping</bitbar.dependencies>
+# <xbar.title>ping</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Trung Đinh Quang, Grant Sherrick and Kent Karlsson</xbar.author>
+# <xbar.author.github>thealmightygrant</xbar.author.github>
+# <xbar.desc>Sends pings to a range of sites to determine network latency</xbar.desc>
+# <xbar.image>http://i.imgur.com/lk3iGat.png?1</xbar.image>
+# <xbar.dependencies>ping</xbar.dependencies>
 
 # This is a plugin of Bitbar
 # https://github.com/matryer/bitbar
@@ -36,10 +36,12 @@ PING_TIMES=
 
 while [ $SITE_INDEX -lt ${#SITES[@]} ]; do
     NEXT_SITE="${SITES[$SITE_INDEX]}"
-    NEXT_PING_TIME=$(ping -c 2 -n -q "$NEXT_SITE" 2>/dev/null | awk -F '/' 'END {printf "%.0f\n", $5}')
-    if [ "$NEXT_PING_TIME" -eq 0 ]; then
+    if RES=$(ping -c 2 -n -q "$NEXT_SITE" 2>/dev/null); then
+        NEXT_PING_TIME=$(echo "$RES" | awk -F '/' 'END {printf "%.0f\n", $5}')
+    else
         NEXT_PING_TIME=$MAX_PING
     fi
+
     if [ -z "$PING_TIMES" ]; then
         PING_TIMES=($NEXT_PING_TIME)
     else

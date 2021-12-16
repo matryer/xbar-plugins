@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Stopwatch</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Tim Baumgard</bitbar.author>
-# <bitbar.author.github>tbaumgard</bitbar.author.github>
-# <bitbar.desc>Simple stopwatch for BitBar.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/tbaumgard/tbaumgard.github.io/master/_/img/bitbar-stopwatch.png</bitbar.image>
+# <xbar.title>Stopwatch</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Tim Baumgard</xbar.author>
+# <xbar.author.github>tbaumgard</xbar.author.github>
+# <xbar.desc>Simple stopwatch for BitBar.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/tbaumgard/tbaumgard.github.io/master/_/img/bitbar-stopwatch.png</xbar.image>
 
 ### Configuration
 
@@ -107,8 +107,10 @@ elif [ -n "$START_TIME" ]; then
 
 	echo "◉ $CLOCK"
 	echo "---"
+	echo "$START_TEXT| bash='$0' param1=resume terminal=false refresh=true"
 	echo "$STOP_TEXT| bash='$0' param1=pause terminal=false refresh=true"
-
+	echo "$RESET_TEXT| bash='$0' param1=reset terminal=false refresh=true"
+	
 	if [ "$MAX_SPLITS" -gt 0 ]; then
 		echo "$SPLIT_TEXT| bash='$0' param1=split terminal=false refresh=true"
 	fi

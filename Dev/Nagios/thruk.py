@@ -1,10 +1,10 @@
 #! /usr/bin/env PYTHONIOENCODING=utf8 PYTHONUNBUFFERED=1 /usr/local/bin/python3
 
-# <bitbar.title>Thruk</bitbar.title>
-# <bitbar.author>Brian Hartvigsen</bitbar.author>
-# <bitbar.author.github>tresni</bitbar.author.github>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.image>https://monosnap.com/file/nFJPVlGURwBi7b8bU3ZFG8SVma7gEc.png</bitbar.image>
+# <xbar.title>Thruk</xbar.title>
+# <xbar.author>Brian Hartvigsen</xbar.author>
+# <xbar.author.github>tresni</xbar.author.github>
+# <xbar.version>1.0</xbar.version>
+# <xbar.image>https://monosnap.com/file/nFJPVlGURwBi7b8bU3ZFG8SVma7gEc.png</xbar.image>
 
 from urllib.parse import quote_plus
 import sys
@@ -62,7 +62,7 @@ for group, values in checks.items():
     for v in values:
         try:
             jsondata = getData(group[:-1], v)
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.ConnectionError:
             errOut("Unable to connect to %s" % NAGIOS_HOST)
         for service in jsondata:
             dns_name = service['host_name'].split('.')

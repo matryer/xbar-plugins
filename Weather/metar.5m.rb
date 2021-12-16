@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Metar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Michael Heijmans</bitbar.author>
-# <bitbar.author.github>parabuzzle</bitbar.author.github>
-# <bitbar.desc>Displays the current METAR aviation weather information for the airport of your choice</bitbar.desc>
-# <bitbar.image>http://github.com/parabuzzle/bitbar_metar/raw/master/metar-ifr.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>http://www.github.com/parabuzzle/bitbar_metar</bitbar.abouturl>
+# <xbar.title>Metar</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Michael Heijmans</xbar.author>
+# <xbar.author.github>parabuzzle</xbar.author.github>
+# <xbar.desc>Displays the current METAR aviation weather information for the airport of your choice</xbar.desc>
+# <xbar.image>http://github.com/parabuzzle/bitbar_metar/raw/master/metar-ifr.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>http://www.github.com/parabuzzle/bitbar_metar</xbar.abouturl>
 
 # Handle RVM Machines
 unless ENV['USING_RVM']

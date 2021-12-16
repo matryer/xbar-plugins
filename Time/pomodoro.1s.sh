@@ -1,14 +1,16 @@
 #!/bin/bash
 #
-# <bitbar.title>Pomodoro Timer</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Goran Gajic</bitbar.author>
-# <bitbar.author.github>gorangajic</bitbar.author.github>
-# <bitbar.desc>Pomodoro Timer that uses Pomodoro Technique™</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/T0zFY89.png</bitbar.image>
+# <xbar.title>Pomodoro Timer</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Goran Gajic</xbar.author>
+# <xbar.author.github>gorangajic</xbar.author.github>
+# <xbar.desc>Pomodoro Timer that uses Pomodoro Technique™</xbar.desc>
+# <xbar.image>http://i.imgur.com/T0zFY89.png</xbar.image>
 
 WORK_TIME=25
 BREAK_TIME=3
+
+TMP_DIR='/tmp'
 
 SAVE_LOCATION=$TMPDIR/bitbar-promodo
 TOMATO='🍅'
@@ -42,6 +44,10 @@ function workMode {
     changeStatus "1" "Work Mode" "Blow"
 }
 
+function disabledMode {
+    changeStatus "0" "Disabled" "Pebble"
+}
+
 case "$1" in
 "work")
     workMode
@@ -52,7 +58,7 @@ case "$1" in
     exit
   ;;
 "disable")
-    changeStatus "0" "Disabled"
+    disabledMode
     exit
   ;;
 esac

@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Github Trending</bitbar.title>
-# <bitbar.version>v0.1.2</bitbar.version>
-# <bitbar.author>mfks17</bitbar.author>
-# <bitbar.author.github>mfks17</bitbar.author.github>
-# <bitbar.desc>Github Daily Trending Viewer</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/mfks17/bitbar-plugin-github-trending/Screenshots/01.png</bitbar.image>
-# <bitbar.dependencies>ruby, nokogiri</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/mfks17/bitbar-plugins-github-trending</bitbar.abouturl>
+# <xbar.title>Github Trending</xbar.title>
+# <xbar.version>v0.1.2</xbar.version>
+# <xbar.author>mfks17</xbar.author>
+# <xbar.author.github>mfks17</xbar.author.github>
+# <xbar.desc>Github Daily Trending Viewer</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/mfks17/bitbar-plugin-github-trending/Screenshots/01.png</xbar.image>
+# <xbar.dependencies>ruby, nokogiri</xbar.dependencies>
+# <xbar.abouturl>https://github.com/mfks17/bitbar-plugins-github-trending</xbar.abouturl>
 
 require 'open-uri'
 require 'json'

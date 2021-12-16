@@ -2,14 +2,14 @@
 /* jshint esversion: 6 */
 
 /*
-# <bitbar.title>GitBar</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>darkturtle</bitbar.author>
-# <bitbar.author.github>clthck</bitbar.author.github>
-# <bitbar.desc>Quickly check your GitHub stats</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/clthck/gitbar/master/Screenshot.png</bitbar.image>
-# <bitbar.dependencies>node,github-contrib-stats,dotenv</bitbar.dependencies>
-# <bitbar.abouturl>https:/github.com/clthck/gitbar</bitbar.abouturl>
+# <xbar.title>GitBar</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>darkturtle</xbar.author>
+# <xbar.author.github>clthck</xbar.author.github>
+# <xbar.desc>Quickly check your GitHub stats</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/clthck/gitbar/master/Screenshot.png</xbar.image>
+# <xbar.dependencies>node,github-contrib-stats,dotenv</xbar.dependencies>
+# <xbar.abouturl>https:/github.com/clthck/gitbar</xbar.abouturl>
 */
 
 require('dotenv').config({ path: __dirname + '/../.env' });

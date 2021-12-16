@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# <bitbar.title>Power Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jeff Beadles</bitbar.author>
-# <bitbar.author.github>jeffbeadles</bitbar.author.github>
-# <bitbar.desc>Shows power source, current mode and settings</bitbar.desc>
+# <xbar.title>Power Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jeff Beadles</xbar.author>
+# <xbar.author.github>jeffbeadles</xbar.author.github>
+# <xbar.desc>Shows power source, current mode and settings</xbar.desc>
 #
 export PATH="/bin:/usr/bin:$PATH"
 

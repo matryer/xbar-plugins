@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Show/Hide Desktop Icons</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jordi Petit</bitbar.author>
-# <bitbar.author.github>jordi-petit</bitbar.author.github>
-# <bitbar.desc>This plugin displays a menu with two items to show or hide the desktop icons with one click.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/c3KYTAc.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Show/Hide Desktop Icons</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jordi Petit</xbar.author>
+# <xbar.author.github>jordi-petit</xbar.author.github>
+# <xbar.desc>This plugin displays a menu with two items to show or hide the desktop icons with one click.</xbar.desc>
+# <xbar.image>http://i.imgur.com/c3KYTAc.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 import sys, os
 

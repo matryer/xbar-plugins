@@ -1,19 +1,38 @@
-language: objective-c
-osx_image: xcode8
+os: osx
+osx_image: xcode11.2
+
+
+addons:
+    homebrew:
+        packages:
+            - python
+            - shellcheck
+            - luarocks
+            - node
+            - cpanminus
+            - clisp
+            - golang
+            - r
+        casks:
+            - racket
+
 before_install:
-  - brew update
-  - brew outdated python || brew upgrade python
-  - pip install pyflakes
-  - gem install rubocop --no-document
-  - brew install shellcheck
-  - brew outdated node || brew upgrade node
-  - npm install -g jshint
-  - brew install cpanminus && sudo cpanm Mozilla::CA
-  - brew install clisp
-  - brew install python3 && pip3 install pyflakes
-  - brew outdated golang || brew upgrade golang
-  - go get -u github.com/golang/lint/golint
+  - pip3 install virtualenv
+  - mkdir ~/venv
+  - virtualenv -p python2 ~/venv
+
 install:
+  - pip3 install pyflakes
+  - source ~/venv/bin/activate
+  - pip install pyflakes
+  - gem install rubocop
+  - luarocks install luacheck
+  - npm install -g jshint
+  - sudo cpanm Mozilla::CA
+  - go get -u golang.org/x/lint/golint
   - export PATH="$PATH:${GOROOT:-$HOME/go}/bin"
+  - raco pkg install --deps search-auto rackjure
+  - Rscript -e 'install.packages("lintr", repos="http://cran.rstudio.com/")'
+
 
 script: ./.test.py

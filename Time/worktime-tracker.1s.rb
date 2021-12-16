@@ -1,12 +1,11 @@
 #!/usr/bin/env LC_ALL=en_US.UTF-8 ruby
 
-# <bitbar.title>Worktime Tracker</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Ash Wu(hSATAC)</bitbar.author>
-# <bitbar.author.github>hSATAC</bitbar.author.github>
-# <bitbar.desc>A simple worktime tracker with record history.</bitbar.desc>
-# <bitbar.image>http://ash.cat/4DGq+</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Worktime Tracker</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Ash Wu(hSATAC)</xbar.author>
+# <xbar.author.github>hSATAC</xbar.author.github>
+# <xbar.desc>A simple worktime tracker with record history.</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 # Functionality:
 # * Start / stop / pause / resume the timing session.

@@ -1,13 +1,13 @@
 #!/usr/bin/python
 #
-# <bitbar.author>Till Dettmering</bitbar.author>
-# <bitbar.author.github>dettmering</bitbar.author.github>
-# <bitbar.title>Get steps and sleep duration from your Jawbone UP</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.desc>Get today's steps and sleep duration from your Jawbone UP!</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/JtguThL.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>http://tilldettmering.com/</bitbar.abouturl>
+# <xbar.author>Till Dettmering</xbar.author>
+# <xbar.author.github>dettmering</xbar.author.github>
+# <xbar.title>Get steps and sleep duration from your Jawbone UP</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.desc>Get today's steps and sleep duration from your Jawbone UP!</xbar.desc>
+# <xbar.image>http://i.imgur.com/JtguThL.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>http://tilldettmering.com/</xbar.abouturl>
 
 import json
 import urllib2

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# <bitbar.title>MySQL server status</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Kenji Akiyama</bitbar.author>
-# <bitbar.author.github>artifactsauce</bitbar.author.github>
-# <bitbar.desc>Show the status of MySQL server installed by Homebrew on localhost and manage server boot with shortcut menus</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Y85ENFb.png</bitbar.image>
-# <bitbar.dependencies>bash,mysql</bitbar.dependencies>
+# <xbar.title>MySQL server status</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Kenji Akiyama</xbar.author>
+# <xbar.author.github>artifactsauce</xbar.author.github>
+# <xbar.desc>Show the status of MySQL server installed by Homebrew on localhost and manage server boot with shortcut menus</xbar.desc>
+# <xbar.image>http://i.imgur.com/Y85ENFb.png</xbar.image>
+# <xbar.dependencies>bash,mysql</xbar.dependencies>
 
 set -eu
 

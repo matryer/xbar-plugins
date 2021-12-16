@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Clipboard History</bitbar.title>
-# <bitbar.author>Jason Tokoph (jason@tokoph.net)</bitbar.author>
-# <bitbar.author.github>jtokoph</bitbar.author.github>
-# <bitbar.desc>Tracks up to 10 clipboard items.
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>Clipboard History</xbar.title>
+# <xbar.author>Jason Tokoph (jason@tokoph.net)</xbar.author>
+# <xbar.author.github>jtokoph</xbar.author.github>
+# <xbar.desc>Tracks up to 10 clipboard items.
+# <xbar.version>1.0</xbar.version>
 # Clicking on a previous item will copy it back to the clipboard.
-# Clicking "Clear history" will remove history files from the filesystem.</bitbar.desc>
+# Clicking "Clear history" will remove history files from the filesystem.</xbar.desc>
 
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"
@@ -27,7 +27,7 @@ fi
 
 # If user clicked clear, remove history items
 if [[ "$1" = "clear" ]]; then
-  rm -f "$tmp_dir/item-*.pb"
+  rm -f "$tmp_dir"/item-*.pb
   osascript -e "display notification \"Cleared clipboard history\" with title \"BitBar Clipboard History\"" &> /dev/null
   exit
 fi
@@ -62,7 +62,7 @@ if [ "$CLIPBOARD" != "" ]; then
 fi
 
 # Print icon
-echo '📋'
+echo '✄'
 echo "---"
 
 # Print up to 36 characters of the current clipboard

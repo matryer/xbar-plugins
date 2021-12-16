@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Bandwidth (Mbit/s)</bitbar.title>
-# <bitbar.version>v0.0.1</bitbar.version>
-# <bitbar.author>Kaspars Mickevics</bitbar.author>
-# <bitbar.author.github>fxlv</bitbar.author.github>
-# <bitbar.desc>Displays bandwidth usage for the primary interface in Megabits/s</bitbar.desc>
-# <bitbar.dependencies>ifstat</bitbar.dependencies>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/2462211/12748504/584bbcea-c9b3-11e5-8109-ad8fdcefdc75.png</bitbar.image>
+# <xbar.title>Bandwidth (Mbit/s)</xbar.title>
+# <xbar.version>v0.0.1</xbar.version>
+# <xbar.author>Kaspars Mickevics</xbar.author>
+# <xbar.author.github>fxlv</xbar.author.github>
+# <xbar.desc>Displays bandwidth usage for the primary interface in Megabits/s</xbar.desc>
+# <xbar.dependencies>ifstat</xbar.dependencies>
+# <xbar.image>https://cloud.githubusercontent.com/assets/2462211/12748504/584bbcea-c9b3-11e5-8109-ad8fdcefdc75.png</xbar.image>
 
 # based on bandwidth.1s.sh by Ant Cosentino
 

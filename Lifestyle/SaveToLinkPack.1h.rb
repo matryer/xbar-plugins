@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
-# <bitbar.title>Save to Linkpack</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Taylor Zane Glaeser</bitbar.author>
-# <bitbar.author.github>taylorzane</bitbar.author.github>
-# <bitbar.desc>Saves the current Safari link to the selected Linkpack folder. Created because Linkpack lacks a Safari extension, for now. Theoretically this doesn't need to be used with Linkpack, it will just save a bookmark to disk.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/MasCD4V.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://www.taylorzane.com</bitbar.abouturl>
+# <xbar.title>Save to Linkpack</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Taylor Zane Glaeser</xbar.author>
+# <xbar.author.github>taylorzane</xbar.author.github>
+# <xbar.desc>Saves the current Safari link to the selected Linkpack folder. Created because Linkpack lacks a Safari extension, for now. Theoretically this doesn't need to be used with Linkpack, it will just save a bookmark to disk.</xbar.desc>
+# <xbar.image>http://i.imgur.com/MasCD4V.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://www.taylorzane.com</xbar.abouturl>
 
 # --------------------- #
 # EDIT THESE VARIABLES. #

@@ -1,36 +1,50 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Todoist Today</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>K.Kobayashi</bitbar.author>
-# <bitbar.author.github>chiisaihayashi</bitbar.author.github>
-# <bitbar.desc>Today's task in your menu bar!</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/f37VtAg.png</bitbar.image>
+# <xbar.title>Todoist Today</xbar.title>
+# <xbar.version>v2.1.0</xbar.version>
+# <xbar.author>K.Kobayashi, et al</xbar.author>
+# <xbar.author.github>kobayashi,gingerbeardman</xbar.author.github>
+# <xbar.desc>Today's task in your menu bar!</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/f37VtAg.png</xbar.image>
 
-import urllib, urllib2
+import sys
+if sys.version_info[0] < 3:
+    from urllib2 import urlopen, Request
+    from urllib import urlencode
+else:
+    from urllib.request import urlopen, Request
+    from urllib.parse import urlencode
 import json
 import datetime
 
 api_key = ''
-url = 'https://todoist.com/API/v7/sync'
-value = { 'token': api_key, 'resource_types': '["all"]', 'seq_no': 0 }
-data = urllib.urlencode(value)
+url = 'https://api.todoist.com/sync/v8/sync'
+value = { 'token': api_key, 'sync_token': '*', 'resource_types': '["all"]' }
+data = urlencode(value).encode('utf-8')
 
 d = datetime.datetime.today()
-today = str(d.day)+d.strftime(" %b")
-today_y = str(d.day)+d.strftime(" %b ")+str(d.year)
+today = d.strftime("%Y-%m-%d")
 comment = "Today's task: "
 
-try:
-    request = urllib2.Request(url, data)
-    r = urllib2.urlopen(request)
-    j = json.loads(r.read())
-    items = j['items']
-    for item in items:
-        due = item['date_string'] # due date of a task
-        if (due == today) or (due == today_y):
-            print(comment + item['content'].encode("utf-8"))
-finally:
-    r.close()
+if len(api_key) == 0:
+    print("set api first")
+else:
+    try:
+        request = Request(url, data)
+        r = urlopen(request)
+        j = json.loads(r.read())
+        items = j['items']
+        for item in items:
+            if (item['due']): 
+                due = item['due']['date'] # due date of a task
+                if (due.startswith(today)):
+                    if ("T" in due): 
+                        time = "@%s " % due[-8:-3]
+                    else:
+                        time = ""
+                    print((comment + time + item['content']).encode('utf-8'))
+    finally:
+        r.close()
+

@@ -4,14 +4,14 @@
 Control you Sonos system from you Mac Menu Bar
 """
 
-# <bitbar.title>SonosBar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jonas Marcello</bitbar.author>
-# <bitbar.author.github>anergictcell</bitbar.author.github>
-# <bitbar.desc>Control you Sonos system from you Mac Menu Bar.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/anergictcell/SonosBar/master/resources/SonosBar.png</bitbar.image>
-# <bitbar.dependencies>python,SoCo</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/anergictcell/SonosBar/</bitbar.abouturl>
+# <xbar.title>SonosBar</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jonas Marcello</xbar.author>
+# <xbar.author.github>anergictcell</xbar.author.github>
+# <xbar.desc>Control you Sonos system from you Mac Menu Bar.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/anergictcell/SonosBar/master/resources/SonosBar.png</xbar.image>
+# <xbar.dependencies>python,SoCo</xbar.dependencies>
+# <xbar.abouturl>https://github.com/anergictcell/SonosBar/</xbar.abouturl>
 
 import argparse
 import socket
@@ -26,7 +26,7 @@ try:
 except ImportError:
     print("Error")
     print("---")
-    print("You need to istall >>soco<< | href=https://github.com/SoCo/SoCo")
+    print("You need to install >>soco<< | href=https://github.com/SoCo/SoCo")
     sys.exit(0)
 
 def parse_ip(ip_string):

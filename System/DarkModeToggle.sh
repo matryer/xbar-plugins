@@ -1,18 +1,17 @@
 #!/bin/bash
 #
-# <bitbar.title>Dark Mode Toggle</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Florent Le Moël</bitbar.author>
-# <bitbar.author.github>Phlooo</bitbar.author.github>
-# <bitbar.desc>Simple toggle for macOS Dark Mode</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/khIIfMg.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/Phlooo/</bitbar.abouturl>
+# <xbar.title>Dark Mode Toggle</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>huhu</xbar.author>
+# <xbar.author.github>Phlooo</xbar.author.github>
+# <xbar.desc>Simple toggle for macOS Dark Mode</xbar.desc>
+# <xbar.image>https://i.imgur.com/khIIfMg.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/Phlooo/</xbar.abouturl>
 
 function get_darkmode_state {
 state=$(osascript <<EOD
 tell application "System Events" to tell appearance preferences
-	get properties
 	set currentValue to dark mode
 		return currentValue
 end tell
@@ -30,13 +29,13 @@ EOD
 
 if [[ "$1" = "activate" ]]; then
   toggle_darkmode;
-	--osascript -e 'tell application "Finder" to display notification "Enabled" with title "Dark Mode"'
+	osascript -e 'tell application "Finder" to display notification "Enabled" with title "Dark Mode"'
 	exit
 fi
 
 if [[ "$1" = "desactivate" ]]; then
   toggle_darkmode;
-  	--osascript -e 'tell application "Finder" to display notification "Disabled" with title "Dark Mode"'
+  	osascript -e 'tell application "Finder" to display notification "Disabled" with title "Dark Mode"'
 	exit
 fi
 

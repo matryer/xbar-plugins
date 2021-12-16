@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
-# <bitbar.title>SSH Status</bitbar.title>
-# <bitbar.version>v0.1.0</bitbar.version>
-# <bitbar.author>Olivier Tille</bitbar.author>
-# <bitbar.author.github>oliviernt</bitbar.author.github>
-# <bitbar.image>http://i.imgur.com/s8FMCLG.png</bitbar.image>
-# <bitbar.desc>Continuously checks if hosts are available for ssh connection</bitbar.desc>
-# <bitbar.dependencies>Bash</bitbar.dependencies>
+# <xbar.title>SSH Status</xbar.title>
+# <xbar.version>v0.1.0</xbar.version>
+# <xbar.author>Olivier Tille</xbar.author>
+# <xbar.author.github>oliviernt</xbar.author.github>
+# <xbar.image>http://i.imgur.com/s8FMCLG.png</xbar.image>
+# <xbar.desc>Continuously checks if hosts are available for ssh connection</xbar.desc>
+# <xbar.dependencies>Bash</xbar.dependencies>
 #
 # SSH Status plugin
 # by Olivier Tille (@oliviernt)

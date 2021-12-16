@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Currency Tracker Transferwise</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Andrew Keating</bitbar.author>
-# <bitbar.author.github>andrewzk</bitbar.author.github>
-# <bitbar.desc>Keep an eye on Transferwise currency exchange rates</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.image>http://andrewzk.github.io/gh-pages/transferwise.png</bitbar.image>
+# <xbar.title>Currency Tracker Transferwise</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Andrew Keating</xbar.author>
+# <xbar.author.github>andrewzk</xbar.author.github>
+# <xbar.desc>Keep an eye on Transferwise currency exchange rates</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.image>http://andrewzk.github.io/gh-pages/transferwise.png</xbar.image>
 
 import urllib2
 import json
