@@ -77,6 +77,8 @@ if [[ ${URL} =~ .*"demo" ]]; then
   echo "Press ⌘ E to configure your location"
 fi
 
+echo "─────────────────────────────────────── min-cur-max | font=Monaco size=12"
+
 i=0
 for img in ${IMGS} ;do
   MIN=$(extract_by_id "${HTML}" "min_${TYPES[$i]}")
@@ -85,8 +87,8 @@ for img in ${IMGS} ;do
     MIN=$(extract_by_id "${HTML}" "min_${TYPES[$i]}")
   done
 
-  printf "%s\t" "${TITLES[$i]}"
-  echo "${MIN} - $(extract_by_id "${HTML}" "max_${TYPES[$i]}") | href=${URL} font=Monaco size=12 image=${img} " #
+  printf "%s\t" "${TITLES[$i]}" 
+  echo "${MIN}-$(extract_by_id "${HTML}" "cur_${TYPES[$i]}")-$(extract_by_id "${HTML}" "max_${TYPES[$i]}") | href=${URL} font=Monaco size=12 image=${img} " #
   i=$((i+1))
 done
 
