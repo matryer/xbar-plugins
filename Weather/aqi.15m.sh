@@ -5,7 +5,7 @@
 # <xbar.author>Chongyu Yuan, Nick Xiao</xbar.author>
 # <xbar.author.github>nnnggel, nicoster</xbar.author.github>
 # <xbar.desc>Real-time Air Quality Index. </xbar.desc>
-# <xbar.image>https://github.com/nicoster/assets/blob/fe2a768dc41ad7e4b164260346b5f0b461b8ba87/xbar-aqi.png?raw=true</xbar.image>
+# <xbar.image>https://github.com/nicoster/assets/blob/bc1200dc2c955114f13255d3511cc16f8f1e79b9/aqi-example.png?raw=true</xbar.image>
 # <xbar.dependencies>bash</xbar.dependencies>
 # <xbar.abouturl>http://www.yuanchongyu.com</xbar.abouturl>
 # <xbar.var>string(URL="https://aqicn.org/city/usa/newyork/?demo=1"): Navigate to `https://aqicn.org/`, find your city or nearest location, then copy from the address bar of the browser and paste it here.</xbar.var>
@@ -64,7 +64,7 @@ function emoji {
   fi
 }
 
-HTML=$(curl -s $URL)
+HTML=$(curl -s "$URL")
 IMGS=$(echo "${HTML}" | grep -o -E "<img class='aqi-graph-img[^:]+:image/png;base64,[^']*" | sed -n -E "s/^.*base64,([^']*).*$/\1/p")
 AQI=$(val_by_id "${HTML}" "aqiwgtvalue")
 
