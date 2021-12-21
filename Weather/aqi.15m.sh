@@ -64,7 +64,7 @@ function emoji {
   fi
 }
 
-HTML=$(curl -s $URL)
+HTML=$(curl -s "$URL")
 IMGS=$(echo "${HTML}" | grep -o -E "<img class='aqi-graph-img[^:]+:image/png;base64,[^']*" | sed -n -E "s/^.*base64,([^']*).*$/\1/p")
 AQI=$(val_by_id "${HTML}" "aqiwgtvalue")
 
@@ -74,7 +74,7 @@ echo "${EMOJI} ${AQI} | color=${COLOR} ${MENUFONT}"
 
 echo "---"
 echo "Sync with ${URL} | refresh=true"
-echo "$(val_by_id "${HTML}" "aqiwgtutime") | size=10"
+echo "$(val_by_id "${HTML}" "aqiwgtutime").   UI refreshed on $(date +%H:%M) | size=10"
 if [[ ${URL} =~ .*"demo" ]]; then
   echo "Press ⌘ E to configure your location"
 fi
