@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# <xbar.title>MacOS OpenVPN client & DNS Manager</xbar.title>
-# <xbar.version>v0.88008</xbar.version>
-# <xbar.author>glowinthedark</xbar.author>
-# <xbar.author.github>glowinthedark</xbar.author.github>
-# <xbar.desc>OpenVPN GUI & DNS configuration tool</xbar.desc>
-# <xbar.image>TODO</xbar.image>
-# <xbar.dependencies>openvpn</xbar.dependencies>
-# <xbar.abouturl></xbar.abouturl>
+# <bitbar.title>MacOS OpenVPN client & DNS Manager</bitbar.title>
+# <bitbar.version>v0.88008</bitbar.version>
+# <bitbar.author>glowinthedark</bitbar.author>
+# <bitbar.author.github>glowinthedark</bitbar.author.github>
+# <bitbar.desc>OpenVPN GUI & DNS configuration tool</bitbar.desc>
+# <bitbar.image>https://telegra.ph/file/7e93fd31b281c9cdcab73.png</bitbar.image>
+# <bitbar.dependencies>openvpn</bitbar.dependencies>
+# <bitbar.abouturl>https://github.com/glowinthedark/bitbar-plugins/blob/master/Network/openvpn.5m.sh</bitbar.abouturl>
 
 # Preconditions
 # =============
@@ -17,23 +17,25 @@
 #     brew install openvpn
 
 # NOTE: To avoid having to enter the root password allow 
-# passwordless sudo for your user for: openvpn, killall and pkill:
+# passwordless sudo for your user on: openvpn, killall and pkill:
 
 # 1. Type in terminal: sudo visudo
 # 2. Append the following line at the end of the file:
 
-# your_username        ALL = NOPASSWD: /usr/local/sbin/openvpn, /usr/bin/killall, /usr/bin/pkill
+# replace_with_your_username        ALL = NOPASSWD: /usr/local/sbin/openvpn, /usr/bin/killall, /usr/bin/pkill
 
 # 3. Search and replace all __FIXME__ lines with your specific commands
+# 4. [ON FIRST RUN ONLY] Run the script and grant MacOS accessiblity permissions to the terminal and bitbar
 
 # START CONFIG
 OVPN_PROFILE_1=/Users/__FIXME__/VPN/openvpn1.ovpn
 OVPN_PROFILE_2=/Users/__FIXME__/VPN/openvpn2.ovpn
 OPENVPN_CMD=/usr/local/sbin/openvpn
-# the host to ping in order to check if the tunnel is up
-PING_TARGET=source.int.netcentric.biz
 
-# TODO: replace with your VPN DNS
+# __FIXME__the host to ping in order to check if the tunnel is up
+PING_TARGET=172.22.0.1
+
+# TODO: replace with your VPN server's DNS
 DNS1=10.0.0.1
 DNS2=172.22.0.2
 # END CONFIG
@@ -110,6 +112,7 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   expect "Auth Password:"
   send -- "$PW\r"
 
+  ####### __FIXME__ REMOVE THE FOLLLOWING TWO LINES IF **NOT** USING 2FA TOKENS
   expect "Enter Authenticator Code"
   send -- "$OTP_CODE\r"
 
@@ -119,7 +122,9 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   expect_background
   send_user "8️⃣ Setting DNS servers: $DNS1 $DNS2\n\n"
   exec /usr/sbin/networksetup -setdnsservers "$NETWORK_SERVICE_NAME" $DNS1 $DNS2
-  exec open -g "bitbar://refreshPlugin?name=nc-vpn.*?.sh"
+
+  #### __FIXME__ make sure the glob matches the file plugin name!
+  exec open -g "bitbar://refreshPlugin?name=openvpn.*?.sh"
   exec afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/tweet_sent.caf
   exec "$script_path" send_process_to_background
   expect eof
@@ -191,8 +196,8 @@ fi
 if [[ $vpn_status -eq 0 ]]; then
   echo "✅ OPENVPN is UP! Disconnect! | bash='$0' color=green param1=openvpn_disconnect refresh=true terminal=false"
 else
-  echo "🔌 Connect VPN1! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_1 refresh=false terminal=false"
-  echo "🔌 Connect VPN2! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_2 refresh=false terminal=false"
+  echo "🔌 Connect OpenVPN1! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_1 refresh=false terminal=false"
+  echo "🔌 Connect OpenVPN2! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_2 refresh=false terminal=false"
 
 fi
 
