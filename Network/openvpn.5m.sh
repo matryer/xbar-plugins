@@ -92,7 +92,7 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   USER="$(echo __FIXME__command_to_get_user_name)"
   PW=$(echo __FIXME__command_to_get_user_password)
 
-  # IMPORTANT: the OVPN file name MUST contain these strings!!!
+  # IF using 2FA tokens — IMPORTANT: the OVPN file name MUST contain these strings!!!
   if [[ $OVPN_PROFILE =~ "openvpn1" ]]; then
     OTP_CODE=$(echo __FIXME__command_to_get_vpn1_token)
   elif [[ $OVPN_PROFILE =~ "openvpn2" ]]; then
