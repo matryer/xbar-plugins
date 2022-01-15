@@ -167,6 +167,7 @@ elif [[ "$1" = "openvpn_connect_terminal" ]]; then
     tell application "Terminal"
     if not (exists window 1) then reopen
     activate
+    tell application "System Events" to keystroke "t" using command down
     do script "$script_path openvpn_start_expect_session $ovpn_profile" in front window
     end tell
 EOF
