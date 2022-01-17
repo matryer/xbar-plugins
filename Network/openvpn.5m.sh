@@ -25,7 +25,8 @@
 # replace_with_your_username        ALL = NOPASSWD: /usr/local/sbin/openvpn, /usr/bin/killall, /usr/bin/pkill
 
 # 3. Search and replace all __FIXME__ lines with your specific commands
-# 4. [ON FIRST RUN ONLY] Run the script and grant MacOS accessiblity permissions to the terminal and bitbar
+# 4. [ON FIRST RUN ONLY] Run the script and grant MacOS accessiblity permissions to the terminal.app, bitbar (or xbar)
+#    and to `and to /usr/bin/osascript`
 
 # START CONFIG
 OVPN_PROFILE_1=/Users/__FIXME__/VPN/openvpn1.ovpn
