@@ -127,7 +127,7 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   #### __FIXME__ make sure the glob matches the file plugin name!
   exec open -g "bitbar://refreshPlugin?name=openvpn.*?.sh"
   exec afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/tweet_sent.caf
-  exec "$script_path" send_process_to_background
+  ## exec "$script_path" send_process_to_background
   expect eof
 EOF
   exit
