@@ -47,7 +47,7 @@ script_path="$0"
 # get MacOS network service name
 function get_service_name() {
   network_device=$(scutil --nwi | awk -F': ' '/Network interfaces/ {print $2;exit;}')
-  network_service=$(/usr/sbin/networksetup -listnetworkserviceorder | awk -v DEV="$network_device" -F': |,' '$0~ DEV  {print $2;exit;}')
+  network_service=$(/usr/sbin/networksetup -listnetworkserviceorder | grep "$network_device)" | awk -F ', Device' '{print $1}' | awk -F ': ' '{print $2}')
   echo "$network_service"
 }
 
