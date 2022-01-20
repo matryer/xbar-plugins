@@ -151,6 +151,7 @@ elif [[ "$1" = "openvpn_disconnect" ]]; then
   fi
   /usr/sbin/networksetup -setdnsservers "$NETWORK_SERVICE_NAME" empty
   flush_dns_cache
+  afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/ReceivedMessage.caf
   exit
 
 #################################
@@ -207,7 +208,8 @@ fi
 #################################
 # DISPLAY DROPDOWN MENU 
 if [[ $vpn_status -eq 0 ]]; then
-  echo "✅ OPENVPN is UP! Disconnect! | bash='$0' color=green param1=openvpn_disconnect refresh=true terminal=false"
+  label="$(/usr/bin/pgrep -fil $OPENVPN_CMD | awk -F '/' '{print $NF;exit;}')"
+  echo "✅ VPN up [${label}] Disconnect! | bash='$0' color=green param1=openvpn_disconnect refresh=true terminal=false"
 else
   echo "🔌 Connect OpenVPN1! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_1 refresh=false terminal=false"
   echo "🔌 Connect OpenVPN2! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_2 refresh=false terminal=false"
