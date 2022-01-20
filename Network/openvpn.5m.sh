@@ -28,6 +28,15 @@
 # 4. [ON FIRST RUN ONLY] Run the script and grant MacOS accessiblity permissions to the terminal.app, bitbar (or xbar)
 #    and to `and to /usr/bin/osascript`
 
+# MacOS Accessibility Permissions
+# ===============================
+# Under System Preferences select:
+#     > Security & Privacy
+#     > Privacy tab 
+#     > select [Accessibily] in the left panel 
+#     > click the 🔒 icon to unlock and add Bitbar.app, Terminal.app and /usr/bin/osascript
+#     (if the apps are already enabled in the list, then remove them and re-add)
+
 # START CONFIG
 OVPN_PROFILE_1=/Users/__FIXME__/VPN/openvpn1.ovpn
 OVPN_PROFILE_2=/Users/__FIXME__/VPN/openvpn2.ovpn
@@ -124,9 +133,10 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   send_user "8️⃣ Setting DNS servers: $DNS1 $DNS2\n\n"
   exec /usr/sbin/networksetup -setdnsservers "$NETWORK_SERVICE_NAME" $DNS1 $DNS2
 
-  #### __FIXME__ make sure the glob matches the file plugin name!
+  #### __FIXME__ make sure the glob matches the name of the bitbar plugin file!
   exec open -g "bitbar://refreshPlugin?name=openvpn.*?.sh"
   exec afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/tweet_sent.caf
+  ## __FIXME__ uncomment if you want the process to be automatically backgrounded (requires extra accessiblity permissions)
   ## exec "$script_path" send_process_to_background
   expect eof
 EOF
@@ -168,6 +178,7 @@ elif [[ "$1" = "openvpn_connect_terminal" ]]; then
     tell application "Terminal"
     if not (exists window 1) then reopen
     activate
+    -- __FIXME__ uncomment next line to always open a new tab (requires extra accessiblity permissions)
     -- tell application "System Events" to keystroke "t" using command down
     do script "$script_path openvpn_start_expect_session $ovpn_profile" in front window
     end tell
