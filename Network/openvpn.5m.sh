@@ -226,7 +226,13 @@ echo "❌ Kill all processes and cleanup! | bash='$0' color=darkred param1=openv
 echo "💥 FORCE Kill all | bash='$0' color=darkred param1=openvpn_disconnect param2=force refresh=true terminal=false"
 
 echo '---'
-echo "Network service: $NETWORK_SERVICE_NAME"
+if [[ $NETWORK_SERVICE_NAME ]] ; then
+  echo "Network service: $NETWORK_SERVICE_NAME"
+  echo '---'
+  echo DNS: $(/usr/sbin/networksetup -getdnsservers "$NETWORK_SERVICE_NAME")
+else 
+  echo '🚫  Network is DOWN'
+fi
 echo '---'
 echo DNS: $(/usr/sbin/networksetup -getdnsservers "$NETWORK_SERVICE_NAME")
 echo '---'
