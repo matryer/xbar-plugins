@@ -30,6 +30,11 @@
 
 # MacOS Accessibility Permissions
 # ===============================
+
+# To enable MacOS system accessibilty permissions run (once) from the terminal:
+# osascript -e 'tell application "System Events" to keystroke "t" using command down'
+
+
 # Under System Preferences select:
 #     > Security & Privacy
 #     > Privacy tab 
@@ -45,7 +50,7 @@ OPENVPN_CMD=/usr/local/sbin/openvpn
 # __FIXME__the host to ping in order to check if the tunnel is up
 PING_TARGET=172.22.0.1
 
-# TODO: replace with your VPN server's DNS
+# TODO:  __FIXME__: replace with your VPN server's DNS
 DNS1=10.0.0.1
 DNS2=172.22.0.2
 # END CONFIG
@@ -75,6 +80,8 @@ if [[ "$1" = "edit_this_script" ]]; then
   # open with default editor registered for .sh extension
  open "$0";
   # open with your preferred editor
+  # open with vscode
+  # /usr/local/bin/code "$0";
   # (via macos app name)
   # open -a 'Sublime Text' "$0"  
   # (via macos bundle name) 
@@ -102,7 +109,12 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   USER="$(echo __FIXME__command_to_get_user_name)"
   PW=$(echo __FIXME__command_to_get_user_password)
 
-  # IF using 2FA tokens — IMPORTANT: the OVPN file name MUST contain these strings!!!
+  # IMPORTANT IF using 2FA tokens: the OVPN file name MUST contain these sub-strings!!!
+    ## EXAMPLE 1: generate OTP token from secret seed:
+    # OTP_CODE=$(oathtool --totp -b DEADBEEF)
+    ## EXAMPLE 2: generate OTP token from gpg encrypted seed
+    # OTP_CODE=$(gpg --no-verbose --quiet -d secret.gpg | oathtool --totp -b -)
+
   if [[ $OVPN_PROFILE =~ "openvpn1" ]]; then
     OTP_CODE=$(echo __FIXME__command_to_get_vpn1_token)
   elif [[ $OVPN_PROFILE =~ "openvpn2" ]]; then
@@ -179,8 +191,9 @@ elif [[ "$1" = "openvpn_connect_terminal" ]]; then
     tell application "Terminal"
     if not (exists window 1) then reopen
     activate
-    -- __FIXME__ uncomment next line to always open a new tab (requires extra accessiblity permissions)
+    -- __FIXME__ uncomment next 2 lines to always open a new tab (requires extra accessiblity permissions)
     -- tell application "System Events" to keystroke "t" using command down
+    -- delay 0.5
     do script "$script_path openvpn_start_expect_session $ovpn_profile" in front window
     end tell
 EOF
@@ -233,8 +246,6 @@ if [[ $NETWORK_SERVICE_NAME ]] ; then
 else 
   echo '🚫  Network is DOWN'
 fi
-echo '---'
-echo DNS: $(/usr/sbin/networksetup -getdnsservers "$NETWORK_SERVICE_NAME")
 echo '---'
 echo "✏️ Edit this file | bash='$0' param1=edit_this_script terminal=false"
 
