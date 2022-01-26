@@ -124,7 +124,7 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   /usr/bin/expect << EOF
   set timeout -1
 
-  # Detailed log for debugging (uncomment to enable)
+  # Detailed log for debugging (uncomment to enable; DANGER!!! THIS WILL INCLUDE PASSWORDS!!!)
   # exp_internal -f /tmp/expect_vpn.log 0
 
   spawn /usr/bin/sudo $OPENVPN_CMD --allow-pull-fqdn --config $OVPN_PROFILE 
