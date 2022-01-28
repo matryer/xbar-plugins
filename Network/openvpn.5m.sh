@@ -57,7 +57,13 @@ DNS1=10.0.0.1
 DNS2=172.22.0.2
 # END CONFIG
 
-script_path="$0"
+function abspath() {
+  DIR="${1%/*}"
+  (cd "$DIR" && echo "$(pwd -P)/$(basename "$0")")
+}
+# absolute path to script
+script_path="$(abspath "$0")"
+
 
 #################################
 # get MacOS network service name
@@ -195,9 +201,9 @@ elif [[ "$1" = "openvpn_connect_terminal" ]]; then
     if not (exists window 1) then reopen
     activate
     -- __FIXME__ uncomment next 2 lines to always open a new tab (requires extra accessiblity permissions)
-    -- tell application "System Events" to keystroke "t" using command down
-    -- delay 0.5
-    do script "$script_path openvpn_start_expect_session $ovpn_profile" in front window
+    tell application "System Events" to keystroke "t" using command down
+    delay 0.5
+    do script "'$script_path' openvpn_start_expect_session $ovpn_profile" in front window
     end tell
 EOF
   exit
