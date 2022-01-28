@@ -4,7 +4,7 @@
 # <bitbar.version>v0.88008</bitbar.version>
 # <bitbar.author>glowinthedark</bitbar.author>
 # <bitbar.author.github>glowinthedark</bitbar.author.github>
-# <bitbar.desc>OpenVPN GUI & DNS configuration tool</bitbar.desc>
+# <bitbar.desc>OpenVPN GUI & DNS Manager</bitbar.desc>
 # <bitbar.image>https://telegra.ph/file/7e93fd31b281c9cdcab73.png</bitbar.image>
 # <bitbar.dependencies>openvpn</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/glowinthedark/bitbar-plugins/blob/master/Network/openvpn.5m.sh</bitbar.abouturl>
@@ -43,6 +43,8 @@
 #     (if the apps are already enabled in the list, then remove them and re-add)
 
 # START CONFIG
+export PATH="$PATH:/usr/local/bin"
+
 OVPN_PROFILE_1=/Users/__FIXME__/VPN/openvpn1.ovpn
 OVPN_PROFILE_2=/Users/__FIXME__/VPN/openvpn2.ovpn
 OPENVPN_CMD=/usr/local/sbin/openvpn
@@ -106,20 +108,21 @@ elif [[ "$1" = "set_dns_servers_custom" ]]; then
 # START EXPECT SESSION
 elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   OVPN_PROFILE="$2"
-  USER="$(echo __FIXME__command_to_get_user_name)"
-  PW=$(echo __FIXME__command_to_get_user_password)
+  USER="$(echo __FIXME__replace_with_command_to_get_user_name)"
+  PW=$(echo __FIXME__replace_with_command_to_get_user_password)
 
-  # IMPORTANT IF using 2FA tokens: the OVPN file name MUST contain these sub-strings!!!
+  # IMPORTANT: IF using 2FA tokens: the OVPN file name MUST contain the sub-strings below!!!
     ## EXAMPLE 1: generate OTP token from secret seed:
     # OTP_CODE=$(oathtool --totp -b DEADBEEF)
     ## EXAMPLE 2: generate OTP token from gpg encrypted seed
     # OTP_CODE=$(gpg --no-verbose --quiet -d secret.gpg | oathtool --totp -b -)
 
-  if [[ $OVPN_PROFILE =~ "openvpn1" ]]; then
-    OTP_CODE=$(echo __FIXME__command_to_get_vpn1_token)
-  elif [[ $OVPN_PROFILE =~ "openvpn2" ]]; then
-    OTP_CODE=$(echo __FIXME__command_to_get_vpn2_token)
-  fi
+    __FIXME__: UNCOMMENT TO USE 2FA TOKENS
+#  if [[ $OVPN_PROFILE =~ "openvpn1" ]]; then
+#    OTP_CODE=$(echo __FIXME__replace_with_command_to_get_vpn1_token)
+#  elif [[ $OVPN_PROFILE =~ "openvpn2" ]]; then
+#    OTP_CODE=$(echo __FIXME__replace_with_command_to_get_vpn2_token)
+#  fi
 
   /usr/bin/expect << EOF
   set timeout -1
@@ -134,9 +137,9 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   expect "Auth Password:"
   send -- "$PW\r"
 
-  ####### __FIXME__ REMOVE THE FOLLLOWING TWO LINES IF **NOT** USING 2FA TOKENS
-  expect "Enter Authenticator Code"
-  send -- "$OTP_CODE\r"
+  ####### __FIXME__ UNCOMMENT TO ENABLE 2FA TOKENS
+  # expect "Enter Authenticator Code"
+  # send -- "$OTP_CODE\r"
 
   expect "Initialization Sequence Completed"
 
@@ -148,8 +151,8 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   #### __FIXME__ make sure the glob matches the name of the bitbar plugin file!
   exec open -g "bitbar://refreshPlugin?name=openvpn.*?.sh"
   exec afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/tweet_sent.caf
-  ## __FIXME__ uncomment if you want the process to be automatically backgrounded (requires extra accessiblity permissions)
-  ## exec "$script_path" send_process_to_background
+  ## send process to background (requires extra accessiblity permissions)
+  exec "$script_path" send_process_to_background
   expect eof
 EOF
   exit
