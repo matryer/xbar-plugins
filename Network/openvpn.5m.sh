@@ -57,6 +57,8 @@ DNS1=10.0.0.1
 DNS2=172.22.0.2
 # END CONFIG
 
+################################
+# get absolute path to self
 function abspath() {
   DIR="${1%/*}"
   (cd "$DIR" && echo "$(pwd -P)/$(basename "$0")")
@@ -66,10 +68,15 @@ script_path="$(abspath "$0")"
 
 
 #################################
-# get MacOS network service name
+# get MacOS network device name
+function get_network_device() {
+  echo $(scutil --nwi | awk -F': ' '/Network interfaces/ {print $2;exit;}')
+}
+
+#################################
+# get MacOS network service name: takes network device name as 1st arg
 function get_service_name() {
-  network_device=$(scutil --nwi | awk -F': ' '/Network interfaces/ {print $2;exit;}')
-  network_service=$(/usr/sbin/networksetup -listnetworkserviceorder | grep "$network_device)" | awk -F ', Device' '{print $1}' | awk -F ': ' '{print $2;exit;}')
+  network_service=$(/usr/sbin/networksetup -listnetworkserviceorder | awk -v DEV="$1" -F': |,' '$0~ DEV  {print $2;exit;}')
   echo "$network_service"
 }
 
@@ -80,7 +87,8 @@ function flush_dns_cache() {
   sudo /usr/bin/killall -HUP mDNSResponder  
 }
 
-NETWORK_SERVICE_NAME="$(get_service_name)"
+NETWORK_DEVICE_NAME="$(get_network_device)"
+NETWORK_SERVICE_NAME="$(get_service_name "$NETWORK_DEVICE_NAME")"
 
 #################################
 ## EDIT THIS SCRIPT 
@@ -249,7 +257,7 @@ echo "💥 FORCE Kill all | bash='$0' color=darkred param1=openvpn_disconnect pa
 
 echo '---'
 if [[ $NETWORK_SERVICE_NAME ]] ; then
-  echo "Network service: $NETWORK_SERVICE_NAME"
+  echo "Network service: $NETWORK_SERVICE_NAME" \("$NETWORK_DEVICE_NAME"\)
   echo '---'
   echo DNS: $(/usr/sbin/networksetup -getdnsservers "$NETWORK_SERVICE_NAME")
 else 
