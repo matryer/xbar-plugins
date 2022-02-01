@@ -21,7 +21,7 @@ echo "---"
 echo "Ξ Slow ${slow:0:((${#slow} - 9))} | color=purple"
 echo "---"
 # using long form for users that might not have the bash 4.0+
-echo "Ξ Price \$${priceUSD::${#priceUSD}-4} | color=red"
+echo "Ξ Price \$${priceUSD::${#priceUSD}-3} | color=red"
 
 
 
