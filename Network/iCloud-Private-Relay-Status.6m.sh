@@ -30,7 +30,7 @@ if [ $(curl -LI http://google.com -o /dev/null -w '%{http_code}\n' -s) == "200" 
     # get a new copy of the egress ips every few days rather than every run
     if [ ! -f "$iCloudEgressList" ]; then
         curl --location --silent "https://mask-api.icloud.com/egress-ip-ranges.csv" -o "$iCloudEgressList"         
-    elif [[ $(find "$iCloudEgressList" -mtime +3 -print) ]]; then # it's older than 7 days; delete and get a new one
+    elif [[ $(find "$iCloudEgressList" -mtime +3 -print) ]]; then # it's older than 3 days; delete and get a new one
         rm iCloudEgressList
         curl --location --silent "https://mask-api.icloud.com/egress-ip-ranges.csv" -o "$iCloudEgressList"         
     fi
