@@ -165,8 +165,8 @@ elif [[ "$1" = "openvpn_start_expect_session" ]]; then
   #### __FIXME__ make sure the glob matches the name of the bitbar plugin file!
   exec open -g "bitbar://refreshPlugin?name=openvpn.*?.sh"
   exec afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/tweet_sent.caf
-  ## send process to background (requires extra accessiblity permissions)
-  exec "$script_path" send_process_to_background
+  ## __FIXME__ uncomment next line to send process to background (requires extra accessiblity permissions)
+  # exec "$script_path" send_process_to_background
   expect eof
 EOF
   exit
@@ -241,9 +241,10 @@ if [[ $vpn_status -eq 0 ]]; then
   label="$(/usr/bin/pgrep -fil $OPENVPN_CMD | awk -F '/' '{print $NF;exit;}')"
   echo "✅ VPN up [${label}] Disconnect! | bash='$0' color=green param1=openvpn_disconnect refresh=true terminal=false"
 else
-  echo "🔌 Connect OpenVPN1! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_1 refresh=false terminal=false"
+  echo "🔌 Connect OpenVPN1! (Terminal) | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_1 refresh=false terminal=false"
+  echo "🔌 Connect OpenVPN1! (NO Terminal) | bash='$0' color=brown param1=openvpn_start_expect_session param2=$OVPN_PROFILE_1 refresh=false terminal=false"
   echo "🔌 Connect OpenVPN2! | bash='$0' color=brown param1=openvpn_connect_terminal param2=$OVPN_PROFILE_2 refresh=false terminal=false"
-
+  echo "🔌 Connect OpenVPN2! (NO Terminal) | bash='$0' color=brown param1=openvpn_start_expect_session param2=$OVPN_PROFILE_2 refresh=false terminal=false"
 fi
 
 echo '---'
