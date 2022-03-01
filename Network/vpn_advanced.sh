@@ -26,7 +26,7 @@ GET_VPN_PASSWORD="security find-generic-password -g -a joe.smith 2>&1 >/dev/null
 #GET_VPN_PASSWORD="cat ~/.vpnpass"
 #GET_VPN_PASSWORD="echo hunter2" # Not recommended
 # Command to determine if VPN is connected or disconnected
-VPN_CONNECTED="/sbin/ifconfig | egrep -A1 $VPN_INTERFACE | grep inet"
+VPN_CONNECTED="ifconfig | egrep -A1 $VPN_INTERFACE | grep inet"
 # Command to run to disconnect VPN
 VPN_DISCONNECT_CMD="sudo killall -2 openconnect"
 

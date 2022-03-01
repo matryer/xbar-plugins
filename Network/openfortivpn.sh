@@ -23,7 +23,7 @@ VPN_EXECUTABLE=/usr/local/bin/openfortivpn
 VPN_EXECUTABLE_PARAMS="-c$HOME/Documents/.fortivpn-config" # Optional
 VPN_INTERFACE=ppp0
 # Command to determine if OpenFortiVPN is connected or disconnected
-VPN_CONNECTED="/sbin/ifconfig | egrep -A1 $VPN_INTERFACE | grep inet"
+VPN_CONNECTED="ifconfig | egrep -A1 $VPN_INTERFACE | grep inet"
 # Command to run to disconnect OpenFortiVPN
 VPN_DISCONNECT_CMD="sudo killall -2 openfortivpn"
 

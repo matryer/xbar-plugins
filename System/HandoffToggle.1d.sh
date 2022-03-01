@@ -9,7 +9,7 @@
 # <xbar.dependencies>bash</xbar.dependencies>
 # <xbar.abouturl>https://github.com/martinschilliger/</xbar.abouturl>
 
-#UUID=$(/usr/sbin/system_profiler SPHardwareDataType | grep "Hardware UUID" | cut -c22-57)
+#UUID=$(system_profiler SPHardwareDataType | grep "Hardware UUID" | cut -c22-57)
 #PREF_FILE="${HOME}/Library/Preferences/ByHost/com.apple.coreservices.useractivityd.${UUID}.plist"
 PREF_FILE="${HOME}/Library/Preferences/ByHost/com.apple.coreservices.useractivityd.plist"
 
@@ -47,4 +47,3 @@ else
     echo "Activate Handoff| bash='$0' param1=enable terminal=false refresh=true emojize=false"
     exit
 fi
-

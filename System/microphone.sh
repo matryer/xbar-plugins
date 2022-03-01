@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 # <xbar.title>Mute Mic</xbar.title>
 # <xbar.version>v1.0</xbar.version>
