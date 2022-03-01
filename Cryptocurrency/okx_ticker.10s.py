@@ -34,8 +34,10 @@ def normalize_decimal(val, precision=2):
 
 
 def get_update_time(timestamp):
-    updated_at = datetime.fromtimestamp(int(timestamp) // 1000)
+    updated_at = datetime.utcfromtimestamp(int(timestamp) // 1000)
     delta = (datetime.utcnow() - updated_at).total_seconds()
+    if delta < 1:
+        return "just now"
     ret = []
     h, s = divmod(int(delta), 3600)
     if h:
@@ -45,9 +47,7 @@ def get_update_time(timestamp):
         ret.append("{} minutes".format(m))
     if s:
         ret.append("{} seconds".format(s))
-    if ret:
-        return "{} ago".format(" ".join(ret))
-    return "just now"
+    return "{} ago".format(" ".join(ret))
 
 
 def http_get_json(url):
