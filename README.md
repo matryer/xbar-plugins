@@ -5,7 +5,7 @@ This repo contains scripts, programs and command-line tools that add functionali
 * [Reporting issues](#reporting-issues)
 * [Available Plugins](https://github.com/matryer/xbar-plugins#available-plugins)
 * [Contributors](https://github.com/matryer/xbar-plugins#contributors)
-* [Add your own plugin](https://github.com/matryer/xbar-plugins#add-your-own-plugin)
+* [Add your own plugin](https://github.com/matryer/xbar-plugins/blob/main/CONTRIBUTING.md)
 
 ### Reporting issues
 
