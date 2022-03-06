@@ -58,3 +58,7 @@ Clients
 ---
 Disabled
 '.$str_disabled;
+
+echo "---
+Open shell pivpn | bash='/usr/bin/open' param1='-a' param2='iterm' param3='ssh://pi@$pivpn_host'
+";
