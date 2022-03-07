@@ -59,7 +59,7 @@ def make_github_request(url, method="GET", data=None, enterprise=False):
         request.get_method = lambda: method
         response = urlopen(request, data)
         return (
-            json.load(response) if response.headers.get("content-length", 0) > 0 else {}
+            json.load(response) if int(response.headers.get("content-length", 0)) > 0 else {}
         )
     except Exception:
         return None
@@ -129,7 +129,7 @@ def format_notification(notification):
     }
     if len(formatted["title"]) > 90:
         formatted["title"] = formatted["title"][:79] + "…"
-    formatted["title"] = formatted["title"].replace("|", "-")
+    formatted["title"] = formatted["title"].decode().replace("|", "-")
     latest_comment_url = notification.get("subject", {}).get("latest_comment_url", None)
     typejson = make_github_request(formatted["href"])
     if latest_comment_url:
@@ -184,6 +184,11 @@ def format_notification(notification):
         formatted[
             "image"
         ] += "JdJREFUKJGl0DsKwkAUBdDTRgvFHbgmNyLY+QWzKxM/kK2kSKc70MIIQ0ziqBceA/dxinn8mSkKVMGUmH+CBWaNboQjdn2wqt97Pa8kNd5+C0O86YNdSZC34RLjCJxhHZYLXDCIxKuwTHGOwBNcm2WKUw9OcMCybZl6XjHpQOs30cB5gKNQiDPPP0WjV/a4aVwxNsNfUGce7P8k4XgVPSYAAAAASUVORK5CYII="
+        formatted["templateImage"] = formatted.pop("image")
+    elif type == "Discussion":
+        formatted[
+            "image"
+        ] += ""
         formatted["templateImage"] = formatted.pop("image")
     return formatted
 
