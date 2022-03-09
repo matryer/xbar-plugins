@@ -190,6 +190,11 @@ def format_notification(notification):
             "image"
         ] += ""
         formatted["templateImage"] = formatted.pop("image")
+    elif type == "CheckSuite":
+        formatted[
+            "image"
+        ] += ""
+        formatted["templateImage"] = formatted.pop("image")
     return formatted
 
 
