@@ -65,7 +65,7 @@ function do_copy {
   token="$( get_totp "$1" )"
   echo -n "$token" | pbcopy
   osascript -e "display notification \"TOTP code copied to clipboard!\nIt will be cleared in 30 seconds!\""
-  sleep 30s
+  sleep 30
   echo "" | pbcopy
   osascript -e "display notification \"Clipboard cleared!\""
 }
