@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # coding: utf-8
 # yc@2021/06/30
 
@@ -16,9 +16,9 @@
 import re
 import os
 import json
-import urllib2
 from datetime import datetime
 from decimal import Decimal
+from urllib.request import urlopen, Request
 
 
 HTTP_TIMEOUT = 10
@@ -51,7 +51,7 @@ def get_update_time(timestamp):
 
 
 def http_get_json(url):
-    req = urllib2.Request(
+    req = Request(
         url,
         headers={
             "User-Agent": "curl/7.55",
@@ -59,7 +59,7 @@ def http_get_json(url):
             "accept": "*/*",
         },
     )
-    return json.load(urllib2.urlopen(req, timeout=HTTP_TIMEOUT))
+    return json.load(urlopen(req, timeout=HTTP_TIMEOUT))
 
 
 def get_ticker_info(currency):
