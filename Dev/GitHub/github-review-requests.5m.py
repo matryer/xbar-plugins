@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # <xbar.title>Github review requests</xbar.title>
@@ -16,13 +16,14 @@
 # https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
 ACCESS_TOKEN = ''
 
+# (required) Your GitHub login https://github.com/<login>
 GITHUB_LOGIN = ''
 
 # (optional) PRs with this label (e.g 'in progress') will be grayed out on the list
 WIP_LABEL = ''
 
-# (optional) Filter the PRs by an organization, labels, etc. E.g 'org:YourOrg -label:dropped'
-FILTERS = ''
+# (optional) Filter the PRs by an organization, labels, etc. E.g 'org:YourOrg -label:dropped draft:false'
+FILTERS = 'draft:false'
 
 # --------------------
 # ---  END CONFIG  ---
