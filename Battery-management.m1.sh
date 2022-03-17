@@ -37,8 +37,6 @@ fi
 
 echo "Cycles: $cycles / 1000 | color=$color href='https://support.apple.com/en-us/HT201585'"
 
-
-
 color=green
 if [ "$condition" != "Normal" ]; then
     color=red
@@ -47,8 +45,8 @@ fi
 echo "Battery condition: $condition | color=$color"
 
 
-echo "Battery: $BatteryStatus | color=$color"
 
+echo "Battery: $BatteryStatus | color=$color"
 
 color=green
 if [ "$BatteryStatus" -ge "75" ]; then
