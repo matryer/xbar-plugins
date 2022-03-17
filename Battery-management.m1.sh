@@ -47,6 +47,7 @@ fi
 echo "Battery condition: $condition | color=$color"
 
 
+echo "Battery: $BatteryStatus | color=$color"
 
 
 color=green
@@ -54,22 +55,22 @@ if [ "$BatteryStatus" -ge "75" ]; then
     color=red
     osascript -e 'display notification "Battery Status '$BatteryStatus'" with title "Battery management"'
     curl -v \
--H "Authorization: Bot YOURTOKEN" \
+-H "Authorization: Bot ODc1Nzg4OTc1MTgzMzg4NzUz.YRaoCw.eGS37xSrmk5mInOpo2pBmYeb6rw" \
 -H "User-Agent: myBotThing (http://some.url, v0.1)" \
 -H "Content-Type: application/json" \
 -X POST \
 -d '{"content":"'$BatteryStatus'"}' \
-https://discordapp.com/api/channels/CHANNELID/messages
+https://discordapp.com/api/channels/948694642394808320/messages
 fi
 
 if [ "$BatteryStatus" –le "30" ]; then
     color=red
     osascript -e 'display notification "Battery Status '$BatteryStatus'" with title "Battery management"'
     curl -v \
--H "Authorization: Bot YOURTOKEN" \
+-H "Authorization: Bot ODc1Nzg4OTc1MTgzMzg4NzUz.YRaoCw.eGS37xSrmk5mInOpo2pBmYeb6rw" \
 -H "User-Agent: myBotThing (http://some.url, v0.1)" \
 -H "Content-Type: application/json" \
 -X POST \
 -d '{"content":"'$BatteryStatus'"}' \
-https://discordapp.com/api/channels/CHANNELID/messages
+https://discordapp.com/api/channels/948694642394808320/messages
 fi
