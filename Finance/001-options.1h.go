@@ -4,7 +4,7 @@
 //<xbar.author>Aaron Edell</xbar.author>
 //<xbar.author.github>aaronedell</xbar.author.github>
 //<xbar.desc>Track Specific Option Call Quotes</xbar.desc>
-//<xbar.image>https://d33wubrfki0l68.cloudfront.net/ea583c177bf610b4db04246ef394d583201feae7/870d6/assets/img/logo.png</xbar.image>
+//<xbar.image>https://i.imgur.com/3QYgZX0.png</xbar.image>
 //<xbar.dependencies>go</xbar.dependencies>
 //<xbar.abouturl>https://github.com/aaronedell/<xbar.abouturl>
 
