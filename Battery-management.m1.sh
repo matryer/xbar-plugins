@@ -4,7 +4,7 @@
 # <xbar.author>Aland Mariwan</xbar.author>
 # <xbar.author.github>amariwan</xbar.author.github>
 # <xbar.desc>Get your battery cycles and as far as your macbook has reached 75% or 30% charge, you will be informed via your bot discord and condition on the menu bar !</xbar.desc>
-#
+# <xbar.image>https://github.com/amariwan/Macbook-Battery-management/blob/master/macbook.png?raw=true</xbar.image>
 
 # Get cycles number
 cycles=$(system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}')
