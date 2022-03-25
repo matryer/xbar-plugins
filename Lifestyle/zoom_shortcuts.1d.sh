@@ -4,6 +4,7 @@
 #  <xbar.version>v1.0</xbar.version>
 #  <xbar.author>Ruslan Potekhin</xbar.author>
 #  <xbar.author.github>dievskiy</xbar.author.github>
+#  <xbar.image>https://imgur.com/8ca2kvC.png</xbar.image>
 #  <xbar.desc>Plugin to open zoom meetings quickly</xbar.desc>
 
 links=()
