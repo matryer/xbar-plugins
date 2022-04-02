@@ -23,7 +23,7 @@ if [[ "$1" = "restart" ]]; then
   brew services restart skhd
 fi
 
-echo "$(yabai -m query --spaces --display | jq 'map(select(."focused" == 1))[-1].index'):$(yabai -m query --spaces --display | jq -r 'map(select(."focused" == 1))[-1].type') | length=5"
+echo "$(yabai -m query --spaces --display | jq 'map(select(."has-focus"))[-1].index'):$(yabai -m query --spaces --display | jq -r 'map(select(."has-focus"))[-1].type') | length=5"
 echo "---"
 echo "Restart yabai & skhd | bash='$0' param1=restart terminal=false"
 echo "Stop yabai & skhd | bash='$0' param1=stop terminal=false"
