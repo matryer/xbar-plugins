@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# <bitbar.title>Google Cloud Instance Start/Stop</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Gregory Senay</bitbar.author>
-# <bitbar.author.github>Gregory Senay</bitbar.author.github>
-# <bitbar.desc>Let you start/stop Google instances; Inspired by Amazon EC2 Instance Start/Stop plugin</bitbar.desc>
-# <bitbar.dependencies>gcloud</bitbar.dependencies>
+# <xbar.title>Google Cloud Instance Start/Stop</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Gregory Senay</xbar.author>
+# <xbar.author.github>Gregory Senay</xbar.author.github>
+# <xbar.desc>Let you start/stop Google instances; Inspired by Amazon EC2 Instance Start/Stop plugin</xbar.desc>
+# <xbar.dependencies>gcloud</xbar.dependencies>
 
 # Dependencies:
 # gcloud  ( https://cloud.google.com/sdk/docs/install/)
 
 # Installation:
-# 1. Copy this script to your BitBar plugin folder
+# 1. Copy this script to your xBar plugin folder
 # 2. Ensure the plugin file is executable by running chmod +x gcloud-start-stop.10m.sh
 # 3. Insure the location of GCLOUD_SDK, else change it 
 
