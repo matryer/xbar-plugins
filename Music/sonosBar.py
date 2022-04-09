@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Control you Sonos system from you Mac Menu Bar
@@ -18,6 +18,7 @@ import socket
 import os
 import sys
 import warnings
+import shlex
 
 try:
     import soco
@@ -234,7 +235,7 @@ def print_volume_controls(player, indent):
 # Those warnings don't work well with the output for Bitbar
 warnings.filterwarnings("ignore")
 
-PATH_TO_SCRIPT = os.path.realpath(__file__)
+PATH_TO_SCRIPT = shlex.quote(os.path.realpath(__file__))
 ARGUMENTS = parse_cli_arguments()
 GROUP = ARGUMENTS.group
 
