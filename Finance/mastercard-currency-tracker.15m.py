@@ -5,8 +5,7 @@
 # <xbar.author>Alp Sayin</xbar.author>
 # <xbar.author.github>alpsayin</xbar.author.github>
 # <xbar.desc>Keep an eye on Mastercard currency exchange rates</xbar.desc>
-# <xbar.dependencies>python3</xbar.dependencies>
-# <xbar.dependencies>requests</xbar.dependencies>
+# <xbar.dependencies>python3, requests</xbar.dependencies>
 
 import requests
 import json
