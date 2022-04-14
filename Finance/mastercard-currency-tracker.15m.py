@@ -7,7 +7,7 @@
 # <xbar.desc>Keep an eye on Mastercard currency exchange rates</xbar.desc>
 # <xbar.dependencies>python3, requests</xbar.dependencies>
 # <xbar.abouturl>https://alpsayin.com/#xbar-plugins</xbar.abouturl>
-# <xbar.image>https://github.com/alpsayin/alpsayin.github.com/raw/master/img/bitbar_mastercard.png</xbar.image> 
+# <xbar.image>https://github.com/alpsayin/alpsayin.github.com/raw/master/img/xbar_currency_tracker_mastercard.png</xbar.image> 
 
 import requests
 import json
