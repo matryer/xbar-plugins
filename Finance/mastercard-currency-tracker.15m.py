@@ -76,8 +76,8 @@ def main():
             traceback.print_exc()
             return
 
-      print('{}: {:.2f}'.format(currency_to, result))
+      print(f'{currency_from}:{currency_to} {result:.2f}')
       print('---')
-      print('From: {}'.format(currency_from))
+      print(f'{currency_to}:{currency_from} {1.0/result:.3f}')
 
 main()
