@@ -96,25 +96,25 @@ def calculate_bearing(d):
 
 def get_wx_icon(icon_code):
   if icon_code == 'clear-day':
-    icon = ":sunny:"
+    icon = "☀️"
   elif icon_code == 'clear-night':
-    icon = ":crescent_moon:"
+    icon = "🌒"
   elif icon_code == 'rain':
-    icon = ":cloud_with_rain:"
+    icon = "🌧️"
   elif icon_code == 'snow':
-    icon = ":snowflake:"
+    icon = "❄️"
   elif icon_code == 'sleet':
-    icon = ":cloud_with_snow:"
+    icon = "🌨️"
   elif icon_code == 'wind':
-    icon = ":dash:"
+    icon = "💨"
   elif icon_code == 'fog':
-    icon = ":fog:"
+    icon = "🌁"
   elif icon_code == 'cloudy':
-    icon = ":cloud:"
+    icon = "☁️"
   elif icon_code == 'partly-cloudy-day':
-    icon = ":sun_behind_small_cloud:"
+    icon = "🌤️"
   elif icon_code == 'partly-cloudy-night':
-    icon = ":sun_behind_large_cloud:"
+    icon = "🌥️"
   else:
     icon = ''
 
