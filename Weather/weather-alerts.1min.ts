@@ -1,4 +1,4 @@
-#!/usr/bin/env -S "${HOME}/.deno/bin" deno run --allow-net 
+#!/usr/bin/env -S -P/${HOME}/.deno/bin:/opt/homebrew/bin deno run --allow-net 
 /*
 *  <xbar.title>NWS Weather and Alerts</xbar.title>
 *  <xbar.version>v1.0</xbar.version>
