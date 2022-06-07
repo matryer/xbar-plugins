@@ -28,21 +28,20 @@
 
 import base64
 import json
+import os
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-import os
 from datetime import datetime
-
 
 # Configure the plugin from the xbar variables declared above
 
-USERNAME = os.environ.get('USERNAME')
-TOKEN =  os.environ.get('TOKEN')
-REPOS_TO_CHECK = list(filter(None, os.environ.get('REPOS_TO_CHECK').split(",")))
-MINIMUM_APPROVALS = int(os.environ.get('MINIMUM_APPROVALS'))
-SHOW_PR_NUMBER = os.environ.get('SHOW_PR_NUMBER') == 'true'
+USERNAME = os.environ.get("USERNAME")
+TOKEN = os.environ.get("TOKEN")
+REPOS_TO_CHECK = os.environ.get("REPOS_TO_CHECK", "").split(",")
+MINIMUM_APPROVALS = int(os.environ.get("MINIMUM_APPROVALS", "0"))
+SHOW_PR_NUMBER = os.environ.get("SHOW_PR_NUMBER") == "true"
 
 # Generic configuration to connect to the GitHub API
 
@@ -53,7 +52,7 @@ AUTHORIZATION = "Basic " + base64.b64encode(
 USER_AGENT = f"{USERNAME} - prbuddy - xbar"
 
 
-def get(uri):
+def __get(uri):
     request = urllib.request.Request(
         BASE_URL + uri,
         headers={
@@ -76,11 +75,11 @@ def get(uri):
         sys.exit(1)
 
 
-def get_pr_reviews(repo, pr_number):
-    return get(f"/repos/{repo}/pulls/{str(pr_number)}/reviews")
+def __get_pr_reviews(repo, pr_number):
+    return __get(f"/repos/{repo}/pulls/{str(pr_number)}/reviews")
 
 
-def get_status_from_reviews(data):
+def __get_status_from_reviews(data):
     reviews = {}
     for review in data:
         state = review["state"]
@@ -91,15 +90,15 @@ def get_status_from_reviews(data):
     return reviews
 
 
-def get_pull_requests(repo):
-    pull_requests = get(f"/repos/{repo}/pulls")
+def __get_pull_requests(repo):
+    pull_requests = __get(f"/repos/{repo}/pulls")
     pull_requests.sort(key=lambda x: (x["user"]["login"], x["created_at"]))
     return pull_requests
 
 
-def produce_pr_output(repo, pr):
+def __produce_pr_output(repo, pr):
     pr_number = pr["number"]
-    reviews = get_pr_reviews(repo, pr_number)
+    reviews = __get_pr_reviews(repo, pr_number)
 
     labels = [label["name"] for label in pr["labels"]]
 
@@ -111,7 +110,7 @@ def produce_pr_output(repo, pr):
         r["state"] for r in [re for re in reviews if re["user"]["login"] == USERNAME]
     ]
 
-    reviews_status = get_status_from_reviews(reviews)
+    reviews_status = __get_status_from_reviews(reviews)
     review_status_line = "{0:02d}✅ {1:02d}🛑 {2:02d}🎙 {3:02d}⏰".format(
         reviews_status["APPROVED"] if "APPROVED" in reviews_status else 0,
         reviews_status["CHANGES_REQUESTED"]
@@ -165,13 +164,13 @@ def produce_pr_output(repo, pr):
     return f"{output_msg} | href={href} {color} font=JetBrainsMono-Regular"
 
 
-def get_all_prs(repos):
+def __get_all_prs(repos):
     output = []
     output.append("---")
     pr_count = 0
 
     for repo in repos:
-        pull_requests = get_pull_requests(repo)
+        pull_requests = __get_pull_requests(repo)
 
         # repository header
         output.append("---")
@@ -181,7 +180,7 @@ def get_all_prs(repos):
 
         for pr in pull_requests:
             # pr line
-            output.append(produce_pr_output(repo, pr))
+            output.append(__produce_pr_output(repo, pr))
             pr_count = pr_count + 1
 
     print(f"💬 {pr_count} Pull Requests")
@@ -197,4 +196,4 @@ if __name__ == "__main__":
         print("Please set up the username and token in the plugin configuration!")
     else:
         REPOS_TO_CHECK.sort()
-        get_all_prs(REPOS_TO_CHECK)
+        __get_all_prs(list(filter(None, REPOS_TO_CHECK)))
