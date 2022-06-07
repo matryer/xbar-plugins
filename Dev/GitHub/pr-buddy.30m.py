@@ -1,17 +1,26 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /path/to/the/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Github PR buddy</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Luis Almeida Santos</bitbar.author>
-# <bitbar.author.github>luis-santos-teampicnic</bitbar.author.github>
-# <bitbar.desc>This plugin displays relevant Pull Requests in Github repositories.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Github PR buddy</bitbar.title>
+# <xbar.version>v2.1</bitbar.version>
+# <xbar.author>Luis Almeida Santos</bitbar.author>
+# <xbar.author.github></bitbar.author.github>
+# <xbar.desc>This plugin displays relevant Pull Requests in Github repositories.</bitbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/71266511/171880002-8f35b14c-16b5-4c0e-a696-a5b4ec1e8cbc.png</xbar.image>
+# <xbar.dependencies>python</bitbar.dependencies>
 
-# Luis Almeida Santos
-# github.com/luis-santos-teampicnic
+# <xbar.var>string(USERNAME=""): Your Github username. (ie: luis-santos-teampicnic)</xbar.var>
+# <xbar.var>string(TOKEN=""): A GitHub Personal access tokens with, at least, the repo scope. (https://github.com/settings/tokens/new)</xbar.var>
+# <xbar.var>string(REPOS_TO_CHECK="PicnicSupermarket/jolo,PicnicSupermarket/hiring-experience,PicnicSupermarket/oss-parent,PicnicSupermarket/nepsnowplow,PicnicSupermarket/diepvries,PicnicSupermarket/reactive-support,PicnicSupermarket/employer-statement-generator"): Comma separated list of repositories to check.</xbar.var>
+# <xbar.var>number(MINIMUM_APPROVALS=2): Show the PR number for each line.</xbar.var>
+# <xbar.var>boolean(SHOW_PR_NUMBER=false): A GitHub Personal access tokens with, at least, the repo scope.</xbar.var>
 
-# version history
+# Author(s):
+#  * Luis Almeida Santos (github.com/luis-santos-teampicnic)
+#
+# Changelog:
+# 2.1
+#   Use xbar variables for configuration
 # 2.0
 #   Support for python3
 # 1.0
@@ -23,46 +32,24 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import os
 from datetime import datetime
 
-# --------------------------------------------------------------------------------
-# Configure the plugin here
-# --------------------------------------------------------------------------------
 
-# Set your github username here
-USERNAME = "<your-username>"
+# Configure the plugin from the xbar variables declared above
 
-# Create a Github token and set it here
-#  https://github.com/settings/tokens/new
-#   Add, at least, the repo scope
-TOKEN = "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+USERNAME = os.environ.get('USERNAME')
+TOKEN =  os.environ.get('TOKEN')
+REPOS_TO_CHECK = list(filter(None, os.environ.get('REPOS_TO_CHECK').split(",")))
+MINIMUM_APPROVALS = int(os.environ.get('MINIMUM_APPROVALS'))
+SHOW_PR_NUMBER = os.environ.get('SHOW_PR_NUMBER') == 'true'
 
-# list all the repositories you want to check
-REPOS_TO_CHECK = [
-    "PicnicSupermarket/jolo",
-    "PicnicSupermarket/hiring-experience",
-    "PicnicSupermarket/oss-parent",
-    "PicnicSupermarket/nepsnowplow",
-    "PicnicSupermarket/diepvries",
-    "PicnicSupermarket/reactive-support",
-    "PicnicSupermarket/employer-statement-generator",
-]
-
-# The number of approvals for a PR to be able to be merged
-MINIMUM_APPROVALS = 2
-
-# Show the PR number for each line
-SHOW_PR_NUMBER = False
-
-# --------------------------------------------------------------------------------
-# There should be no changes bellow this line
-# --------------------------------------------------------------------------------
+# Generic configuration to connect to the GitHub API
 
 BASE_URL = "https://api.github.com"
 AUTHORIZATION = "Basic " + base64.b64encode(
     f"{USERNAME}:{TOKEN}".encode("utf-8")
 ).decode("utf-8")
-
 USER_AGENT = f"{USERNAME} - prbuddy - xbar"
 
 
@@ -204,5 +191,10 @@ def get_all_prs(repos):
 
 
 if __name__ == "__main__":
-    REPOS_TO_CHECK.sort()
-    get_all_prs(REPOS_TO_CHECK)
+    if not USERNAME or not TOKEN:
+        print("Github PR Buddy")
+        print("---")
+        print("Please set up the username and token in the plugin configuration!")
+    else:
+        REPOS_TO_CHECK.sort()
+        get_all_prs(REPOS_TO_CHECK)
