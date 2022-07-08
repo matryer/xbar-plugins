@@ -35,7 +35,7 @@ SUBMENU_LAYOUT = bool(
 If ``True``, will replace the default flat layout with an alternative structure
 where all upgrade actions are grouped into submenus, one for each manager.
 
-xbar automaticcaly bridge that option between its UI and environment variable
+xbar automatically bridge that option between its UI and environment variable
 on script execution.
 See: https://xbarapp.com/docs/2021/03/14/variables-in-xbar.html
 """
@@ -130,7 +130,7 @@ def print_package_items(packages, submenu=""):
     for pkg_info in packages:
         print_cli_item(
             [
-                f"{submenu}{pkg_info['name']} "
+                f"{submenu}{pkg_info['id']} "
                 f"{pkg_info['installed_version']} → {pkg_info['latest_version']}",
                 pkg_info["upgrade_cli"],
                 "refresh=true",
@@ -189,7 +189,7 @@ def print_menu():
 
     # Fetch outdated package form all package manager available on the system.
     _, output, error = run(
-        "mpm", "--output-format", "json", "outdated", "--cli-format", "xbar"
+        "mpm", "--output-format", "json", "outdated", "--plugin-output"
     )
 
     # Bail-out immediately on errors related to mpm self-execution or if mpm is
