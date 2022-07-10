@@ -37,7 +37,7 @@ def feedly_feeds
 end
 
 def output(item)
-  puts "#{item['title']} | href=#{item['originId']}"
+  puts "#{item['title'].sub('|', '-')} | href=#{item['originId']}"
 rescue => e
   puts "An error occured: #{e}"
 end
