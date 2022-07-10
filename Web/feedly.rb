@@ -45,6 +45,8 @@ end
 
 puts 'Feedly'
 puts '---'
+puts 'Launch Feedly Website | href=https://feedly.com/i/my'
+puts '---'
 begin
   feedly_feeds.each { |item| output(item) }
 rescue
