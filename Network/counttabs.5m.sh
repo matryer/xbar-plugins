@@ -4,6 +4,7 @@
 #  <xbar.author>Tom Matthews</xbar.author>
 #  <xbar.author.github>tomtastic</xbar.author.github>
 #  <xbar.desc>Counts the number of open Chrome tabs.</xbar.desc>
+#  <xbar.image>https://www.dropbox.com/s/0scul4sv8jtw4ev/counttabs.jpg?raw=1</xbar.image>
 #  <xbar.dependencies>osascript</xbar.dependencies>
 
 # Number of tabs open, and the accompanying message color...
