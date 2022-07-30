@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # <xbar.title>SureFlap Pet Status</xbar.title>
-# <xbar.version>v1.3.0</xbar.version>
+# <xbar.version>v1.4.0</xbar.version>
 # <xbar.author>Henrik Nyh</xbar.author>
 # <xbar.author.github>henrik</xbar.author.github>
 # <xbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</xbar.desc>
@@ -10,8 +10,7 @@
 # <xbar.var>string(VAR_EMAIL=""): App login email.</xbar.var>
 # <xbar.var>string(VAR_PASSWORD=""): App login password.</xbar.var>
 # <xbar.var>boolean(VAR_NOTIFICATIONS=true): Show a notification when in/out state changes?</xbar.var>
-# <xbar.var>string(VAR_HIDE_PETS_IN_MENU_BAR=""): Exclude e.g. indoor-only pets in the menu bar. Will still be shown if you click the menu bar item. Comma separated.</xbar.var>
-# <xbar.var>string(VAR_IGNORE_PETS_ENTIRELY=""): Not shown in the menu bar nor when clicking it. Comma separated.</xbar.var>
+# <xbar.var>string(VAR_PER_PET_SETTINGS=""): As JSON. Missing pet names and missing values will default. E.g.: {"My Outdoor Cat": {"in": "🏠🐈", "out": "🌳🐈"}, "My Indoor Cat": {"menu_bar": false}, "My Fake Cat": {"hidden": true}} in = Custom display in menu bar when in. out = Ditto when out. menu_bar = Set false to hide in menu bar but still show in expanded menu. hidden = Set true to hide in expanded menu, too.</xbar.var>
 # <xbar.var>number(VAR_CACHE_VERSION=1): Increase to clear cache if the set of pets or doors changes.</xbar.var>
 
 # By Henrik Nyh <https://henrik.nyh.se> 2019-12-16 under the MIT license.
@@ -29,9 +28,20 @@ require "digest"
 EMAIL = ENV["VAR_EMAIL"] == "" ? nil : ENV["VAR_EMAIL"]
 PASSWORD = ENV["VAR_PASSWORD"] == "" ? nil : ENV["VAR_PASSWORD"]
 NOTIFICATIONS = (ENV["VAR_NOTIFICATIONS"] == "true")
-HIDE_PETS_IN_MENU_BAR = ENV["VAR_HIDE_PETS_IN_MENU_BAR"].split(",").map(&:strip)
-IGNORE_PETS_ENTIRELY = ENV["VAR_IGNORE_PETS_ENTIRELY"].split(",").map(&:strip)
 CACHE_VERSION = ENV["CACHE_VERSION"]
+
+begin
+  PER_PET_SETTINGS = JSON.parse(ENV["VAR_PER_PET_SETTINGS"] || "{}")
+rescue JSON::ParserError => e
+  puts "🙀 Bad settings"
+  puts "---"
+  puts "The per-pet settings JSON is invalid:"
+  puts e
+  exit
+end
+
+HIDE_PETS_IN_MENU_BAR = PER_PET_SETTINGS.select { |_k, v| v["menu_bar"] == false }.keys
+IGNORE_PETS_ENTIRELY = PER_PET_SETTINGS.select { |_k, v| v["hidden"] == true }.keys
 
 ENDPOINT = "https://app.api.surehub.io"
 TOKEN_PATH = File.expand_path("~/.sureflap_token")
@@ -177,7 +187,9 @@ with_fresh_token do |token|
 
   puts pets_in_summary.map { |name|
     _id, is_inside, _since = data.fetch(name)
-    "#{icon.(is_inside)} #{name}"
+
+    custom_display = PER_PET_SETTINGS.dig(name, is_inside ? "in" : "out")
+    custom_display || "#{icon.(is_inside)} #{display_name}"
   }.join("  ")
 
   puts "---"
