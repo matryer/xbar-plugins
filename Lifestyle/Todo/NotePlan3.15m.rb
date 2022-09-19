@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>Todo Today for NotePlan v3</bitbar.title>
+# <bitbar.title>NotePlan v3 Todos</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
 # <bitbar.author>Jonathan Clark</bitbar.author>
 # <bitbar.author.github>jgclark</bitbar.author.github>
-# <bitbar.desc>A todo list taken from NotePlan v3 and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo.NotePlan" by Richard Guay which in turn was based on "Todo Colour" plugin by Srdgh.</bitbar.desc>
+# <bitbar.desc>Display NotePlan's open todos for Today's note and This Week's note, and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. (This was based on "Todo.NotePlan" by Richard Guay which in turn was based on "Todo Colour" plugin by Srdgh.)</bitbar.desc>
 # <bitbar.dependencies>ruby</bitbar.dependencies>
 # <bitbar.image></bitbar.image>
 # <bitbar.abouturl>https://noteplan.co/</bitbar.abouturl>
