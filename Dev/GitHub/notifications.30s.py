@@ -18,6 +18,7 @@ import os
 import sys
 import re
 from itertools import groupby
+import textwrap
 
 # GitHub.com
 github_api_key = os.getenv("GITHUB_TOKEN", "")
@@ -123,12 +124,10 @@ def format_notification(notification):
     type = notification["subject"]["type"]
     formatted = {
         "thread": notification["url"],
-        "title": notification["subject"]["title"].encode("utf-8"),
+        "title": textwrap.shorten(notification["subject"]["title"], width=75, placeholder="...").encode("utf-8"),
         "href": notification["subject"]["url"],
         "image": "iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAA",
     }
-    if len(formatted["title"]) > 90:
-        formatted["title"] = formatted["title"][:79] + "…"
     formatted["title"] = formatted["title"].decode().replace("|", "-")
     latest_comment_url = notification.get("subject", {}).get("latest_comment_url", None)
     typejson = make_github_request(formatted["href"])
