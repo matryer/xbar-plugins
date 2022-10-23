@@ -6,6 +6,7 @@
 # <xbar.author>Luis Almeida Santos</bitbar.author>
 # <xbar.author.github></bitbar.author.github>
 # <xbar.desc>This plugin displays the latest Release in GitHub repositories.</bitbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/71266511/197400687-954bfac6-0acf-499e-87ca-99dc01c3d509.png</xbar.image>
 # <xbar.dependencies>python</bitbar.dependencies>
 
 # <xbar.var>string(USERNAME=""): Your GitHub username. (ie: luis-santos-teampicnic)</xbar.var>
