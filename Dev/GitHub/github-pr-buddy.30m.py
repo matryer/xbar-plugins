@@ -12,8 +12,8 @@
 # <xbar.var>string(USERNAME=""): Your Github username. (ie: luis-santos-teampicnic)</xbar.var>
 # <xbar.var>string(TOKEN=""): A GitHub Personal access tokens with, at least, the repo scope. (https://github.com/settings/tokens/new)</xbar.var>
 # <xbar.var>string(REPOS_TO_CHECK="PicnicSupermarket/jolo,PicnicSupermarket/hiring-experience,PicnicSupermarket/oss-parent,PicnicSupermarket/nepsnowplow,PicnicSupermarket/diepvries,PicnicSupermarket/reactive-support,PicnicSupermarket/employer-statement-generator"): Comma separated list of repositories to check.</xbar.var>
-# <xbar.var>number(MINIMUM_APPROVALS=2): Show the PR number for each line.</xbar.var>
-# <xbar.var>boolean(SHOW_PR_NUMBER=false): A GitHub Personal access tokens with, at least, the repo scope.</xbar.var>
+# <xbar.var>number(MINIMUM_APPROVALS=2): Minumum number of approvals to mark the PR green.</xbar.var>
+# <xbar.var>boolean(SHOW_PR_NUMBER=false): Show the PR number for each line.</xbar.var>
 
 # Author(s):
 #  * Luis Almeida Santos (github.com/luis-santos-teampicnic)
