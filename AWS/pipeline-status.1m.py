@@ -44,7 +44,7 @@ class PipelineStatus:
                                                        pipelineExecutionId=execution_id)
         revisions = result["pipelineExecution"]["artifactRevisions"]
         if len(revisions) > 0:
-            message = json.loads(revisions[0]["revisionSummary"])["CommitMessage"]
+            message = json.loads(revisions[0]["revisionSummary"])["CommitMessage"].replace("\n", " ")
             self.execution_data_cache[execution_id] = message
             return message
         return ""
