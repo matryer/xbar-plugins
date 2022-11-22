@@ -12,7 +12,7 @@ for FILE in `echo $FILES`; do
         FILENAME=`echo $URL | rev | cut -f1 -d '/' | rev`
         wget -q --timeout=15 $URL;
         if test -f "./$FILENAME"; then
-            IMAGE_BASE64=`base64 ./$FILENAME`;
+            IMAGE_BASE64=`base64 "./$FILENAME"`;
             # echo $FILE;
             sed -E -r "s#$URL#$IMAGE_BASE64#g" $FILE > temp-file.txt;
             if test -s "./temp-file.txt"; then
@@ -24,8 +24,12 @@ for FILE in `echo $FILES`; do
                 tail -n +$OFFSET $FILE | tail -n +2 >> temp-file.txt;
                 mv temp-file.txt $FILE;
             fi
-            rm $FILENAME;
+            rm "$FILENAME";
             ((IMAGE_COUNT=IMAGE_COUNT+1))
+        else
+            IMAGE_BASE64=`base64 ./no-image.jpg`;
+            sed -E -r "s#$URL#$IMAGE_BASE64#g" $FILE > temp-file.txt;
+            mv temp-file.txt $FILE;
         fi
     done
     ((FILE_COUNT=FILE_COUNT+1))
