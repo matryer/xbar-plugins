@@ -11,5 +11,5 @@ echo "$charge"
 # <xbar.author>Luca Angioloni</xbar.author>
 # <xbar.author.github>LucaAngioloni</xbar.author.github>
 # <xbar.desc>Shows the mAh of battery remaining.</xbar.desc>
-# <xbar.image>http://s32.postimg.org/6k1iq3051/Screen_Shot_2016_04_27_at_20_0$
+# <xbar.image>https://mediagearhead.com/404.jpg</xbar.image>
 # <xbar.dependencies>none</xbar.dependencies>
