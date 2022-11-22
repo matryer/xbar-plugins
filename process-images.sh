@@ -12,10 +12,18 @@ for FILE in `echo $FILES`; do
         FILENAME=`echo $URL | rev | cut -f1 -d '/' | rev`
         wget -q --timeout=15 $URL;
         if test -f "./$FILENAME"; then
-            IMAGE_BASE64=`base64 ./$FILENAME`
+            IMAGE_BASE64=`base64 ./$FILENAME`;
             # echo $FILE;
             sed -E -r "s#$URL#$IMAGE_BASE64#g" $FILE > temp-file.txt;
-            mv temp-file.txt $FILE;
+            if test -s "./temp-file.txt"; then
+                mv temp-file.txt $FILE;
+            else
+                sed -n '/\<xbar.image>/q;p' $FILE > temp-file.txt;
+                echo "# <xbar.image>$IMAGE_BASE64</xbar.image>" >> temp-file.txt;
+                OFFSET=`wc -l ./temp-file.txt | awk {'print $1'}`;
+                tail -n +$OFFSET $FILE | tail -n +2 >> temp-file.txt;
+                mv temp-file.txt $FILE;
+            fi
             rm $FILENAME;
             ((IMAGE_COUNT=IMAGE_COUNT+1))
         fi
