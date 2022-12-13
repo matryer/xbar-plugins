@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Appearance Options</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Karl Piper</bitbar.author>
-# <bitbar.author.github>KarlPiper</bitbar.author.github>
-# <bitbar.desc>Set random desktop image, choose image rotation timing and order. Toggle dark mode. Start screensaver. Set Night Shift warmth level (optional, requires: jenghis/nshift).</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/KarlPiper/Plugins-for-Bitbar/master/images/appearance-preview.gif</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
+# <xbar.title>Appearance Options</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Karl Piper</xbar.author>
+# <xbar.author.github>KarlPiper</xbar.author.github>
+# <xbar.desc>Set random desktop image, choose image rotation timing and order. Toggle dark mode. Start screensaver. Set Night Shift warmth level (optional, requires: jenghis/nshift).</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/KarlPiper/Plugins-for-Bitbar/master/images/appearance-preview.gif</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
 
 # OPTIONS
 # generic title "toggle" (false) | "enable/disable" (true) cases bitbar restart

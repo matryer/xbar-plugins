@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>NotePlan Todo in Colour</bitbar.title>
-# <bitbar.version>v1.5</bitbar.version>
-# <bitbar.author>Richard Guay</bitbar.author>
-# <bitbar.author.github>raguay</bitbar.author.github>
-# <bitbar.desc>A todo list taken from NotePlan and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo Colour" plugin by Srdgh.</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.image>http://customct.com/images/NotePlanPlugin-01.png</bitbar.image>
-# <bitbar.abouturl>http://customct.com/bitbar</bitbar.abouturl>
+# <xbar.title>NotePlan Todo in Colour</xbar.title>
+# <xbar.version>v1.5</xbar.version>
+# <xbar.author>Richard Guay</xbar.author>
+# <xbar.author.github>raguay</xbar.author.github>
+# <xbar.desc>A todo list taken from NotePlan and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo Colour" plugin by Srdgh.</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.image>http://customct.com/images/NotePlanPlugin-01.png</xbar.image>
+# <xbar.abouturl>http://customct.com/bitbar</xbar.abouturl>
 #
 # Modifications by Guillaume Barrette
 #   2017/07/01:

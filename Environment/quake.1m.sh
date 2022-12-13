@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>Recent Big Earthquake</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Aaron Edell</bitbar.author>
-# <bitbar.author.github>aaronedell</bitbar.author.github>
-# <bitbar.desc>Displays the most significant earthquakes in the last 30 days from http://earthquake.usgs.gov </bitbar.desc>
-# <bitbar.image>http://i.imgur.com/lF8Qdpk.png</bitbar.image>
-# <bitbar.dependencies>Bash GNU AWK</bitbar.dependencies>
-# <bitbar.abouturl>http://earthquake.usgs.gov</bitbar.abouturl>
+# <xbar.title>Recent Big Earthquake</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Aaron Edell</xbar.author>
+# <xbar.author.github>aaronedell</xbar.author.github>
+# <xbar.desc>Displays the most significant earthquakes in the last 30 days from http://earthquake.usgs.gov </xbar.desc>
+# <xbar.image>http://i.imgur.com/lF8Qdpk.png</xbar.image>
+# <xbar.dependencies>Bash GNU AWK</xbar.dependencies>
+# <xbar.abouturl>http://earthquake.usgs.gov</xbar.abouturl>
 
 
 

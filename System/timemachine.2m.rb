@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-# <bitbar.title>Show Time machine Progress</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Slamet Kristanto</bitbar.author>
-# <bitbar.author.github>drselump14</bitbar.author.github>
-# <bitbar.desc>Show time machine backup progress</bitbar.desc>
-# <bitbar.dependencies>time machine</bitbar.dependencies>
+# <xbar.title>Show Time machine Progress</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Slamet Kristanto</xbar.author>
+# <xbar.author.github>drselump14</xbar.author.github>
+# <xbar.desc>Show time machine backup progress</xbar.desc>
+# <xbar.dependencies>time machine</xbar.dependencies>
 
 require 'date'
 

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Vertcoin BTC price at Bittrex</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Cem Yildirim</bitbar.author>
-# <bitbar.author.github>cemyld</bitbar.author.github>
-# <bitbar.desc>Shows the last Vertcoin price (in BTC) on the Bittrex exchange.</bitbar.desc>
-# <bitbar.image>https://imgur.com/DEOGHG6.jpg</bitbar.image>
-# <bitbar.abouturl>https://www.vertcoin.org/bitbar.abouturl>
+# <xbar.title>Vertcoin BTC price at Bittrex</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Cem Yildirim</xbar.author>
+# <xbar.author.github>cemyld</xbar.author.github>
+# <xbar.desc>Shows the last Vertcoin price (in BTC) on the Bittrex exchange.</xbar.desc>
+# <xbar.image>https://imgur.com/DEOGHG6.jpg</xbar.image>
+# <xbar.abouturl>https://www.vertcoin.org/bitbar.abouturl>
 #
 BitBarDarkMode=${BitBarDarkMode}
 

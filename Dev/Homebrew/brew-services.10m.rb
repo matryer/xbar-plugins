@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Brew Services</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Adam Lindberg</bitbar.author>
-# <bitbar.author.github>eproxus</bitbar.author.github>
-# <bitbar.desc>Shows and manages Homebrew services.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/hVfhHYP.jpg</bitbar.image>
-# <bitbar.dependencies>ruby, brew, brew-services</bitbar.dependencies>
+# <xbar.title>Brew Services</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Adam Lindberg</xbar.author>
+# <xbar.author.github>eproxus</xbar.author.github>
+# <xbar.desc>Shows and manages Homebrew services.</xbar.desc>
+# <xbar.image>http://i.imgur.com/hVfhHYP.jpg</xbar.image>
+# <xbar.dependencies>ruby, brew, brew-services</xbar.dependencies>
 
 # BitBar Homebrew services plugin
 # by Adam Lindbeng (@eproxus)

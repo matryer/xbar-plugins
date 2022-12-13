@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-# <bitbar.title>Add Note</bitbar.title>
-# <bitbar.author>Frak Nuaimy</bitbar.author>
-# <bitbar.author.github>frakman1</bitbar.author.github>
-# <bitbar.image>http://i.imgur.com/608LQ25.png</bitbar.image>
-# <bitbar.desc>Add a note to Apple Notes app.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.version>v1.0</bitbar.version>
+# <xbar.title>Add Note</xbar.title>
+# <xbar.author>Frak Nuaimy</xbar.author>
+# <xbar.author.github>frakman1</xbar.author.github>
+# <xbar.image>http://i.imgur.com/608LQ25.png</xbar.image>
+# <xbar.desc>Add a note to Apple Notes app.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.version>v1.0</xbar.version>
 
 
 import os, sys

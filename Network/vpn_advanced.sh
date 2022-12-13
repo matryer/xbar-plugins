@@ -7,12 +7,12 @@
 #joesmith ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
 #joesmith ALL=(ALL) NOPASSWD: /usr/bin/killall -2 openconnect
 
-# <bitbar.title>VPN Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jesse Jarzynka</bitbar.author>
-# <bitbar.author.github>jessejoe</bitbar.author.github>
-# <bitbar.desc>Displays status of a VPN interface with option to connect/disconnect.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/RkmptwO.png</bitbar.image>
+# <xbar.title>VPN Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jesse Jarzynka</xbar.author>
+# <xbar.author.github>jessejoe</xbar.author.github>
+# <xbar.desc>Displays status of a VPN interface with option to connect/disconnect.</xbar.desc>
+# <xbar.image>http://i.imgur.com/RkmptwO.png</xbar.image>
 
 VPN_EXECUTABLE=/usr/local/bin/openconnect
 VPN_EXECUTABLE_PARAMS="--script=$HOME/scripts/vpnc-script-no-dns" # Optional
@@ -26,7 +26,7 @@ GET_VPN_PASSWORD="security find-generic-password -g -a joe.smith 2>&1 >/dev/null
 #GET_VPN_PASSWORD="cat ~/.vpnpass"
 #GET_VPN_PASSWORD="echo hunter2" # Not recommended
 # Command to determine if VPN is connected or disconnected
-VPN_CONNECTED="/sbin/ifconfig | egrep -A1 $VPN_INTERFACE | grep inet"
+VPN_CONNECTED="ifconfig | egrep -A1 $VPN_INTERFACE | grep inet"
 # Command to run to disconnect VPN
 VPN_DISCONNECT_CMD="sudo killall -2 openconnect"
 

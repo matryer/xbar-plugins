@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Kubeconfig Context Changer</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Chris Opland</bitbar.author>
-# <bitbar.author.github>copland</bitbar.author.github>
-# <bitbar.desc>Displays active kubeconfig context and allows you to easily change contexts.</bitbar.desc>
-# <bitbar.dependencies>python,kubectl</bitbar.dependencies>
+# <xbar.title>Kubeconfig Context Changer</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Chris Opland</xbar.author>
+# <xbar.author.github>copland</xbar.author.github>
+# <xbar.desc>Displays active kubeconfig context and allows you to easily change contexts.</xbar.desc>
+# <xbar.dependencies>python,kubectl</xbar.dependencies>
 
 from collections import namedtuple
 from distutils import spawn

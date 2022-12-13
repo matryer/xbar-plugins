@@ -1,18 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
-# <bitbar.title>Ejector</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Carlson Orozco && Brian Hartvigsen && Matt Sephton</bitbar.author>
-# <bitbar.author.github>carlsonorozco</bitbar.author.github>
-# <bitbar.desc>Ejector is a plugin for BitBar that enables you to eject all mounted disk / drive / installers / USB connected drives and volumes instantly.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/carlsonorozco/ejector</bitbar.abouturl>
+# <xbar.title>Ejector</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Carlson Orozco && Brian Hartvigsen && Matt Sephton</xbar.author>
+# <xbar.author.github>carlsonorozco</xbar.author.github>
+# <xbar.desc>Ejector is a plugin for BitBar that enables you to eject all mounted disk / drive / installers / USB connected drives and volumes instantly.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/carlsonorozco/ejector/master/image.png</xbar.image>
+# <xbar.abouturl>https://github.com/carlsonorozco/ejector</xbar.abouturl>
 
-drives=( $(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//') )
+
+mapfile -t drives < <(df -Hl | grep /Volumes/ | grep -v "/System/Volumes/Data"| grep -v "/System/Volumes/VM" | grep -v "/System/Volumes/Preboot" | grep -v "/System/Volumes/Update" | grep -v "/Volumes/Recovery" | sed 's/.*\/Volumes\/*//')
 
 IFS=$'**********'
 for details in $( diskutil info -all ); do
-    drives+=( $(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "EFI\|Preboot\|Recovery" | awk '{print $3}') )
+    mapfile -t -O "${#drives[@]}" drives <  <(echo "$details" | grep -A1000 "Device Node" | grep -B1000 "Mounted:[[:space:]]*No$" | grep "Volume Name" | grep -v "Boot\|Backup\|Macintosh\|EFI\|Preboot\|Recovery" | awk '{print $3}')
 done
 
 if [ "$1" = 'eject' ]; then

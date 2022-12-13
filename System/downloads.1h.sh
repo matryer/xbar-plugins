@@ -2,13 +2,13 @@
 
 DOWNLOADS_DIR="$HOME/Downloads"
 
-# <bitbar.title>Downloads</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>iosdeveloper</bitbar.author>
-# <bitbar.author.github>iosdeveloper</bitbar.author.github>
-# <bitbar.desc>Quick access to your recent downloads. Enter URL to download from. Specify downloads directory at the top of the file. Defaults to ~/Downloads. Contains example of how to refresh from the command line (see https://github.com/matryer/bitbar/blob/master/Docs/URLScheme.md#refreshplugin)</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Cv4iS3d.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/downloads.1h.sh</bitbar.abouturl>
+# <xbar.title>Downloads</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>iosdeveloper</xbar.author>
+# <xbar.author.github>iosdeveloper</xbar.author.github>
+# <xbar.desc>Quick access to your recent downloads. Enter URL to download from. Specify downloads directory at the top of the file. Defaults to ~/Downloads. Contains example of how to refresh from the command line (see https://github.com/matryer/bitbar/blob/master/Docs/URLScheme.md#refreshplugin)</xbar.desc>
+# <xbar.image>http://i.imgur.com/Cv4iS3d.png</xbar.image>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/downloads.1h.sh</xbar.abouturl>
 
 FILENAME=$(basename "$0")
 DOWNLOADS=$(ls -t "$DOWNLOADS_DIR")

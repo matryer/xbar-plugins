@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 #
-# <bitbar.title>BitBar Version</bitbar.title>
-# <bitbar.version>v0.2.0</bitbar.version>
-# <bitbar.author>Olivier Tille</bitbar.author>
-# <bitbar.author.github>oliviernt</bitbar.author.github>
-# <bitbar.image>http://i.imgur.com/9BrFhSJ.png</bitbar.image>
-# <bitbar.desc>Checks the current BitBar version against the latest from GitHub</bitbar.desc>
-# <bitbar.dependencies>Ruby</bitbar.dependencies>
+# <xbar.title>BitBar Version</xbar.title>
+# <xbar.version>v0.2.0</xbar.version>
+# <xbar.author>Olivier Tille</xbar.author>
+# <xbar.author.github>oliviernt</xbar.author.github>
+# <xbar.image>http://i.imgur.com/9BrFhSJ.png</xbar.image>
+# <xbar.desc>Checks the current BitBar version against the latest from GitHub</xbar.desc>
+# <xbar.dependencies>Ruby</xbar.dependencies>
 #
 # BitBar version plugin
 # by Olivier Tille (@oliviernt)

@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 
 /*
-  <bitbar.title>Microsoft Remote Desktop - Quick Connect</bitbar.title>
-  <bitbar.version>v0.1.1</bitbar.version>
-  <bitbar.author>Marco Ferrer</bitbar.author>
-  <bitbar.author.github>marrferr</bitbar.author.github>
-  <bitbar.desc>Quick and easy access to Microsoft Remote Desktop from any desktop space. Allows connection opening and switching. Only displays connections with labels assigned.</bitbar.desc>
-  <bitbar.image>https://www.dropbox.com/s/aiodjoketuujbaf/mrd-quick-connect.png?raw=1</bitbar.image>
-  <bitbar.dependencies>node,node-simple-plist,node-bitbar</bitbar.dependencies>
+  <xbar.title>Microsoft Remote Desktop - Quick Connect</xbar.title>
+  <xbar.version>v0.1.1</xbar.version>
+  <xbar.author>Marco Ferrer</xbar.author>
+  <xbar.author.github>marrferr</xbar.author.github>
+  <xbar.desc>Quick and easy access to Microsoft Remote Desktop from any desktop space. Allows connection opening and switching. Only displays connections with labels assigned.</xbar.desc>
+  <xbar.image>https://www.dropbox.com/s/aiodjoketuujbaf/mrd-quick-connect.png?raw=1</xbar.image>
+  <xbar.dependencies>node,node-simple-plist,node-bitbar</xbar.dependencies>
 
 	************** Decoded Contents of the Apple Script Helper ****************
 	***************************************************************************

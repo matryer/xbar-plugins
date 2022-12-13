@@ -1,13 +1,13 @@
 #!/usr/local/bin/python3
 
-# <bitbar.title>Jira issues</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Stefano Teodorani</bitbar.author>
-# <bitbar.author.github>teopost</bitbar.author.github>
-# <bitbar.desc>Show your jira issues</bitbar.desc>
-# <bitbar.image>https://i.ibb.co/3SZ6D30/Schermata-2019-11-23-alle-19-26-24.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://www.stefanoteodorani.it/</bitbar.abouturl>
+# <xbar.title>Jira issues</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Stefano Teodorani</xbar.author>
+# <xbar.author.github>teopost</xbar.author.github>
+# <xbar.desc>Show your jira issues</xbar.desc>
+# <xbar.image>https://i.ibb.co/3SZ6D30/Schermata-2019-11-23-alle-19-26-24.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://www.stefanoteodorani.it/</xbar.abouturl>
 
 
 import requests

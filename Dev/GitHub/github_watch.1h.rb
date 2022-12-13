@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>GitHub Watch</bitbar.title>
-# <bitbar.version>v0.1.0</bitbar.version>
-# <bitbar.author>D. Khamsing</bitbar.author>
-# <bitbar.author.github>dkhamsing</bitbar.author.github>
-# <bitbar.desc>Show GitHub stars ⭐️ for a list of repos</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/z1qhSun.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/dkhamsing</bitbar.abouturl>
+# <xbar.title>GitHub Watch</xbar.title>
+# <xbar.version>v0.1.0</xbar.version>
+# <xbar.author>D. Khamsing</xbar.author>
+# <xbar.author.github>dkhamsing</xbar.author.github>
+# <xbar.desc>Show GitHub stars ⭐️ for a list of repos</xbar.desc>
+# <xbar.image>http://i.imgur.com/z1qhSun.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://github.com/dkhamsing</xbar.abouturl>
 
 require 'open-uri'
 require 'json'

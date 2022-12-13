@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# <bitbar.title>Github Contribution</bitbar.title>
-# <bitbar.version>v0.0.2</bitbar.version>
-# <bitbar.author>mizoR</bitbar.author>
-# <bitbar.author.github>mizoR</bitbar.author.github>
-# <bitbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Github Contribution</xbar.title>
+# <xbar.version>v0.0.2</xbar.version>
+# <xbar.author>mizoR</xbar.author>
+# <xbar.author.github>mizoR</xbar.author.github>
+# <xbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 #
 # To setup, create or edit your ~/.bitbarrc file with a new section:
 #
@@ -79,12 +79,11 @@ module BitBar
     ConfigurationError = Class.new(StandardError)
 
     class Contribution < Struct.new(:username, :contributed_on, :count)
-      RE_CONTRIBUTION = %r|<rect .+ class="ContributionCalendar-day" .+ data-count="(\d+)" data-date="(\d\d\d\d-\d\d-\d\d)" .+>|
+      RE_CONTRIBUTION = %r|<rect .*class="ContributionCalendar-day" .*data-count="(\d+)" .*data-date="(\d\d\d\d-\d\d-\d\d)".*></rect>|
+
       def self.find_all_by(username:)
         [].tap do |contributions|
-          today = Date.parse(DateTime.now.to_s).to_s
-          year = today.split("-")[0];
-          html = URI.send(:open, "https://github.com/users/#{username}/contributions?to=#{today}#year-link-#{year}") { |f| f.read };
+          html = open(url_for(username: username)) { |f| f.read }
           html.scan(RE_CONTRIBUTION) do |count, date|
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
             break if Date.parse(date) == Date.parse(DateTime.now.to_s)
@@ -103,6 +102,10 @@ module BitBar
         when 4..9 then ':herb:'
         else           ':deciduous_tree:'
         end
+      end
+
+      def self.url_for(username:)
+        "https://github.com/users/#{username}/contributions"
       end
     end
 
@@ -129,9 +132,9 @@ module BitBar
         end
 
         def contribution_activity_for(contribution)
-          query    = "to=#{contribution.contributed_on}"
+          query    = "from=#{contribution.contributed_on}"
           fragment = "year-link-#{contribution.contributed_on.year}"
-          
+
           "https://github.com/#{contribution.username}?#{query}##{fragment}"
         end
       end

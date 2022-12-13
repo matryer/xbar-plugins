@@ -1,14 +1,14 @@
 #!/usr/bin/env /usr/local/bin/node
 
 /*
-    <bitbar.title>VPN Country Flag</bitbar.title>
-    <bitbar.version>v0.1</bitbar.version>
-    <bitbar.author>Miguel Laginha</bitbar.author>
-    <bitbar.author.github>brecke</bitbar.author.github>
-    <bitbar.desc>It shows the country flag corresponding to your IP Address (useful when using VPNs).</bitbar.desc>
-    <bitbar.image>https://user-images.githubusercontent.com/19879/30689083-d8e4d2bc-9eb7-11e7-8d83-d45a9079c287.png</bitbar.image>
-    <bitbar.dependencies>node</bitbar.dependencies>
-    <bitbar.abouturl>https://github.com/brecke/bitbar-vpn-flag</bitbar.abouturl>
+    <xbar.title>VPN Country Flag</xbar.title>
+    <xbar.version>v0.1</xbar.version>
+    <xbar.author>Miguel Laginha</xbar.author>
+    <xbar.author.github>brecke</xbar.author.github>
+    <xbar.desc>It shows the country flag corresponding to your IP Address (useful when using VPNs).</xbar.desc>
+    <xbar.image>https://user-images.githubusercontent.com/19879/30689083-d8e4d2bc-9eb7-11e7-8d83-d45a9079c287.png</xbar.image>
+    <xbar.dependencies>node</xbar.dependencies>
+    <xbar.abouturl>https://github.com/brecke/bitbar-vpn-flag</xbar.abouturl>
 */
 
 var ipapi = require('ipapi.co');

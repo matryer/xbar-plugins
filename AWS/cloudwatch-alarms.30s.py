@@ -1,13 +1,13 @@
 #!/usr/local/bin/python3
 # -*- coding: UTF-8 -*-
 
-# <bitbar.title>CloudWatch Alarms Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sebastian Rodriguez</bitbar.author>
-# <bitbar.author.github>sebasrp</bitbar.author.github>
-# <bitbar.desc>Monitor the status of your CloudWatch Alarms</bitbar.desc>
-# <bitbar.dependencies>python, boto3</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/qiqHX32.png</bitbar.image>
+# <xbar.title>CloudWatch Alarms Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sebastian Rodriguez</xbar.author>
+# <xbar.author.github>sebasrp</xbar.author.github>
+# <xbar.desc>Monitor the status of your CloudWatch Alarms</xbar.desc>
+# <xbar.dependencies>python, boto3</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/qiqHX32.png</xbar.image>
 
 import boto3
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
 #
-# <bitbar.title>Slack Notification</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>mgjo5899</bitbar.author>
-# <bitbar.author.github>mgjo5899</bitbar.author.github>
-# <bitbar.desc>Displays number of unread Slack messages</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/I3MdNmU.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Slack Notification</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>mgjo5899</xbar.author>
+# <xbar.author.github>mgjo5899</xbar.author.github>
+# <xbar.desc>Displays number of unread Slack messages</xbar.desc>
+# <xbar.image>https://i.imgur.com/I3MdNmU.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # by mgjo5899
 

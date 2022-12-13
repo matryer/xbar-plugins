@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>Host file switcher</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author.github>canemacchina</bitbar.author.github>
-# <bitbar.author>Lorenzo Bugiani</bitbar.author>
-# <bitbar.desc>Simple plugin to switch between multiple hosts files</bitbar.desc>
+# <xbar.title>Host file switcher</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author.github>canemacchina</xbar.author.github>
+# <xbar.author>Lorenzo Bugiani</xbar.author>
+# <xbar.desc>Simple plugin to switch between multiple hosts files</xbar.desc>
 
 HOSTS_LOCATION=""
 

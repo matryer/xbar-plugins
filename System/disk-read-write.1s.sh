@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Disk Read Write</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>cghamburg</bitbar.author>
-# <bitbar.author.github>cghamburg</bitbar.author.github>
-# <bitbar.desc>Shows Disk Read Write Speeds per second.</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.dependencies>iostat</bitbar.dependencies>
+# <xbar.title>Disk Read Write</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>cghamburg</xbar.author>
+# <xbar.author.github>cghamburg</xbar.author.github>
+# <xbar.desc>Shows Disk Read Write Speeds per second.</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.dependencies>iostat</xbar.dependencies>
 
 # BitBar Disk IO plugin
 

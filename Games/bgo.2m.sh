@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>BGO</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
-# <bitbar.author>Justin Honold</bitbar.author>
-# <bitbar.author.github>astrostl</bitbar.author.github>
-# <bitbar.desc>Checks for active turns at http://www.boardgaming-online.com/ every two minutes</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/1126471/12794798/82c49950-ca7c-11e5-855b-b1c69a0f9f31.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>BGO</xbar.title>
+# <xbar.version>v1.0.1</xbar.version>
+# <xbar.author>Justin Honold</xbar.author>
+# <xbar.author.github>astrostl</xbar.author.github>
+# <xbar.desc>Checks for active turns at http://www.boardgaming-online.com/ every two minutes</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/1126471/12794798/82c49950-ca7c-11e5-855b-b1c69a0f9f31.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 bgo_login='LOGIN'
 bgo_pass='PASSWORD'

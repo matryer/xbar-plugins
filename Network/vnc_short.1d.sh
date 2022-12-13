@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>VNC shortcut</bitbar.title>
-# <bitbar.version>v0.2</bitbar.version>
-# <bitbar.author>Petter Aspdal Hansen</bitbar.author>
-# <bitbar.author.github>petterah</bitbar.author.github>
-# <bitbar.desc>Simple and convenient shortcuts to VNC connections. Can easily be used for local files or other protocols</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/bBdH1ga.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Network/vnc_short.1d.sh</bitbar.abouturl>
+# <xbar.title>VNC shortcut</xbar.title>
+# <xbar.version>v0.2</xbar.version>
+# <xbar.author>Petter Aspdal Hansen</xbar.author>
+# <xbar.author.github>petterah</xbar.author.github>
+# <xbar.desc>Simple and convenient shortcuts to VNC connections. Can easily be used for local files or other protocols</xbar.desc>
+# <xbar.image>http://i.imgur.com/bBdH1ga.png</xbar.image>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Network/vnc_short.1d.sh</xbar.abouturl>
 #
 # A simple plugin used a lot in our office to conveniently connect to other computer. First block defines Menu bar icon. The next four defines the VNC shortcuts. Change the VNC address to your targets IP and port (5900 is default in OSX). Copy and paste to the desired amount. Custom images can be encoded. Google base64 image encoding. 
 # The recommended size for images in the status bar is 16x16. 

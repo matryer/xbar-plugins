@@ -2,23 +2,23 @@
 /* jshint esversion: 8 */
 /* jshint asi: true */
 
-// <bitbar.title>Slack Team Notifications</bitbar.title>
-// <bitbar.version>v1.1.0</bitbar.version>
-// <bitbar.author>Benji Encalada Mora</bitbar.author>
-// <bitbar.author.github>benjifs</bitbar.author.github>
-// <bitbar.image>https://i.imgur.com/ORbsRBx.jpg</bitbar.image>
-// <bitbar.desc>Show notifications for Slack teams and channels with option to mark as read. See https://github.com/benjifs/bitbar-slack-team-notifications for configuration instructions.</bitbar.desc>
-// <bitbar.dependencies>node.js superagent</bitbar.dependencies>
+// <xbar.title>Slack Team Notifications</xbar.title>
+// <xbar.version>v1.1.2</xbar.version>
+// <xbar.author>Benji Encalada Mora</xbar.author>
+// <xbar.author.github>benjifs</xbar.author.github>
+// <xbar.image>https://i.imgur.com/ORbsRBx.jpg</xbar.image>
+// <xbar.desc>Show notifications for Slack teams and channels with option to mark as read. See https://github.com/benjifs/bitbar-slack-team-notifications for configuration instructions.</xbar.desc>
+// <xbar.dependencies>node.js superagent</xbar.dependencies>
 
 const request = require('superagent');
 const tokens = require('./.tokens.js');
 
 // CONFIG
-// BITBAR_SLACK_ICON defines which Slack Icon is shown
+// XBAR_SLACK_ICON defines which Slack Icon is shown
 // 0 -> Original Slack Icon
 // 1 -> White Slack Icon
 // 2 -> Black Slack Icon
-const BITBAR_SLACK_ICON = process.env.BitBarDarkMode ? 1 : 2;
+const XBAR_SLACK_ICON = process.env.BitBarDarkMode || process.env.XBARDarkMode ? 1 : 2;
 // If MENTIONS_ONLY is true, the count only includes mentions and DMs.
 // If MENTIONS_ONLY is false, the count includes all unread messages.
 const MENTIONS_ONLY = false;
@@ -101,8 +101,7 @@ if (process.argv.indexOf('--mark') > 0) {
 		let channels = args[1].split(',');
 		for (let j in channels) {
 			console.log('/' + args[0] + SLACK_MARK + ' (' + channels[j] + ')');
-			slack_request(SLACK_CONVERSATIONS + SLACK_MARK, {
-				'token': token,
+			slack_request(SLACK_CONVERSATIONS + SLACK_MARK, token, {
 				'channel': channels[j],
 				'ts': Math.floor(Date.now() / 1000) + '.000000'
 			})
@@ -118,20 +117,21 @@ function debug(message) {
 	return DEBUG && console.log(message);
 }
 
-function slack_request(URL, query) {
-	debug('  /' + URL + (query.channel ? ' (' + query.channel + ')' : ''));
+function slack_request(URL, token, query) {
+	debug('  /' + URL + (query && query.channel ? ' (' + query.channel + ')' : ''));
 	// The following is to keep track of how many calls are being made
 	// for each token to each method. Should help debug the rate limits
-	if (!call_log[query.token]) {
-		call_log[query.token] = {};
+	if (!call_log[token]) {
+		call_log[token] = {};
 	}
-	if (!call_log[query.token][URL]) {
-		call_log[query.token][URL] = 0;
+	if (!call_log[token][URL]) {
+		call_log[token][URL] = 0;
 	}
-	call_log[query.token][URL]++;
+	call_log[token][URL]++;
 	return request
 		.get(SLACK_API + URL)
 		.query(query)
+		.auth(token, { type: 'bearer' })
 		.then((res) => {
 			debug(res.body);
 			if (res && res.body && res.body.ok === true) {
@@ -149,7 +149,7 @@ function slack_request(URL, query) {
 
 function output() {
 	unread_count = unread_count > 10 ? '10+' : unread_count > 0 ? unread_count : '';
-	const slack_icon = BITBAR_SLACK_ICON == 2 ? SLACK_ICON_B : BITBAR_SLACK_ICON == 1 ? SLACK_ICON_W : SLACK_ICON;
+	const slack_icon = XBAR_SLACK_ICON == 2 ? SLACK_ICON_B : XBAR_SLACK_ICON == 1 ? SLACK_ICON_W : SLACK_ICON;
 	if (errors.length > 0) {
 		console.log('! |color=red ' + slack_icon);
 	} else {
@@ -160,16 +160,25 @@ function output() {
 		for (let i in slack_output) {
 			let team = slack_output[i];
 
-			if (SHOW_ZERO_NOTIFICATIONS || team.notifications.length > 0) {
+			if (SHOW_ZERO_NOTIFICATIONS || team.notifications.count > 0) {
 				console.log('---');
 				console.log(team.name + ' | size=12');
 			}
-			if (team.notifications.length > 0) {
-				for (let j in team.notifications) {
-					console.log(team.notifications[j]);
+			if (team.notifications.count > 0) {
+				if (team.notifications.channels.length > 0) {
+					console.log('Channels | size=12');
+					for (let j in team.notifications.channels) {
+						console.log(team.notifications.channels[j]);
+					}
+				}
+				if (team.notifications.dms.length > 0) {
+					console.log('Direct messages | size=12');
+					for (let j in team.notifications.dms) {
+						console.log(team.notifications.dms[j]);
+					}
 				}
 				console.log('Mark all as read ' +
-					'|bash=' + SCRIPT +
+					'|shell="${SCRIPT}"' +
 					' param1=--mark' +
 					' param2=--token=' + team.token +
 					(team.params[SLACK_IM] ? ' param3=' + SLACK_IM + '=' + team.params[SLACK_IM].join() : '') +
@@ -195,13 +204,33 @@ function output() {
 	debug(call_log);
 }
 
+function format_channel_name(channel) {
+	let name = '';
+	if (channel.is_im) {
+		name = '@' + channel.name;
+	} else if (channel.name.indexOf('mpdm-') === 0) {
+		let users = channel.name.split('-');
+		users = users.filter((user, i) => {
+			// mpdm string is of this format: `mpdm-xxxxx--yyyyy--zzzzz-n`
+			// where xxxxx, yyyyy, and zzzzz are usernames
+			// Remove empty strings, first, and last elements of the array
+			return user !== '' && i !== 0 && i !== users.length - 1;
+		});
+		// Using │ since xbar can not display the standard | character
+		name = '@' + users.join('│@');
+	} else {
+		name = '#' + channel.name;
+	}
+	if (name.length > MAX_LENGTH) {
+		name = name.substring(0, MAX_LENGTH - 1) + '…';
+	}
+	return name;
+}
+
 function channel_output(channel) {
 	unread_count += channel.count;
 
-	let output_str = (channel.is_im ? '@' : '#') + channel.name;
-	if (output_str.length > MAX_LENGTH) {
-		output_str = output_str.substring(0, MAX_LENGTH - 1) + '…';
-	}
+	let output_str = format_channel_name(channel);
 	output_str += ' '.repeat(MAX_LENGTH + 2 - output_str.length);
 	output_str += (channel.count > 10 ? '10+' : channel.count);
 
@@ -213,17 +242,25 @@ function channel_output(channel) {
 		href = 'https://app.slack.com/client/' + channel.team + '/' + channel.id;
 	}
 
-	slack_output[channel.token].notifications.push(output_str + '|font=Menlo size=13 href=' + href);
-
-	slack_output[channel.token].notifications.push('Mark as read ' +
+	output_str += '|font=Menlo size=13 href=' + href;
+	let alt_str = 'Mark as read ' +
 		'|alternate=true' +
 		' font=Menlo size=13' +
-		' bash=' + SCRIPT +
+		' shell="${SCRIPT}"' +
 		' param1=--mark' +
 		' param2=--token=' + channel.token +
 		' param3=' + key + '=' + channel.id +
 		' refresh=true' +
-		' terminal=false');
+		' terminal=false';
+
+	if (output_str[0] == '@') {
+		slack_output[channel.token].notifications.dms.push(output_str);
+		slack_output[channel.token].notifications.dms.push(alt_str);
+	} else {
+		slack_output[channel.token].notifications.channels.push(output_str);
+		slack_output[channel.token].notifications.channels.push(alt_str);
+	}
+	slack_output[channel.token].notifications.count++;
 
 	if (!slack_output[channel.token].params[key]) {
 		slack_output[channel.token].params[key] = [];
@@ -252,7 +289,12 @@ function get_team_notifications(token) {
 					'id': team.id,
 					'name': team.name,
 					'token': token,
-					'notifications': [],
+					'notifications': {
+						'channels': [],
+						'groups': [],
+						'dms': [],
+						'count': 0
+					},
 					'params': {},
 					'errors': []
 				};
@@ -262,7 +304,7 @@ function get_team_notifications(token) {
 			}
 		})
 		.then((user_id) => {
-			slack_output[token]['user_id'] = user_id;
+			slack_output[token].user_id = user_id;
 			return get_team_conversations(token);
 		})
 		.then((channels) => {
@@ -282,9 +324,7 @@ function get_team_notifications(token) {
 
 function get_team_info(token) {
 	debug('Fetching team info for ' + token);
-	return slack_request(SLACK_TEAM + SLACK_INFO, {
-		'token': token
-	})
+	return slack_request(SLACK_TEAM + SLACK_INFO, token)
 		.then((body) => {
 			if (body && body.team) {
 				return Promise.resolve(body.team);
@@ -294,10 +334,8 @@ function get_team_info(token) {
 
 function get_auth_info(token) {
 	debug('Fetch auth info for ' + token);
-	return slack_request(SLACK_AUTH_TEST, {
-		'token': token
-	}).
-		then((body) => {
+	return slack_request(SLACK_AUTH_TEST, token)
+		.then((body) => {
 			if (body && body.user_id) {
 				return Promise.resolve(body.user_id);
 			}
@@ -306,8 +344,7 @@ function get_auth_info(token) {
 
 function get_team_conversations(token) {
 	debug('Fetching conversations for ' + token);
-	return slack_request(SLACK_CONVERSATIONS + SLACK_LIST, {
-		'token': token,
+	return slack_request(SLACK_CONVERSATIONS + SLACK_LIST, token, {
 		'exclude_archived': true,
 		'limit': 200,
 		'types': 'public_channel,private_channel,mpim,im'
@@ -381,15 +418,14 @@ function get_unread_count(channel, token) {
 
 function check_conversation_history(channel, token) {
 	debug('Fetch history for ' + channel.id);
-	return slack_request(SLACK_CONVERSATIONS + SLACK_HISTORY, {
-		'token': token,
+	return slack_request(SLACK_CONVERSATIONS + SLACK_HISTORY, token, {
 		'channel': channel.id,
 		'oldest': channel.last_read != '0000000000.000000' ? channel.last_read : 0,
 		'unreads': true
 	})
 		.then((body) => {
 			if (body && body.unread_count_display > 0) {
-				const user_id = slack_output[token]['user_id'];
+				const user_id = slack_output[token].user_id;
 				if (channel.is_im || channel.is_mpim) {
 					return Promise.resolve(body.unread_count_display);
 				}
@@ -417,8 +453,7 @@ function count_mentions(body, user_id) {
 
 function get_user(user, token) {
 	debug('Fetch user info for ' + user);
-	return slack_request(SLACK_USERS + SLACK_INFO, {
-		'token': token,
+	return slack_request(SLACK_USERS + SLACK_INFO, token, {
 		'user': user
 	})
 		.then((body) => {

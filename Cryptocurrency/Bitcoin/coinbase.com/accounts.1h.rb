@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
-# <bitbar.title>Coinbase.com Account Balances</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.author>Bryan Stone</bitbar.author>
-# <bitbar.author.github>aegixx</bitbar.author.github>
-# <bitbar.desc>Shows your balances in BTC & USD.  Be sure you add you API key & secret.</bitbar.desc>
+# <xbar.title>Coinbase.com Account Balances</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.author>Bryan Stone</xbar.author>
+# <xbar.author.github>aegixx</xbar.author.github>
+# <xbar.desc>Shows your balances in BTC & USD.  Be sure you add you API key & secret.</xbar.desc>
 
 require 'coinbase/wallet'
 

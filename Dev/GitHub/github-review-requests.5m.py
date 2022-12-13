@@ -1,13 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Github review requests</bitbar.title>
-# <bitbar.desc>Shows a list of PRs that need to be reviewed</bitbar.desc>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Adam Bogdał</bitbar.author>
-# <bitbar.author.github>bogdal</bitbar.author.github>
-# <bitbar.image>https://github-bogdal.s3.amazonaws.com/bitbar-plugins/review-requests.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Github review requests</xbar.title>
+# <xbar.desc>Shows a list of PRs that need to be reviewed</xbar.desc>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Adam Bogdał</xbar.author>
+# <xbar.author.github>bogdal</xbar.author.github>
+# <xbar.image>https://github-bogdal.s3.amazonaws.com/bitbar-plugins/review-requests.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 # ----------------------
 # ---  BEGIN CONFIG  ---
@@ -16,13 +16,14 @@
 # https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
 ACCESS_TOKEN = ''
 
+# (required) Your GitHub login https://github.com/<login>
 GITHUB_LOGIN = ''
 
 # (optional) PRs with this label (e.g 'in progress') will be grayed out on the list
 WIP_LABEL = ''
 
-# (optional) Filter the PRs by an organization, labels, etc. E.g 'org:YourOrg -label:dropped'
-FILTERS = ''
+# (optional) Filter the PRs by an organization, labels, etc. E.g 'org:YourOrg -label:dropped draft:false'
+FILTERS = 'draft:false'
 
 # --------------------
 # ---  END CONFIG  ---

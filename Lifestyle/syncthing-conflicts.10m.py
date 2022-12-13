@@ -11,13 +11,13 @@
     This is a Bitbar plugin for MacOS
     https://github.com/matryer/bitbar
 
-    <bitbar.title>Syncthing-conflicts</bitbar.title>
-    <bitbar.version>v1.0</bitbar.version>
-    <bitbar.author>Tim Battersby</bitbar.author>
-    <bitbar.author.github>uglygus</bitbar.author.github>
-    <bitbar.desc>Bitbar - Syncthing conflicts helper.</bitbar.desc>
-    <bitbar.dependencies>python</bitbar.dependencies>
-    <bitbar.image>https://i.imgur.com/CbthLRt.png</bitbar.image>
+    <xbar.title>Syncthing-conflicts</xbar.title>
+    <xbar.version>v1.0</xbar.version>
+    <xbar.author>Tim Battersby</xbar.author>
+    <xbar.author.github>uglygus</xbar.author.github>
+    <xbar.desc>Bitbar - Syncthing conflicts helper.</xbar.desc>
+    <xbar.dependencies>python</xbar.dependencies>
+    <xbar.image>https://i.imgur.com/CbthLRt.png</xbar.image>
 
 """
 

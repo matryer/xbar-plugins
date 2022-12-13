@@ -2,7 +2,7 @@
 
 ###
 #
-# Make sure you take care of the <bitbar.dependencies>, then
+# Make sure you take care of the <xbar.dependencies>, then
 #
 # CHANGE THESE
 #
@@ -21,14 +21,14 @@ readonly processName="aircast-osx-multi"
 
 # Info
 
-# <bitbar.title>AirConnect</bitbar.title>
-# <bitbar.version>v1.1.0</bitbar.version>
-# <bitbar.author>CartoonChess</bitbar.author>
-# <bitbar.author.github>cartoonchess</bitbar.author.github>
-# <bitbar.desc>Launches AirConnect to enable streaming AirPlay audio to Chromecast devices.</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/43363630/101709887-aa9f2900-3ad3-11eb-8863-4309a068aa3c.png</bitbar.image>
-# <bitbar.dependencies>airconnect,bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/cartoonchess/bitbar-airconnect</bitbar.abouturl>
+# <xbar.title>AirConnect</xbar.title>
+# <xbar.version>v1.1.0</xbar.version>
+# <xbar.author>CartoonChess</xbar.author>
+# <xbar.author.github>cartoonchess</xbar.author.github>
+# <xbar.desc>Launches AirConnect to enable streaming AirPlay audio to Chromecast devices.</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/43363630/101709887-aa9f2900-3ad3-11eb-8863-4309a068aa3c.png</xbar.image>
+# <xbar.dependencies>airconnect,bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/cartoonchess/bitbar-airconnect</xbar.abouturl>
 
 
 

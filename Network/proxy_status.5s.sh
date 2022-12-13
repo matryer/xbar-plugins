@@ -2,12 +2,12 @@
 #
 # Proxy Status and toggler
 #
-# <bitbar.title>Proxy Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Cameron Currie</bitbar.author>
-# <bitbar.author.github>cwc</bitbar.author.github>
-# <bitbar.desc>Displays proxy status and allows toggling it on and off.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/7dEg9ki.png</bitbar.image>
+# <xbar.title>Proxy Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Cameron Currie</xbar.author>
+# <xbar.author.github>cwc</xbar.author.github>
+# <xbar.desc>Displays proxy status and allows toggling it on and off.</xbar.desc>
+# <xbar.image>http://i.imgur.com/7dEg9ki.png</xbar.image>
 
 interface="wi-fi" # You can also set this to e.g. "ethernet"
 

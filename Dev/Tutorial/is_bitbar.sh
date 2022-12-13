@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>Is BitBar?</bitbar.title>
-# <bitbar.author>Mat Ryer and Tyler Bunnell</bitbar.author>
-# <bitbar.author.github>matryer</bitbar.author.github>
-# <bitbar.desc>Example script showing use of $BITBAR environment variable</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/TcZJI06.png</bitbar.image>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>Is BitBar?</xbar.title>
+# <xbar.author>Mat Ryer and Tyler Bunnell</xbar.author>
+# <xbar.author.github>matryer</xbar.author.github>
+# <xbar.desc>Example script showing use of $BITBAR environment variable</xbar.desc>
+# <xbar.image>https://i.imgur.com/TcZJI06.png</xbar.image>
+# <xbar.version>1.0</xbar.version>
 #
 # Example script showing how to let your scripts determine
 # whether they are expected to deliver BitBar output or not.

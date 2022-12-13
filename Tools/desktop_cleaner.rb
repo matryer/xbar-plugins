@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Desktop cleaner</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Tomoki Yamashita</bitbar.author>
-# <bitbar.author.github>tomorrowkey</bitbar.author.github>
-# <bitbar.desc>Move desktop files to backup dir</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/tomorrowkey/desktop_cleaner</bitbar.abouturl>
+# <xbar.title>Desktop cleaner</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Tomoki Yamashita</xbar.author>
+# <xbar.author.github>tomorrowkey</xbar.author.github>
+# <xbar.desc>Move desktop files to backup dir</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://github.com/tomorrowkey/desktop_cleaner</xbar.abouturl>
 
 require 'date'
 require 'yaml'

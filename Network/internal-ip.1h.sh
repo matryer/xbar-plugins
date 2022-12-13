@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>internal-ip</bitbar.title>
-# <bitbar.author>Mat Ryer</bitbar.author>
-# <bitbar.author.github>matryer</bitbar.author.github>
-# <bitbar.desc>Gets the current internal IP address, and shows more information in the details.</bitbar.desc>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>internal-ip</xbar.title>
+# <xbar.author>Mat Ryer</xbar.author>
+# <xbar.author.github>matryer</xbar.author.github>
+# <xbar.desc>Gets the current internal IP address, and shows more information in the details.</xbar.desc>
+# <xbar.version>1.0</xbar.version>
 
 ifconfig | grep -e "^en" | sort -u | while read line ; do
     ACTIVE_ADAPTER=$(echo $line | awk -F: '{print $1}')

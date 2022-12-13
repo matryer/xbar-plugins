@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Daily Standup</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Krishna Kumar</bitbar.author>
-# <bitbar.author.github>krishkumar</bitbar.author.github>
-# <bitbar.desc>Displays a list of all your git commits in the last 24 hours. Indicates days you have been chilling without committing any code. </bitbar.desc>
-# <bitbar.image>http://raw.githubusercontent.com/krishkumar/daily-standup/master/daily-standup-gold.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/krishkumar/daily-standup</bitbar.abouturl>
+# <xbar.title>Daily Standup</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Krishna Kumar</xbar.author>
+# <xbar.author.github>krishkumar</xbar.author.github>
+# <xbar.desc>Displays a list of all your git commits in the last 24 hours. Indicates days you have been chilling without committing any code. </xbar.desc>
+# <xbar.image>http://raw.githubusercontent.com/krishkumar/daily-standup/master/daily-standup-gold.png</xbar.image>
+# <xbar.abouturl>https://github.com/krishkumar/daily-standup</xbar.abouturl>
 #
 # Dependencies: You need to have git-standup installed.
 # To install git-standup on OSX with homebrew, open Terminal and run - $ brew install git-standup

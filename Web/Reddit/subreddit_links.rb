@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Subreddit Links</bitbar.title>
-# <bitbar.author>Joe Canero</bitbar.author>
-# <bitbar.author.github>caneroj1</bitbar.author.github>
-# <bitbar.image>https://i.imgur.com/3ZDUdNH.png</bitbar.image>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>Subreddit Links</xbar.title>
+# <xbar.author>Joe Canero</xbar.author>
+# <xbar.author.github>caneroj1</xbar.author.github>
+# <xbar.image>https://i.imgur.com/3ZDUdNH.png</xbar.image>
+# <xbar.version>1.0</xbar.version>
 
 require 'net/http'
 require 'json'

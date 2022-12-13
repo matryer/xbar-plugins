@@ -1,12 +1,12 @@
 #!/usr/local/bin/python3
 
-# <bitbar.title>EthMiner</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Cédric Foellmi</bitbar.author>
-# <bitbar.author.github>onekiloparsec</bitbar.author.github>
-# <bitbar.desc>Start and stop the ethminer.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/DeWnKKf.png</bitbar.image>
-# <bitbar.dependencies>python3,psutil,ethminer</bitbar.dependencies>
+# <xbar.title>EthMiner</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Cédric Foellmi</xbar.author>
+# <xbar.author.github>onekiloparsec</xbar.author.github>
+# <xbar.desc>Start and stop the ethminer.</xbar.desc>
+# <xbar.image>https://i.imgur.com/DeWnKKf.png</xbar.image>
+# <xbar.dependencies>python3,psutil,ethminer</xbar.dependencies>
 
 ##############################################################################
 ### SETUP ###

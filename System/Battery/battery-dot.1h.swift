@@ -1,14 +1,14 @@
 #!/usr/bin/env xcrun swift
 
 /*
- * <bitbar.title>Battery Dot</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>alex_rockt</bitbar.author>
- * <bitbar.author.github>alex_rockt</bitbar.author.github>
- * <bitbar.desc>Displays a coloured dot for trackpad, keyboard and laptop battery in the menu bar that changes from green to yellow to red the lower the power gets - based on the trackpad-dot plugin by Manu Wallner (https://getbitbar.com/plugins/System/trackpad-dot.1h.swift).
-	The plugin uses ANSI colors to display all three battery levels next to each other - the downside is that it's limited to the ANSI colors - so no orange available</bitbar.desc>
- * <bitbar.image>http://i.imgur.com/3EimpGH.png</bitbar.image>
- * <bitbar.dependencies>Xcode,swift</bitbar.dependencies>
+ * <xbar.title>Battery Dot</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>alex_rockt</xbar.author>
+ * <xbar.author.github>alex_rockt</xbar.author.github>
+ * <xbar.desc>Displays a coloured dot for trackpad, keyboard and laptop battery in the menu bar that changes from green to yellow to red the lower the power gets - based on the trackpad-dot plugin by Manu Wallner (https://getbitbar.com/plugins/System/trackpad-dot.1h.swift).
+	The plugin uses ANSI colors to display all three battery levels next to each other - the downside is that it's limited to the ANSI colors - so no orange available</xbar.desc>
+ * <xbar.image>http://i.imgur.com/3EimpGH.png</xbar.image>
+ * <xbar.dependencies>Xcode,swift</xbar.dependencies>
  */
 
 import Foundation

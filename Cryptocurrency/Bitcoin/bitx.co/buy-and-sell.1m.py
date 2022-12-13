@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-# <bitbar.title>BitX Buy and Sell</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Konrad Blum</bitbar.author>
-# <bitbar.author.github>kblum</bitbar.author.github>
-# <bitbar.desc>Shows latest buy and sell values (in ZAR) for Bitcoins on the BitX exchange.</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/868608/24828465/e257fc20-1c5d-11e7-9641-5abed32bcb9b.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>BitX Buy and Sell</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Konrad Blum</xbar.author>
+# <xbar.author.github>kblum</xbar.author.github>
+# <xbar.desc>Shows latest buy and sell values (in ZAR) for Bitcoins on the BitX exchange.</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/868608/24828465/e257fc20-1c5d-11e7-9641-5abed32bcb9b.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 
 import urllib2

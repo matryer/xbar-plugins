@@ -5,14 +5,14 @@
 # by jasonrwang (https://github.com/jasonrwang)
 # forked from aurorabbit (https://github.com/aurorabbit) and Mucahit (http://github.com/mucahit)
 #
-# <bitbar.title>Progress Bar to Beat Procrastination!</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>jasonrwang</bitbar.author>
-# <bitbar.author.github>jasonrwang</bitbar.author.github>
-# <bitbar.desc>Progress Bar of Year, Month, and (Work) Day, the latter of which helps you keep track of your time as a resource and beat procrastination!</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/6628281/62536640-f7b71f00-b83d-11e9-9297-a63cc24ef115.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://gist.github.com/jasonrwang/49f76015627cf517fe77eca357401397</bitbar.abouturl>
+# <xbar.title>Progress Bar to Beat Procrastination!</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>jasonrwang</xbar.author>
+# <xbar.author.github>jasonrwang</xbar.author.github>
+# <xbar.desc>Progress Bar of Year, Month, and (Work) Day, the latter of which helps you keep track of your time as a resource and beat procrastination!</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/6628281/62536640-f7b71f00-b83d-11e9-9297-a63cc24ef115.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://gist.github.com/jasonrwang/49f76015627cf517fe77eca357401397</xbar.abouturl>
 
 ## !!!
 # add this to your bitbar directory
@@ -104,12 +104,12 @@ if [ "$now" -lt "$d_end" ] # tell me to stop if I'm past $working_end
 then
     if [ "$now" -lt "$d_start" ] # basically captures post-midnight oil-burning
     then
-        echo "😴SLEEP!🛌 | $bitbar size=12 font=SF Compact Text Regular"
+        echo "😴SLEEP!🛌 | $bitbar size=12 font='SF Compact Text Regular'"
     else
-        echo "P: $(round "$d_progress")% | $bitbar size=12 font=SF Compact Text Regular"
+        echo "P: $(round "$d_progress")% | $bitbar size=12 font='SF Compact Text Regular'"
     fi
 else
-    echo "🛑STOP!✋ | $bitbar size=12 font=SF Compact Text Regular"
+    echo "🛑STOP!✋ | $bitbar size=12 font='SF Compact Text Regular'"
 fi
 echo ---
 # day + progress bar

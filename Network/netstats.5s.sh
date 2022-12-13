@@ -1,51 +1,40 @@
 #!/bin/bash
+# <xbar.title>IP Address Info</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jack Higgins</xbar.author>
+# <xbar.author.github>skhg</xbar.author.github>
+# <xbar.desc>Displays your local IP address with useful extra info (some stats/functions are wifi only)</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/skhg/BitBar-Plugins/master/NetworkInfo/ip_info.jpg</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/NetworkInfo</xbar.abouturl>
+# <xbar.var>number(VAR_WARNING_SPEED=20): When the connection to the router drops below this speed (Mbps) your IP address will be highlighted in orange</xbar.var>
+# <xbar.var>string(VAR_NETWORK_INTERFACE="en0"): The interface to track (Usual interface for MacOS wifi is en0)</xbar.var>
 
-# <bitbar.title>IP Address Info</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jack Higgins</bitbar.author>
-# <bitbar.author.github>skhg</bitbar.author.github>
-# <bitbar.desc>Displays your local IP address with useful extra info</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/skhg/BitBar-Plugins/master/NetworkInfo/ip_info.jpg</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/skhg/BitBar-Plugins/tree/master/NetworkInfo</bitbar.abouturl>
+# NOTE: Speed will only show for wifi interfaces due to using the built-in `airport -I` command.
 
-
-
-
-
-# When the connection to the router drops below this speed (Mbps)
-# your IP address will be highlighted in orange
-
-WARNING_SPEED=20
-
-
+if [[ -z "${VAR_NETWORK_INTERFACE}" ]]
+then
+    # VAR_NETWORK_INTERFACE is not set. Get it with help from @hoondi (https://github.com/matryer/xbar-plugins/issues/1512)
+    VAR_NETWORK_INTERFACE=$(route -n get default | grep -o "interface: .*" | sed -e 's/interface: //')
+fi
 
 
-
-
-
-
-
-
-
-# You don't need to change anything below here...
-
-LOCAL_IP=$(ipconfig getifaddr en0 2>&1)
+LOCAL_IP=$(ipconfig getifaddr "${VAR_NETWORK_INTERFACE}" 2>&1)
 LOCAL_OK=$?
 
-if [ $LOCAL_OK != 0 ] ; then
+if [[ $LOCAL_OK != 0 ]] ; then
     LOCAL_PART="❌"
-    ROUTER_PART="❌ - Router | font=Courier"
+    ROUTER_PART="❌ - Router"
 else
     LOCAL_PART=$LOCAL_IP
 
     ROUTER=$(netstat -nr | grep default | grep -E -o '\d+\.\d+\.\d+\.\d+' 2>&1)
     ROUTER_OK=$?
 
-    if [ $ROUTER_OK != 0 ] ; then
-        ROUTER_PART="Unable to determine router IP? | color=orange font=Courier"
+    if [[ $ROUTER_OK != 0 ]] ; then
+        ROUTER_PART="Unable to determine router IP"
     else
-        ROUTER_PART="$ROUTER"" - Router | font=Courier"
+        ROUTER_PART="$ROUTER"" - Router"
     fi
 fi
 
@@ -55,7 +44,7 @@ REMOTE_IP=$(dig +short myip.opendns.com @resolver1.opendns.com 2>&1)
 
 REMOTE_OK=$?
 
-if [ $REMOTE_OK != 0 ] ; then
+if [[ $REMOTE_OK != 0 ]] ; then
     REMOTE_PART="❌"
 else
     REMOTE_PART="$REMOTE_IP"
@@ -63,13 +52,13 @@ fi
 
 SPEED=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | grep 'lastTxRate:' | grep -o '\d\+' 2>&1)
 
-if [ $LOCAL_OK != 0 ] ; then
+if [[ $LOCAL_OK != 0 ]] ; then
     SPEED_PART="❌"
     SPEED_WARNING=0
 else
     SPEED_PART="$SPEED""Mbps"
 
-    if [ "$SPEED" -lt $WARNING_SPEED ] ; then
+    if [[ "$SPEED" -lt ${VAR_WARNING_SPEED} ]] ; then
         SPEED_WARNING=1
     else
         SPEED_WARNING=0
@@ -78,7 +67,7 @@ fi
 
 
 
-if [ $REMOTE_OK != 0 ] ; then
+if [[ $REMOTE_OK != 0 ]] ; then
     REMOTE_WARNING=1
 else
     REMOTE_WARNING=0
@@ -87,7 +76,7 @@ fi
 function speedcolour {
     SPEED=$1
 
-    if [ "$SPEED" == 1 ] ; then
+    if [[ "$SPEED" == 1 ]] ; then
         echo " color=orange"
         return
     fi
@@ -98,7 +87,7 @@ function speedcolour {
 function wancolour {
     WAN=$1
 
-    if [ "$WAN" == 1 ] ; then
+    if [[ "$WAN" == 1 ]] ; then
         echo " color=red"
         return
     fi
@@ -110,12 +99,12 @@ function topcolour {
     SPEED=$1
     WAN=$2
 
-    if [ "$WAN" == 1 ] ; then
+    if [[ "$WAN" == 1 ]] ; then
         wancolour "$WAN"
         return
     fi
 
-    if [ "$SPEED" == 1 ] ; then
+    if [[ "$SPEED" == 1 ]] ; then
         speedcolour "$SPEED"
         return
     fi
@@ -128,16 +117,20 @@ echo "$LOCAL_PART | $(topcolour $SPEED_WARNING $REMOTE_WARNING) font=Courier"
 echo "---"
 
 echo "$LOCAL_PART - Local | font=Courier"
-echo "$ROUTER_PART"
-echo "$SPEED_PART - LAN Speed | $(speedcolour $SPEED_WARNING) font=Courier"
+echo "$ROUTER_PART | font=Courier"
+if [[ -n "$SPEED" ]]; then
+  echo "$SPEED_PART - ${VAR_NETWORK_INTERFACE} Speed | $(speedcolour $SPEED_WARNING) font=Courier"
+fi
 echo "$REMOTE_PART - WAN | $(wancolour $REMOTE_WARNING) font=Courier"
 
 echo "---"
 
 echo "Terminal: ifconfig| bash='ifconfig'"
-echo "Terminal: Adapter Info| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I'"
-echo "Terminal: Wireless Scan| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s''"
+echo "Terminal: Wireless Adapter Info| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I'"
+echo "Terminal: Wireless Scan| bash='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s'"
 
-echo "---"
 
-echo "Router Web Config | href=http://$ROUTER_PART"
+if [[ $LOCAL_OK = 0 ]] ; then
+  echo "---"
+  echo "Router Web Config | href=http://$ROUTER"
+fi

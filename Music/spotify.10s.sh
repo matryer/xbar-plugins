@@ -1,19 +1,18 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 # Get current Spotify status with play/pause button
 #
 # by Jason Tokoph (jason@tokoph.net)
 #    Marcin Swieczkowski (scatman@bu.edu)
+#    Benji Encalada Mora (@benjifs)
 #
 # Shows current track information for Spotify
-
 # metadata
-# <bitbar.title>Spotify Now Playing</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Marcin S., Jason Tokoph</bitbar.author>
-# <bitbar.author.github>jtokoph</bitbar.author.github>
-# <bitbar.desc>Display currently playing Spotify song. Play/pause, skip forward, skip backward.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/y1SZwfq.png</bitbar.image>
+# <xbar.title>Spotify Now Playing</xbar.title>
+# <xbar.version>v1.4</xbar.version>
+# <xbar.author>Jason Tokoph, Marcin S, Benji Encalada Mora</xbar.author>
+# <xbar.author.github>jtokoph, m-cat, benjifs</xbar.author.github>
+# <xbar.desc>Display currently playing Spotify song or podcast. Play/pause, skip forward, skip backward.</xbar.desc>
+# <xbar.image>http://i.imgur.com/y1SZwfq.png</xbar.image>
 
 # Comment the following line to disable showing times.
 SHOW_TIME=1
@@ -31,6 +30,8 @@ CLEAN_ALBUM_NAMES=1
 TRUNC_LEN=18
 # String used when replacing truncated text.
 TRUNC_SUFFIX="..."
+# Comment out this line to disable cycling through track/artist
+CYCLE_TRACK_ARTIST=1
 
 # Send a series of semicolon-delimited commands to Spotify
 function tellspotify() {
@@ -42,13 +43,17 @@ function tellspotify() {
             end tell";
 }
 
-## Handle early-return cases
-
+# Handle launch spotify
 if [ "$1" = 'launch' ]; then
   tellspotify 'activate'
   exit
 fi
-
+# Handle lyrics where param2 is track_title and param3 is artist
+if [ "$1" = 'lyrics' ]; then
+  open "https://www.musixmatch.com/search/$2 $3"
+  exit
+fi
+# Handle play/pause/prev/next commands
 first="$(echo "$1" | head -n 1 | awk '{print $1;}')"
 case "$first" in
   'playpause' | 'previous' | 'next' | 'set')
@@ -56,25 +61,63 @@ case "$first" in
     exit
 esac
 
-if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
+function printdefault() {
   echo "♫"
   echo "---"
   echo "Spotify is not running"
-  echo "Launch Spotify | bash='$0' param1=launch terminal=false"
+  echo "Launch Spotify | shell='$0' param1=launch terminal=false"
+}
+
+# Truncate or cycle track and artist
+function printtitle() {
+  output=$1
+  # Only cycle title while playing
+  if [ $CYCLE_TRACK_ARTIST ] && [ "$state" = "playing" ]; then
+    while [ ${#output} -gt $TRUNC_LEN ]; do
+      tmp_out=${output:0:$TRUNC_LEN}
+      output=${output:$TRUNC_LEN}
+      echo "$state_icon $tmp_out"
+    done
+    if [ ${#output} -gt 0 ]; then
+      # Show the last $TRUNC_LEN characters of original string
+      if [ ${#1} -lt $TRUNC_LEN ]; then
+        output=$1
+      else
+        output=${1:(-$TRUNC_LEN)}
+      fi
+      echo "$state_icon $output"
+    fi
+  else
+    if [ ${#output} -gt $TRUNC_LEN ];then
+      output=${output:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
+    fi
+    echo "$state_icon $output | length=$((TRUNC_LEN+${#TRUNC_SUFFIX}))"
+  fi
+}
+
+# Check if Spotify is running or if `state` is "stopped"
+if [ "$(osascript -e 'application "Spotify" is running')" = "false" ]; then
+  printdefault
+  exit
+fi
+state=$(tellspotify 'player state as string');
+if [ "$state" == "stopped" ]; then
+  printdefault
   exit
 fi
 
 ## Get Spotify info
-
-state=$(tellspotify 'player state as string');
+id=$(tellspotify 'id of current track as string');
 track=$(tellspotify 'name of current track as string');
 artist=$(tellspotify 'artist of current track as string');
 album=$(tellspotify 'album of current track as string');
 
-# Handle last early-return case (needed $track and $artist to look up lyrics).
-if [ "$1" = 'lyrics' ]; then
-  open "https://www.musixmatch.com/search/$track $artist"
-  exit
+## Check track type
+if [[ "$id" == *":episode:"* ]]; then
+  track_type="PODCAST"
+  unset CLEAN_TRACK_NAMES
+else
+  track_type="SONG"
 fi
 
 if [ "$state" = "playing" ]; then
@@ -83,25 +126,19 @@ else
   state_icon="❚❚"
 fi
 
+function clean_name() {
+  name=$1
+  name="$(echo -e "${name/ - /\\n}" | head -n 1)"
+  name="$(echo -e "${name/ (Remastered/\\n}" | head -n 1)"
+  echo $name
+}
+
 # Clean up track and/or album names
 if [[ $CLEAN_TRACK_NAMES ]]; then
-  track="$(echo -e "${track/ - /\\n}" | head -n 1)"
-  track="$(echo -e "${track/ (Remastered/\\n}" | head -n 1)"
+  track="$(clean_name "$track")"
 fi
 if [[ $CLEAN_ALBUM_NAMES ]]; then
-  album="$(echo -e "${album/ - /\\n}" | head -n 1)"
-  album="$(echo -e "${album/ (Remastered/\\n}" | head -n 1)"
-fi
-
-## Truncate track and artist
-trunc_track=$track
-if [ ${#trunc_track} -gt $TRUNC_LEN ];then
-  trunc_track=${trunc_track:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
-fi
-
-trunc_artist=$artist
-if [ ${#trunc_artist} -gt $TRUNC_LEN ];then
-  trunc_artist=${trunc_artist:0:$TRUNC_LEN-${#TRUNC_SUFFIX}}$TRUNC_SUFFIX
+  album="$(clean_name "$album")"
 fi
 
 # Get position and duration of track
@@ -133,13 +170,18 @@ if [[ $SHOW_TIME ]]; then
 fi
 
 ## Print the display
-
-echo "$state_icon $trunc_track - $trunc_artist"
-echo "---"
-
-echo -e "Track:\\t$track"
-echo -e "Artist:\\t$artist"
-echo -e "Album:\\t$album"
+if [ "$track_type" == "PODCAST" ]; then
+  printtitle "$track - $album"
+  echo "---"
+  echo -e "Episode: $track"
+  echo -e "Podcast: $album"
+elif [ "$track_type" == "SONG" ]; then
+  printtitle "$track - $artist"
+  echo "---"
+  echo -e "Track:\\t$track"
+  echo -e "Artist:\\t$artist"
+  echo -e "Album:\\t$album"
+fi
 echo "---"
 
 if [[ $SHOW_TIME ]]; then
@@ -148,20 +190,21 @@ if [[ $SHOW_TIME ]]; then
 fi
 
 if [ "$state" = "playing" ]; then
-  echo -e "❚❚\\tPause | bash='$0' param1=playpause terminal=false refresh=true"
-  echo -e "↩\\tPrevious | bash='$0' param1='set player position to 0;previous track' terminal=false refresh=true"
-  echo -e "↪\\tNext | bash='$0' param1='next track' terminal=false refresh=true"
-  echo -e "↻\\tReplay | bash = '$0' param1='set player position to 0' terminal=false"
+  echo -e "❚❚\\tPause | shell='$0' param1=playpause terminal=false refresh=true"
 else
-  echo -e "▶\\tPlay | bash='$0' param1=playpause terminal=false refresh=true"
-  echo -e "↩\\tPrevious | bash='$0' param1='set player position to 0;previous track;play' terminal=false refresh=true"
-  echo -e "↪\\tNext | bash='$0' param1='next track;play' terminal=false refresh=true"
-  echo -e "↻\\tReplay | bash = '$0' param1='set player position to 0;play' terminal=false refresh=true"
+  echo -e "▶\\tPlay | shell='$0' param1=playpause terminal=false refresh=true"
+fi
+echo -e "↩\\tPrevious | shell='$0' param1='set player position to 0;previous track;play' terminal=false refresh=true"
+echo -e "↪\\tNext | shell='$0' param1='next track;play' terminal=false refresh=true"
+echo -e "↻\\tReplay | shell='$0' param1='set player position to 0;play' terminal=false refresh=true"
+
+echo '---'
+
+if [ "$track_type" == "SONG"  ]; then
+  # Remove quotes in title for lyrics search
+  clean_track=$(echo $track | sed 's/"//g')
+  echo -e "♫\\tLyrics | shell='$0' param1=lyrics param2=\"$clean_track\" param3=\"$artist\" terminal=false"
+  echo '---'
 fi
 
-echo '---'
-echo -e "♫\\tLyrics | bash='$0' param1='lyrics' terminal=false"
-echo '---'
-
-echo '---'
-echo "Open Spotify | bash='$0' param1=launch terminal=false"
+echo "Open Spotify | shell='$0' param1=launch terminal=false"

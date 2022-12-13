@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>AnyConnect Umbrella Status</bitbar.title>
-# <bitbar.version>v1.3</bitbar.version>
-# <bitbar.author>Jason Masker</bitbar.author>
-# <bitbar.author.github>jasmas</bitbar.author.github>
-# <bitbar.desc>Check and toggle status of Umbrella Roaming Security Module for Cisco AnyConnect.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/Jznovev.png</bitbar.image>
+# <xbar.title>AnyConnect Umbrella Status</xbar.title>
+# <xbar.version>v1.3</xbar.version>
+# <xbar.author>Jason Masker</xbar.author>
+# <xbar.author.github>jasmas</xbar.author.github>
+# <xbar.desc>Check and toggle status of Umbrella Roaming Security Module for Cisco AnyConnect.</xbar.desc>
+# <xbar.image>https://i.imgur.com/Jznovev.png</xbar.image>
 
 PLUGIN_BASE='/opt/cisco/anyconnect/bin/plugins'
 

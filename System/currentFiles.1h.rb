@@ -1,14 +1,14 @@
 #!/usr/bin/ruby
 # coding: utf-8
 #
-# <bitbar.title>Current Working Files</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Richard Guay</bitbar.author>
-# <bitbar.author.github>raguay</bitbar.author.github>
-# <bitbar.desc>List of files that I'm currently working on. It allows me to select which editor to use and integrates with Alfred workflow for BitBar.</bitbar.desc>
-# <bitbar.image>http://customct.com/images/CurrentFilesPlugin-01.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>http://customct.com/bitbar</bitbar.abouturl>
+# <xbar.title>Current Working Files</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Richard Guay</xbar.author>
+# <xbar.author.github>raguay</xbar.author.github>
+# <xbar.desc>List of files that I'm currently working on. It allows me to select which editor to use and integrates with Alfred workflow for BitBar.</xbar.desc>
+# <xbar.image>http://customct.com/images/CurrentFilesPlugin-01.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>http://customct.com/bitbar</xbar.abouturl>
 
 #
 # Global Variables:

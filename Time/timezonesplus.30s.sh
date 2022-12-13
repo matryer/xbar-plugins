@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Timezones+</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Aaron Edell</bitbar.author>
-# <bitbar.author.github>aaronedell</bitbar.author.github>
-# <bitbar.desc>Rotates current time through four common timezones </bitbar.desc>
-# <bitbar.image>http://i.imgur.com/Y4nhdZo.png</bitbar.image>
-# <bitbar.dependencies>Bash GNU AWK</bitbar.dependencies>
+# <xbar.title>Timezones+</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Aaron Edell</xbar.author>
+# <xbar.author.github>aaronedell</xbar.author.github>
+# <xbar.desc>Rotates current time through four common timezones </xbar.desc>
+# <xbar.image>http://i.imgur.com/Y4nhdZo.png</xbar.image>
+# <xbar.dependencies>Bash GNU AWK</xbar.dependencies>
 
 echo -n "NY " ; TZ=":US/Eastern" date +'%l:%M %p'
 echo -n "SF " ; TZ=":US/Pacific" date +'%l:%M %p'

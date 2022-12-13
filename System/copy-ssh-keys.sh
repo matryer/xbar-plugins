@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Copy SSH keys</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Bastian Kersting</bitbar.author>
-# <bitbar.author.github>1c3t3a</bitbar.author.github>
-# <bitbar.desc>Provides a quick way to copy your public keys to the clipboard</bitbar.desc>
-# <bitbar.image>https://imgur.com/GYOuLJ1</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Copy SSH keys</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Bastian Kersting</xbar.author>
+# <xbar.author.github>1c3t3a</xbar.author.github>
+# <xbar.desc>Provides a quick way to copy your public keys to the clipboard</xbar.desc>
+# <xbar.image>https://imgur.com/GYOuLJ1</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 if [[ $1 ]]; then
     cd ~/.ssh && pbcopy < "$1"

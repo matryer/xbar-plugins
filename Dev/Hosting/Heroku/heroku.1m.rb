@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Heroku</bitbar.title>
-# <bitbar.version>v0.2</bitbar.version>
-# <bitbar.author>Deluan Quintao</bitbar.author>
-# <bitbar.author.github>deluan</bitbar.author.github>
-# <bitbar.desc>Currently this plugin displays Heroku service status and open issues</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/B7A1wvm.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Heroku</xbar.title>
+# <xbar.version>v0.2</xbar.version>
+# <xbar.author>Deluan Quintao</xbar.author>
+# <xbar.author.github>deluan</xbar.author.github>
+# <xbar.desc>Currently this plugin displays Heroku service status and open issues</xbar.desc>
+# <xbar.image>http://i.imgur.com/B7A1wvm.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 require 'json'
 require 'open-uri'

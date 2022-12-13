@@ -4,12 +4,12 @@
 
 #Instructions: At the bottom of the script, add a getData line with the contract or market you'd like to follow. You can get the contract name by looking at the PredictIt page and entering they 'symbol' on that page end the end of this script.
 
-# <bitbar.title>Political Outcome Predictions</bitbar.title> 
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Todd Houle</bitbar.author>
-# <bitbar.image>http://i.imgur.com/WVAdSsD.png</bitbar.image>
-# <bitbar.author.github>tmhoule</bitbar.author.github>
-# <bitbar.desc>Displays predictions from PredictIt (who will win elections,etc.) No API key or accounts needed. Watch Trumps chance of winning the election right from your menu bar.</bitbar.desc>
+# <xbar.title>Political Outcome Predictions</xbar.title> 
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Todd Houle</xbar.author>
+# <xbar.image>http://i.imgur.com/WVAdSsD.png</xbar.image>
+# <xbar.author.github>tmhoule</xbar.author.github>
+# <xbar.desc>Displays predictions from PredictIt (who will win elections,etc.) No API key or accounts needed. Watch Trumps chance of winning the election right from your menu bar.</xbar.desc>
 
 #Show images in menu.  Comment out one of the lines below.
 useImages=true

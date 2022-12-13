@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# <bitbar.title>PR Counts for Github and Bitbucket</bitbar.title>
-# <bitbar.version>v1.1.1</bitbar.version>
-# <bitbar.author>Marco Cabazal</bitbar.author>
-# <bitbar.author.github>MarcoCabazal</bitbar.author.github>
-# <bitbar.desc>Gets Pull Request Counts for Github and Bitbucket Repos</bitbar.desc>
-# <bitbar.image>https://marcocabazal.github.io/images/gpr_snap.png</bitbar.image>
-# <bitbar.dependencies>ruby >= 2</bitbar.dependencies>
+# <xbar.title>PR Counts for Github and Bitbucket</xbar.title>
+# <xbar.version>v1.1.1</xbar.version>
+# <xbar.author>Marco Cabazal</xbar.author>
+# <xbar.author.github>MarcoCabazal</xbar.author.github>
+# <xbar.desc>Gets Pull Request Counts for Github and Bitbucket Repos</xbar.desc>
+# <xbar.image>https://marcocabazal.github.io/images/gpr_snap.png</xbar.image>
+# <xbar.dependencies>ruby >= 2</xbar.dependencies>
 
 ###### README
 # Please secure the app-specific password/personal access token from either Bitbucket or Github.

@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 // jshint asi:true
-// <bitbar.title>GitLab Projects</bitbar.title>
-// <bitbar.version>v2.0</bitbar.version>
-// <bitbar.author>Shelton Koskie</bitbar.author>
-// <bitbar.author.github>eightygrit</bitbar.author.github>
-// <bitbar.desc>List of your last active GitLab projects. Now supports API v4</bitbar.desc>
-// <bitbar.dependencies>node.js</bitbar.dependencies>
-// <bitbar.image>http://i.imgur.com/4X40XIK.png</bitbar.image>
+// <xbar.title>GitLab Projects</xbar.title>
+// <xbar.version>v2.0</xbar.version>
+// <xbar.author>Shelton Koskie</xbar.author>
+// <xbar.author.github>eightygrit</xbar.author.github>
+// <xbar.desc>List of your last active GitLab projects. Now supports API v4</xbar.desc>
+// <xbar.dependencies>node.js</xbar.dependencies>
+// <xbar.image>http://i.imgur.com/4X40XIK.png</xbar.image>
 
 /**
  * Information

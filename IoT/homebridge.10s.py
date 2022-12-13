@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 #encoding: utf-8
 
-# <bitbar.title>Homebridge Controller</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Eric Andrechek</bitbar.author>
-# <bitbar.author.github>EricAndrechek</bitbar.author.github>
-# <bitbar.desc>Control Homebridge and connected devices.</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/35144594/102293908-0b849200-3f16-11eb-9778-7ce25edcc7ec.png</bitbar.image>
-# <bitbar.dependencies>python, requests module</bitbar.dependencies>
-# <bitbar.abouturl>https://homebridge.io/</bitbar.abouturl>
+# <xbar.title>Homebridge Controller</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Eric Andrechek</xbar.author>
+# <xbar.author.github>EricAndrechek</xbar.author.github>
+# <xbar.desc>Control Homebridge and connected devices.</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/35144594/102293908-0b849200-3f16-11eb-9778-7ce25edcc7ec.png</xbar.image>
+# <xbar.dependencies>python, requests module</xbar.dependencies>
+# <xbar.abouturl>https://homebridge.io/</xbar.abouturl>
 
 import requests
 import json
