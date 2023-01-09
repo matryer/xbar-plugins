@@ -1,5 +1,4 @@
-#!/usr/local/bin/python3
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python3
 
 # <xbar.title>CloudWatch Alarms Status</xbar.title>
 # <xbar.version>v1.0</xbar.version>

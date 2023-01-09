@@ -1,4 +1,4 @@
-#!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
+#!/usr/bin/env python3
 
 # <xbar.title>1080ti Stock Checker</xbar.title>
 # <xbar.version>v2.0</xbar.version>

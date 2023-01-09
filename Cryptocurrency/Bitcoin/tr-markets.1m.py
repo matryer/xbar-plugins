@@ -1,4 +1,5 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
+#!/usr/bin/env python3
+
 # <xbar.title>BTC Ticker for TR Markets</xbar.title>
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>Erhan BÜTE</xbar.author>

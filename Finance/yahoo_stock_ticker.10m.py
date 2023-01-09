@@ -1,5 +1,5 @@
-#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
-#
+#!/usr/bin/env python3
+
 # <xbar.title>Yahoo Stock Ticker</xbar.title>
 # <xbar.version>v1.1</xbar.version>
 # <xbar.author>Long Do</xbar.author>

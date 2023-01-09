@@ -1,4 +1,4 @@
-#! /usr/bin/env PYTHONIOENCODING=utf8 PYTHONUNBUFFERED=1 /usr/local/bin/python3
+#!/usr/bin/env python3
 
 # <xbar.title>Thruk</xbar.title>
 # <xbar.author>Brian Hartvigsen</xbar.author>

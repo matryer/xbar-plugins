@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
+#!/usr/bin/env python3
 
 # <xbar.title>Today's Tweets</xbar.title>
 # <xbar.version>v1.2.1</xbar.version>
