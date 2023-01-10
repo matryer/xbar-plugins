@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # <xbar.title>Homebridge Controller</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>Eric Andrechek</xbar.author>
 # <xbar.author.github>EricAndrechek</xbar.author.github>
 # <xbar.desc>Control Homebridge and connected devices.</xbar.desc>
