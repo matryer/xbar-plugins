@@ -195,7 +195,7 @@ def login(username, password, url, icon, command, unit, config):
     else:
         printer('❌') # login failed
 
-config = pathlib.Path.home().joinpath('.config', 'bitbar', 'config')
+config = pathlib.Path.home().joinpath('.config', 'xbar_homebridge')
 config.touch(exist_ok=True)
 
 command = None
