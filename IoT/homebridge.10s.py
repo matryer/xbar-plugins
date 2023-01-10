@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#encoding: utf-8
 
 # <xbar.title>Homebridge Controller</xbar.title>
 # <xbar.version>v1.0</xbar.version>
