@@ -5,7 +5,7 @@
 # <xbar.abouturl>https://github.com/DouweM/xbar-whos-home-unifi</xbar.abouturl>
 # <xbar.author>Douwe Maan</xbar.author>
 # <xbar.author.github>DouweM</xbar.author.github>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.0.1</xbar.version>
 # <xbar.image>https://i.postimg.cc/j5CMVk8d/whos-home-unifi.png</xbar.desc>
 # <xbar.dependencies>python,pyunifi,aiohttp</xbar.dependencies>
 
@@ -281,6 +281,8 @@ class Device:
         56: "Android",
     }
 
+    PHONE_HINTS = ["phone"]
+
     NAME_PATTERNS = [
         r"^(.+?)['’]s",  # "NAME's iPhone"
         r" (?:van|de) (.+)$",  # "iPhone van NAME" (Dutch), "iPhone de NAME" (Spanish)
@@ -307,6 +309,10 @@ class Device:
         return self.raw.get("hostname") or None
 
     @property
+    def device_name(self):
+        return self.name or self.hostname
+
+    @property
     def ip(self):
         return self.raw.get("ip")
 
@@ -324,11 +330,26 @@ class Device:
 
     @property
     def is_phone(self):
-        return self.raw.get("dev_family") in [9, 12]
+        return self.raw.get("dev_family") in [9, 12] or any(
+            self.device_name and hint in self.device_name.lower()
+            for hint in self.PHONE_HINTS
+        )
 
     @property
-    def is_iphone(self):
-        return "iPhone" in [self.vendor, self.os] or "iPhone" in self.name
+    def device_type(self):
+        for vendor in self.VENDOR_NAMES.values():
+            if self.device_name and vendor in self.device_name:
+                return vendor
+
+        return self.vendor or self.os
+
+    @property
+    def descriptor(self):
+        descriptor = self.device_type or "phone"
+        device_name = self.device_name
+        if device_name:
+            descriptor += f" ({device_name})"
+        return descriptor
 
     @property
     def wifi_ssid(self):
@@ -383,18 +404,11 @@ class Device:
                 if match:
                     return match[1]
 
-        self._display_name = match_pattern(
-            self.name, self.NAME_PATTERNS
-        ) or match_pattern(self.hostname, self.HOSTNAME_PATTERNS)
-        if self._display_name:
-            return self._display_name
-
-        descriptor = self.vendor or self.os or "phone"
-        device_name = self.name or self.hostname
-        if device_name:
-            descriptor += f" ({device_name})"
-
-        self._display_name = f"Unknown {descriptor}"
+        self._display_name = (
+            match_pattern(self.name, self.NAME_PATTERNS)
+            or match_pattern(self.hostname, self.HOSTNAME_PATTERNS)
+            or f"Unknown {self.descriptor}"
+        )
         return self._display_name
 
     def __str__(self):
@@ -406,7 +420,7 @@ class Device:
 
     @property
     def default_image_url(self):
-        if self.is_iphone:
+        if self.device_type == "iPhone":
             return self.IPHONE_IMAGE_URL
 
         return self.OTHER_IMAGE_URL
