@@ -101,5 +101,5 @@ dns_address='$(eval "echo \${${dns_name[*]}}")'
 networksetup -setdnsservers $network_service \$(echo \$dns_address)
 EOF
   chmod 700 "$switcher"
-  echo "$dns_name | bash=$switcher | terminal=false | refresh=true"
+  echo "$dns_name | terminal=false refresh=true bash=$switcher"
 done
