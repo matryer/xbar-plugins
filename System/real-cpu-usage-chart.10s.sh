@@ -12,9 +12,15 @@
 #
 # This script requires https://github.com/holman/spark
 
-SPARK="/usr/local/bin/spark"
+SPARK_INTEL="/usr/local/bin/spark"
+SPARK_ARM="/opt/homebrew/bin/spark"
+SPARK=
 
-if [ ! -f "${SPARK}" ]; then
+if [ -f "${SPARK_INTEL}" ]; then
+    SPARK="${SPARK_INTEL}"
+elif [ -f "${SPARK_ARM}" ]; then
+    SPARK="${SPARK_ARM}"
+else
     echo "Install spark utility please."
     exit 1
 fi
