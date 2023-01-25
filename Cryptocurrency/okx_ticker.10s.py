@@ -1,24 +1,24 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # coding: utf-8
 # yc@2021/06/30
 
-# <xbar.title>OKEx Ticker</xbar.title>
+# <xbar.title>OKX Ticker</xbar.title>
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>yc</xbar.author>
 # <xbar.author.github>ichuan</xbar.author.github>
-# <xbar.desc>Show price ticker from OKEx. Currencies can be configured.</xbar.desc>
+# <xbar.desc>Show price ticker from OKX. Currencies can be configured.</xbar.desc>
 # <xbar.image>https://i.imgur.com/mykIv6O.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
-# <xbar.abouturl>https://www.okex.com/about.html</xbar.abouturl>
+# <xbar.abouturl>https://www.okx.com/about.html</xbar.abouturl>
 # <xbar.var>string(VAR_CURRENCIES="btc,eth"): Currencies, separated with comma.</xbar.var>
 # <xbar.var>string(VAR_FONT_NAME=""): Font name.</xbar.var>
 
 import re
 import os
 import json
-import urllib2
 from datetime import datetime
 from decimal import Decimal
+from urllib.request import urlopen, Request
 
 
 HTTP_TIMEOUT = 10
@@ -34,8 +34,10 @@ def normalize_decimal(val, precision=2):
 
 
 def get_update_time(timestamp):
-    updated_at = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+    updated_at = datetime.utcfromtimestamp(int(timestamp) // 1000)
     delta = (datetime.utcnow() - updated_at).total_seconds()
+    if delta < 1:
+        return "just now"
     ret = []
     h, s = divmod(int(delta), 3600)
     if h:
@@ -45,13 +47,11 @@ def get_update_time(timestamp):
         ret.append("{} minutes".format(m))
     if s:
         ret.append("{} seconds".format(s))
-    if ret:
-        return "{} ago".format(" ".join(ret))
-    return "just now"
+    return "{} ago".format(" ".join(ret))
 
 
 def http_get_json(url):
-    req = urllib2.Request(
+    req = Request(
         url,
         headers={
             "User-Agent": "curl/7.55",
@@ -59,26 +59,27 @@ def http_get_json(url):
             "accept": "*/*",
         },
     )
-    return json.load(urllib2.urlopen(req, timeout=HTTP_TIMEOUT))
+    return json.load(urlopen(req, timeout=HTTP_TIMEOUT))
 
 
 def get_ticker_info(currency):
-    url = "https://www.okex.com/api/spot/v3/instruments/{}-USDT/ticker".format(currency)
+    url = "https://www.okx.com/api/v5/market/ticker?instId={}-USDT".format(currency)
     try:
-        resp = http_get_json(url)
-        updated_at = get_update_time(resp["timestamp"])
+        resp = http_get_json(url)["data"][0]
+        updated_at = get_update_time(resp["ts"])
         change_24h = (
-            (float(resp["last"]) - float(resp["open_24h"]))
-            / float(resp["open_24h"])
+            (float(resp["last"]) - float(resp["open24h"]))
+            / float(resp["open24h"])
             * 100
         )
         return {
             "currency": currency,
             "title": "${} ({}%)".format(
-                normalize_decimal(resp["last"]), normalize_decimal(change_24h),
+                normalize_decimal(resp["last"]),
+                normalize_decimal(change_24h),
             ),
             "updated_at": updated_at,
-            "24h_high_low": "{} / {}".format(resp["high_24h"], resp["low_24h"]),
+            "24h_high_low": "{} / {}".format(resp["high24h"], resp["low24h"]),
         }
     except Exception as e:
         return {
@@ -127,7 +128,7 @@ def main():
     for i in infos:
         if "error" in i:
             print("{}: {} | color=red".format(i["currency"], i["error"]))
-    print("Open www.okex.com | href=https://www.okex.com/")
+    print("Open www.okx.com | href=https://www.okx.com/")
 
 
 if __name__ == "__main__":
