@@ -1,29 +1,43 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <xbar.title>Todo Today for NotePlan v3</xbar.title>
-# <xbar.version>v2.2</xbar.version>
-# <xbar.author>Jonathan Clark</xbar.author>
-# <xbar.author.github>jgclark</xbar.author.github>
-# <xbar.desc>A todo list taken from NotePlan v3 and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. This was based on "Todo.NotePlan" by Richard Guay which in turn was based on "Todo Colour" plugin by Srdgh.</xbar.desc>
-# <xbar.dependencies>ruby</xbar.dependencies>
-# <xbar.image>https://noteplan.co/static/icon-aef6fdb335c829b1363315ef21c3146d.png</xbar.image>
-# <xbar.abouturl>https://noteplan.co/</xbar.abouturl>
-#
+# <bitbar.title>NotePlan v3 Todos</bitbar.title>
+# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.author>Jonathan Clark</bitbar.author>
+# <bitbar.author.github>jgclark</bitbar.author.github>
+# <bitbar.desc>Display NotePlan's open todos for Today's note and This Week's note, and displayed with customizable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list. (This was based on "Todo.NotePlan" by Richard Guay which in turn was based on "Todo Colour" plugin by Srdgh.)</bitbar.desc>
+# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.image></bitbar.image>
+# <bitbar.abouturl>https://noteplan.co/</bitbar.abouturl>
+
+# <swiftbar.hideRunInTerminal>true</swiftbar.hideRunInTerminal>
+
+# bitbar documentation: https://github.com/matryer/xbar-plugins/blob/main/CONTRIBUTING.md
+# brief swiftbar documentation: https://github.com/swiftbar/SwiftBar
+# Main detail is:
+# Script output for both header and body is split by line (\n). Each line must follow this format: <Item Title> | [param = ...] 
+# Where:
+# - "Item Title" can be any string, this will be used as a menu item title.
+# - [param = ...] is an optional set of parameters\modificators. Each parameter is a key-value separated by =. Use | to separate parameters from the title.
+
 # Modifications by Jonathan Clark
-#   v2.2, 2021/01/29:
-#     - tweak default 'priority_label' to suit planned change in NP3
-#   v2.1, 2020/11/29:
-#     - auto-detect storage type (CloudKit > iCloud Drive > Drobpox if there are multiple)
-#     - add option to specify the file extension in use (default to md, but can be txt)
-#   v2.0, 2020/10/30:
+#   2022/09/15:
+#     - add support for weekly notes as well
+#     - remove logic that stops reading notes at first blank line
+#     - now only print H1 and H2 headers
+#     - now refreshes plugin after clicking on a task in the list
+#     - cleanup code
+#   2020/10/30:
 #     - Update NP data storage filepaths for NotePlan 3 beta
 #       (including CloudKit change at v3.0.15 beta)
 #     - Make CloudKit location the default
-#     - tweak colours and falgs to suit my needs
+#     - tweak colours and flags to suit my needs
 #     - ignore tasks with dates scheduled into the future
 #     - improve some non-tasks it was including
 #     - code clean up
+#   2020/11/29:
+#     - auto-detect storage type (CloudKit > iCloud Drive > Drobpox if there are multiple)
+#     - add option to specify the file extension in use (default to md, but can be txt)
 #
 # Modifications by Guillaume Barrette
 #   2017/07/01:
@@ -69,18 +83,17 @@ require 'date'
 
 #################################
 # User Parameters:
-insert_date_on_done_task = true  # If true, the date would be inserted with the @done tag
+insert_date_on_done_task = true  # If true, the date will be inserted with the @done tag
 use_emoji_as_icon = false        # If true, will show emoji, otherwise it will use the black or white icon.
 use_star = true                  # if true, will look for and use '*' instead of '-'
-show_alt_task = true             # If true, tasks marked with the alternate character ('* ' if use_star is FALSE or '- ' if use_star is TRUE) would be shown in the task list. For example, this could be useful to use them as bullet list.
-show_subtasks = true             # If true, subtasks would be shown in the list
-divide_with_header = true        # If true, headers would be listed and a separator is put between lists
-archive_task_at_end = false      # If true, the task would get archived to the end of the note
-file_extension = '.md'           # Defaults to file extension type 'md' -- can change to '.txt'
-priority_labels = ['@urgent', '#high', '#⭐️']
-priority_marker = '⭐'
-standard_font = ''               # Font used for tasks
-header_font   = 'Helvetica-Bold' # Font used for headers if listed with 'divide_with_header'
+show_alt_task = false            # If true, tasks marked with the alternate character ('* ' if use_star is FALSE or '- ' if use_star is TRUE) will be shown in the task list. For example, this could be useful to use them as bullet list.
+show_subtasks = true             # If true, subtasks are shown
+divide_with_header = true        # If true, headers are shown
+archive_task_at_end = false      # If true, the task will get archived to the end of the note
+file_extension = '.md'            # Defaults to file extension type 'md' -- can change to '.txt'
+
+standard_font = ''  # Font used for tasks
+header_font   = 'SFPro-Bold' # Font used for headers if listed with 'divide_with_header'
 #################################
 
 Encoding.default_internal = Encoding::UTF_8
@@ -95,9 +108,16 @@ data_root_filepath = DROPBOX_DIR if Dir.exist?(DROPBOX_DIR) && Dir[File.join(DRO
 data_root_filepath = ICLOUDDRIVE_DIR if Dir.exist?(ICLOUDDRIVE_DIR) && Dir[File.join(ICLOUDDRIVE_DIR, '**', '*')].count { |file| File.file?(file) } > 1
 data_root_filepath = CLOUDKIT_DIR if Dir.exist?(CLOUDKIT_DIR) && Dir[File.join(CLOUDKIT_DIR, '**', '*')].count { |file| File.file?(file) } > 1
 
-todo_file_loc = File.expand_path(data_root_filepath + '/Calendar/' + Date.today.strftime('%Y%m%d') + file_extension)
+daily_file_loc = File.expand_path(data_root_filepath + '/Calendar/' + Date.today.strftime('%Y%m%d') + file_extension)
+weekly_file_loc = File.expand_path(data_root_filepath + '/Calendar/' + Date.today.strftime('%Y-W%W') + file_extension)
 
 if ARGV.empty?
+  # Add further priority labels here
+  priority_labels = ['@urgent', '#high']
+
+  # Change priority color here
+  priority_marker = '🔴'
+
   # Customise label color-code here:
   labels = {
     '@admin' => 'orange',
@@ -112,16 +132,17 @@ if ARGV.empty?
     '@tutorial' => 'cobaltblue'
   }
 
-  lines_in_file = File.exist?(todo_file_loc.to_s) ? IO.readlines(todo_file_loc.to_s) : []
+  lines_in_daily_file = File.exist?(daily_file_loc.to_s) ? IO.readlines(daily_file_loc.to_s) : []
+  lines_in_weekly_file = File.exist?(weekly_file_loc.to_s) ? IO.readlines(weekly_file_loc.to_s) : []
   lines = []
 
-  # Remove all lines that are not a todo. Stop at the first empty line.
-  line_number = []
-  line_number_id = 0
+  # Go through daily file, removing all lines that are not a todo.
+  line_numbers = []
+  line_count = 0
   task_style_to_search = show_alt_task ? ['- ', '* '] : use_star ? ['* '] : ['- ']
-  lines_in_file.each_index do |key|
-    # Clean out leading and trailing white spaces (space, tabs, etc)
-    line = lines_in_file[key].gsub(/\s+$/, '')
+  lines_in_daily_file.each_index do |key|
+    # Clean out leading and trailing whitespace
+    line = lines_in_daily_file[key].gsub(/\s+$/, '')
     task_line = show_subtasks ? line.gsub(/^\s+/, '') : line
     if task_line.start_with?(*task_style_to_search) && !task_line[2..4].start_with?('[x]', '[>]', '[-]')  # Get only active Task items
       # Now check if doesn't have a >YYYY-MM-DD that schedules it into the future
@@ -133,13 +154,43 @@ if ARGV.empty?
       else
         lines.push(line.gsub(/^(\s*)\-\s*(\[ \]\s*)*/, '\1'))
       end
-      line_number.push(line_number_id)
-    elsif divide_with_header && line =~ /^#+\s+/ # i.e. this is a header line
+      line_numbers.push(line_count)
+    elsif divide_with_header && line =~ /^(#\s|##\s)/ # i.e. this is a header line
       lines.push(line)
-      line_number.push(line_number_id)
+      line_numbers.push(line_count)
+    else
+      # ignore the line
     end
-    line_number_id += 1
+    line_count += 1
   end
+  daily_task_count = lines.size
+
+  # repeat for weekly note, but to distinguish them, make the line_numbers negative instead
+  line_count = 0
+  lines_in_weekly_file.each_index do |key|
+    # Clean out leading and trailing whitespace
+    line = lines_in_weekly_file[key].gsub(/\s+$/, '')
+    task_line = show_subtasks ? line.gsub(/^\s+/, '') : line
+    if task_line.start_with?(*task_style_to_search) && !task_line[2..4].start_with?('[x]', '[>]', '[-]')  # Get only active Task items
+      # Now check if doesn't have a >YYYY-MM-DD that schedules it into the future
+      break if task_line =~ /\s>\d{4}\-\d{2}\-\d{2}/
+
+      # It's a todo line to display. Remove the leading task marker and add to the list.
+      if use_star
+        lines.push(line.gsub(/^(\s*)\*\s*(\[ \]\s*)*/, '\1'))
+      else
+        lines.push(line.gsub(/^(\s*)\-\s*(\[ \]\s*)*/, '\1'))
+      end
+      line_numbers.push(line_count)
+    elsif divide_with_header && line =~ /^(#\s|##\s)/ # i.e. this is a H1 or H2 line
+      lines.push(line)
+      line_numbers.push(line_count)
+    else
+      # ignore the line
+    end
+    line_count += 1
+  end
+  weekly_task_count = lines.size - daily_task_count
 
   # Give the header. It's the NotePlan icon or an emoji briefcase with the number of items todo
   icon_base64 = 'iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAQAAAACj/OVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAHdElNRQfkChwAHRNqrC5wAAABSElEQVRYw2NgGAWjYBRQCXAy8AIxnYAxw384NKKHhf9R4KiFoxYOpIXGDPxkWsjFYEKqZQ5Q476QYSFMRpfcYJtDgoU3yQvuZ2iG/mfwIsLCBgxdl8hLFhD4h0EMj4VKWPX8p8RCEHzPwILVwv84IZGgHY8RG9H4t/GodSU+FmPwGEMsVCI1axygwLIF5Gb+V2RY9oGy8oaV4R9J1rFQo5BLIdIyR2qWrBcJWLaL2nXELwIWnqCmZROJDNIsalgmT1KS+cMgTIllzCSmUAh8A0zZZIEXFGT8Y6Ra1kCFoq2IeOt24DEG3Skb8Khtprx6wlYfMjJ8pbR6wq8Zm6gwZRZextCoRUQTwx1D113yGlGrSWhEbSG3zapOQTPxO1RGhdSsIUd2y5uNQWa0bzFq4ciyMAjJOnF6jdXYMrgwmI6Oj42CUUAVAABntNYrW391eQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMC0xMC0yOFQwMDoyOToxOSswMDowMDOfhXoAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjAtMTAtMjhUMDA6Mjg6MjMrMDA6MDCH/w5VAAAAAElFTkSuQmCC'
@@ -152,13 +203,21 @@ if ARGV.empty?
     puts "#{line_count} |templateImage=#{icon_base64}"
   end
 
-  puts '---'
+  puts '---' # end of header marker. (Each --- after the first one will be interpreted as a menu separator.)
 
   cfn = File.expand_path(__FILE__)
 
   # Create the list of items to do in the menu.
   item_number = 0
+  puts "# Today's note (#{daily_task_count} open tasks) | color=blue,lightblue font=#{header_font} href=noteplan://x-callback-url/openNote?noteDate=#{Date.today.strftime('%Y%m%d')}" if !daily_task_count.zero? 
+  now_in_weekly_section = false
   lines.each do |item|
+    # first check whether we're about to move to weekly items
+    if (item_number == daily_task_count)
+      puts "---" if !daily_task_count.zero? 
+      puts "# This Week's note (#{weekly_task_count} open tasks for #{Date.today.strftime('W%W')}) | color=purple,violet font=#{header_font} href=noteplan://x-callback-url/openNote?noteDate=#{Date.today.strftime('%Y-W%W')}" 
+      now_in_weekly_section = true
+    end
     line_color = ''
     line = item.chomp
     if priority_labels.any? { |s| line.include? s }
@@ -175,61 +234,113 @@ if ARGV.empty?
     # chosen color. Clicking line launches this script with line number as
     # the parameter.
     line_font = standard_font
-    if line.start_with?('#')
-      puts('---') unless line.start_with?('##')
+    # If this is a H1 or H2 line, then print as a title, and put a separator before it
+    if line.start_with?('# ', '## ')
+      puts('---') unless item_number == 0
       line_font = header_font
     end
-    line_params = "#{line_color.empty? ? '' : 'color=' + line_color} #{line_font.empty? ? '' : 'font=' + line_font} bash='#{cfn}' param1=#{line_number[item_number]}"
-    puts("#{line} | " + line_params + " param2=x terminal=false trim=false refresh=\n")
-    puts("#{line} | alternate=true " + line_params + " param2=- terminal=false trim=false refresh=\n")
+    if !now_in_weekly_section
+      line_params = "#{line_color.empty? ? '' : 'color=' + line_color} #{line_font.empty? ? '' : 'font=' + line_font} bash='#{cfn}' param1=#{line_numbers[item_number]}D"
+    else
+      line_params = "#{line_color.empty? ? '' : 'color=' + line_color} #{line_font.empty? ? '' : 'font=' + line_font} bash='#{cfn}' param1=#{line_numbers[item_number]}W"
+    end
+    puts("#{line} | " + line_params + " param2=x terminal=false trim=false refresh=true\n")
+    puts("#{line} | alternate=true " + line_params + " param2=- terminal=false trim=false refresh=true\n") # alternative 'cancel' item used when 'option' key is pressed
     item_number += 1
   end
   puts '---'
   puts "Click an item to mark as 'done'"
-  puts "Click an item to mark as 'cancelled' | alternate=true"
-  puts 'Refresh now (normally every 15m) | refresh='
+  puts "Click an item to mark as 'cancelled' | alternate=true" # alternative 'cancel' item used when 'option' key is pressed
+  puts 'Refresh now (normally every 15m) | refresh=true'
+
 else
-  # This is what to do when clicking on an item. We want to move
-  # the item to the Archive section and set it as done. If there
-  # isn't an Archive area, create it and add the task to it.
+  # This is what to do when clicking on an item:
+  # - set it as done
+  # - (if wanted) move the item to the Archive section
+  # (and create it first if needed).
 
-  # Get the task number to archive.
-  do_num = ARGV[0].to_i
+  # Get the task number to complete/cancel (starting from 0)
+  item = ARGV[0]
+  do_num = item.to_i # keep just numeric portion, dropping terminal characters
+  # Get value of param2, which is either 'x' or '-'
   mark = ARGV[1]
+  puts "Checking off for item #{item} line #{do_num} and mark '#{mark}'"
 
-  # Get the list of todos and setup variables
-  todo_file = File.open(todo_file_loc.to_s)
-  lines_in_file = IO.readlines(todo_file)
+  # If the item finishes 'D' then we're updating the daily note
+  if item.end_with?('D')
+    # Get the list of todos and setup variables
+    daily_todo_file = File.open(daily_file_loc.to_s)
+    lines_in_daily_file = IO.readlines(daily_todo_file)
+    unless lines_in_daily_file[do_num].start_with?('#') # Do nothing if the item is a header
+      task = ''
+      lines = []
+      line_number = 0
 
-  unless lines_in_file[do_num].start_with?('#') # Do nothing if the item is a header
-    task = ''
-    lines = []
-    line_number = 0
+      lines_in_daily_file[-1] = lines_in_daily_file[-1] + "\n" unless lines_in_daily_file[-1].include? "\n"
 
-    lines_in_file[-1] = lines_in_file[-1] + "\n" unless lines_in_file[-1].include? "\n"
-
-    # Process the todo list lines
-    lines_in_file.each do |line|
-      if line_number != do_num
-        # It is one of the other lines. Just push it into the stack
-        lines.push(line)
-      else
-        # Get the line to be moved to the archive area
-        task = if insert_date_on_done_task
-                 line.chomp + (mark == 'x' ? " @done(#{Time.new.strftime('%Y-%m-%d %H:%M')})\n" : "\n")
-               else
-                 task = line.chomp + "\n"
-               end
-        task = task.gsub(/^(\s*)([\-\*]+)\s*(\[ \]\s*)*/, '\1\2 [' + mark + '] ') # Works with both task style, useful if mix with 'show_alt_task', also it keeps the indentation at beginning of the line
-        lines.push(task) if archive_task_at_end
+      # Process the todo list lines
+      lines_in_daily_file.each do |line|
+        if line_number != do_num
+          # It is one of the other lines. Just push it into the stack
+          lines.push(line)
+        else
+          # Get the line to be moved to the archive area
+          task = if insert_date_on_done_task
+                  line.chomp + (mark == 'x' ? " @done(#{Time.new.strftime('%Y-%m-%d %H:%M')})\n" : "\n")
+                else
+                  task = line.chomp + "\n"
+                end
+          task = task.gsub(/^(\s*)([\-\*]+)\s*(\[ \]\s*)*/, '\1\2 [' + mark + '] ') # Works with both task style, useful if mix with 'show_alt_task', also it keeps the indentation at beginning of the line
+          lines.push(task) if !archive_task_at_end
+        end
+        line_number += 1
       end
-      line_number += 1
+
+      # Add the task to the bottom
+      lines.push(task) if archive_task_at_end
+
+      # Save the file
+      IO.write(daily_todo_file, lines.join)
     end
 
-    # Add the task to the bottom
-    lines.push(task) if archive_task_at_end
+  # ... otherwise update the weekly note
+  else
+    # Get the list of todos and setup variables
+    weekly_todo_file = File.open(weekly_file_loc.to_s)
+    lines_in_weekly_file = IO.readlines(weekly_todo_file)
 
-    # Save the file
-    IO.write(todo_file, lines.join)
+    unless lines_in_weekly_file[do_num].start_with?('#') # Do nothing if the item is a header
+      task = ''
+      lines = []
+      line_number = 0
+      lines_in_weekly_file[-1] = lines_in_weekly_file[-1] + "\n" unless lines_in_weekly_file[-1].include? "\n"
+
+      # Process the todo list lines
+      lines_in_weekly_file.each do |line|
+        if line_number != do_num
+          # It is one of the other lines. Just push it into the stack
+          lines.push(line)
+        else
+          # Get the line to be moved to the archive area
+          task = if insert_date_on_done_task
+                  line.chomp + (mark == 'x' ? " @done(#{Time.new.strftime('%Y-%m-%d %H:%M')})\n" : "\n")
+                else
+                  task = line.chomp + "\n"
+                end
+          task = task.gsub(/^(\s*)([\-\*]+)\s*(\[ \]\s*)*/, '\1\2 [' + mark + '] ') # Works with both task style, useful if mix with 'show_alt_task', also it keeps the indentation at beginning of the line
+          if !archive_task_at_end
+            lines.push(task)
+          end
+        end
+        line_number += 1
+      end
+
+      # Add the task to the bottom
+      lines.push(task) if archive_task_at_end
+
+      # Save the file
+      IO.write(weekly_todo_file, lines.join)
+    end
+
   end
 end
