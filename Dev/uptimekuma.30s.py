@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #
 # <xbar.title>UptimeKuma Monitor</xbar.title>
 # <xbar.version>v1.1</xbar.version>
