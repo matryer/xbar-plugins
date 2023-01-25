@@ -98,7 +98,7 @@ def render_wx():
                                  f"{emoji.emojize(emoji_dict[daily_forecast['id']])} " \
                                  f"{daily_forecast['max']}{weather_data['unit']}/" \
                                  f"{daily_forecast['min']}{weather_data['unit']} | font=Menlo color=white\n"
-    return f'{emoji_t}{tridash}{" ".join(condi)} | refresh = true{daily_forecast_encoded}'
+    return f'{emoji_t}{tridash}{" ".join(condi)} | {daily_forecast_encoded}'
 
 
 print(render_wx())
