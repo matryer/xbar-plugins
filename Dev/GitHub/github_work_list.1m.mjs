@@ -10,7 +10,7 @@
 // <xbar.desc>List of your assigned, authored and review requested pull requests. Also shows any branches pushed that haven't had pull requests created yet.
 // Each Pull in the dropdown is grouped by project and displays `"Title"; "Mergeable Status"`, clicking on an Pull opens it in the browser</xbar.desc>
 // <xbar.dependencies>node.js</xbar.dependencies>
-// <xbar.image>https://imgur.com/a/rXFeiCa</xbar.image>
+// <xbar.image>https://i.imgur.com/SwvRjft.png</xbar.image>
 
 // <xbar.var>string(GITHUB_API_TOKEN=""): Github token with repo:status scope which is required for checks</xbar.var>
 // <xbar.var>string(GITHUB_HOST="github.com"): The domain your instance is hosted on. Leave the default if using github.com</xbar.var>
