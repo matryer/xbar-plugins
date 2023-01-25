@@ -7,7 +7,7 @@
 # <xbar.author>Jonathan A Levi</xbar.author>
 # <xbar.author.github>entreprenewer</xbar.author.github>
 # <xbar.desc>Shows latest Bitcoin network fees on mempool.space (slow, medium, and fast via dropdown), and allows the user to select a default view for the bar itself.</xbar.desc>
-# <xbar.image>https://imgur.com/a/9ey1t8C</xbar.image>
+# <xbar.image>https://i.imgur.com/sJAnweh.png</xbar.image>
 #
 # by Jonathan A Levi
 # Based on Bitfinex bitbar plugin by Roberto Santacroce Martins and Dash tickers: Coincap.io and Poloniex.com by UdjinM6
