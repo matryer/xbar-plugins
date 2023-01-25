@@ -5,6 +5,7 @@
 # <xbar.author>Henrik Nyh</xbar.author>
 # <xbar.author.github>henrik</xbar.author.github>
 # <xbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</xbar.desc>
+# <xbar.image>https://henrik-public.s3.eu-west-1.amazonaws.com/xbar_sureflap_screenshot.png</xbar.image>
 # <xbar.dependencies>ruby</xbar.dependencies>
 #
 # <xbar.var>string(VAR_EMAIL=""): App login email.</xbar.var>
