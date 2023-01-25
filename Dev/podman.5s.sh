@@ -7,7 +7,7 @@
 #  <xbar.author>Séamus Ó Ceanainn</xbar.author>
 #  <xbar.author.github>soceanainn</xbar.author.github>
 #  <xbar.desc>Manage podman using your menu bar</xbar.desc>
-#  <xbar.image>https://drive.google.com/uc?export=view&id=1aV6rbMUHI168ACOr70g9PYSs34BS2iAG</xbar.image>
+#  <xbar.image>https://doc-08-50-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/eqk54kg1pese0gadqn723c9dua58epen/1674679425000/15514371234996328630/*/1aV6rbMUHI168ACOr70g9PYSs34BS2iAG?e=view&uuid=60bc4962-8efb-47c6-86d1-9d8eeb4a3710.png</xbar.image>
 #  <xbar.dependencies>zsh,podman</xbar.dependencies>
 
 # Variables become preferences in the app:
