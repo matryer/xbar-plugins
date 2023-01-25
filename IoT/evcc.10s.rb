@@ -7,7 +7,7 @@
 #  <xbar.author>naltatis</xbar.author>
 #  <xbar.author.github>naltatis</xbar.author.github>
 #  <xbar.desc>shows evcc solar charging stats</xbar.desc>
-#  <xbar.image>https://imgur.com/G1N1Ke0</xbar.image>
+#  <xbar.image>https://i.imgur.com/G1N1Ke0.png</xbar.image>
 #  <xbar.dependencies>ruby</xbar.dependencies>
 #  <xbar.abouturl>https://evcc.io/</xbar.abouturl>
 
