@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #
 # <xbar.title>UptimeKuma Monitor</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>mariogarridopt</xbar.author>
 # <xbar.author.github>mariogarridopt</xbar.author.github>
 # <xbar.desc>Show UptimeKuma status</xbar.desc>
@@ -37,16 +37,21 @@ try:
         
         if(beats[-1]['status'] == True):
             monitor_online = monitor_online + 1
-            text = "🟢 " + text + " color='green'"
+            text = "🟢 " + text
         else:
-            text = "❗️ " + text + " color='red'"
-        monitor_list_string.append(text);
+            text = "❗️ " + text + " color='#ff0000'"
+        monitor_list_string.append(text)
 
     ## PRINT DATA
-    print(monitor_online, '/', monitor_total)
+    if monitor_online == monitor_total:
+        print('🌍')
+    else:
+        print(monitor_online, '/', monitor_total)
+    
     print('---')
     for monitors_text in monitor_list_string:
         print(monitors_text)
+        
     print('---')
     print("Open UptimeKuma | href='" + BASE_URL + "/dashboard'")
 except:
