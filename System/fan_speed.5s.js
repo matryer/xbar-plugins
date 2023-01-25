@@ -1,12 +1,16 @@
 #!/usr/bin/env /usr/local/bin/node
-// <bitbar.title>fan_speed</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Masayuki Sunahara</bitbar.author>
-// <bitbar.author.github>tamanishi</bitbar.author.github>
-// <bitbar.desc>Shows fan speed. Strongly inpired by Eric Ripa's "Fan Speed" plugin.</bitbar.desc>
-// <bitbar.image>https://github.com/tamanishi/fan_speed/blob/master/image.png?raw=true</bitbar.image>
-// <bitbar.dependencies>node</bitbar.dependencies>
-// <bitbar.abouturl>https://github.com/tamanishi/fan_speed</bitbar.abouturl> 
+// <xbar.title>fan_speed</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Masayuki Sunahara</xbar.author>
+// <xbar.author.github>tamanishi</xbar.author.github>
+// <xbar.desc>Shows fan speed. Strongly inpired by Eric Ripa's "Fan Speed" plugin.</xbar.desc>
+// <xbar.image>https://github.com/tamanishi/fan_speed/blob/master/image.png?raw=true</xbar.image>
+// <xbar.dependencies>node,smc</xbar.dependencies>
+// <xbar.abouturl>https://github.com/tamanishi/fan_speed</xbar.abouturl>
+
+// To install smc:
+//   brew install --cask smcfancontrol
+//   ln -sf /Applications/smcFanControl.app/Contents/Resources/smc /usr/local/bin/smc
 
 const execSync = require('child_process').execSync
 
