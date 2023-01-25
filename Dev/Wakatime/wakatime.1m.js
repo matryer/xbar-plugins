@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 
 /*
- * <bitbar.title>WakatimeBar</bitbar.title>
- * <bitbar.version>v1.0.1</bitbar.version>
- * <bitbar.author>Amir Canto</bitbar.author>
- * <bitbar.author.github>amircp</bitbar.author.github>
- * <bitbar.image>https://imgur.com/a/gFijsck</bitbar.image>
- * <bitbar.desc>Wakatime plugin for Bitbar, check your coding activity from your bar.</bitbar.desc>
- * <bitbar.dependencies>node</bitbar.dependencies>
+ * <xbar.title>WakatimeBar</xbar.title>
+ * <xbar.version>v1.0.1</xbar.version>
+ * <xbar.author>Amir Canto</xbar.author>
+ * <xbar.author.github>amircp</xbar.author.github>
+ * <xbar.image>https://i.imgur.com/p5QSUcH.png</xbar.image>
+ * <xbar.desc>Wakatime plugin for Bitbar, check your coding activity from your bar.</xbar.desc>
+ * <xbar.dependencies>node</xbar.dependencies>
  *
  */
 
