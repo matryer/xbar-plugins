@@ -5,7 +5,7 @@
 # <xbar.author>Gregory Senay</xbar.author>
 # <xbar.author.github>Gregory Senay</xbar.author.github>
 # <xbar.desc>Let you start/stop Google instances; Inspired by Amazon EC2 Instance Start/Stop plugin</xbar.desc>
-# <xbar.image>https://imgur.com/1AnOUGG</xbar.image>
+# <xbar.image>https://i.imgur.com/1AnOUGG.png</xbar.image>
 # <xbar.dependencies>gcloud</xbar.dependencies>
 
 # Dependencies:
