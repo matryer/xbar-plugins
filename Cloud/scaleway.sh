@@ -23,8 +23,13 @@ INSTANCE="$2"
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 
-CMD_SCW=$(command -v /usr/local/bin/scw)
-CMD_JQ=$(command -v /usr/local/bin/jq)
+BREWPATH=/usr/local/bin
+if [[ $(sysctl -n machdep.cpu.brand_string) =~ "Apple" ]]; then
+  BREWPATH=/opt/homebrew/bin
+fi
+
+CMD_SCW=$(command -v ${BREWPATH}/scw)
+CMD_JQ=$(command -v ${BREWPATH}/jq)
 
 export PATH="$PATH:/usr/local/bin"
 
