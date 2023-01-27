@@ -10,14 +10,14 @@
 #  ⏸ Pipeline 2: master [nick@app…]
 #  ⏹ Pipeline 2: flaky-test [foo@app…]
 
-# <bitbar.title>Buildkite Recent Builds</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Nicholas Edwards</bitbar.author>
-# <bitbar.author.github>edwardsnjd</bitbar.author.github>
-# <bitbar.desc>List all recent builds you can see in Buildkite.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/edwardsnjd/bitbar-buildkite/master/screenshot.gif</bitbar.image>
-# <bitbar.dependencies>bash,curl,jq,buildkite.com</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/edwardsnjd/bitbar-buildkite/</bitbar.abouturl>
+# <xbar.title>Buildkite Recent Builds</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Nicholas Edwards</xbar.author>
+# <xbar.author.github>edwardsnjd</xbar.author.github>
+# <xbar.desc>List all recent builds you can see in Buildkite.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/edwardsnjd/bitbar-buildkite/master/screenshot.gif</xbar.image>
+# <xbar.dependencies>bash,curl,jq,buildkite.com</xbar.dependencies>
+# <xbar.abouturl>https://github.com/edwardsnjd/bitbar-buildkite/</xbar.abouturl>
 
 # Bash sanity:
 
