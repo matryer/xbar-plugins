@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/python3
+#!/usr/bin/env python3
 # coding=utf-8
 
 # <xbar.title>ARS/USD Blue tracker</xbar.title>
