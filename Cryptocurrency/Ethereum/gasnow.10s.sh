@@ -10,9 +10,9 @@
 #
 #ETH GasPrice forecast system based on SparkPool Pending Transaction Mempool
 
-response=$(curl -s https://ethgasstation.info/api/ethgasAPI.json\?)
-read fast fastest safeLow average else <<<${response//[^0-9]/ }
-echo "𝚵 Rapid ${fastest:0:((${#fastest} - 1))} | color=green"
-echo "𝚵 Fast ${fast:0:((${#fast} - 1))} | color=orange"
-echo "𝚵 Standard ${average:0:((${#average} - 1))} | color=blue"
-echo "𝚵 Slow ${safeLow:0:((${#safeLow} - 1))} | color=purple"
+response=$(curl -s https://etherchain.org/api/gasnow)
+read code rapid fast standard slow timestamp <<<${response//[^0-9]/ }
+echo "𝚵 Rapid ${rapid:0:((${#rapid} - 9))} | color=green" 
+echo "𝚵 Fast ${fast:0:((${#fast} - 9))} | color=orange"
+echo "𝚵 Standard ${standard:0:((${#standard} - 9))} | color=blue"
+echo "𝚵 Slow ${slow:0:((${#slow} - 9))} | color=purple"
