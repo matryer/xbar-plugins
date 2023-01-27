@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-## <bitbar.title>UmbrellaBeGone</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# # <bitbar.author>Jeff Levensailor</bitbar.author>
-# # <bitbar.author.github>levensailor</bitbar.author.github>
-# # <bitbar.desc>Enable/Disable Umbrella with Status on Menubar</bitbar.desc>
-# # <bitbar.dependancies>umbrella.15s.sh</bitbar.dependancies>
+## <xbar.title>UmbrellaBeGone</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# # <xbar.author>Jeff Levensailor</xbar.author>
+# # <xbar.author.github>levensailor</xbar.author.github>
+# # <xbar.desc>Enable/Disable Umbrella with Status on Menubar</xbar.desc>
+# # <xbar.dependancies>umbrella.15s.sh</xbar.dependancies>
 
 # Dependancies:
 # If you want seamless integration, add NOPASSWD=ALL to admin account in /etc/sudoers file

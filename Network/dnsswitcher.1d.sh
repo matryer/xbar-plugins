@@ -3,13 +3,13 @@
 # DNS Switcher
 # The list of DNS options should be defined on this file
 #
-# <bitbar.title>DNS Switcher</bitbar.title>
-# <bitbar.version>v1.4</bitbar.version>
-# <bitbar.author>M Saiqul Haq</bitbar.author>
-# <bitbar.author.github>saiqulhaq</bitbar.author.github>
-# <bitbar.desc>Switch DNS to your defined DNS options.</bitbar.desc>
-# <bitbar.image>http://oi66.tinypic.com/2yplm4h.jpg</bitbar.image>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Network/dnsswitcher.1d.sh</bitbar.abouturl>
+# <xbar.title>DNS Switcher</xbar.title>
+# <xbar.version>v1.4</xbar.version>
+# <xbar.author>M Saiqul Haq</xbar.author>
+# <xbar.author.github>saiqulhaq</xbar.author.github>
+# <xbar.desc>Switch DNS to your defined DNS options.</xbar.desc>
+# <xbar.image>http://oi66.tinypic.com/2yplm4h.jpg</xbar.image>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Network/dnsswitcher.1d.sh</xbar.abouturl>
 
 
 # Configuration
@@ -101,5 +101,5 @@ dns_address='$(eval "echo \${${dns_name[*]}}")'
 networksetup -setdnsservers $network_service \$(echo \$dns_address)
 EOF
   chmod 700 "$switcher"
-  echo "$dns_name | bash=$switcher | terminal=false | refresh=true"
+  echo "$dns_name | terminal=false refresh=true bash=$switcher"
 done

@@ -1,9 +1,9 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 
 <?php
 
 /**
- * worldcup - BitBar WorldCup 2018 scores
+ * worldcup - BitBar WorldCup 2022 scores
  *
  * PHP version 7
  *
@@ -11,17 +11,17 @@
  * @license  https://opensource.org/licenses/FPL-1.0.0 0BSD
  * @link     https://github.com/dg01d/bitbar-worldcup
  * @category Utility
- * @version  2.1
- * <bitbar.title>World Cup 2018</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Daniel Goldsmith</bitbar.author>
- * <bitbar.author.github>dg01d</bitbar.author.github>
- * <bitbar.desc>Shows current and daily scores from the 2018 World Cup. Needs Steve Edson's bitbar-php: https://github.com/SteveEdson/bitbar-php </bitbar.desc>
- * <bitbar.image>https://raw.githubusercontent.com/dg01d/bitbar-worldcup/master/bitbar-worldcup.png</bitbar.image>
- * <bitbar.dependencies>php,bitbar-php</bitbar.dependencies>
- * <bitbar.abouturl>https://github.com/dg01d/bitbar-worldcup</bitbar.abouturl>
+ * @version  3.1
+ * <xbar.title>World Cup 2018</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Daniel Goldsmith</xbar.author>
+ * <xbar.author.github>dg01d</xbar.author.github>
+ * <xbar.desc>Shows current and daily scores from the 2018 World Cup. Needs Steve Edson's bitbar-php: https://github.com/SteveEdson/bitbar-php </xbar.desc>
+ * <xbar.image>https://raw.githubusercontent.com/dg01d/bitbar-worldcup/master/bitbar-worldcup.png</xbar.image>
+ * <xbar.dependencies>php,bitbar-php</xbar.dependencies>
+ * <xbar.abouturl>https://github.com/dg01d/bitbar-worldcup</xbar.abouturl>
  * Instructions: Install bitbar-php following the instructions on that project's github page.
- * Uses the wonderful World Cup API provided by http://worldcup.sfg.io
+ * Uses the wonderful World Cup API provided by http://worldcupjson.ney
  */
 
 require ".bitbar/vendor/autoload.php";
@@ -53,22 +53,23 @@ function array_msort($array, $cols)
 }
 
 
-$flagsrc = '{"PAN":"🇵🇦","TUN":"🇹🇳","ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","POL":"🇵🇱","JPN":"🇯🇵","COL":"🇨🇴","SEN":"🇸🇳","ARG":"🇦🇷","ISL":"🇮🇸","PER":"🇵🇪","DEN":"🇩🇰","CRO":"🇭🇷","NGA":"🇳🇬","RUS":"🇷🇺","KSA":"🇸🇦","EGY":"🇪🇬","URU":"🇺🇾","POR":"🇵🇹","ESP":"🇪🇸","MAR":"🇲🇦","IRN":"🇮🇷","FRA":"🇫🇷","AUS":"🇦🇺","BRA":"🇧🇷","SUI":"🇨🇭","CRC":"🇨🇷","SRB":"🇷🇸","GER":"🇩🇪","MEX":"🇲🇽","SWE":"🇸🇪","KOR":"🇰🇷","BEL":"🇧🇪"}';
+$flagsrc = '{"SEN":"🇸🇳","NED":"🇳🇱","QAT":"🇶🇦","ECU":"🇪🇨","ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","IRN":"🇮🇷","WAL":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","USA":"🇺🇸","ARG":"🇦🇷","KSA":"🇸🇦","MEX":"🇲🇽","POL":"🇵🇱","FRA":"🇫🇷","DEN":"🇩🇰","TUN":"🇹🇳","AUS":"🇦🇺",
+"ESP":"🇪🇸","GER":"🇩🇪","JPN":"🇯🇵","CRC":"🇨🇷","BEL":"🇧🇪","CAN":"🇨🇦","MAR":"🇲🇦","CRO":"🇭🇷","BRA":"🇧🇷","SRB":"🇷🇸","SUI":"🇨🇭","CMR":"🇨🇲","POR":"🇵🇹","GHA":"🇬🇭","URU":"🇺🇾","KOR":"🇰🇷"}';
 
 $flags = json_decode($flagsrc, true);
 
 // Create BitBar formatter
 $bb = new BitBar();
 
-$json = file_get_contents("http://worldcup.sfg.io/matches/current");
+$json = file_get_contents("http://worldcupjson.net/matches/current");
 $data = json_decode($json, true);
 
 
 if (!empty($data)) {
-    $homeTeam = $data[0]['home_team']['code'];
+    $homeTeam = $data[0]['home_team']['country'];
     $homeTeamFlag= $flags[$homeTeam];
     $homeTeamScore = $data[0]['home_team']['goals'];
-    $awayTeam = $data[0]['away_team']['code'];
+    $awayTeam = $data[0]['away_team']['country'];
     $awayTeamFlag = $flags[$awayTeam];
     $awayTeamScore = $data[0]['away_team']['goals'];
     $scoreLine = "$homeTeamFlag $homeTeamScore — $awayTeamScore $awayTeamFlag";
@@ -83,28 +84,27 @@ $line
     ->setFontFace("SF Mono")
     ->show();
 
-$todayJson = file_get_contents("http://worldcup.sfg.io/matches/today");
+$todayJson = file_get_contents("http://worldcupjson.net/matches/today");
 $todayData = json_decode($todayJson, true);
 
 if (!empty($todayData)) {
     $cnt = count($todayData);
     for ($n = 0; $n < $cnt; $n++) {
-        $team1 = $todayData[$n]['home_team']['country'];
-        $team1code =  $todayData[$n]['home_team']['code'];
+        $team1 = $todayData[$n]['home_team']['name'];
+        $team1code =  $todayData[$n]['home_team']['country'];
         $team1flag = $flags[$team1code];
         $team1s = $todayData[$n]['home_team']['goals'];
-        $team2 = $todayData[$n]['away_team']['country'];
-        $team2code =  $todayData[$n]['away_team']['code'];
+        $team2 = $todayData[$n]['away_team']['name'];
+        $team2code =  $todayData[$n]['away_team']['country'];
         $team2flag = $flags[$team2code];
         $team2s = $todayData[$n]['away_team']['goals'];
-
         $scores = "$team1code $team1flag $team1s – $team2s $team2flag $team2code";
-        $match = "\"https://www.fifa.com/worldcup/matches/match/" . $todayData[$n]['fifa_id'] . "/#match-summary\"";
+       // $match = "\"https://www.fifa.com/worldcup/matches/match/" . $todayData[$n]['fifa_id'] . "/#match-summary\"";
         if (($todayData[$n]['status']) == "in progress") {
             $time = $todayData[$n]['time'];
             $scores = $scores . " " . $time . " ⚽| href=$match";
         } else {
-            $scores .= " | href=$match";
+            $scores .= "";  //| href=$match";
         }
         if (($todayData[$n]['status'] == "completed") || ($todayData[$n]['status'] == "in progress")) {
             $line = $bb->newLine();
@@ -114,7 +114,7 @@ if (!empty($todayData)) {
             foreach ($arraySortEvents as $val) {
                 if (in_array($val['type_of_event'], array('goal', "goal-own", "goal-penalty"))) {
                     $scores .= "\n\033[35m";
-                    $scores .= $val['player'] . " " . $val['time'];
+                    $scores .= $val['player'] . " " . $val['time'] . "| size=11 ";
                 }
                 if ($val['type_of_event'] == "goal-penalty") {
                     $scores .= " (P)";
@@ -122,18 +122,20 @@ if (!empty($todayData)) {
                 if ($val['type_of_event'] == "goal-own") {
                     $scores .= " (OG)";
                 }
-                if (in_array($val['type_of_event'], array('red-card', "yellow-card"))) {
+                if (in_array($val['type_of_event'], array('red-card', "booking"))) {
                     $scores .= "\n\033[35m";
                     $scores .= $val['player'] . " " . $val['time'];
-                }
-                if ($val['type_of_event'] == "yellow-card") {
-                    $scores .= " \033[1;33m◼\033[0m";
-                }
-                if ($val['type_of_event'] == "red-card") {
-                    $scores .= " \033[1;31m◼\033[0m";
-                }
-                $scores .= " | size=11";
-            }
+                
+                    if ($val['type_of_event'] == "booking") {
+                        $scores .= " 🟨";
+                    }
+                    if ($val['type_of_event'] == "red-card") {
+                        $scores .= " 🟥";
+                    }
+                    $scores .= " | size=11 ";
+                    
+                }}
+
             $comGame = $line
                 ->setText($scores)
                 ->setDropdown(true);

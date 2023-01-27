@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>Google Apps</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
-# <bitbar.author>Jens Schumacher</bitbar.author>
-# <bitbar.author.github>jeschu</bitbar.author.github>
-# <bitbar.desc>This plugin's dropdown menu will open Google Documents, Spreadsheets or Presentations in App-Mode of Chromium or Google Chrome.</bitbar.desc>
-# <bitbar.image>https://lh3.googleusercontent.com/dZhJy5gcVrm77Y0upTcDnnDd7ZuIvVPCCZaBrcP8qFFdXdk3gZIj5WyfXF1Unl2sAW58UxDP7feASybLUyEt-RMBuk2ZAdBkoo2c</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Google Apps</xbar.title>
+# <xbar.version>v1.0.1</xbar.version>
+# <xbar.author>Jens Schumacher</xbar.author>
+# <xbar.author.github>jeschu</xbar.author.github>
+# <xbar.desc>This plugin's dropdown menu will open Google Documents, Spreadsheets or Presentations in App-Mode of Chromium or Google Chrome.</xbar.desc>
+# <xbar.image>https://lh3.googleusercontent.com/dZhJy5gcVrm77Y0upTcDnnDd7ZuIvVPCCZaBrcP8qFFdXdk3gZIj5WyfXF1Unl2sAW58UxDP7feASybLUyEt-RMBuk2ZAdBkoo2c</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 function openBrowser() {
   if [[ -d /Applications/Chromium.app ]]; then

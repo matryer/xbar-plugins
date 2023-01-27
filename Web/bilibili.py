@@ -1,13 +1,13 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 # coding=utf-8
 #
-# <bitbar.title>B站UP主粉丝和投稿视频播放信息获取</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>胖哥带你入坑带你飞</bitbar.author>
-# <bitbar.author.github>bihell</bitbar.author.github>
-# <bitbar.desc>实时显示B站粉丝数和最新20次投稿的视频信息，请把userId改为你自己的。</bitbar.desc>
-# <bitbar.image>https://bihell.com/media/2020/02/bilibili-bitbar.jpg</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>B站UP主粉丝和投稿视频播放信息获取</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>胖哥带你入坑带你飞</xbar.author>
+# <xbar.author.github>bihell</xbar.author.github>
+# <xbar.desc>实时显示B站粉丝数和最新20次投稿的视频信息，请把userId改为你自己的。</xbar.desc>
+# <xbar.image>https://bihell.com/media/2020/02/bilibili-bitbar.jpg</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 #
 # by tpxcer
 

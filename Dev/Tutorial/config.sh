@@ -1,13 +1,13 @@
 #!/usr/local/bin/bash
 # shellcheck disable=SC2154
 
-# <bitbar.title>Home Config</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Kodie Grantham</bitbar.author>
-# <bitbar.author.github>kodie</bitbar.author.github>
-# <bitbar.desc>Example of how to mimic the functionality of the home-config npm module in a bash BitBar plugin</bitbar.desc>
-# <bitbar.dependencies>bash4</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/kodie/bitbar-home-config</bitbar.abouturl>
+# <xbar.title>Home Config</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Kodie Grantham</xbar.author>
+# <xbar.author.github>kodie</xbar.author.github>
+# <xbar.desc>Example of how to mimic the functionality of the home-config npm module in a bash BitBar plugin</xbar.desc>
+# <xbar.dependencies>bash4</xbar.dependencies>
+# <xbar.abouturl>https://github.com/kodie/bitbar-home-config</xbar.abouturl>
 
 typeset -A cfg
 cfg[home_config,color]="red"

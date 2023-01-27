@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# <bitbar.title>Network Info</bitbar.title>
-# <bitbar.version>v1.01</bitbar.version>
-# <bitbar.author>Raymond Kuiper</bitbar.author>
-# <bitbar.author.github>q1x</bitbar.author.github>
-# <bitbar.desc>Provides network status information about your Mac: Internal and external IPv4+IPv6 addresses, Whois information and Speedtest.net results.</bitbar.desc>
-# <bitbar.dependencies>speedtest-cli</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/zFv3RvI.png</bitbar.image>
+# <xbar.title>Network Info</xbar.title>
+# <xbar.version>v1.01</xbar.version>
+# <xbar.author>Raymond Kuiper</xbar.author>
+# <xbar.author.github>q1x</xbar.author.github>
+# <xbar.desc>Provides network status information about your Mac: Internal and external IPv4+IPv6 addresses, Whois information and Speedtest.net results.</xbar.desc>
+# <xbar.dependencies>speedtest-cli</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/zFv3RvI.png</xbar.image>
 #
 #
 # This bitbar plugin was based on the original "external-ip" Bitbar plugin by Mat Ryer.
@@ -34,7 +34,7 @@ fi
 # If called with parameter "speedtest", run speedtest-cli
 if [ "$1" = "speedtest" ]; then
   # test if speedtest-cli is found
-  if [[ "$(which speedtest-cli)" != "" ]]; then
+  if [[ "$(command -v speedtest-cli)" != "" ]]; then
     # Perform a speedtest
     if speedtest-cli --simple --share > "$SPEEDTEST"; then
       notify "Speedtest is finished"
@@ -55,12 +55,12 @@ EXTERNAL_IP6=$(curl -6 --connect-timeout 3 -s http://v6.ipv6-test.com/api/myip.p
 [[ "$EXTERNAL_IP4" == "None" ]] && WHOIS="" || WHOIS=$(whois "$EXTERNAL_IP4" | awk '/descr: / {$1=""; print $0 }' | head -n 1)
 
 # Find interfaces
-INTERFACES=$(ifconfig | grep UP | egrep -o '(^en[0-9]*|^utun[0-9]*)' | sort -n)
+INTERFACES=$(ifconfig | grep UP | grep -Eo '(^en[0-9]*|^utun[0-9]*)' | sort -n)
 
 # Start building output
 [[ "$EXTERNAL_IP4" == "None" && "$EXTERNAL_IP6" == "None" ]]  && echo "❌" || echo "🌐"
 echo "---"
-echo "🔄 Refresh | colo=black refresh=true"
+echo "🔄 Refresh | color=black refresh=true"
 echo "---"
 echo "Public: "
 echo "IPv4: ${EXTERNAL_IP4}${WHOIS} | terminal=false bash='$0' param1=copy param2=$EXTERNAL_IP4"

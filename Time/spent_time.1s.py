@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Spent time displayer</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Gabriel de Maeztu</bitbar.author>
-# <bitbar.author.github>merqurio</bitbar.author.github>
-# <bitbar.desc>Display the time of the year already gone as percentage</bitbar.desc>
-# <bitbar.dependencies>python2l</bitbar.dependencies>
+# <xbar.title>Spent time displayer</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Gabriel de Maeztu</xbar.author>
+# <xbar.author.github>merqurio</xbar.author.github>
+# <xbar.desc>Display the time of the year already gone as percentage</xbar.desc>
+# <xbar.dependencies>python2l</xbar.dependencies>
 
 import datetime
 from calendar import monthrange, isleap

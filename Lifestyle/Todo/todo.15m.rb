@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# <bitbar.title>Todo Colour</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Srdgh</bitbar.author>
-# <bitbar.author.github>Srdgh</bitbar.author.github>
-# <bitbar.desc>Todo list with customisable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/eNl6QGh.png</bitbar.image>
-# <bitbar.dependencies>ruby, todo.sh</bitbar.dependencies>
+# <xbar.title>Todo Colour</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Srdgh</xbar.author>
+# <xbar.author.github>Srdgh</xbar.author.github>
+# <xbar.desc>Todo list with customisable color-code. Mark tasks "done" simply by clicking on them in the menubar drop-down list.</xbar.desc>
+# <xbar.image>http://i.imgur.com/eNl6QGh.png</xbar.image>
+# <xbar.dependencies>ruby, todo.sh</xbar.dependencies>
 
 # Change to your todo directory path (which should contain todo.sh and todo.txt)
 todo_directory = "#{Dir.home}/todo/"

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>yabai/skhd helper</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>James Won</bitbar.author>
-# <bitbar.author.github>jwon</bitbar.author.github>
-# <bitbar.desc>Plugin that displays desktop id and desktop mode of yabai.</bitbar.desc>
-# <bitbar.dependencies>brew,yabai,skhd</bitbar.dependencies>
+# <xbar.title>yabai/skhd helper</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>James Won</xbar.author>
+# <xbar.author.github>jwon</xbar.author.github>
+# <xbar.desc>Plugin that displays desktop id and desktop mode of yabai.</xbar.desc>
+# <xbar.dependencies>brew,yabai,skhd</xbar.dependencies>
 
 # Info about yabai, see: https://github.com/koekeishiya/yabai
 # For skhd, see: https://github.com/koekeishiya/skhd
@@ -23,7 +23,7 @@ if [[ "$1" = "restart" ]]; then
   brew services restart skhd
 fi
 
-echo "$(yabai -m query --spaces --display | jq 'map(select(."focused" == 1))[-1].index'):$(yabai -m query --spaces --display | jq -r 'map(select(."focused" == 1))[-1].type') | length=5"
+echo "$(yabai -m query --spaces --display | jq 'map(select(."has-focus"))[-1].index'):$(yabai -m query --spaces --display | jq -r 'map(select(."has-focus"))[-1].type') | length=5"
 echo "---"
 echo "Restart yabai & skhd | bash='$0' param1=restart terminal=false"
 echo "Stop yabai & skhd | bash='$0' param1=stop terminal=false"

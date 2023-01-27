@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Drone Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Christoph Schlosser</bitbar.author>
-# <bitbar.author.github>christophschlosser</bitbar.author.github>
-# <bitbar.desc>Checks the status of the builds from Drone CI</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/christophschlosser/bitbar-plugins/drone-status/Dev/Drone/drone-status.png</bitbar.image>
-# <bitbar.dependencies>jq,bash,curl,awk</bitbar.dependencies>
+# <xbar.title>Drone Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Christoph Schlosser</xbar.author>
+# <xbar.author.github>christophschlosser</xbar.author.github>
+# <xbar.desc>Checks the status of the builds from Drone CI</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/christophschlosser/bitbar-plugins/drone-status/Dev/Drone/drone-status.png</xbar.image>
+# <xbar.dependencies>jq,bash,curl,awk</xbar.dependencies>
 
 #################
 # User Settings #

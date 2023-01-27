@@ -14,13 +14,13 @@
  * @link https://developers.google.com/maps/documentation/geolocation/
  * @link https://developers.google.com/maps/documentation/distance-matrix/
  *
- * <bitbar.title>Travel time</bitbar.title>
- * <bitbar.version>1.1</bitbar.version>
- * <bitbar.author>Yann Milin</bitbar.author>
- * <bitbar.author.github>ymilin</bitbar.author.github>
- * <bitbar.desc>Provides travel distance and time to your favorite destination, with traffic conditions. A Google Developer Account is required with access to "Google Maps Distance Matrix API" and "Google Maps Geolocation API"</bitbar.desc>
- * <bitbar.image>http://i.imgur.com/Ui6I4YH.png</bitbar.image>
- * <bitbar.dependencies>php >= 5.4.0</bitbar.dependencies>
+ * <xbar.title>Travel time</xbar.title>
+ * <xbar.version>1.1</xbar.version>
+ * <xbar.author>Yann Milin</xbar.author>
+ * <xbar.author.github>ymilin</xbar.author.github>
+ * <xbar.desc>Provides travel distance and time to your favorite destination, with traffic conditions. A Google Developer Account is required with access to "Google Maps Distance Matrix API" and "Google Maps Geolocation API"</xbar.desc>
+ * <xbar.image>http://i.imgur.com/Ui6I4YH.png</xbar.image>
+ * <xbar.dependencies>php >= 5.4.0</xbar.dependencies>
  */
 
 namespace BitbarPlugins\Travel;

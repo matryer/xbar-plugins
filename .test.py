@@ -181,7 +181,7 @@ def check_file(file_full_path, pr=False):
             passed("%s has a good shebang (%s)" % (file_full_path, first_line))
 
         for line in fp:
-            match = re.search("<bitbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</bitbar.(?P<rho_tag>[^>]+)>", line)
+            match = re.search("<xbar.(?P<lho_tag>[^>]+)>(?P<value>[^<]+)</xbar.(?P<rho_tag>[^>]+)>", line)
             if match is not None:
                 if match.group('lho_tag') != match.group('rho_tag'):
                     error('%s includes mismatched metatags: %s' % (file_full_path, line))

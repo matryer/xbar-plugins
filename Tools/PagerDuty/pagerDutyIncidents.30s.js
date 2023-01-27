@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 /*
-<bitbar.title>PagerDuty Incidents</bitbar.title>
-<bitbar.version>v0.2.0</bitbar.version>
-<bitbar.author>Pedro Pablo Fuentes Schuster</bitbar.author>
-<bitbar.author.github>pedrofuentes</bitbar.author.github>
-<bitbar.desc>Shows all the active incidents grouped by Service. For installation instructions check https://github.com/PedroFuentes/bitbar-plugins/blob/master/pagerDutyIncidents/README.md</bitbar.desc>
-<bitbar.image>http://cdn.pedrofuent.es/images/github/PagerDutyIncidents_Screenshot.png</bitbar.image>
-<bitbar.dependencies>node, npm/node-fetch, npm/time-ago, npm/bitbar, npm/home-config</bitbar.dependencies>
-<bitbar.abouturl>https://github.com/PedroFuentes/bitbar-plugins/tree/master/pagerDutyIncidents</bitbar.abouturl>
+<xbar.title>PagerDuty Incidents</xbar.title>
+<xbar.version>v0.2.0</xbar.version>
+<xbar.author>Pedro Pablo Fuentes Schuster</xbar.author>
+<xbar.author.github>pedrofuentes</xbar.author.github>
+<xbar.desc>Shows all the active incidents grouped by Service. For installation instructions check https://github.com/PedroFuentes/bitbar-plugins/blob/master/pagerDutyIncidents/README.md</xbar.desc>
+<xbar.image>http://cdn.pedrofuent.es/images/github/PagerDutyIncidents_Screenshot.png</xbar.image>
+<xbar.dependencies>node, npm/node-fetch, npm/time-ago, npm/bitbar, npm/home-config</xbar.dependencies>
+<xbar.abouturl>https://github.com/PedroFuentes/bitbar-plugins/tree/master/pagerDutyIncidents</xbar.abouturl>
 */
 /* MIT Licensed https://opensource.org/licenses/MIT */
 /* jshint esversion: 6 */

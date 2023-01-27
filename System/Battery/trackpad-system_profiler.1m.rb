@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
-# <bitbar.title>Battery Apple Bluetooth Trackpad</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Maxime Bertheau</bitbar.author>
-# <bitbar.author.github>maxoumime</bitbar.author.github>
-# <bitbar.desc>Show battery percentage for Bluetooth Trackpad</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/1FlcPYx.png</bitbar.image>
+# <xbar.title>Battery Apple Bluetooth Trackpad</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Maxime Bertheau</xbar.author>
+# <xbar.author.github>maxoumime</xbar.author.github>
+# <xbar.desc>Show battery percentage for Bluetooth Trackpad</xbar.desc>
+# <xbar.image>http://i.imgur.com/1FlcPYx.png</xbar.image>
 #
 # A lot of thanks to @alexandregz, I just changed "Keyboard" to "Trackpad" :grin:
 # Works fine with Apple Trackpad

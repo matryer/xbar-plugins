@@ -1,18 +1,18 @@
 #!/bin/bash
 #
-# <bitbar.title>ETH Gas Price</bitbar.title>
-# <bitbar.version>v1.0.1</bitbar.version>
-# <bitbar.author>Biran Yucel</bitbar.author>
-# <bitbar.author.github>biranyucel</bitbar.author.github>
-# <bitbar.desc>ETH GasPrice forecast system.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/f1hPKO2.png</bitbar.image>
-# <bitbar.abouturl>https://www.gasnow.org/</bitbar.abouturl>
+# <xbar.title>ETH Gas Price</xbar.title>
+# <xbar.version>v2.0.1</xbar.version>
+# <xbar.author>Biran Yucel</xbar.author>
+# <xbar.author.github>biranyucel</xbar.author.github>
+# <xbar.desc>ETH GasPrice forecast system.</xbar.desc>
+# <xbar.image>https://i.imgur.com/f1hPKO2.png</xbar.image>
+# <xbar.abouturl>https://ethgasstation.info/</xbar.abouturl>
 #
 #ETH GasPrice forecast system based on SparkPool Pending Transaction Mempool
 
-response=$(curl -s https://www.gasnow.org/api/v3/gas/price)
-read code rapid fast standard slow timestamp <<<${response//[^0-9]/ }
-echo "𝚵 Rapid ${rapid:0:((${#rapid} - 9))} | color=green" 
-echo "𝚵 Fast ${fast:0:((${#fast} - 9))} | color=orange"
-echo "𝚵 Standard ${standard:0:((${#standard} - 9))} | color=blue"
-echo "𝚵 Slow ${slow:0:((${#slow} - 9))} | color=purple"
+response=$(curl -s https://ethgasstation.info/api/ethgasAPI.json\?)
+read fast fastest safeLow average else <<<${response//[^0-9]/ }
+echo "𝚵 Rapid ${fastest:0:((${#fastest} - 1))} | color=green"
+echo "𝚵 Fast ${fast:0:((${#fast} - 1))} | color=orange"
+echo "𝚵 Standard ${average:0:((${#average} - 1))} | color=blue"
+echo "𝚵 Slow ${safeLow:0:((${#safeLow} - 1))} | color=purple"

@@ -4,12 +4,12 @@
 #
 # by Aleksei Sotnikov (asotnikov.100@gmail.com) 
 # metadata
-# <bitbar.title>Spotify "Next track" button</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Aleksei Sotnikov</bitbar.author>
-# <bitbar.author.github>alekseysotnikov</bitbar.author.github>
-# <bitbar.desc>Switch Spotify to the next track in one click. Or you can easily reconfigure it for switching to the previous track.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/523Eszv.png</bitbar.image>
+# <xbar.title>Spotify "Next track" button</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Aleksei Sotnikov</xbar.author>
+# <xbar.author.github>alekseysotnikov</xbar.author.github>
+# <xbar.desc>Switch Spotify to the next track in one click. Or you can easily reconfigure it for switching to the previous track.</xbar.desc>
+# <xbar.image>https://i.imgur.com/523Eszv.png</xbar.image>
 
 case "$1" in
     'previous track' | 'next track')

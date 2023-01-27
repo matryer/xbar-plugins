@@ -1,11 +1,11 @@
 #!/bin/bash
 #BitBar Metadata
-# <bitbar.title>Write into Menubar</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Yiğit Konur</bitbar.author>
-# <bitbar.author.github>Yiğit Konur</bitbar.author.github>
-# <bitbar.desc>Write what ever you want into your Menubar.</bitbar.desc>
-# <bitbar.image>https://cldup.com/myKD3KqgCA-3000x3000.png</bitbar.image>
+# <xbar.title>Write into Menubar</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Yiğit Konur</xbar.author>
+# <xbar.author.github>Yiğit Konur</xbar.author.github>
+# <xbar.desc>Write what ever you want into your Menubar.</xbar.desc>
+# <xbar.image>https://cldup.com/myKD3KqgCA-3000x3000.png</xbar.image>
 # Thank you Jan Groß to inspire me by random quote extension to create my first plugin.
 
 max_chars="30"

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Gerrit Incoming Code Reviews</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ryan Sydnor</bitbar.author>
-# <bitbar.author.github>ryansydnor</bitbar.author.github>
-# <bitbar.desc>Displays your incoming code reviews.</bitbar.desc>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Gerrit Incoming Code Reviews</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ryan Sydnor</xbar.author>
+# <xbar.author.github>ryansydnor</xbar.author.github>
+# <xbar.desc>Displays your incoming code reviews.</xbar.desc>
+# <xbar.dependencies>python</xbar.dependencies>
 
 import sys
 import json

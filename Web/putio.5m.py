@@ -1,12 +1,12 @@
 #!/usr/local/bin/python3
 
-# <bitbar.title>put.io transfers</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ryan Chiechi</bitbar.author>
-# <bitbar.author.github>rchiechi</bitbar.author.github>
-# <bitbar.desc>Shows put.io transfers and lists files/folders</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/L85lfpv.png</bitbar.image>
-# <bitbar.dependencies>Python,Requests</bitbar.dependencies>
+# <xbar.title>put.io transfers</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ryan Chiechi</xbar.author>
+# <xbar.author.github>rchiechi</xbar.author.github>
+# <xbar.desc>Shows put.io transfers and lists files/folders</xbar.desc>
+# <xbar.image>https://i.imgur.com/L85lfpv.png</xbar.image>
+# <xbar.dependencies>Python,Requests</xbar.dependencies>
 
 import requests
 import sys,json,base64

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Copy to Clipboard</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Parvez</bitbar.author>
-# <bitbar.author.github>parvez</bitbar.author.github>
-# <bitbar.desc>This plugin will copy text to clipboard</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/SiuAz3C.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Copy to Clipboard</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Parvez</xbar.author>
+# <xbar.author.github>parvez</xbar.author.github>
+# <xbar.desc>This plugin will copy text to clipboard</xbar.desc>
+# <xbar.image>http://i.imgur.com/SiuAz3C.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"

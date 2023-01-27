@@ -1,10 +1,10 @@
 #!/bin/bash
-# <bitbar.title>ssid-info</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Örjan Berglin</bitbar.author>
-# <bitbar.author.github>orjanb</bitbar.author.github>
-# <bitbar.desc>Show the SSID of your current Wi-Fi connection. The SSID is green if the network is secure and red if it is an open network.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/0kHyHnn.png</bitbar.image>
+# <xbar.title>ssid-info</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Örjan Berglin</xbar.author>
+# <xbar.author.github>orjanb</xbar.author.github>
+# <xbar.desc>Show the SSID of your current Wi-Fi connection. The SSID is green if the network is secure and red if it is an open network.</xbar.desc>
+# <xbar.image>http://i.imgur.com/0kHyHnn.png</xbar.image>
 
 # Get ssid and auth type 
 ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')

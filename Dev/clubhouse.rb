@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Clubhouse</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Tom Haratyk</bitbar.author>
-# <bitbar.author.github>jazzytomato</bitbar.author.github>
-# <bitbar.desc>Show your Clubhouse.io work and allow to quickly open tickets, associated branches and pull requests</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/oExbPOg.png</bitbar.image>
+# <xbar.title>Clubhouse</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Tom Haratyk</xbar.author>
+# <xbar.author.github>jazzytomato</xbar.author.github>
+# <xbar.desc>Show your Clubhouse.io work and allow to quickly open tickets, associated branches and pull requests</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/oExbPOg.png</xbar.image>
 
 CLUBHOUSE_API_TOKEN='CHANGE_ME'
 CLUBHOUSE_USER='CHANGE_ME'

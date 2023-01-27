@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>VPN Checker</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Pierre-Louis Dubouilh</bitbar.author>
-# <bitbar.author.github>pldubouilh</bitbar.author.github>
-# <bitbar.desc>Checks the availability of tun0 or ipsec0. Also allows to kill a program on deconnection.</bitbar.desc>
+# <xbar.title>VPN Checker</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Pierre-Louis Dubouilh</xbar.author>
+# <xbar.author.github>pldubouilh</xbar.author.github>
+# <xbar.desc>Checks the availability of tun0 or ipsec0. Also allows to kill a program on deconnection.</xbar.desc>
 
 # From my infamous one-liner
 # ((ifconfig | grep tun0) || (killall Firefox))

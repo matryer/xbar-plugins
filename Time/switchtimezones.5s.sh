@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Switch Timezones</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Vasily Pleshakov</bitbar.author>
-# <bitbar.author.github>wasapl</bitbar.author.github>
-# <bitbar.desc>Allows to switch timezone for current time shown in the Bar. </bitbar.desc>
-# <bitbar.image>https://i.imgur.com/0Oevp2W.png</bitbar.image>
-# <bitbar.dependencies>BASH</bitbar.dependencies>
+# <xbar.title>Switch Timezones</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Vasily Pleshakov</xbar.author>
+# <xbar.author.github>wasapl</xbar.author.github>
+# <xbar.desc>Allows to switch timezone for current time shown in the Bar. </xbar.desc>
+# <xbar.image>https://i.imgur.com/0Oevp2W.png</xbar.image>
+# <xbar.dependencies>BASH</xbar.dependencies>
 SCRIPT_NAME=$(basename "$0")
 SCRIPT_DIR=$(dirname "$0")
 declare -A TZS

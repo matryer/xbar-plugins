@@ -1,11 +1,11 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
-# <bitbar.title>BTC Ticker for TR Markets</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Erhan BÜTE</bitbar.author>
-# <bitbar.author.github>erhan</bitbar.author.github>
-# <bitbar.desc>TC Ticker for TR Markets(btcturk.com, koinim.com, paribu.com)</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/MUj8Bkb.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
+# <xbar.title>BTC Ticker for TR Markets</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Erhan BÜTE</xbar.author>
+# <xbar.author.github>erhan</xbar.author.github>
+# <xbar.desc>TC Ticker for TR Markets(btcturk.com, koinim.com, paribu.com)</xbar.desc>
+# <xbar.image>https://i.imgur.com/MUj8Bkb.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
 
 import json
 import http.client

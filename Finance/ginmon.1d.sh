@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Add your Ginmon account via `$ security add-generic-password -a "<username>" -s ginmonbitbar -w "<password>"`
-# <bitbar.title>Ginmon daily performance</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jonas Bach</bitbar.author>
-# <bitbar.author.github>jbach</bitbar.author.github>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.desc>Shows daily performance of Ginmon funds. Add account via `$ security add-generic-password -a "<username>" -s ginmonbitbar -w "<password>"`.</bitbar.desc>
+# <xbar.title>Ginmon daily performance</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jonas Bach</xbar.author>
+# <xbar.author.github>jbach</xbar.author.github>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.desc>Shows daily performance of Ginmon funds. Add account via `$ security add-generic-password -a "<username>" -s ginmonbitbar -w "<password>"`.</xbar.desc>
 
 # get user/pass from keychan
 SEC=$(security find-generic-password -s ginmonbitbar -g 2>&1)

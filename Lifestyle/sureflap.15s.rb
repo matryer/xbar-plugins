@@ -1,37 +1,23 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>SureFlap Pet Status</bitbar.title>
-# <bitbar.version>v1.2.0</bitbar.version>
-# <bitbar.author>Henrik Nyh</bitbar.author>
-# <bitbar.author.github>henrik</bitbar.author.github>
-# <bitbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>SureFlap Pet Status</xbar.title>
+# <xbar.version>v1.4.0</xbar.version>
+# <xbar.author>Henrik Nyh</xbar.author>
+# <xbar.author.github>henrik</xbar.author.github>
+# <xbar.desc>Show inside/outside status of pets using a SureFlap smart cat flap or pet door. Can also show notifications.</xbar.desc>
+# <xbar.image>https://henrik-public.s3.eu-west-1.amazonaws.com/xbar_sureflap_screenshot.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+#
+# <xbar.var>string(VAR_EMAIL=""): App login email.</xbar.var>
+# <xbar.var>string(VAR_PASSWORD=""): App login password.</xbar.var>
+# <xbar.var>boolean(VAR_NOTIFICATIONS=true): Show a notification when in/out state changes?</xbar.var>
+# <xbar.var>string(VAR_PER_PET_SETTINGS=""): As JSON. Missing pet names and missing values will default. E.g.: {"My Outdoor Cat": {"in": "🏠🐈", "out": "🌳🐈"}, "My Indoor Cat": {"menu_bar": false}, "My Fake Cat": {"hidden": true}} in = Custom display in menu bar when in. out = Ditto when out. menu_bar = Set false to hide in menu bar but still show in expanded menu. hidden = Set true to hide in expanded menu, too.</xbar.var>
+# <xbar.var>number(VAR_CACHE_VERSION=1): Increase to clear cache if the set of pets or doors changes.</xbar.var>
 
 # By Henrik Nyh <https://henrik.nyh.se> 2019-12-16 under the MIT license.
 # Heavily based on the https://github.com/alextoft/sureflap PHP code by Alex Toft.
 #
 # Has no dependencies outside the Ruby standard library (uses Net::HTTP directly and painfully).
-
-
-# NOTE: You can configure these if you like:
-
-# You can exclude e.g. indoor-only pets from the menu bar by listing their names here. (But all pets show if you click the menu bar item.)
-# Example: [ "Foocat", "Bardog" ]
-HIDE_PETS_IN_MENU_BAR = [ ]
-
-# You can ignore pets entirely by listing their names here. They won't be listed anywhere, and no notifications sent.
-# Example: [ "Foocat", "Bardog" ]
-IGNORE_PETS_ENTIRELY = [ ]
-
-# Show a notification when in/out state changes?
-NOTIFICATIONS = true
-
-# Increase this number when you add 😻, remove 😿 or rename pets or flaps/doors. You don't need to increase it if you just change the configuration above.
-# As long as this number remains unchanged, we will assume nothing's changed, which makes things faster and means we can check status more frequently.
-CACHE_VERSION = 1
-
-# End of configuration.
-
 
 require "net/http"
 require "json"
@@ -40,16 +26,34 @@ require "time"
 require "fileutils"
 require "digest"
 
-ENDPOINT = "https://app.api.surehub.io"
-TOKEN_PATH = File.expand_path("~/.sureflap_token")
-AUTH_PATH = File.expand_path("~/.sureflap_auth")
+EMAIL = ENV["VAR_EMAIL"] == "" ? nil : ENV["VAR_EMAIL"]
+PASSWORD = ENV["VAR_PASSWORD"] == "" ? nil : ENV["VAR_PASSWORD"]
+NOTIFICATIONS = (ENV["VAR_NOTIFICATIONS"] == "true")
+CACHE_VERSION = ENV["VAR_CACHE_VERSION"]
 
-unless File.exist?(AUTH_PATH)
-  puts ":warning: Run: echo \"me@example.com / my_pw\" > ~/.sureflap_auth"
+begin
+  PER_PET_SETTINGS = JSON.parse(ENV["VAR_PER_PET_SETTINGS"] || "{}")
+rescue JSON::ParserError => e
+  puts "🙀 Bad settings"
+  puts "---"
+  puts "The per-pet settings JSON is invalid:"
+  puts e
   exit
 end
 
-EMAIL, PASSWORD = File.read(AUTH_PATH).strip.split(" / ")
+HIDE_PETS_IN_MENU_BAR = PER_PET_SETTINGS.select { |_k, v| v["menu_bar"] == false }.keys
+IGNORE_PETS_ENTIRELY = PER_PET_SETTINGS.select { |_k, v| v["hidden"] == true }.keys
+
+ENDPOINT = "https://app.api.surehub.io"
+TOKEN_PATH = File.expand_path("~/.sureflap_token")
+
+unless EMAIL && PASSWORD
+  puts "🙀 Auth missing"
+  puts "---"
+  puts "Please configure email and password in the plugin browser."
+  exit
+end
+
 AUTH_DATA = { email_address: EMAIL, password: PASSWORD, device_id: "0" }
 
 # From https://github.com/barsoom/net_http_timeout_errors/blob/master/lib/net_http_timeout_errors.rb
@@ -75,14 +79,24 @@ class StaleTokenError < StandardError; end
 def handle_network_errors
   yield
 rescue *NETWORK_ERRORS => e
-  puts "🙀"
+  puts "🙀 Network error"
   puts "---"
   puts "Network error when trying to communicate with the SureFlap API!"
   puts "Check that you're not offline."
   puts "---"
   puts "Technical details:"
   puts "#{e.class.name}: #{e.message}"
-  exit 1
+  exit
+end
+
+def handle_non_success(response)
+  return if response.code == "200"
+
+  puts "🙀 Bad response (#{response.code})"
+  puts "---"
+  puts response.message
+  puts response.body
+  exit
 end
 
 def post(path, data)
@@ -92,11 +106,9 @@ def post(path, data)
     req.body = data.to_json
 
     res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
-    hash = JSON.parse(res.body)
+    handle_non_success(res)
 
-    raise "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}" unless res.code == "200"
-
-    hash
+    JSON.parse(res.body)
   end
 end
 
@@ -117,13 +129,12 @@ def get(path, token:, cache:)
     raw_json = res.body
     hash = JSON.parse(raw_json)
 
-    error_message = "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}" unless res.code == "200"
-
     if res.code == "401" && hash.dig("error", "message") == [ "Token Signature could not be verified." ]
+      error_message = "HTTP error!\n#{res.code} #{res.message}\n#{hash.pretty_inspect}"
       raise StaleTokenError, error_message
-    elsif res.code != "200"
-      raise error_message
     end
+
+    handle_non_success(res)
 
     File.write(cache_file, raw_json) if cache
     hash
@@ -177,7 +188,9 @@ with_fresh_token do |token|
 
   puts pets_in_summary.map { |name|
     _id, is_inside, _since = data.fetch(name)
-    "#{icon.(is_inside)} #{name}"
+
+    custom_display = PER_PET_SETTINGS.dig(name, is_inside ? "in" : "out")
+    custom_display || "#{icon.(is_inside)} #{display_name}"
   }.join("  ")
 
   puts "---"

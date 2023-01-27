@@ -2,12 +2,12 @@
 
 # Shows last BTC price (in USD) on Bitstamp exchange.
 #
-# <bitbar.title>Bitstamp last price</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Damien Lajarretie</bitbar.author>
-# <bitbar.author.github>dlajarretie</bitbar.author.github>
-# <bitbar.desc>Shows last BTC price (in USD) on Bitstamp exchange.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/aQCqOW6.png</bitbar.image>
+# <xbar.title>Bitstamp last price</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Damien Lajarretie</xbar.author>
+# <xbar.author.github>dlajarretie</xbar.author.github>
+# <xbar.desc>Shows last BTC price (in USD) on Bitstamp exchange.</xbar.desc>
+# <xbar.image>http://i.imgur.com/aQCqOW6.png</xbar.image>
 #
 # by Damien Lajarretie
 # Based on Coinbase bitbar plugin by Mat Ryer

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# <bitbar.title>uptime</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Matteo Ferrando</bitbar.author>
-# <bitbar.author.github>chamini2</bitbar.author.github>
-# <bitbar.desc>Show uptime command information.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/qaIxpJN.png</bitbar.image>
+# <xbar.title>uptime</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Matteo Ferrando</xbar.author>
+# <xbar.author.github>chamini2</xbar.author.github>
+# <xbar.desc>Show uptime command information.</xbar.desc>
+# <xbar.image>http://i.imgur.com/qaIxpJN.png</xbar.image>
 
 # the `sed` command removes the occasional leading whitespace
 INFO=$(uptime | sed 's/^ *//g')

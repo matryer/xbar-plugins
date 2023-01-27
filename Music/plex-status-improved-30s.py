@@ -3,13 +3,13 @@ import os
 import urllib.request
 import ssl
 
-# <bitbar.title>Plex Status - Improved</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Patrick Coffey</bitbar.author>
-# <bitbar.author.github>patricktcb</bitbar.author.github>
-# <bitbar.desc>See what's currently playing on your Plex Server</bitbar.desc>
-# <bitbar.image>https://res.cloudinary.com/cyberge/image/upload/v1550627901/icons/plex_878759_eey690.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Plex Status - Improved</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Patrick Coffey</xbar.author>
+# <xbar.author.github>patricktcb</xbar.author.github>
+# <xbar.desc>See what's currently playing on your Plex Server</xbar.desc>
+# <xbar.image>https://res.cloudinary.com/cyberge/image/upload/v1550627901/icons/plex_878759_eey690.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 # plextoken will need to be set manually. You can follow this guide from Plex on how to get one: https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/
 # plexhost should be whatever IP/domain name your local machine uses to connect.
 # myip is used in two ways. The first is to show where media is being played if it's not local, the second is when there are multiple streams being played to prefer the local one over another.

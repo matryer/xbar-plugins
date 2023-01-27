@@ -1,12 +1,12 @@
 #!/usr/bin/ruby
 
-# <bitbar.title>Flag of the Charles</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Isaac</bitbar.author>
-# <bitbar.author.github>irstacks</bitbar.author.github>
-# <bitbar.desc>Shows Boston's current Community Boating, Inc flag and related weather information.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/gQ3suo0.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Flag of the Charles</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Isaac</xbar.author>
+# <xbar.author.github>irstacks</xbar.author.github>
+# <xbar.desc>Shows Boston's current Community Boating, Inc flag and related weather information.</xbar.desc>
+# <xbar.image>http://i.imgur.com/gQ3suo0.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 require 'nokogiri'
 require 'open-uri'

@@ -21,13 +21,13 @@ my $font_color_unfinieshed = "black";
 my $font_color_label = "gray";
 my $menu_bar_icon = ":ballot_box_with_check:";
 
-# <bitbar.title>Simple ToDo Tracker for Markdown</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Kenji Akiyama</bitbar.author>
-# <bitbar.author.github>artifactsauce</bitbar.author.github>
-# <bitbar.desc>Tracking ToDo list described in Markdown</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/nIEVIdR.png</bitbar.image>
-# <bitbar.dependencies>perl</bitbar.dependencies>
+# <xbar.title>Simple ToDo Tracker for Markdown</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Kenji Akiyama</xbar.author>
+# <xbar.author.github>artifactsauce</xbar.author.github>
+# <xbar.desc>Tracking ToDo list described in Markdown</xbar.desc>
+# <xbar.image>http://i.imgur.com/nIEVIdR.png</xbar.image>
+# <xbar.dependencies>perl</xbar.dependencies>
 
 my $unfinished_task_cnt = 0;
 my @tasks = ();

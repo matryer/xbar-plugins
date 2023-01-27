@@ -1,14 +1,14 @@
 #!/usr/bin/env php
 <?php
 
-# <bitbar.title>Cricket Bar</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
-# <bitbar.author>Adi</bitbar.author>
-# <bitbar.author.github>gomedia-adi</bitbar.author.github>
-# <bitbar.desc>Displays live cricket score of a selected match, using data from ESPNcricinfo or Cricbuzz.</bitbar.desc>
-# <bitbar.image>http://www.greatoceanmedia.com.au/images/62.png</bitbar.image>
-# <bitbar.dependencies>php</bitbar.dependencies>
-# <bitbar.abouturl>http://www.greatoceanmedia.com.au/bitbar</bitbar.abouturl>
+# <xbar.title>Cricket Bar</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Adi</xbar.author>
+# <xbar.author.github>gomedia-adi</xbar.author.github>
+# <xbar.desc>Displays live cricket score of a selected match, using data from ESPNcricinfo or Cricbuzz.</xbar.desc>
+# <xbar.image>http://www.greatoceanmedia.com.au/images/62.png</xbar.image>
+# <xbar.dependencies>php</xbar.dependencies>
+# <xbar.abouturl>http://www.greatoceanmedia.com.au/bitbar</xbar.abouturl>
 
 // Inspired by, and respect to Anup Sam Abraham's Live Cricket Scores v1.1 (https:getbitbar.com/plugins/Sports/live_cricket.2m.py)
 // BitBar plugin help: https:github.com/matryer/bitbar

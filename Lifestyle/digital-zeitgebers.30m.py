@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-# <bitbar.title>Digital Zeitgebers</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Edward</bitbar.author>
-# <bitbar.author.github>0xedward</bitbar.author.github>
-# <bitbar.desc>A fuzzy clock that reminds you of certain sleep hyigene recommendations, such as when to avoid blue light, caffeine, etc., at the proper time.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/0xedward/digital-zeitgebers/master/docs/banner.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/0xedward/digital-zeitgebers/</bitbar.abouturl>
+# <xbar.title>Digital Zeitgebers</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Edward</xbar.author>
+# <xbar.author.github>0xedward</xbar.author.github>
+# <xbar.desc>A fuzzy clock that reminds you of certain sleep hyigene recommendations, such as when to avoid blue light, caffeine, etc., at the proper time.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/0xedward/digital-zeitgebers/master/docs/banner.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/0xedward/digital-zeitgebers/</xbar.abouturl>
 
 from time import localtime, strftime
 from datetime import timedelta

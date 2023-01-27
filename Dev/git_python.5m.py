@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Gitty</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Timothy Barnard</bitbar.author>
-# <bitbar.author.github>collegboi</bitbar.author.github>
-# <bitbar.image>https://raw.githubusercontent.com/collegboi/my-bitbar-plugins/master/Gitty/image1.png</bitbar.image>
-# <bitbar.desc>Shows the current status of local repos. https://github.com/collegboi/my-bitbar-plugins</bitbar.desc>
-# <bitbar.dependencies>python, GitPython</bitbar.dependencies>
+# <xbar.title>Gitty</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Timothy Barnard</xbar.author>
+# <xbar.author.github>collegboi</xbar.author.github>
+# <xbar.image>https://raw.githubusercontent.com/collegboi/my-bitbar-plugins/master/Gitty/image1.png</xbar.image>
+# <xbar.desc>Shows the current status of local repos. https://github.com/collegboi/my-bitbar-plugins</xbar.desc>
+# <xbar.dependencies>python, GitPython</xbar.dependencies>
 #
 
 import git

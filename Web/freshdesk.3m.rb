@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Freshdesk</bitbar.title>
-# <bitbar.author>Sean Stewart</bitbar.author>
-# <bitbar.author.github>theseanstewart</bitbar.author.github>
-# <bitbar.image>http://i.imgur.com/EqWSeUP.png</bitbar.image>
-# <bitbar.dependencies>Ruby</bitbar.dependencies>
-# <bitbar.desc>Shows open Freshesk tickets count</bitbar.desc>
+# <xbar.title>Freshdesk</xbar.title>
+# <xbar.author>Sean Stewart</xbar.author>
+# <xbar.author.github>theseanstewart</xbar.author.github>
+# <xbar.image>http://i.imgur.com/EqWSeUP.png</xbar.image>
+# <xbar.dependencies>Ruby</xbar.dependencies>
+# <xbar.desc>Shows open Freshesk tickets count</xbar.desc>
 
 # Configurations
 FRESHDESK_SUBDOMAIN = ""

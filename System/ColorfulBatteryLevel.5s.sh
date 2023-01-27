@@ -1,14 +1,14 @@
 #!/bin/bash
 # shellcheck disable=SC2128,SC2178,SC2034
 #
-# <bitbar.title>Colorful Battery Indicator</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>huhu</bitbar.author>
-# <bitbar.author.github>Phlooo</bitbar.author.github>
-# <bitbar.desc>Simple and colorful battery indicator</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/JaUKQWj.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/Phlooo/</bitbar.abouturl>
+# <xbar.title>Colorful Battery Indicator</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>huhu</xbar.author>
+# <xbar.author.github>Phlooo</xbar.author.github>
+# <xbar.desc>Simple and colorful battery indicator</xbar.desc>
+# <xbar.image>https://i.imgur.com/JaUKQWj.png</xbar.image>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/Phlooo/</xbar.abouturl>
 
 
 # Get info

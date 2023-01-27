@@ -8,6 +8,7 @@
 # <xbar.dependencies>ifstat</xbar.dependencies>
 # <xbar.image>https://cloud.githubusercontent.com/assets/2462211/12748504/584bbcea-c9b3-11e5-8109-ad8fdcefdc75.png</xbar.image>
 # <xbar.var>string(VAR_NETWORK_INTERFACE="en0"): The interface to track (Usual interface for MacOS wifi is en0)</xbar.var>
+
 # based on bandwidth.1s.sh by Ant Cosentino
 
 

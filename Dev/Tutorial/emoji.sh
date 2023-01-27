@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Show emoji</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Kent Karlsson</bitbar.author>
-# <bitbar.author.github>vogonistic</bitbar.author.github>
-# <bitbar.desc>Example of how to use emojis</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/z4T9X6G.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Tutorial/emoji.sh</bitbar.abouturl>
+# <xbar.title>Show emoji</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Kent Karlsson</xbar.author>
+# <xbar.author.github>vogonistic</xbar.author.github>
+# <xbar.desc>Example of how to use emojis</xbar.desc>
+# <xbar.image>http://i.imgur.com/z4T9X6G.png</xbar.image>
+# <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/Tutorial/emoji.sh</xbar.abouturl>
 
 echo ":sparkles: :coffee: :mushroom:"
 echo "---"

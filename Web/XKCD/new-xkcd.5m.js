@@ -1,13 +1,13 @@
 #!/usr/bin/env /usr/local/bin/node
 
 /*
-# <bitbar.title>New XKCD</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Rob Tarr</bitbar.author>
-# <bitbar.author.github>robtarr</bitbar.author.github>
-# <bitbar.desc>Check for new XKCD comic</bitbar.desc>
-# <bitbar.dependencies>node</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/robtarr/bitbar-plugins</bitbar.abouturl>
+# <xbar.title>New XKCD</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Rob Tarr</xbar.author>
+# <xbar.author.github>robtarr</xbar.author.github>
+# <xbar.desc>Check for new XKCD comic</xbar.desc>
+# <xbar.dependencies>node</xbar.dependencies>
+# <xbar.abouturl>https://github.com/robtarr/bitbar-plugins</xbar.abouturl>
 */
 
 const https = require("https");

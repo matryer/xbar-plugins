@@ -3,11 +3,11 @@
 # Stackoverflow reputation score and Emoji on change :)
 # BitBar plugin
 #
-# <bitbar.title>Stackoverflow Reputation Score</bitbar.title>
-# <bitbar.author>Bruce Steedman</bitbar.author>
-# <bitbar.author.github>MatzFan</bitbar.author.github>
-# <bitbar.image>https://i.imgur.com/0XHs8R0.png</bitbar.image>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>Stackoverflow Reputation Score</xbar.title>
+# <xbar.author>Bruce Steedman</xbar.author>
+# <xbar.author.github>MatzFan</xbar.author.github>
+# <xbar.image>https://i.imgur.com/0XHs8R0.png</xbar.image>
+# <xbar.version>1.0</xbar.version>
 #
 # by Bruce Steedman
 #

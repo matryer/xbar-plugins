@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>The Russian Ruble exchange rates</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Roman Krasavtsev</bitbar.author>
-# <bitbar.author.github>RomanKrasavtsev</bitbar.author.github>
-# <bitbar.desc>The Russian Ruble exchange rates from Moscow Exchange</bitbar.desc>
-# <bitbar.image>https://raw.github.com/romankrasavtsev/moex-bitbar-plugin/master/moex_emoji.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/RomanKrasavtsev/moex-bitbar-plugin</bitbar.abouturl>
+# <xbar.title>The Russian Ruble exchange rates</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Roman Krasavtsev</xbar.author>
+# <xbar.author.github>RomanKrasavtsev</xbar.author.github>
+# <xbar.desc>The Russian Ruble exchange rates from Moscow Exchange</xbar.desc>
+# <xbar.image>https://raw.github.com/romankrasavtsev/moex-bitbar-plugin/master/moex_emoji.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://github.com/RomanKrasavtsev/moex-bitbar-plugin</xbar.abouturl>
 
 require "nokogiri"
 require "open-uri"

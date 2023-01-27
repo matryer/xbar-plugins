@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
-# <bitbar.title>Docker Status</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Manoj Mahalingam</bitbar.author>
-# <bitbar.author.github>manojlds</bitbar.author.github>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/191378/12255368/1e671b32-b919-11e5-8166-6d975396f408.png</bitbar.image>
-# <bitbar.desc>Displays the status of docker machines and running containers</bitbar.desc>
-# <bitbar.dependencies>shell,docker</bitbar.dependencies>
+# <xbar.title>Docker Status</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Manoj Mahalingam</xbar.author>
+# <xbar.author.github>manojlds</xbar.author.github>
+# <xbar.image>https://cloud.githubusercontent.com/assets/191378/12255368/1e671b32-b919-11e5-8166-6d975396f408.png</xbar.image>
+# <xbar.desc>Displays the status of docker machines and running containers</xbar.desc>
+# <xbar.dependencies>shell,docker</xbar.dependencies>
 #
 # Docker status plugin
 # by Manoj Mahalingam (@manojlds)

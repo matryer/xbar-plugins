@@ -3,14 +3,14 @@
 '''
     All metadata is placed here
 '''
-# <bitbar.title>Nomics.com Cryptocurrency Tickers</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Daniel Anderson</bitbar.author>
-# <bitbar.author.github>dtand</bitbar.author.github>
-# <bitbar.desc>Provides price updates and 24h change for the top ten cryptocurrencies by marketcap.</bitbar.desc>
-# <bitbar.image>https://i.ibb.co/4SD8cZs/Screen-Shot-2019-11-25-at-6-16-56-PM.png</bitbar.image>
-# <bitbar.dependencies>python,requests</bitbar.dependencies>
-# <bitbar.abouturl>https://nomics.com</bitbar.abouturl>
+# <xbar.title>Nomics.com Cryptocurrency Tickers</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Daniel Anderson</xbar.author>
+# <xbar.author.github>dtand</xbar.author.github>
+# <xbar.desc>Provides price updates and 24h change for the top ten cryptocurrencies by marketcap.</xbar.desc>
+# <xbar.image>https://i.ibb.co/4SD8cZs/Screen-Shot-2019-11-25-at-6-16-56-PM.png</xbar.image>
+# <xbar.dependencies>python,requests</xbar.dependencies>
+# <xbar.abouturl>https://nomics.com</xbar.abouturl>
 import requests
 
 

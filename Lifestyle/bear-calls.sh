@@ -1,8 +1,8 @@
 #!/bin/bash
-# <bitbar.author>mreider</bitbar.author>
-# <bitbar.author.github>mreider</bitbar.author.github>
-# <bitbar.title>Handy bear calls</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.author>mreider</xbar.author>
+# <xbar.author.github>mreider</xbar.author.github>
+# <xbar.title>Handy bear calls</xbar.title>
+# <xbar.version>1.0</xbar.version>
 
 Replace these with your home page and bookmarks page
 

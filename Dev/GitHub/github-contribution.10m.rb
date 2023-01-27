@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# <bitbar.title>Github Contribution</bitbar.title>
-# <bitbar.version>v0.0.2</bitbar.version>
-# <bitbar.author>mizoR</bitbar.author>
-# <bitbar.author.github>mizoR</bitbar.author.github>
-# <bitbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Github Contribution</xbar.title>
+# <xbar.version>v0.0.2</xbar.version>
+# <xbar.author>mizoR</xbar.author>
+# <xbar.author.github>mizoR</xbar.author.github>
+# <xbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
 #
 # To setup, create or edit your ~/.bitbarrc file with a new section:
 #

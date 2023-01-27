@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# <bitbar.title>View Tweets</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>kylebx</bitbar.author>
-# <bitbar.author.github>kylebx</bitbar.author.github>
-# <bitbar.desc>View the latest 5 tweets from your Twitter timeline.</bitbar.desc>
-# <bitbar.image></bitbar.image>
-# <bitbar.dependencies>python, tweepy, json</bitbar.dependencies>
+# <xbar.title>View Tweets</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>kylebx</xbar.author>
+# <xbar.author.github>kylebx</xbar.author.github>
+# <xbar.desc>View the latest 5 tweets from your Twitter timeline.</xbar.desc>
+# <xbar.image></xbar.image>
+# <xbar.dependencies>python, tweepy, json</xbar.dependencies>
 
 import tweepy, json
 

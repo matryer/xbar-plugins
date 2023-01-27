@@ -4,13 +4,13 @@
 #
 # by Antoine Corcy <contact@sbin.dk>
 #
-# <bitbar.title>Watson Status</bitbar.title>
-# <bitbar.version>1.0</bitbar.version>
-# <bitbar.author>Antoine Corcy</bitbar.author>
-# <bitbar.author.github>toin0u</bitbar.author.github>
-# <bitbar.desc>Shows Watson's status</bitbar.desc>
-# <bitbar.dependencies>Watson</bitbar.dependencies>
-# <bitbar.image>https://i.imgur.com/3OuXrWn.png</bitbar.image>
+# <xbar.title>Watson Status</xbar.title>
+# <xbar.version>1.0</xbar.version>
+# <xbar.author>Antoine Corcy</xbar.author>
+# <xbar.author.github>toin0u</xbar.author.github>
+# <xbar.desc>Shows Watson's status</xbar.desc>
+# <xbar.dependencies>Watson</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/3OuXrWn.png</xbar.image>
 #
 # Dependencies:
 #   watson (http://tailordev.github.io/Watson/)
@@ -33,7 +33,7 @@ started=$(echo "$status" | grep -E -o 'started (.*) \(')
 started="$(tr '[:lower:]' '[:upper:]' <<< "${started:0:1}")${started:1}"
 
 # get the tags
-tags=$(echo "$status" | awk '{printf "Tags: %s\n", $3}')
+tags=$(echo "$status" | awk -F "[][]" '{printf "Tags: %s\n", $2}')
 
 # main
 echo "$project"

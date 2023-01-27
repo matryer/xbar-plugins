@@ -1,20 +1,26 @@
 #!/bin/bash
 #
-# <bitbar.title>Real CPU Usage Chart (▁▃▃█▇▃)</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Marian Schubert</bitbar.author>
-# <bitbar.author.github>maio</bitbar.author.github>
-# <bitbar.desc>Chart CPU usage over last minute.</bitbar.desc>
-# <bitbar.image>https://cloud.githubusercontent.com/assets/18138/12124861/27f42162-b3e8-11e5-845e-38bec5433d03.png</bitbar.image>
-# <bitbar.dependencies>spark</bitbar.dependencies>
+# <xbar.title>Real CPU Usage Chart (▁▃▃█▇▃)</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Marian Schubert</xbar.author>
+# <xbar.author.github>maio</xbar.author.github>
+# <xbar.desc>Chart CPU usage over last minute.</xbar.desc>
+# <xbar.image>https://cloud.githubusercontent.com/assets/18138/12124861/27f42162-b3e8-11e5-845e-38bec5433d03.png</xbar.image>
+# <xbar.dependencies>spark</xbar.dependencies>
 #
 # Based on work by Mat Ryer and Tyler Bunnell
 #
 # This script requires https://github.com/holman/spark
 
-SPARK="/usr/local/bin/spark"
+SPARK_INTEL="/usr/local/bin/spark"
+SPARK_ARM="/opt/homebrew/bin/spark"
+SPARK=
 
-if [ ! -f "${SPARK}" ]; then
+if [ -f "${SPARK_INTEL}" ]; then
+    SPARK="${SPARK_INTEL}"
+elif [ -f "${SPARK_ARM}" ]; then
+    SPARK="${SPARK_ARM}"
+else
     echo "Install spark utility please."
     exit 1
 fi

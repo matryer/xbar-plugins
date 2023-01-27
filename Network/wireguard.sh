@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>Wireguard</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Daniel Barber</bitbar.author>
-# <bitbar.author.github>danbee</bitbar.author.github>
-# <bitbar.desc>Manages a Wireguard VPN connection</bitbar.desc>
-# <bitbar.image>https://f001.backblazeb2.com/file/bitbar/wireguard.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>Wireguard</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Daniel Barber</xbar.author>
+# <xbar.author.github>danbee</xbar.author.github>
+# <xbar.desc>Manages a Wireguard VPN connection</xbar.desc>
+# <xbar.image>https://f001.backblazeb2.com/file/bitbar/wireguard.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 # You will need to add the following line to your sudoers file. Remember to edit
 # sudoers with `sudo visudo`.

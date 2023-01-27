@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>Quod Libet Control</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Sean Lane</bitbar.author>
-# <bitbar.author.github>seanlane</bitbar.author.github>
-# <bitbar.desc>Control Quoid Libet via Bitbar</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/VA8ZEbR.png</bitbar.image>
-# <bitbar.dependencies>quodlibet, python</bitbar.dependencies>
+# <xbar.title>Quod Libet Control</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Sean Lane</xbar.author>
+# <xbar.author.github>seanlane</xbar.author.github>
+# <xbar.desc>Control Quoid Libet via Bitbar</xbar.desc>
+# <xbar.image>https://i.imgur.com/VA8ZEbR.png</xbar.image>
+# <xbar.dependencies>quodlibet, python</xbar.dependencies>
 
 import os, subprocess, sys
 

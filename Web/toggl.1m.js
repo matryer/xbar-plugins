@@ -1,12 +1,12 @@
 #!/usr/bin/env /usr/local/bin/node
 
-// <bitbar.title>Toggl status</bitbar.title>
-// <bitbar.version>v1.1</bitbar.version>
-// <bitbar.author>Stefan du Fresne</bitbar.author>
-// <bitbar.author.github>SCdF</bitbar.author.github>
-// <bitbar.desc>Shows hours completed today, hours completed this week.</bitbar.desc>
-// <bitbar.image>https://i.imgur.com/1dlNZLW.png</bitbar.image>
-// <bitbar.dependencies>node</bitbar.dependencies>
+// <xbar.title>Toggl status</xbar.title>
+// <xbar.version>v1.1</xbar.version>
+// <xbar.author>Stefan du Fresne</xbar.author>
+// <xbar.author.github>SCdF</xbar.author.github>
+// <xbar.desc>Shows hours completed today, hours completed this week.</xbar.desc>
+// <xbar.image>https://i.imgur.com/1dlNZLW.png</xbar.image>
+// <xbar.dependencies>node</xbar.dependencies>
 
 /*jshint esversion: 6 */
 

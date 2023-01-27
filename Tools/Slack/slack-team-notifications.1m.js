@@ -2,23 +2,23 @@
 /* jshint esversion: 8 */
 /* jshint asi: true */
 
-// <bitbar.title>Slack Team Notifications</bitbar.title>
-// <bitbar.version>v1.1.1</bitbar.version>
-// <bitbar.author>Benji Encalada Mora</bitbar.author>
-// <bitbar.author.github>benjifs</bitbar.author.github>
-// <bitbar.image>https://i.imgur.com/ORbsRBx.jpg</bitbar.image>
-// <bitbar.desc>Show notifications for Slack teams and channels with option to mark as read. See https://github.com/benjifs/bitbar-slack-team-notifications for configuration instructions.</bitbar.desc>
-// <bitbar.dependencies>node.js superagent</bitbar.dependencies>
+// <xbar.title>Slack Team Notifications</xbar.title>
+// <xbar.version>v1.1.3</xbar.version>
+// <xbar.author>Benji Encalada Mora</xbar.author>
+// <xbar.author.github>benjifs</xbar.author.github>
+// <xbar.image>https://i.imgur.com/ORbsRBx.jpg</xbar.image>
+// <xbar.desc>Show notifications for Slack teams and channels with option to mark as read. See https://github.com/benjifs/bitbar-slack-team-notifications for configuration instructions.</xbar.desc>
+// <xbar.dependencies>node.js superagent</xbar.dependencies>
 
 const request = require('superagent');
 const tokens = require('./.tokens.js');
 
 // CONFIG
-// BITBAR_SLACK_ICON defines which Slack Icon is shown
+// XBAR_SLACK_ICON defines which Slack Icon is shown
 // 0 -> Original Slack Icon
 // 1 -> White Slack Icon
 // 2 -> Black Slack Icon
-const BITBAR_SLACK_ICON = process.env.BitBarDarkMode ? 1 : 2;
+const XBAR_SLACK_ICON = process.env.BitBarDarkMode || process.env.XBARDarkMode ? 1 : 2;
 // If MENTIONS_ONLY is true, the count only includes mentions and DMs.
 // If MENTIONS_ONLY is false, the count includes all unread messages.
 const MENTIONS_ONLY = false;
@@ -149,7 +149,7 @@ function slack_request(URL, token, query) {
 
 function output() {
 	unread_count = unread_count > 10 ? '10+' : unread_count > 0 ? unread_count : '';
-	const slack_icon = BITBAR_SLACK_ICON == 2 ? SLACK_ICON_B : BITBAR_SLACK_ICON == 1 ? SLACK_ICON_W : SLACK_ICON;
+	const slack_icon = XBAR_SLACK_ICON == 2 ? SLACK_ICON_B : XBAR_SLACK_ICON == 1 ? SLACK_ICON_W : SLACK_ICON;
 	if (errors.length > 0) {
 		console.log('! |color=red ' + slack_icon);
 	} else {
@@ -178,7 +178,7 @@ function output() {
 					}
 				}
 				console.log('Mark all as read ' +
-					'|bash=' + SCRIPT +
+					`|shell="${SCRIPT}"` +
 					' param1=--mark' +
 					' param2=--token=' + team.token +
 					(team.params[SLACK_IM] ? ' param3=' + SLACK_IM + '=' + team.params[SLACK_IM].join() : '') +
@@ -216,7 +216,7 @@ function format_channel_name(channel) {
 			// Remove empty strings, first, and last elements of the array
 			return user !== '' && i !== 0 && i !== users.length - 1;
 		});
-		// Using │ since bitbar can not display the standard | character
+		// Using │ since xbar can not display the standard | character
 		name = '@' + users.join('│@');
 	} else {
 		name = '#' + channel.name;
@@ -246,7 +246,7 @@ function channel_output(channel) {
 	let alt_str = 'Mark as read ' +
 		'|alternate=true' +
 		' font=Menlo size=13' +
-		' bash=' + SCRIPT +
+		` shell="${SCRIPT}"` +
 		' param1=--mark' +
 		' param2=--token=' + channel.token +
 		' param3=' + key + '=' + channel.id +

@@ -3,13 +3,13 @@
 /* jshint esversion: 6 */
 
 /*
- * <bitbar.title>DigitalOcean</bitbar.title>
- * <bitbar.version>v1.0</bitbar.version>
- * <bitbar.author>Hasit Mistry</bitbar.author>
- * <bitbar.author.github>hasit</bitbar.author.github>
- * <bitbar.image>http://i.imgur.com/1YTWFSn.png</bitbar.image>
- * <bitbar.desc>View status of DigitalOcean Droplets</bitbar.desc>
- * <bitbar.dependencies>node</bitbar.dependencies>
+ * <xbar.title>DigitalOcean</xbar.title>
+ * <xbar.version>v1.0</xbar.version>
+ * <xbar.author>Hasit Mistry</xbar.author>
+ * <xbar.author.github>hasit</xbar.author.github>
+ * <xbar.image>http://i.imgur.com/1YTWFSn.png</xbar.image>
+ * <xbar.desc>View status of DigitalOcean Droplets</xbar.desc>
+ * <xbar.dependencies>node</xbar.dependencies>
  */
 
 var https = require('https');
@@ -42,7 +42,7 @@ function getDroplets() {
         for (var i = 0; i < droplets.length; i++) {
             var status = 'iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAXVBMVEUAAADAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvAOSvGu33lAAAAHnRSTlMAAwYHCQoQEh0fNVBRX2N5fJG+wMfK3O3v8fP3+/37J2BkAAAATklEQVQIHQXBhQHCAADAsA53d1j+P5OkqoaqqmbHr/G8rGr1BuOmmjwB47L2AM51A/CrFwBDFwDf2gI41fAAfObV4gFe66qG3fV9P0yrPxEfCr3MVhkLAAAAAElFTkSuQmCC';
             var date = new Date(droplets[i].created_at);
-            var humanDate = date.getFullYear() + '/' + date.getMonth() + 1 + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+            var humanDate = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
 
             if (droplets[i].status === 'active') {
                 status = 'iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAXVBMVEUAAAAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmAnrmCynqnaAAAAHnRSTlMAAwYHCQoQEh0fNVBRX2N5fJG+wMfK3O3v8fP3+/37J2BkAAAATklEQVQIHQXBhQHCAADAsA53d1j+P5OkqoaqqmbHr/G8rGr1BuOmmjwB47L2AM51A/CrFwBDFwDf2gI41fAAfObV4gFe66qG3fV9P0yrPxEfCr3MVhkLAAAAAElFTkSuQmCC';

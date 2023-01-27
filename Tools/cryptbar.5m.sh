@@ -1,11 +1,11 @@
 #!/bin/bash
-# <bitbar.title>CryptBar</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Simon Egerland</bitbar.author>
-# <bitbar.author.github>warmup72</bitbar.author.github>
-# <bitbar.desc>Automounter for GoCryptFS</bitbar.desc>
-# <bitbar.image>http://warmup.mypump.de/cryptbar10.jpg</bitbar.image>
-# <bitbar.dependencies>Shell-Script for GoCryptFS</bitbar.dependencies>
+# <xbar.title>CryptBar</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Simon Egerland</xbar.author>
+# <xbar.author.github>warmup72</xbar.author.github>
+# <xbar.desc>Automounter for GoCryptFS</xbar.desc>
+# <xbar.image>http://warmup.mypump.de/cryptbar10.jpg</xbar.image>
+# <xbar.dependencies>Shell-Script for GoCryptFS</xbar.dependencies>
 
 # letzten BAckslash im Pfad wenn vorhanden entfernen
 # Mount - Fehler anzeigen, wenn Busy

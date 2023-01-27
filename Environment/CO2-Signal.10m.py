@@ -1,13 +1,13 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
-# <bitbar.title>CO2Signal API</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Martin Jobke</bitbar.author>
-# <bitbar.author.github>pygoner</bitbar.author.github>
-# <bitbar.desc>This plugin displays the current carbon (gC02equivalent) emmissions per kWh of produced electric energy in the requested country/region </bitbar.desc>
-# <bitbar.dependencies>python, CO2 Signal</bitbar.dependencies>
-# <bitbar.abouturl>https://docs.co2signal.com/</bitbar.abouturl>
-# <bitbar.image>https://raw.githubusercontent.com/pygoner/Plugin-Bitbar/main/Bitbar%20C02%20Signal%20Plugin%20Image.png</bitbar.image>
+# <xbar.title>CO2Signal API</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Martin Jobke</xbar.author>
+# <xbar.author.github>pygoner</xbar.author.github>
+# <xbar.desc>This plugin displays the current carbon (gC02equivalent) emmissions per kWh of produced electric energy in the requested country/region </xbar.desc>
+# <xbar.dependencies>python, CO2 Signal</xbar.dependencies>
+# <xbar.abouturl>https://docs.co2signal.com/</xbar.abouturl>
+# <xbar.image>https://raw.githubusercontent.com/pygoner/Plugin-Bitbar/main/Bitbar%20C02%20Signal%20Plugin%20Image.png</xbar.image>
 
 import requests
 import sys

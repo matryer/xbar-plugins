@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Foobot</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Alessio Signorini</bitbar.author>
-# <bitbar.author.github>alessio-signorini</bitbar.author.github>
-# <bitbar.desc>Display readings from your sensors in the menu bar</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/453354/93032602-57f2c580-f5e7-11ea-87f9-e4e559b0c12a.png</bitbar.image>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
-# <bitbar.abouturl>https://foobot.io/</bitbar.abouturl>
+# <xbar.title>Foobot</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Alessio Signorini</xbar.author>
+# <xbar.author.github>alessio-signorini</xbar.author.github>
+# <xbar.desc>Display readings from your sensors in the menu bar</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/453354/93032602-57f2c580-f5e7-11ea-87f9-e4e559b0c12a.png</xbar.image>
+# <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.abouturl>https://foobot.io/</xbar.abouturl>
 
 
 
@@ -17,11 +17,11 @@
 
 # Request API key from
 #    http://api.foobot.io/apidoc/index.html
-API_KEY=" ... "
+# <xbar.var>string(API_KEY=""): API Key</xbar.var>
 
 # Get Device ID from
 #    http://api.foobot.io/apidoc/index.html#!/device-owner-controller/getDeviceUsingGET
-DEVICE_ID=" ... "
+# <xbar.var>string(DEVICE_ID=""): Device ID</xbar.var>
 
 # ==============================================================================
 
@@ -48,6 +48,9 @@ DEVICE_ID=" ... "
 # ==============================================================================
 require 'net/http'
 require 'json'
+
+DEVICE_ID = ENV['DEVICE_ID'] || abort("DEVICE_ID variable not defined")
+API_KEY   = ENV['API_KEY'] || abort("API_KEY variable not defined")
 
 uri = URI("http://api.foobot.io/v2/device/#{DEVICE_ID}/datapoint/0/last/600/")
 

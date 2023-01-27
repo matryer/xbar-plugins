@@ -1,13 +1,13 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>BMW Charging Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>zakx</bitbar.author>
-# <bitbar.author.github>zakx</bitbar.author.github>
-# <bitbar.desc>Shows your BMW's ConnectedDrive charging status.</bitbar.desc>
-# <bitbar.dependencies>python,bimmer_connected</bitbar.dependencies>
-# <bitbar.image>http://c.zk.je/Screen-Shot-2021-03-02-02-06-10.45-aXuuYL26.png</bitbar.image>
+# <xbar.title>BMW Charging Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>zakx</xbar.author>
+# <xbar.author.github>zakx</xbar.author.github>
+# <xbar.desc>Shows your BMW's ConnectedDrive charging status.</xbar.desc>
+# <xbar.dependencies>python,bimmer_connected</xbar.dependencies>
+# <xbar.image>http://c.zk.je/Screen-Shot-2021-03-02-02-06-10.45-aXuuYL26.png</xbar.image>
 #
 # Please install dependencies: `pip3 install bimmer_connected`
 

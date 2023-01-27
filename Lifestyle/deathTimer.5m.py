@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# <bitbar.title>Death Timer</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Thomas Wolfe</bitbar.author>
-# <bitbar.author.github>twolfe2</bitbar.author.github>
-# <bitbar.desc>Counts down how approximately how many days you have left to live</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/2KjZaFb.jpg</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Death Timer</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Thomas Wolfe</xbar.author>
+# <xbar.author.github>twolfe2</xbar.author.github>
+# <xbar.desc>Counts down how approximately how many days you have left to live</xbar.desc>
+# <xbar.image>http://i.imgur.com/2KjZaFb.jpg</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 
 

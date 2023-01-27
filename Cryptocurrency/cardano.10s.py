@@ -2,14 +2,14 @@
 # coding=utf-8
 
 """
-# <bitbar.title>Cardano (ADA) Price Monitor</bitbar.title>
-# <bitbar.version>v0.1</bitbar.version>
-# <bitbar.author>Erol Soyöz</bitbar.author>
-# <bitbar.author.github>soyoz</bitbar.author.github>
-# <bitbar.desc>You can monitor Cardano (ADA)'s latest price via CoinRanking.com API</bitbar.desc>
-# <bitbar.image>https://s15.postimg.cc/4yheazrln/ada.png</bitbar.image>
-# <bitbar.dependencies>python3</bitbar.dependencies>
-# <bitbar.abouturl>http://soyoz.com/</bitbar.abouturl>
+# <xbar.title>Cardano (ADA) Price Monitor</xbar.title>
+# <xbar.version>v0.1</xbar.version>
+# <xbar.author>Erol Soyöz</xbar.author>
+# <xbar.author.github>soyoz</xbar.author.github>
+# <xbar.desc>You can monitor Cardano (ADA)'s latest price via CoinRanking.com API</xbar.desc>
+# <xbar.image>https://s15.postimg.cc/4yheazrln/ada.png</xbar.image>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.abouturl>http://soyoz.com/</xbar.abouturl>
 """
 
 import json

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>AKAlias</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Isaac</bitbar.author>
-# <bitbar.author.github>irstacks</bitbar.author.github>
-# <bitbar.desc>View and manage short term bash aliases.</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/67rqwnC.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>AKAlias</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Isaac</xbar.author>
+# <xbar.author.github>irstacks</xbar.author.github>
+# <xbar.desc>View and manage short term bash aliases.</xbar.desc>
+# <xbar.image>http://i.imgur.com/67rqwnC.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 # MISSION STATEMENT
 #

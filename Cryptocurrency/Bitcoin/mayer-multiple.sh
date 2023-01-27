@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Mayer Multiple (BTC)</bitbar.title>
-# <bitbar.author>Tadek Teleżyński</bitbar.author>
-# <bitbar.author.github>tadeoos</bitbar.author.github>
-# <bitbar.desc>
+# <xbar.title>Mayer Multiple (BTC)</xbar.title>
+# <xbar.author>Tadek Teleżyński</xbar.author>
+# <xbar.author.github>tadeoos</xbar.author.github>
+# <xbar.desc>
 #   Displays Mayer Multiple for Bitcoin
-# </bitbar.desc>
-# <bitbar.image>https://i.imgur.com/NsOofDJ.png</bitbar.image>
+# </xbar.desc>
+# <xbar.image>https://i.imgur.com/NsOofDJ.png</xbar.image>
 
 RESULT=$(curl -s "https://mayermultiple.info/current.json")
 MM=$(echo "$RESULT" | grep -E -o '"current_mayer_multiple": "[0-9]+(\.)?([0-9]{0,2}")?' | sed 's/"current_mayer_multiple"://' | sed 's/\"//g')

@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>process-monitoring</bitbar.title>
-# <bitbar.version>v0.1.0</bitbar.version>
-# <bitbar.author>Olivier Tille</bitbar.author>
-# <bitbar.author.github>oliviernt</bitbar.author.github>
-# <bitbar.desc>Monitors CPU and Memory usage for a certain process</bitbar.desc>
-# <bitbar.image>http://i.imgur.com/ApLSN8L.png</bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/oliviernt/bitbar-plugins/blob/monitoring/Dev/Monitoring/process-monitoring.1s.sh</bitbar.abouturl>
+# <xbar.title>process-monitoring</xbar.title>
+# <xbar.version>v0.1.0</xbar.version>
+# <xbar.author>Olivier Tille</xbar.author>
+# <xbar.author.github>oliviernt</xbar.author.github>
+# <xbar.desc>Monitors CPU and Memory usage for a certain process</xbar.desc>
+# <xbar.image>http://i.imgur.com/ApLSN8L.png</xbar.image>
+# <xbar.dependencies></xbar.dependencies>
+# <xbar.abouturl>https://github.com/oliviernt/bitbar-plugins/blob/monitoring/Dev/Monitoring/process-monitoring.1s.sh</xbar.abouturl>
 
 PROCESS="BitBar.app"
 

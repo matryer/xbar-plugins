@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# <bitbar.title>AWS Cost</bitbar.title>
-# <bitbar.version>v1.0.0</bitbar.version>
-# <bitbar.author>Sean Luce</bitbar.author>
-# <bitbar.author.github>seanluce</bitbar.author.github>
-# <bitbar.desc>Show the current months AWS costs.</bitbar.desc>
+# <xbar.title>AWS Cost</xbar.title>
+# <xbar.version>v1.0.0</xbar.version>
+# <xbar.author>Sean Luce</xbar.author>
+# <xbar.author.github>seanluce</xbar.author.github>
+# <xbar.desc>Show the current months AWS costs.</xbar.desc>
 
 #Assumes AWS CLI is installed, 'pip install awscli' or 'pip3 install awscli', and 'aws configure' has been ran.
 

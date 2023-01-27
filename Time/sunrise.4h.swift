@@ -1,14 +1,14 @@
 #!/usr/bin/env xcrun swift
 
 /*
- * <bitbar.title>Sunrise</bitbar.title>
- * <bitbar.version>v1.1.1</bitbar.version>
- * <bitbar.author>Brad Greenlee</bitbar.author>
- * <bitbar.author.github>bgreenlee</bitbar.author.github>
- * <bitbar.desc>Displays sunrise, sunset, and day length for a location.</bitbar.desc>
- * <bitbar.image>https://raw.githubusercontent.com/bgreenlee/SunriseBitBar/main/sunrise-bitbar.png</bitbar.image>
- * <bitbar.dependencies>Xcode,swift</bitbar.dependencies>
- * <bitbar.abouturl>https://github.com/bgreenlee/SunriseBitBar</bitbar.abouturl>
+ * <xbar.title>Sunrise</xbar.title>
+ * <xbar.version>v1.1.1</xbar.version>
+ * <xbar.author>Brad Greenlee</xbar.author>
+ * <xbar.author.github>bgreenlee</xbar.author.github>
+ * <xbar.desc>Displays sunrise, sunset, and day length for a location.</xbar.desc>
+ * <xbar.image>https://raw.githubusercontent.com/bgreenlee/SunriseBitBar/main/sunrise-bitbar.png</xbar.image>
+ * <xbar.dependencies>Xcode,swift</xbar.dependencies>
+ * <xbar.abouturl>https://github.com/bgreenlee/SunriseBitBar</xbar.abouturl>
  */
 
 // Customizations

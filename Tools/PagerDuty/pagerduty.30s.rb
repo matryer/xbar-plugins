@@ -1,11 +1,11 @@
 #!/usr/bin/ruby
-# <bitbar.title>PagerDuty</bitbar.title>
-# <bitbar.version>v2.0</bitbar.version>
-# <bitbar.author>Allan Frese</bitbar.author>
-# <bitbar.author.github>frese</bitbar.author.github>
-# <bitbar.desc>Shows current pagerduty alert status.</bitbar.desc>
-# <bitbar.dependencies>ruby (httparty gem)</bitbar.dependencies>
-# <bitbar.image>http://i.imgur.com/5onainp.png</bitbar.image>
+# <xbar.title>PagerDuty</xbar.title>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Allan Frese</xbar.author>
+# <xbar.author.github>frese</xbar.author.github>
+# <xbar.desc>Shows current pagerduty alert status.</xbar.desc>
+# <xbar.dependencies>ruby (httparty gem)</xbar.dependencies>
+# <xbar.image>http://i.imgur.com/5onainp.png</xbar.image>
 
 require "json"
 require "pp"
@@ -116,7 +116,7 @@ class PagerDuty
                 desc = incident['summary']
 				desc.gsub!(/\n/,"")
 
-                bash = "bash=#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
+                bash = "bash='#{File.expand_path(__FILE__)}' param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
                 time = Time.parse(incident['created_at']).localtime.strftime("%H:%M:%S")
                 puts "#{count}#{urgency} [#{time}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} refresh=true terminal=false length=100"
 

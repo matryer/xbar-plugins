@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# <bitbar.title>YubiKey TOTP generator to clipboard plugin</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>reuel</bitbar.author>
-# <bitbar.author.github>brute-force</bitbar.author.github>
-# <bitbar.desc>generates totp codes using yubikey</bitbar.desc>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/brute-force/</bitbar.abouturl>
-# <bitbar.version>1.0</bitbar.version>
+# <xbar.title>YubiKey TOTP generator to clipboard plugin</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>reuel</xbar.author>
+# <xbar.author.github>brute-force</xbar.author.github>
+# <xbar.desc>generates totp codes using yubikey</xbar.desc>
+# <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.abouturl>https://github.com/brute-force/</xbar.abouturl>
+# <xbar.version>1.0</xbar.version>
 # clicking on an item will copy the code to the clipboard
 
 if [ $# -eq 3 ] && [ "$1" = "copy" ]; then

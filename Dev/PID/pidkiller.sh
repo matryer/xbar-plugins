@@ -6,12 +6,12 @@
 #
 
 # metadata
-# <bitbar.title>PID Killer</bitbar.title>
-# <bitbar.version>v1.10.1</bitbar.version>
-# <bitbar.author>Dan Engel</bitbar.author>
-# <bitbar.author.github>dengel29</bitbar.author.github>
-# <bitbar.desc>Display and kill running processes</bitbar.desc>
-# <bitbar.image>https://user-images.githubusercontent.com/8292535/108005602-1651c500-7034-11eb-982f-edc41a9554db.png</bitbar.image>
+# <xbar.title>PID Killer</xbar.title>
+# <xbar.version>v1.10.1</xbar.version>
+# <xbar.author>Dan Engel</xbar.author>
+# <xbar.author.github>dengel29</xbar.author.github>
+# <xbar.desc>Display and kill running processes</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/8292535/108005602-1651c500-7034-11eb-982f-edc41a9554db.png</xbar.image>
 
 echo "Current PIDs"
 echo "---"
