@@ -1,14 +1,14 @@
 #!/usr/bin/env php
 <?php
 
-# <bitbar.title>Clipboard Text Manipulator</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Adi</bitbar.author>
-# <bitbar.author.github>gomedia-adi</bitbar.author.github>
-# <bitbar.desc>Manipulate Text in the Clipboard.</bitbar.desc>
-# <bitbar.image>http://www.greatoceanmedia.com.au/images/64.png</bitbar.image>
-# <bitbar.dependencies>php,python,perl</bitbar.dependencies>
-# <bitbar.abouturl>http://www.greatoceanmedia.com.au/bitbar/clipboard-bar</bitbar.abouturl>
+# <xbar.title>Clipboard Text Manipulator</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Adi</xbar.author>
+# <xbar.author.github>gomedia-adi</xbar.author.github>
+# <xbar.desc>Manipulate Text in the Clipboard.</xbar.desc>
+# <xbar.image>http://www.greatoceanmedia.com.au/images/64.png</xbar.image>
+# <xbar.dependencies>php,python,perl</xbar.dependencies>
+# <xbar.abouturl>http://www.greatoceanmedia.com.au/bitbar/clipboard-bar</xbar.abouturl>
 
 /*
 	BitBar plugin help: https:github.com/matryer/bitbar
