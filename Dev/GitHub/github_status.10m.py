@@ -1,24 +1,17 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 # <xbar.title>GitHub status</xbar.title>
-# <xbar.version>v0.2</xbar.version>
+# <xbar.version>v0.3</xbar.version>
 # <xbar.author>Brett Jones</xbar.author>
 # <xbar.author.github>blockloop</xbar.author.github>
 # <xbar.image>https://cloud.githubusercontent.com/assets/3022496/12325555/a4b2bd9a-ba90-11e5-8254-9de54c2c6847.png</xbar.image>
 # <xbar.desc>Shows the current status of www.githubstatus.com. Find out if Github is having DDOS problems which will affect pushes/pulls.</xbar.desc>
 # <xbar.dependencies>python</xbar.dependencies>
-#
 
 import json
 import time
 from datetime import datetime
-
-try:
-    # For Python 3.0 and later
-    from urllib.request import urlopen
-except ImportError:
-    # Fall back to Python 2's urllib2
-    from urllib2 import urlopen
+from urllib.request import urlopen
 
 # See https://www.githubstatus.com/api
 body = urlopen("https://kctbh9vrtdwd.statuspage.io/api/v2/status.json").read()
@@ -31,7 +24,7 @@ else:
     print("✕ | color=red image=iVBORw0KGgoAAAANSUhEUgAAABgAAAAQCAYAAAF7I48DAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAJOSURBVHjaYvzPAAeHGP4zMHz6z8DA8J+B4T8AAAD//2L4z8Bg8J+BgeH///8MjHBl//8zAAAAAP//gnGQtDIwMPz/z8jEwMCgzcDAwAjFDAwMDH8YGBgYAAAAAP//ZMwxDQAgEMDAPgKwhH8DBB0YKMvzIWHo0OUQVsIIQy33YwBablQR+1JT8OG6ygEAAP//gnH+Q/E7KP3vPwPDZ7g41F6YhllIGnDhKpgGJgYGBk0GBobJDAwMomjug7E3MTAwqCM8A8HN/xkY7vxnYBD6z8Ag8J+BQfA/A4MY1IkpyE4CAAAA//9s0rEJAmEMhuEHucrCAcRKdBYXcAcbJ3EF5xAsbgvdQBzAykrOwuh9egZCQvhDvuT9X8vQxnLpp3z8btiG1mvFS9RW2TDCPM49rTiL2iJ5DAn9s6KW5PZf9Ho/Dpt7mveOTeW7uppfcI38s7SVHzAOBR9ranSHNW6Y4IwlHqkfnozTsUpDUQwG4K+LgyjUOgqCoos4CJ0cxaGPIU6Cm6O7+AIWnBx8hw6d+gYdBDcHR4soiugiSBwMej3cqz2QITkJyZ/8/w9Pf1NhGCzm33KwHiylvxaMi/yV8l4lhJ1i0h4eTP+2cVt/ETanIPd/dh+06xC0gpuCLBNc5QE6mM/dv+MFT+l30a7UjUTs1iGY5BTXFQ3sBf34ImZVGwvBZdBLvxM8f9fXIBCcZsJZFq1WoB8XDS4y/hjMZGyQsYOmBoKTTDpqUHWT9bNuv4lFrUKYGzjHFl7T3vCRe59Lm8UIhyLu/qLX5wCSNr11XIiJWQAAAABJRU5ErkJggg==")
 
 print("---")
-print(obj["status"]["description"] + " | href=" + obj["page"]["url"])
+print((obj["status"]["description"] + " | href=" + obj["page"]["url"]))
 
 # convert UTC to local
 utc_date = datetime.strptime(obj["page"]["updated_at"], '%Y-%m-%dT%H:%M:%S.%fZ')
@@ -39,4 +32,4 @@ now = time.time()
 offset = datetime.fromtimestamp(now) - datetime.utcfromtimestamp(now)
 local_time = utc_date + offset
 
-print("Last Change: %s" % local_time.strftime("%D %r"))
+print(("Last Change: %s" % local_time.strftime("%D %r")))

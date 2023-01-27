@@ -1,12 +1,12 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 # <xbar.title>Prayer Time</xbar.title>
-# <xbar.version>1.0</xbar.version>
+# <xbar.version>1.1</xbar.version>
 # <xbar.author>Kagan Inan</xbar.author>
 # <xbar.author.github>kaaninan</xbar.author.github>
 # <xbar.desc>Imsak ve aksam ezani saatlerine ne kadar kaldigini takip edin !</xbar.desc>
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 from datetime import datetime
 import time
@@ -20,7 +20,7 @@ url_time = "http://worldclockapi.com/api/json/utc/now"
 
 
 # Get UTC time and convert to local time
-result_time = urllib2.urlopen(url_time).read()
+result_time = urllib.request.urlopen(url_time).read()
 jsonDataTime = json.loads(result_time)
 now_server = jsonDataTime['currentDateTime']
 utc = datetime.strptime(now_server[:-1], '%Y-%m-%dT%H:%M')
@@ -30,7 +30,7 @@ now_server = utc + offset
 
 
 # Get Prayer Time
-result = urllib2.urlopen(url_prayer).read()
+result = urllib.request.urlopen(url_prayer).read()
 jsonData = json.loads(result)
 FMT = '%H:%M'
 imsak = datetime.strptime(jsonData[0]["Imsak"], FMT)
@@ -40,10 +40,10 @@ now = datetime.strptime(now_server.strftime(FMT), FMT)
 
 # Select time gap
 if now < imsak:
-	print ':watch: ' + str(imsak - now)[:-3]
+	print(':watch: ' + str(imsak - now)[:-3])
 else:
-	print ':watch: ' + str(aksam - now)[:-3]
+	print(':watch: ' + str(aksam - now)[:-3])
 
-print "---"
-print "Imsak: " + datetime.strftime(imsak, FMT)
-print "Aksam: " + datetime.strftime(aksam, FMT)
+print("---")
+print("Imsak: " + datetime.strftime(imsak, FMT))
+print("Aksam: " + datetime.strftime(aksam, FMT))
