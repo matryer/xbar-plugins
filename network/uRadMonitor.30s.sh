@@ -1,12 +1,13 @@
 #!/bin/bash
 # This script is used with BitBar for uRad Monitor
 
-# <bitbar.title>uRadMonitor view</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
-# <bitbar.author>Martin LBB</bitbar.author>
-# <bitbar.author.github>martinlbb</bitbar.author.github>
-# <bitbar.desc>Extract radiation value from uRadMonitor and show it.</bitbar.desc>
-# <bitbar.dependencies>curl,grep,egrep,sed, bc</bitbar.dependencies>
+# <xbar.title>uRadMonitor view</xbar.title>
+# <xbar.version>v1.2</xbar.version>
+# <xbar.author>Martin LBB</xbar.author>
+# <xbar.author.github>martinlbb</xbar.author.github>
+# <xbar.desc>Extract radiation value from uRadMonitor and show it.</xbar.desc>
+# <xbar.dependencies>curl,grep,egrep,sed, bc</xbar.dependencies>
+# <xbar.image>https://user-images.githubusercontent.com/4921816/33482707-a26cf0e6-d69a-11e7-8b72-f9c389f24bc6.png</xbar.image>
 
 IP="192.168.0.251"
 
