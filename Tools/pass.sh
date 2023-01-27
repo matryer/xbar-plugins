@@ -25,7 +25,7 @@ if (command -v cut && command -v pass)&>/dev/null;then
   echo "---"
  
   # location of password-store file
-  cd ~/.password-store || exit
+  cd ~/.password-store || cd ~/.local/share/password-store || exit 0
   while IFS= read -r -d '' singelfile
   do
     singelfile="${singelfile%.*}"

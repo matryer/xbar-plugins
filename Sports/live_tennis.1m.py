@@ -46,7 +46,7 @@ for each_tournament in tournaments:
             score_string = ""
             set_score_list = []
             for set_name in set_key_names:
-                if set_name in match[team_name]['Scores'] and match[team_name]['Scores'][set_name] != nbsp:
+                if set_name in match[team_name]['Scores'] and len(match[team_name]['Scores'][set_name]) > 0:
                     score_string += match[team_name]['Scores'][set_name]
                     if match[team_name]['Scores'][set_name]:
                         set_score_list.append(int(match[team_name]['Scores'][set_name]))

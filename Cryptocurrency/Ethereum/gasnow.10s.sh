@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 # <xbar.title>ETH Gas Price</xbar.title>
-# <xbar.version>v1.0.1</xbar.version>
+# <xbar.version>v2.0.1</xbar.version>
 # <xbar.author>Biran Yucel</xbar.author>
 # <xbar.author.github>biranyucel</xbar.author.github>
 # <xbar.desc>ETH GasPrice forecast system.</xbar.desc>
 # <xbar.image>https://i.imgur.com/f1hPKO2.png</xbar.image>
-# <xbar.abouturl>https://www.gasnow.org/</xbar.abouturl>
+# <xbar.abouturl>https://ethgasstation.info/</xbar.abouturl>
 #
 #ETH GasPrice forecast system based on SparkPool Pending Transaction Mempool
 

@@ -528,7 +528,7 @@ function installBitbarModule() {
   const npm = npmBin();
 
   // The install command
-  const cmd = npm + " install -g bitbar";
+  const cmd = npm + " install -g bitbar@1";
 
   console.log("Installing the BitBar Node module...");
 

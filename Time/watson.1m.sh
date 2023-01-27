@@ -33,7 +33,7 @@ started=$(echo "$status" | grep -E -o 'started (.*) \(')
 started="$(tr '[:lower:]' '[:upper:]' <<< "${started:0:1}")${started:1}"
 
 # get the tags
-tags=$(echo "$status" | awk '{printf "Tags: %s\n", $3}')
+tags=$(echo "$status" | awk -F "[][]" '{printf "Tags: %s\n", $2}')
 
 # main
 echo "$project"

@@ -18,6 +18,7 @@ import os
 import sys
 import re
 from itertools import groupby
+import textwrap
 
 # GitHub.com
 github_api_key = os.getenv("GITHUB_TOKEN", "")
@@ -59,7 +60,7 @@ def make_github_request(url, method="GET", data=None, enterprise=False):
         request.get_method = lambda: method
         response = urlopen(request, data)
         return (
-            json.load(response) if response.headers.get("content-length", 0) > 0 else {}
+            json.load(response) if int(response.headers.get("content-length", 0)) > 0 else {}
         )
     except Exception:
         return None
@@ -88,7 +89,7 @@ def print_notifications(notifications, enterprise=False):
                 ),
                 alternate="true",
                 refresh="true",
-                bash=__file__,
+                bash="\"%s\"" % __file__,
                 terminal="false",
                 param1="readrepo",
                 param2=repo,
@@ -110,7 +111,7 @@ def print_notifications(notifications, enterprise=False):
                     refresh="true",
                     title="%s - Mark As Read" % formatted_notification["title"],
                     alternate="true",
-                    bash=__file__,
+                    bash="\"%s\"" % __file__,
                     terminal="false",
                     param1="readthread",
                     param2=formatted_notification["thread"],
@@ -123,13 +124,11 @@ def format_notification(notification):
     type = notification["subject"]["type"]
     formatted = {
         "thread": notification["url"],
-        "title": notification["subject"]["title"].encode("utf-8"),
+        "title": textwrap.shorten(notification["subject"]["title"], width=75, placeholder="...").encode("utf-8"),
         "href": notification["subject"]["url"],
         "image": "iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAA",
     }
-    if len(formatted["title"]) > 90:
-        formatted["title"] = formatted["title"][:79] + "…"
-    formatted["title"] = formatted["title"].replace("|", "-")
+    formatted["title"] = formatted["title"].decode().replace("|", "-")
     latest_comment_url = notification.get("subject", {}).get("latest_comment_url", None)
     typejson = make_github_request(formatted["href"])
     if latest_comment_url:
@@ -184,6 +183,16 @@ def format_notification(notification):
         formatted[
             "image"
         ] += "JdJREFUKJGl0DsKwkAUBdDTRgvFHbgmNyLY+QWzKxM/kK2kSKc70MIIQ0ziqBceA/dxinn8mSkKVMGUmH+CBWaNboQjdn2wqt97Pa8kNd5+C0O86YNdSZC34RLjCJxhHZYLXDCIxKuwTHGOwBNcm2WKUw9OcMCybZl6XjHpQOs30cB5gKNQiDPPP0WjV/a4aVwxNsNfUGce7P8k4XgVPSYAAAAASUVORK5CYII="
+        formatted["templateImage"] = formatted.pop("image")
+    elif type == "Discussion":
+        formatted[
+            "image"
+        ] += ""
+        formatted["templateImage"] = formatted.pop("image")
+    elif type == "CheckSuite":
+        formatted[
+            "image"
+        ] += ""
         formatted["templateImage"] = formatted.pop("image")
     return formatted
 

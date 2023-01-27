@@ -20,13 +20,20 @@ except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen
 
-# Your private key for accessing gitlab: User -> Settings -> Access tokens -> add personal access token with api scope
-PRIVATE_TOKEN = 'token'
-# Gitlab URL
-URL = 'https://gitlab.example.com'
-# Define your server and projects (name: id)
-# To get id go to project -> Settings -> General -> General project settings
-PROJECTS ={"React": 3}
+
+INSTANCES = [
+    {
+        # Your private key for accessing gitlab: User -> Settings -> Access tokens -> add personal access token with api scope
+        'privateToken': 'token',
+        # Gitlab URL
+        'url': 'https://gitlab.example.com',
+        # Define your server and projects (name: id)
+        # To get id go to project -> Settings -> General -> General project settings
+        'projects': {
+            "React": 3,
+        },
+    },
+]
 
 pipelines = []
 
@@ -43,9 +50,9 @@ def stateIcon(status):
     }[status]
 
 # Calls gitlab API endpoint with private_token
-def api (method):
-    url = URL + "/api/v4/" + method
-    param = 'private_token=' + PRIVATE_TOKEN
+def api (instance, method):
+    url = instance['url'] + "/api/v4/" + method
+    param = 'private_token=' + instance['privateToken']
     # Detect if method has query string (we need to append private token)
     url = url + (('&') if "?" in url else ('?')) + param
     body = urlopen(url).read()
@@ -111,15 +118,16 @@ class Pipeline:
 
 
 # Loop the projects and get thy jobs
-for name, project in PROJECTS.iteritems():
-    runningPipelines = api("projects/"+str(project)+"/pipelines?scope=running")
+for instance in INSTANCES:
+	for name, project in instance['projects'].iteritems():
+		runningPipelines = api(instance, "projects/"+str(project)+"/pipelines?scope=running")
 
-    for pipelineJson in runningPipelines:
-        pipeline = Pipeline(name, project, pipelineJson)
-        jobsArray = api("projects/"+str(project)+"/pipelines/"+str(pipeline.id)+"/jobs")
-        if jobsArray.count > 0:
-            pipeline.addJobs(jobsArray)
-            pipelines.append(pipeline)
+		for pipelineJson in runningPipelines:
+			pipeline = Pipeline(name, project, pipelineJson)
+			jobsArray = api(instance, "projects/"+str(project)+"/pipelines/"+str(pipeline.id)+"/jobs")
+			if jobsArray.count > 0:
+				pipeline.addJobs(jobsArray)
+				pipelines.append(pipeline)
 
 pipelineCount = len(pipelines)
 if pipelineCount == 0:
@@ -154,5 +162,3 @@ for pipeline in pipelines:
             style = '| color=blue'
 
         print job.displayName() + style
-
-        

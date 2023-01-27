@@ -43,7 +43,7 @@ It is recommended to use `#!/usr/bin/env`. For example, `#!/usr/bin/env bash`.
 To write a plugin, just write some form of executable script that outputs to the standard output.
 
 * Multiple lines will be cycled through over and over.
-* If your output contains a line consisting only of `---`, the lines below it will appear in the dropdown for that plugin, but won't appear inthe menu bar itself.
+* If your output contains a line consisting only of `---`, the lines below it will appear in the dropdown for that plugin, but won't appear in the menu bar itself.
 * Lines beginning with `--` will appear in submenus.
 * * Use `----` etc. for nested submenus. Two dashes per level of nesting.
 * Your lines might contain `|` to separate the title from other parameters
