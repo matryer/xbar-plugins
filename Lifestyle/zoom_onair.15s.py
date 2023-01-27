@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
+#!/usr/bin/env python3
 
 #  <xbar.title>Zoom On-Air</xbar.title>
 #  <xbar.version>v0.1</xbar.version>

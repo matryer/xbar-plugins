@@ -1,4 +1,5 @@
-#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
+#!/usr/bin/env python3
+
 # <xbar.title>Do Not Disturb</xbar.title>
 # <xbar.author>Weibing Chen</xbar.author>
 # <xbar.author.github>weibingchen17</xbar.author.github>

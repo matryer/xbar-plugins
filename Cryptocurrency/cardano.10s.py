@@ -1,5 +1,4 @@
-#!/usr/bin/env /usr/local/bin/python3
-# coding=utf-8
+#!/usr/bin/env python3
 
 """
 # <xbar.title>Cardano (ADA) Price Monitor</xbar.title>

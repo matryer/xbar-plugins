@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/bin/python3
+#!/usr/bin/env python3
 
 # <xbar.title>GitLab Glance</xbar.title>
 # <xbar.version>v2.0</xbar.version>

@@ -1,5 +1,4 @@
-#!/usr/local/bin/python3.6
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # BitBar plugin that displays the number of items and some basic information from WaniKani!
 

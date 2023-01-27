@@ -1,5 +1,5 @@
-#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
-#
+#!/usr/bin/env python3
+
 # <xbar.title>Yahoo Weather</xbar.title>
 # <xbar.version>v3.0</xbar.version>
 # <xbar.author>mgjo5899</xbar.author>
