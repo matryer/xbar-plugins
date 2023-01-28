@@ -7,7 +7,7 @@
 #  <xbar.author>Joris Van Duyse</xbar.author>
 #  <xbar.author.github>jorisvanduyse</xbar.author.github>
 #  <xbar.desc>Chech your miner staticstics! And configer to your wishes</xbar.desc>
-#  <xbar.image>https://imgur.com/a/OINHi0W</xbar.image>
+#  <xbar.image>https://i.imgur.com/540C9xe.png</xbar.image>
 #  <xbar.dependencies>python</xbar.dependencies>
 #  <xbar.abouturl>https://github.com/jorisvanduyse/MinerFetch_xbar</xbar.abouturl>
 
