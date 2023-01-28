@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# <bitbar.title>OWM_Weather</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jack Zhang</bitbar.author>
-# <bitbar.author.github>JAckZ97</bitbar.author.github>
-# <bitbar.desc>Using weather information from openweathermap (OWM). Require signup for personal API key and your own locations id. Information detail inside the source code</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/JAckZ97/Bitbar_weather_plugin/master/img/src_image.png</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/JAckZ97/Bitbar_weather_plugin</bitbar.abouturl>
+# <xbar.title>OWM_Weather</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jack Zhang</xbar.author>
+# <xbar.author.github>JAckZ97</xbar.author.github>
+# <xbar.desc>Using weather information from openweathermap (OWM). Require signup for personal API key and your own locations id. Information detail inside the source code</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/JAckZ97/Bitbar_weather_plugin/master/img/src_image.png</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.abouturl>https://github.com/JAckZ97/Bitbar_weather_plugin</xbar.abouturl>
 
 import json
 import urllib2
