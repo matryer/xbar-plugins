@@ -7,6 +7,7 @@
 # <xbar.desc>Displays current Mega Millions and Powerball jackpots.</xbar.desc>
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl>https://github.com/astrowonk/jackpot_xbar</xbar.abouturl>
+# <xbar.image>https://user-images.githubusercontent.com/13702392/215283698-5f5f16aa-7ed2-4325-b006-879e4dbe9ae9.png</xbar.image>
 
 import gzip
 from http import client
@@ -14,6 +15,8 @@ import json
 import datetime
 from os import environ
 import argparse
+
+JACKPOT_THRESHOLD = 200E6
 
 
 def get_weekday(day):
@@ -73,12 +76,15 @@ class Jackpot():
             'Content-Type': 'application/json',
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'en-us',
+            'Accept-Language': 'en-US,en;q=0.9',
             'Host': 'www.megamillions.com',
             'Origin': 'https://www.megamillions.com',
+            'Content-Length': '0',
             'Connection': 'keep-alive',
+            'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15',
             'Referer': 'https://www.megamillions.com/',
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
         }
         try:
             conn.request("POST",
@@ -112,10 +118,10 @@ class Jackpot():
     def handle_color(self):
         """Make things green if prize is large"""
 
-        if self.mega_float_value >= 200E6:
+        if self.mega_float_value >= JACKPOT_THRESHOLD:
             self.mega_color = 'green'
 
-        if self.pb_float_value >= 200E6:
+        if self.pb_float_value >= JACKPOT_THRESHOLD:
             self.pb_color = 'green'
 
         if 'green' in [self.mega_color, self.pb_color]:
