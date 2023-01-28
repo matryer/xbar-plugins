@@ -5,7 +5,7 @@
 # <xbar.author>Dustin</xbar.author>
 # <xbar.author.github>dustincredible</xbar.author.github>
 # <xbar.desc>Reports the mute status of a Zoom meeting. Relies on menu bar item names, so this will only work if your Zoom app is using english. Only partially works for Zoom webinars.</xbar.desc>
-# <xbar.image>https://user-images.githubusercontent.com/14987234/104110931-77e27f00-5291-11eb-98fb-47cf1febd84e.png</xbar.image>
+# <xbar.image>https://dustincredible.github.io/images/zoom-mute-xbar.jpg</xbar.image>
 # <xbar.abouturl>https://dustin.lol/post/2021/better-zoom-mute/</xbar.abouturl>
 
 # Check the Enable Global Shortcut for Mute/unmute in your Zoom app settings
