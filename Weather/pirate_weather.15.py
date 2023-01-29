@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# <xbar.title>Weather</xbar.title>
-# <xbar.version>v3.5.0</xbar.version>
-# <xbar.author>Daniel Seripap, Valerio</xbar.author>
-# <xbar.author.github>seripap, scartiloffista</xbar.author.github>
-# <xbar.desc>Detailed weather plugin powered by DarkSky with auto location lookup. Supports metric and imperial units. Needs API key from https://darksky.net/dev/.</xbar.desc>
+# <xbar.title>Pirate Weather</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Daniel Seripap, Valerio, pca2</xbar.author>
+# <xbar.author.github>seripap, scartiloffista, pca2</xbar.author.github>
+# <xbar.desc>Detailed weather plugin powered by PirateWeather.net with auto location lookup. Fork of original DarkSky-based script with drop-in replacement API pirateweater.net instead. Supports metric and imperial units. Needs API key from https://pirateweater.net/getting-started.</xbar.desc>
 # <xbar.image>https://cloud.githubusercontent.com/assets/683200/16276583/ff267f36-387c-11e6-9fd0-fc57b459e967.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 
@@ -22,7 +22,7 @@ import textwrap
 from random import randint
 import subprocess
 
-# get yours at https://darksky.net/dev
+# get yours at https://pirateweather.net/
 api_key = ''
 
 # get yours API key for encode location at https://opencagedata.com
@@ -96,25 +96,25 @@ def calculate_bearing(d):
 
 def get_wx_icon(icon_code):
   if icon_code == 'clear-day':
-    icon = "☀️"
+    icon = ":sunny:"
   elif icon_code == 'clear-night':
-    icon = "🌒"
+    icon = ":crescent_moon:"
   elif icon_code == 'rain':
-    icon = "🌧️"
+    icon = ":cloud_with_rain:"
   elif icon_code == 'snow':
-    icon = "❄️"
+    icon = ":snowflake:"
   elif icon_code == 'sleet':
-    icon = "🌨️"
+    icon = ":cloud_with_snow:"
   elif icon_code == 'wind':
-    icon = "💨"
+    icon = ":dash:"
   elif icon_code == 'fog':
-    icon = "🌁"
+    icon = ":fog:"
   elif icon_code == 'cloudy':
-    icon = "☁️"
+    icon = ":cloud:"
   elif icon_code == 'partly-cloudy-day':
-    icon = "🌤️"
+    icon = ":sun_behind_small_cloud:"
   elif icon_code == 'partly-cloudy-night':
-    icon = "🌥️"
+    icon = ":sun_behind_large_cloud:"
   else:
     icon = ''
 
@@ -135,7 +135,7 @@ def get_wx():
 
   try:
     if 'loc' in location:
-      wx = json.load(urllib.request.urlopen('https://api.darksky.net/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
+      wx = json.load(urllib.request.urlopen('https://api.pirateweather.net/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
     else:
       return False
   except urllib.error.HTTPError:
@@ -216,7 +216,7 @@ def render_wx():
   if api_key == '':
     print('Missing API key')
     print('---')
-    print('Get an API Key | href=https://darksky.net/dev')
+    print('Get an API Key | href=https://pirateweather.net/getting-started')
     return False
 
   weather_data = get_wx()
@@ -236,11 +236,11 @@ def render_wx():
 
 
   if 'city' in weather_data and 'region' in weather_data:
-    print(weather_data['city'] + ', ' + weather_data['region'] + ' | href=https://darksky.net/' + weather_data['loc'])
+    print(weather_data['city'] + ', ' + weather_data['region'] + ' | href=https://merrysky.net/forecast/' + weather_data['loc'])
   elif 'country' in weather_data:
-    print(weather_data['country'] + ' | href=https://darksky.net/' + weather_data['loc'])
+    print(weather_data['country'] + ' | href=https://pirateweather.net/' + weather_data['loc'])
   elif 'preformatted' in weather_data:
-    print(weather_data['preformatted'] + ' | href=https://darksky.net/' + weather_data['loc'])
+    print(weather_data['preformatted'] + ' | href=https://pirateweather.net/' + weather_data['loc'])
 
   if 'condition' in weather_data and 'feels_like' in weather_data:
     print(weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like'])
@@ -273,6 +273,6 @@ def render_wx():
     print('Pressure: ' + weather_data['pressure'])
 
   print('---')
-  print('Powered by DarkSky | href=https://darksky.net/poweredby/?ref=xbarWeather')
+  print('Powered by PirateWeather | href=https://pirateweather.net/')
 
 render_wx()
