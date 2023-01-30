@@ -237,7 +237,7 @@ Anything that can write to standard out is supported, but here is a list that ha
 1. JavaScript/Typescript (`deno`)
    - Status: Working
    - Caveats: 
-      - Shebang has to be in the format `#!/usr/bin/env -S -P/${HOME}/.deno/bin:/opt/homebrew/bin deno run <permissions>`
+      - Shebang has to be in the format `#!/usr/bin/env -S -P/${HOME}/.deno/bin:/usr/local/bin:/opt/homebrew/bin deno run <permissions>`
       - Shebang will work for standard deno installations
    - Output: `console.log("your string here")`
    - Notes:
