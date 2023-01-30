@@ -234,6 +234,16 @@ Anything that can write to standard out is supported, but here is a list that ha
       - There may be a better way to run JavaScript files.
    - Tips:
       - Use the Node.js [`bitbar` module](https://github.com/sindresorhus/bitbar) to simplify plugin creation.
+1. JavaScript/Typescript (`deno`)
+   - Status: Working
+   - Caveats: 
+      - Shebang has to be in the format `#!/usr/bin/env -S -P/${HOME}/.deno/bin:/usr/local/bin:/opt/homebrew/bin deno run <permissions>`
+      - Shebang will work for standard deno installations
+   - Output: `console.log("your string here")`
+   - Notes:
+      - `process.stdout.write` doesn't output desired text.
+   - Tips:
+      - Use the deno [`xbar` module](https://deno.land/x/xbar@v2.0.0) to simplify plugin creation.
 1. CoffeeScript (`coffee`)
    - Status: Working
    - Caveats:
