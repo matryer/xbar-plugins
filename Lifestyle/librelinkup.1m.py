@@ -8,23 +8,29 @@
 # <xbar.author.github>FloSchl8</xbar.author.github>
 # <xbar.desc>Gets your GCM from LibreLinkUp: https://librelinkup.com/</xbar.desc>
 # <xbar.dependencies>python3, python requests</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/XUyOT9o.png</xbar.image>
+# <xbar.var>string(VAR_MAIL=""): Your e-mail.</xbar.var>
+# <xbar.var>string(VAR_PASSWORD=""): Your password.</xbar.var>
+# <xbar.var>select(VAR_COUNTRY="eu"): Your region/country. [us, eu, de, fr, jp, ap, au, ae]</xbar.var>
+# <xbar.var>string(VAR_FIRST_PATIENT=""): First patient to show</xbar.var>
 
 import requests
 import sys
+import os
 
 # your LibreLibkUp login (this is NOT your LibreView Login)
-email = ""
-password = ""
+email = os.environ.get("VAR_MAIL")
+password = os.environ.get("VAR_PASSWORD")
 
 # your region/country
 # available: us, eu, de, fr, jp, ap, au, ae
-country = "eu"
+country = os.environ.get("VAR_COUNTRY")
 
 # used for ordering multiple patients
 # the value from this id will be displayed in the menu bar first, all others can be seen in the dropdown
 # all IDs will also be shown after the glucose values
 # if you have only one patient you can leave this blank
-first_patient = ""
+first_patient = os.environ.get("VAR_FIRST_PATIENT")
 
 class Patient:
     def __init__(self, patient_id, first_name, last_name):
