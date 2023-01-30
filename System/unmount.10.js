@@ -1,11 +1,11 @@
 #!/usr/local/bin/node
-// <bitbar.title>Unmount</bitbar.title>
-// <bitbar.version>v1.0</bitbar.version>
-// <bitbar.author>Nigel Scott</bitbar.author>
-// <bitbar.author.github>gruntfuggly</bitbar.author.github>
-// <bitbar.desc>Allows volumes to be ejected/unmounted.</bitbar.desc>
-// <bitbar.image>https://i.imgur.com/EcCmyng.png</bitbar.image>
-// <bitbar.dependencies>node</bitbar.dependencies>
+// <xbar.title>Unmount</xbar.title>
+// <xbar.version>v1.0</xbar.version>
+// <xbar.author>Nigel Scott</xbar.author>
+// <xbar.author.github>gruntfuggly</xbar.author.github>
+// <xbar.desc>Allows volumes to be ejected/unmounted.</xbar.desc>
+// <xbar.image>https://i.imgur.com/EcCmyng.png</xbar.image>
+// <xbar.dependencies>node</xbar.dependencies>
 
 var child_process = require( 'child_process' );
 
