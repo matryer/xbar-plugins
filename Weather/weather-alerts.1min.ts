@@ -1,4 +1,4 @@
-#!/usr/bin/env -S -P/${HOME}/.deno/bin:/usr/local/bin:/opt/homebrew/bin deno run --allow-net 
+#!/usr/bin/env -S -P/${HOME}/.deno/bin:/usr/local/bin:/opt/homebrew/bin deno run --allow-net --allow-read --allow-write
 /*
 *  <xbar.title>NWS Weather and Alerts</xbar.title>
 *  <xbar.version>v1.0</xbar.version>
@@ -8,6 +8,12 @@
 *  <xbar.image>https://github.com/theogainey/xbar-weatheralerts/blob/main/example.png?raw=true</xbar.image>
 *  <xbar.dependencies>deno</xbar.dependencies>
 *  <xbar.abouturl>https://github.com/theogainey/xbar-weatheralerts</xbar.abouturl>
+*  <xbar.var>string(VAR_ZIP=""): Enter Zip code for improved accuracy</xbar.var>
+*  <xbar.var>boolean(VAR_USEZIP=true): Weather to use Zip code for location or not</xbar.var>
+*  <xbar.var>string(VAR_Minor_Color=""): Enter 6 digit hex color to change display color of minor weather alerts</xbar.var>
+*  <xbar.var>string(VAR_Moderate_Color=""): Enter 6 digit hex color to change display color of moderate weather alerts</xbar.var>
+*  <xbar.var>string(VAR_Severe_Color=""): Enter 6 digit hex color to change display color of severe weather alerts</xbar.var>
+*  <xbar.var>string(VAR_Extreme_Color=""): Enter 6 digit hex color to change display color of extreme weather alerts</xbar.var>
 */
 
 import { separator, xbar } from 'https://deno.land/x/xbar@v2.0.0/mod.ts';
@@ -32,3 +38,4 @@ fetchLocation()
       },
     ])
   );
+  
