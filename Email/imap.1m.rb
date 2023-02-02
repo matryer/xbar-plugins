@@ -8,6 +8,7 @@
 #  <xbar.author.github>https://github.com/maesitos</xbar.author.github>
 #  <xbar.desc>Fetch unread from any IMAP mail</xbar.desc>
 #  <xbar.dependencies>ruby</xbar.dependencies>
+#  <xbar.image>https://user-images.githubusercontent.com/3597038/161608594-8ba677ac-c257-4f9a-a853-a224402ca06a.png</xbar.image>
 
 # Variables become preferences in the app:
 #
