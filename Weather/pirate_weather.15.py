@@ -30,10 +30,10 @@ geo_api_key = ''
 
 # if you want to set manual location, define following two vars. If left empty, script will try to determine the location
 # example:
-# manual_city = 'Novi Sad'
-# manual_latlng = '45.2526331,19.7817785'
 manual_city = ''
 manual_latlng = ''
+# manual_city = 'Paris'
+# manual_latlng = '48.8566,2.3522'
 
 
 # set to si for metric, leave blank for imperial
@@ -96,25 +96,25 @@ def calculate_bearing(d):
 
 def get_wx_icon(icon_code):
   if icon_code == 'clear-day':
-    icon = ":sunny:"
+    icon = "☀️"
   elif icon_code == 'clear-night':
-    icon = ":crescent_moon:"
+    icon = "🌙"
   elif icon_code == 'rain':
-    icon = ":cloud_with_rain:"
+    icon = "🌧️"
   elif icon_code == 'snow':
-    icon = ":snowflake:"
+    icon = "❄️"
   elif icon_code == 'sleet':
-    icon = ":cloud_with_snow:"
+    icon = "🌨️"
   elif icon_code == 'wind':
-    icon = ":dash:"
+    icon = "💨"
   elif icon_code == 'fog':
-    icon = ":fog:"
+    icon = "🌫️"
   elif icon_code == 'cloudy':
-    icon = ":cloud:"
+    icon = "☁️"
   elif icon_code == 'partly-cloudy-day':
-    icon = ":sun_behind_small_cloud:"
+    icon = "🌤️"
   elif icon_code == 'partly-cloudy-night':
-    icon = ":sun_behind_large_cloud:"
+    icon = "☁️"
   else:
     icon = ''
 
@@ -228,7 +228,7 @@ def render_wx():
     return False
 
   if 'icon' in weather_data and 'temperature' in weather_data:
-    print(weather_data['icon'] + " " + weather_data['temperature'] + "| emojize=true symbolize=false")
+    print(weather_data['icon'] + " " + weather_data['temperature'] + "| emojize=true")
   else:
     print('N/A')
 
@@ -236,11 +236,11 @@ def render_wx():
 
 
   if 'city' in weather_data and 'region' in weather_data:
-    print(weather_data['city'] + ', ' + weather_data['region'] + ' | href=https://merrysky.net/forecast/' + weather_data['loc'])
+    print(weather_data['city'] + ', ' + weather_data['region'] + ' | href=https://merrysky.net/forecast/' + weather_data['loc'] + '?units=' + units )
   elif 'country' in weather_data:
-    print(weather_data['country'] + ' | href=https://pirateweather.net/' + weather_data['loc'])
+    print(weather_data['country'] + ' | href=https://merrysky.net/forecast/' + weather_data['loc'] + '?units=' + units )
   elif 'preformatted' in weather_data:
-    print(weather_data['preformatted'] + ' | href=https://pirateweather.net/' + weather_data['loc'])
+    print(weather_data['preformatted'] + ' | href=https://merrysky.net/forecast/' + weather_data['loc'] + '?units=' + units )
 
   if 'condition' in weather_data and 'feels_like' in weather_data:
     print(weather_data['condition'] + ', Feels Like: ' + weather_data['feels_like'])
@@ -248,10 +248,10 @@ def render_wx():
   print('---')
 
   if 'next_hour' in weather_data:
-    print(weather_data['next_hour'])
+    print("Next hour: " + weather_data['next_hour'])
     print('---')
-
-  print('---')
+  else:
+    print('---')
 
   if 'week' in weather_data:
     print("\n".join(textwrap.wrap(weather_data['week'], 50)))
