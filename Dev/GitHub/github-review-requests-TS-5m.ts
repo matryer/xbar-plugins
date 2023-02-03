@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/deno run --allow-all
+#!/usr/bin/env -S -P/${HOME}/.deno/bin:/opt/homebrew/bin:/usr/local/bin deno run --allow-all
 // <xbar.title>GitHub Review Requests TS</xbar.title>
 // <xbar.desc>Shows a list of PRs that need to be reviewed (heavily inspired by Adam Bogdał's Python implementation)</xbar.desc>
 // <xbar.version>v0.1</xbar.version>
