@@ -11,7 +11,7 @@
 # Variables as preferences of the app:
 #  <xbar.var>select(APP_ICON="⚙️"): App icon to be shown in the menu app. [⚙️,🛠,DevToolBox]</xbar.var>
 
-export PATH="/usr/local/bin:/usr/bin:$PATH"
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:$PATH"
 SCRIPT_PATH="$(realpath -s $0)"
 
 function createHeader() {
