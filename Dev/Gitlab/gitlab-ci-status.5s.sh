@@ -1,12 +1,12 @@
 #!/bin/bash
-# <bitbar.title>GitLab  Status</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Hugo Lafitte</bitbar.author>
-# <bitbar.author.github>deed-app</bitbar.author.github>
-# <bitbar.desc>This plugin displays your last GitLab CI pipeline status</bitbar.desc>
-# <bitbar.dependencies>jq</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/deed-app/bitbar-gitlab-ci-status</bitbar.abouturl>
-# <bitbar.image>https://raw.githubusercontent.com/deed-app/bitbar-gitlab-ci-status/master/presentation.jpg</bitbar.image>
+# <xbar.title>GitLab  Status</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Hugo Lafitte</xbar.author>
+# <xbar.author.github>deed-app</xbar.author.github>
+# <xbar.desc>This plugin displays your last GitLab CI pipeline status</xbar.desc>
+# <xbar.dependencies>jq</xbar.dependencies>
+# <xbar.abouturl>https://github.com/deed-app/bitbar-gitlab-ci-status</xbar.abouturl>
+# <xbar.image>https://raw.githubusercontent.com/deed-app/bitbar-gitlab-ci-status/master/presentation.jpg</xbar.image>
 #
 # 'jq' can be installed with brew from: https://stedolan.github.io/jq/
 # One-liner:
