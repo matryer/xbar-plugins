@@ -44,7 +44,7 @@
 # In System Settings: allow Terminal full access to Documents (if profiles are in Documents) or full disk access
 
 # START CONFIG
-export PATH="$PATH:/usr/local/bin"
+export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
 
 OVPN_PROFILE_1=/Users/__TODO__/VPN/openvpn1.ovpn
 OVPN_PROFILE_2=/Users/__TODO__/VPN/openvpn2.ovpn
