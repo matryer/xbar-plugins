@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# <bitbar.title>MacOS OpenVPN client & DNS Configuration</bitbar.title>
-# <bitbar.version>v0.88008</bitbar.version>
-# <bitbar.author>glowinthedark</bitbar.author>
-# <bitbar.author.github>glowinthedark</bitbar.author.github>
-# <bitbar.desc>OpenVPN GUI & DNS Manager</bitbar.desc>
-# <bitbar.image>https://telegra.ph/file/7e93fd31b281c9cdcab73.png</bitbar.image>
-# <bitbar.dependencies>openvpn</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/glowinthedark/bitbar-plugins/blob/master/Network/openvpn.5m.sh</bitbar.abouturl>
+# <xbar.title>MacOS OpenVPN client & DNS Configuration</xbar.title>
+# <xbar.version>v0.88008</xbar.version>
+# <xbar.author>glowinthedark</xbar.author>
+# <xbar.author.github>glowinthedark</xbar.author.github>
+# <xbar.desc>OpenVPN GUI & DNS Manager</xbar.desc>
+# <xbar.image>https://telegra.ph/file/7e93fd31b281c9cdcab73.png</xbar.image>
+# <xbar.dependencies>openvpn</xbar.dependencies>
+# <xbar.abouturl>https://github.com/glowinthedark/bitbar-plugins/blob/master/Network/openvpn.5m.sh</xbar.abouturl>
 
 # *** CONFIGURATION ***
 
