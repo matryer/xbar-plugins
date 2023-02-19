@@ -13,7 +13,10 @@
 # ---  BEGIN CONFIG  ---
 # ----------------------
 
-# https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
+# Create your Personal Access Token here https://github.com/settings/tokens
+# The token needs the following permissions:
+# - repo - Full control of private repositories
+# (See also https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
 ACCESS_TOKEN = ''
 
 # (required) Your GitHub login https://github.com/<login>

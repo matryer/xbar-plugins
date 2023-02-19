@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
+#!/usr/bin/env python3
 
 # xbar Metadata
 # <xbar.title>KSing 全民K歌</xbar.title>

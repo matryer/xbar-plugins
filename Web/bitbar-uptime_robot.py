@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 # <xbar.title>UptimeRobot Monitor</xbar.title>
 # <xbar.version>v0.1</xbar.version>

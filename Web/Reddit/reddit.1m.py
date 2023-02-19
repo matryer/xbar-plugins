@@ -1,8 +1,7 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-#
+#!/usr/bin/env python3
+
 # <xbar.title>Reddit</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>Parvez</xbar.author>
 # <xbar.author.github>parvez</xbar.author.github>
 # <xbar.desc>Displays Reddit for Mac</xbar.desc>
@@ -12,13 +11,8 @@
 #
 # by Parvez
 
-# encoding=utf8
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import json
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 reddit0 = "https://www.reddit.com"
 reddit1 = [
   ["All", "https://www.reddit.com/r/all", ""],
@@ -35,12 +29,12 @@ print ("🐈")
 print ("---")
 
 for r1 in reddit1:
-  print (r1[0])
-  request = urllib2.Request(r1[1] + ".json" + r1[2], headers={
+  print((r1[0]))
+  request = urllib.request.Request(r1[1] + ".json" + r1[2], headers={
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36",
     "Pragma": "no-cache"
   })
-  jsonUrl = urllib2.urlopen(request).read()
+  jsonUrl = urllib.request.urlopen(request).read()
   jsonRet = json.loads(jsonUrl)
   for j in jsonRet['data']['children']:
     child = j['data']
@@ -60,13 +54,13 @@ for r1 in reddit1:
         l.append(d)
         w += len(d) + 1
       else:
-        print ("--" + i + " ".join(l) + " | href=" + child['url'] + " trim=false size=11" + color)
+        print(("--" + i + " ".join(l) + " | href=" + child['url'] + " trim=false size=11" + color))
         i = ""
         l = [d]
         w = len(d)
     if (len(l)):
-      print ("--" + i + " ".join(l) + " | href=" + child['url'] + " trim=false size=11" + color)
-    print ("--          [" + sr + "] " + "Score: " + str(child['score']) + ", Comments: " + str(child['num_comments']) + " | href=" + reddit0 + child['permalink'] + " trim=false size=9" + color)
+      print(("--" + i + " ".join(l) + " | href=" + child['url'] + " trim=false size=11" + color))
+    print(("--          [" + sr + "] " + "Score: " + str(child['score']) + ", Comments: " + str(child['num_comments']) + " | href=" + reddit0 + child['permalink'] + " trim=false size=9" + color))
     print ("--          | trim=false size=4")
 print ("---")
 print ("Refresh... | refresh=true")

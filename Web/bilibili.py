@@ -1,6 +1,5 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
-# coding=utf-8
-#
+#!/usr/bin/env python3
+
 # <xbar.title>B站UP主粉丝和投稿视频播放信息获取</xbar.title>
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>胖哥带你入坑带你飞</xbar.author>

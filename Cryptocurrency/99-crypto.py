@@ -1,26 +1,26 @@
-#!/usr/bin/env python
-# coding=utf-8
-"""
+#!/usr/bin/env python3
+
 # <xbar.title>Crypto Ticker ($1USD)</xbar.title>
-# <xbar.version>v2.0</xbar.version>
+# <xbar.version>v2.1</xbar.version>
 # <xbar.author>davidosomething</xbar.author>
 # <xbar.author.github>davidosomething</xbar.author.github>
 # <xbar.desc>
 #   Displays current crypto/$1 from Coinmarketcap
 # </xbar.desc>
 # <xbar.image>https://i.imgur.com/B1nq4AU.jpg</xbar.image>
-"""
 
 import json
-import urllib2
+from urllib.request import Request, urlopen
+
+API_KEY = ''
 
 TICKERS = [
     {
-        'symbol': 'btc',
+        'symbol': 'BTC',
         'sign': 'B',
     },
     {
-        'symbol': 'eth',
+        'symbol': 'ETH',
         'sign': '𝚵',
     },
 ]
@@ -47,35 +47,18 @@ def main():
     Display movement icon, symbol, price
     """
 
+    headers = {'X-CMC_PRO_API_KEY': API_KEY, 'Accept': 'application/json'}
+    symbols = ",".join(list(map(lambda x: x['symbol'], TICKERS)))
+    req = Request('https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=%s' % symbols, None, headers)
+    data = urlopen(req).read()
+    result = json.loads(data.decode('utf-8'))
+
     for ticker in TICKERS:
         currency = 'usd'
         symbol = ticker['symbol']
 
-        """cryptomate
-        """
-        currency = currency.upper()
-        symbol = symbol.upper()
-        api_base = 'https://cryptomate.co.uk/api/'
-        url = api_base + symbol + '/' + currency
-
-        """coinmarketcap
-        api_base = 'https://coinmarketcap-nexuist.rhcloud.com/api/'
-        url = api_base + symbol
-        """
-
-        request = urllib2.Request(url)
-        response = urllib2.urlopen(request).read()
-        result = json.loads(response)
-
-        """cryptomate
-        """
-        value = float(result[symbol]['price'])
-        is_up = result[symbol]['change'] > 0
-
-        """coinmarketcap
-        value = float(result['price']['usd'])
-        is_up = result['change'] > 0
-        """
+        value = float(result['data'][symbol][0]['quote']['USD']['price'])
+        is_up = result['data'][symbol][0]['quote']['USD']['volume_change_24h'] > 0
 
         # symbol = SYMBOLS['up' if result['change'] > 0 else 'down']
         if is_up:
@@ -91,7 +74,7 @@ def main():
             # '| image=', symbol,
             # ' color=#000000'
         ))
-        print(output % value)
+        print((output % value))
 
     print('---')
     print('Refresh | refresh=true')

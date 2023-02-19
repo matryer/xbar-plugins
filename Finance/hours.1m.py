@@ -1,4 +1,5 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
+
 # <xbar.title>hours</xbar.title>
 # <xbar.version>v2.0</xbar.version>
 # <xbar.author>Udey Rishi</xbar.author>

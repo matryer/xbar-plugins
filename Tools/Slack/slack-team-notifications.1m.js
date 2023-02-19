@@ -3,7 +3,7 @@
 /* jshint asi: true */
 
 // <xbar.title>Slack Team Notifications</xbar.title>
-// <xbar.version>v1.1.2</xbar.version>
+// <xbar.version>v1.1.3</xbar.version>
 // <xbar.author>Benji Encalada Mora</xbar.author>
 // <xbar.author.github>benjifs</xbar.author.github>
 // <xbar.image>https://i.imgur.com/ORbsRBx.jpg</xbar.image>
@@ -178,7 +178,7 @@ function output() {
 					}
 				}
 				console.log('Mark all as read ' +
-					'|shell="${SCRIPT}"' +
+					`|shell="${SCRIPT}"` +
 					' param1=--mark' +
 					' param2=--token=' + team.token +
 					(team.params[SLACK_IM] ? ' param3=' + SLACK_IM + '=' + team.params[SLACK_IM].join() : '') +
@@ -246,7 +246,7 @@ function channel_output(channel) {
 	let alt_str = 'Mark as read ' +
 		'|alternate=true' +
 		' font=Menlo size=13' +
-		' shell="${SCRIPT}"' +
+		` shell="${SCRIPT}"` +
 		' param1=--mark' +
 		' param2=--token=' + channel.token +
 		' param3=' + key + '=' + channel.id +

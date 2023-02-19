@@ -1,7 +1,7 @@
-#!/usr/bin/env python
-# coding=utf-8
+#!/usr/bin/env python3
+
 # <xbar.title>Screenshot</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v1.2</xbar.version>
 # <xbar.author>Brandon Barker, Soumya Ranjan Mohanty</xbar.author>
 # <xbar.author.github>ProjectBarks, geekysrm</xbar.author.github>
 # <xbar.desc>Allows for screenshots to be uploaded, saved, and added to the clipboard</xbar.desc>
@@ -9,8 +9,10 @@
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl>https://github.com/matryer/bitbar-plugins/blob/master/System/screenshot.1d.py</xbar.abouturl>
 
-import os, subprocess, tempfile, hashlib, requests, sys, platform, time
+import os, subprocess, tempfile, hashlib, sys, platform, time, shlex
+import uuid, io, codecs, mimetypes
 from distutils.version import StrictVersion
+from urllib.request import Request, urlopen
 
 SAVE_PATH = "~/Pictures/"
 
@@ -58,15 +60,49 @@ def notify(title, subtitle, message):
 
 def upload_image(upload):
     # upload is the path of the image
+    content_type, body = MultipartFormdataEncoder().encode([('image', upload, open(upload, 'rb'))])
+
     headers = {
         'authorization': 'Client-ID 6fcd294cd0e8aa1',
+        'content-type': content_type
     }  
-    files = {
-        'image': (open(upload, 'rb')),
-    }
-    r = requests.post('https://api.imgur.com/3/upload', headers=headers, files=files)
+
+    req = Request('https://api.imgur.com/3/upload', body, headers)
+    data = urlopen(req).read()
     import json
-    return json.loads(r.text)['data']['link']
+    return json.loads(data)['data']['link']
+
+class MultipartFormdataEncoder(object):
+    def __init__(self):
+        self.boundary = uuid.uuid4().hex
+        self.content_type = 'multipart/form-data; boundary={}'.format(self.boundary)
+
+    @classmethod
+    def u(cls, s):
+        if isinstance(s, bytes):
+            s = s.decode('utf-8')
+        return s
+
+    def iter(self, files):
+        encoder = codecs.getencoder('utf-8')
+        for (key, filename, fd) in files:
+            key = self.u(key)
+            filename = self.u(filename)
+            yield encoder('--{}\r\n'.format(self.boundary))
+            yield encoder(self.u('Content-Disposition: form-data; name="{}"; filename="{}"\r\n').format(key, filename))
+            yield encoder('Content-Type: {}\r\n'.format(mimetypes.guess_type(filename)[0] or 'application/octet-stream'))
+            yield encoder('\r\n')
+            with fd:
+                buff = fd.read()
+                yield (buff, len(buff))
+            yield encoder('\r\n')
+        yield encoder('--{}--\r\n'.format(self.boundary))
+
+    def encode(self, files):
+        body = io.BytesIO()
+        for chunk, chunk_len in self.iter(files):
+            body.write(chunk)
+        return self.content_type, body.getvalue()
 
 class Command(object):
     def __init__(self, title, name):
@@ -77,7 +113,7 @@ class Command(object):
         return self.name
 
     def get_description(self):
-        return "{0} |bash={2} param1={1} terminal=false".format(self.title, self.name, os.path.realpath(__file__))
+        return "{0} |bash={2} param1={1} terminal=false".format(self.title, self.name, shlex.quote(os.path.realpath(__file__)))
 
     def execute(self):
         raise Exception("Abstract Function")
@@ -134,12 +170,12 @@ if len(sys.argv) <= 1:
     print("📸")
     print("---")
     for sub_command in sub_commands:
-        print(sub_command.get_description())
+        print((sub_command.get_description()))
 else:
     try:
         for sub_command in sub_commands:
             if sub_command.get_name() != sys.argv[1]:
                 continue
             sub_command.execute()
-    except Exception, e:
+    except Exception as e:
         notify("Error", "", str(e))

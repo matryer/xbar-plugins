@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Control you Sonos system from you Mac Menu Bar
@@ -18,6 +18,7 @@ import socket
 import os
 import sys
 import warnings
+import shlex
 
 try:
     import soco
@@ -31,7 +32,9 @@ except ImportError:
 
 def parse_ip(ip_string):
     """Parsing the user supplied IP address to use on the local subnet"""
-    host_ip = socket.gethostbyname(socket.gethostname())
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(('1.1.1.1', 1))  # we can use any IP here
+    host_ip = s.getsockname()[0]
     subnets = host_ip.split(".")
     sonos_subnets = ip_string.split(".")
     new_ip = subnets[0:(4-len(sonos_subnets))] + sonos_subnets
@@ -167,7 +170,7 @@ def print_group(master):
 
 def create_command(player, *params):
     """Creates the Bitbar specific command"""
-    string = "bash={0} param1=-i param2={1}"
+    string = "shell=\"{0}\" param1=-i param2={1}"
     i = 3
     for param in params:
         string += " param{0}={1}".format(i, param)
@@ -234,7 +237,7 @@ def print_volume_controls(player, indent):
 # Those warnings don't work well with the output for Bitbar
 warnings.filterwarnings("ignore")
 
-PATH_TO_SCRIPT = os.path.realpath(__file__)
+PATH_TO_SCRIPT = shlex.quote(os.path.realpath(__file__))
 ARGUMENTS = parse_cli_arguments()
 GROUP = ARGUMENTS.group
 

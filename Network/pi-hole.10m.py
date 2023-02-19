@@ -1,7 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-xbar
+#!/usr/bin/env python3
+
 # <xbar.title>Pi-hole status</xbar.title>
-# <xbar.version>v3.2</xbar.version>
+# <xbar.version>v3.3</xbar.version>
 # <xbar.author>Felipe Martin</xbar.author>
 # <xbar.author.github>fmartingr</xbar.author.github>
 # <xbar.author>Siim Ots</xbar.author>
@@ -9,7 +9,6 @@
 # <xbar.desc>Show summary and manage Pi-Hole from menubar.</xbar.desc>
 # <xbar.image>https://i.imgur.com/3MrdcKl.png</xbar.image>
 # <xbar.dependencies>pi-hole,python</xbar.dependencies>
-
 # <xbar.var>string(VAR_BASE_URL="http://pi.hole/admin"): URL to the pi-hole admin path without trailing slash.</xbar.var>
 
 import json
@@ -26,11 +25,7 @@ import os
 # Change icon when disabled
 # Show when update is available
 
-try:  # Python 3
-    from urllib.request import urlopen
-except ImportError:  # Python 2
-    from urllib2 import urlopen  # noqa
-
+from urllib.request import urlopen
 
 PLUGIN_PATH = os.path.join(os.getcwd(), __file__)
 
