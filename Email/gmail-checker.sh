@@ -6,6 +6,9 @@
 # <xbar.author.github>nadavc</xbar.author.github>
 # <xbar.desc>Checks gmail and displays inbox count</xbar.desc>
 # <xbar.image>http://i.imgur.com/LYrIphK.png</xbar.image>
+# NOTE: If you have Two Factor Authentication (2FA) enabled for your Google account and try to use your regular password,
+# you'll get an "integer expression expected" error. This is actually an "Unauthorized" error. Please make an "App Password"
+# for your Google account and use that in password: https://myaccount.google.com/apppasswords
 
 USERNAME="GMAIL_USERNAME"
 PASSWORD="GMAIL_PASSWORD"

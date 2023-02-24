@@ -1,8 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # <xbar.title>Todoist Today</xbar.title>
-# <xbar.version>v2.1.0</xbar.version>
+# <xbar.version>v2.2.0</xbar.version>
 # <xbar.author>K.Kobayashi, et al</xbar.author>
 # <xbar.author.github>kobayashi,gingerbeardman</xbar.author.github>
 # <xbar.desc>Today's task in your menu bar!</xbar.desc>
@@ -10,12 +9,8 @@
 # <xbar.image>http://i.imgur.com/f37VtAg.png</xbar.image>
 
 import sys
-if sys.version_info[0] < 3:
-    from urllib2 import urlopen, Request
-    from urllib import urlencode
-else:
-    from urllib.request import urlopen, Request
-    from urllib.parse import urlencode
+from urllib.request import urlopen, Request
+from urllib.parse import urlencode
 import json
 import datetime
 

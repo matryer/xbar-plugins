@@ -1,17 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # <xbar.title>Countdown</xbar.title>
-# <xbar.version>v2.0</xbar.version>
+# <xbar.version>v2.1</xbar.version>
 # <xbar.author>Pere Albujer</xbar.author>
 # <xbar.author.github>P4R</xbar.author.github>
 # <xbar.desc>Shows countdown of established date.</xbar.desc>
 # <xbar.image>https://cloud.githubusercontent.com/assets/7404532/12356787/ae62636c-bba4-11e5-8ff8-6a1eaffcbfc2.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 
-
 from datetime import datetime
 import sys
-from exceptions import ValueError
 
 
 def dateDiffInSeconds(date1, date2):

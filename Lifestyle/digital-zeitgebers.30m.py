@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 # <xbar.title>Digital Zeitgebers</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>Edward</xbar.author>
 # <xbar.author.github>0xedward</xbar.author.github>
 # <xbar.desc>A fuzzy clock that reminds you of certain sleep hyigene recommendations, such as when to avoid blue light, caffeine, etc., at the proper time.</xbar.desc>
@@ -59,7 +59,8 @@ if __name__ == '__main__':
         print(":heavy_exclamation_mark: The interval between bedtime and wakeup time cannot be more than 17 hours.")
     else:
         outputs = generate_message_and_link()
-        print("{state}".format(state=outputs[0]))
+        print(outputs)
+        print(("{state}".format(state=outputs[0])))
         print("---")
-        print("{topic}".format(topic=outputs[1]))
-        print("--Learn More | href={link}".format(link=outputs[2]))
+        print(("{topic}".format(topic=outputs[1])))
+        print(("--Learn More | href={link}".format(link=outputs[2])))

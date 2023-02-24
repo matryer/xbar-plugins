@@ -116,7 +116,7 @@ class PagerDuty
                 desc = incident['summary']
 				desc.gsub!(/\n/,"")
 
-                bash = "bash=#{File.expand_path(__FILE__)} param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
+                bash = "bash='#{File.expand_path(__FILE__)}' param1=#{option} param2=#{incident['id']}" unless incident['status'].eql?("resolved")
                 time = Time.parse(incident['created_at']).localtime.strftime("%H:%M:%S")
                 puts "#{count}#{urgency} [#{time}] #{incident['incident_key']}#{urgency}|color=#{color} #{bash} refresh=true terminal=false length=100"
 

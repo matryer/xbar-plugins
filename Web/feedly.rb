@@ -4,6 +4,7 @@
 # <xbar.author>morizyun</xbar.author>
 # <xbar.author.github>morizyun</xbar.author.github>
 # <xbar.image>https://farm2.staticflickr.com/1541/25991545133_924f4a1a59_c.jpg</xbar.image>
+# <xbar.var>string(FEEDLY_ACCESS_TOKEN): Your personal Feedly access token</xbar.var>
 
 require 'net/http'
 require 'json'
@@ -12,14 +13,14 @@ ARTICLE_LIMIT = 20.freeze
 
 ## PROCEDURE TO GET AUTH TOKEN ##
 # https://blog.morizyun.com/blog/feedly-feed-api-script-bitbar/index.html
-FEEDLY_AUTH_TOKEN = 'YOUR access_token'.freeze
+ACCESS_TOKEN = ENV['FEEDLY_ACCESS_TOKEN'].freeze
 
 def get_json_by_feedly_api(url)
   uri = URI(url)
 
   req = Net::HTTP::Get.new(uri)
 
-  req['Authorization'] = "Bearer #{FEEDLY_AUTH_TOKEN}"
+  req['Authorization'] = "Bearer #{ACCESS_TOKEN}"
 
   res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
   JSON.parse(res.body)
@@ -37,12 +38,14 @@ def feedly_feeds
 end
 
 def output(item)
-  puts "#{item['title']} | href=#{item['originId']}"
+  puts "#{item['title'].sub('|', '-')} | href=#{item['originId']}"
 rescue => e
   puts "An error occured: #{e}"
 end
 
 puts 'Feedly'
+puts '---'
+puts 'Launch Feedly Website | href=https://feedly.com/i/my'
 puts '---'
 begin
   feedly_feeds.each { |item| output(item) }

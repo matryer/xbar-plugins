@@ -1,4 +1,5 @@
-#!/usr/local/homebrew/bin/python3
+#!/usr/bin/env python3
+
 """Loads Ethereum wallet address (configured below) and all tokens associated with
    each address. Then displays current $USD value in the bitbar title, with a drop-down
    showing each total value for owned ETH and each token.

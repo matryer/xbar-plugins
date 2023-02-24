@@ -1,5 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/bin/python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # <xbar.title>Product Hunt - Today in Tech</xbar.title>
 # <xbar.version>v1.1.0</xbar.version>

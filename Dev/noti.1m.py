@@ -1,6 +1,5 @@
-#!/usr/local/bin/python3
-# -*- coding: utf-8 -*-
-#
+#!/usr/bin/env python3
+
 # <xbar.title>Noti</xbar.title>
 # <xbar.version>v0.5</xbar.version>
 # <xbar.author>ye11ow</xbar.author>

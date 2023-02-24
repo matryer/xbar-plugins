@@ -1,8 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # <xbar.title>Quod Libet Control</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>Sean Lane</xbar.author>
 # <xbar.author.github>seanlane</xbar.author.github>
 # <xbar.desc>Control Quoid Libet via Bitbar</xbar.desc>
@@ -45,25 +44,25 @@ else:
   if not os.path.exists(CUR_PATH) and not os.path.exists(CONTROL_PATH):
     print('♫')
     print('---')
-    print(cmd('Open Quod Libet', 'open-ql'))
+    print((cmd('Open Quod Libet', 'open-ql')))
     sys.exit()
 
   if not os.path.exists(CUR_PATH):
     print('♫')
     print('---')
-    print(cmd('Show window', 'focus'))
+    print((cmd('Show window', 'focus')))
     sys.exit()
 
   status = get_current()
 
-  print('♫ {} - {} | length=30'.format(
-    status['title'], status['artist']))
+  print(('♫ {} - {} | length=30'.format(
+    status['title'], status['artist'])))
   print('---')
-  print(status['title'])
-  print(status['album'])
-  print(status['artist'])
-  print(cmd('Play / Pause', 'play-pause'))
-  print(cmd('Next', 'next'))
-  print(cmd('Previous', 'menu-previous'))
+  print((status['title']))
+  print((status['album']))
+  print((status['artist']))
+  print((cmd('Play / Pause', 'play-pause')))
+  print((cmd('Next', 'next')))
+  print((cmd('Previous', 'menu-previous')))
   print('---')
-  print(cmd('Delete', 'delete'))
+  print((cmd('Delete', 'delete')))

@@ -1,7 +1,7 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
+#!/usr/bin/env python3
 
 # <xbar.title>GitLab Glance</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v2.0</xbar.version>
 # <xbar.author>Kushal Pandya</xbar.author>
 # <xbar.author.github>kushalpandya</xbar.author>
 # <xbar.desc>Show review and authored MRs as well as assigned issues for current user for upcoming milestone.</xbar.desc>
@@ -16,43 +16,48 @@
 # <xbar.var>select(DARK_MODE="auto"): Choose dark mode settings [auto, dark, light]</xbar.var>
 
 import os
-import urllib
+import json
+from urllib import parse
+from urllib.request import Request, urlopen
 
-# Third-party deps
-import requests
-from requests.structures import CaseInsensitiveDict
+GTLB_LOGO_COLOR = "iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAE6ADAAQAAAABAAAAEgAAAAAdD3kWAAADeklEQVQ4EWVTTWhcVRQ+5977fmYyTdRJYyto+pNm0sxGkFoRhIkKVZAGRAXtolmIm1LEZRdqBKmLQjfFgIKaTRe1uBDBhZvOUpCuNAWbSGNCEVONNqbNm/fuvcfvvsmkA7nw5p57zne/e853zhBhCRGHffm5o/t/f2HilWCH1fN3T93fnm/x5bFkZapx8rcXDw31sCoY7VZLh50jOfdYEn+32mqOhfONZjMKe//qYZPCtB6vpd8aSU+H+I3Xm1FJNtVu21utJx9SzNNWhES76QCYTFMk8mCFrO7sbXd9wifJCymWVwOieXUhL8nCQevOiZpRT2xYhxOXpfL168Us0Q4m4N64Sg4lDgLz0r8BK/T06tTk8RDrA/KpmJkyLwX8x1dPdEv9sJQuQHF9267Y+FjN8KFN621FqwopeXM7TnR7qtHwSv0SKTa5l6yqVXrf+vfNQPWivdfZb5QUmfesjFeJdps2jz8ejvU7d/JiK1aqgjvLplptll1EB889Gkfn/8xtDkdcOoksElkX4tCcUqfg7wpGddgMGwKLT5TSHcfTBnrz5ml5yxSO1N+IBgomMcwGJYxA43JutklKe8t7ckIeVErHLEOPCNnYvcZyZqLujf9LQb3sHtHGmqJsgwnyeSQSvl0LCWjEufqw0J4RT3EKoJUVQ5kWqfgOAElcIRke9byxxvTfGujxcnec+/iQojZEg/s81eqoEvn5ghiZdhR/sbAOop841eQd5bBpaJ9QfdSTjlFLX24hFlURO+BozzBiBYgcWYVxZVLfl6OBafmEck9GU4JsrMNwVAaFhg/6csfr5RqANnvhS6roTgdIcBnNkcv9XSM8t904BM+Mv42i5nQIOnGhRPSxVO7uOt7Fs4MoKzQETRKGCFqxcl7+EOdnormlH0oyxKEnSX527BkW9ZWJ1ISzuBb6VSNWRzAGocs3cc7wGXQRN6yVa6aIZvjzhRWZbZmdf0A4xJeWfvzHR8eKwl/RmA0eQa6TkHIAREMgaZJXdfg8FdbThejTm8+XRGfHEp5t250ygyiLcB65tNQJdv7R+Ht8mM6bhFN3H2VjFHSKsjK57X6Wd5MLi98E3K2ZA+nB+eUs2LtWyLDnLL6ceLaYH/9VrjRELo+LnW9c27p8dDTE5WvS0nqA7d3ZtQcNe6Ty2VNVEF7E90EPKLPNuGf37/8D0N+JCbFFvhgAAAAASUVORK5CYII="
+ISSUE_ICON = "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAABZklEQVQ4EZWTvy5EQRSHZ9aSaAQP4BkoSESl0NJoVGhWTS3ZrCDegl6hkEhoCFmVZCUeQLRWi0TC+H5z50zu5lrhJN+eOf9ndub6EMKoc64Fi9BPngm0vPdn5NfQX5bocRxirMEDfIAHSYAavMEMDMIUxffUKIcljTAe4RZHXyG+ApInWIVhJaO9Jkg0uSIkDCTnZ9IT6CPoEFuWr64fpJ6StW1hogYqtkYbrMdhF45hwXagIv0xgXNlZIPEdtAlfoA9Hb3OzVqDZBfnykZ1MZJcS0m3Kw2qNT2eF446hqcJHbj6b4NXirZB0tQ1/rWB/dlzFG5Bm+JTdpOvUR1/E3tcKpbsFKp4abaOr0uGOienabsNXeE50y/I0ZMOdgRLUF0sKjWRL7991ntymFiDIRx2TsVssmmLnTD1Jk2PTRW4hHW4hvLHhOn0sb2jJ2Ug+4XKDyxO3UzO+aR/Ul2cDabflacr8RsW0IYbyL182QAAAABJRU5ErkJggg=="
+MERGE_ICON = "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAABqklEQVQ4EV2TvS9EURDF31sfIZuISiPR+AMUCh2NrbYgPgrZKNffokWjUUkkRKJSr1qQaEhEQVAISyKyVrDP78yd+/KY5Nwzd87cefdjXpJgWZbVwDE4AlWPlcQyYltg1f0SfmqCB+oEZHfg07wsm4kJzLc9tl+I/SlwSYIWq/KIJx948T2ff8FXQLtccs2KaJsfQJNBMABkrUDJl3O38zi8oyJpmkIchWFRHvYayMZpXyB9zePr8JD7J9Lxw1Fwll14hysu9hSKbBLf8Pg5/g3oj7oxgRdw6EldRS4mkqM7uwZ9itvZmPS6X8bX4o5EzvnDXNvUXXV0blgIW3cBSr41YJkWBTeMviguLkrWJzaQpC+qciyUf6G4wn3lCu1cY5sLQG/9CKYkwHkRfPuQNPAM2mDOCuBosawZyMbJWIRZvKeK63qplvtVfekM6AWGwQSQ7XoBdWd8kYYEbAyMArV9Q9X1nk3u4YHA/85THZ1Xplx16C14A0+grB2sAJneNnbjLKLdAzFrKFh/rOwe6N+R1ZQXi1wQOAXzHssv0ZJCntpeR1Yz1RX/BefN5na6MjKwAAAAAElFTkSuQmCC"
+AUTHOR_ICON = "iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEaADAAQAAAABAAAAEQAAAACOk5MBAAABrElEQVQ4EY2TPUsDQRCGb5OLCmKnICjaCvEDFNJYiPoHLNJa+BMs/BMW/gULaxtr0WBio9go2B5+FUbRVmPM+bybm7BJEB14bmfmZt6b3WxclFmapgPmB2uKn4OGc05+RF2M32RdJDyCakwwirMHSyBz7cU/WzyH4J26Ms13+F6MVfUTsBLz2IVNuIcm9IoMkhsGiclKCKpnA1R7pfESOCf406ibg0eQ1ToNBAlUOokeh3d+MlYJPIPsCZYhD7FNUssSOVYXUJAm8SzUQfYCC13fIpFAFXyzvSTWeUmgCH0C5GZg2tfjJNAlQmwCmsC2oAnmg4/cEl+C88X2QitJuwdFwhMYg1dY4ye+UROmn3kEdLcGdJFCy1OgizRJ8hhMYD0TKGQC6vmED2j1iegtVoJxqIMmuNaE+LpHZuoVfdv5yioqrGW4QOAh2GJ4EbPSKArPRAXUp9rSG/6hqkxA/m9mIvZ/kFCLRo2pO/ItiG0C/yFyMvX4PjsTnbIJWmGDnERCMzHlrN47pyS24AzUGBYSdpkupA5XU07BAVtvSG0bZKvt5d/PfSp3VP0DgZgvS5iWT9cAAAAASUVORK5CYII="
 
 
 class Utils:
+
+    @staticmethod
+    def sanitize(string):
+        # Replace pipe with identical unicode character
+        return string.replace("|", "⏐")
+
     @staticmethod
     def get_variable(key):
         return os.getenv(key)
 
     @staticmethod
-    def get_gitlab_logo():
-        return "iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+mSou0ONhBxCFD1cWCqIijVqEIFUKt0KqDyaV/0MSQpLg4Cq4FB38Wqw4uzro6uAqC4A+Im5uToouU+F1SaBHjHcc9vPe9L3ffAUKjyjSrawzQdNvMpJJiLr8ihl4RQpRmGCMys4xZSUrDd3zdI8D3uwTP8q/7c0TVgsWAgEg8wwzTJl4nntq0Dc77xDFWllXic+JRky5I/Mh1xeM3ziWXBZ4ZM7OZOeIYsVjqYKWDWdnUiCeJ46qmU76Q81jlvMVZq9ZY6578hZGCvrzEdVqDSGEBi5AgQkENFVRhI0G7ToqFDJ0nffwDrl8il0KuChg55rEBDbLrB/+D3721ihPjXlIkCXS/OM7HEBDaBZp1x/k+dpzmCRB8Bq70tn+jAUx/kl5va/EjoHcbuLhua8oecLkD9D8Zsim7UpCWUCwC72f0TXmg7xboWfX61jrH6QOQpV6lb4CDQ2C4RNlrPu8Od/bt35pW/34ANIByjt4ZCvUAAAAGYktHRAD/APIAprrS3ZAAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAHdElNRQflBw0NCwwojSLvAAAD5klEQVRYw+2YTW8bRQCGn5ldexOvnSbkq27aQkW+6tRWIgMBlZYcilQKF5BCS4OIEBe4FMQvCPwEJE4cIQLCgSucKBUoQKBKAirUqRQOENshtRIcO01i73Bo/BF71zZ24ACdk3dmduad93l3ZmS4V/5r5ftw2PVvjiUrNa6Ewx6/W75+UIL8hvZmLBQy6xZkueQzwCsHZrdSL2XMpgt1C5JCjAOD0dHRQKNaoqcfHgICEjVel6CVcNijUE8BWJp6vlFBlhLjAAqeroRNVsFl7ll98QBw5ZzxVMImq+DKlYaw5XAVJnXGJqvhyjvWALYcrrxZFbDJqrgKll88AFxUwyZrwNUQtlJc1bDJWnA1gq0UVzVssiZcjWBTjgG2xaaXVvS8tvkki4eTZKXPDlvcfHQpk8r21qLF7dWWOobMPttGTaUIxs4xyyeODqmZ3k7c2UlC8RsIlN04h3qM32o1x9dj/G7bIFAMRRcxMi+rmd5OZ2QZbQJw4c6McuL2NdtVt+oP3o1A9WK06CdsGx5IXKM5+xjg2pvTQZBUk/nfnenHaU9fL1uc4JjRot+oJqapRf8Jyf1lDW1b83SlTtvOWSxITfcNoxgupkxv4jhGJlo6ZkuPsVYV1zHjdrm92Tj9a/592VUMq+m+4XKHNCZtPpEOgvEEUm0X17p82kkg66hGCEv3aoMludklGF0FussDXpi7ICirfYDiZnlna4jAH9+WDN7V3KYvOulpbtUXROnEgdVZdBW06b6MpWbKBImJX35AT4+AeKfsFXP7LEc3viqu8vYYm8643Pvbjmx+jXf7rE3X99FcIXH51mxhrXZ72Yf9zwLvAe1F1Xe40b1M0n1y73k9+l2yWSll7DNPih3/Q94UQrTdXcxOhFOrR0F5irptIHhVXIp8VNNZJl6IfIraHQI+K/5wCMRb0K3E3nOrp1NfKMPVoc/nxehqncBq0z4xii/IWqfsxFS8D4nLy3EuRS4gxBvATm4jJxT7FaGyAKbfyJS+583XKYtQbAmpjud2OeAtIpFz4sVbjpurqOk4mh4MI6xpBAMAJDxfstT+BJCOziWVspQJIHWROhz2AZj0r12lbWssH1xlTRRnpa5LvmPg70ufoTM1B3jM7gI2T5d7ATBpT1+nbeuMU3ArzvW3D+9c4JXS+NH/Z3Zdj8Xnk48AdI345nSfdYSRlWYUmlNwG3bINvBCfEMwfkfzMCB1kdA01vUm+gnGklgsVArugTpUuOYg+HjgCpuu55KfHxIg8J1ft/DsXOVm5G0xhVXPuHULKg787s/eK0oqzT248W6tWflHi5oa86qpMe+9v2b+l+UvY2RlJb8pev8AAAAASUVORK5CYII="
-
-    @staticmethod
     def get_font_color():
-        if (Utils.get_variable("DARK_MODE") == "dark"):
+        if Utils.get_variable("DARK_MODE") == "dark":
             return "white"
-        elif (Utils.get_variable("DARK_MODE") == "light"):
+        elif Utils.get_variable("DARK_MODE") == "light":
             return "black"
         else:
             return None
 
     @staticmethod
     def get_sub_menu_item(issuable, author=False):
-        if '/merge_requests' in issuable.get('web_url'):
+        if "/merge_requests" in issuable.get("web_url"):
             iid = f"!{issuable.get('iid')}"
         else:
             iid = f"#{issuable.get('iid')}"
-        title = issuable.get("title")
-        author_name = issuable.get("author").get("name")
+        title = Utils.sanitize(issuable.get("title"))
+        author_name = Utils.sanitize(issuable.get("author").get("name"))
         href = f"href='{issuable.get('web_url')}'"
         length = "length=50"
 
-        if (author == True):
+        if author == True:
             return f"--{iid} - {title} by {author_name}|{href}|{length}"
         else:
             return f"--{iid} - {title}|{href}|{length}"
@@ -60,13 +65,14 @@ class Utils:
     @staticmethod
     def print(string):
         color = Utils.get_font_color()
-        if (color != None):
+        if color != None:
             print(f"{string}|color={color}")
         else:
             print(string)
 
 
 class GitLabAPIHelper:
+
     def __init__(self, api_token, url, group, project, username):
         self.api_token = api_token
         self.url = url
@@ -84,20 +90,22 @@ class GitLabAPIHelper:
     def __get_request_url(self):
         namespace_base_url = ""
         namespace = ""
-        if (self.group != None):
+        if self.group != None:
             namespace_base_url = f"{self.url}/api/v4/groups"
-            namespace = urllib.parse.quote(self.group)
+            namespace = parse.quote(self.group, safe="")
         else:
             namespace_base_url = f"{self.url}/api/v4/projects"
-            namespace = urllib.parse.quote(self.project)
+            namespace = parse.quote(self.project, safe="")
 
         return f"{namespace_base_url}/{namespace}"
 
     def __get_response(self, endpoint, params):
-        request_url = f"{self.__get_request_url()}/{endpoint}"
-        headers = self.__get_request_headers()
+        request_url = f"{self.__get_request_url()}{endpoint}"
+        request = Request(f"{request_url}?{parse.urlencode(params)}")
+        request.add_header("content-type", "application/json")
+        request.add_header("Authorization", f"Bearer {self.api_token}")
 
-        return requests.get(request_url, headers=headers, params=params).json()
+        return json.load(urlopen(request))
 
     def __get_merge_requests(self, params):
         return self.__get_response("/merge_requests", params)
@@ -106,21 +114,43 @@ class GitLabAPIHelper:
         return self.__get_response("/issues", params)
 
     def get_review_merge_requests(self):
-        return self.__get_merge_requests({"state": "opened", "milestone": "#upcoming", "reviewer_username": self.username})
+        return self.__get_merge_requests({
+            "state": "opened",
+            "milestone": "#upcoming",
+            "reviewer_username": self.username,
+        })
 
     def get_authored_merge_requests(self):
-        return self.__get_merge_requests({"state": "opened", "milestone": "#upcoming", "author_username": self.username})
+        return self.__get_merge_requests({
+            "state": "opened",
+            "milestone": "#upcoming",
+            "author_username": self.username,
+        })
 
     def get_assigned_issues(self):
-        return self.__get_issues({"state": "opened", "milestone": "#upcoming", "assignee_username": self.username})
+        return self.__get_issues({
+            "state": "opened",
+            "milestone": "#upcoming",
+            "assignee_username": self.username,
+        })
+
+    def get_assigned_issues_urllib(self):
+        return self.__get_response_urllib(
+            "issues",
+            {
+                "state": "opened",
+                "milestone": "#upcoming",
+                "assignee_username": self.username,
+            },
+        )
 
 
 def main():
-    api_token = Utils.get_variable('GITLAB_API_TOKEN')
-    url = Utils.get_variable('GITLAB_URL')
-    group = Utils.get_variable('GITLAB_GROUP')
-    project = Utils.get_variable('GITLAB_PROJECT')
-    username = Utils.get_variable('GITLAB_USERNAME')
+    api_token = Utils.get_variable("GITLAB_API_TOKEN")
+    url = Utils.get_variable("GITLAB_URL")
+    group = Utils.get_variable("GITLAB_GROUP")
+    project = Utils.get_variable("GITLAB_PROJECT")
+    username = Utils.get_variable("GITLAB_USERNAME")
     color = f"color={Utils.get_font_color()}"
 
     gitlab_helper = GitLabAPIHelper(api_token, url, group, project, username)
@@ -130,21 +160,22 @@ def main():
 
     # Menu Button
     Utils.print(
-        f" ⬇ {len(review_mrs)} ⬆ {len(author_mrs)} ◑ {len(assigned_issues)}|image={Utils.get_gitlab_logo()}")
+        f" ⬇ {len(review_mrs)} ⬆ {len(author_mrs)} ◑ {len(assigned_issues)}|image={GTLB_LOGO_COLOR} "
+    )
     Utils.print("---")
 
     # Review Submenu
-    Utils.print(f"👓 Review ({len(review_mrs)})")
+    Utils.print(f"Review ({len(review_mrs)})|templateImage={MERGE_ICON}")
     for merge_request in review_mrs:
         Utils.print(Utils.get_sub_menu_item(merge_request, True))
 
     # Authored Submenu
-    Utils.print(f"📝 Authored ({len(author_mrs)})")
+    Utils.print(f"Authored ({len(author_mrs)})|templateImage={AUTHOR_ICON}")
     for merge_request in author_mrs:
         Utils.print(Utils.get_sub_menu_item(merge_request))
 
     # Issues Submenu
-    Utils.print(f"⁉️ Issues ({len(assigned_issues)})")
+    Utils.print(f"Issues ({len(assigned_issues)})|templateImage={ISSUE_ICON}")
     for issue in assigned_issues:
         Utils.print(Utils.get_sub_menu_item(issue))
 
