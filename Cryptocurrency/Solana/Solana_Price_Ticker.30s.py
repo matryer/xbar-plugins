@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 # coding=utf-8
 
-# <xbar.title>Crypto Price Ticker</xbar.title>
+# <xbar.title>Solana Price Ticker</xbar.title>
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>Gabriel Serafini</xbar.author>
 # <xbar.author.github>gserafini</xbar.author.github>
-# <xbar.desc>Displays crypto ticker prices for configured coin pairs</xbar.desc>
+# <xbar.desc>Displays crypto ticker price for Solana (can be adapted to other cryptocurrency as needed).</xbar.desc>
 # <xbar.image>https://user-images.githubusercontent.com/200852/221348165-f296f635-7b80-401c-9d96-cb1f51cbe88e.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl>https://github.com/gserafini/xbar-plugin-crypto-price-tracker</xbar.abouturl>
