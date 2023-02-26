@@ -192,8 +192,11 @@ def format_notification(notification):
     elif type == "CheckSuite":
         formatted[
             "image"
-        ] += ""
+        ] = "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMpJREFUOI2Vkn0RwjAMxX+bASqlEiYBB1QCEnAADpiTbQo2B0wCKCh/NOPK2oby7nrXJi/py0dDGRY4yP0FLAr3Cw54AB4Y5XixnbRAAwzyky0oWoRjcglGoK9Q2EuSRHZ1jcJ1sWEllX0BukICKzGfh8+QtuZdydfsAduKc1LkngkTOO7sE2BaJTBGozl/lXBDKWF7/NvEjqiJEEYyazJ3SMYIQfK9IrgXbgIjjpnyKs/Cya7yBkeozxNWdpD7mpOtjcdGPz0prPobqq80AtYLw6wAAAAASUVORK5CYII="
         formatted["templateImage"] = formatted.pop("image")
+        formatted["href"] = "https://github.com/{}/actions".format(
+            notification["repository"]["full_name"]
+        )
     return formatted
 
 
