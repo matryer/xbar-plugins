@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # <xbar.title>Brew Updates</xbar.title>
-# <xbar.version>v2.3.3</xbar.version>
+# <xbar.version>v2.4.0</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage outdated Homebrew formulas and casks</xbar.desc>
@@ -11,6 +11,7 @@
 # <xbar.abouturl>https://github.com/jimeh/dotfiles/tree/main/xbar</xbar.abouturl>
 #
 # <xbar.var>string(VAR_BREW_PATH=""): Path to "brew" executable.</xbar.var>
+# <xbar.var>boolean(VAR_GREEDY=false): Pass --greedy to brew outdated command</xbar.var>
 
 # rubocop:disable Lint/ShadowingOuterLocalVariable
 # rubocop:disable Metrics/AbcSize
@@ -289,6 +290,13 @@ module Brew
             shell: [brew_path, 'upgrade', '--cask'] + casks.map(&:name)
           )
         end
+
+        printer.sep
+        if use_greedy?
+          printer.item('Disable greedy', rpc: ['disable_greedy'], refresh: true)
+        else
+          printer.item('Enable greedy', rpc: ['enable_greedy'], refresh: true)
+        end
       end
 
       print_formulas(printer)
@@ -297,7 +305,25 @@ module Brew
       printer.sep
     end
 
+    def enable_greedy
+      config['VAR_GREEDY'] = true
+      config.save
+    end
+
+    def disable_greedy
+      config['VAR_GREEDY'] = false
+      config.save
+    end
+
     private
+
+    def config
+      @config ||= Xbar::Config.new
+    end
+
+    def use_greedy?
+      [true, 'true'].include?(config.fetch('VAR_GREEDY', 'false'))
+    end
 
     def status_label
       label = []
@@ -428,8 +454,16 @@ module Brew
       @casks ||= outdated['casks'].map { |line| Cask.new(line) }
     end
 
+    def outdated_args
+      [
+        'outdated',
+        (use_greedy? ? '--greedy' : nil),
+        '--json=v2'
+      ].compact
+    end
+
     def outdated
-      @outdated ||= JSON.parse(cmd(brew_path, 'outdated', '--json'))
+      @outdated ||= JSON.parse(cmd(brew_path, *outdated_args))
     end
   end
 end
