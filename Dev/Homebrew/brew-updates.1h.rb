@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # <xbar.title>Brew Updates</xbar.title>
-# <xbar.version>v2.3.2</xbar.version>
+# <xbar.version>v2.3.3</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage outdated Homebrew formulas and casks</xbar.desc>
@@ -10,7 +10,7 @@
 # <xbar.dependencies>ruby</xbar.dependencies>
 # <xbar.abouturl>https://github.com/jimeh/dotfiles/tree/main/xbar</xbar.abouturl>
 #
-# <xbar.var>string(VAR_BREW_PATH="/usr/local/bin/brew"): Path to "brew" executable.</xbar.var>
+# <xbar.var>string(VAR_BREW_PATH=""): Path to "brew" executable.</xbar.var>
 
 # rubocop:disable Lint/ShadowingOuterLocalVariable
 # rubocop:disable Metrics/AbcSize
@@ -170,7 +170,31 @@ module Brew
     end
 
     def brew_path
-      @brew_path ||= ENV.fetch('VAR_BREW_PATH', '/usr/local/bin/brew')
+      @brew_path ||= brew_path_from_env ||
+                     brew_path_from_which ||
+                     brew_path_from_fs_check ||
+                     raise('Unable to find "brew" executable')
+    end
+
+    def brew_path_from_env
+      return if ENV['VAR_BREW_PATH'].to_s == ''
+
+      ENV['VAR_BREW_PATH']
+    end
+
+    def brew_path_from_which
+      detect = cmd('which', 'brew').strip
+      return if detect == ''
+
+      detect
+    end
+
+    def brew_path_from_fs_check
+      ['/usr/local/bin/brew', '/opt/homebrew/bin/brew'].each do |path|
+        return path if File.exist?(path)
+      end
+
+      nil
     end
 
     def brew_check(printer = nil)
