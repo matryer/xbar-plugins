@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # <xbar.title>Kubeconfig Namespace & Context Switcher</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>Elias Abacioglu</xbar.author>
 # <xbar.author.github>Raboo</xbar.author.github>
 # <xbar.desc>Displays active kubeconfig namespace and context, also allows you to switch namespace or context.</xbar.desc>
