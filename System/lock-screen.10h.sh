@@ -9,13 +9,20 @@
 # <xbar.dependencies></xbar.dependencies>
 
 if [ "$1" = 'lock' ]; then
-  # To perform a sleep action
-  # Requires "password after sleep or screen saver begins" to be set in Security preferences
-  #osascript -e 'tell application "Finder" to sleep'
+  OSVER=$(sw_vers -productVersion | awk -F. '{print $1}')
+  if [[ "$OSVER" -ge 13 ]]; then
+    # The first time you run this will prompt to grant xbar access in the Accessibility features settings.
+    osascript -e 'tell app "System Events" to key code 12 using {control down, command down}'
+  else
+    # To perform a sleep action
+    # Requires "password after sleep or screen saver begins" to be set in Security preferences
+    #osascript -e 'tell application "Finder" to sleep'
 
-  # To perform a lock (login screen) action
-  # Requires "Fast User Switching" to be enabled in system Login preferences
-  /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+    # To perform a lock (login screen) action
+    # Requires "Fast User Switching" to be enabled in system Login preferences
+    /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+  fi
+
   exit
 fi
 

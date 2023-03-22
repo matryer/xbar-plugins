@@ -13,7 +13,7 @@ counter=1
 ps c -Ao pcpu,command,pid -r | head -n 4 | awk 'NR>1'\
   | while read -r pcpu command pid ; do
 
-    if [ "${counter}" -eq "1" ]; then 
+    if [ "${counter}" -eq "1" ]; then
       echo "$pcpu% $command"
       echo "---"
     fi
@@ -26,4 +26,4 @@ done
 
 
 echo "---"
-echo "Refresh | refresh=true terminal=false root=true"
+echo "Refresh | refresh=true terminal=false"

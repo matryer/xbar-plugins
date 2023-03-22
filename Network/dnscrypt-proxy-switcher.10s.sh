@@ -11,7 +11,7 @@
 # <xbar.version>v0.1</xbar.version>
 
 # Theme: classic or emoji
-THEME="emoji"
+THEME="classic"
 
 # Non-authenticated resolver IP addresses
 ADDITIONAL_IPS="9.9.9.9"
@@ -49,8 +49,8 @@ osversion=$(sw_vers -productVersion)
 osmajor=$(echo "$osversion" | awk -F. '{print $1}')
 osminor=$(echo "$osversion" | awk -F. '{print $2}')
 ospatch=$(echo "$osversion" | awk -F. '{print $3}')
-[[ "$osmajor" -eq 10 && "$osminor" -lt 7 ]] && exit 14
-[ "$osmajor" -lt 10 ] && exit 15
+[ "$osmajor" -lt 10 ] && exit 1
+[ "$osmajor" == 10 ] && [ "$osminor" -lt 7 ] && exit 1
 
 get_current_service() {
 	services=$(networksetup -listnetworkserviceorder | grep -F 'Hardware Port')
@@ -114,7 +114,9 @@ get_current_resolvers() {
 }
 
 flush_dns_cache() {
-	if [ "$osmajor" -eq 10 ]; then
+	if ["$osmajor" -ge 11 ]; then
+		dscacheutil -flushcache 2>/dev/null
+	else
 		if [ "$osminor" -le 8 ]; then
 			killall -HUP mDNSResponder 2>/dev/null
 		elif [ "$osminor" = 9 ]; then
@@ -139,15 +141,10 @@ flush_dns_cache() {
 				killall mDNSResponderHelper 2>/dev/null
 				dscacheutil -flushcache 2>/dev/null
 			fi
-		elif [ "$osminor" = 15 ]; then
-			dscacheutil -flushcache 2>/dev/null
-			killall -HUP mDNSResponder 2>/dev/null
 		else
 			killall -HUP mDNSResponder 2>/dev/null
+			dscacheutil -flushcache 2>/dev/null
 		fi
-	elif [ "$osmajor" -eq 11 ]; then
-		dscacheutil -flushcache 2>/dev/null
-		killall -HUP mDNSResponder 2>/dev/null
 	fi
 }
 
@@ -170,8 +167,7 @@ fi
 
 if [ "$#" -gt 0 ]; then
 	wanted_resolvers="$*"
-	# shellcheck disable=2086
-	networksetup -setdnsservers "$service" $wanted_resolvers
+	osascript -e "do shell script \"networksetup -setdnsservers \\\"$service\\\" $wanted_resolvers\" with administrator privileges"
 	flush_dns_cache 2>/dev/null
 	exit 0
 fi
@@ -191,6 +187,11 @@ else
 	echo "$OTHER_ICON"
 fi
 echo "---"
+
+if [ "$service" = "Wi-Fi" ]; then
+	ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}')
+	echo "Wi-Fi SSID: ${ssid}"
+fi
 
 echo "${service} resolvers: ${service_resolvers_name}"
 if [ "$service_resolvers_name" != "$current_resolvers_name" ]; then
