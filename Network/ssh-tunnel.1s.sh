@@ -36,7 +36,7 @@ function hosts() {
 
 for h in $(hosts ~/.ssh/config); do
     if pgrep -qf "ssh -fN ${h}"; then
-        echo "(connecting) ${h} | color=indianred bash=/usr/bin/pkill param1='-f' param2='\"ssh -fN ${h}\"' terminal=false"
+        echo "(connecting) ${h} | color=indianred bash=/usr/bin/pkill param1='-f' param2='ssh -fN ${h}' terminal=false"
     else
         echo "${h} | bash=/usr/bin/ssh param1='-fN' param2=${h} terminal=false"
     fi
