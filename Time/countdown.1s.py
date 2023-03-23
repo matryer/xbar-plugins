@@ -7,9 +7,14 @@
 # <xbar.desc>Shows countdown of established date.</xbar.desc>
 # <xbar.image>https://cloud.githubusercontent.com/assets/7404532/12356787/ae62636c-bba4-11e5-8ff8-6a1eaffcbfc2.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
+# <xbar.var>string(VAR_TITLE="Countdown Timer"): Title to display in menu bar</xbar.var>
+# <xbar.var>string(VAR_DATE_FORMAT="%d-%m-%Y"): The date / time format for the timers you are setting up</xbar.var>
+# <xbar.var>boolean(VAR_NO_CYCLE=false): If true, times will not cycle in the menu bar but will be displayed in the drop-down menu</xbar.var>
+# <xbar.var>string(VAR_TIMERS="Time #1:17-07-2073,Time #2:15-08-2073"): Comma delimited list of timers you wish to set. Each list entry is a colon separated label and date / time matching the format set in the DATE_FORMAT variable.</xbar.var>
 
 from datetime import datetime
 import sys
+import os
 
 
 def dateDiffInSeconds(date1, date2):
@@ -25,72 +30,28 @@ def daysHoursMinutesSecondsFromSeconds(seconds):
 
 
 def main():
+    bar_title = os.environ.get("VAR_TITLE")
+    date_format = os.environ.get("VAR_DATE_FORMAT")
+    no_cycle = os.environ.get("VAR_NO_CYCLE")
+    timers = os.environ.get("VAR_TIMERS").split(",")
 
-    if "--help" in sys.argv:
-        print(
-            """
-To pass arguments to this script, you can create a separate sh file and execute the main script with it.
-
-Available Args:
-    --bar-title: This will appear as the first line in the output. The default is 'Countdown Timer'.
-    --date-format: You can provide a custom date format. The default is '%d-%m-%Y %H:%M'
-    --no-cycle: If this is present in the arguments, the times will not cycle.
-    --help: Prints this message and exits.
-
-Example:
-    countdown.py "--bar-title" "Custom Bar Title" "--no-cycle" "--date-format" "%d-%m-%Y" "Time #1" "17-07-2017" "Time #2" "15-08-2017"
-Script Example:
-    chmod +x /Path/to/countdown.py && /Path/to/countdown.py "--bar-title" "Custom Bar Title" "--no-cycle" "--date-format" "%d-%m-%Y" "Time #1" "17-07-2017" "Time #2" "15-08-2017"
-            """
-        )
-        return
-
-    arg_count = len(sys.argv)
     now = datetime.now()
-    date_format = '%d-%m-%Y %H:%M'
-    bar_title = "Countdown Timer"
-
-    label = ""
     time = None
 
-    if "--bar-title" in sys.argv:
-        found_index = sys.argv.index("--bar-title")
-        if len(sys.argv) > found_index + 1:
-            bar_title = sys.argv[found_index + 1]
-
-    if "--date-format" in sys.argv:
-        found_index = sys.argv.index("--date-format")
-        if len(sys.argv) > found_index + 1:
-            date_format = sys.argv[found_index + 1]
-
-    print(bar_title + " | font=\'Monospace\'")
-    if "--no-cycle" in sys.argv:
+    if no_cycle == "false":
+        print(bar_title + " | font=\'Monospace\'")
         print("---")
 
-    if arg_count == 1:
-        print("""
-            Please pass the correct arguments for this plugin to work.
-            You can create an sh file that executes the main Python
-            script file with the appropriate arguments.
-            For examples, see the script file.
-        """)
-
-    for index in range(1, arg_count):
-        arg = sys.argv[index].strip()
-        if arg == "--no-cycle":
-            continue
-
-        if arg == "--bar-title":
-            continue
-
-        if index > 0 and sys.argv[index - 1] == "--date-format":
-            continue
+    for timer in timers:
+        timerData = timer.split(":")
+        label = timerData[0]
+        timer_date = timerData[1]
 
         try:
-            time = datetime.strptime(arg, date_format)
+            time = datetime.strptime(timer_date, date_format)
             print(label + ": %d d, %d h, %d m | font=\'Monospace\'" % daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, time)))
-        except ValueError:
-            label = arg
+        except ValueError as e:
+            print(e)
 
 
 if __name__ == "__main__":
