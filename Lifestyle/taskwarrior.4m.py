@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" python3
 # -*- coding: utf-8 -*-
 #
 # Taskwarrior
@@ -30,7 +30,8 @@ from subprocess import Popen, PIPE
 def trigger_actions(argv):
     t_id = argv[-1]
     action = argv[-2]
-    subprocess.call(['/usr/local/bin/task', t_id, action])
+    path_task = subprocess.check_output(['which', 'task']).decode('ascii').rstrip()
+    subprocess.call([path_task, t_id, action])
 
 
 def build_command(t_id, action, refresh=True):
@@ -39,7 +40,7 @@ def build_command(t_id, action, refresh=True):
     if refresh:
         cmd = cmd + ' refresh=true'
 
-    cmd = cmd + ' bash=/usr/bin/python param1=' + __file__ + ' param2='
+    cmd = cmd + ' bash=python3 param1=' + __file__ + ' param2='
 
     cmd = cmd + action
 
@@ -63,8 +64,10 @@ def print_output(
         alternate_command=''):
     output = ''
 
+    path_task = subprocess.check_output(['which', 'task']).decode('ascii').rstrip()
+
     # important: PIPE the stderr, since task likes to use that - a lot ...
-    p = Popen(['/usr/local/bin/task', cmd],
+    p = Popen([path_task, cmd],
               stdin=None, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
 

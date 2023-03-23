@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" python3
 
 # <xbar.title>Binance Price Ticker</xbar.title>
 # <xbar.version>v1.1</xbar.version>
@@ -19,7 +19,7 @@ coin_symbols=['BNBBTC', 'ETHBTC']
 #https://api.binance.com/api/v1/ticker/24hr
 
 for coin_symbol in coin_symbols:
-    url="https://api.binance.com/api/v1/ticker/24hr?symbol={}".format(coin_symbol)
+    url="https://data.binance.com/api/v3/ticker/24hr?symbol={}".format(coin_symbol)
     payload=urlopen(url)
 
     data = json.load(payload)
