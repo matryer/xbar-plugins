@@ -20,7 +20,7 @@ do shell script "/usr/bin/pmset -a disablesleep 0" with administrator privileges
 fi
 
 if [[ "$1" = "stop_caffeinate" ]]; then
-  pkill caffeinate
+  /usr/bin/pkill caffeinate
   exit
 fi
 
@@ -43,7 +43,7 @@ sleep_disabled=$(echo "$battery_stats" | awk '$1~/SleepDisabled/ {print $2}')
 sleep_prevented=$(echo "$battery_stats" | awk -F'(' '$0~/\(sleep prevented/ {print $2}' | tr -d ')')
 display_sleep_prevented=$(echo "$battery_stats" | awk -F'(' '$0~/\(display sleep prevented/ {print $2}' | tr -d ')')
 
-pgrep -n caffeinate -q &>/dev/null
+/usr/bin/pgrep -n caffeinate -q &>/dev/null
 is_caffeinate_running="$?"
 
 if [[ $sleep_disabled == "0" ]]; then
