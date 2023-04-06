@@ -4,7 +4,7 @@
 # rubocop:disable Layout/LineLength
 
 # <xbar.title>Brew Updates</xbar.title>
-# <xbar.version>v2.6.1</xbar.version>
+# <xbar.version>v2.6.2</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage outdated Homebrew formulas and casks</xbar.desc>
@@ -346,7 +346,7 @@ module Brew
         if excluded.size.positive?
           printer.sep
           printer.item("Excluded (#{excluded.size}):")
-          excluded.sort_by(&:brew_name).each do |item|
+          excluded.sort_by(&:name).each do |item|
             type = item.is_a?(Formula) ? 'Formula' : 'Cask'
             printer.item("#{item.name} (#{type})")
           end
