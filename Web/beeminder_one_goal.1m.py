@@ -18,6 +18,7 @@
 
 import os
 import json
+import time
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
 from urllib.error import URLError
@@ -33,13 +34,22 @@ API_URL = f'https://www.beeminder.com/api/v1/users/{USERNAME}.json'
 params = dict(auth_token=AUTH_TOKEN, datapoints_count=1, associations=True)
 url_with_params = f'{API_URL}?{urlencode(params)}'
 
-try:
-    response = urlopen(url_with_params)
-    data = json.loads(response.read())
-    goals = data['goals']
-except URLError as e:
-    print(f'Error fetching data: {e}')
-    exit(1)
+retries = 13
+backoff_factor = 0.1
+data = None
+
+for i in range(retries):
+    try:
+        response = urlopen(url_with_params)
+        data = json.loads(response.read())
+        goals = data['goals']
+        break
+    except URLError as e:
+        if i < retries - 1:
+            time.sleep(backoff_factor * (2 ** i))
+            continue
+        else:
+            raise Exception(f'Error fetching data: {e}')
 
 # Select goal
 goal_emoji = GOAL_EMOJI
