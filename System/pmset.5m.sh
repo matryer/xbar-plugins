@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# <bitbar.title>Sleep Manager</bitbar.title>
-# <bitbar.version>v0.3</bitbar.version>
-# <bitbar.author>glowinthedark</bitbar.author>
-# <bitbar.author.github>glowinthedark</bitbar.author.github>
-# <bitbar.desc>Sleeping and power management GUI. View current sleep status, disable sleep on battery, prevent sleeping using ootb caffeinate</bitbar.desc>
-# <bitbar.image>https://telegra.ph/file/20ef9918b679e238bc5ff.png</bitbar.image>
-# <bitbar.abouturl>https://github.com/matryer/xbar-plugins/blob/main/System/pmset.5m.sh</bitbar.abouturl>
+# <xbar.title>Sleep Manager</xbar.title>
+# <xbar.version>v0.3</xbar.version>
+# <xbar.author>glowinthedark</xbar.author>
+# <xbar.author.github>glowinthedark</xbar.author.github>
+# <xbar.desc>Sleeping and power management GUI. View current sleep status, disable sleep on battery, prevent sleeping using ootb caffeinate</xbar.desc>
+# <xbar.image>https://telegra.ph/file/20ef9918b679e238bc5ff.png</xbar.image>
+# <xbar.abouturl>https://github.com/matryer/xbar-plugins/blob/main/System/pmset.5m.sh</xbar.abouturl>
 
 if [[ "$1" = "pmset_disable_battery_sleep" ]]; then
   osascript -e 'display dialog "Disable system sleep while on battery?" buttons {"Cancel", "DISABLE NOW! (System will NOT sleep!)"}
