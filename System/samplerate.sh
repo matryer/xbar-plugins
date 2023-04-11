@@ -12,7 +12,7 @@ IFS='
 
 device_index=0
 
-devices=($(/usr/sbin/system_profiler  \
+devices=($(system_profiler  \
   SPAudioDataType 2>/dev/null | \
   sed '1,/Devices/d' | \
   grep "^        \w" | \
@@ -26,7 +26,7 @@ elif [[ -f ~/.bitbar_audio_device_index ]]; then
 fi
 
 default_device="${devices[$device_index]}"
-samplerate=($(/usr/sbin/system_profiler  \
+samplerate=($(system_profiler  \
   SPAudioDataType 2>/dev/null | \
   sed '1,/'"${default_device}"'/d' | \
   grep SampleRate | \

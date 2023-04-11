@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # <xbar.title>Anaconda Environments</xbar.title>
@@ -106,7 +106,7 @@ def get_conda_envs():
     out = subp.check_output(cmd, stderr=subp.STDOUT).strip()
     envs = []
     for env in out.splitlines():
-        if not env.strip().startswith('#'):
+        if not env.strip().startswith(b'#'):
             tuple = env.split()
             name = tuple[0]
             path = tuple[1]

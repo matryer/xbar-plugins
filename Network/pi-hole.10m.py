@@ -1,7 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-xbar
+#!/usr/bin/env python3
+
 # <xbar.title>Pi-hole status</xbar.title>
-# <xbar.version>v3.2</xbar.version>
+# <xbar.version>v3.3</xbar.version>
 # <xbar.author>Felipe Martin</xbar.author>
 # <xbar.author.github>fmartingr</xbar.author.github>
 # <xbar.author>Siim Ots</xbar.author>
@@ -9,7 +9,6 @@
 # <xbar.desc>Show summary and manage Pi-Hole from menubar.</xbar.desc>
 # <xbar.image>https://i.imgur.com/3MrdcKl.png</xbar.image>
 # <xbar.dependencies>pi-hole,python</xbar.dependencies>
-
 # <xbar.var>string(VAR_BASE_URL="http://pi.hole/admin"): URL to the pi-hole admin path without trailing slash.</xbar.var>
 
 import json
@@ -26,11 +25,7 @@ import os
 # Change icon when disabled
 # Show when update is available
 
-try:  # Python 3
-    from urllib.request import urlopen
-except ImportError:  # Python 2
-    from urllib2 import urlopen  # noqa
-
+from urllib.request import urlopen
 
 PLUGIN_PATH = os.path.join(os.getcwd(), __file__)
 
@@ -64,6 +59,8 @@ url_summary = "%s/api.php?summary" % base_url
 # Urls to enable/disable service
 url_enable = "%s/api.php?enable&auth=%s" % (base_url, password)
 url_disable = "%s/api.php?disable&auth=%s" % (base_url, password)
+url_disable_30s = "%s/api.php?disable=30&auth=%s" % (base_url, password)
+url_disable_5m = "%s/api.php?disable=300&auth=%s" % (base_url, password)
 
 
 # ---
@@ -74,8 +71,13 @@ def convert_to_native(data):
 
 
 def do_request(url, method='GET'):
-    response = urlopen(url)
-    return convert_to_native(response.read())
+    try:
+        response = urlopen(url)
+    except:
+        test = {'status': 'unavailable'}
+        return test
+    else:
+        return convert_to_native(response.read())
 
 
 def get_summary():
@@ -96,7 +98,7 @@ def separator():
 summary = get_summary()
 status = get_status()
 enabled = status == 'enabled'
-
+offline = status == 'unavailable'
 
 # Layout
 def bitbar():
@@ -104,14 +106,20 @@ def bitbar():
     print('| templateImage=%s' % globals()['icon_%s' % icon_type])
     separator()
 
+    if offline:
+        print("Pi-Hole unavailable")
+        return
+
     print("Open pi-hole admin | href=%s" % base_url)
     separator()
 
     print('Status: %s' % status)
     if enabled:
-        print('Disable Pi-hole | refresh=true href=%s' % url_disable)
+        print('Disable Pi-hole | refresh=true shell=curl param1=%s' % url_disable)
+        print('Disable Pi-hole 30s | refresh=true shell=curl param1=%s' % url_disable_30s)
+        print('Disable Pi-hole 5m | refresh=true shell=curl param1=%s' % url_disable_5m)
     else:
-        print('Enable Pi-hole | refresh=true href=%s' % url_enable)
+        print('Enable Pi-hole | refresh=true shell=curl param1=%s' % url_enable)
 
     separator()
     print("Domains being locked: %s" % summary['domains_being_blocked'])

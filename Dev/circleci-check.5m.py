@@ -1,8 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # <xbar.title>CircleCI Check</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v1.2</xbar.version>
 # <xbar.author>Florent Segouin</xbar.author>
 # <xbar.author.github>fsegouin</xbar.author.github>
 # <xbar.desc>This plugin displays the build status of repositories listed on CircleCI.</xbar.desc>
@@ -23,8 +22,9 @@
 #   - Sort builds
 #   - Add running builds
 
-from urllib import unquote
-import requests
+import json
+from urllib.parse import unquote
+from urllib.request import Request, urlopen
 
 # You need to set your CIRCLECI_API_TOKEN with an API Token from CircleCI.
 CIRCLECI_API_TOKEN = ''
@@ -34,13 +34,13 @@ CIRCLECI_API_ENDPOINT = 'https://circleci.com/api/v1/'
 # ======================================
 
 SYMBOLS = {
-    'running': u' ▶',
-    'success': u' ✓',
-    'failed': u' ✗',
-    'timedout': u' ⚠',
-    'canceled': u' ⊝',
-    'scheduled': u' ⋯',
-    'no_tests': u' ',
+    'running': ' ▶',
+    'success': ' ✓',
+    'failed': ' ✗',
+    'timedout': ' ⚠',
+    'canceled': ' ⊝',
+    'scheduled': ' ⋯',
+    'no_tests': ' ',
 }
 
 COLORS = {
@@ -53,7 +53,7 @@ COLORS = {
     'no_tests': 'black',
 }
 
-NO_SYMBOL = u' ❂'
+NO_SYMBOL = ' ❂'
 
 
 def getOutcomeKey(build):
@@ -63,8 +63,9 @@ def getOutcomeKey(build):
 def request(uri):
     url = CIRCLECI_API_ENDPOINT + uri + '?circle-token=' + CIRCLECI_API_TOKEN
     headers = {'Accept': 'application/json'}
-    r = requests.get(url, headers=headers)
-    return r.json()
+    req = Request(url, None, headers)
+    data = urlopen(req).read()
+    return json.loads(data.decode('utf-8'))
 
 
 def getRessource(ressource_name):
@@ -84,9 +85,9 @@ def updateStatuses(projects):
         branches = project['branches']
         running_builds = []
         recent_builds = []
-        output.append(u'{}/{} | href={}'.format(user_name, repo_name, repo_href))
+        output.append('{}/{} | href={}'.format(user_name, repo_name, repo_href))
 
-        for branch_name, branch in sorted(branches.iteritems()):
+        for branch_name, branch in sorted(branches.items()):
             if 'running_builds' in branch and len(branch['running_builds']) > 0:
                 branch['running_builds'][0]['branch_name'] = branch_name
                 running_builds.append(branch['running_builds'][0])
@@ -101,8 +102,8 @@ def updateStatuses(projects):
                 color = 'color={}'.format(COLORS[status]) if COLORS[status] else ''
                 symbol = SYMBOLS.get(status, NO_SYMBOL)
                 branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, running_build['branch_name'])
-                output_msg = u'- {} {}'.format(symbol, unquote(running_build['branch_name']))
-                output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
+                output_msg = '- {} {}'.format(symbol, unquote(running_build['branch_name']))
+                output.append('{} | {} {}'.format(output_msg, branch_href, color))
 
 
         for recent_build in sorted(recent_builds, key=getOutcomeKey):
@@ -111,13 +112,13 @@ def updateStatuses(projects):
                 color = 'color={}'.format(COLORS[outcome]) if COLORS[outcome] else ''
                 symbol = SYMBOLS.get(outcome, NO_SYMBOL)
                 branch_href = 'href=https://circleci.com/gh/{}/{}/tree/{}'.format(user_name, repo_name, recent_build['branch_name'])
-                output_msg = u'- {} {}'.format(symbol, unquote(recent_build['branch_name']))
-                output.append(u'{} | {} {}'.format(output_msg, branch_href, color))
+                output_msg = '- {} {}'.format(symbol, unquote(recent_build['branch_name']))
+                output.append('{} | {} {}'.format(output_msg, branch_href, color))
 
         output.append('---')
 
     for line in output:
-        print line.encode('utf-8')
+        print(line.encode('utf-8'))
 
 
 if __name__ == '__main__':

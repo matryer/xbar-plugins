@@ -1,4 +1,5 @@
-#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
+#!/usr/bin/env python3
+
 # <xbar.title>Do Not Disturb</xbar.title>
 # <xbar.author>Weibing Chen</xbar.author>
 # <xbar.author.github>weibingchen17</xbar.author.github>
@@ -9,16 +10,17 @@
 # 
 import os,sys
 import datetime
+import shlex
 
 def idle():
     print(':bell:')
     print("---")
-    print("01 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=1 terminal=false refresh=true")
-    print("05 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=5 terminal=false refresh=true")
-    print("10 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=10 terminal=false refresh=true")
-    print("30 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=30 terminal=false refresh=true")
-    print("60 min | trim=false, color=blue bash=" + fullPathFileName +  " param1=60 terminal=false refresh=true")
-    print("Custom | trim=false, color=blue bash=" + fullPathFileName +  " param1=set terminal=false refresh=true")
+    print("01 min | trim=false color=blue bash=" + shlex.quote(fullPathFileName) +  " param1=1 terminal=false refresh=true")
+    print("05 min | trim=false color=blue bash=" + shlex.quote(fullPathFileName) +  " param1=5 terminal=false refresh=true")
+    print("10 min | trim=false color=blue bash=" + shlex.quote(fullPathFileName) +  " param1=10 terminal=false refresh=true")
+    print("30 min | trim=false color=blue bash=" + shlex.quote(fullPathFileName) +  " param1=30 terminal=false refresh=true")
+    print("60 min | trim=false color=blue bash=" + shlex.quote(fullPathFileName) +  " param1=60 terminal=false refresh=true")
+    print("Custom | trim=false color=blue bash=" + shlex.quote(fullPathFileName) +  " param1=set terminal=false refresh=true")
 
 def touch(a_file):
     with open(a_file, 'a'):

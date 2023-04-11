@@ -38,7 +38,7 @@ renderPlugin();
 
 function renderPlugin(){
   if(key == "<YOUR-KEY-HERE>"){
-    console.log("CLICK ME TO CONFIGURE YOUTUBE TICKER |color:red image="+youTubeIcon );
+    console.log("CLICK ME TO CONFIGURE YOUTUBE TICKER |color=red image="+youTubeIcon );
     console.log("---");
     console.log("Please watch the following setup video. [Click to visit site] |href="+setupVideoLink);
     console.log("---");

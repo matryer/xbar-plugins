@@ -1,8 +1,7 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-#
+#!/usr/bin/env python3
+
 # <xbar.title>ProtonVPN Server Monitor</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>Sai Sasidhar Maddali</xbar.author>
 # <xbar.author.github>saisasidhar</xbar.author.github>
 # <xbar.desc>Displays ProtonVPN server load for free and user defined servers</xbar.desc>
@@ -10,13 +9,7 @@
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl>https://github.com/saisasidhar/utils/tree/master/bitbar-argos/ProtonVPN</xbar.abouturl>
 
-try:
-    # for python3
-    from urllib.request import urlopen
-except ImportError:
-    # fallback to python2 urllib2
-    from urllib2 import urlopen
-
+from urllib.request import urlopen
 import json
 
 menu_titles = []

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" python3
 # -*- coding: utf-8 -*-
 #
 # Taskwarrior
@@ -30,7 +30,8 @@ from subprocess import Popen, PIPE
 def trigger_actions(argv):
     t_id = argv[-1]
     action = argv[-2]
-    subprocess.call(['/usr/local/bin/task', t_id, action])
+    path_task = subprocess.check_output(['which', 'task']).decode('ascii').rstrip()
+    subprocess.call([path_task, t_id, action])
 
 
 def build_command(t_id, action, refresh=True):
@@ -39,7 +40,7 @@ def build_command(t_id, action, refresh=True):
     if refresh:
         cmd = cmd + ' refresh=true'
 
-    cmd = cmd + ' bash=/usr/bin/python param1=' + __file__ + ' param2='
+    cmd = cmd + ' bash=python3 param1=' + __file__ + ' param2='
 
     cmd = cmd + action
 
@@ -63,12 +64,14 @@ def print_output(
         alternate_command=''):
     output = ''
 
+    path_task = subprocess.check_output(['which', 'task']).decode('ascii').rstrip()
+
     # important: PIPE the stderr, since task likes to use that - a lot ...
-    p = Popen(['/usr/local/bin/task', cmd],
+    p = Popen([path_task, cmd],
               stdin=None, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
 
-    output_lines = output.split('\n')
+    output_lines = output.decode('utf-8').split('\n')
 
     id_list = []
     content_lines = []
@@ -90,16 +93,16 @@ def print_output(
 
     if head:
         if content_count == 0:
-            print 'ⓣ'  # ⓪ #⓿
+            print("ⓣ")    # ⓪ #⓿
         elif content_count < 21:
-            circle_number = ['⓪', '①', '②', '③', '④', '⑤', '⑥',
-                             '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬',
-                             '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳']
-            print circle_number[content_count]  # + '|' + color_pending
+            circle_number = ["⓪", "①", "②", "③", "④", "⑤", "⑥",
+                             "⑦", "⑧", "⑨", "⑩", "⑪", "⑫", "⑬",
+                             "⑭", "⑮", "⑯", "⑰", "⑱", "⑲", "⑳"]
+            print(circle_number[content_count])  # + '|' + color_pending
         else:
-            print str(content_count)  # + '| color=Red'
+            print(str(content_count))  # + '| color=Red'
 
-        print '---'
+        print('---')
 
     if content_count < 1:
         return id_list
@@ -111,13 +114,13 @@ def print_output(
     content_formatting = ' | size=12 font=Courier'
 
     if print_content:
-        print table_head + content_formatting
-        print '---'
+        print(table_head + content_formatting)
+        print('---')
 
     for content_line in content_lines[2:-1]:
         content_re = re.match('^\[\s*(.+)\]\s+([0-9A-Fa-f]+)?', content_line)
         content_id = content_re.group(1)
-        
+
         if content_id == '-':
             # should be the UUID in this case
             content_id = content_re.group(2)
@@ -137,9 +140,9 @@ def print_output(
                 if len(highlight_command) > 0:
                     cmd = build_command(
                         t_id=content_id, action=highlight_command)
-                print content_line + content_formatting + highlight_color + cmd
+                print(content_line + content_formatting + highlight_color + cmd)
             else:
-                print content_line + content_formatting + color + cmd
+                print(content_line + content_formatting + color + cmd)
 
             # adding an alternative command (press ALT for this!)
             # printing the same stuff again, only with a different action
@@ -149,9 +152,9 @@ def print_output(
                     t_id=content_id, action=alternate_command)
 
                 if content_id in highlight_id_list:
-                    print content_line + content_formatting + highlight_color + alt_cmd + ' alternate=true'
+                    print(content_line + content_formatting + highlight_color + alt_cmd + ' alternate=true')
                 else:
-                    print content_line + content_formatting + color + alt_cmd + ' alternate=true'
+                    print(content_line + content_formatting + color + alt_cmd + ' alternate=true')
 
     return id_list
 
@@ -184,7 +187,7 @@ def main(argv):
     id_list = print_output('active', color_running, True, print_content=False)
 
     if len(id_list) > 0:
-        print '---'
+        print('---')
 
     print_output(
         'next',
@@ -196,7 +199,7 @@ def main(argv):
         highlight_command='stop',
         alternate_command='done')
 
-    print '---'
+    print('---')
 
     # ok, so if you want to delete a command, you have to press done first ...
     # sorry, but there is only one alternative command I can provide above ...

@@ -1,5 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # <xbar.title>BMW Charging Status</xbar.title>
 # <xbar.version>v1.0</xbar.version>

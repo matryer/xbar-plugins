@@ -1,5 +1,5 @@
-#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
-#
+#!/usr/bin/env python3
+
 # <xbar.title>Yahoo Stock Ticker</xbar.title>
 # <xbar.version>v1.1</xbar.version>
 # <xbar.author>Long Do</xbar.author>
@@ -20,7 +20,7 @@ import subprocess
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Enter your stock symbols here in the format: ["symbol1", "symbol2", ...]
-symbols = ["FB", "AAPL", "AMZN", "NFLX", "GOOG", "BIDU", "BABA", "TCEHY"]
+symbols = ["AAPL", "AMZN", "NFLX", "GOOG", "BIDU", "BABA", "TCEHY"]
 
 # Enter the order how you want to sort the stock list:
 # 'name'                     : Sort alphabetically by name from A to Z

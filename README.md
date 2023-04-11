@@ -27,4 +27,4 @@ Special thanks to everyone who has contributed: https://xbarapp.com/docs/contrib
 
 ## Add your own plugin
 
-To contribute your own plugin, consult the [guide to writing plugins](https://github.com/matryer/xbar#writing-plugins)
+To contribute your own plugin, consult the [plugin development and contribution guide](./CONTRIBUTING.md)

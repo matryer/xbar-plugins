@@ -1,8 +1,7 @@
-#!/usr/bin/env python2
-#- * -coding: utf - 8 - * -
-#
+#!/usr/bin/env python3
+
 # <xbar.title>Battery Health</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v1.2</xbar.version>
 # <xbar.author>Andros Fenollosa</xbar.author>
 # <xbar.author.github>tanrax</xbar.author.github>
 # <xbar.desc>Shows power percentaje and notice when you load</xbar.desc>
@@ -23,7 +22,7 @@ alertMin = False
 alertMax = False
 
 try:
-    dateFile = open(SAVE_LOCATION)
+    dateFile = open(SAVE_LOCATION, 'rb')
     dateSave = pickle.load(dateFile)
     alertMin = dateSave['alertMin']
     alertMax = dateSave['alertMax']
@@ -32,16 +31,16 @@ except:
 
 # Get variables
 for l in output.splitlines():
-    if 'MaxCapacity' in l:
+    if b'MaxCapacity' in l:
         o_max = l
-    if 'CurrentCapacity' in l:
+    if b'CurrentCapacity' in l:
         o_cur = l
-    if 'IsCharging' in l:
+    if b'IsCharging' in l:
         is_charging = l
 
-b_max = float(o_max.rpartition('=')[-1].strip())
-b_cur = float(o_cur.rpartition('=')[-1].strip())
-is_charging = str(is_charging.rpartition('=')[-1].strip())
+b_max = float(o_max.rpartition(b'=')[-1].strip())
+b_cur = float(o_cur.rpartition(b'=')[-1].strip())
+is_charging = str(is_charging.rpartition(b'=')[-1].strip())
 if is_charging == 'Yes':
     is_charging = True
 else:
@@ -69,7 +68,8 @@ if LIM_UPPER > charge_porcent > LIM_LOWER:
     
 # Save
 dateTemp = {'alertMax': alertMax, 'alertMin': alertMin}
-dateSave = open(SAVE_LOCATION, 'w+')
+dateSave = open(SAVE_LOCATION, 'wb+')
+
 pickle.dump(dateTemp, dateSave)
 
 # Print

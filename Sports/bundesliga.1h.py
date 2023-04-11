@@ -1,5 +1,5 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 # <xbar.title>Bundesliga Matchday</xbar.title>
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>Alex</xbar.author>

@@ -1,4 +1,4 @@
-#!/usr/bin/env /usr/local/bin/node
+#!/usr/bin/env /opt/homebrew/bin/node
 
 // <xbar.title>Toggl status</xbar.title>
 // <xbar.version>v1.1</xbar.version>
@@ -119,7 +119,7 @@ const badApiToken = wrong => {
   console.log('🖱 Click here to find your token| href=https://toggl.com/app/profile');
   console.log('It will be at the bottom of the page|size=12');
   console.log(`Once you've found your token, copy it (CMD+C)|size=12`);
-  console.log(`🤞 I've copied it 🤞|bash=${process.argv[1]} param1=api_token refresh=true terminal=false `);
+  console.log(`🤞 I've copied it 🤞|bash='${process.argv[1]}' param1=api_token refresh=true terminal=false `);
   endOutput();
 };
 
@@ -307,11 +307,11 @@ const displayTimes = me => {
 
 const avatarChoice = () => {
   console.log(`Change ${config.avatar}`);
-  console.log(`--((surprise me))|bash=${process.argv[1]} param1=avatar param2=avatar refresh=true terminal=false size=10`);
+  console.log(`--((surprise me))|bash='${process.argv[1]}' param1=avatar param2=avatar refresh=true terminal=false size=10`);
   Object.keys(AVATARS).forEach(k => {
     console.log(`--${k}|size=32`);
     AVATARS[k].forEach(v => {
-      console.log(`----${v}|bash=${process.argv[1]} param1=avatar param2=${v} refresh=true terminal=false size=32`);
+      console.log(`----${v}|bash='${process.argv[1]}' param1=avatar param2=${v} refresh=true terminal=false size=32`);
     });
   });
 };
@@ -348,7 +348,7 @@ const input = () => {
 
 const output = () => {
   require('https').get({
-    hostname: 'toggl.com',
+    hostname: 'track.toggl.com',
     // NB: since is "edited since", and so isn't really reliable
     path: `/api/v8/me?with_related_data=true&since=${startOfWeek()}`,
     auth: `${config.apiToken}:api_token`

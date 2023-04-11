@@ -133,19 +133,19 @@ print(icon_prefix + toolbar_output + "| font='SF Compact Text Regular'")
 
 if system_wattage > 0:
     print("---")
-    print(efficiency + " efficiency | href:https://monitoring.solaredge.com/")
+    print(efficiency + " efficiency | href=https://monitoring.solaredge.com/")
 
 print("---")
-print(energy_mtd + " this month | href:https://monitoring.solaredge.com/")
-print(energy_ytd + " this year | href:https://monitoring.solaredge.com/")
+print(energy_mtd + " this month | href=https://monitoring.solaredge.com/")
+print(energy_ytd + " this year | href=https://monitoring.solaredge.com/")
 # If YTD and lifetime energy are within 1 kWh, consider them equal and
 # suppress the total energy data from the dropdown menu
 if raw_energy_total - raw_energy_ytd > 1000:
-    print(energy_total + " lifetime | href:https://monitoring.solaredge.com/")
+    print(energy_total + " lifetime | href=https://monitoring.solaredge.com/")
 
 if co2_lbs_per_MWh > 0:
     print("---")
-    print(co2_offset + " CO₂ offset | href:https://monitoring.solaredge.com/")
+    print(co2_offset + " CO₂ offset | href=https://monitoring.solaredge.com/")
 
-# print("---")
-# print(json['overview']['lastUpdateTime'] + " | size:11")
+print("---")
+print(json['overview']['lastUpdateTime'] + " | size=11")
