@@ -8,9 +8,10 @@
 #  <xbar.author.github>the-decentralizer</xbar.author.github>
 #  <xbar.desc>Grabs and parses data from https://etherchain.org/api/gasnow</xbar.desc>
 #  <xbar.dependencies>bash</xbar.dependencies>
+#  <xbar.image>https://user-images.githubusercontent.com/5545555/231251410-06cb8b22-fe5a-40c0-bccf-c194dcdabc0c.png</xbar.image>
 
 
-response=$(curl -s 'https://etherchain.org/api/gasnow')
+response=$(curl -s 'https://beaconcha.in/api/v1/execution/gasnow')
 read code rapid fast standard slow timestamp priceUSD <<<${response//[^0-9]/ }
 echo "Ξ Rapid ${rapid:0:((${#rapid} - 9))} | color=green" 
 echo "---"
