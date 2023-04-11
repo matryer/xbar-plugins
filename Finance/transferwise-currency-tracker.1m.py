@@ -23,7 +23,7 @@ currency_to_label = os.environ.get("VAR_CURRENCY_TO_LABEL")
 
 TRANSFERWISE_KEY = "dad99d7d8e52c2c8aaf9fda788d8acdc"
 
-url = "https://wise.com/api/v1/payment/calculate?amount=1" \
+url = "https://transferwise.com/api/v1/payment/calculate?amount=1" \
       "&amountCurrency=source&hasDiscount=false&isFixedRate=false" \
       "&isGuaranteedFixedTarget=false" \
       "&sourceCurrency={}&targetCurrency={}".format(currency_from, currency_to)
