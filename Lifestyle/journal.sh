@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>Journaling with The Archive</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Bruno Conte</bitbar.author>
-# <bitbar.author.github>brunocbr</bitbar.author.github>
-# <bitbar.desc>Activates The Archive and remind for Journaling</bitbar.desc>
-# <bitbar.image>https://forum.zettelkasten.de/uploads/editor/xm/regzdy1vfk24.gif</bitbar.image>
-# <bitbar.dependencies>bash,applescript,The Archive</bitbar.dependencies>
-# <bitbar.abouturl>https://forum.zettelkasten.de/discussion/1559/better-journaling-with-the-archive-and-bitbar</bitbar.abouturl>
+# <xbar.title>Journaling with The Archive</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Bruno Conte</xbar.author>
+# <xbar.author.github>brunocbr</xbar.author.github>
+# <xbar.desc>Activates The Archive and remind for Journaling</xbar.desc>
+# <xbar.image>https://forum.zettelkasten.de/uploads/editor/xm/regzdy1vfk24.gif</xbar.image>
+# <xbar.dependencies>bash,applescript,The Archive</xbar.dependencies>
+# <xbar.abouturl>https://forum.zettelkasten.de/discussion/1559/better-journaling-with-the-archive-and-bitbar</xbar.abouturl>
 
 SCRIPT_NAME=$(basename "$0")
 SCRIPT_DIR=$(dirname "$0")
@@ -53,7 +53,7 @@ if [[ "$1" = "click" ]]; then
     switchTheArchive
     if [ -f "${FLAG_FILE}" ] ; then
         rm -f "${FLAG_FILE}"
-        open 'bitbar://refreshPlugin?name=journal.sh'
+        open 'xbar://refreshPlugin?name=journal.sh'
     fi
 fi
 
