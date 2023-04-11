@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# <bitbar.title>DayAndNightClock</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>FusionX</bitbar.author>
-# <bitbar.author.github>FusionX13</bitbar.author.github>
-# <bitbar.desc>A clock that can do many things.</bitbar.desc>
-# <bitbar.image>https://i.ibb.co/6YQYS0k/Screen-Shot-2020-04-24-at-11-38-18-AM.png</bitbar.image>
-# <bitbar.dependencies>bash</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/FusionX13/</bitbar.abouturl>
+# <xbar.title>DayAndNightClock</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>FusionX</xbar.author>
+# <xbar.author.github>FusionX13</xbar.author.github>
+# <xbar.desc>A clock that can do many things.</xbar.desc>
+# <xbar.image>https://i.ibb.co/6YQYS0k/Screen-Shot-2020-04-24-at-11-38-18-AM.png</xbar.image>
+# <xbar.dependencies>bash</bitbar.dependencies>
+# <xbar.abouturl>https://github.com/FusionX13/</xbar.abouturl>
 
 # Gets Emoji Moon
 get_phase_day () {
