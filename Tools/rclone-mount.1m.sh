@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>Rclone Mount</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Ryan Chiechi</bitbar.author>
-# <bitbar.author.github>rchiechi</bitbar.author.github>
-# <bitbar.desc>Quickly mount endpoints in rclone.</bitbar.desc>
-# <bitbar.image>https://i.imgur.com/woYDSdX.png</bitbar.image>
-# <bitbar.dependencies>bash, rclone</bitbar.dependencies>
+# <xbar.title>Rclone Mount</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Ryan Chiechi</xbar.author>
+# <xbar.author.github>rchiechi</xbar.author.github>
+# <xbar.desc>Quickly mount endpoints in rclone.</xbar.desc>
+# <xbar.image>https://i.imgur.com/woYDSdX.png</xbar.image>
+# <xbar.dependencies>bash, rclone</xbar.dependencies>
 
 
 #TARGET is the local mountpoint for the remote
