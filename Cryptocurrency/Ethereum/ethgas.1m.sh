@@ -6,7 +6,7 @@
 #  <xbar.version>v1.0</xbar.version>
 #  <xbar.author>the-decentraliizer</xbar.author>
 #  <xbar.author.github>the-decentralizer</xbar.author.github>
-#  <xbar.desc>Grabs and parses data from https://etherchain.org/api/gasnow</xbar.desc>
+#  <xbar.desc>Grabs and parses data from https://beaconcha.in/api/v1/execution/gasnow</xbar.desc>
 #  <xbar.dependencies>bash</xbar.dependencies>
 #  <xbar.image>https://user-images.githubusercontent.com/5545555/231251410-06cb8b22-fe5a-40c0-bccf-c194dcdabc0c.png</xbar.image>
 
