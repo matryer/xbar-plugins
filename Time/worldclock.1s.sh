@@ -10,8 +10,9 @@
 # <xbar.author.github>asnodgrass</xbar.author.github>
 # <xbar.desc>Display current UTC time in the menu bar, with various timezones in the drop-down menu</xbar.desc>
 # <xbar.image>https://cloud.githubusercontent.com/assets/6187908/12207887/464ff8b2-b617-11e5-9d61-787eed228552.png</xbar.image>
+# <xbar.var>string(VAR_ZONES="Australia/Sydney Europe/Amsterdam America/New_York America/Los_Angeles"): Space delimited set of timezones</xbar.var>
 
-ZONES="Australia/Sydney Europe/Amsterdam America/New_York America/Los_Angeles"
+ZONES=${VAR_ZONES}
 date -u +'%H:%M:%S UTC'
 echo '---'
 for zone in $ZONES; do
