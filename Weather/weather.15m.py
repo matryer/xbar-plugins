@@ -15,7 +15,17 @@ from urllib.error import URLError
 from random import randint
 import datetime
 
-location_name = 'London,GB'
+def get_location_using_ip():
+    service_endpoint = 'http://ip-api.com/json'
+    r = urlopen(service_endpoint).read()
+    j = json.loads(r)
+    city = j['city']
+    country = j['countryCode']
+    location = f"{city},{country}"
+
+    return location.replace(" ", "%20")
+
+location_name = get_location_using_ip()
 api_key = '8b4824b451d5db1612156837df880f55'
 units = 'imperial'  # kelvin, metric, imperial
 lang = 'en'
