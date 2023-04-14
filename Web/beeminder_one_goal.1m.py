@@ -11,8 +11,7 @@
 #  <xbar.image>https://images2.imgbox.com/8d/2d/wLOcD9sz_o.png</xbar.image>
 #  <xbar.dependencies>python</xbar.dependencies>
 
-# <xbar.var>string(VAR_USERNAME='johnsmith'): Your Beeminder username</xbar.var>
-# <xbar.var>string(VAR_AUTH_TOKEN=''): Your Beeminder auth token</xbar.var>
+# <xbar.var>string(VAR_AUTH_TOKEN=None): Your Beeminder auth token</xbar.var>
 # <xbar.var>string(VAR_GOAL_SLUG='exercise'): Your Beeminder goal slug e.g. 'exercise' for beeminder.com/myusername/exercise</xbar.var>
 # <xbar.var>string(VAR_GOAL_EMOJI='🏋️'): Emoji to represent your goal (will appear in the menu bar)</xbar.var>
 
@@ -24,15 +23,26 @@ from urllib.parse import urlencode
 from urllib.error import URLError
 
 # Script-level variables
-USERNAME = os.environ["VAR_USERNAME"]
 AUTH_TOKEN = os.environ["VAR_AUTH_TOKEN"]
 GOAL_SLUG = os.environ["VAR_GOAL_SLUG"]
 GOAL_EMOJI = os.environ["VAR_GOAL_EMOJI"]
 
+# Check variables
+if not AUTH_TOKEN:
+    raise Exception("Please set your Beeminder auth token in the script variables")
+if not GOAL_SLUG:
+    raise Exception("Please set your Beeminder goal slug in the script variables")
+if not GOAL_EMOJI:
+    raise Exception("Please set your goal emoji in the script variables")
+
+
 # Get data
-API_URL = f'https://www.beeminder.com/api/v1/users/{USERNAME}.json'
+
+# Docs: "Since appending an access_token to the request uniquely identifies a user, you can alternatively make the request to /users/me.json (without the username)."
+API_URL = f'https://www.beeminder.com/api/v1/users/me.json'
 params = dict(auth_token=AUTH_TOKEN, datapoints_count=1, associations=True)
 url_with_params = f'{API_URL}?{urlencode(params)}'
+
 
 retries = 13
 backoff_factor = 0.1
@@ -41,8 +51,11 @@ data = None
 for i in range(retries):
     try:
         response = urlopen(url_with_params)
+        if response.status != 200:
+            raise URLError(f'Error fetching data: status {response.status}')
         data = json.loads(response.read())
         goals = data['goals']
+        resolved_username = data['username']
         break
     except URLError as e:
         if i < retries - 1:
@@ -65,7 +78,7 @@ color_emojis = {
     "red": "🔴",
 }
 
-goal_url = f'https://www.beeminder.com/{USERNAME}/{goal["slug"]}'
+goal_url = f'https://www.beeminder.com/{resolved_username}/{goal["slug"]}'
 color_emoji = color_emojis[goal["roadstatuscolor"]]
 message = goal['limsumdays']
 
