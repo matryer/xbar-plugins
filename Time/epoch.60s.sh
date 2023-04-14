@@ -8,6 +8,11 @@
 # <xbar.image>http://i.imgur.com/ltLqOcy.png</xbar.image>
 # <xbar.dependencies>bash,gnu-sed</xbar.dependencies>
 
-EPOCHNOW=$(/bin/date +%s | /usr/local/bin/gsed ':a;s/\B[0-9]\{3\}\>/,&/;ta')
+BREWPATH=/usr/local/bin
+if [[ $(sysctl -n machdep.cpu.brand_string) =~ "Apple" ]]; then
+  BREWPATH=/opt/homebrew/bin
+fi
+
+EPOCHNOW=$(/bin/date +%s | ${BREWPATH}/gsed ':a;s/\B[0-9]\{3\}\>/,&/;ta')
 
 echo "{" "${EPOCHNOW}" "}"
