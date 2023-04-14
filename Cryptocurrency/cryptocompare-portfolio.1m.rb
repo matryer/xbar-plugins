@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# <bitbar.title>Cryptocompare portfolio holdings</bitbar.title>
-# <bitbar.version>v0.1.1</bitbar.version>
-# <bitbar.author>Artur Komarov</bitbar.author>
-# <bitbar.author.github>mico</bitbar.author.github>
-# <bitbar.desc>Shows Cryptocompare portfolio holdings amount</bitbar.desc>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <xbar.title>Cryptocompare portfolio holdings</xbar.title>
+# <xbar.version>v0.1.1</xbar.version>
+# <xbar.author>Artur Komarov</xbar.author>
+# <xbar.author.github>mico</xbar.author.github>
+# <xbar.desc>Shows Cryptocompare portfolio holdings amount</xbar.desc>
+# <xbar.dependencies>ruby</xbar.dependencies>
 
 #
 # Configuration
