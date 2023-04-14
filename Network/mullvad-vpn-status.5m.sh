@@ -4,8 +4,9 @@
 # <xbar.version>v0.1.0</xbar.version>
 # <xbar.author>Nils Stein</xbar.author>
 # <xbar.author.github>n-stone</xbar.author.github>
-# <xbar.desc>Checks if you are connected via Mullvad VPN, you will need "font awesome 5 free" (https://use.fontawesome.com/releases/v5.15.4/fontawesome-free-5.15.4-desktop.zip) and jq (`brew install jq`) to be installed</xbar.desc>
-# <xbar.image>https://imgur.com/a0uvsfX</xbar.image>
+# <xbar.desc>Checks if you are connected via Mullvad VPN.</xbar.desc>
+# <xbar.image>https://imgur.com/a0uvsfX.png</xbar.image>
+# <xbar.dependencies>"font awesome 5 free" (https://use.fontawesome.com/releases/v5.15.4/fontawesome-free-5.15.4-desktop.zip),jq</xbar.dependencies>
 
 # Make sure homebrew is on the path
 export PATH="/opt/homebrew/bin:$PATH"
