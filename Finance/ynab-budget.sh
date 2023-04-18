@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# <bitbar.title>YNAB Bitbar</bitbar.title>
-# <bitbar.version>1.0.0</bitbar.version>
-# <bitbar.author>Noah Phillips</bitbar.author>
-# <bitbar.author.github>noahsphillips</bitbar.author.github>
-# <bitbar.desc>Show your budgeted/unbudgeted balances from YNAB</bitbar.desc>
-# <bitbar.image></bitbar.image>
-# <bitbar.dependencies>node</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/noahsphillips/ynab-bitbar</bitbar.abouturl>
+# <xbar.title>YNAB Bitbar</xbar.title>
+# <xbar.version>1.0.0</xbar.version>
+# <xbar.author>Noah Phillips</xbar.author>
+# <xbar.author.github>noahsphillips</xbar.author.github>
+# <xbar.desc>Show your budgeted/unbudgeted balances from YNAB</xbar.desc>
+# <xbar.image></xbar.image>
+# <xbar.dependencies>node</xbar.dependencies>
+# <xbar.abouturl>https://github.com/noahsphillips/ynab-bitbar</xbar.abouturl>
 
 INSTALLER_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 INSTALLER_PATH="$INSTALLER_DIR/$(basename $0)"
