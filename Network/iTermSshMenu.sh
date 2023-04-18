@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# <bitbar.title>iTerm SSH Dropdown Menu</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Gerd Naschenweng</bitbar.author>
-# <bitbar.author.github>magicdude4eva</bitbar.author.github>
-# <bitbar.desc>Provides a simple menu of ssh hosts when clicked on opens a new ssh session in terminal</bitbar.desc>
-# <bitbar.image></bitbar.image>
-# <bitbar.dependencies></bitbar.dependencies>
+# <xbar.title>iTerm SSH Dropdown Menu</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Gerd Naschenweng</xbar.author>
+# <xbar.author.github>magicdude4eva</xbar.author.github>
+# <xbar.desc>Provides a simple menu of ssh hosts when clicked on opens a new ssh session in terminal</xbar.desc>
+# <xbar.image></xbar.image>
+# <xbar.dependencies></xbar.dependencies>
 
 SSHFILE="$HOME/.ssh/config"
 
