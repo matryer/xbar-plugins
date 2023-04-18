@@ -4,13 +4,13 @@ key_congress <- # Your API key for ProPublica Congress API.
   ""
 
 # BitBar Metadata ----
-# <bitbar.title>US Congress</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>Jacob Sowder</bitbar.author>
-# <bitbar.author.github>jsowder</bitbar.author.github>
-# <bitbar.desc>Track congressional members & bills</bitbar.desc>
-# <bitbar.image></bitbar.image>
-# <bitbar.dependencies>R</bitbar.dependencies>
+# <xbar.title>US Congress</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>Jacob Sowder</xbar.author>
+# <xbar.author.github>jsowder</xbar.author.github>
+# <xbar.desc>Track congressional members & bills</xbar.desc>
+# <xbar.image></xbar.image>
+# <xbar.dependencies>R</xbar.dependencies>
 
 
 # Initialize ----
