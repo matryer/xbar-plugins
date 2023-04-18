@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# <bitbar.title>Home Assistant</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
-# <bitbar.author>muuuh</bitbar.author>
-# <bitbar.desc>...</bitbar.desc>
-# <bitbar.image>...</bitbar.image>
-# <bitbar.dependencies>python</bitbar.dependencies>
+# <xbar.title>Home Assistant</xbar.title>
+# <xbar.version>v1.0</xbar.version>
+# <xbar.author>muuuh</xbar.author>
+# <xbar.desc>...</xbar.desc>
+# <xbar.image>...</xbar.image>
+# <xbar.dependencies>python</xbar.dependencies>
 
 ####################
 # User Configuration
