@@ -1,9 +1,9 @@
 #!/bin/bash
-# <bitbar.title>USCIS Case Status Updates</bitbar.title>
-# <bitbar.author>Nicolas G.</bitbar.author>
-# <bitbar.author.github>nicolas-g</bitbar.author.github>
-# <bitbar.desc>Alerts when your USCIS cases status is updated
-# <bitbar.version>0.6</bitbar.version>
+# <xbar.title>USCIS Case Status Updates</xbar.title>
+# <xbar.author>Nicolas G.</xbar.author>
+# <xbar.author.github>nicolas-g</xbar.author.github>
+# <xbar.desc>Alerts when your USCIS cases status is updated</xbar.desc>
+# <xbar.version>0.6</xbar.version>
 #
 # NOTE:
 # You first need to get the current case status update hash by running
