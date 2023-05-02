@@ -5,7 +5,7 @@
 #  <xbar.author>Gustavo Ilha Morais</xbar.author>
 #  <xbar.author.github>gustavoilhamorais</xbar.author.github>
 #  <xbar.desc>Displays RAM load in bytes, KB, MB or GB. Can display free amount or used amount in percentage.</xbar.desc>
-#  <xbar.image>https://imgur.com/a/oZx1iBq</xbar.image>
+#  <xbar.image>https://i.imgur.com/cEyEV0n.png</xbar.image>
 #  <xbar.dependencies>python3,psutil</xbar.dependencies>
 #  <xbar.var>select(VAR_DISPLAY_METRIC="Used %"): Which metric to display. [bytes, KB, MB, GB, Free %, Used %]</xbar.var>
 
