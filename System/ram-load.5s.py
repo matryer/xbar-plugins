@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" python3
 #
 #  <xbar.title>RAM Load</xbar.title>
 #  <xbar.version>v1.0</xbar.version>
