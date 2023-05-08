@@ -12,6 +12,7 @@
 
 import subprocess
 import re
+import os
 newline = '\n'
 
 target = os.environ.get("VAR_TARGET")
