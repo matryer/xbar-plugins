@@ -34,7 +34,7 @@ if int(rttAvg) in range(300,500,1) : color = 'orange'
 if int(rttAvg) >500 : color = 'red'
 
 
-theOutput = (f':bolt.fill: {targetName} {rttAvg} ms | color={color}{newline}'
+theOutput = (f':zap: {targetName} {rttAvg} ms | color={color}{newline}'
              f'---{newline}'
              f'Ping target: {target}'
              f'{newline}Packet Loss {loss}%'
