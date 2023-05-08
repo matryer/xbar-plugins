@@ -5,6 +5,7 @@
 # <xbar.author>Ashley Anderson</xbar.author>
 # <xbar.author.github>albinoloverats</xbar.author.github>
 # <xbar.desc>Checks IMAP mail server and displays inbox count</xbar.desc>
+# <xbar.image>https://user-images.githubusercontent.com/5545555/236855546-85c58709-498c-4749-b52f-0278ddca8b4d.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 
 import imaplib
