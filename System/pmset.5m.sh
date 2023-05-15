@@ -46,21 +46,21 @@ display_sleep_prevented=$(echo "$battery_stats" | awk -F'(' '$0~/\(display sleep
 pgrep -n caffeinate -q &>/dev/null
 is_caffeinate_running="$?"
 
-if [[ $sleep_disabled == "0" ]]; then
+if [[ $sleep_disabled == "0" ]] || [[ $sleep_disabled == "" ]] ; then
   if [[ $is_caffeinate_running -eq 0 ]] ; then  # "1" = no processes found
     echo "☕️"
     status="caffeinating... ☕️"
   else
     if [[ "_$sleep_prevented" != "_" ]] ; then
-      echo '♨️'
-      status="♨️ Sleep prevented by application(s):"
+      echo '♻️'
+      status="♻️ Sleep prevented by application(s):"
     else
       echo "🔋"
       status="💤 Sleeping normally"
     fi
   fi
   cmd="🔋 pmset: Disable sleep on battery | bash='$0' param1=pmset_disable_battery_sleep terminal=false refresh=true"
-else
+elif [[ $sleep_disabled == "1" ]]; then
   echo "‼️"
   status="‼️ Preventing sleep on battery"
   cmd="🔥 pmset: RESTORE sleep on battery | bash='$0' color=indianred param1=pmset_restore_battery_sleep terminal=false refresh=true"
