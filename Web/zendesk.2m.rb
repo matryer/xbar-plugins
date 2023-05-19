@@ -6,11 +6,14 @@
 # <xbar.image>https://i.imgur.com/e6rdUBh.png</xbar.image>
 # <xbar.dependencies>Ruby</xbar.dependencies>
 # <xbar.desc>Shows non-solved Zendesk tickets count</xbar.desc>
+# <xbar.var>string(VAR_ZENDESK_SUBDOMAIN=""): Your ZenDesk subdomain</xbar.var>
+# <xbar.var>string(VAR_ZENDESK_API_KEY=""): Your ZenDesk API key</xbar.var>
+# <xbar.var>string(VAR_ZENDESK_EMAIL=""): Your ZenDesk email</xbar.var>
 
 # Configurations
-ZENDESK_SUBDOMAIN = ""
-ZENDESK_API_KEY = ""
-ZENDESK_EMAIL = ""
+ZENDESK_SUBDOMAIN = ENV["VAR_ZENDESK_SUBDOMAIN"]
+ZENDESK_API_KEY = ENV["VAR_ZENDESK_API_KEY"]
+ZENDESK_EMAIL = ENV["VAR_ZENDESK_EMAIL"]
 
 require 'net/http'
 require 'json'
@@ -47,6 +50,14 @@ begin
   tickets = fetch_tickets
 
   count = 0
+  
+  if tickets.key?("error")
+    puts "Error occurred | " + get_image(count)
+    puts "---"
+    puts tickets["error"]["title"]
+    puts tickets["error"]["message"]
+    exit
+  end
 
   if tickets.length > 0
     count = tickets["results"].length
