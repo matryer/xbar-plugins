@@ -5,7 +5,7 @@
 # <xbar.author>Gerd Naschenweng</xbar.author>
 # <xbar.author.github>magicdude4eva</xbar.author.github>
 # <xbar.desc>Provides a simple menu of ssh hosts when clicked on opens a new ssh session in terminal</xbar.desc>
-# <xbar.image></xbar.image>
+# <xbar.image>https://github-production-user-asset-6210df.s3.amazonaws.com/5545555/240065062-ea64630f-7545-49b1-93de-f917c7e88976.png</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 
 SSHFILE="$HOME/.ssh/config"
