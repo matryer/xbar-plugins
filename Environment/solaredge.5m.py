@@ -26,12 +26,19 @@ co2_lbs_per_MWh = 1018.87  # California
 awake_icon = "☀︎"
 asleep_icon = "☾"
 battery_icon = "🔋"
+low_battery_icon = "🪫"
 
 # Optional. Set to 0 to disable, 1 to enable. Display current battery charge state
 battery_present = 1
 
+
 ##############
 # Begin Script
+
+def convertKwToW(kWh):
+    kWh = float(kWh)
+
+    return kWh * 1000
 
 def formatWatts (Wh, unit_suffix=""):
     Wh = float(Wh)
@@ -65,6 +72,7 @@ import urllib.request, urllib.error, urllib.parse
 import json
 
 overview = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/overview?api_key=" + solaredge_api_key
+power = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/currentPowerFlow?api_key=" + solaredge_api_key
 
 try:
     overviewResult = urllib.request.urlopen(overview, timeout = 10).read()
@@ -80,7 +88,9 @@ raw_power = jsonOverview['overview']['currentPower']['power']
 raw_energy = jsonOverview['overview']['lastDayData']['energy']
 
 if battery_present > 0:
-    battery_charge_state = str(jsonPower['siteCurrentPowerFlow']['STORAGE']['chargeLevel']) + "% "
+    battery_status = jsonPower['siteCurrentPowerFlow']['STORAGE']['status']
+    battery_discharge_power = jsonPower['siteCurrentPowerFlow']['STORAGE']['currentPower']
+    battery_charge_level = jsonPower['siteCurrentPowerFlow']['STORAGE']['chargeLevel']
 
 if system_wattage > 0:
     raw_efficiency = raw_energy / system_wattage
@@ -115,17 +125,34 @@ if co2_lbs_per_MWh > 0:
 
 # Human-friendly power, energy, efficiency strings
 power = formatWatts(raw_power)
+combinedPower = formatWatts(raw_power + convertKwToW(battery_discharge_power))
 energy = formatWatts(raw_energy, "h")
 if system_wattage > 0:
     efficiency = "%.2f" % raw_efficiency + " Wh/W"
 
-# Formulate output string
-if raw_energy == 0 and raw_power == 0:
-    toolbar_output = "— Wh"
-elif raw_power == 0:
-    toolbar_output = energy
+# Formulate PV output string
+if battery_present > 0:
+    if raw_energy == 0 and raw_power == 0 and battery_discharge_power == 0:
+        toolbar_output = "— Wh"
+    elif raw_power == 0 and battery_discharge_power == 0:
+        toolbar_output = energy
+    else:
+        toolbar_output = energy + " @ " + combinedPower
 else:
-    toolbar_output = energy + " @ " + power
+    if raw_energy == 0 and raw_power == 0:
+        toolbar_output = "— Wh"
+    elif raw_power == 0:
+        toolbar_output = energy
+    else:
+        toolbar_output = energy + " @ " + power
+
+# Battery Icon
+if battery_charge_level > 25:
+    battery_icon_prefix = battery_icon
+elif battery_charge_level <= 25:
+    battery_icon_prefix = low_battery_icon
+else:
+    battery_icon_prefix = ""
 
 # Icon
 if raw_power == 0 and asleep_icon:
@@ -138,7 +165,7 @@ else:
 
 # Print the data
 if battery_present > 0:
-    print((battery_icon + battery_charge_state + icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
+    print((battery_icon_prefix + str(battery_charge_level) + "% " + icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
 else:
     print((icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
 
