@@ -25,7 +25,10 @@ co2_lbs_per_MWh = 1018.87  # California
 # Optional. Set either as empty string to disable.
 awake_icon = "☀︎"
 asleep_icon = "☾"
+battery_icon = "🔋"
 
+# Optional. Set to 0 to disable, 1 to enable. Display current battery charge state
+battery_present = 1
 
 ##############
 # Begin Script
@@ -64,22 +67,27 @@ import json
 overview = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/overview?api_key=" + solaredge_api_key
 
 try:
-    result = urllib2.urlopen(overview, timeout = 10).read()
-    json = json.loads(result)
+    overviewResult = urllib.request.urlopen(overview, timeout = 10).read()
+    jsonOverview = json.loads(overviewResult)
+    powerResult = urllib.request.urlopen(power, timeout = 10).read()
+    jsonPower = json.loads(powerResult)
 except Exception, err:
     print(asleep_icon + " <err>")
     print("---")
     raise SystemExit(err)
 
-raw_power = json['overview']['currentPower']['power']
-raw_energy = json['overview']['lastDayData']['energy']
+raw_power = jsonOverview['overview']['currentPower']['power']
+raw_energy = jsonOverview['overview']['lastDayData']['energy']
+
+if battery_present > 0:
+    battery_charge_state = str(jsonPower['siteCurrentPowerFlow']['STORAGE']['chargeLevel']) + "% "
 
 if system_wattage > 0:
     raw_efficiency = raw_energy / system_wattage
 
-raw_energy_mtd = json['overview']['lastMonthData']['energy']
-raw_energy_ytd = json['overview']['lastYearData']['energy']
-raw_energy_total = json['overview']['lifeTimeData']['energy']
+raw_energy_mtd = jsonOverview['overview']['lastMonthData']['energy']
+raw_energy_ytd = jsonOverview['overview']['lastYearData']['energy']
+raw_energy_total = jsonOverview['overview']['lifeTimeData']['energy']
 
 # Handle strange API bug where energy total can be much less than YTD
 if raw_energy_ytd > raw_energy_total:
@@ -129,7 +137,10 @@ else:
 
 
 # Print the data
-print(icon_prefix + toolbar_output + "| font='SF Compact Text Regular'")
+if battery_present > 0:
+    print((battery_icon + battery_charge_state + icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
+else:
+    print(icon_prefix + toolbar_output + "| font='SF Compact Text Regular'")
 
 if system_wattage > 0:
     print("---")
@@ -148,4 +159,4 @@ if co2_lbs_per_MWh > 0:
     print(co2_offset + " CO₂ offset | href=https://monitoring.solaredge.com/")
 
 print("---")
-print(json['overview']['lastUpdateTime'] + " | size=11")
+print(jsonOverview['overview']['lastUpdateTime'] + " | size=11")
