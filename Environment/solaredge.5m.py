@@ -7,12 +7,21 @@
 # <xbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</xbar.desc>
 # <xbar.image>http://i.imgur.com/W4ygbPd.png</xbar.image>
 # <xbar.dependencies>solaredge,python</xbar.dependencies>
+# <xbar.var>string(SITE_ID): Please provide your SolarEdge installation SiteId</xbar.var>
+# <xbar.var>string(API_KEY): Please provide your SolarEdge installation API Key (https://www.solaredge.com/node/88689)</xbar.var>
+# <xbar.var>string(BATTERY_PRESENT): Does your SolarEdge installation include a battery? Y/N</xbar.var>
+
+####################
+# Import Statements
+import urllib.request, urllib.error, urllib.parse
+import json
+import os
 
 ####################
 # User Configuration
 
-solaredge_site_id = ""
-solaredge_api_key = ""
+solaredge_site_id = os.getenv("SITE_ID", "")
+solaredge_api_key = os.getenv("API_KEY", "")
 
 # Optional. Set to 0 to disable. Total panel DC watt capacity
 system_wattage = 0
@@ -20,7 +29,7 @@ system_wattage = 0
 # Optional. Set to 0 to disable. Find CO2 lbs/MWh for your subregion in the PDF linked below.
 # (Use the "Non-baseload output emission rates" figure for your subregion)
 # https://www.epa.gov/sites/production/files/2015-10/documents/egrid2012_summarytables_0.pdf
-co2_lbs_per_MWh = 1018.87  # California
+co2_lbs_per_MWh = 0  # California
 
 # Optional. Set either as empty string to disable.
 awake_icon = "☀︎"
@@ -28,8 +37,8 @@ asleep_icon = "☾"
 battery_icon = "🔋"
 low_battery_icon = "🪫"
 
-# Optional. Set to 0 to disable, 1 to enable. Display current battery charge state
-battery_present = 1
+# Optional. Set to "n" to disable, "y" to enable. Display current battery charge state
+battery_present = os.getenv("BATTERY_PRESENT", "")
 
 
 ##############
@@ -68,8 +77,6 @@ def formatWatts (Wh, unit_suffix=""):
 if solaredge_site_id == "" or solaredge_api_key == "":
     raise SystemExit("Site ID/API Key Required")
 
-import urllib.request, urllib.error, urllib.parse
-import json
 
 overview = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/overview?api_key=" + solaredge_api_key
 power = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/currentPowerFlow?api_key=" + solaredge_api_key
@@ -87,7 +94,7 @@ except Exception as err:
 raw_power = jsonOverview['overview']['currentPower']['power']
 raw_energy = jsonOverview['overview']['lastDayData']['energy']
 
-if battery_present > 0:
+if battery_present == "Y":
     battery_status = jsonPower['siteCurrentPowerFlow']['STORAGE']['status']
     battery_discharge_power = jsonPower['siteCurrentPowerFlow']['STORAGE']['currentPower']
     battery_charge_level = jsonPower['siteCurrentPowerFlow']['STORAGE']['chargeLevel']
@@ -125,13 +132,14 @@ if co2_lbs_per_MWh > 0:
 
 # Human-friendly power, energy, efficiency strings
 power = formatWatts(raw_power)
-combinedPower = formatWatts(raw_power + convertKwToW(battery_discharge_power))
+if battery_present == "Y":
+    combinedPower = formatWatts(raw_power + convertKwToW(battery_discharge_power))
 energy = formatWatts(raw_energy, "h")
 if system_wattage > 0:
     efficiency = "%.2f" % raw_efficiency + " Wh/W"
 
 # Formulate PV output string
-if battery_present > 0:
+if battery_present == "y":
     if raw_energy == 0 and raw_power == 0 and battery_discharge_power == 0:
         toolbar_output = "— Wh"
     elif raw_power == 0 and battery_discharge_power == 0:
@@ -147,12 +155,13 @@ else:
         toolbar_output = energy + " @ " + power
 
 # Battery Icon
-if battery_charge_level > 25:
-    battery_icon_prefix = battery_icon
-elif battery_charge_level <= 25:
-    battery_icon_prefix = low_battery_icon
-else:
-    battery_icon_prefix = ""
+if battery_present == "Y":
+    if battery_charge_level > 25:
+        battery_icon_prefix = battery_icon
+    elif battery_charge_level <= 25:
+        battery_icon_prefix = low_battery_icon
+    else:
+        battery_icon_prefix = ""
 
 # Icon
 if raw_power == 0 and asleep_icon:
@@ -164,7 +173,7 @@ else:
 
 
 # Print the data
-if battery_present > 0:
+if battery_present == "Y":
     print((battery_icon_prefix + str(battery_charge_level) + "% " + icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
 else:
     print((icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
