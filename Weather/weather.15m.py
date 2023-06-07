@@ -1,5 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # <xbar.title>Weather - OpenWeatherMap</xbar.title>
 # <xbar.version>v1.3</xbar.version>
@@ -32,7 +31,6 @@ def get_wx():
         daily_wx = json.load(urlopen(f'http://api.openweathermap.org/data/2.5/forecast/daily?q={location_name}'
                                      f'&units={units}&lang={lang}&appid={api_key}&v={str(randint(0, 100))}'))
         location = str(daily_wx['city']['id'])
-
         wx = json.load(urlopen(
             'http://api.openweathermap.org/data/2.5/weather?id=' + location + '&units=' + units + '&lang=' + lang + '&appid=' + api_key + "&v=" + str(
                 randint(0, 100))))
@@ -69,7 +67,6 @@ def get_wx():
 
 def render_wx():
     weather_data = get_wx()
-    
     emoji_dict = {
         200: ":zap:", 201: ":zap:", 202: ":zap:", 210: ":zap:", 211: ":zap:", 212: ":zap:", 221: ":zap:", 230: ":zap:",
         231: ":zap:", 232: ":zap:",
