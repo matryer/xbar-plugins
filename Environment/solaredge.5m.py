@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # <xbar.title>SolarEdge Monitoring</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v2.0</xbar.version>
 # <xbar.author>Shaun Grady</xbar.author>
 # <xbar.author.github>shaungrady</xbar.author.github>
 # <xbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</xbar.desc>
-# <xbar.image>http://i.imgur.com/W4ygbPd.png</xbar.image>
+# <xbar.image>https://i.imgur.com/wPRb9dj.png</xbar.image>
 # <xbar.dependencies>solaredge,python</xbar.dependencies>
 # <xbar.var>string(SITE_ID): Please provide your SolarEdge installation SiteId</xbar.var>
 # <xbar.var>string(API_KEY): Please provide your SolarEdge installation API Key (https://www.solaredge.com/node/88689)</xbar.var>
 # <xbar.var>string(BATTERY_PRESENT): Does your SolarEdge installation include a battery? Y/N</xbar.var>
+# <xbar.var>string(FONT_SIZE): Select a font size (Default 13)</xbar.var>
 
 ####################
 # Import Statements
@@ -19,12 +20,12 @@ import os
 
 ####################
 # User Configuration
-
 solaredge_site_id = os.getenv("SITE_ID", "")
 solaredge_api_key = os.getenv("API_KEY", "")
+font_size = os.getenv("FONT_SIZE", "13")
 
 # Optional. Set to 0 to disable. Total panel DC watt capacity
-system_wattage = 0
+system_wattage = 5460
 
 # Optional. Set to 0 to disable. Find CO2 lbs/MWh for your subregion in the PDF linked below.
 # (Use the "Non-baseload output emission rates" figure for your subregion)
@@ -43,11 +44,20 @@ battery_present = os.getenv("BATTERY_PRESENT", "")
 
 ##############
 # Begin Script
+# Build Base URLs
+overview = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/overview?api_key=" + solaredge_api_key
+power = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/currentPowerFlow?api_key=" + solaredge_api_key
 
-def convertKwToW(kWh):
-    kWh = float(kWh)
+# Handle empty SiteId or API Key
+if solaredge_site_id == "":
+    raise SystemExit("SiteId is required")
+if solaredge_api_key == "":
+    raise SystemExit("API Key is required, see here: https://www.solaredge.com/node/88689")
 
-    return kWh * 1000
+# Functions
+def convertKwToW(kW):
+    kW = float(kW)
+    return kW * 1000
 
 def formatWatts (Wh, unit_suffix=""):
     Wh = float(Wh)
@@ -74,17 +84,10 @@ def formatWatts (Wh, unit_suffix=""):
 
     return str(energy) + " " + unit + unit_suffix
 
-if solaredge_site_id == "" or solaredge_api_key == "":
-    raise SystemExit("Site ID/API Key Required")
-
-
-overview = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/overview?api_key=" + solaredge_api_key
-power = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/currentPowerFlow?api_key=" + solaredge_api_key
-
 try:
-    overviewResult = urllib.request.urlopen(overview, timeout = 10).read()
+    overviewResult = urllib.request.urlopen(overview, timeout=10).read()
     jsonOverview = json.loads(overviewResult)
-    powerResult = urllib.request.urlopen(power, timeout = 10).read()
+    powerResult = urllib.request.urlopen(power, timeout=10).read()
     jsonPower = json.loads(powerResult)
 except Exception as err:
     print((asleep_icon + " <err>"))
@@ -105,6 +108,9 @@ if system_wattage > 0:
 raw_energy_mtd = jsonOverview['overview']['lastMonthData']['energy']
 raw_energy_ytd = jsonOverview['overview']['lastYearData']['energy']
 raw_energy_total = jsonOverview['overview']['lifeTimeData']['energy']
+
+inverter_load = jsonPower['siteCurrentPowerFlow']['LOAD']['currentPower']
+inverter_grid_load = jsonPower['siteCurrentPowerFlow']['GRID']['currentPower']
 
 # Handle strange API bug where energy total can be much less than YTD
 if raw_energy_ytd > raw_energy_total:
@@ -139,7 +145,7 @@ if system_wattage > 0:
     efficiency = "%.2f" % raw_efficiency + " Wh/W"
 
 # Formulate PV output string
-if battery_present == "y":
+if battery_present == "Y":
     if raw_energy == 0 and raw_power == 0 and battery_discharge_power == 0:
         toolbar_output = "— Wh"
     elif raw_power == 0 and battery_discharge_power == 0:
@@ -174,25 +180,29 @@ else:
 
 # Print the data
 if battery_present == "Y":
-    print((battery_icon_prefix + str(battery_charge_level) + "% " + icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
+    print((battery_icon_prefix + str(battery_charge_level) + "% " + icon_prefix + toolbar_output + "| font='SF Compact Text Regular'| size=" + font_size))
 else:
     print((icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
 
+print("---")
+print("⚡ " + (formatWatts(convertKwToW(inverter_load)) + " inverter power| href=https://monitoring.solaredge.com/") + "| size=" + font_size)
+print("🔌 " + (formatWatts(convertKwToW(inverter_grid_load)) + " grid power| href=https://monitoring.solaredge.com/") + "| size=" + font_size)
+
 if system_wattage > 0:
     print("---")
-    print((efficiency + " efficiency | href=https://monitoring.solaredge.com/"))
+    print((efficiency + " efficiency | href=https://monitoring.solaredge.com/") + "| size=12")
 
 print("---")
-print((energy_mtd + " this month | href=https://monitoring.solaredge.com/"))
-print((energy_ytd + " this year | href=https://monitoring.solaredge.com/"))
+print((energy_mtd + " this month | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
+print((energy_ytd + " this year | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
 # If YTD and lifetime energy are within 1 kWh, consider them equal and
 # suppress the total energy data from the dropdown menu
 if raw_energy_total - raw_energy_ytd > 1000:
-    print((energy_total + " lifetime | href=https://monitoring.solaredge.com/"))
+    print((energy_total + " lifetime | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
 
 if co2_lbs_per_MWh > 0:
     print("---")
-    print((co2_offset + " CO₂ offset | href=https://monitoring.solaredge.com/"))
+    print((co2_offset + " CO₂ offset | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
 
 print("---")
-print((jsonOverview['overview']['lastUpdateTime'] + " | size=11"))
+print((jsonOverview['overview']['lastUpdateTime'] + "| size=" + font_size))
