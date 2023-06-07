@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
+# -*- coding: utf-8 -*-
 
 # <xbar.title>Weather - OpenWeatherMap</xbar.title>
 # <xbar.version>v1.3</xbar.version>
@@ -7,6 +8,7 @@
 # <xbar.desc>Grabs simple weather information from openweathermap. Needs configuration for location and API key.</xbar.desc>
 # <xbar.image>https://poolis.github.io/bitbar-plugins/open-weather-preview.png</xbar.image>
 # <xbar.dependencies>python,emoji</xbar.dependencies>
+# <xbar.var>string(VAR_LOCATION="Buenos Aires, AR"): Your location in the format: city name, country code.</xbar.var>
 
 import emoji
 import json
@@ -14,22 +16,13 @@ from urllib.request import urlopen
 from urllib.error import URLError
 from random import randint
 import datetime
+import os
 
-def get_location_using_ip():
-    service_endpoint = 'http://ip-api.com/json'
-    r = urlopen(service_endpoint).read()
-    j = json.loads(r)
-    city = j['city']
-    country = j['countryCode']
-    location = f"{city},{country}"
+location_name = "{0}".format(os.getenv('VAR_LOCATION')).replace(" ", "%20")
 
-    return location.replace(" ", "%20")
-
-location_name = get_location_using_ip()
 api_key = '8b4824b451d5db1612156837df880f55'
 units = 'imperial'  # kelvin, metric, imperial
 lang = 'en'
-
 
 def get_wx():
     if api_key == "":
@@ -39,6 +32,7 @@ def get_wx():
         daily_wx = json.load(urlopen(f'http://api.openweathermap.org/data/2.5/forecast/daily?q={location_name}'
                                      f'&units={units}&lang={lang}&appid={api_key}&v={str(randint(0, 100))}'))
         location = str(daily_wx['city']['id'])
+
         wx = json.load(urlopen(
             'http://api.openweathermap.org/data/2.5/weather?id=' + location + '&units=' + units + '&lang=' + lang + '&appid=' + api_key + "&v=" + str(
                 randint(0, 100))))
@@ -75,6 +69,7 @@ def get_wx():
 
 def render_wx():
     weather_data = get_wx()
+    
     emoji_dict = {
         200: ":zap:", 201: ":zap:", 202: ":zap:", 210: ":zap:", 211: ":zap:", 212: ":zap:", 221: ":zap:", 230: ":zap:",
         231: ":zap:", 232: ":zap:",
@@ -99,6 +94,7 @@ def render_wx():
     emojiweather = emoji.emojize(emoji_dict[weather_data['id']])
 
     emoji_t = '' + emojiweather + weather_data['temperature'] + weather_data['unit']
+    return emoji_t
     condi = [x.capitalize() for x in weather_data['condition'].split(' ')]
     daily_forecast_encoded = '\n'
     for daily_forecast in weather_data['daily_forecast']:
@@ -107,7 +103,7 @@ def render_wx():
                                  f"{emoji.emojize(emoji_dict[daily_forecast['id']])} " \
                                  f"{daily_forecast['max']}{weather_data['unit']}/" \
                                  f"{daily_forecast['min']}{weather_data['unit']} | font=Menlo color=white\n"
-    return f'{emoji_t}{tridash}{" ".join(condi)} | {daily_forecast_encoded}'
+    return f'{emoji_t}{tridash}{" ".join(condi)} | refresh = true{daily_forecast_encoded}'
 
 
 print(render_wx())
