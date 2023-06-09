@@ -212,7 +212,7 @@ else:
     print((icon_prefix + toolbar_output + "|font='SF Compact Text Regular'"))
 
 print("---")
-print("⚡ " + (formatWatts(convertKwToW(inverter_load)) + " current usage |href=https://monitoring.solaredge.com") + "|size=" + font_size)
+print("⚡ " + "Self Consumption @ " + (formatWatts(convertKwToW(inverter_load)) + "  |href=https://monitoring.solaredge.com") + "|size=" + font_size)
 if check_import_export(inverter_connections_state) == "IMPORTING":
     print("🔌 " + "Importing from Grid @ " + (formatWatts(convertKwToW(inverter_grid_load)) + "|href=https://monitoring.solaredge.com") + "|size=" + font_size)
 elif check_import_export(inverter_connections_state) == "EXPORTING":
