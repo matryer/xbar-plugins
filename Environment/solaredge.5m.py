@@ -10,6 +10,9 @@
 # <xbar.var>string(SITE_ID): Please provide your SolarEdge installation SiteId</xbar.var>
 # <xbar.var>string(API_KEY): Please provide your SolarEdge installation API Key (https://www.solaredge.com/node/88689)</xbar.var>
 # <xbar.var>string(BATTERY_PRESENT): Does your SolarEdge installation include a battery? Y/N</xbar.var>
+# <xbar.var>string(SYSTEM_WATTAGE): Total panel DC watt capacity</xbar.var>
+# <xbar.var>string(SHOW_ENVIRONMENTAL_BENEFIT): Do you want to show your environmental benfit in the dropdown? Y/N (Default Y)</xbar.var>
+# <xbar.var>string(ENVIRONMENTAL_BENEFIT_UNIT): Units to display benefit in? Imperial/Metrics (Default Metrics)</xbar.var>
 # <xbar.var>string(FONT_SIZE): Select a font size (Default 13)</xbar.var>
 
 ####################
@@ -22,15 +25,15 @@ import os
 # User Configuration
 solaredge_site_id = os.getenv("SITE_ID", "")
 solaredge_api_key = os.getenv("API_KEY", "")
+units = os.getenv("ENVIRONMENTAL_BENEFIT_UNIT", "Metrics")
 font_size = os.getenv("FONT_SIZE", "13")
 
-# Optional. Set to 0 to disable. Total panel DC watt capacity
-system_wattage = 5460
 
-# Optional. Set to 0 to disable. Find CO2 lbs/MWh for your subregion in the PDF linked below.
-# (Use the "Non-baseload output emission rates" figure for your subregion)
-# https://www.epa.gov/sites/production/files/2015-10/documents/egrid2012_summarytables_0.pdf
-co2_lbs_per_MWh = 0  # California
+# Optional. Deafults to 0 - disabled. Total panel DC watt capacity
+system_wattage = int(os.getenv("SYSTEM_WATTAGE", 0))
+
+# Optional. Default "Y". Displays lifetime environmental benefit of the installation.
+show_env_benefit = os.getenv("SHOW_ENVIRONMENTAL_BENEFIT", "Y")
 
 # Optional. Set either as empty string to disable.
 awake_icon = "☀︎"
@@ -41,12 +44,13 @@ low_battery_icon = "🪫"
 # Optional. Set to "n" to disable, "y" to enable. Display current battery charge state
 battery_present = os.getenv("BATTERY_PRESENT", "")
 
-
 ##############
 # Begin Script
 # Build Base URLs
 overview = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/overview?api_key=" + solaredge_api_key
 power = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/currentPowerFlow?api_key=" + solaredge_api_key
+environment = "https://monitoringapi.solaredge.com/site/" + solaredge_site_id + "/envBenefits?&systemUnits=" + units + "&api_key=" + solaredge_api_key
+
 
 # Handle empty SiteId or API Key
 if solaredge_site_id == "":
@@ -54,12 +58,13 @@ if solaredge_site_id == "":
 if solaredge_api_key == "":
     raise SystemExit("API Key is required, see here: https://www.solaredge.com/node/88689")
 
+
 # Functions
 def convertKwToW(kW):
     kW = float(kW)
     return kW * 1000
 
-def formatWatts (Wh, unit_suffix=""):
+def formatWatts(Wh, unit_suffix=""):
     Wh = float(Wh)
 
     if Wh < 900:
@@ -89,18 +94,28 @@ try:
     jsonOverview = json.loads(overviewResult)
     powerResult = urllib.request.urlopen(power, timeout=10).read()
     jsonPower = json.loads(powerResult)
+    environmentResult = urllib.request.urlopen(environment, timeout=10).read()
+    jsonEnvironment = json.loads(environmentResult)
 except Exception as err:
     print((asleep_icon + " <err>"))
     print("---")
     raise SystemExit(err)
 
-raw_power = jsonOverview['overview']['currentPower']['power']
+raw_power = jsonPower['siteCurrentPowerFlow']['PV']['currentPower']
 raw_energy = jsonOverview['overview']['lastDayData']['energy']
+
+if show_env_benefit == "Y":
+    treesPlanted = jsonEnvironment['envBenefits']['treesPlanted']
+    co2_saved= jsonEnvironment['envBenefits']['gasEmissionSaved']['co2']
+    nox_saved= jsonEnvironment['envBenefits']['gasEmissionSaved']['nox']
+    so2_saved= jsonEnvironment['envBenefits']['gasEmissionSaved']['so2']
+    display_units= jsonEnvironment['envBenefits']['gasEmissionSaved']['units']
 
 if battery_present == "Y":
     battery_status = jsonPower['siteCurrentPowerFlow']['STORAGE']['status']
-    battery_discharge_power = jsonPower['siteCurrentPowerFlow']['STORAGE']['currentPower']
+    battery_power = jsonPower['siteCurrentPowerFlow']['STORAGE']['currentPower']
     battery_charge_level = jsonPower['siteCurrentPowerFlow']['STORAGE']['chargeLevel']
+    battery_charge_status = jsonPower['siteCurrentPowerFlow']['STORAGE']['status']
 
 if system_wattage > 0:
     raw_efficiency = raw_energy / system_wattage
@@ -112,6 +127,7 @@ raw_energy_total = jsonOverview['overview']['lifeTimeData']['energy']
 inverter_load = jsonPower['siteCurrentPowerFlow']['LOAD']['currentPower']
 inverter_grid_load = jsonPower['siteCurrentPowerFlow']['GRID']['currentPower']
 
+
 # Handle strange API bug where energy total can be much less than YTD
 if raw_energy_ytd > raw_energy_total:
     raw_energy_total = raw_energy_ytd
@@ -120,59 +136,62 @@ energy_mtd = formatWatts(raw_energy_mtd, "h")
 energy_ytd = formatWatts(raw_energy_ytd, "h")
 energy_total = formatWatts(raw_energy_total, "h")
 
-if co2_lbs_per_MWh > 0:
-    offset = (float(raw_energy_total) / 1000000) * co2_lbs_per_MWh
-    unit = "lbs"
-    if offset > 1900:
-        co2_offset = offset / 2000
-        unit = "tons"
-
-    if co2_offset < 10:
-        co2_offset = round(co2_offset, 2)
-    elif co2_offset < 100:
-        co2_offset = round(co2_offset, 1)
-    else:
-        o2_offset = "{:,}".format(int(round()))
-
-    co2_offset = str(co2_offset) + " " + unit
 
 # Human-friendly power, energy, efficiency strings
-power = formatWatts(raw_power)
+power = formatWatts(convertKwToW(raw_power))
 if battery_present == "Y":
-    combinedPower = formatWatts(raw_power + convertKwToW(battery_discharge_power))
+    if battery_charge_status == "Discharging":
+        combinedPower = formatWatts(convertKwToW(raw_power) + convertKwToW(battery_power))
+    else:
+        combinedPower = formatWatts(convertKwToW(raw_power))
 energy = formatWatts(raw_energy, "h")
 if system_wattage > 0:
     efficiency = "%.2f" % raw_efficiency + " Wh/W"
 
 # Formulate PV output string
 if battery_present == "Y":
-    if raw_energy == 0 and raw_power == 0 and battery_discharge_power == 0:
+    if raw_energy == 0 and convertKwToW(raw_power) == 0 and battery_power == 0:
         toolbar_output = "— Wh"
-    elif raw_power == 0 and battery_discharge_power == 0:
+    elif convertKwToW(raw_power) == 0 and battery_power == 0:
         toolbar_output = energy
     else:
         toolbar_output = energy + " @ " + combinedPower
 else:
-    if raw_energy == 0 and raw_power == 0:
+    if raw_energy == 0 and convertKwToW(raw_power) == 0:
         toolbar_output = "— Wh"
-    elif raw_power == 0:
+    elif convertKwToW(raw_power) == 0:
         toolbar_output = energy
     else:
         toolbar_output = energy + " @ " + power
 
 # Battery Icon
 if battery_present == "Y":
-    if battery_charge_level > 25:
-        battery_icon_prefix = battery_icon
-    elif battery_charge_level <= 25:
-        battery_icon_prefix = low_battery_icon
+    if battery_charge_status == "Charging":
+        if battery_charge_level > 25:
+            battery_icon_prefix = "++" + battery_icon
+        elif battery_charge_level <= 25:
+            battery_icon_prefix = "++" + low_battery_icon
+        else:
+            battery_icon_prefix = ""
+    elif battery_charge_status == "Discharging":
+        if battery_charge_level > 25:
+            battery_icon_prefix = "--" + battery_icon
+        elif battery_charge_level <= 25:
+            battery_icon_prefix = "--" + low_battery_icon
+        else:
+            battery_icon_prefix = ""
     else:
-        battery_icon_prefix = ""
+        if battery_charge_level > 25:
+            battery_icon_prefix = battery_icon
+        elif battery_charge_level <= 25:
+            battery_icon_prefix = low_battery_icon
+        else:
+            battery_icon_prefix = ""
 
 # Icon
-if raw_power == 0 and asleep_icon:
+if convertKwToW(raw_power) == 0 and asleep_icon:
     icon_prefix = asleep_icon + " "
-elif raw_power > 0 and awake_icon:
+elif convertKwToW(raw_power) > 0 and awake_icon:
     icon_prefix = awake_icon + " "
 else:
     icon_prefix = ""
@@ -180,29 +199,33 @@ else:
 
 # Print the data
 if battery_present == "Y":
-    print((battery_icon_prefix + str(battery_charge_level) + "% " + icon_prefix + toolbar_output + "| font='SF Compact Text Regular'| size=" + font_size))
+    print((battery_icon_prefix + str(battery_charge_level) + "% " + icon_prefix + toolbar_output + "|font='SF Compact Text Regular'|size=" + font_size))
 else:
-    print((icon_prefix + toolbar_output + "| font='SF Compact Text Regular'"))
+    print((icon_prefix + toolbar_output + "|font='SF Compact Text Regular'"))
 
 print("---")
-print("⚡ " + (formatWatts(convertKwToW(inverter_load)) + " inverter power| href=https://monitoring.solaredge.com/") + "| size=" + font_size)
-print("🔌 " + (formatWatts(convertKwToW(inverter_grid_load)) + " grid power| href=https://monitoring.solaredge.com/") + "| size=" + font_size)
+print("⚡ " + (formatWatts(convertKwToW(inverter_load)) + " current usage |href=https://monitoring.solaredge.com") + "|size=" + font_size)
+print("🔌 " + (formatWatts(convertKwToW(inverter_grid_load)) + " current grid usage |href=https://monitoring.solaredge.com") + "|size=" + font_size)
 
 if system_wattage > 0:
     print("---")
-    print((efficiency + " efficiency | href=https://monitoring.solaredge.com/") + "| size=12")
+    print((efficiency + " efficiency |href=https://monitoring.solaredge.com") + "| size=12")
 
 print("---")
-print((energy_mtd + " this month | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
-print((energy_ytd + " this year | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
+print((energy_mtd + " this month |href=https://monitoring.solaredge.com") + "|size=" + font_size)
+print((energy_ytd + " this year |href=https://monitoring.solaredge.com") + "|size=" + font_size)
 # If YTD and lifetime energy are within 1 kWh, consider them equal and
 # suppress the total energy data from the dropdown menu
 if raw_energy_total - raw_energy_ytd > 1000:
-    print((energy_total + " lifetime | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
+    print((energy_total + " lifetime |href=https://monitoring.solaredge.com") + "|size=" + font_size)
 
-if co2_lbs_per_MWh > 0:
+if show_env_benefit == "Y":
     print("---")
-    print((co2_offset + " CO₂ offset | href=https://monitoring.solaredge.com/") + "| size=" + font_size)
+    print(("🌲 Trees Planted: " + str(round(treesPlanted, 2)) + "|href=https://monitoring.solaredge.com |size=" + font_size))
+    print(("🌍 CO₂ Saved: " + str(round(co2_saved, 2)) + display_units + "|href=https://monitoring.solaredge.com |size=" + font_size))
+    print(("💧 SO₂ Saved: " + str(round(so2_saved, 2)) + display_units  + "|href=https://monitoring.solaredge.com |size=" + font_size))
+    print(("🚗 NOX Saved: " + str(round(nox_saved, 2)) + display_units  + "|href=https://monitoring.solaredge.com |size=" + font_size))
+
 
 print("---")
-print((jsonOverview['overview']['lastUpdateTime'] + "| size=" + font_size))
+print((jsonOverview['overview']['lastUpdateTime'] + "|size=" + font_size))
