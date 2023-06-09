@@ -5,7 +5,7 @@
 # <xbar.author>Shaun Grady</xbar.author>
 # <xbar.author.github>shaungrady</xbar.author.github>
 # <xbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</xbar.desc>
-# <xbar.image>https://i.imgur.com/RyHTIDM.png</xbar.image>
+# <xbar.image>https://i.imgur.com/wPRb9dj.png</xbar.image>
 # <xbar.dependencies>solaredge,python</xbar.dependencies>
 # <xbar.var>string(SITE_ID): Please provide your SolarEdge installation SiteId</xbar.var>
 # <xbar.var>string(API_KEY): Please provide your SolarEdge installation API Key (https://www.solaredge.com/node/88689)</xbar.var>
@@ -89,6 +89,13 @@ def formatWatts(Wh, unit_suffix=""):
 
     return str(energy) + " " + unit + unit_suffix
 
+def check_import_export(connections_state):
+    for connection in connections_state:
+        if connection["from"] == "LOAD" and connection["to"] == "Grid":
+            return "EXPORTING"
+        elif connection["from"] == "Grid" and connection["to"] == "LOAD":
+            return "IMPORTING"
+
 try:
     overviewResult = urllib.request.urlopen(overview, timeout=10).read()
     jsonOverview = json.loads(overviewResult)
@@ -103,6 +110,7 @@ except Exception as err:
 
 raw_power = jsonPower['siteCurrentPowerFlow']['PV']['currentPower']
 raw_energy = jsonOverview['overview']['lastDayData']['energy']
+inverter_connections_state = jsonPower['siteCurrentPowerFlow']['connections']
 
 if show_env_benefit == "Y":
     treesPlanted = jsonEnvironment['envBenefits']['treesPlanted']
@@ -205,7 +213,12 @@ else:
 
 print("---")
 print("⚡ " + (formatWatts(convertKwToW(inverter_load)) + " current usage |href=https://monitoring.solaredge.com") + "|size=" + font_size)
-print("🔌 " + (formatWatts(convertKwToW(inverter_grid_load)) + " current grid usage |href=https://monitoring.solaredge.com") + "|size=" + font_size)
+if check_import_export(inverter_connections_state) == "IMPORTING":
+    print("🔌 " + "Importing from Grid @ " + (formatWatts(convertKwToW(inverter_grid_load)) + "|href=https://monitoring.solaredge.com") + "|size=" + font_size)
+elif check_import_export(inverter_connections_state) == "EXPORTING":
+    print("🔌 " + "Exporting to Grid @ " + (formatWatts(convertKwToW(inverter_grid_load)) + "|href=https://monitoring.solaredge.com") + "|size=" + font_size)
+elif inverter_grid_load == 0 and check_import_export(inverter_connections_state) == "EXPORTING" or check_import_export(inverter_connections_state) == "IMPORTING"  :
+    print("🔌 " + "Grid Idle @ " + (formatWatts(convertKwToW(inverter_grid_load)) + "|href=https://monitoring.solaredge.com") + "|size=" + font_size)
 
 if system_wattage > 0:
     print("---")
