@@ -5,7 +5,7 @@
 # <xbar.author>Shaun Grady</xbar.author>
 # <xbar.author.github>shaungrady</xbar.author.github>
 # <xbar.desc>Displays SolarEdge inverter power and energy generation data from your solar energy system. Also calculates system efficiency for the current day and total CO2 offset.</xbar.desc>
-# <xbar.image>https://i.imgur.com/wPRb9dj.png</xbar.image>
+# <xbar.image>https://i.imgur.com/RyHTIDM.png</xbar.image>
 # <xbar.dependencies>solaredge,python</xbar.dependencies>
 # <xbar.var>string(SITE_ID): Please provide your SolarEdge installation SiteId</xbar.var>
 # <xbar.var>string(API_KEY): Please provide your SolarEdge installation API Key (https://www.solaredge.com/node/88689)</xbar.var>
