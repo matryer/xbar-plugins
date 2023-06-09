@@ -12,7 +12,7 @@
 # <xbar.var>string(BATTERY_PRESENT): Does your SolarEdge installation include a battery? Y/N</xbar.var>
 # <xbar.var>string(SYSTEM_WATTAGE): Total panel DC watt capacity</xbar.var>
 # <xbar.var>string(SHOW_ENVIRONMENTAL_BENEFIT): Do you want to show your environmental benfit in the dropdown? Y/N (Default Y)</xbar.var>
-# <xbar.var>string(ENVIRONMENTAL_BENEFIT_UNIT): Units to display benefit in? Imperial/Metrics (Default Metrics)</xbar.var>
+# <xbar.var>select(ENVIRONMENTAL_BENEFIT_UNIT="Metrics"): Units to display benefit in? [Imperial, Metrics]</xbar.var>
 # <xbar.var>string(FONT_SIZE): Select a font size (Default 13)</xbar.var>
 
 ####################
