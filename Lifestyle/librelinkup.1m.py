@@ -38,7 +38,7 @@ class Patient:
         self.last_name = last_name
 
 headers = {
-    "version": "4.2.1",
+    "version": "4.7.0",
     "product": "llu.android",
     "Connection": "keep-alive",
     "Pragma": "no-cache",
@@ -59,6 +59,8 @@ def get_auth_token():
     if auth.ok:
         if auth.json()["status"] == 0:
             return auth.json()["data"]["authTicket"]["token"]
+        elif auth.json()["status"] == 4:
+            print("❗️ Check Terms Of Service agreement")
         else:
             print("❌ Auth error: " + auth.json()["error"]["message"])
 
@@ -88,7 +90,7 @@ def get_measurment(token, patientId):
     if response.ok:
         connection = response.json()["data"]["connection"]
         value = connection["glucoseMeasurement"]["Value"]
-        low_or_high = value >= connection["targetLow"] or value >= connection["targetHigh"]
+        low_or_high = value <= connection["targetLow"] or value >= connection["targetHigh"]
         return (value, connection["glucoseMeasurement"]["TrendArrow"], low_or_high)
 
 
