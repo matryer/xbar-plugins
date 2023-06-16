@@ -3,7 +3,7 @@
 # for homebrew installation add '-S PATH="${PATH}:/opt/homebrew/bin/python3"' between /env and python3
 
 # <xbar.title>LibreLinkUp Status</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v1.2</xbar.version>
 # <xbar.author>Florian Schlund</xbar.author>
 # <xbar.author.github>FloSchl8</xbar.author.github>
 # <xbar.desc>Gets your GCM from LibreLinkUp: https://librelinkup.com/</xbar.desc>
