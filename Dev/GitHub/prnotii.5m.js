@@ -57,22 +57,22 @@ const printOut = str => str && console.log(str);
     const requestedSubmenu = subMenu(requested);
     printOut(`● | color=${Object.keys(requested).length ? 'red' : 'white'}`);
     printOut('---');
-    printOut('👩‍💻 Review Requested PR');
+    printOut('👩‍💻 Review Requested');
     printOut(requestedSubmenu);
 
     const reviewed = await githubQuery(endpoint, token, 'is:pr is:open reviewed-by:@me');
     const reviewedSubmenu = subMenu(reviewed);
-    printOut('💬 Reviewed PR');
+    printOut('💬 Reviewed');
     printOut(reviewedSubmenu);
 
     const created = await githubQuery(endpoint, token, 'is:open is:pr author:@me');
     const createdSubmenu = subMenu(created);
-    printOut('💪🏻 Created PR');
+    printOut('💪🏻 Created');
     printOut(createdSubmenu);
 
     const mentioned = await githubQuery(endpoint, token, 'is:open is:pr mentions:@me');
     const mentionedSubmenu = subMenu(mentioned);
-    printOut('😀 Mentioned PR');
+    printOut('😀 Mentioned');
     printOut(mentionedSubmenu);
   } catch (e) {
     printOut(`● | color=yellow`);
@@ -83,10 +83,12 @@ const printOut = str => str && console.log(str);
         printOut('🌈 HOW TO SETUP');
         printOut('---');
         printOut('❶ Generate Github Token');
-        printOut('⠀  Generate new personal access token with "repos scope" | size=12');
-        printOut('❷ Generate .prnotii File');
-        printOut('⠀  Generate ~/.prnotii File like below JSON format | size=12');
+        printOut('⠀  Generate new personal access token with "repos scope". | size=12');
+        printOut('❷ Create .prnotii File');
+        printOut('⠀  Create ~/.prnotii File like below JSON format. | size=12');
         printOut('⠀  {"token": "kSEzyDP...", "endpoint": "https://api.github.com"}  | size=12');
+        printOut('❸ Press Refresh button below');
+        printOut('⠀  After finish ❶,❷ steps, press "Refresh" button to start again. | size=12');
       break;
       case e.message.includes('ETIMEDOUT') || e.message.includes('ECONNRESET'):
         printOut('🚧 CONNECTION ERROR');
@@ -99,5 +101,8 @@ const printOut = str => str && console.log(str);
         printOut(e.message + ' | size=12');
     }
   }
+
+  printOut('---');
+  printOut('🔄 Refresh | refresh=True');
   process.exit(0);
 }) ();
