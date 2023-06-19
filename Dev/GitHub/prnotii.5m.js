@@ -5,7 +5,7 @@
 // <xbar.author>aiden.ahn</xbar.author>
 // <xbar.author.github>eu81273</xbar.author.github>
 // <xbar.desc>Check Github Pull Reuqest</xbar.desc>
-// <xbar.image>https://github.com/matryer/xbar-plugins/assets/2687916/e08d6380-62f9-478b-b35b-e2222cf65791</xbar.image>
+// <xbar.image>https://github-production-user-asset-6210df.s3.amazonaws.com/2687916/246659270-e08d6380-62f9-478b-b35b-e2222cf65791.png</xbar.image>
 
 // <swiftbar.hideAbout>true</swiftbar.hideAbout>
 // <swiftbar.hideRunInTerminal>true</swiftbar.hideRunInTerminal>
