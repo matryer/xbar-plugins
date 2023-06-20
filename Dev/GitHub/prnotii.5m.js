@@ -22,10 +22,20 @@ const {readFile} = require('fs/promises');
 
 const request = (url, headers) => new Promise((resolve, reject) => {
   const TIMEOUT_DELAY = 5000; // 5 Sec
-  const body = [];
+  const buffer = [];
   const req = https.get(url, {headers}, res => {
-    res.on('data', chunk => body.push(chunk));
-    res.on('end', () => resolve(Buffer.concat(body).toString()));
+    res.on('data', chunk => buffer.push(chunk));
+    res.on('end', () => {
+      const data = Buffer.concat(buffer).toString();
+      // 2xx status code
+      if (((res.statusCode / 100) | 0) == 2) return resolve(data);
+
+      try {
+        reject(JSON.parse(data));
+      } catch (e) {
+        reject(new Error(`${res.statusCode} ${res.statusMessage}`));
+      }
+    });
   });
   req.on('error', reject);
   req.end();
