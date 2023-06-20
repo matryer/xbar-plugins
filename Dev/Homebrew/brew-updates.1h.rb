@@ -4,7 +4,7 @@
 # rubocop:disable Layout/LineLength
 
 # <xbar.title>Brew Updates</xbar.title>
-# <xbar.version>v2.6.2</xbar.version>
+# <xbar.version>v2.6.3</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage outdated Homebrew formulas and casks</xbar.desc>
@@ -254,13 +254,13 @@ module Brew
     end
   end
 
-  class Formula
+  class Package
     attr_reader :name, :installed_versions, :latest_version,
                 :pinned, :pinned_version
 
     def initialize(attributes = {})
       @name = attributes['name']
-      @installed_versions = attributes['installed_versions']
+      @installed_versions = Array(attributes['installed_versions'])
       @latest_version = attributes['current_version']
       @pinned = attributes['pinned']
       @pinned_version = attributes['pinned_version']
@@ -271,17 +271,8 @@ module Brew
     end
   end
 
-  class Cask
-    attr_reader :name, :installed_version, :latest_version
-
-    def initialize(attributes = {})
-      @name = attributes['name']
-      @installed_version = attributes['installed_versions']
-      @latest_version = attributes['current_version']
-    end
-
-    alias current_version installed_version
-  end
+  class Formula < Package; end
+  class Cask < Package; end
 
   class FormulaUpdates < Common
     prefix '🍻'
@@ -550,7 +541,7 @@ module Brew
             ] + post_commands
           )
           printer.sep
-          printer.item("→ Installed: #{cask.installed_version}")
+          printer.item("→ Installed: #{cask.installed_versions.join(', ')}")
           printer.item("↑ Latest: #{cask.latest_version}")
           printer.sep
           if upgrade_all_exclude?(cask.name)
@@ -636,11 +627,11 @@ module Brew
     end
 
     def all_formulas
-      @all_formulas ||= outdated['formulae'].map { |line| Formula.new(line) }
+      @all_formulas ||= outdated['formulae'].map { |f| Formula.new(f) }
     end
 
     def casks
-      @casks ||= outdated['casks'].map { |line| Cask.new(line) }
+      @casks ||= outdated['casks'].map { |c| Cask.new(c) }
     end
 
     def greedy_args
