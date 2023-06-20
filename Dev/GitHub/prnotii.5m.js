@@ -42,7 +42,7 @@ const organize = refined => refined.reduce((prev, item) => {
   return prev;
 }, {});
 const githubQuery = (endpoint, token, query) => 
-  request(endpoint + '/search/issues?q=' + encodeURIComponent(query), {'Authorization': 'token ' + token})
+  request(endpoint + '/search/issues?q=' + encodeURIComponent(query), {'Authorization': 'token ' + token, 'User-Agent': 'xbar-app-prnotii'})
     .then(JSON.parse)
     .then(res => refine(res.items))
     .then(organize);
