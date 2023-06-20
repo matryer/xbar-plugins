@@ -2,9 +2,9 @@
 /* jshint esversion: 6 */
 
 // <xbar.title>emojiWeather</xbar.title>
-// <xbar.version>v1.0</xbar.version>
-// <xbar.author>Chandler Davidson</xbar.author>
-// <xbar.author.github>Chandler-Davidson</xbar.author.github>
+// <xbar.version>v2.0</xbar.version>
+// <xbar.author>Chandler Davidson, Luis Cruz</xbar.author>
+// <xbar.author.github>Chandler-Davidson, sprak3000</xbar.author.github>
 // <xbar.desc>Displays weather info as an emoji.</xbar.desc>
 // <xbar.image>https://static1.squarespace.com/static/5818f78ef5e2314f65b76331/t/59ded8e6bce1769ff7340715/1507776754374/emojiWeather?format=1500w</xbar.image>
 // <xbar.dependencies>axios, API key from openweathermap.org</xbar.dependencies>
