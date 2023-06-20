@@ -63,7 +63,7 @@ const githubQuery = (endpoint, token, query) =>
     .then(res => refine(res.items))
     .then(organize);
 const subMenu = organized => Object.entries(organized)
-  .map(([repository, items]) => '--' + repository + ' | disabled=true | size=12\n' + items.map(item => '--' + item.title + ' | href=' + item.href).join('\n'))
+  .map(([repository, items]) => '--' + repository + ' | disabled=true | size=12\n' + items.map(item => '--‣ ' + item.title + ' | href=' + item.href).join('\n'))
   .join('\n');
 const printOut = str => str && console.log(str);
 
@@ -100,24 +100,24 @@ const printOut = str => str && console.log(str);
     printOut('---');
 
     switch (true) {
-      case e.message.includes('ENOENT'):
-        printOut('🌈 HOW TO SETUP');
+      case /ENOENT/.test(e.message):
+        printOut('🌈 How to setup');
         printOut('---');
-        printOut('❶ Generate Github Token');
+        printOut('❶ Generate Github token');
         printOut('⠀  Generate new personal access token with "repos scope". | size=12');
-        printOut('❷ Create Config File');
+        printOut('❷ Create config file');
         printOut('⠀  Create ~/.prnotii File like below JSON format. | size=12');
         printOut('⠀  {"VAR_TOKEN": "kSEzyDP...", "VAR_ENDPOINT": "https://api.github.com"} | size=12');
-        printOut('❸ Press Refresh Menu below');
+        printOut('❸ Press "Refresh" menu below');
         printOut('⠀  After finish ❶,❷ steps, press "Refresh" menu to start again. | size=12');
-      break;
-      case e.message.includes('ETIMEDOUT') || e.message.includes('ECONNRESET'):
-        printOut('🚧 CONNECTION ERROR');
+        break;
+      case /ETIMEDOUT|ECONNRESET/.test(e.message):
+        printOut('🚧 Connection error');
         printOut('---');
         printOut('Check your internet connection or proxy settings. | size=12');
-      break;
+        break;
       default:
-        printOut('⛑️ UNHANDLED ERROR');
+        printOut('⛑️ Unhandled error');
         printOut('---');
         printOut(e.message + ' | size=12');
     }
