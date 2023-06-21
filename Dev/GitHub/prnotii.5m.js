@@ -81,7 +81,7 @@ const printOut = str => str && console.log(str);
     printOut('👩‍💻 Review Requested');
     printOut(requestedSubmenu);
 
-    const reviewed = await githubQuery(endpoint, token, 'is:pr is:open reviewed-by:@me');
+    const reviewed = await githubQuery(endpoint, token, 'is:pr is:open reviewed-by:@me -user-review-requested:@me');
     const reviewedSubmenu = subMenu(reviewed);
     printOut('💬 Reviewed');
     printOut(reviewedSubmenu);
