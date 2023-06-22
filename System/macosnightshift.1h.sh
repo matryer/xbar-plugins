@@ -1,11 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" bash 
+#^added homebrew install locations (both pre-M1 and M1) to PATH
 
-#  <xbar.title>Mac Low Power Mode Manager</xbar.title>
+#  <xbar.title>Night Shift Toggler</xbar.title>
 #  <xbar.version>v1.0</xbar.version>
 #  <xbar.author>Anderson</xbar.author>
 #  <xbar.author.github>andersonaddo</xbar.author.github>
-#  <xbar.desc>A quick xbar tool to toggle MacOS Nightshift with less clicks. Check out https://github.com/andersonaddo/xbar-macos-nightshift-toggler for important installation instructions!</xbar.desc>
-#  <xbar.image>https://raw.githubusercontent.com/andersonaddo/xbar-macos-nightshift-toggler/main/icon.png</xbar.image>
+#  <xbar.desc>A quick xbar tool to toggle MacOS Night Shift with less clicks. Check out https://github.com/andersonaddo/xbar-macos-nightshift-toggler for important installation instructions!</xbar.desc>
+#  <xbar.dependencies>nightlight (Homebrew)</xbar.dependencies>
+#  <xbar.image>https://raw.githubusercontent.com/andersonaddo/xbar-macos-nightshift-toggler/main/xbarScreenshot.png</xbar.image>
 #  <xbar.abouturl>https://github.com/andersonaddo/xbar-macos-nightshift-toggler</xbar.abouturl>
 
 #icons (144dpi, each about 34 x 34ppx)
@@ -17,10 +19,10 @@ OFF=0
 ON=1
 NOT_SUPPORTED=2
 
-nightshift_mode=$OFF
+nightshift_mode=$NOT_SUPPORTED
 
 get_nighshift_state() {
-  local nightshift_mode_raw=$(/usr/local/bin/nightlight status)
+  local nightshift_mode_raw=$(nightlight status)
 
   if [[ $nightshift_mode_raw == *"on"* ]]; then
     nightshift_mode=$ON
@@ -32,28 +34,30 @@ get_nighshift_state() {
 }
 
 toggle_nightshift_state() {
-  /usr/local/bin/nightlight toggle
+  nightlight toggle
 }
 
 main() {
   get_nighshift_state
 
   if [[ $nightshift_mode == $NOT_SUPPORTED ]]; then
-    echo "-"
+    echo "⚠️"
+    echo "---"
+    echo "Please install nightlight: brew install smudge/smudge/nightlight"
     exit 0
   fi
 
   if [[ $nightshift_mode == $ON ]]; then
     echo "| templateImage=$nightshift_on_image"
     echo "---"
-    echo "Nightshift is on."
+    echo "Night Shift is on."
   else
     echo "| templateImage=$nightshift_off_image"
     echo "---"
-    echo "Nightshift is off."
+    echo "Night Shift is off."
   fi
 
-  echo "Toggle Nightshift | bash='$0' param1=toggle_mode terminal=false refresh=true"
+  echo "Toggle Night Shift | bash='$0' param1=toggle_mode terminal=false refresh=true"
   echo "Refresh | refresh=true"
 }
 
