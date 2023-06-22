@@ -5,7 +5,7 @@
 # the format and refresh rate to taste.
 #
 # <xbar.title>World Clock</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.1</xbar.version>
 # <xbar.author>Adam Snodgrass</xbar.author>
 # <xbar.author.github>asnodgrass</xbar.author.github>
 # <xbar.desc>Display current UTC time in the menu bar, with various timezones in the drop-down menu</xbar.desc>
@@ -13,8 +13,8 @@
 # <xbar.var>string(VAR_ZONES="Australia/Sydney Europe/Amsterdam America/New_York America/Los_Angeles"): Space delimited set of timezones</xbar.var>
 
 ZONES=${VAR_ZONES}
-date -u +'%H:%M:%S UTC'
+date -u +'%H:%M:%S UTC | font=Monaco'
 echo '---'
 for zone in $ZONES; do
-  echo "$(TZ=$zone date +'%H:%M:%S %z') $zone"
+  echo "$(TZ=$zone date +'%H:%M:%S %z') $zone | font=Monaco"
 done
