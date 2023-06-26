@@ -151,4 +151,4 @@ if __name__ == "__main__":
     print("🎙️ %s | color=#%s" % (state_label, config[state].color.toHex()))
     print('---')
     for light in get_onair_lights(getenv('ONAIR_LIGHTS')):
-        set_light_state(light, onfig[state])
+        set_light_state(light, config[state])
