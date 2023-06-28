@@ -209,7 +209,8 @@ def print_index(index, name):
     # Setting color and emojis depending on the market state and the market change
     if market_state != 'REGULAR':
         # Set change with a moon emoji for closed markets
-        colored_change = '🌛' + '(' + '{:.2f}'.format(change) + '%) '
+        colored_change = '🌛' + \
+            '(' + index['price']['regularMarketChangePercent']['fmt'] + ') '
     if market_state == 'REGULAR':
         # Set color for positive and negative values
         color = ''
@@ -218,7 +219,8 @@ def print_index(index, name):
         if change < 0:
             color = RED + '▼'
         # Format change to decimal with a precision of two and reset ansi color at the end
-        colored_change = color + '(' + '{:.2f}'.format(change) + '%) ' + RESET
+        colored_change = color + \
+            '(' + index['price']['regularMarketChangePercent']['fmt'] + ') ' + RESET
 
     # Print the index info only to the menu bar
     print(name, colored_change, '| dropdown=false', sep=' ')
@@ -233,7 +235,8 @@ def print_stock(s):
     if market_state != 'REGULAR':
         market = 'CLOSED'
         # Set change with a moon emoji for closed markets
-        colored_change = '🌛' + '(' + '{:.2f}'.format(change) + '%) '
+        colored_change = '🌛' + \
+            '(' + s['price']['regularMarketChangePercent']['fmt'] + ') '
     if market_state == 'REGULAR':
         # Set color for positive and negative values
         color = ''
@@ -243,7 +246,8 @@ def print_stock(s):
         if change < 0:
             color = RED + '▼'
         # Format change to decimal with a precision of two and reset ansi color at the end
-        change_in_percent = '(' + '{:.2f}'.format(change) + '%)'
+        change_in_percent = '(' + \
+            s['price']['regularMarketChangePercent']['fmt'] + ')'
         colored_change = color + change_in_percent + RESET
 
     # Remove appending stock exchange symbol for foreign exchanges, e.g. Apple stock symbol in Frankfurt: APC.F -> APC
@@ -251,10 +255,6 @@ def print_stock(s):
     # Convert epoch to human readable time HH:MM:SS
     time = datetime.fromtimestamp(
         s['price']['regularMarketTime']).strftime('%X')
-    # Convert float values to decimals with a precision of two
-    fifty_day = '{:.2f}'.format(s['summaryDetail']['fiftyDayAverage']['raw'])
-    two_hundred_day = '{:.2f}'.format(
-        s['summaryDetail']['twoHundredDayAverage']['raw'])
 
     regular_market_day_high = s['summaryDetail']['regularMarketDayHigh']['raw']
     regular_market_day_low = s['summaryDetail']['regularMarketDayLow']['raw']
@@ -267,7 +267,7 @@ def print_stock(s):
     # Print the stock info seen in the dropdown menu
     stock_info = '{:<5} {:>10} {:<10}' + FONT
     print(stock_info.format(
-        symbol, s['price']['regularMarketPrice']['raw'], colored_change))
+        symbol, s['price']['regularMarketPrice']['fmt'], colored_change))
     # Print additional stock info in the submenu
     stock_submenu = '{:<17} {:<17}' + FONT
     print('--' + s['price']['shortName'] + FONT)
@@ -276,11 +276,11 @@ def print_stock(s):
     print('--' + time + ' - Market is ' + market + FONT)
     print('-----')
     print(stock_submenu.format('--Previous Close:',
-          s['price']['regularMarketPreviousClose']['raw']))
+          s['price']['regularMarketPreviousClose']['fmt']))
     print(stock_submenu.format(
-        '--Open:', s['price']['regularMarketOpen']['raw']))
-    print(stock_submenu.format('--Bid:', s['summaryDetail']['bid']['raw']))
-    print(stock_submenu.format('--Ask:', s['summaryDetail']['ask']['raw']))
+        '--Open:', s['price']['regularMarketOpen']['fmt']))
+    print(stock_submenu.format('--Bid:', s['summaryDetail']['bid']['fmt']))
+    print(stock_submenu.format('--Ask:', s['summaryDetail']['ask']['fmt']))
     print(stock_submenu.format("--Day's Range:",
           '{:.2f}'.format(regular_market_day_range)))
     print(stock_submenu.format('--52 Week Range:',
