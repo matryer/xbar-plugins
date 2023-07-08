@@ -6,7 +6,7 @@
 # <xbar.author>cmaluend</xbar.author>
 # <xbar.author.github>cmaluend</xbar.author.github>
 # <xbar.desc>Ping the services and create a dropdown report</xbar.desc>
-# <xbar.image>https://gitlab.com/cmaluend/xbar-plugins/-/raw/main/service-monitor/flasher.png</xbar.image>
+# <xbar.image>https://github.com/cmaluend/xbar-plugins/blob/main/Dev/service-monitor/flasher.png?raw=true</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 #
 # by cmaluend
