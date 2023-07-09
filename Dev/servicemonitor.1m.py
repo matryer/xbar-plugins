@@ -20,7 +20,20 @@ except:
 	subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
 
 TITLE = "My Services"
-
+'''
+SERVICES = {
+	"tier: [
+		{
+			"name": "Service name",
+			"endpoint": "https://httpstat.us/200",
+			"headers": {}							#optional
+			"method": "GET",						#optional
+			"body": {} 								#optional 
+			"status_code": 200
+		}
+	]
+}
+'''
 SERVICES = {
 	"dev": [
 		{ 
@@ -66,12 +79,15 @@ def process_services(services):
 	return dict(zip(servicesnames, result))
 
 def call_service(service):
-	healthy = False
+	method =  service["method"] if "method" in service.keys() else "GET"
+	data = service["body"] if "body" in service.keys() else None
 	headers = {"user-agent":"xbar"}
 	if "headers" in service.keys():
 		headers.update(service["headers"])
+	
+	healthy = False
 	try:
-		response = requests.get(service["endpoint"], headers=headers)
+		response = requests.request(method=method, url=service["endpoint"], headers=headers, data=data, timeout=10)
 		if response.status_code == service["status_code"]:
 			healthy = True
 	except Exception as err:
