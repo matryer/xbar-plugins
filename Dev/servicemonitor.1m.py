@@ -3,13 +3,13 @@
 #
 # <xbar.title>Service Monitor</xbar.title>
 # <xbar.version>v0.1</xbar.version>
-# <xbar.author>cmaluend</xbar.author>
+# <xbar.author>Cristian</xbar.author>
 # <xbar.author.github>cmaluend</xbar.author.github>
 # <xbar.desc>Ping the services and create a dropdown report</xbar.desc>
-# <xbar.image>https://github.com/cmaluend/xbar-plugins/blob/main/Dev/service-monitor/screenshot.png?raw=true</xbar.image>
+# <xbar.image>https://cmaluend.github.io/images/xbar/servicemonitor.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 #
-# by cmaluend
+# by Cristian
 import subprocess
 import sys
 from multiprocessing import Pool
@@ -26,6 +26,9 @@ SERVICES = {
 		{ 
 			"name": "service 1",
 			"endpoint": "https://httpstat.us/200",
+			"headers": {
+				"Content-type": "text/html"
+			},
 			"status_code": 200
 		},
 		{ 
@@ -64,8 +67,12 @@ def process_services(services):
 
 def call_service(service):
 	healthy = False
+	headers = {"user-agent":"xbar"}
+	if "headers" in service.keys():
+		headers.update(service["headers"])
+	print(headers)
 	try:
-		response = requests.get(service["endpoint"], headers={"user-agent":"xbar"})
+		response = requests.get(service["endpoint"], headers=headers)
 		if response.status_code == service["status_code"]:
 			healthy = True
 	except Exception as err:
