@@ -70,7 +70,6 @@ def call_service(service):
 	headers = {"user-agent":"xbar"}
 	if "headers" in service.keys():
 		headers.update(service["headers"])
-	print(headers)
 	try:
 		response = requests.get(service["endpoint"], headers=headers)
 		if response.status_code == service["status_code"]:
