@@ -5,9 +5,14 @@
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>Cristian</xbar.author>
 # <xbar.author.github>cmaluend</xbar.author.github>
-# <xbar.desc>Ping the services and create a dropdown report</xbar.desc>
+# <xbar.desc>Ping the services and create a dropdown report. It sends a notification when a service fails and can show the error from the server in an editor.</xbar.desc>
 # <xbar.image>https://cmaluend.github.io/images/xbar/servicemonitor1.0.png</xbar.image>
-# <xbar.dependencies>python</xbar.dependencies>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.var>string(TITLE="xbar Service Monitor"): Menu bar title.</xbar.var>
+# <xbar.var>number(LIMIT_TOTAL_ISSUES=5): Max issues shown in the menu.</xbar.var>
+# <xbar.var>number(RECOVERY_TIME=4): Recovery time in hours.</xbar.var>
+# <xbar.var>number(TIMEOUT=10): Timeout for the request in seconds.</xbar.var>
+# <xbar.var>boolean(ALLOW_NOTIFICATIONS=true): Allow notifications.</xbar.var>
 #
 # by Cristian
 import os
@@ -24,13 +29,18 @@ try:
 except:
 	subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
 
+TITLE = os.getenv("TITLE", "xbar")
+LIMIT_TOTAL_ISSUES= int(os.getenv("LIMIT_TOTAL_ISSUES", 5))
+RECOVERY_TIME= int(os.getenv("RECOVERY_TIME",24))
+TIMEOUT= int(os.getenv("TIMEOUT",10))
+ALLOW_NOTIFICATIONS = bool(os.getenv("ALLOW_NOTIFICATIONS",True))
 
 #Documentation
 # 🟢: Healthy service
 # 🔴: Service with issues
 # ⚠️: Service recovered.
 
-TITLE = "My Services"
+
 '''
 SERVICES = {
 	"tier: [
@@ -78,12 +88,7 @@ SERVICES = {
 	]
 }
 
-# Max number of issues in the menu
-LIMIT_TOTAL_ISSUES=5
-# Recovery time in Hours
-RECOVERY_TIME=12
 
-ALLOW_NOTIFICATIONS = True
 
 class ServiceMonitor:
 
@@ -125,7 +130,7 @@ class ServiceMonitor:
 		errorMessage = ""
 		httpStatus = ""
 		try:
-			response = requests.request(method=method, url=service["endpoint"], headers=headers, data=data, timeout=10)
+			response = requests.request(method=method, url=service["endpoint"], headers=headers, data=data, timeout=TIMEOUT)
 			if response.status_code == service["status_code"]:
 				healthy = True
 			else:
