@@ -10,6 +10,7 @@
 # <xbar.dependencies>python</xbar.dependencies>
 #
 # by Cristian
+import os
 import sqlite3
 import subprocess
 import sys
@@ -138,7 +139,9 @@ class ServiceMonitor:
 class Reporter:
 
 	def __init__(self) -> None:
-		self.conn = sqlite3.connect("."+sys.argv[0]+".db", isolation_level=None)
+		[path, filename] = os.path.split(sys.argv[0])
+		db = path+"/."+filename+".db"
+		self.conn = sqlite3.connect(db, isolation_level=None)
 		self.conn.execute("CREATE TABLE IF NOT EXISTS issues (env NOT NULL, service NOT NULL, http_status, error_message, timestamp timestamp)")
 		self.conn.execute("CREATE TABLE IF NOT EXISTS notifications (env NOT NULL, service NOT NULL, triggered BOOLEAN, timestamp timestamp, PRIMARY KEY (env, service))")
 
