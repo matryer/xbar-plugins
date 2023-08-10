@@ -4,10 +4,14 @@
 # <xbar.author>Afraz Ahmadzadeh</xbar.author>
 # <xbar.author.github>afrazkhan</xbar.author.github>
 # <xbar.desc>Checks network and DNS functionality</xbar.desc>
+# <xbar.image>https://github-production-user-asset-6210df.s3.amazonaws.com/5545555/259845977-79437af9-a1e0-401a-9c34-0e1c6126543f.png</xbar.image>
+# <xbar.var>number(VAR_PING_TIMEOUT=1): Ping timeout in seceonds</xbar.var>
+# <xbar.var>string(VAR_PING_ADDRESS=9.9.9.9): IP address to ping</xbar.var>
+# <xbar.var>string(VAR_DNS_ADDRESS=www.quad9.net): DNS address to query</xbar.var>
 
-ping_timeout=1
-ping_address=9.9.9.9
-dns_address=www.quad9.net
+ping_timeout=$VAR_PING_TIMEOUT
+ping_address=$VAR_PING_ADDRESS
+dns_address=$VAR_DNS_ADDRESS
 
 # By default, everything is fine
 icon="🌎|dropdown=false"
