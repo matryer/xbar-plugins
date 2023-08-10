@@ -7,7 +7,7 @@
 
 # Themes copied from here: http://colorbrewer2.org/
 # shellcheck disable=SC2034
-RED_GREEN_THEME=("#d73027" "#fc8d59" "#fee08b" "#d9ef8b" "#91cf60" "#1a9850")
+RED_GREEN_THEME=("#d73027" "#fc8d59" "#fee08b" "#ffffbf" "#d9ef8b" "#91cf60" "#1a9850")
 COLORS=("${RED_GREEN_THEME[@]}")
 
 WIFIDATA=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I)
