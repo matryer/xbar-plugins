@@ -6,6 +6,7 @@
 # <xbar.author.github>sebastianludwig</xbar.author.github>
 # <xbar.desc>Show the status of a Prusa 3D printer</xbar.desc>
 # <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.image>https://user-images.githubusercontent.com/1715010/257052937-7edd2773-79d0-4fc7-ba0f-84ddb8d4fb7d.png</xbar.image>
 
 # <xbar.var>string(PRINTER_ADDRESS=""): Address of the PrusaLink web interface</xbar.var>
 # <xbar.var>string(API_KEY=""): API key of your printer</xbar.var>
