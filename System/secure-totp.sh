@@ -4,18 +4,26 @@
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>micxer</xbar.author>
 # <xbar.author.github>micxer</xbar.author.github>
-# <xbar.desc>When you click on an entry, the token gets copied to the clipboard. After 30 seconds, the clipboard is automatically emptied again. The token are not part of the menu all the time.</xbar.desc>
+# <xbar.desc>This plugin generates TOTP tokens and enables them to be copied to the clipboard. After 30 seconds, the clipboard is automatically emptied again.</xbar.desc>
 # <xbar.image>https://i.imgur.com/FelKuk7.png</xbar.image>
 # <xbar.dependencies>bash,oathtool</xbar.dependencies>
 
 # update the key value pairs as per your requirement
 # Key - for your reference to identify a TOTP Account
 # Value - base32 secret key corresponding to the TOTP Account
-# <xbar.var>string(KEYFILE="$HOME/.otp"): Your file with OTP secrets. Use a full path here. $HOME or ~won't work.</xbar.var>
+# <xbar.var>string(KEYFILE="$HOME/.otp"): Your file with OTP secrets</xbar.var>
+
+# update PATH for Apple Silicon
+if [[ $(uname -m) == 'arm64' ]]
+then
+    PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+else
+    PATH="/usr/local/sbin:$PATH"
+fi
 
 # oath-toolkit needs to be installed. Use 'brew install oath-toolkit' and update
 # the path to the oathtool binary below if necessary.
-oathtool="/usr/local/bin/oathtool"
+oathtool="$(which oathtool)"
 
 export LANG="${LANG:-en_US.UTF-8}"
 
