@@ -5,7 +5,7 @@
 # <xbar.author>micxer</xbar.author>
 # <xbar.author.github>micxer</xbar.author.github>
 # <xbar.desc>This plugin generates TOTP tokens and enables them to be copied to the clipboard. After 30 seconds, the clipboard is automatically emptied again.</xbar.desc>
-# <xbar.image>https://i.imgur.com/FelKuk7.png</xbar.image>
+# <xbar.image>https://raw.githubusercontent.com/micxer/xbar-secure-totp-plugin/main/img/TOTP.png</xbar.image>
 # <xbar.dependencies>bash,oathtool</xbar.dependencies>
 
 # update the key value pairs as per your requirement
