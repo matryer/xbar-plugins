@@ -6,6 +6,7 @@
 # <xbar.author.github>Lakeland97</xbar.author.github>
 # <xbar.desc>Estimates when the battery will run out based on remaining time.</xbar.desc>
 # <xbar.dependencies>bash</xbar.dependencies>
+# <xbar.image>https://user-images.githubusercontent.com/5545555/269747616-eb28faa6-e37a-4b1c-9842-b2c6fc3cf12f.png</xbar.image>
 
 # Function to get remaining time in HH:MM format
 get_remaining_time() {
