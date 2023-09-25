@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # <xbar.title>Productivity Countdowns</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v1.1.1</xbar.version>
 # <xbar.author>Jacopo Lorenzetti</xbar.author>
 # <xbar.author.github>jlorenzetti</xbar.author.github>
 # <xbar.desc>This plugin will show the current ISO week number and a few productivity boosting countdowns.</xbar.desc>
@@ -15,7 +15,7 @@ unix_time=$(date +%s)
 day_of_year=$(date +%j)
 day_of_week=$(date +%w)
 week_number=$(date +%V)
-month_number=$(date +%m)
+month_number=$((10#$(date +%m)))
 quarter=$(((month_number - 1) / 3 + 1))
 
 function format_countdown {
