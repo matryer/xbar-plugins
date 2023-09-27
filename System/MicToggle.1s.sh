@@ -5,7 +5,7 @@
 # <xbar.author>Alejandro Narvaja</xbar.author>
 # <xbar.author.github>alebarbaja</xbar.author.github>
 # <xbar.desc>Toggle microphone on/off and display its status.</xbar.desc>
-# <xbar.image>https://imgur.com/a/dBhPg2g</xbar.image>
+# <xbar.image>https://i.postimg.cc/nzShGcfN/mute-unmute-mic.gif</xbar.image>
 # <xbar.dependencies>osascript</xbar.dependencies>
 
 # Get the current input volume
