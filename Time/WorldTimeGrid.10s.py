@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" python3
 
 #  <xbar.title>WorldTimeGrid</xbar.title>
 #  <xbar.version>v1.0</xbar.version>
