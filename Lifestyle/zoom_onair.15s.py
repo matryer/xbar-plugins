@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env PYTHONENCODING=UTF-8 python3
 
 #  <xbar.title>Zoom On-Air</xbar.title>
-#  <xbar.version>v0.1</xbar.version>
+#  <xbar.version>v0.2</xbar.version>
 #  <xbar.author>David Bayer</xbar.author>
 #  <xbar.author.github>drbayer</xbar.author.github>
 #  <xbar.desc>Changes color of Magic Hue smart bulbs to indicate when you're in a Zoom meeting.</xbar.desc>                         # noqa: E501
@@ -21,8 +21,9 @@
 # xbar-onair.py built from original work by Tim Toll.
 
 
-import time
-import os
+from time import sleep
+from os import getenv
+from socket import gethostname
 import subprocess
 import sys
 
@@ -78,7 +79,7 @@ def in_meeting():
     processes = subprocess.Popen(['lsof', '-i', '4UDP'],
                                  stdout=subprocess.PIPE).stdout.readlines()
     for process in processes:
-        if 'zoom' in str(process):
+        if 'zoom' in str(process) and gethostname() in str(process):
             in_meeting = True
             break
     return in_meeting
@@ -90,19 +91,19 @@ def get_onair_lights(light_list):
     if addresses[0] == 'first':
         lights_found = magichue.discover_bulbs()
         try:
-            lights.append(magichue.Light(lights_found[0]))
+            lights.append(magichue.LocalLight(lights_found[0]))
         except Exception as e:
             msg = 'On-Air light not found: %s | alternate=true'
             print(msg % (str(e)))
     else:
         for address in addresses:
             try:
-                lights.append(magichue.Light(address))
+                lights.append(magichue.LocalLight(address))
             except ConnectionRefusedError:
-                msg = 'Connection refused for light at %s | alternate=true'
+                msg = 'Connection refused for light at %s'
                 print(msg % (address))
             except Exception as e:
-                msg = 'Unable to connect to light at %s: %s | alternate=true'
+                msg = 'Unable to connect to light at %s: %s'
                 print(msg % (address, str(e)))
     return lights
 
@@ -114,7 +115,7 @@ def set_light_state(light, config):
     if config.lighton:
         light.is_white = False
         light.mode = transition_effect
-        time.sleep(light.speed)
+        sleep(light.speed)
         light.rgb = config.color.toRGB()
         light.brightness = config.brightness
 
@@ -133,13 +134,12 @@ if __name__ == "__main__":
     messages = []
 
     config = {}
-    config['onair'] = Config(os.getenv('ONAIR_ONAIR_COLOR'),
-                             os.getenv('ONAIR_ONAIR_BRIGHTNESS'),
+    config['onair'] = Config(getenv('ONAIR_ONAIR_COLOR'),
+                             getenv('ONAIR_ONAIR_BRIGHTNESS'),
                              'TRUE')
-    config['offair'] = Config(os.getenv('ONAIR_OFFAIR_COLOR'),
-                              os.getenv('ONAIR_OFFAIR_BRIGHTNESS'),
-                              os.getenv('ONAIR_OFFAIR_LIGHTON'))
-    config['lights'] = get_onair_lights(os.getenv('ONAIR_LIGHTS'))
+    config['offair'] = Config(getenv('ONAIR_OFFAIR_COLOR'),
+                              getenv('ONAIR_OFFAIR_BRIGHTNESS'),
+                              getenv('ONAIR_OFFAIR_LIGHTON'))
 
     if in_meeting():
         state = 'onair'
@@ -150,5 +150,5 @@ if __name__ == "__main__":
 
     print("🎙️ %s | color=#%s" % (state_label, config[state].color.toHex()))
     print('---')
-    for light in config['lights']:
+    for light in get_onair_lights(getenv('ONAIR_LIGHTS')):
         set_light_state(light, config[state])

@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-
+#!/usr/bin/env LC_ALL=en_US.UTF-8 /usr/local/bin/python3
+#
 # <xbar.title>Yahoo Stock Ticker</xbar.title>
 # <xbar.version>v1.1</xbar.version>
 # <xbar.author>Long Do</xbar.author>
@@ -20,7 +20,7 @@ import subprocess
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Enter your stock symbols here in the format: ["symbol1", "symbol2", ...]
-symbols = ["FB", "AAPL", "AMZN", "NFLX", "GOOG", "BIDU", "BABA", "TCEHY"]
+symbols = ["AAPL", "AMZN", "NFLX", "GOOG", "BIDU", "BABA", "TCEHY"]
 
 # Enter the order how you want to sort the stock list:
 # 'name'                     : Sort alphabetically by name from A to Z
@@ -151,13 +151,16 @@ def remove_line_from_data_file(data_file, line_to_be_removed):
 def get_stock_data(symbol):
     # Building the curl command as a string
     library = 'curl --silent '
-    api = 'https://query1.finance.yahoo.com/v7/finance/quote?'
-    fields = ['symbol', 'marketState', 'regularMarketTime', 'regularMarketPrice', 'regularMarketChangePercent',
-              'fullExchangeName', 'currency', 'regularMarketPreviousClose', 'regularMarketOpen', 'bid', 'ask',
-              'regularMarketDayRange', 'fiftyTwoWeekRange', 'fiftyDayAverage', 'twoHundredDayAverage', 'shortName',
-              'fiftyDayAverageChangePercent', 'twoHundredDayAverageChangePercent']
-    fields_string = 'fields=' + ','.join(fields)
-    cmd = library + "'" + api + fields_string + '&symbols=' + symbol + "'"
+    api = 'https://query2.finance.yahoo.com/v10/finance/quoteSummary/'
+    modules = ['assetProfile', 'summaryProfile', 'summaryDetail', 'esgScores', 'price', 'incomeStatementHistory',
+               'incomeStatementHistoryQuarterly', 'balanceSheetHistory', 'balanceSheetHistoryQuarterly',
+               'cashflowStatementHistory', 'cashflowStatementHistoryQuarterly', 'defaultKeyStatistics', 'financialData',
+               'calendarEvents', 'secFilings', 'recommendationTrend', 'upgradeDowngradeHistory', 'institutionOwnership',
+               'fundOwnership', 'majorDirectHolders', 'majorHoldersBreakdown', 'insiderTransactions', 'insiderHolders',
+               'netSharePurchaseActivity', 'earnings', 'earningsHistory', 'earningsTrend', 'industryTrend', 'indexTrend',
+               'sectorTrend']
+    modules_string = '?modules=' + ','.join(modules)
+    cmd = library + "'" + api + symbol + modules_string + "'"
 
     # Popen to run the curl command and retrieve the output
     output = os.popen(cmd).read()
@@ -166,7 +169,7 @@ def get_stock_data(symbol):
 
     # Check if a valid symbol was used
     try:
-        stock_data = json_output['quoteResponse']['result'][0]
+        stock_data = json_output['quoteSummary']['result'][0]
     except IndexError:
         alert('Error', 'Invalid stock symbol: ' + symbol)
         sys.exit()
@@ -186,25 +189,28 @@ def check_price_limits(symbol_to_be_checked, current_price, price_limit_list, da
             # Notify user if current price is lower than the BUY limit, then remove the limit from list
             if 'BUY' in limit_entry and current_price < limit_price:
                 notification_subtitle = 'BUY Limit: ' + str(limit_price)
-                notify(notification_text, notification_title, notification_subtitle)
+                notify(notification_text, notification_title,
+                       notification_subtitle)
                 remove_line_from_data_file(data_file, limit_entry)
 
             # Notify user if current price is higher than the SELL limit, then remove the limit from list
             if 'SELL' in limit_entry and current_price > limit_price:
                 notification_subtitle = 'SELL Limit: ' + str(limit_price)
-                notify(notification_text, notification_title, notification_subtitle)
+                notify(notification_text, notification_title,
+                       notification_subtitle)
                 remove_line_from_data_file(data_file, limit_entry)
 
 
 # Print the indices information in the menu bar
 def print_index(index, name):
-    market_state = index['marketState']
-    change = index['regularMarketChangePercent']
+    market_state = index['price']['marketState']
+    change = index['price']['regularMarketChangePercent']['raw']
 
     # Setting color and emojis depending on the market state and the market change
     if market_state != 'REGULAR':
         # Set change with a moon emoji for closed markets
-        colored_change = '🌛' + '(' + '{:.2f}'.format(change) + '%) '
+        colored_change = '🌛' + \
+            '(' + index['price']['regularMarketChangePercent']['fmt'] + ') '
     if market_state == 'REGULAR':
         # Set color for positive and negative values
         color = ''
@@ -213,7 +219,8 @@ def print_index(index, name):
         if change < 0:
             color = RED + '▼'
         # Format change to decimal with a precision of two and reset ansi color at the end
-        colored_change = color + '(' + '{:.2f}'.format(change) + '%) ' + RESET
+        colored_change = color + \
+            '(' + index['price']['regularMarketChangePercent']['fmt'] + ') ' + RESET
 
     # Print the index info only to the menu bar
     print(name, colored_change, '| dropdown=false', sep=' ')
@@ -221,14 +228,15 @@ def print_index(index, name):
 
 # Print the stock info in the dropdown menu with additional info in the submenu
 def print_stock(s):
-    market_state = s['marketState']
-    change = s['regularMarketChangePercent']
+    market_state = s['price']['marketState']
+    change = s['price']['regularMarketChangePercent']['raw']
 
     # Setting color and emojis depending on the market state and the market change
     if market_state != 'REGULAR':
         market = 'CLOSED'
         # Set change with a moon emoji for closed markets
-        colored_change = '🌛' + '(' + '{:.2f}'.format(change) + '%) '
+        colored_change = '🌛' + \
+            '(' + s['price']['regularMarketChangePercent']['fmt'] + ') '
     if market_state == 'REGULAR':
         # Set color for positive and negative values
         color = ''
@@ -238,36 +246,45 @@ def print_stock(s):
         if change < 0:
             color = RED + '▼'
         # Format change to decimal with a precision of two and reset ansi color at the end
-        change_in_percent = '(' + '{:.2f}'.format(change) + '%)'
+        change_in_percent = '(' + \
+            s['price']['regularMarketChangePercent']['fmt'] + ')'
         colored_change = color + change_in_percent + RESET
 
     # Remove appending stock exchange symbol for foreign exchanges, e.g. Apple stock symbol in Frankfurt: APC.F -> APC
-    symbol = s['symbol'].split('.')[0]
+    symbol = s['price']['symbol'].split('.')[0]
     # Convert epoch to human readable time HH:MM:SS
-    time = datetime.fromtimestamp(s['regularMarketTime']).strftime('%X')
-    # Convert float values to decimals with a precision of two
-    fifty_day = '{:.2f}'.format(s['fiftyDayAverage'])
-    two_hundred_day = '{:.2f}'.format(s['twoHundredDayAverage'])
-    fifty_day_change = '(' + '{:.2f}'.format(s['fiftyDayAverageChangePercent'] * 100) + '%)'
-    two_hundred_day_change = '(' + '{:.2f}'.format(s['twoHundredDayAverageChangePercent'] * 100) + '%)'
+    time = datetime.fromtimestamp(
+        s['price']['regularMarketTime']).strftime('%X')
+
+    regular_market_day_high = s['summaryDetail']['regularMarketDayHigh']['raw']
+    regular_market_day_low = s['summaryDetail']['regularMarketDayLow']['raw']
+    regular_market_day_range = regular_market_day_high - regular_market_day_low
+
+    fifty_two_week_high = s['summaryDetail']['fiftyTwoWeekHigh']['raw']
+    fifty_two_week_low = s['summaryDetail']['fiftyTwoWeekLow']['raw']
+    fifty_two_week_range = fifty_two_week_high - fifty_two_week_low
 
     # Print the stock info seen in the dropdown menu
     stock_info = '{:<5} {:>10} {:<10}' + FONT
-    print(stock_info.format(symbol, s['regularMarketPrice'], colored_change))
+    print(stock_info.format(
+        symbol, s['price']['regularMarketPrice']['fmt'], colored_change))
     # Print additional stock info in the submenu
     stock_submenu = '{:<17} {:<17}' + FONT
-    print('--' + s['shortName'] + FONT)
-    print('--' + s['fullExchangeName'] + ' - Currency in ' + s['currency'] + FONT)
+    print('--' + s['price']['shortName'] + FONT)
+    print('--' + s['price']['longName'] +
+          ' - Currency in ' + s['price']['currency'] + FONT)
     print('--' + time + ' - Market is ' + market + FONT)
     print('-----')
-    print(stock_submenu.format('--Previous Close:', s['regularMarketPreviousClose']))
-    print(stock_submenu.format('--Open:', s['regularMarketOpen']))
-    print(stock_submenu.format('--Bid:', s['bid']))
-    print(stock_submenu.format('--Ask:', s['ask']))
-    print(stock_submenu.format("--Day's Range:", s['regularMarketDayRange']))
-    print(stock_submenu.format('--52 Week Range:', s['fiftyTwoWeekRange']))
-    print(stock_submenu.format('--50 MA:', fifty_day + ' ' + fifty_day_change))
-    print(stock_submenu.format('--200 MA:', two_hundred_day + ' ' + two_hundred_day_change))
+    print(stock_submenu.format('--Previous Close:',
+          s['price']['regularMarketPreviousClose']['fmt']))
+    print(stock_submenu.format(
+        '--Open:', s['price']['regularMarketOpen']['fmt']))
+    print(stock_submenu.format('--Bid:', s['summaryDetail']['bid']['fmt']))
+    print(stock_submenu.format('--Ask:', s['summaryDetail']['ask']['fmt']))
+    print(stock_submenu.format("--Day's Range:",
+          '{:.2f}'.format(regular_market_day_range)))
+    print(stock_submenu.format('--52 Week Range:',
+          '{:.2f}'.format(fifty_two_week_range)))
 
 
 # Print the price limits in the dropdown menu
@@ -285,7 +302,8 @@ def print_price_limits(price_limit_list):
         price_limit_submenu = '{:<6} {:<4} {:<10}'
         # Print the price limit data into the submenu
         # onClick will rerun this script with parameters 'remove' and the {limit_entry} to remove clicked the limit
-        print(price_limit_submenu.format('--' + limit_type, symbol, limit_price + PARAMETERS + " param1='remove' param2='" + limit_entry + "'"))
+        print(price_limit_submenu.format('--' + limit_type, symbol, limit_price +
+              PARAMETERS + " param1='remove' param2='" + limit_entry + "'"))
     print('-----')
     print('--To remove a limit, click on it.' + FONT)
     # Print the clickable fields to set new limits or clear all price limits
@@ -296,7 +314,8 @@ def print_price_limits(price_limit_list):
 
 
 if __name__ == '__main__':
-    data_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '.' + os.path.basename(__file__) + '.db')
+    data_file = os.path.join(os.path.dirname(os.path.realpath(
+        __file__)), '.' + os.path.basename(__file__) + '.db')
 
     # Normal execution by BitBar without any parameters
     if len(sys.argv) == 1:
@@ -318,17 +337,21 @@ if __name__ == '__main__':
         for symbol in symbols:
             stock = get_stock_data(symbol)
             stocks.append(stock)
-            check_price_limits(symbol, stock['regularMarketPrice'], price_limit_list, data_file)
+            check_price_limits(
+                symbol, stock['price']['regularMarketPrice'], price_limit_list, data_file)
 
         # Set order of stocks
         if sort_by == 'name':
             stocks = sorted(stocks, key=lambda k: k['shortName'])
         if sort_by == 'market_change_winners':
-            stocks = sorted(stocks, key=lambda k: k['regularMarketChangePercent'], reverse=True)
+            stocks = sorted(
+                stocks, key=lambda k: k['price']['regularMarketChangePercent']['raw'], reverse=True)
         if sort_by == 'market_change_losers':
-            stocks = sorted(stocks, key=lambda k: k['regularMarketChangePercent'])
+            stocks = sorted(
+                stocks, key=lambda k: k['regularMarketChangePercent'])
         if sort_by == 'market_change_volatility':
-            stocks = sorted(stocks, key=lambda k: abs(k['regularMarketChangePercent']), reverse=True)
+            stocks = sorted(stocks, key=lambda k: abs(
+                k['regularMarketChangePercent']), reverse=True)
 
         # Print the stock information inside the dropdown menu
         print('---')
@@ -345,24 +368,28 @@ if __name__ == '__main__':
             # Get the user selection of whether he wants to set 'BUY' or 'SELL'
             limit_type_prompt = 'Select the type of your limit: BUY (SELL) limits are triggered, when the price is lower (higher) than the limit.'
             limit_type_choices = '["BUY", "SELL"]'
-            limit_type = prompt_selection(limit_type_prompt, limit_type_choices)
+            limit_type = prompt_selection(
+                limit_type_prompt, limit_type_choices)
 
             # Get the user selection of all tracked symbols
             symbol = prompt_selection('Select stock symbol:', symbols)
 
             # Get the user input for a price limit, info message includes the current market price
-            price = prompt('Current price of ' + symbol + ' is ' + str(get_stock_data(symbol)['regularMarketPrice']) + '. Enter a value for your price limit.')
+            price = prompt('Current price of ' + symbol + ' is ' + str(get_stock_data(
+                symbol)['regularMarketPrice']) + '. Enter a value for your price limit.')
             # Check if the user input are decimals with a precision of two
             if not re.match(r'^\d+(\.\d{1,2})?$', price):
                 # Alert the user on invalid value and stop the script
-                alert('Error', 'You entered an invalid value: ' + price + ' - valid values are decimals with a precision of 2, e.g 25.70!')
+                alert('Error', 'You entered an invalid value: ' + price +
+                      ' - valid values are decimals with a precision of 2, e.g 25.70!')
                 sys.exit()
 
             # Write the limit to the hidden .db file
             write_data_file(data_file, limit_type, symbol, price)
 
             # Ask user if he wants to add another limit
-            add_another_limit = alert('Question', 'Do you want to add another price limit?', ['No', 'Yes'])
+            add_another_limit = alert(
+                'Question', 'Do you want to add another price limit?', ['No', 'Yes'])
             # If the user clicked the 'No' button, stop the script
             if add_another_limit is None:
                 sys.exit()
@@ -370,7 +397,8 @@ if __name__ == '__main__':
     # Script execution with parameter 'clear' to clear the .db file
     if len(sys.argv) == 2 and sys.argv[1] == 'clear':
         # Ask for user confirmation
-        warning = alert('Warning', 'This will clear your price limits! Do you want to continue?')
+        warning = alert(
+            'Warning', 'This will clear your price limits! Do you want to continue?')
         if warning is None:
             sys.exit()
 

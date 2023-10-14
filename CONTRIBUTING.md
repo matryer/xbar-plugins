@@ -82,6 +82,7 @@ The supported parameters are:
 * `image=..` set an image for this item. The image data must be passed as base64 encoded string. Use a 144 DPI resolution to support Retina displays. The imageformat can be any of the formats supported by Mac OS X
 * `emojize=false` will disable parsing of github style `:mushroom:` into :mushroom:
 * `ansi=false` turns off parsing of ANSI codes.
+* `disabled=true` greyed out the line and disable click
 
 ### Metadata
 

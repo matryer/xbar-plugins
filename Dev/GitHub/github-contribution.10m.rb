@@ -2,11 +2,13 @@
 # frozen_string_literal: true
 
 # <xbar.title>Github Contribution</xbar.title>
-# <xbar.version>v0.0.2</xbar.version>
-# <xbar.author>mizoR</xbar.author>
+# <xbar.version>v0.0.3</xbar.version>
+# <xbar.author>mizoR, geekness (ISSUE #1550), sprak3000 (xbar vars)</xbar.author>
 # <xbar.author.github>mizoR</xbar.author.github>
 # <xbar.image>https://user-images.githubusercontent.com/1257116/34550684-37da7286-f156-11e7-9299-5873b6bb2fd7.png</xbar.image>
 # <xbar.dependencies>ruby</xbar.dependencies>
+# <xbar.var>string(VAR_USERNAME=mizoR): Your GitHub username</xbar.var>
+# <xbar.var>number(VAR_MAX_CONTRIBUTIONS=10): The maximum number of contributions to display</xbar.var>
 #
 # To setup, create or edit your ~/.bitbarrc file with a new section:
 #
@@ -19,72 +21,16 @@ require 'date'
 require 'open-uri'
 
 module BitBar
-  class INIFile
-    Error = Class.new(StandardError)
-
-    INIFileNotFound = Class.new(Error)
-
-    SectionNotFound = Class.new(Error)
-
-    def self.load(file = "#{ENV['HOME']}/.bitbarrc")
-      raise INIFileNotFound if !File.exist?(file)
-
-      parse(open(file) { |f| f.read })
-    end
-
-    def self.parse(source)
-      # XXX: This implementation isn't correct, but will work in most cases.
-      #      (Probably `StringScanner` will make code correct and clean.)
-      sections = {}
-
-      section = nil
-
-      source.each_line do |line|
-        if line =~ /^ *;/
-          # comment
-          next
-        end
-
-        if line =~ /^\[(.+)\]$/
-          section = sections[$1.to_sym] = {}
-          next
-        end
-
-        next unless section
-
-        if line =~ /(.+)=(.+)/
-          name  = $1.strip.to_sym
-          value = $2.strip
-
-          section[name] = value[/^"(.*)"$/, 1] || value[/^'(.*)'$/, 1] || value
-          next
-        end
-      end
-
-      new(sections: sections)
-    end
-
-    def initialize(sections:)
-      @sections = sections
-    end
-
-    def fetch(name)
-      @sections.fetch(name.to_sym)
-    rescue KeyError
-      raise SectionNotFound
-    end
-  end
-
   module GitHubContribution
     ConfigurationError = Class.new(StandardError)
 
     class Contribution < Struct.new(:username, :contributed_on, :count)
-      RE_CONTRIBUTION = %r|<rect .*class="ContributionCalendar-day" .*data-count="(\d+)" .*data-date="(\d\d\d\d-\d\d-\d\d)".*></rect>|
+      RE_CONTRIBUTION = %r|<rect .*class="ContributionCalendar-day" .*data-date="(\d\d\d\d-\d\d-\d\d)" .*data-level="(\d+)" .*>.*<\/rect>|
 
       def self.find_all_by(username:)
         [].tap do |contributions|
-          html = open(url_for(username: username)) { |f| f.read }
-          html.scan(RE_CONTRIBUTION) do |count, date|
+          html = URI.parse(url_for(username: username)).open { |f| f.read }
+          html.scan(RE_CONTRIBUTION) do |date, count|
             contributions << Contribution.new(username, Date.parse(date), count.to_i)
             break if Date.parse(date) == Date.parse(DateTime.now.to_s)
           end
@@ -97,10 +43,10 @@ module BitBar
 
       def icon
         case count
-        when 0    then ':poop:'
-        when 1..3 then ':seedling:'
-        when 4..9 then ':herb:'
-        else           ':deciduous_tree:'
+        when 0    then '👻'
+        when 1..3 then '🌱'
+        when 4..9 then '🌿'
+        else           '🌳'
         end
       end
 
@@ -154,7 +100,7 @@ module BitBar
       DEFAULT_CONFIG = { max_contributions: 10 }
 
       def initialize(config = {})
-        config = cast_config(DEFAULT_CONFIG.merge(config))
+        config = cast_config()
 
         @username, @max_contributions = config.values_at(:username, :max_contributions)
       end
@@ -171,9 +117,9 @@ module BitBar
 
       private
 
-      def cast_config(config)
-        username          = config[:username].to_s
-        max_contributions = config[:max_contributions].to_i
+      def cast_config()
+        username          = ENV["VAR_USERNAME"]
+        max_contributions = ENV["VAR_MAX_CONTRIBUTIONS"].to_i
 
         if username.empty?
           raise ConfigurationError, 'GitHub username is not given.'
@@ -192,20 +138,7 @@ end
 
 if __FILE__ == $0
   begin
-    config = BitBar::INIFile.load.fetch(:github_contribution)
-
-    BitBar::GitHubContribution::App.new(config).run
-  rescue BitBar::INIFile::Error
-    puts <<-EOM.gsub(/^ */, '')
-      ⚠️
-      ---
-      To setup, create or edit your ~/.bitbarrc file with a new section:
-      |
-      ;# ~/.bitbarrc
-      [github_contribution]
-      username = <GITHUB_USERNAME>
-      max_contributions = 10
-    EOM
+    BitBar::GitHubContribution::App.new().run
   rescue BitBar::GitHubContribution::ConfigurationError => e
     puts <<-EOM.gsub(/^ */, '')
       ⚠️

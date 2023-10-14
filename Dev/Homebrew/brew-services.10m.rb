@@ -2,16 +2,16 @@
 # frozen_string_literal: true
 
 # <xbar.title>Brew Services</xbar.title>
-# <xbar.version>v3.0.1</xbar.version>
+# <xbar.version>v3.1.2</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage Homebrew Services</xbar.desc>
-# <xbar.image>https://i.imgur.com/gIQki4q.png</xbar.image>
+# <xbar.image>https://i.imgur.com/PusYz5W.png</xbar.image>
 # <xbar.dependencies>ruby</xbar.dependencies>
 # <xbar.abouturl>https://github.com/jimeh/dotfiles/tree/main/xbar</xbar.abouturl>
 #
 # <xbar.var>boolean(VAR_GROUPS=true): List services in started/stopped groups?</xbar.var>
-# <xbar.var>string(VAR_BREW_PATH="/usr/local/bin/brew"): Path to "brew" executable.</xbar.var>
+# <xbar.var>string(VAR_BREW_PATH=""): Path to "brew" executable.</xbar.var>
 # <xbar.var>string(VAR_HIDDEN_SERVICES=""): Comma-separated list of services to hide.</xbar.var>
 
 # rubocop:disable Lint/ShadowingOuterLocalVariable
@@ -25,8 +25,36 @@
 
 require 'open3'
 require 'json'
+require 'set'
 
 module Xbar
+  class CommandError < StandardError; end
+  class RPCError < StandardError; end
+
+  module Service
+    private
+
+    def config
+      @config ||= Xbar::Config.new
+    end
+
+    def printer
+      @printer ||= ::Xbar::Printer.new
+    end
+
+    def cmd(*args)
+      out, err, s = Open3.capture3(*args)
+      if s.exitstatus != 0
+        msg = "Command failed: #{args.join(' ')}"
+        msg += ": #{err}" unless err.empty?
+
+        raise CommandError, msg
+      end
+
+      out
+    end
+  end
+
   class Runner
     attr_reader :service
 
@@ -36,7 +64,9 @@ module Xbar
 
     def run(argv = [])
       return service.run if argv.empty?
-      return unless service.respond_to?(argv[0])
+      unless service.respond_to?(argv[0])
+        raise RPCError, "Unknown RPC method: #{argv[0]}"
+      end
 
       service.public_send(*argv)
     end
@@ -49,6 +79,12 @@ module Xbar
       return unless File.exist?(filename)
 
       merge!(JSON.parse(File.read(filename)))
+    end
+
+    def as_set(name)
+      values = self[name]&.to_s&.split(',')&.map(&:strip)&.reject(&:empty?)
+
+      ::Set.new(values || [])
     end
 
     def filename
@@ -145,9 +181,9 @@ module Xbar
 end
 
 module Brew
-  class CommandError < StandardError; end
-
   class Common
+    include Xbar::Service
+
     def self.prefix(value = nil)
       return @prefix if value.nil? || value == ''
 
@@ -160,26 +196,44 @@ module Brew
       self.class.prefix
     end
 
-    def default_printer
-      @default_printer ||= ::Xbar::Printer.new
-    end
-
-    def cmd(*args)
-      out, err, s = Open3.capture3(*args)
-      raise CommandError, "#{args.join(' ')}: #{err}" if s.exitstatus != 0
-
-      out
-    end
-
     def brew_path
-      @brew_path ||= ENV.fetch('VAR_BREW_PATH', '/usr/local/bin/brew')
+      @brew_path ||= brew_path_from_env ||
+                     brew_path_from_which ||
+                     brew_path_from_fs_check ||
+                     raise('Unable to find "brew" executable')
+    end
+
+    def brew_path_from_env
+      env_value = config['VAR_BREW_PATH']&.to_s&.strip || ''
+
+      return if env_value == ''
+      return unless File.exist?(env_value)
+
+      env_value
+    end
+
+    def brew_path_from_which
+      detect = cmd('which', 'brew').strip
+      return if detect == ''
+
+      detect
+    rescue Xbar::CommandError
+      nil
+    end
+
+    def brew_path_from_fs_check
+      ['/usr/local/bin/brew', '/opt/homebrew/bin/brew'].each do |path|
+        return path if File.exist?(path)
+      end
+
+      nil
     end
 
     def brew_check(printer = nil)
       printer ||= default_printer
       return if File.exist?(brew_path)
 
-      printer.item("#{prefix}↑:warning:", dropdown: false)
+      printer.item("#{prefix}↑⚠️:", dropdown: false)
       printer.sep
       printer.item('Homebrew not found', color: 'red')
       printer.item("Executable \"#{brew_path}\" does not exist.")
@@ -267,22 +321,22 @@ module Brew
   end
 
   class Services < Common
-    prefix ':bulb:'
+    prefix '💡'
 
     def run
-      printer = default_printer
-
       brew_check(printer)
 
       visible = all_services.visible
 
       printer.item("#{prefix}#{visible.started.size}", dropdown: false)
       printer.sep
-      printer.item('Brew Services')
+      printer.item('Brew Services') do |printer|
+        print_settings(printer)
+      end
 
       printer.item(status_label(visible)) do |printer|
         printer.sep
-        printer.item(':hourglass: Refresh', refresh: true)
+        printer.item('⏳ Refresh', alt: '⏳ Refresh (⌘R)', refresh: true)
 
         unless all_services.empty?
           printer.sep
@@ -315,13 +369,6 @@ module Brew
             printer.item("Restart All (#{visible.size} services)")
           end
         end
-
-        printer.sep
-        if use_groups?
-          printer.item('Disable groups', rpc: ['disable_groups'], refresh: true)
-        else
-          printer.item('Enable groups', rpc: ['enable_groups'], refresh: true)
-        end
       end
 
       print_services(printer, visible)
@@ -338,40 +385,39 @@ module Brew
       end
     end
 
-    def enable_groups
-      config['VAR_GROUPS'] = true
-      config.save
-    end
-
-    def disable_groups
-      config['VAR_GROUPS'] = false
+    def use_groups(*args)
+      config['VAR_GROUPS'] = truthy?(args.first)
       config.save
     end
 
     def hide(*args)
-      hidden = config['VAR_HIDDEN_SERVICES']&.split(',')&.map(&:strip) || []
-      hidden += args
+      hidden = hidden_services.clone
+      hidden += args.map(&:strip).reject(&:empty?)
 
-      config['VAR_HIDDEN_SERVICES'] = hidden.uniq.sort.join(',')
+      config['VAR_HIDDEN_SERVICES'] = hidden.sort.join(',')
       config.save
     end
 
     def show(*args)
-      hidden = config['VAR_HIDDEN_SERVICES']&.split(',')&.map(&:strip) || []
-      hidden -= args
+      hidden = hidden_services.clone
+      hidden -= args.map(&:strip).reject(&:empty?)
 
-      config['VAR_HIDDEN_SERVICES'] = hidden.uniq.sort.join(',')
+      config['VAR_HIDDEN_SERVICES'] = hidden.sort.join(',')
       config.save
     end
 
     private
 
-    def config
-      @config ||= Xbar::Config.new
-    end
-
     def use_groups?
       [true, 'true'].include?(config.fetch('VAR_GROUPS', 'true'))
+    end
+
+    def hidden_services
+      @hidden_services ||= config.as_set('VAR_HIDDEN_SERVICES')
+    end
+
+    def truthy?(value)
+      %w[true yes 1 on y t].include?(value.to_s.downcase)
     end
 
     def status_label(services)
@@ -393,6 +439,25 @@ module Brew
       label.join(', ')
     end
 
+    def print_settings(printer)
+      printer.item('Settings')
+      printer.sep
+
+      print_rpc_toggle(printer, 'Use groups', 'use_groups', use_groups?)
+    end
+
+    def print_rpc_toggle(printer, name, rpc, current_value)
+      if current_value
+        icon = '✅'
+        value = 'false'
+      else
+        icon = '☑️'
+        value = 'true'
+      end
+
+      printer.item("#{icon} #{name}", rpc: [rpc, value], refresh: true)
+    end
+
     def print_services(printer, services)
       return print_service_groups(printer, services) if use_groups?
 
@@ -402,6 +467,7 @@ module Brew
       end
     end
 
+    # rubocop:disable Style/GuardClause
     def print_service_groups(printer, services)
       if services.started.size.positive?
         printer.sep
@@ -432,16 +498,17 @@ module Brew
         end
       end
     end
+    # rubocop:enable Style/GuardClause
 
     def print_service(printer, service)
       icon = if service.started?
-               ':white_check_mark:'
+               '🟢'
              elsif service.stopped?
-               ':ballot_box_with_check:'
+               '🔴'
              elsif service.error?
-               ':warning:'
+               '⚠️'
              elsif service.unknown_status?
-               ':question:'
+               '❓'
              end
 
       printer.item("#{icon} #{service.name}") do |printer|
@@ -508,20 +575,23 @@ module Brew
         end
       )
     end
-
-    def hidden_services
-      @hidden_services ||= config.fetch('VAR_HIDDEN_SERVICES', '')
-                                 .split(',').uniq.map(&:strip)
-    end
   end
 end
 
 begin
-  services = Brew::Services.new
-  Xbar::Runner.new(services).run(ARGV)
+  service = Brew::Services.new
+  Xbar::Runner.new(service).run(ARGV)
 rescue StandardError => e
-  puts "ERROR: #{e.message}:\n\t#{e.backtrace.join("\n\t")}"
-  exit 1
+  puts ":warning: #{File.basename(__FILE__)}"
+  puts '---'
+  puts 'exit status 1'
+  puts '---'
+  puts 'Error:'
+  puts e.message.to_s
+  e.backtrace.each do |line|
+    puts "--#{line}"
+  end
+  exit 0
 end
 
 # rubocop:enable Style/IfUnlessModifier

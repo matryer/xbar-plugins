@@ -550,14 +550,14 @@ module BluetoothInspector
     def parse(data)
       data = YAML.load(data.to_s)
 
-      data["Bluetooth"]["Devices (Paired, Configured, etc.)"].collect do |name, attributes|
+      data["Bluetooth"]["Connected"].collect do |name, attributes|
         Device.new(
           name:       name,
           battery:    attributes["Battery Level"],
           major_type: attributes["Major Type"],
           minor_type: attributes["Minor Type"],
           paired:     attributes["Paired"],
-          connected:  attributes["Connected"],
+          connected:  true,
         )
       end
     end
