@@ -7,8 +7,9 @@
 # <xbar.desc>List available updates from Emacs package</xbar.desc>
 # <xbar.image>http://i.imgur.com/SBlrP2t.png</xbar.image>
 # <xbar.dependencies>emacs</xbar.dependencies>
+# <xbar.var>string(VAR_EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"): Path to "emacs" executable.</xbar.var>
 
-EMACS=$(command -v emacs)
+EMACS="${VAR_EMACS:=/Applications/Emacs.app/Contents/MacOS/Emacs}"
 
 exit_with_error() {
   echo "🐮err | color=red";
