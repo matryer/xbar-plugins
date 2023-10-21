@@ -5,7 +5,7 @@
 # <xbar.author>Takashi Masuda</xbar.author>
 # <xbar.author.github>masutaka</xbar.author.github>
 # <xbar.desc>List available updates from Emacs package</xbar.desc>
-# <xbar.image>http://i.imgur.com/SBlrP2t.png</xbar.image>
+# <xbar.image>https://i.imgur.com/SBlrP2t.png</xbar.image>
 # <xbar.dependencies>emacs</xbar.dependencies>
 # <xbar.var>string(VAR_EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"): Path to "emacs" executable.</xbar.var>
 
