@@ -23,7 +23,7 @@
 
 from time import sleep
 from os import getenv
-from socket import gethostname
+from platform import node
 import subprocess
 import sys
 
@@ -79,7 +79,7 @@ def in_meeting():
     processes = subprocess.Popen(['lsof', '-i', '4UDP'],
                                  stdout=subprocess.PIPE).stdout.readlines()
     for process in processes:
-        if 'zoom' in str(process) and gethostname() in str(process):
+        if 'zoom' in str(process) and node().split('.')[0] in str(process):
             in_meeting = True
             break
     return in_meeting
