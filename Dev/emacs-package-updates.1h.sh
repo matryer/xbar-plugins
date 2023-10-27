@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # <xbar.title>Emacs Package Updates</xbar.title>
-# <xbar.version>v1.2</xbar.version>
+# <xbar.version>v1.3</xbar.version>
 # <xbar.author>Takashi Masuda</xbar.author>
 # <xbar.author.github>masutaka</xbar.author.github>
 # <xbar.desc>List available updates from Emacs package</xbar.desc>
