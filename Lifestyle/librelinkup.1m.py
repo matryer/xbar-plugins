@@ -12,10 +12,11 @@
 # <xbar.var>string(VAR_MAIL=""): Your e-mail.</xbar.var>
 # <xbar.var>string(VAR_PASSWORD=""): Your password.</xbar.var>
 # <xbar.var>select(VAR_COUNTRY="eu"): Your region/country. [us, eu, de, fr, jp, ap, au, ae]</xbar.var>
-# <xbar.var>string(VAR_FIRST_PATIENT=""): First patient to show</xbar.var>
+# <xbar.var>string(VAR_FIRST_PATIENT=""): First patient to show (optional)</xbar.var>
 
 import requests
 import os
+from datetime import datetime
 
 # your LibreLibkUp login (this is NOT your LibreView Login)
 email = os.environ.get("VAR_MAIL")
@@ -30,6 +31,16 @@ country = os.environ.get("VAR_COUNTRY")
 # all IDs will also be shown after the glucose values
 # if you have only one patient you can leave this blank
 first_patient = os.environ.get("VAR_FIRST_PATIENT")
+
+excessive_time_color = "fuchsia"
+min_seconds_to_show_excessive_time_color = 60*30
+min_seconds_to_show_time_diff = 60*2
+max_seconds_to_display_data = 60*60*8
+
+use_custom_range = True
+custom_range_high = 185
+custom_range_slightly_high = 145
+custom_range_low = 65
 
 class Patient:
     def __init__(self, patient_id, first_name, last_name):
@@ -91,8 +102,13 @@ def get_measurment(token, patientId):
         connection = response.json()["data"]["connection"]
         value = connection["glucoseMeasurement"]["Value"]
         low_or_high = value <= connection["targetLow"] or value >= connection["targetHigh"]
-        return (value, connection["glucoseMeasurement"]["TrendArrow"], low_or_high)
+        timestamp = connection["glucoseMeasurement"]["Timestamp"]
+        return (value, connection["glucoseMeasurement"]["TrendArrow"], low_or_high, timestamp)
 
+def seconds_from_now(timestamp_string):
+    timestamp = datetime.strptime(timestamp_string, "%m/%d/%Y %I:%M:%S %p")
+    now = datetime.now()
+    return (now - timestamp).seconds
 
 token = get_auth_token()
 
@@ -106,7 +122,7 @@ if (token is not None):
                 patients[0], patients[i] = patients[i], patients[0]
 
     for i in range(len(patients)):
-        (value, trend, low_or_high) = get_measurment(token=token, patientId=patients[i].patient_id)
+        (value, trend, low_or_high, timestamp) = get_measurment(token=token, patientId=patients[i].patient_id)
         if trend != 0 and trend != 6:
 
             prefix = ""
@@ -115,22 +131,55 @@ if (token is not None):
 
             trend_arrow = ""
             if trend == 1:
-                trend_arrow = "⬇️"
+                trend_arrow = "↓"
             elif trend == 2:
-                trend_arrow = "↘️"
+                trend_arrow = "↘"
             elif trend == 3:
-                trend_arrow = "➡️"
+                trend_arrow = "→"
             elif trend == 4:
                 trend_arrow = "↗️"
             elif trend == 5:
-                trend_arrow = "⬆️"
+                trend_arrow = "↑"
             
-            if low_or_high:
-                color = "red"
+            if use_custom_range:
+                if value > custom_range_high:
+                    color = "red"
+                elif value > custom_range_slightly_high:
+                    color = "yellow"
+                elif value < custom_range_low:
+                    color = "red"
+                else:
+                    color = "white"
             else:
-                color = "white"
+                if low_or_high:
+                    color = "red"
+                else:
+                    color = "white"
 
-            print(prefix + str(value) + " " + trend_arrow + " | color=" + color)
+            second_diff = seconds_from_now(timestamp)
+            
+
+            if second_diff < min_seconds_to_show_time_diff:
+                print(prefix + str(value) + trend_arrow+" | color=" + color)
+            elif second_diff > max_seconds_to_display_data:
+                color = excessive_time_color
+                print("no data | color=" + color)
+            else:
+                elapset_time = ""
+                if second_diff < 60:
+                    elapset_time = str(second_diff) + "s"
+                elif second_diff < 60*60:
+                    elapset_time = str(second_diff // 60) + "min"
+                elif second_diff < 60*60*24:
+                    elapset_time = str(second_diff // (60*60)) + "h"
+                elif second_diff < 60*60*24*2:
+                    elapset_time = str(second_diff // (60*60*24)) + "day"
+                else:
+                    elapset_time = str(second_diff // (60*60*24)) + "days"
+
+                if second_diff >= min_seconds_to_show_excessive_time_color:
+                    color = excessive_time_color
+                print(prefix + str(value) + trend_arrow + " " + elapset_time+" | color=" + color)
         else:
             print("❌ error")
 
