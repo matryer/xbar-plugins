@@ -33,6 +33,8 @@ country = os.environ.get("VAR_COUNTRY")
 first_patient = os.environ.get("VAR_FIRST_PATIENT")
 
 excessive_time_color = "fuchsia"
+error_color = "red"
+
 min_seconds_to_show_excessive_time_color = 60*30
 min_seconds_to_show_time_diff = 60*2
 max_seconds_to_display_data = 60*60*8
@@ -101,14 +103,51 @@ def get_measurment(token, patientId):
     if response.ok:
         connection = response.json()["data"]["connection"]
         value = connection["glucoseMeasurement"]["Value"]
-        low_or_high = value <= connection["targetLow"] or value >= connection["targetHigh"]
-        timestamp = connection["glucoseMeasurement"]["Timestamp"]
-        return (value, connection["glucoseMeasurement"]["TrendArrow"], low_or_high, timestamp)
+        patient_range_high = connection["targetHigh"]
+        patient_range_low = connection["targetLow"]
+        timestamp_string = connection["glucoseMeasurement"]["Timestamp"]
+        timestamp = datetime.strptime(timestamp_string, "%m/%d/%Y %I:%M:%S %p")
+        return (value, connection["glucoseMeasurement"]["TrendArrow"], patient_range_high, patient_range_low, timestamp)
 
-def seconds_from_now(timestamp_string):
-    timestamp = datetime.strptime(timestamp_string, "%m/%d/%Y %I:%M:%S %p")
-    now = datetime.now()
-    return (now - timestamp).seconds
+def get_prefix(patient):
+    return p.first_name[0] + ". " + p.last_name[0] + ".: "
+
+def time_diff_to_string(seconds):
+    if seconds_ago < 60:
+        return str(seconds_ago) + "s"
+    if seconds_ago < 60*60:
+        return str(seconds_ago // 60) + "min"
+    if seconds_ago < 60*60*24:
+        return str(seconds_ago // (60*60)) + "h"
+    if seconds_ago < 60*60*24*2:
+        return str(seconds_ago // (60*60*24)) + "day"
+    return str(seconds_ago // (60*60*24)) + "days"
+
+def get_color_from_range(value):
+    if use_custom_range:
+        if value > custom_range_high:
+            return "red"
+        if value > custom_range_slightly_high:
+            return "yellow"
+        if value < custom_range_low:
+            return "red"
+        return "white"
+    else:
+        if value > patient_range_high:
+            return "red"
+        if value < patient_range_low:
+            return "red"
+        return "white"
+
+def get_trend_arrow(trend):
+    return {
+        1: "↓",
+        2: "↘",
+        3: "→",
+        4: "↗️",
+        5: "↑"
+    }.get(trend, "")
+
 
 token = get_auth_token()
 
@@ -122,71 +161,32 @@ if (token is not None):
                 patients[0], patients[i] = patients[i], patients[0]
 
     for i in range(len(patients)):
-        (value, trend, low_or_high, timestamp) = get_measurment(token=token, patientId=patients[i].patient_id)
+        (value, trend, patient_range_high, patient_range_low, timestamp) = get_measurment(token=token, patientId=patients[i].patient_id)
         if trend != 0 and trend != 6:
+            prefix = get_prefix(patients[i]) if i else ""
+            trend_arrow = get_trend_arrow(trend)
+            color = get_color_from_range(value)
 
-            prefix = ""
-            if i > 0:
-                prefix = patients[i].first_name[0] + ". " + patients[i].last_name[0] + ".: "
-
-            trend_arrow = ""
-            if trend == 1:
-                trend_arrow = "↓"
-            elif trend == 2:
-                trend_arrow = "↘"
-            elif trend == 3:
-                trend_arrow = "→"
-            elif trend == 4:
-                trend_arrow = "↗️"
-            elif trend == 5:
-                trend_arrow = "↑"
-            
-            if use_custom_range:
-                if value > custom_range_high:
-                    color = "red"
-                elif value > custom_range_slightly_high:
-                    color = "yellow"
-                elif value < custom_range_low:
-                    color = "red"
-                else:
-                    color = "white"
-            else:
-                if low_or_high:
-                    color = "red"
-                else:
-                    color = "white"
-
-            second_diff = seconds_from_now(timestamp)
-            
-
-            if second_diff < min_seconds_to_show_time_diff:
+            seconds_ago = (datetime.now() - timestamp).seconds
+            if seconds_ago < min_seconds_to_show_time_diff:
                 print(prefix + str(value) + trend_arrow+" | color=" + color)
-            elif second_diff > max_seconds_to_display_data:
+            elif seconds_ago > max_seconds_to_display_data:
                 color = excessive_time_color
-                print("no data | color=" + color)
+                print("No data | color=" + color)
             else:
-                elapset_time = ""
-                if second_diff < 60:
-                    elapset_time = str(second_diff) + "s"
-                elif second_diff < 60*60:
-                    elapset_time = str(second_diff // 60) + "min"
-                elif second_diff < 60*60*24:
-                    elapset_time = str(second_diff // (60*60)) + "h"
-                elif second_diff < 60*60*24*2:
-                    elapset_time = str(second_diff // (60*60*24)) + "day"
-                else:
-                    elapset_time = str(second_diff // (60*60*24)) + "days"
-
-                if second_diff >= min_seconds_to_show_excessive_time_color:
+                elapset_time = time_diff_to_string(seconds_ago)
+                if seconds_ago >= min_seconds_to_show_excessive_time_color:
                     color = excessive_time_color
                 print(prefix + str(value) + trend_arrow + " " + elapset_time+" | color=" + color)
         else:
-            print("❌ error")
+            color = error_color
+            print("Error | color=" + color)
 
     print("---")
 
     for p in patients:
-        print(p.first_name[0] + ". " + p.last_name[0] + ".: " + p.patient_id)
+        prefix = get_prefix(p)
+        print(prefix + p.patient_id)
 else:
     print("Error getting Auth Token")
 
