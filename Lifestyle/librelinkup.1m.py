@@ -163,7 +163,7 @@ if (token is not None):
     for i in range(len(patients)):
         (value, trend, patient_range_high, patient_range_low, timestamp) = get_measurment(token=token, patientId=patients[i].patient_id)
         if trend != 0 and trend != 6:
-            prefix = get_prefix(patients[i]) if i else ""
+            prefix = get_prefix(patients[i]) if i > 0 else ""
             trend_arrow = get_trend_arrow(trend)
             color = get_color_from_range(value)
 
