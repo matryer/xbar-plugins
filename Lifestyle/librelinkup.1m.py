@@ -144,7 +144,7 @@ def get_trend_arrow(trend):
         1: "↓",
         2: "↘",
         3: "→",
-        4: "↗️",
+        4: "↗",
         5: "↑"
     }.get(trend, "")
 
