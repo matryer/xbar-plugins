@@ -163,7 +163,7 @@ if (token is not None):
     for i in range(len(patients)):
         (value, trend, patient_range_high, patient_range_low, timestamp) = get_measurment(token=token, patientId=patients[i].patient_id)
         if trend != 0 and trend != 6:
-            prefix = get_prefix(patients[i]) if i > 0 else ""
+            prefix = get_prefix(patients[i]) if i else ""
             trend_arrow = get_trend_arrow(trend)
             color = get_color_from_range(value)
 
@@ -171,16 +171,14 @@ if (token is not None):
             if seconds_ago < min_seconds_to_show_time_diff:
                 print(prefix + str(value) + trend_arrow+" | color=" + color)
             elif seconds_ago > max_seconds_to_display_data:
-                color = excessive_time_color
-                print("No data | color=" + color)
+                print("No data | color=" + excessive_time_color)
             else:
                 elapset_time = time_diff_to_string(seconds_ago)
                 if seconds_ago >= min_seconds_to_show_excessive_time_color:
                     color = excessive_time_color
                 print(prefix + str(value) + trend_arrow + " " + elapset_time+" | color=" + color)
         else:
-            color = error_color
-            print("Error | color=" + color)
+            print("Error | color=" + error_color)
 
     print("---")
 
