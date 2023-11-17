@@ -188,3 +188,5 @@ if (token is not None):
 else:
     print("Error getting Auth Token")
 
+print("---")
+print("Refresh | href="+ "xbar://app.xbarapp.com/refreshPlugin?path={}".format(os.path.basename(__file__)))
