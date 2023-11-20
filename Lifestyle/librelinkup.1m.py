@@ -4,9 +4,9 @@
 
 # <xbar.title>LibreLinkUp Status</xbar.title>
 # <xbar.version>v2.0</xbar.version>
-# <xbar.author>Maurici Abad</xbar.author>
-# <xbar.author.github>mauriciabad</xbar.author.github>
-# <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings. Originally developed by FloSchl8.</xbar.desc>
+# <xbar.author>Florian Schlund,Maurici Abad</xbar.author>
+# <xbar.author.github>FloSchl8,mauriciabad</xbar.author.github>
+# <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings.</xbar.desc>
 # <xbar.dependencies>python3,python requests</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/RATfZs3.png</xbar.image>
 # 
