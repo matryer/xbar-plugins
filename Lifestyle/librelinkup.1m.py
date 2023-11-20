@@ -34,8 +34,8 @@ first_patient = os.environ.get("VAR_FIRST_PATIENT")
 excessive_time_color = "fuchsia"
 error_color = None
 
-min_seconds_to_show_excessive_time_color = 60*1
-max_seconds_to_display_data = 60*60*8 # 8 hours
+min_seconds_to_show_excessive_time_color = 60 + 15 # 1min 15s
+max_seconds_to_display_data = 60*60*8 # 8h
 
 use_custom_range = True
 custom_range_high = 185
