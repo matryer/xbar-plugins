@@ -34,9 +34,8 @@ first_patient = os.environ.get("VAR_FIRST_PATIENT")
 excessive_time_color = "fuchsia"
 error_color = None
 
-min_seconds_to_show_excessive_time_color = 60*30
-min_seconds_to_show_time_diff = 60
-max_seconds_to_display_data = 60*60*8
+min_seconds_to_show_excessive_time_color = 60*1
+max_seconds_to_display_data = 60*60*8 # 8 hours
 
 use_custom_range = True
 custom_range_high = 185
@@ -194,11 +193,11 @@ def main():
                 trend_arrow = get_trend_arrow(trend)
                 color = get_color_from_range(value, patient_range_low, patient_range_high)
                 seconds_ago = (datetime.now() - timestamp).seconds
-                if seconds_ago >= min_seconds_to_show_excessive_time_color:
+                if seconds_ago >= min_seconds_to_show_excessive_time_color and excessive_time_color is not None:
                     color = excessive_time_color
 
                 if seconds_ago > max_seconds_to_display_data:
-                    print("No data | " + makeColorString(excessive_time_color))
+                    print("No data | " + makeColorString(error_color))
                 else:
                     print(prefix + str(value) + trend_arrow + " | " + makeColorString(color))
 
