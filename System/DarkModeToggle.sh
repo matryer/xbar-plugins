@@ -28,14 +28,12 @@ EOD
 }
 
 if [[ "$1" = "activate" ]]; then
-  toggle_darkmode;
-	osascript -e 'tell application "Finder" to display notification "Enabled" with title "Dark Mode"'
+	toggle_darkmode;
 	exit
 fi
 
 if [[ "$1" = "desactivate" ]]; then
-  toggle_darkmode;
-  	osascript -e 'tell application "Finder" to display notification "Disabled" with title "Dark Mode"'
+	toggle_darkmode;
 	exit
 fi
 
