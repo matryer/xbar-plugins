@@ -3,16 +3,27 @@
 # for homebrew installation add '-S PATH="${PATH}:/opt/homebrew/bin/python3"' between /env and python3
 
 # <xbar.title>LibreLinkUp Status</xbar.title>
-# <xbar.version>v1.2</xbar.version>
-# <xbar.author>Florian Schlund</xbar.author>
-# <xbar.author.github>FloSchl8</xbar.author.github>
-# <xbar.desc>Gets your GCM from LibreLinkUp: https://librelinkup.com/</xbar.desc>
-# <xbar.dependencies>python3, python requests</xbar.dependencies>
-# <xbar.image>https://i.imgur.com/XUyOT9o.png</xbar.image>
-# <xbar.var>string(VAR_MAIL=""): Your e-mail.</xbar.var>
-# <xbar.var>string(VAR_PASSWORD=""): Your password.</xbar.var>
+# <xbar.version>v2.0</xbar.version>
+# <xbar.author>Maurici Abad</xbar.author>
+# <xbar.author.github>mauriciabad</xbar.author.github>
+# <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings. Originally developed by FloSchl8.</xbar.desc>
+# <xbar.dependencies>python3,python requests</xbar.dependencies>
+# <xbar.image>https://i.imgur.com/RATfZs3.png</xbar.image>
+# 
+# <xbar.var>string(VAR_MAIL=""): Your LibreLinkUp e-mail.</xbar.var>
+# <xbar.var>string(VAR_PASSWORD=""): Your LibreLinkUp password.</xbar.var>
 # <xbar.var>select(VAR_COUNTRY="eu"): Your region/country. [us, eu, de, fr, jp, ap, au, ae]</xbar.var>
-# <xbar.var>string(VAR_FIRST_PATIENT=""): First patient to show (optional)</xbar.var>
+# <xbar.var>string(VAR_FIRST_PATIENT_ID=""): (optional) Id of the first patient to show. It is useful when you have multiple people linked to the same LibreLinkUp account.</xbar.var>
+# <xbar.var>number(VAR_MAX_SECONDS_TO_DISPLAY_DATA=28800): (optional) Measurements older than this won't be shown. (in seconds, default 8h)</xbar.var>
+# <xbar.var>number(VAR_MIN_SECONDS_TO_SHOW_EXCESSIVE_TIME_COLOR=75): (optional) Measurements older than this will be shown with a different color (Excessive time color).</xbar.var>
+# <xbar.var>string(VAR_EXCESSIVE_TIME_COLOR="fuchsia"): (optional) Color to display when the last measurement is too old.</xbar.var>
+# <xbar.var>string(VAR_ERROR_COLOR=""): (optional) Color to display when an error occurs.</xbar.var>
+# <xbar.var>number(VAR_CUSTOM_RANGE_HIGH=185): (optional) Custom high threshold for the range.</xbar.var>
+# <xbar.var>number(VAR_CUSTOM_RANGE_SLIGHTLY_HIGH=145): (optional) Custom slightly high threshold for the range.</xbar.var>
+# <xbar.var>number(VAR_CUSTOM_RANGE_LOW=65): (optional) Custom low threshold for the range.</xbar.var>
+# <xbar.var>string(VAR_RANGE_COLOR_HIGH="red"): (optional) Color to display when the value is above the high threshold.</xbar.var>
+# <xbar.var>string(VAR_RANGE_COLOR_SLIGHTLY_HIGH="yellow"): (optional) Color to display when the value is above the slightly high threshold and below high threshold.</xbar.var>
+# <xbar.var>string(VAR_RANGE_COLOR_LOW="red"): (optional) Color to display when the value is below the low threshold.</xbar.var>
 
 import os
 from datetime import datetime
@@ -29,18 +40,20 @@ country = os.environ.get("VAR_COUNTRY")
 # the value from this id will be displayed in the menu bar first, all others can be seen in the dropdown
 # all IDs will also be shown after the glucose values
 # if you have only one patient you can leave this blank
-first_patient = os.environ.get("VAR_FIRST_PATIENT")
+first_patient_id = os.environ.get("VAR_FIRST_PATIENT_ID")
 
-excessive_time_color = "fuchsia"
-error_color = None
+excessive_time_color = os.environ.get("VAR_EXCESSIVE_TIME_COLOR")
+error_color = os.environ.get("VAR_ERROR_COLOR")
 
-min_seconds_to_show_excessive_time_color = 60 + 15 # 1min 15s
-max_seconds_to_display_data = 60*60*8 # 8h
+min_seconds_to_show_excessive_time_color = int(os.environ.get("VAR_MIN_SECONDS_TO_SHOW_EXCESSIVE_TIME_COLOR"))
+max_seconds_to_display_data = int(os.environ.get("VAR_MAX_SECONDS_TO_DISPLAY_DATA"))
 
-use_custom_range = True
-custom_range_high = 185
-custom_range_slightly_high = 145
-custom_range_low = 65
+custom_range_high = int(os.environ.get("VAR_CUSTOM_RANGE_HIGH"))
+custom_range_slightly_high = int(os.environ.get("VAR_CUSTOM_RANGE_SLIGHTLY_HIGH"))
+custom_range_low = int(os.environ.get("VAR_CUSTOM_RANGE_LOW"))
+range_color_high = os.environ.get("VAR_RANGE_COLOR_HIGH")
+range_color_slightly_high = os.environ.get("VAR_RANGE_COLOR_SLIGHTLY_HIGH")
+range_color_low = os.environ.get("VAR_RANGE_COLOR_LOW")
 
 def printError(error_message: str, error: Exception):
     print("Error | " + makeColorString(error_color))
@@ -132,18 +145,24 @@ def time_diff_to_string(seconds_ago: int):
     return str(seconds_ago // (60*60*24)) + "days"
 
 def get_color_from_range(value: int, patient_range_low: int, patient_range_high: int):
-    if use_custom_range:
+    if custom_range_high:
         if value > custom_range_high:
-            return "red"
-        if value > custom_range_slightly_high:
-            return "yellow"
-        if value < custom_range_low:
-            return "red"
+            return range_color_high
     else:
         if value > patient_range_high:
-            return "red"
+            return range_color_high
+    
+    if custom_range_slightly_high:
+        if value > custom_range_slightly_high:
+            return range_color_slightly_high
+    
+    if custom_range_low:
+        if value < custom_range_low:
+            return range_color_low
+    else:
         if value < patient_range_low:
-            return "red"
+            return range_color_low
+
     return None
 
 def get_trend_arrow(trend: int):
@@ -155,8 +174,8 @@ def get_trend_arrow(trend: int):
         5: "↑"
     }.get(trend, "")
 
-def makeColorString(color):
-    return "color=" + color if color is not None else ""    
+def makeColorString(color: str):
+    return "color=" + color if color else ""    
 
 def main():
     try:
@@ -175,9 +194,9 @@ def main():
             printError("Error getting patients", e)
         
         if(patients is not None):
-            if first_patient != "":
+            if first_patient_id != "":
                 for i in range(1, len(patients)):
-                    if first_patient == patients[i].patient_id:
+                    if first_patient_id == patients[i].patient_id:
                         # switch our wanted first with the actual first
                         patients[0], patients[i] = patients[i], patients[0]
 
@@ -193,7 +212,7 @@ def main():
                 trend_arrow = get_trend_arrow(trend)
                 color = get_color_from_range(value, patient_range_low, patient_range_high)
                 seconds_ago = (datetime.now() - timestamp).seconds
-                if seconds_ago >= min_seconds_to_show_excessive_time_color and excessive_time_color is not None:
+                if seconds_ago >= min_seconds_to_show_excessive_time_color and excessive_time_color:
                     color = excessive_time_color
 
                 if seconds_ago > max_seconds_to_display_data:
