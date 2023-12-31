@@ -217,5 +217,4 @@ print("-----")
 for each_player in untracked_players:
     print(f"--{each_player} | "
           f"terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"{each_player}\" refresh=true")
-if not untracked_players:
-    print(f"--TRACK ALL PLAYERS | terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"*\" refresh=true")
+print(f"--TRACK ALL PLAYERS | terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"*\" refresh=true")
