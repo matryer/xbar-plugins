@@ -5,7 +5,7 @@
 # <xbar.author>Anup Sam Abraham</xbar.author>
 # <xbar.author.github>anupsabraham</xbar.author.github>
 # <xbar.desc>Show live scores for tennis matches using ATP World Tour api</xbar.desc>
-# <xbar.image>http://i.imgur.com/5kOPKVv.png</xbar.image>
+# <xbar.image>https://i.imgur.com/5kOPKVv.png</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 # <xbar.abouturl></xbar.abouturl>
 
