@@ -6,17 +6,56 @@
 # <xbar.author.github>anupsabraham</xbar.author.github>
 # <xbar.desc>Show live scores for tennis matches using ATP World Tour api</xbar.desc>
 # <xbar.image>https://i.imgur.com/5kOPKVv.png</xbar.image>
-# <xbar.dependencies></xbar.dependencies>
+# <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl></xbar.abouturl>
 
+import sys
+import getopt
+import os
 import json
 import http.client
 import gzip
 
-atp_world_tour_base_url = "www.atptour.com"
-initial_scores_url = "/en/-/ls/liveMatches/web/tour"
+FAVORITE_PLAYERS_FILE = "/var/tmp/bitbar_tennis_favourites.data"
 
-conn = http.client.HTTPSConnection(atp_world_tour_base_url)
+ATP_WORLD_TOUR_BASE_URL = "www.atptour.com"
+INITIAL_SCORES_URL = "/en/-/ls/liveMatches/web/tour"
+
+if len(sys.argv) > 1:
+    opts, args = getopt.getopt(sys.argv[1:], "i:d:", [])
+    for opt, arg in opts:
+        if opt == "-i":
+            # this is for inserting the player name into our file
+            with open(FAVORITE_PLAYERS_FILE, "a") as f:
+                f.write(arg+"\n")
+
+        elif opt == "-d":
+            # this option is for deleting a player name from the file
+            if os.path.exists(FAVORITE_PLAYERS_FILE):
+                with open(FAVORITE_PLAYERS_FILE, "r") as f:
+                    current_players = [x.strip() for x in f.readlines()]
+                    if arg in current_players:
+                        current_players.remove(arg)
+                with open(FAVORITE_PLAYERS_FILE, "w") as f:
+                    f.writelines([x+"\n" for x in current_players])
+    exit()
+
+if os.path.exists(FAVORITE_PLAYERS_FILE):
+    with open(FAVORITE_PLAYERS_FILE, "r") as f:
+        favorite_players = [x.strip() for x in f.readlines()]
+else:
+    # create an empty file if it doesn't exist
+    open(FAVORITE_PLAYERS_FILE, "a").close()
+    favorite_players = []
+
+untracked_players = []
+if "*" in favorite_players:
+    track_all_players = True
+else:
+    track_all_players = False
+
+
+conn = http.client.HTTPSConnection(ATP_WORLD_TOUR_BASE_URL)
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Sec-Fetch-Site': 'none',
@@ -28,7 +67,7 @@ headers = {
     'Sec-Fetch-Dest': 'document',
     'Connection': 'keep-alive',
 }
-conn.request('GET', initial_scores_url, headers=headers)
+conn.request('GET', INITIAL_SCORES_URL, headers=headers)
 response = conn.getresponse()
 
 data = response.read()
@@ -45,6 +84,7 @@ for each_tournament in tournaments:
     for match in matches:
         match_data = {}
         teams = []
+        match_track = False
         match_hour, match_minutes, match_seconds = map(int, match["MatchTimeTotal"].split(":"))
         duration_in_words = ""
         if match_hour:
@@ -55,11 +95,20 @@ for each_tournament in tournaments:
             team_data = {}
 
             # get the player(s) name for each team
-            player_name = match[team_name]['Player']['PlayerFirstName'][0] + ". " + match[team_name]['Player'][
-                'PlayerLastName']
+            player_name = (f"{match[team_name]['Player']['PlayerFirstName'][0]}. "
+                           f"{match[team_name]['Player']['PlayerLastName']}")
+            if player_name in favorite_players or track_all_players:
+                match_track = True
+            else:
+                untracked_players.append(player_name)
             if match[team_name]['Partner']['PlayerFirstName']:
-                player_name += " / " + match[team_name]['Partner']['PlayerFirstName'][0] + ". " + \
-                               match[team_name]['Partner']['PlayerLastName']
+                p2_name = (f"{match[team_name]['Partner']['PlayerFirstName'][0]}. "
+                           f"{match[team_name]['Partner']['PlayerLastName']}")
+                player_name += " / " + p2_name
+                if p2_name in favorite_players or track_all_players:
+                    match_track = True
+                else:
+                    untracked_players.append(p2_name)
             if match['ServerTeam'] == 0 and team_name == "PlayerTeam":
                 player_name += "*"
             elif match['ServerTeam'] == 1 and team_name == "OpponentTeam":
@@ -83,6 +132,8 @@ for each_tournament in tournaments:
             team_data['set_score_list'] = set_score_list
 
             teams.append(team_data)
+        if not match_track:
+            continue
 
         set_lead = [0, 0]
         for x in range(5):
@@ -132,12 +183,12 @@ for each_tournament in tournaments:
         if duration_in_words:
             match_data['info'] += "  [" + duration_in_words + "]"
 
-        match_data['url'] = "https://" + atp_world_tour_base_url + match['MatchStatsUrl']
+        match_data['url'] = "https://" + ATP_WORLD_TOUR_BASE_URL + match['MatchStatsUrl']
         match_data['team_data'] = teams
         final_matches_list.append(match_data)
 
 if final_matches_list:
-    print("🎾%s" % len(final_matches_list))
+    print(f"🎾{len(final_matches_list)}")
     print("---")
     for match in final_matches_list:
         print(match['info'] + " | size=15 color=blue href=" + match['url'])
@@ -149,3 +200,22 @@ if final_matches_list:
 
 else:
     print("🎾")
+print("---")
+print("Favorite Players | color=green")
+print("--Click on any to remove from favorites")
+print("-----")
+if favorite_players:
+    for each_player in favorite_players:
+        print(f"--{each_player if each_player != '*' else 'TRACK ALL PLAYERS'} | "
+              f"terminal=false bash=\"{sys.argv[0]}\" param1=\"-d\" param2=\"{each_player}\" refresh=true")
+else:
+    print("--You don't have any favorite players set")
+
+print("Other Players | color=red")
+print("--Click on any to add to favorites")
+print("-----")
+for each_player in untracked_players:
+    print(f"--{each_player} | "
+          f"terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"{each_player}\" refresh=true")
+if not untracked_players:
+    print(f"--TRACK ALL PLAYERS | terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"*\" refresh=true")
