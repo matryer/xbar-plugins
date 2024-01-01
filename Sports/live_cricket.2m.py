@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # <xbar.title>Live Cricket Scores</xbar.title>
-# <xbar.version>v1.3</xbar.version>
+# <xbar.version>v2.0</xbar.version>
 # <xbar.author>Anup Sam Abraham</xbar.author>
 # <xbar.author.github>anupsabraham</xbar.author.github>
 # <xbar.desc>Show live scores of cricket matches happening around the world using Cricinfo api. </xbar.desc>
