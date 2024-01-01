@@ -9,22 +9,23 @@
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl></xbar.abouturl>
 
+# <xbar.var>string(FAVORITE_PLAYERS_FILE="/var/tmp/bitbar_tennis_favourites.data"): File location for storing your favorite players' name.</xbar.var>
+
 import sys
 import getopt
 import os
 import json
 import http.client
 import gzip
+from pathlib import Path
 
-FAVORITE_PLAYERS_FILE = "/var/tmp/bitbar_tennis_favourites.data"
-
-ATP_WORLD_TOUR_BASE_URL = "www.atptour.com"
-INITIAL_SCORES_URL = "/en/-/ls/liveMatches/web/tour"
 
 if len(sys.argv) > 1:
     opts, args = getopt.getopt(sys.argv[1:], "i:d:", [])
+    FAVORITE_PLAYERS_FILE = Path(args[0])
     for opt, arg in opts:
         if opt == "-i":
+            print(arg)
             # this is for inserting the player name into our file
             with open(FAVORITE_PLAYERS_FILE, "a") as f:
                 f.write(arg+"\n")
@@ -39,6 +40,13 @@ if len(sys.argv) > 1:
                 with open(FAVORITE_PLAYERS_FILE, "w") as f:
                     f.writelines([x+"\n" for x in current_players])
     exit()
+else:
+    FAVORITE_PLAYERS_FILE = Path(os.environ.get('FAVORITE_PLAYERS_FILE'))
+
+FAVORITE_PLAYERS_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+ATP_WORLD_TOUR_BASE_URL = "www.atptour.com"
+INITIAL_SCORES_URL = "/en/-/ls/liveMatches/web/tour"
 
 if os.path.exists(FAVORITE_PLAYERS_FILE):
     with open(FAVORITE_PLAYERS_FILE, "r") as f:
@@ -207,7 +215,8 @@ print("-----")
 if favorite_players:
     for each_player in favorite_players:
         print(f"--{each_player if each_player != '*' else 'TRACK ALL PLAYERS'} | "
-              f"terminal=false bash=\"{sys.argv[0]}\" param1=\"-d\" param2=\"{each_player}\" refresh=true")
+              f"terminal=false bash=\"{sys.argv[0]}\" param1=\"-d\" param2=\"{each_player}\" "
+              f"param3=\"{FAVORITE_PLAYERS_FILE.absolute().as_posix()}\" refresh=true")
 else:
     print("--You don't have any favorite players set")
 
@@ -216,5 +225,8 @@ print("--Click on any to add to favorites")
 print("-----")
 for each_player in untracked_players:
     print(f"--{each_player} | "
-          f"terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"{each_player}\" refresh=true")
-print(f"--TRACK ALL PLAYERS | terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"*\" refresh=true")
+          f"terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"{each_player}\" "
+          f"param3=\"{FAVORITE_PLAYERS_FILE.absolute().as_posix()}\" refresh=true")
+if not track_all_players:
+    print(f"--TRACK ALL PLAYERS | terminal=false bash=\"{sys.argv[0]}\" param1=\"-i\" param2=\"*\" "
+          f"param3=\"{FAVORITE_PLAYERS_FILE.absolute().as_posix()}\" refresh=true")
