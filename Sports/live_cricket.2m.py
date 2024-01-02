@@ -119,6 +119,7 @@ if matches:
 
         if match_data['match']['format'] == "TEST":
             test_match = True
+        else:
             test_match = False
 
         # get innings data
@@ -158,10 +159,10 @@ if matches:
         # get the match status.
         # match_status = match_data['status']
         if test_match:
-            if 'actualDays' in match_data['match']:
-                status_text = 'Day ' + match_data['match']['actualDays'] + ': '
+            if 'actualDays' in match_data['match'] and match_data['match']['actualDays']:
+                status_text = f"Day {match_data['match']['actualDays']}:"
             else:
-                status_text = 'Day 0: '
+                status_text = 'Day 0:'
         else:
             status_text = ''
         status_text += match_data['match']['statusText']
