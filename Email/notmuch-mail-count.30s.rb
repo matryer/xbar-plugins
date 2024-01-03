@@ -11,7 +11,7 @@
 
 inbox = `/usr/local/bin/notmuch search tag:inbox tag:unread`
 
-mails = inbox.split("\n")
+mails = inbox.encode('UTF-8', :invalid => :replace).split("\n")
 count = mails.length
 if count > 0
   puts "📮 #{count} | color=red size=12"
