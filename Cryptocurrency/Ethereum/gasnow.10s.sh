@@ -10,7 +10,7 @@
 #
 #ETH GasPrice forecast system based on SparkPool Pending Transaction Mempool
 
-response=$(curl -s https://etherchain.org/api/gasnow)
+response=$(curl -s https://beaconcha.in/api/v1/execution/gasnow)
 read code rapid fast standard slow timestamp <<<${response//[^0-9]/ }
 echo "𝚵 Rapid ${rapid:0:((${#rapid} - 9))} | color=green" 
 echo "𝚵 Fast ${fast:0:((${#fast} - 9))} | color=orange"
