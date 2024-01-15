@@ -5,7 +5,7 @@
 # <xbar.author>Anup Sam Abraham</xbar.author>
 # <xbar.author.github>anupsabraham</xbar.author.github>
 # <xbar.desc>Play the game of wordle on xbar</xbar.desc>
-# <xbar.image>https://ibb.co/wMkcWy4</xbar.image>
+# <xbar.image>https://i.ibb.co/PwLDhxg/SCR-20240115-klhx.png</xbar.image>
 # <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.abouturl></xbar.abouturl>
 
