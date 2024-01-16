@@ -1,42 +1,73 @@
 #!/usr/bin/env python3
 # <xbar.title>Meta Package Manager</xbar.title>
-# <xbar.version>v5.8.0</xbar.version>
+# <xbar.version>v5.14.1</xbar.version>
 # <xbar.author>Kevin Deldycke</xbar.author>
 # <xbar.author.github>kdeldycke</xbar.author.github>
 # <xbar.desc>List outdated packages and manage upgrades.</xbar.desc>
 # <xbar.dependencies>python,mpm</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/B5wdxIc.png</xbar.image>
-# <xbar.abouturl>https://github.com/kdeldycke/meta-package-manager</xbar.abouturl>
-# <xbar.var>boolean(VAR_SUBMENU_LAYOUT=false): Group packages into a sub-menu for each manager.</xbar.var>
-# <xbar.var>boolean(VAR_TABLE_RENDERING=true): Aligns package names and versions in a table for easier visual parsing.</xbar.var>
-# XXX Deactivate font-related options for Xbar. Default variable value does not allow `=` character in Xbar. See: https://github.com/matryer/xbar/issues/832
-# <!--xbar.var>string(VAR_DEFAULT_FONT=""): Default font to use for non-monospaced text.</xbar.var-->
-# <!--xbar.var>string(VAR_MONOSPACE_FONT="font=Menlo size=12"): Default configuration for monospace fonts, including errors. Is used for table rendering.</xbar.var-->
-# <swiftbar.environment>[VAR_SUBMENU_LAYOUT: false, VAR_TABLE_RENDERING: true, VAR_DEFAULT_FONT: , VAR_MONOSPACE_FONT: font=Menlo size=12]</swiftbar.environment>
-
+# <xbar.abouturl>
+#    https://kdeldycke.github.io/meta-package-manager/bar-plugin.html
+# </xbar.abouturl>
+# <xbar.var>
+#   boolean(VAR_SUBMENU_LAYOUT=false):
+#   Group packages into a sub-menu for each manager.
+# </xbar.var>
+# <xbar.var>
+#   boolean(VAR_TABLE_RENDERING=true):
+#   Aligns package names and versions in a table for easier visual parsing.
+# </xbar.var>
+#
+# XXX Deactivate font-related options for Xbar. Default variable value does not allow
+# XXX `=` character in Xbar. See: https://github.com/matryer/xbar/issues/832
+# <!--xbar.var>
+#   string(VAR_DEFAULT_FONT=""):
+#   Default font to use for non-monospaced text.
+# </xbar.var-->
+# <!--xbar.var>
+#   string(VAR_MONOSPACE_FONT="font=Menlo size=12"):
+#   Default configuration for monospace fonts, including errors.
+#   Is used for table rendering.
+# </xbar.var-->
+# <swiftbar.environment>
+#   [
+#       VAR_SUBMENU_LAYOUT: false,
+#       VAR_TABLE_RENDERING: true,
+#       VAR_DEFAULT_FONT: ,
+#       VAR_MONOSPACE_FONT: font=Menlo size=12
+#   ]
+# </swiftbar.environment>
 """Xbar and SwiftBar plugin for Meta Package Manager (i.e. the :command:`mpm` CLI).
 
-Default update cycle is set to 7 hours so we have a chance to get user's
-attention once a day. Higher frequency might ruin the system as all checks are
-quite resource intensive, and Homebrew might hit GitHub's API calls quota.
+Default update cycle should be set to several hours so we have a chance to get
+user's attention once a day. Higher frequency might ruin the system as all
+checks are quite resource intensive, and Homebrew might hit GitHub's API calls
+quota.
 
-- Xbar automatically bridge plugin options between its UI and environment
-  variable on script execution. See:
-  https://xbarapp.com/docs/2021/03/14/variables-in-xbar.html
+- `Xbar automatically bridge plugin options
+  <https://xbarapp.com/docs/2021/03/14/variables-in-xbar.html>`_ between its UI
+  and environment variable on script execution.
 
-- This is in progress for SwiftBar at:
-  https://github.com/swiftbar/SwiftBar/issues/160
+- This is `in progress for SwiftBar
+  <https://github.com/swiftbar/SwiftBar/issues/160>`_.
 """
+
 from __future__ import annotations
 
+import argparse
+import os
+import re
 import sys
+from configparser import RawConfigParser
+from functools import cached_property
+from operator import methodcaller
+from shutil import which
+from subprocess import run
+from textwrap import dedent
+from unittest.mock import patch
 
-python_min_version = (3, 7, 3)
-"""Minimal requirement is macOS Catalina (10.15) for both Xbar and SwiftBar.
-
-Catalina deprecates Python 2.x, and ships with Python 3.7.3. So this plugin is
-required to work with Python 3.7.3 or newer.
-"""
+python_min_version = (3, 8, 0)
+"""Minimal requirement is aligned to mpm."""
 
 
 def v_to_str(version_tuple: tuple[int, ...] | None) -> str:
@@ -47,23 +78,11 @@ def v_to_str(version_tuple: tuple[int, ...] | None) -> str:
 
 
 if sys.version_info < python_min_version:
-    raise SystemError(
-        f"Bar plugin ran with Python {sys.version}, "
-        f"but requires Python >= {v_to_str(python_min_version)}"
+    msg = (
+        f"Bar plugin ran with Python {sys.version}, but requires "
+        f"Python >= {v_to_str(python_min_version)}"
     )
-
-import argparse
-import os
-import re
-from configparser import RawConfigParser
-from shutil import which
-from subprocess import run
-from unittest.mock import patch
-
-if sys.version_info >= (3, 8):
-    from functools import cached_property
-else:
-    cached_property = property
+    raise SystemError(msg)
 
 
 class MPMPlugin:
@@ -72,9 +91,9 @@ class MPMPlugin:
 
     Once ``mpm`` is located, we can rely on it to produce the main output of the plugin.
 
-    The output must supports both Xbar and SwiftBar:
-        - https://github.com/matryer/xbar-plugins/blob/main/CONTRIBUTING.md#plugin-api
-        - https://github.com/swiftbar/SwiftBar#plugin-api
+    The output must supports both `Xbar dialect
+    <https://github.com/matryer/xbar-plugins/blob/main/CONTRIBUTING.md#plugin-api>`_
+    and `SwiftBar dialect <https://github.com/swiftbar/SwiftBar#plugin-api>`_.
     """
 
     mpm_min_version = (5, 0, 0)
@@ -107,7 +126,7 @@ class MPMPlugin:
                 "/opt/local/sbin",
                 # System.
                 os.environ.get("PATH", ""),
-            )
+            ),
         )
         return env_copy
 
@@ -127,8 +146,9 @@ class MPMPlugin:
     def getenv_bool(var, default: bool = False) -> bool:
         """Utility to normalize boolean environment variables.
 
-        Relies on ``configparser.RawConfigParser.BOOLEAN_STATES`` to translate strings into boolean. See:
-        https://github.com/python/cpython/blob/89192c46da7b984811ff3bd648f8e827e4ef053c/Lib/configparser.py#L597-L599
+        Relies on ``configparser.RawConfigParser.BOOLEAN_STATES`` to translate strings
+        into boolean. See:
+        https://github.com/python/cpython/blob/89192c4/Lib/configparser.py#L597-L599
         """
         value = MPMPlugin.getenv_str(var)
         if value is None:
@@ -137,8 +157,11 @@ class MPMPlugin:
 
     @staticmethod
     def normalize_params(
-        font_string: str, valid_ids: set[str] = {"color", "font", "size"}
+        font_string: str,
+        valid_ids: set[str] | None = None,
     ) -> str:
+        if valid_ids is None:
+            valid_ids = {"color", "font", "size"}
         valid_params = {}
         for param in font_string.split():
             param_id, param_value = param.split("=", 1)
@@ -158,14 +181,14 @@ class MPMPlugin:
     def default_font(self) -> str:
         """Make it easier to change font, sizes and colors of the output."""
         return self.normalize_params(
-            self.getenv_str("VAR_DEFAULT_FONT", "")  # type: ignore
+            self.getenv_str("VAR_DEFAULT_FONT", ""),  # type: ignore
         )
 
     @cached_property
     def monospace_font(self) -> str:
         """Make it easier to change font, sizes and colors of the output."""
         return self.normalize_params(
-            self.getenv_str("VAR_MONOSPACE_FONT", "font=Menlo size=12")  # type: ignore
+            self.getenv_str("VAR_MONOSPACE_FONT", "font=Menlo size=12"),  # type: ignore
         )
 
     @cached_property
@@ -178,19 +201,6 @@ class MPMPlugin:
         """SwiftBar is kind enough to tell us about its presence."""
         return self.getenv_bool("SWIFTBAR")
 
-    @staticmethod
-    def locate_bin(*bin_names: str) -> str | None:
-        """Find the location of an executable binary on the system.
-
-        Provides as many binary names as you need, the first one found will be returned.
-        Both plain name and full path are supported.
-        """
-        for name in bin_names:
-            path = which(name)
-            if path:
-                return path
-        return None
-
     @cached_property
     def python_path(self) -> str:
         """Returns the system's Python binary path.
@@ -199,7 +209,11 @@ class MPMPlugin:
         fallback to (i.e. ``sys.executable``). But before that, we attempt to locate it
         by respecting the environment variables.
         """
-        return self.locate_bin("python", "python3", sys.executable)  # type: ignore
+        for bin_name in ("python", "python3", sys.executable):
+            py_path = which(bin_name)
+            if py_path:
+                return py_path
+        raise FileNotFoundError("No Python binary found on the system.")
 
     @cached_property
     def mpm_exec(self) -> tuple[str, ...]:
@@ -207,7 +221,7 @@ class MPMPlugin:
         executable Python module."""
         # XXX Local debugging and development.
         # return "poetry", "run", "mpm"
-        mpm_exec = self.locate_bin("mpm")
+        mpm_exec = which("mpm")
         if mpm_exec:
             return (mpm_exec,)
         return self.python_path, "-m", "meta_package_manager"
@@ -219,7 +233,11 @@ class MPMPlugin:
         error: str | Exception | None = None
         try:
             process = run(
-                (*self.mpm_exec, "--version"), capture_output=True, encoding="utf-8"
+                # Output a color-less versionjust in case the script is not run in a
+                # non-interactive shell, or Click/Click-Extra autodetection fails.
+                (*self.mpm_exec, "--no-color", "--version"),
+                capture_output=True,
+                encoding="utf-8",
             )
             error = process.stderr
         except FileNotFoundError as ex:
@@ -231,32 +249,43 @@ class MPMPlugin:
         # Is mpm CLI installed on the system?
         if not process.returncode and not error:
             installed = True
-            # Is mpm too old?
-            match = re.compile(r".*\s+(?P<version>[0-9\.]+)$", re.MULTILINE).search(
-                process.stdout
-            )
+            # This regular expression is designed to extract the version number, wether
+            # it is surrounded by ANSI color escape sequence or not.
+            match = re.compile(
+                r"""
+                .+                      # Any string
+                \                       # A space
+                version                 # The "version" string
+                \                       # A space
+                [^\.]*?                 # Any minimal (non-greedy) string without a dot
+                (?P<version>[0-9\.]+)   # Version composed of numbers and dots
+                [^\.]*?                 # Any minimal (non-greedy) string without a dot
+                $                       # End of the string
+                """,
+                re.VERBOSE | re.MULTILINE,
+            ).search(process.stdout)
             if match:
                 version_string = match.groupdict()["version"]
                 mpm_version = tuple(map(int, version_string.split(".")))
+                # Is mpm too old?
                 if mpm_version >= self.mpm_min_version:
                     up_to_date = True
 
         return installed, mpm_version, up_to_date, error
 
     @staticmethod
-    def pp(*args: str) -> None:
+    def pp(label: str, *args: str) -> None:
         """Print one menu-line with the Xbar/SwiftBar dialect.
 
         First argument is the menu-line label, separated by a pipe to all other non-
         empty parameters, themselves separated by a space.
         """
-        line: list[str] = []
-        for param in args:
-            if param:
-                if len(line) == 1:
-                    line.append("|")
-                line.append(param)
-        print(*line, sep=" ")
+        print(
+            label.strip(),
+            "|",
+            *(line for line in map(methodcaller("strip"), args) if line),
+            sep=" ",
+        )
 
     @staticmethod
     def print_error_header() -> None:
@@ -265,20 +294,24 @@ class MPMPlugin:
         print("---")
 
     def print_error(self, message: str | Exception, submenu: str = "") -> None:
-        """Print a formatted error line by line.
+        """Print a formatted error message line by line.
 
-        A red, fixed-width font is used to preserve traceback and exception layout.
+        A red, fixed-width font is used to preserve traceback and exception layout. For
+        compactness, the message is dedented and empty lines are skipped.
+
+        Message is always casted to a string as we allow passing of exception objects
+        and have them rendered.
         """
-        # Cast to string as we might directly pass exceptions for rendering.
-        for line in str(message).strip().splitlines():
-            self.pp(
-                f"{submenu}{line}",
-                self.error_font,
-                "trim=false",
-                "ansi=false",
-                "emojize=false",
-                "symbolize=false" if self.is_swiftbar else "",
-            )
+        for line in map(methodcaller("strip"), dedent(str(message)).splitlines()):
+            if line:
+                self.pp(
+                    f"{submenu}{line}",
+                    self.error_font,
+                    "trim=false",
+                    "ansi=false",
+                    "emojize=false",
+                    "symbolize=false" if self.is_swiftbar else "",
+                )
 
     def print_menu(self) -> None:
         """Print the main menu."""
@@ -297,7 +330,8 @@ class MPMPlugin:
                 "param2=pip",
                 "param3=install",
                 "param4=--upgrade",
-                # XXX This seems broken beyond repair. No amount of workaround works. See:
+                # XXX This seems broken beyond repair. No amount of workaround works.
+                # See:
                 # https://github.com/matryer/xbar/issues/831
                 # https://github.com/swiftbar/SwiftBar/issues/308
                 # Fallback to the only version that is working on SwiftBar.
@@ -334,7 +368,6 @@ class MPMPlugin:
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--check-mpm",
@@ -353,10 +386,11 @@ if __name__ == "__main__":
             if not mpm_installed:
                 raise FileNotFoundError(error)
             if not mpm_up_to_date:
-                raise ValueError(
+                msg = (
                     f"{plugin.mpm_exec} is too old: "
                     f"{v_to_str(mpm_version)} < {v_to_str(plugin.mpm_min_version)}"
                 )
+                raise ValueError(msg)
             print(f"{' '.join(plugin.mpm_exec)} v{v_to_str(mpm_version)}")
 
         else:
