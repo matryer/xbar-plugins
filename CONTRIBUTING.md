@@ -69,7 +69,7 @@ The supported parameters are:
 * `color=..` to change the text color. eg. `color=red` or `color=#ff0000`
 * `font=..` to change the text font. eg. `font=UbuntuMono-Bold`
 * `size=..` to change the text size. eg. `size=12`
-* `shell=..` to make the item run a given script terminal with your script e.g. `shell=/Users/user/xbar_Plugins/scripts/nginx.restart.sh` if there are spaces in the file path you will need quotes e.g. `shell="/Users/user/xbar Plugins/scripts/nginx.restart.sh"` (`bash` is also supported but is deprecated)
+* `shell=..` to make the item run a given script terminal with your script (e.g. `shell="/Users/user/xbar Plugins/scripts/nginx.restart.sh"`, or `shell="\"$(realpath $0)\""` to call itself)
 * `param1=` to specify arguments to the script. Additional params like this `param2=foo param3=bar`
 * * For example `shell="/Users/user/xbar_Plugins/scripts/nginx.restart.sh" param1=--verbose` assuming that nginx.restart.sh is executable or `shell=/usr/bin/ruby param1=/Users/user/rubyscript.rb param2=arg1 param3=arg2` if script is not executable
 * `terminal=..` start bash script without opening Terminal. `true` or `false`
