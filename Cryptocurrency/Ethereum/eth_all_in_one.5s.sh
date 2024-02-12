@@ -5,7 +5,7 @@
 # <xbar.author>take3315</xbar.author>
 # <xbar.author.github>take3315</xbar.author.github>
 # <xbar.desc>One line display to check the current ETH price, gasnow quick/fast/standard level in one go</xbar.desc>
-# <xbar.image>https://imgur.com/a/525iUFo</xbar.image>
+# <xbar.image>https://imgur.com/a/525iUFo.png</xbar.image>
 # <xbar.abouturl>https://beaconcha.in/gasnow</xbar.abouturl>
 
 
