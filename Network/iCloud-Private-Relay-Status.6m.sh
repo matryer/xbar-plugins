@@ -13,7 +13,7 @@
 if [ $(curl -LI http://google.com -o /dev/null -w '%{http_code}\n' -s) == "200" ]; then
 # we have an internet connection
     wanIP=$(curl -s https://ipinfo.io/ip)
-    iCloudPrivateRelayIP=$(curl -s http://ifconfig.me)
+    iCloudPrivateRelayIP=$(curl -4 -s http://ifconfig.me)
     # using http and ifconfig.me seems to reliably return the iCloud Private Relay IP if Private Relay is enabled
 
 
