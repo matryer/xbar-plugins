@@ -55,13 +55,19 @@ def main():
 
 	# RGB
 	# TODO customizable
-	border_color  = (  0,   0,  0)
-	chevron_color = (  0,   0,  0)
-	COLOR_DAY     = (255, 255,  0)
+	border_color  = (  0,   0,   0)
+	chevron_color = (  0,   0,   0)
+	COLOR_DAY     = (255, 255,   0)
 	COLOR_NIGHT   = ( 40, 180, 255)
 	colors = {
 		"day": COLOR_DAY,
 		"night": COLOR_NIGHT,
+	}
+	YEAR_COLOR_DAY   = (255, 255,   0) # TODO
+	YEAR_COLOR_NIGHT = ( 40, 180, 255) # TODO
+	colors_year = {
+		"day": YEAR_COLOR_DAY,
+		"night": YEAR_COLOR_NIGHT,
 	}
 
 	UNITS = MINUTES // WIDTH_COMPRESSION_FACTOR
@@ -103,30 +109,18 @@ def main():
 	# now = datetime(2024, 2, 17, 22, 10, 0).astimezone() # night showcase
 	# now = datetime(2024, 2, 16, 12, 0, 0).astimezone() # day showcase
 
-	sun = Sun(LATITUDE, LONGITUDE)
-	sunrise = sun.get_sunrise_time(now).astimezone()
-	sunset  = sun.get_sunset_time(now).astimezone()
+	(now_minute,
+	sunrise_minute,
+	sunset_minute) = get_time_info_for_latlon(now, LATITUDE, LONGITUDE)
 
-	log("now     %s" % now)
-	log("sunrise %s" % sunrise)
-	log("sunset  %s" % sunset)
-	log("")
-
-	now_minute     = now.hour     * 60 + now.minute
-	sunrise_minute = sunrise.hour * 60 + sunrise.minute
-	sunset_minute  = sunset.hour  * 60 + sunset.minute
-
-	log("now     minute %s" %     now_minute)
-	log("sunrise minute %s" % sunrise_minute)
-	log("sunset  minute %s" % sunset_minute)
-	log("")
-
-	colors_by_unit, sun_count_by_minute, night_count_by_minute = classify_units_of_time(now_minute,
-	                                                                                    sunrise_minute,
-	                                                                                    sunset_minute,
-	                                                                                    MINUTES,
-	                                                                                    UNITS,
-	                                                                                    WIDTH_COMPRESSION_FACTOR)
+	(colors_by_unit,
+	sun_count_by_minute,
+	night_count_by_minute) = classify_units_of_time(now_minute,
+	                                                sunrise_minute,
+	                                                sunset_minute,
+	                                                MINUTES,
+	                                                UNITS,
+	                                                WIDTH_COMPRESSION_FACTOR)
 
 	log("sun_count_by_minute %d night_count_by_minute %d" % (sun_count_by_minute, night_count_by_minute))
 
