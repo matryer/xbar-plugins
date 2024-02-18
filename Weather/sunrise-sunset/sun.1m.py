@@ -142,6 +142,14 @@ def main():
 		cold("day"),       colw(":"), coln("night"),
 		cold(sun_percent), colw(":"), coln(night_percent),
 	)
+	# day_night_ratio_info = "%s%s%s" % (
+	# 	cold(f"day {sun_percent}"), colw(":"), coln(f"{night_percent} night")
+	# )
+
+	day_night_ratio_time_info = "%s %s" % (
+		cold(format_hours_mins_short(timedelta(minutes=sun_count_by_minute))),
+		coln(format_hours_mins_short(timedelta(minutes=night_count_by_minute))),
+	)
 
 	# equal_spacing_font_arg = "font='Monaco' size=13"
 	equal_spacing_font_arg = ""
@@ -153,6 +161,7 @@ def main():
 	{set_rise_info[1]}                                           | {equal_spacing_font_arg}
 
 	{day_night_ratio_info}
+	{day_night_ratio_time_info}
 	"""
 
 	log("")
@@ -331,10 +340,19 @@ def get_sunset_sunrise_info(now_minute, sunrise_minute, sunset_minute, HOURS, MI
 
 def format_hours_mins(timedelta):
 	dt = datetime(1,1,1) + timedelta
-	# h = int(dt.strftime("%H"))
-	# m = int(dt.strftime("%M"))
-	# return "%dh %dm" % (h, m)
 	return dt.strftime("%Hh %Mm")
+
+def parse_hours_mins(timedelta):
+	dt = datetime(1,1,1) + timedelta
+	h = int(dt.strftime("%H"))
+	m = int(dt.strftime("%M"))
+	return h, m
+
+def format_hours_mins_short(timedelta, padmins=False):
+	h, m = parse_hours_mins(timedelta)
+	hh = f"{h}"
+	mm = f"0{m}" if padmins and m <= 9 else m
+	return f"{hh}h{mm}m"
 
 if __name__ == '__main__':
 	main()
