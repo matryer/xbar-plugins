@@ -2,7 +2,7 @@
 
 export PATH='/bin:/usr/local/bin:/usr/bin:/opt/homebrew/bin:$PATH'
 
-#  <xbar.title>Toggl Xbar</xbar.title>
+#  <xbar.title>Toggl Multi-Workspace</xbar.title>
 #  <xbar.version>v1.0</xbar.version>
 #  <xbar.author>Rob Dyson</xbar.author>
 #  <xbar.author.github>rdyson</xbar.author.github>
