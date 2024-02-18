@@ -18,10 +18,7 @@ if [ $(curl -LI http://google.com -o /dev/null -w '%{http_code}\n' -s) == "200" 
 
 
 
-    # now, get the public list of iCloud Private Relay egresses
-    # HEY! need to figure out a way to grab this daily instead of each update, because
-    # the file is about 9 MB
-
+    # now, get the public list of iCloud Private Relay egresses if it's stale
 
     mkdir -p "${TMPDIR}io.askadam"
     egresses="egress-ip-ranges.csv"
