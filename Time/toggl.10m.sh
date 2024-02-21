@@ -2,12 +2,12 @@
 
 export PATH='/bin:/usr/local/bin:/usr/bin:/opt/homebrew/bin:$PATH'
 
-#  <xbar.title>Toggl Multi-Workspace</xbar.title>
+#  <xbar.title>Toggl Xbar</xbar.title>
 #  <xbar.version>v1.0</xbar.version>
 #  <xbar.author>Rob Dyson</xbar.author>
 #  <xbar.author.github>rdyson</xbar.author.github>
 #  <xbar.desc>Displays current week's total time logged in Toggl for one or more workspaces</xbar.desc>
-#  <xbar.image>https://raw.githubusercontent.com/rdyson/toggl-xbar/29f6082807194a95c1cc28d36af4ddf678f5aa88/icon.png</xbar.image>
+#  <xbar.image>https://github.com/rdyson/toggl-xbar/blob/main/screenshot.png?raw=true</xbar.image>
 #  <xbar.dependencies>jq</xbar.dependencies>
 #  <xbar.var>string(VAR_WORKSPACES): Workspace ID(s). Separate multiple IDs with a space.</xbar.var>
 #  <xbar.var>string(VAR_TOGGL_API_KEY): Toggl API Key.</xbar.var>
