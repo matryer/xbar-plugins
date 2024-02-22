@@ -40,14 +40,14 @@ def main():
 	# begin customizable #
 	# ------------------ #
 
-	LATITUDE  = env("VAR_LATITUDE",  0.00000, float)
-	LONGITUDE = env("VAR_LONGITUDE", 0.00000, float)
+	LATITUDE  = env("VAR_LATITUDE",  "0.00000", float)
+	LONGITUDE = env("VAR_LONGITUDE", "0.00000", float)
 
-	WIDTH_COMPRESSION_FACTOR = env("VAR_WIDTH_COMPRESSION_FACTOR", 20, int)
-	HOURS_OFFSET             = env("VAR_HOURS_OFFSET",              0, int)
+	WIDTH_COMPRESSION_FACTOR = env("VAR_WIDTH_COMPRESSION_FACTOR", "20", int)
+	HOURS_OFFSET             = env("VAR_HOURS_OFFSET",              "0", int)
 
-	height       = env("VAR_HEIGHT",       10, int)
-	border_width = env("VAR_BORDER_WIDTH",  1, int)
+	height       = env("VAR_HEIGHT",      "10", int)
+	border_width = env("VAR_BORDER_WIDTH", "1", int)
 
 	# ---------------- #
 	# end customizable #
@@ -162,7 +162,9 @@ def main():
 # utils
 
 def env(x, default, transform = lambda y: y):
-	return transform(json.loads(os.environ.get(x, default)))
+	return transform(os.environ.get(x, default))
+
+boolean = lambda x: x == "true"
 
 DEBUG = int(os.environ.get("DEBUG", 0))
 def log(*x, lvl=1):
