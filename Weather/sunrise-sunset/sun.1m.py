@@ -148,24 +148,30 @@ def main():
 
 	sun_percent, night_percent = get_percents(sun_count_by_minute, night_count_by_minute)
 
-	day_night_ratio_info_header = "%s%s%s" % (
-		cold("day"),       colw(":"), coln("night"),
-	)
-	day_night_ratio_info = "%s%s%s" % (
-		cold(sun_percent), colw(":"), coln(night_percent),
-	)
-	# day_night_ratio_info = "%s%s%s" % (
-	# 	cold(f"day {sun_percent}"), colw(":"), coln(f"{night_percent} night")
-	# )
-	day_night_ratio_time_info = "%s %s" % (
-		cold(format_hours_mins_short(timedelta(minutes=sun_count_by_minute))),
-		coln(format_hours_mins_short(timedelta(minutes=night_count_by_minute))),
-	)
-	# day_night_ratio_full = f"{day_night_ratio_info_header} {day_night_ratio_time_info} ({day_night_ratio_info})"
-	day_night_ratio_full = f"{day_night_ratio_info_header} {day_night_ratio_info}\n{day_night_ratio_time_info}"
+	rise_at        = cold(format_hours_mins_colon(sunrise))
+	set_at         = coln(format_hours_mins_colon(sunset))
+	sun_up_for     = cold(format_hours_mins_short(timedelta(minutes=sun_count_by_minute),   True))
+	night_down_for = coln(format_hours_mins_short(timedelta(minutes=night_count_by_minute), True))
+	up_percent     = cold(sun_percent)
+	down_percent   = coln(night_percent)
+
+	day_night_ratio_full = colw("rise ") + rise_at + colw(" for ") + sun_up_for + "\n" + \
+	                       colw("set  ") + set_at  + colw(" for ") + night_down_for
+
+	image2 = Image.new("RGB", (width + 1, height + 1), "white")
+	draw2 = ImageDraw.Draw(image2)
+	# darken 10% (HSL saturation -10%)
+	colors2 = {
+		"day":   "#f2f20d",
+		"night": "#33b1f4",
+	}
+	draw_day_night_indicator(draw2, sorted(colors_by_unit), colors2, height, 0)
+	day_night_ratio_absolute = enc_image_base64(image2)
+	# additional indicator done
 
 	img_b64_sun_percent_thru_year = draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors_year)
 	img_sun_percent_thru_year = f"| image={img_b64_sun_percent_thru_year}"
+	# whole year done
 
 	# equal_spacing_font_arg = "font='Monaco' size=13"
 	equal_spacing_font_arg = ""
@@ -178,7 +184,11 @@ def main():
 
 	{day_night_ratio_full}
 
-
+	{up_percent}{colw(":")}{down_percent}
+	| image={day_night_ratio_absolute}
+	-- {colw("sunrise")} {cold(sunrise)}
+	-- {colw("sunset")}  {coln(sunset)}
+	--
 	-- whole year
 	-- {img_sun_percent_thru_year}
 	"""
@@ -491,6 +501,9 @@ def format_hours_mins_short(timedelta, padmins=False):
 	hh = f"{h}"
 	mm = f"0{m}" if padmins and m <= 9 else m
 	return f"{hh}h{mm}m"
+
+def format_hours_mins_colon(dt):
+	return dt.strftime("%H") + ":" + dt.strftime("%M")
 
 def striplines(x):
 	return "\n".join(
