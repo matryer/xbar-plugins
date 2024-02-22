@@ -138,18 +138,24 @@ def main():
 
 	sun_percent, night_percent = get_percents(sun_count_by_minute, night_count_by_minute)
 
-	day_night_ratio_info = "%s%s%s %s%s%s" % (
+	day_night_ratio_info_header = "%s%s%s" % (
 		cold("day"),       colw(":"), coln("night"),
+	)
+	day_night_ratio_info = "%s%s%s" % (
 		cold(sun_percent), colw(":"), coln(night_percent),
 	)
 	# day_night_ratio_info = "%s%s%s" % (
 	# 	cold(f"day {sun_percent}"), colw(":"), coln(f"{night_percent} night")
 	# )
-
 	day_night_ratio_time_info = "%s %s" % (
 		cold(format_hours_mins_short(timedelta(minutes=sun_count_by_minute))),
 		coln(format_hours_mins_short(timedelta(minutes=night_count_by_minute))),
 	)
+	# day_night_ratio_full = f"{day_night_ratio_info_header} {day_night_ratio_time_info} ({day_night_ratio_info})"
+	day_night_ratio_full = f"{day_night_ratio_info_header} {day_night_ratio_info}\n{day_night_ratio_time_info}"
+
+	img_b64_sun_percent_thru_year = draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors_year)
+	img_sun_percent_thru_year = f"| image={img_b64_sun_percent_thru_year}"
 
 	# equal_spacing_font_arg = "font='Monaco' size=13"
 	equal_spacing_font_arg = ""
@@ -160,12 +166,17 @@ def main():
 	{set_rise_info[0]} {colw("(")}{percent_done_info}{colw(")")} | {equal_spacing_font_arg}
 	{set_rise_info[1]}                                           | {equal_spacing_font_arg}
 
-	{day_night_ratio_info}
-	{day_night_ratio_time_info}
+	{day_night_ratio_full}
+
+
+	-- whole year
+	-- {img_sun_percent_thru_year}
 	"""
 
+	xbar_output = striplines(xbar_output)
+
 	log("")
-	print(xbar_output.strip())
+	print(xbar_output)
 	# done
 
 # utils
@@ -179,6 +190,29 @@ DEBUG = int(os.environ.get("DEBUG", 0))
 def log(*x, lvl=1):
 	if DEBUG >= lvl:
 		print(*x)
+
+def get_time_info_for_latlon(now, LATITUDE, LONGITUDE, local=True, lvl=1):
+	sun = Sun(LATITUDE, LONGITUDE)
+	sunrise = sun.get_sunrise_time(now)
+	sunset  = sun.get_sunset_time(now)
+	if local:
+		sunrise = sunrise.astimezone()
+		sunset = sunset.astimezone()
+
+	log("now     %s" % now, lvl=lvl)
+	log("sunrise %s" % sunrise, lvl=lvl)
+	log("sunset  %s" % sunset, lvl=lvl)
+	log("", lvl=lvl)
+
+	now_minute     = now.hour     * 60 + now.minute
+	sunrise_minute = sunrise.hour * 60 + sunrise.minute
+	sunset_minute  = sunset.hour  * 60 + sunset.minute
+
+	log("now     minute %s" %     now_minute, lvl=lvl)
+	log("sunrise minute %s" % sunrise_minute, lvl=lvl)
+	log("sunset  minute %s" % sunset_minute, lvl=lvl)
+	log("", lvl=lvl)
+	return now_minute, sunrise_minute, sunset_minute
 
 def classify_units_of_time(now_minute, sunrise_minute, sunset_minute, MINUTES, UNITS, WIDTH_COMPRESSION_FACTOR):
 	# calculate uncompressed to get proper accuracy
@@ -306,6 +340,51 @@ def draw_chevron(draw, image_width, image_height, border_width, chevron_color):
 	draw.polygon(chevron_points, fill=chevron_color)
 	log(f"chevron polygon: {chevron_points}", lvl=2)
 
+def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
+	YEAR_DAYS            = 365
+	OUR_WIDTH_COMPR_FACT = 12 # factors(1440)
+	OUR_UNITS            = MINUTES // OUR_WIDTH_COMPR_FACT
+
+	img_height = MINUTES // OUR_WIDTH_COMPR_FACT
+	image = Image.new("RGB", (YEAR_DAYS , img_height))
+	draw = ImageDraw.Draw(image)
+
+	day = now.replace() # clone
+
+	reverse_ordering = True
+	for day_of_year in range(YEAR_DAYS):
+		day += timedelta(days=1)
+
+		# local=False to avoid a daylight savings time jump,
+		# i.e. would look v ugly
+		(now_minute, sunrise_minute, sunset_minute) = get_time_info_for_latlon(day, LATITUDE, LONGITUDE, local=False, lvl=2)
+
+		(colors_by_unit, sun_minutes, night_minutes) = classify_units_of_time(now_minute, sunrise_minute, sunset_minute,
+		                                                                      MINUTES, OUR_UNITS, OUR_WIDTH_COMPR_FACT)
+
+		if day_of_year == 0:
+			if night_minutes > sun_minutes:
+				reverse_ordering = False
+		colors_by_unit = sorted(colors_by_unit)
+		if reverse_ordering:
+			colors_by_unit = reversed(colors_by_unit)
+
+		# colors_by_unit = sorted(colors_by_unit) # night up day down
+		# if sun_minutes > night_minutes:
+		# 	colors_by_unit = reversed(colors_by_unit)
+
+		# pretty much draw_day_night_indicator, just a width of 1, border 0, and rotated 90deg CW.
+		for i, color in enumerate(colors_by_unit):
+			x1 = day_of_year
+			x2 = day_of_year
+			y1 = (i    )
+			y2 = (i + 0)
+
+			draw.rectangle([x1, y1, x2, y2], fill=colors[color])
+			log("i %d coords: (%d %d) (%d %d) color %s" % (i, x1, y1, x2, y2, color), lvl=3)
+
+	return enc_image_base64(image)
+
 def enc_image_base64(image):
 	buffer = io.BytesIO()
 	image.save(buffer, format="PNG")
@@ -353,6 +432,14 @@ def format_hours_mins_short(timedelta, padmins=False):
 	hh = f"{h}"
 	mm = f"0{m}" if padmins and m <= 9 else m
 	return f"{hh}h{mm}m"
+
+def striplines(x):
+	return "\n".join(
+		map(
+			lambda y: y.strip(),
+			x.strip().split("\n")
+		)
+	)
 
 if __name__ == '__main__':
 	main()
