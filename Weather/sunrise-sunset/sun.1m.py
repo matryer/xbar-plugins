@@ -10,7 +10,7 @@
 # <xbar.author.github>kiprasmel</xbar.author.github>
 # <xbar.desc>Displays a pretty, dynamically generated indicator of what point in the day or night you are</xbar.desc>
 # <xbar.image>https://raw.githubusercontent.com/kiprasmel/xbar-plugins/main/Weather/sunrise-sunset/sun-indicator.png</xbar.image>
-# <xbar.dependencies>python,suntime,pillow,ansicolors</xbar.dependencies>
+# <xbar.dependencies>python,suntime,pillow,ansicolors,scipy</xbar.dependencies>
 # <xbar.abouturl>https://github.com/kiprasmel/xbar-plugins/tree/main/Weather/sunrise-sunset</xbar.abouturl>
 
 # <xbar.var>string(VAR_LATITUDE=0.00000): Your latitude to calculate the sun position.</xbar.var>
@@ -32,6 +32,7 @@ from datetime import datetime, timezone, timedelta
 from suntime import Sun
 from PIL import Image, ImageDraw, ImageFont
 from colors import color as ansicolor
+# scipy required conditionally below.
 
 def main():
 	HOURS = 24
@@ -414,13 +415,10 @@ def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
 	OUR_WIDTH_COMPR_FACT = 12 # factors(1440)
 	OUR_UNITS            = MINUTES // OUR_WIDTH_COMPR_FACT
 
-	img_height = MINUTES // OUR_WIDTH_COMPR_FACT
-	image = Image.new("RGB", (YEAR_DAYS , img_height))
-	draw = ImageDraw.Draw(image)
-
 	day = now.replace() # clone
+	sun_counts_in_year   = []
+	night_counts_in_year = []
 
-	reverse_ordering = True
 	for day_of_year in range(YEAR_DAYS):
 		day += timedelta(days=1)
 
@@ -431,26 +429,44 @@ def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
 		(colors_by_unit, sun_minutes, night_minutes) = classify_units_of_time(now_minute, sunrise_minute, sunset_minute,
 		                                                                      MINUTES, OUR_UNITS, OUR_WIDTH_COMPR_FACT)
 
-		if day_of_year == 0:
-			if night_minutes > sun_minutes:
-				reverse_ordering = False
-		colors_by_unit = sorted(colors_by_unit)
-		if reverse_ordering:
-			colors_by_unit = reversed(colors_by_unit)
+		sun_count   = sum([1 for x in colors_by_unit if x == "day" ])
+		night_count = len(colors_by_unit) - sun_count
+		sun_counts_in_year.append(sun_count)
+		night_counts_in_year.append(night_count)
 
-		# colors_by_unit = sorted(colors_by_unit) # night up day down
-		# if sun_minutes > night_minutes:
-		# 	colors_by_unit = reversed(colors_by_unit)
+	# might not have this dep installed;
+	# that's ok, image just won't look as smooth.
+	try:
+		from scipy.ndimage import uniform_filter1d
 
-		# pretty much draw_day_night_indicator, just a width of 1, border 0, and rotated 90deg CW.
-		for i, color in enumerate(colors_by_unit):
-			x1 = day_of_year
-			x2 = day_of_year
-			y1 = (i    )
-			y2 = (i + 0)
+		window_size = 30     # days
+		mode        = "wrap" # wrap because, well, the year wraps & we start at the same again.
+		sun_counts_in_year   = uniform_filter1d(sun_counts_in_year,  window_size, mode=mode)
+		night_counts_in_year = uniform_filter1d(night_counts_in_year, window_size, mode=mode)
+	except ImportError as e:
+		pass
 
-			draw.rectangle([x1, y1, x2, y2], fill=colors[color])
-			log("i %d coords: (%d %d) (%d %d) color %s" % (i, x1, y1, x2, y2, color), lvl=3)
+	img_height = MINUTES // OUR_WIDTH_COMPR_FACT
+	image      = Image.new("RGB", (YEAR_DAYS , img_height))
+	draw       = ImageDraw.Draw(image)
+
+	for day_of_year in range(YEAR_DAYS):
+		sun_count = sun_counts_in_year[day_of_year]
+		night_count = night_counts_in_year[day_of_year]
+
+		x1 = day_of_year
+		x2 = day_of_year
+		y1 = 0
+		y2 = sun_count
+		color = "day"
+
+		draw.rectangle([x1, y1, x2, y2], fill=colors[color])
+
+		y1 = y2
+		y2 = sun_count + night_count
+		color = "night"
+
+		draw.rectangle([x1, y1, x2, y2], fill=colors[color])
 
 	return enc_image_base64(image)
 
