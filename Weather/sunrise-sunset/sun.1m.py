@@ -16,9 +16,10 @@
 # <xbar.var>string(VAR_LATITUDE=0.00000): Your latitude to calculate the sun position.</xbar.var>
 # <xbar.var>string(VAR_LONGITUDE=0.00000): Your longitude to calculate the sun position.</xbar.var>
 # <xbar.var>number(VAR_WIDTH_COMPRESSION_FACTOR=20): The bigger the compression, the smaller the width. Explanation: To accuratelly represent all 1440 minutes in a day, you'd need 1440px of width. Instead, choose how much to compress the width. A compression factor of 20 means that you'll see the visual indicator move slightly every 20 minutes. min = 2, max = 60 (1440/60 = 24 = 1 per hour).</xbar.var>
-# <xbar.var>number(VAR_HEIGHT=8): How tall do you want the indicator to be?</xbar.var>
+# <xbar.var>number(VAR_HEIGHT=10): How tall do you want the indicator to be?</xbar.var>
 # <xbar.var>number(VAR_BORDER_WIDTH=1): How big should the borders be?</xbar.var>
 # <xbar.var>number(VAR_HOURS_OFFSET=0): Debug: how many hours to offset?</xbar.var>
+# <xbar.var>boolean(VAR_DRAW_TIME_UNTIL_NEXT_PHASE=false): Display the "time until next phase" indicator?</xbar.var>
 
 import os
 import io
@@ -29,7 +30,7 @@ from datetime import datetime, timezone, timedelta
 
 # deps
 from suntime import Sun
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from colors import color as ansicolor
 
 def main():
@@ -48,6 +49,8 @@ def main():
 
 	height       = env("VAR_HEIGHT",      "10", int)
 	border_width = env("VAR_BORDER_WIDTH", "1", int)
+
+	DRAW_TIME_UNTIL_NEXT_PHASE = env("VAR_DRAW_TIME_UNTIL_NEXT_PHASE", "true", boolean)
 
 	# ---------------- #
 	# end customizable #
@@ -111,7 +114,9 @@ def main():
 
 	(now_minute,
 	sunrise_minute,
-	sunset_minute) = get_time_info_for_latlon(now, LATITUDE, LONGITUDE)
+	sunset_minute,
+	sunrise,
+	sunset) = get_time_info_for_latlon(now, LATITUDE, LONGITUDE)
 
 	(colors_by_unit,
 	sun_count_by_minute,
@@ -127,14 +132,19 @@ def main():
 	draw_day_night_indicator(draw, colors_by_unit, colors, height, border_width)
 	draw_chevron(draw, image_width, image_height, border_width, chevron_color)
 
-	image_base64 = enc_image_base64(image)
-
 	# colors
-	colw = lambda x: ansicolor(x, fg="#dddddc") # xbar reverts to black all equal
-	cold = lambda x: ansicolor(x, fg=COLOR_DAY)
-	coln = lambda x: ansicolor(x, fg=COLOR_NIGHT)
+	colw = lambda x, *y: ansicolor(x, fg="#dddddc", *y) # xbar reverts to black all equal
+	cold = lambda x, *y: ansicolor(x, COLOR_DAY, *y)
+	coln = lambda x, *y: ansicolor(x, COLOR_NIGHT, *y)
 
-	set_rise_info, percent_done_info = get_sunset_sunrise_info(now_minute, sunrise_minute, sunset_minute, HOURS, MINUTES, cold, coln)
+	set_rise_info, percent_done_info, sunrise_in, sunset_in  = get_sunset_sunrise_info(now_minute, sunrise_minute, sunset_minute, HOURS, MINUTES, cold, coln)
+
+	# TODO: some other bug?
+	if DRAW_TIME_UNTIL_NEXT_PHASE:
+		draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height)
+
+	image_base64 = enc_image_base64(image)
+	# main indicator done
 
 	sun_percent, night_percent = get_percents(sun_count_by_minute, night_count_by_minute)
 
@@ -212,7 +222,7 @@ def get_time_info_for_latlon(now, LATITUDE, LONGITUDE, local=True, lvl=1):
 	log("sunrise minute %s" % sunrise_minute, lvl=lvl)
 	log("sunset  minute %s" % sunset_minute, lvl=lvl)
 	log("", lvl=lvl)
-	return now_minute, sunrise_minute, sunset_minute
+	return now_minute, sunrise_minute, sunset_minute, sunrise, sunset
 
 def classify_units_of_time(now_minute, sunrise_minute, sunset_minute, MINUTES, UNITS, WIDTH_COMPRESSION_FACTOR):
 	# calculate uncompressed to get proper accuracy
@@ -340,6 +350,55 @@ def draw_chevron(draw, image_width, image_height, border_width, chevron_color):
 	draw.polygon(chevron_points, fill=chevron_color)
 	log(f"chevron polygon: {chevron_points}", lvl=2)
 
+def draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height):
+	# try:
+	# 	# font = ImageFont.load("")
+	# except:
+	font = ImageFont.load_default()
+	CHAR_W = 6
+	CHAR_H = 8
+
+	if sunrise_in < sunset_in:
+		delta = sunrise_in
+	else:
+		delta = sunset_in
+
+	next_phase_in = timedelta(minutes=delta)
+	(next_ph_h, next_ph_m) = parse_hours_mins(next_phase_in)
+
+	will_display_minute_indicator = False
+
+	if next_ph_h > 0:
+		if next_ph_h < 10:
+			will_display_minute_indicator = True
+
+		next_ph_h = str(next_ph_h)
+	else:
+		next_ph_h = str(next_ph_m) + "m"
+
+
+	next_ph_h      = "-" + next_ph_h
+	char_count     = len(str(next_ph_h))
+	RIGHT_OFFSET   = width - char_count * CHAR_W + 1
+	RIGHT_OFFSET  += -4 if will_display_minute_indicator else 0
+	next_ph_height = (height - CHAR_H) // 2
+
+	draw.text((RIGHT_OFFSET, next_ph_height), "%s" % next_ph_h, font=font, fill=(0, 0, 0))
+
+	if will_display_minute_indicator:
+		min_left  =      next_ph_m // 10
+		min_left += 1 if next_ph_m %  10 >= 5 else 0
+
+		# lower part
+		dotx1 = width - 2
+		doty1 = next_ph_height + 6 + 1 + 1
+
+		# upper part
+		dotx2 = dotx1 + 1
+		doty2 = doty1 - 1 + 1 - min_left + 0
+
+		draw.rectangle([dotx1, doty1, dotx2, doty2], fill=(0, 0, 0))
+
 def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
 	YEAR_DAYS            = 365
 	OUR_WIDTH_COMPR_FACT = 12 # factors(1440)
@@ -357,7 +416,7 @@ def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
 
 		# local=False to avoid a daylight savings time jump,
 		# i.e. would look v ugly
-		(now_minute, sunrise_minute, sunset_minute) = get_time_info_for_latlon(day, LATITUDE, LONGITUDE, local=False, lvl=2)
+		(now_minute, sunrise_minute, sunset_minute, *_rest) = get_time_info_for_latlon(day, LATITUDE, LONGITUDE, local=False, lvl=2)
 
 		(colors_by_unit, sun_minutes, night_minutes) = classify_units_of_time(now_minute, sunrise_minute, sunset_minute,
 		                                                                      MINUTES, OUR_UNITS, OUR_WIDTH_COMPR_FACT)
@@ -415,7 +474,7 @@ def get_sunset_sunrise_info(now_minute, sunrise_minute, sunset_minute, HOURS, MI
 		night_done, *_rest = get_percents(done, total, total_count=total)
 		percent_done_info = coln("night %d%% done" % night_done)
 	
-	return set_rise_info, percent_done_info
+	return set_rise_info, percent_done_info, sunrise_in, sunset_in
 
 def format_hours_mins(timedelta):
 	dt = datetime(1,1,1) + timedelta
