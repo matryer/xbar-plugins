@@ -25,7 +25,10 @@ from time import sleep
 from os import getenv
 from platform import node
 import subprocess
-import sys
+from sys import executable
+
+
+messages = []
 
 
 class Color:
@@ -39,7 +42,7 @@ class Color:
                     'Color must be a valid 3-tuple'
             self.color = color
         except AssertionError as a:
-            print(a)
+            messages.append(a)
             self.color = '000000'
 
     def toHex(self):
@@ -70,7 +73,7 @@ class Config:
             assert 0 <= self.brightness <= 255, \
                 'Brightness must be 0-255'
         except AssertionError as a:
-            print(a)
+            messages.append(a)
             self.brightness = 0
 
 
@@ -93,18 +96,15 @@ def get_onair_lights(light_list):
         try:
             lights.append(magichue.LocalLight(lights_found[0]))
         except Exception as e:
-            msg = 'On-Air light not found: %s | alternate=true'
-            print(msg % (str(e)))
+            messages.append(f'On-Air light not found: {str(e)} | alternate=true')
     else:
         for address in addresses:
             try:
                 lights.append(magichue.LocalLight(address))
             except ConnectionRefusedError:
-                msg = 'Connection refused for light at %s'
-                print(msg % (address))
+                messages.append(f'Connection refused for light at {address}')
             except Exception as e:
-                msg = 'Unable to connect to light at %s: %s'
-                print(msg % (address, str(e)))
+                messages.append(f'Unable to connect to light at {address}: {str(e)}')
     return lights
 
 
@@ -121,18 +121,22 @@ def set_light_state(light, config):
 
 
 def install(package):
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install',
-                           '--user', package],
-                          stdout=subprocess.DEVNULL,
-                          stderr=subprocess.DEVNULL)
+    try:
+        subprocess.check_call([executable, '-m', 'pip', 'install',
+                               '--user', package],
+                              stdout=subprocess.DEVNULL,
+                              stderr=subprocess.DEVNULL)
+    except subprocess.CalledProcessError:
+        try:
+            subprocess.check_call([executable, '-m', 'pip', 'install',
+                                   '--user', package, '--break-system-packages'],
+                                  stdout=subprocess.DEVNULL,
+                                  stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError as e:
+            messages.append(f'Error installing {package}: {e}')
 
 
 if __name__ == "__main__":
-    install('python-magichue')
-    import magichue
-
-    messages = []
-
     config = {}
     config['onair'] = Config(getenv('ONAIR_ONAIR_COLOR'),
                              getenv('ONAIR_ONAIR_BRIGHTNESS'),
@@ -148,7 +152,14 @@ if __name__ == "__main__":
         state = 'offair'
         state_label = 'OFF AIR'
 
-    print("🎙️ %s | color=#%s" % (state_label, config[state].color.toHex()))
-    print('---')
+    messages.append(f'🎙️ {state_label} | color=#{config[state].color.toHex()}')
+    messages.append('---')
+
+    install('python-magichue')
+    import magichue
+
     for light in get_onair_lights(getenv('ONAIR_LIGHTS')):
         set_light_state(light, config[state])
+
+    for message in messages:
+        print(message)
