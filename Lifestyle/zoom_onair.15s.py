@@ -23,7 +23,6 @@
 
 from time import sleep
 from os import getenv
-from platform import node
 import subprocess
 from sys import executable
 
@@ -82,7 +81,7 @@ def in_meeting():
     processes = subprocess.Popen(['lsof', '-i', '4UDP'],
                                  stdout=subprocess.PIPE).stdout.readlines()
     for process in processes:
-        if 'zoom' in str(process) and node().split('.')[0] in str(process):
+        if 'zoom' in str(process) and '->' in str(process):
             in_meeting = True
             break
     return in_meeting
@@ -155,6 +154,7 @@ if __name__ == "__main__":
     messages.append(f'🎙️ {state_label} | color=#{config[state].color.toHex()}')
     messages.append('---')
 
+    install('requests')
     install('python-magichue')
     import magichue
 
