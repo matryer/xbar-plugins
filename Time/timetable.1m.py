@@ -135,13 +135,20 @@ def locate_event(cur_m_time: int, timetable: List[Event]) -> int:
     return -1
 
 
-def get_time_left_str(m_left: int) -> str:
+def get_time_left_str(m_left: int, mod='') -> str:
     hr_left = m_left / 60
     if hr_left >= 1:
         t = f"{hr_left:.1f}h"
     else:
         t = f"{m_left}m"
-    return f"({t} left)"
+    
+    if 'l' in mod:
+        t += " left"
+    if 'p' in mod:
+        t = f"({t})"   
+    if 's' in mod:
+        t = ' ' + t
+    return t
 
 
 if __name__ == "__main__":
@@ -152,25 +159,29 @@ if __name__ == "__main__":
     idx_found = locate_event(cur_m_time, table)
     if idx_found != -1: # display the first-hit ongoing event as title
         event = table[idx_found]
+        
+        def adaptive_time_left_str():
+            m_left = event.minutes_left(cur_m_time)
+            if event.emoji:
+                return get_time_left_str(m_left)
+            else:
+                return get_time_left_str(m_left, mod='ps')
+            
         print('{} {}'.format(
             event.emoji if DISP_EMJ and event.emoji else event.name,
-            get_time_left_str(event.minutes_left(cur_m_time)) if DISP_TIME_LEFT else ""
+            adaptive_time_left_str() if DISP_TIME_LEFT else ""
         ))
     else:
         print("no event")
     
     print("---")
-    if idx_found != -1 and not DISP_TIME_LEFT:
-        print('{} | font={} size={} color={}'.format(
-            get_time_left_str(event.minutes_left(cur_m_time)),
-            FONT, FONT_SIZ, RGB_ORANGE
-        ))
     for cur_idx, event in enumerate(table):
         if event.is_ongoing(cur_m_time): # allows multiple ongoing events
-            print("{}-{}  {} {}| font={} size={} color={}".format(
+            m_left = event.minutes_left(cur_m_time)
+            print("{}-{}  {}{}| font={} size={} color={}".format(
                 event.start_time, event.end_time, 
-                event.name, 
-                event.emoji if event.emoji else "⬅",
+                event,
+                get_time_left_str(m_left, mod='pls') if not DISP_TIME_LEFT else "",
                 FONT, FONT_SIZ, RGB_ORANGE
             ))
         else:
