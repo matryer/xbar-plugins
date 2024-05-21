@@ -36,10 +36,10 @@ fx $TMP_JSON_FILE 'x => x.reverse().map(d=>d.sgv/18).join(`\n`)' \
     unset ylabel;
     unset key;
     unset xtics;
-    set ytics format '';
+    unset ytics;
     set border 0;
     set lmargin 0;
-    set rmargin 1;
+    set rmargin 0.5;
     set tmargin 0.5;
     set bmargin 0.5;
     set yrange [$MIN_SGV:$MAX_SGV];
