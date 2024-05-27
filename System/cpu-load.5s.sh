@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # <xbar.title>CPU Load</xbar.title>
 # <xbar.version>v1.0</xbar.version>
@@ -6,7 +6,6 @@
 # <xbar.author.github>rnkn</xbar.author.github>
 # <xbar.desc>Shows CPU load as a percentage (without using top).</xbar.desc>
 # <xbar.image>https://i.imgur.com/B6VAsDg.png</xbar.image>
-# <xbar.dependencies>bash</xbar.dependencies>
 
 # BitBar CPU Load plugin
 
