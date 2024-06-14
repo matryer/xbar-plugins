@@ -1,9 +1,9 @@
-#!/usr/bin/env php
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" php
 <?php
 // <xbar.title>Simple RSS reader</xbar.title>
-// <xbar.version>1.0</xbar.version>
-// <xbar.author>Aleš Farčnik</xbar.author>
-// <xbar.author.github>alesf</xbar.author.github>
+// <xbar.version>1.0.1</xbar.version>
+// <xbar.author>Aleš Farčnik, Kenichi Shimizu (Issue #1851)</xbar.author>
+// <xbar.author.github>alesf, KenSmz</xbar.author.github>
 // <xbar.desc>Simple RSS "reader" that will list latest feed items and link to them.</xbar.desc>
 // <xbar.image>http://i.imgur.com/JDdgcGH.png</xbar.image>
 // <xbar.dependencies>php >= 5.4</xbar.dependencies>
@@ -197,7 +197,7 @@ class BitBar
             echo "● ";
         }
         echo "$title | length=65 terminal=false refresh=true ";
-        echo "bash=".PHP_PATH." param1=".SCRIPT_PATH." param2=$guid\n";
+        echo "bash=".PHP_PATH." param1=\"".SCRIPT_PATH."\" param2=$guid\n";
     }
 
     public function rssItems($items)
@@ -213,7 +213,7 @@ class BitBar
     public function markAsRead()
     {
         echo "Mark all as read | terminal=false refresh=true ";
-        echo "bash=".PHP_PATH." param1=".SCRIPT_PATH." param2=MARK_ALL_AS_READ\n";
+        echo "bash=".PHP_PATH." param1=\"".SCRIPT_PATH."\" param2=MARK_ALL_AS_READ\n";
     }
 
     public function refresh()
