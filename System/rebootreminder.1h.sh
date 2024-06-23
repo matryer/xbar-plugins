@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # <xbar.title>reboot reminder</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.2</xbar.version>
 # <xbar.author>Michael Kwun</xbar.author>
 # <xbar.author.github>lawtalker</xbar.author.github>
 # <xbar.desc>Days of uptime, in red after specified number of days.</xbar.desc>
@@ -16,7 +16,9 @@
 # the rewritten plugin just show days, in gray until 
 # in red starting on a specified day
 
-uptime | sed 's/^ *//g' | awk -F'[ ,:\t\n]+' -v RED=$VAR_RED_DAY -v GRAY=$VAR_GRAY_ZERO '{
+UP=$(uptime | sed 's/^ *//g')
+
+echo "$UP"| awk -F'[ ,:\t\n]+' -v RED=$VAR_RED_DAY -v GRAY=$VAR_GRAY_ZERO '{
 
     if (GRAY > 255) {
         GRAY=255
@@ -48,6 +50,9 @@ uptime | sed 's/^ *//g' | awk -F'[ ,:\t\n]+' -v RED=$VAR_RED_DAY -v GRAY=$VAR_GR
     printf "[ ↑ %d %s ] | color=#%02x%02x%02x | size=12\n", D, UNIT, R, GB, GB
 }'
 
+echo "---"
+echo "$UP" 
+echo "Restart computer... | shell=osascript | param1=-e | param2='tell app \"loginwindow\" to «event aevtrrst»'"
 echo "---"
 echo "plugin by Michael Kwun | href=https://github.com/lawtalker"
 echo "inspired by uptime by Matteo Ferrando | href=https://xbarapp.com/docs/plugins/System/uptime.1m.sh.html"
