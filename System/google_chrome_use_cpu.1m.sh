@@ -3,7 +3,7 @@
 #  <xbar.version>v1.0</xbar.version>
 #  <xbar.author>Alexandre Espinosa Menor</xbar.author>
 #  <xbar.author.github>alexandregz</xbar.author.github>
-#  <xbar.image>https://raw.githubusercontent.com/alexandregz/xbar-plugins-alexandregz/main/screenshot_cpu_chrome.png</xbar.image>
+#  <xbar.image>https://imgur.com/G7D2XS9</xbar.image>
 #  <xbar.desc>CPU usage from Google Chrome</xbar.desc>
 #  <xbar.dependencies>bash</xbar.dependencies>
 
