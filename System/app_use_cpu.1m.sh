@@ -5,8 +5,9 @@
 #  <xbar.author.github>alexandregz</xbar.author.github>
 #  <xbar.image>https://imgur.com/a/ShPdCbi.png</xbar.image>
 #  <xbar.desc>App CPU usage, by default Google Chrome</xbar.desc>
-#  <xbar.dependencies>bash</xbar.dependencies>
+#  <xbar.dependencies>bash, bc</xbar.dependencies>
 #  <xbar.var>string(VAR_APP="Google Chrome.app"): App name, test with pgrep to check if is correct</xbar.var>
+#  <xbar.var>number(VAR_RAM=24): Your amount of RAM in GBs</xbar.var>
 
 #  Another App example, for example if you use UTM: string(VAR_APP="QEMU")
 
@@ -19,6 +20,9 @@ then
     ICON="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAXElEQVR4nO2WsQoAIAhE7/9/+rU0RUtmlHQPHByUE+RUMkWgRzS3gLqQFHUEMBTtTjDrxdMCRjIFXGmAd0DeAdkHZB8gYhwcMKLat4Bv/oFnYfENT5+c7wUYnaIBHMrfIYwepnEAAAAASUVORK5CYII="
 fi
 
-COMMAND_GB=$(ps -xm -o %mem,rss,comm -p $(pgrep ${VAR_APP})|awk '{print $1}' |awk '{SUM += $1} END { print SUM*24/100 }' | xargs printf "%.2f")" GB"
+SUM_TOTAL=$(ps -xm -o %mem,rss,comm -p $(pgrep ${VAR_APP})|awk '{print $1}' |awk '{SUM += $1} END { print SUM }')
+
+# sum total default value to 0.0
+COMMAND_GB=$(echo "${SUM_TOTAL:-0.0}*${VAR_RAM}/100" | bc -l | xargs printf "%.2f GB")
 
 echo "${VAR_APP} $COMMAND_GB | templateImage=$ICON"
