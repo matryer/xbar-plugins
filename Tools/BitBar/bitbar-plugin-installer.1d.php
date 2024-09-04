@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" php
 <?php
 // <xbar.title>BitBar Plugins Installer</xbar.title>
 // <xbar.version>v1.0</xbar.version>
@@ -8,7 +8,7 @@
 // <xbar.image>http://i.imgur.com/Qn8TJ60.png</xbar.image>
 // <xbar.dependencies>php >= 5</xbar.dependencies>
 
-define('CAT_URL', 'https://api.github.com/repos/matryer/bitbar-plugins/git/trees/master?recursive=1');
+define('CAT_URL', 'https://api.github.com/repos/matryer/xbar-plugins/git/trees/main?recursive=1');
 define('UA', 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; '.
     '.NET CLR 1.0.3705; .NET CLR 1.1.4322; Media Center PC 4.0)');
 
