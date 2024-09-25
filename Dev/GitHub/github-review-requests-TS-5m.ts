@@ -12,6 +12,7 @@
 //  <xbar.var>string(USERNAME=""): Github User name.</xbar.var>
 //  <xbar.var>string(ORGANIZATION=""): Filter PRs by Organization name. (optional)</xbar.var>
 //  <xbar.var>string(WIP_FILTER=""): Title included in a Work in Progress PR to exclude from the list. (optional)</xbar.var>
+//  <xbar.var>string(API_ENDPOINT=""): URL to your GitHub GraphQL Endpoint. (optional)</xbar.var>
 
 import { xbar, separator } from "https://deno.land/x/xbar@v2.1.0/mod.ts";
 import axios from 'https://deno.land/x/axiod@0.20.0-0/mod.ts'
@@ -19,6 +20,8 @@ import formatDistance from 'https://deno.land/x/date_fns@v2.22.1/formatDistance/
 import parseISO from 'https://deno.land/x/date_fns@v2.22.1/parseISO/index.js'
 
 class DataFetcher {
+  constructor(private readonly apiEndpoint: string) {}
+
   buildQuery (filters: Init['filters'], login: string) {
     const orgFilter = filters.org ? `org:${filters.org}` : ''
 
@@ -51,7 +54,7 @@ class DataFetcher {
 
   async fetch({ token, username, filters }: Init): Promise<SearchResults> {
     const { data } = await axios.post(
-      `https://api.github.com/graphql`,
+      this.apiEndpoint,
       { query: this.buildQuery(filters, username) },
       {
         headers: {
@@ -158,13 +161,20 @@ class Main {
   }
 }
 
-const main = new Main(new DataFetcher())
 const env = Deno.env.toObject();
-const { TOKEN: token, USERNAME: username, ORGANIZATION: org, WIP_FILTER: wipFilter } = env;
+const {
+  TOKEN: token,
+  USERNAME: username,
+  ORGANIZATION: org,
+  WIP_FILTER: wipFilter,
+  API_ENDPOINT: apiEndpoint = `https://api.github.com/graphql`,
+} = env;
 
+const main = new Main(new DataFetcher(apiEndpoint))
 main.init({
   token,
   username,
+  apiEndpoint,
   filters: {
     org,
     wipFilter,
@@ -177,6 +187,7 @@ TYPES
 export interface Init {
   token: string
   username: string
+  apiEndpoint: string
   filters: {
     org: string
     wipFilter: string
