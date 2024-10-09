@@ -54,7 +54,7 @@ class DataFetcher {
 
   async fetch({ token, username, filters }: Init): Promise<SearchResults> {
     const { data } = await axios.post(
-      this.apiEndpoint,
+      this.apiEndpoint ?? 'https://api.github.com/graphql',
       { query: this.buildQuery(filters, username) },
       {
         headers: {
