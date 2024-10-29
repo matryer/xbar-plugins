@@ -6,12 +6,22 @@
 # <xbar.author.github>nomasprime</xbar.author.github>
 # <xbar.desc>Displays your age in a clock format [y:m:d]</xbar.desc>
 # <xbar.dependencies>python</xbar.dependencies>
+# <xbar.var>number(VAR_BIRTH_YEAR=1970): Birth year</xbar.var>
+# <xbar.var>number(VAR_BIRTH_MONTH=1): Birth month</xbar.var>
+# <xbar.var>number(VAR_BIRTH_DAY=1): Birth day</xbar.var>
 
 from dateutil.relativedelta import *
 from datetime import datetime
+import os
 
 today = datetime.today()
-dob = datetime(1979, 11, 8)
+
+dob = datetime(
+    int(os.environ['VAR_BIRTH_YEAR']),
+    int(os.environ['VAR_BIRTH_MONTH']),
+    int(os.environ['VAR_BIRTH_DAY'])
+)
+
 age = relativedelta(today, dob)
 
 print("%02d:%02d:%02d" % (age.years, age.months, age.days))
