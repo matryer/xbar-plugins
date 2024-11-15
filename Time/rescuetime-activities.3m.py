@@ -3,9 +3,9 @@
 # <xbar.version>v1.6</xbar.version>
 # <xbar.author>Piotr Migdał</xbar.author>
 # <xbar.author.github>stared</xbar.author.github>
-# <xbar.desc>List your RescueTime activities in the status bar.</xbar.desc>
+# <xbar.desc>Displays a summary of your RescueTime activities directly in the status bar, allowing you to monitor productivity levels at a glance.</xbar.desc>
 # <xbar.dependencies>python, Pillow (optional)</xbar.dependencies>
-# <xbar.image>https://github.com/stared/xbar-rescuetime-activities/blob/main/xbar-rescuetime-activities-screenshot.png</xbar.image>
+# <xbar.image>https://raw.githubusercontent.com/stared/xbar-rescuetime-activities/refs/heads/main/xbar-rescuetime-activities-screenshot.png</xbar.image>
 # <xbar.abouturl>https://github.com/stared/xbar-rescuetime-activities</xbar.abouturl>
 # <xbar.var>string(VAR_RESCUETIME_API_KEY=""): RescueTime API key - create at https://www.rescuetime.com/anapi/manage</xbar.var>
 # <xbar.var>number(VAR_ACTIVITIES_LIMIT="15"): Limit the number of activities to show.</xbar.var>
