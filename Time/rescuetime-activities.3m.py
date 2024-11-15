@@ -1,50 +1,45 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 python3
+#!/usr/bin/env -S PATH="/opt/homebrew/Caskroom/mambaforge/base/bin:/opt/conda/bin:/opt/miniconda3/bin:/opt/homebrew/bin:/usr/local/bin:${PATH}" PYTHONIOENCODING=UTF-8 python3
 # <xbar.title>RescueTime Activities</xbar.title>
-# <xbar.version>v1.4</xbar.version>
+# <xbar.version>v1.6</xbar.version>
 # <xbar.author>Piotr Migdał</xbar.author>
 # <xbar.author.github>stared</xbar.author.github>
-# <xbar.desc>List your RescueTime activities in the status bar</xbar.desc>
+# <xbar.desc>List your RescueTime activities in the status bar.</xbar.desc>
 # <xbar.dependencies>python, Pillow (optional)</xbar.dependencies>
 # <xbar.image>https://github.com/stared/xbar-rescuetime-activities/blob/main/xbar-rescuetime-activities-screenshot.png</xbar.image>
 # <xbar.abouturl>https://github.com/stared/xbar-rescuetime-activities</xbar.abouturl>
+# <xbar.var>string(VAR_RESCUETIME_API_KEY=""): RescueTime API key - create at https://www.rescuetime.com/anapi/manage</xbar.var>
+# <xbar.var>number(VAR_ACTIVITIES_LIMIT="15"): Limit the number of activities to show.</xbar.var>
 
-#
-# You need a RescueTime account and API key.
-# Generate the key at https://www.rescuetime.com/anapi/manage
-# Put the API key in ~/Library/RescueTime.com/api.key
-
+import sys
 import os
 import json
 import datetime
 import urllib.parse
 import urllib.request
 
-
-API_KEY_PATH = os.path.expanduser("~/Library/RescueTime.com/api.key")
-
 MAPPING_COLOR = {
     2: "#27ae60",  # Dark green - very productive
-    1: "#2ecc71",  # Light green - productive
+    1: "#7ecc71",  # Light green - productive
     0: "#3498db",  # Blue - neutral
     -1: "#e67e22",  # Orange - distracting
     -2: "#e74c3c",  # Red - very distracting
 }
-TOP_ACTIVITIES = 15
 
 
-def load_api_key(api_key_path: str) -> str:
-    """Load the API key from the specified file path."""
-    if not os.path.exists(api_key_path):
+def load_api_key() -> str:
+    """Load the API key from environment variable VAR_RESCUETIME_API_KEY."""
+    api_key = os.environ.get("VAR_RESCUETIME_API_KEY")
+    if not api_key:
         print("X")
         print("---")
         print("Missing API Key")
         print(
             "Generate an API key in RescueTime | href=https://www.rescuetime.com/anapi/manage"
         )
-        print(f"and put it in {api_key_path}")
+        print("And set it in the plugin settings:")
+        print("xbar > Open Plugin > RescueTime API Key (or ⌘+E)")
         exit()
-    with open(api_key_path) as fp:
-        return fp.read().strip()
+    return api_key
 
 
 def fetch_data(url: str, params: dict) -> dict:
@@ -82,21 +77,18 @@ def format_time(seconds: int) -> str:
         return f"{minutes}m"
 
 
-def create_chart_image(hours_data: dict) -> str:
+def create_chart_image(
+    hours_data: dict, width: int = 200, height: int = 40, opacity: int = 127
+) -> str:
     """Create a minimalistic stacked bar chart image."""
     from PIL import Image, ImageDraw
     import base64
     from io import BytesIO
 
-    WIDTH = 200
-    HEIGHT = 40
-
-    img = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
     max_total = max(sum(prod_times.values()) for prod_times in hours_data.values())
-
-    OPACITY = 127
 
     def hex_to_rgba(hex_color: str, opacity: int) -> tuple:
         """Convert hex color to RGBA tuple."""
@@ -104,22 +96,22 @@ def create_chart_image(hours_data: dict) -> str:
         return rgb + (opacity,)
 
     colors = {
-        level: hex_to_rgba(MAPPING_COLOR[level], OPACITY) for level in range(-2, 3)
+        level: hex_to_rgba(MAPPING_COLOR[level], opacity) for level in range(-2, 3)
     }
 
-    bar_width = WIDTH // 24
+    bar_width = width // 24
     for hour in range(24):
         if hour not in hours_data or not any(hours_data[hour].values()):
             continue
 
         x = hour * bar_width
-        y_bottom = HEIGHT
+        y_bottom = height
 
         # Stack the bars for each productivity level
         for prod in [2, 1, 0, -1, -2]:
             if hours_data[hour][prod] > 0:
-                height = int((hours_data[hour][prod] / max_total) * HEIGHT)
-                y_top = y_bottom - height
+                bar_height = int((hours_data[hour][prod] / max_total) * height)
+                y_top = y_bottom - bar_height
 
                 draw.rectangle(
                     [x, y_top, x + bar_width, y_bottom],
@@ -161,7 +153,7 @@ def get_hourly_productivity_data(key: str, date_str: str) -> dict:
 
 
 def main() -> None:
-    key = load_api_key(API_KEY_PATH)
+    key = load_api_key()
     date_str = datetime.date.today().strftime("%Y-%m-%d")
 
     activities = rescuetime_activity_data(
@@ -197,7 +189,7 @@ def main() -> None:
 def print_header(productive_seconds: int, pulse: dict) -> None:
     print(f"{format_time(productive_seconds)} | color={pulse.get('color', '#000000')}")
     print("---")
-    print("RescueTime Activites | href=https://www.rescuetime.com/dashboard?src=bitbar")
+    print("RescueTime Activites | href=https://www.rescuetime.com/dashboard")
 
 
 def print_productivity_totals(activities: list[dict]) -> None:
@@ -223,7 +215,8 @@ def print_productivity_totals(activities: list[dict]) -> None:
 
 def print_top_activities(activities: list[dict]) -> None:
     print("Top activities")
-    for activity in activities[:TOP_ACTIVITIES]:
+    activities_limit = int(os.environ.get("VAR_ACTIVITIES_LIMIT", 15))
+    for activity in activities[:activities_limit]:
         seconds = activity["Time Spent (seconds)"]
         name = activity["Activity"]
         productivity = activity["Productivity"]
@@ -242,7 +235,9 @@ def print_hourly_chart(hours_data: dict) -> None:
     except ImportError:
         print("---")
         print("To see daily chart install Pillow")
-        print("/usr/bin/python3 -m pip install Pillow")
+        print("-- most likely you need to run:")
+        print(f"-- {sys.executable} -m pip install Pillow")
+        print("Then xbar > Refresh (or ⌘+R)")
 
 
 def print_notes() -> None:
@@ -256,6 +251,9 @@ def print_notes() -> None:
         "-- Source code available | "
         "href=https://github.com/stared/xbar-rescuetime-activities"
     )
+    print("-- System info")
+    print(f"-- Python path: {sys.executable}")
+    print(f"-- Python version: {sys.version.split()[0]}")
 
 
 if __name__ == "__main__":
