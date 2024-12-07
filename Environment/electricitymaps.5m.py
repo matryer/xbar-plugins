@@ -1,4 +1,4 @@
-#!/usr/bin/env /Users/oliviercorradi/.pyenv/versions/3.9.16/bin/python
+#!/usr/bin/env python3
 
 # <xbar.title>Electricity Maps</xbar.title>
 # <xbar.version>v1.0</xbar.version>
