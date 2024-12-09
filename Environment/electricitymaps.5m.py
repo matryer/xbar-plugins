@@ -10,7 +10,7 @@
 # <xbar.image>https://github.com/user-attachments/assets/dd55b506-a416-4f7d-b183-af31088f76a7</xbar.image>
 # <xbar.var>string(VAR_API_KEY=""): Electricity Maps API key (get one at https://api-portal.electricitymaps.com/).</xbar.var>
 # <xbar.var>string(VAR_ZONE_KEY=""): Zone key (select from list at http://api.electricitymap.org/v3/zones). Leave empty to use your IP to determine your location.</xbar.var>
-# <xbar.var>select(VAR_STYLE="Carbon intensity"): What value to display. [Carbon intensity, Carbon Free Energy (CFE) percentage]</xbar.var>
+# <xbar.var>select(VAR_CARBON_INTENSITY_MODE="Carbon intensity"): What value to display. [Carbon intensity, Carbon Free Energy (CFE) percentage]</xbar.var>
 
 from datetime import datetime
 import os
@@ -24,7 +24,7 @@ import sys
 
 myapitoken = os.environ.get('VAR_API_KEY', '')
 myZoneKey = os.environ.get('VAR_ZONE_KEY', '') # if none are provided, your IP will be used to determined your location
-carbon_intensity_mode = os.environ.get('VAR_STYLE', 'Carbon intensity') == 'Carbon intensity'
+carbon_intensity_mode = os.environ.get('VAR_CARBON_INTENSITY_MODE', 'Carbon intensity') == 'Carbon intensity'
 
 class ElectricityMaps:
 
