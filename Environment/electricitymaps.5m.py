@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3
 
 # <xbar.title>Electricity Maps</xbar.title>
 # <xbar.version>v1.0</xbar.version>
