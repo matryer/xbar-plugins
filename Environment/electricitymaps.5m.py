@@ -61,7 +61,7 @@ class ElectricityMaps:
                 max_value = 100
                 value = self.resDict['fossilFreePercentage']
                 stringToDisplay += str(round(value)) + ' % CFE'
-            stringToDisplay += ' | color=' + self.color(value, max_value)
+            stringToDisplay += ' | color=' + self.color(value, max_value, asc=self.data_type == 'carbon-intensity')
             print(stringToDisplay)
             print('---')
 
@@ -105,12 +105,15 @@ class ElectricityMaps:
         result = (int(result[0]), int(result[1]), int(result[2]))
         return result
      
-    def color(self, value, max_value):
+    def color(self, value, max_value, asc=True):
         # this function should determine a color given the carbon intensity
         # low intensity -> more green
         # middle intensity -> yellow
         # high intensity -> brown
         # similar to the color scale at: app.electricitymaps.com
+
+        if not asc:
+            value = max_value - value
 
         steps = [
             0 / 1500 * max_value,
