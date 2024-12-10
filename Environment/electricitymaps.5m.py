@@ -7,7 +7,7 @@
 # <xbar.desc>This plugin displays how clean the electricity is in your current location</xbar.desc>
 # <xbar.dependencies>python, Electricity Maps API</xbar.dependencies>
 # <xbar.abouturl>https://docs.electricitymaps.com/</xbar.abouturl>
-# <xbar.image>https://github.com/user-attachments/assets/dd55b506-a416-4f7d-b183-af31088f76a7</xbar.image>
+# <xbar.image>https://static.electricitymaps.com/xbar-screenshot.png</xbar.image>
 # <xbar.var>string(VAR_API_KEY=""): Electricity Maps API key (get one at https://api-portal.electricitymaps.com/).</xbar.var>
 # <xbar.var>string(VAR_ZONE_KEY=""): Zone key (select from list at http://api.electricitymap.org/v3/zones). Leave empty to use your IP to determine your location.</xbar.var>
 # <xbar.var>select(VAR_CARBON_INTENSITY_MODE="Carbon intensity"): What value to display. [Carbon intensity, Carbon Free Energy (CFE) percentage]</xbar.var>
