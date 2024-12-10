@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3
 
 # <xbar.title>UptimeRobot Monitor</xbar.title>
 # <xbar.version>v0.1</xbar.version>
@@ -8,12 +8,14 @@
 # <xbar.image>https://uptimerobot.com/assets/img/logo_plain.png</xbar.image>
 # <xbar.dependencies>python</xbar.dependencies>
 # <xbar.abouturl>https://gitlab.com/Finnito/bitbar-uptime_robot</xbar.abouturl>
+# <xbar.var>string(VAR_API_KEY=""): Your read-only API key from https://uptimerobot.com.</xbar.var>
 
 import http.client
 import json
+import os
 
 # Insert your Read-Only API Key.
-API_KEY = "ur381063-288bfb3885e923a80db0f3c5"
+API_KEY = os.environ.get('VAR_API_KEY', '')
 
 def main():
     """ The main call for the script."""
@@ -42,9 +44,9 @@ def getMonitors():
         'content-type': "application/x-www-form-urlencoded",
         'cache-control': "no-cache"
         }
-     
+
     conn.request("POST", "/v2/getMonitors", payload, headers)
-     
+
     res = conn.getresponse()
     data = res.read()
     resp = data.decode("utf-8")
@@ -65,7 +67,7 @@ def countUpMonitors(resp):
 
 
 def parseMonitors(resp):
-    """ Iterates over the repsonse
+    """ Iterates over the response
     from getMonitors to create a string
     with the name of the monitor and
     its status using emoji.
@@ -77,7 +79,11 @@ def parseMonitors(resp):
         status = monitor["status"]
         name = monitor["friendly_name"]
         url = monitor["url"]
-        responseTime = int(float(monitor["average_response_time"]))
+
+        responseTime = "?"
+        if "average_response_time" in monitor:
+            responseTime = int(float(monitor["average_response_time"]))
+
         if (status == 0):
             output.append(fmtString.format(name, "⏸", url, responseTime))
         elif (status == 1):
