@@ -11,7 +11,7 @@
 # <xbar.author>Tony Clark</xbar.author>
 # <xbar.author.github>TheCriticalPath</xbar.author.github>
 # <xbar.desc>Displays the download count for each version of a specified nuget package.</xbar.desc>
-# <xbar.image></xbar.image>
+# <xbar.image>https://raw.githubusercontent.com/TheCriticalPath/NuGetDownloadCount/main/screenshot.png</xbar.image>
 # <xbar.dependencies>python3,requests</xbar.dependencies>
 # <xbar.abouturl>https://github.com/TheCriticalPath/NuGetDownloadCount/</xbar.abouturl>
 
