@@ -1,14 +1,13 @@
-#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3
-
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3 -i
 # Copyright 2024 Tony Clark
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 # The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+ 
 # <xbar.title>NuGet Package Download Count</xbar.title>
 # <xbar.version>v1.0</xbar.version>
-# <xbar.author>Tony Clark</xbar.author>
+# <xbar.author>Tony Clark</xbar.author> 
 # <xbar.author.github>TheCriticalPath</xbar.author.github>
 # <xbar.desc>Displays the download count for each version of a specified nuget package.</xbar.desc>
 # <xbar.image>https://raw.githubusercontent.com/TheCriticalPath/NuGetDownloadCount/main/screenshot.png</xbar.image>
@@ -34,7 +33,10 @@ def fetch_nuget_data():
         for item in dataObj:
             if item['id'].lower() == package_name.lower():
                 print (f"Package: {item['id']}")
-                print (f"--{item['description']}")
+                print (f"--Description: {item['description']} | color=#defdef")
+                print (f"--Author(s): {', '.join(item['authors'])} | color=#defdef")
+                print(f"--Total Downloads: {item['totalDownloads']} | color=#defdef")
+                print(f'--Listed Downloads: {sum([v["downloads"] for v in item["versions"]])} | color=#defdef')        
                 for version in item['versions'][::-1]:
                     print(f"--Version: {version['version']}, Total Downloads: {version['downloads']} | color=#defdef")
                 print(f'---')        
