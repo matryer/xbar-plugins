@@ -4,8 +4,8 @@
 
 # <xbar.title>LibreLinkUp Status</xbar.title>
 # <xbar.version>v2.0</xbar.version>
-# <xbar.author>Florian Schlund,Maurici Abad</xbar.author>
-# <xbar.author.github>FloSchl8,mauriciabad</xbar.author.github>
+# <xbar.author>Maurici Abad,Florian Schlund</xbar.author>
+# <xbar.author.github>mauriciabad,FloSchl8</xbar.author.github>
 # <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings.</xbar.desc>
 # <xbar.dependencies>python3,python requests</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/RATfZs3.png</xbar.image>
@@ -27,6 +27,8 @@
 
 import os
 from datetime import datetime
+
+import hashlib
 
 # your LibreLibkUp login (this is NOT your LibreView Login)
 email = os.environ.get("VAR_MAIL")
@@ -73,13 +75,20 @@ class Patient:
         self.last_name = last_name
 
 headers = {
-    "version": "4.7.0",
+    "version": "4.12.0",
     "product": "llu.android",
     "Connection": "keep-alive",
-    "Pragma": "no-cache",
+    #"Pragma": "no-cache",
+    "Accept": "application/json",
     "Cache-Control": "no-cache",
     "Content-Type": "application/json"
     }
+
+def calculate_sha256(input_string):
+    sha256_hash = hashlib.sha256()
+    sha256_hash.update(input_string.encode())
+    hex_hash = sha256_hash.hexdigest()
+    return hex_hash
 
 def get_auth_token():
     authurl = "https://api-" + country + ".libreview.io/llu/auth/login"
@@ -93,17 +102,26 @@ def get_auth_token():
     auth = requests.request("POST", authurl, json=payload, headers=headers)
     if auth.ok:
         if auth.json()["status"] == 0:
-            return auth.json()["data"]["authTicket"]["token"]
+            token = auth.json()["data"]["authTicket"]["token"]
+            user_id = auth.json()["data"]["user"]["id"]
+            return token, user_id
         elif auth.json()["status"] == 4:
             raise Exception("Check Terms Of Service agreement")
         else:
             raise Exception("Auth error: " + auth.json()["error"]["message"])
 
-def get_patients(token):
+def get_patients(token, user_id):
     connection_url = "https://api-" + country + ".libreview.io/llu/connections"
+
+    hex_user_id = calculate_sha256(input_string=user_id)
 
     payload = ""
     headers["Authorization"] = "Bearer " + token
+    headers["Account-Id"] = hex_user_id
+
+    #print(headers)
+    #print(connection_url)
+    #print(payload)
 
     response = requests.request("GET", connection_url, data=payload, headers=headers)
     response.raise_for_status()
@@ -179,7 +197,7 @@ def makeColorString(color: str):
 
 def main():
     try:
-        token = get_auth_token()
+        token, user_id = get_auth_token()
         if (token is None): raise Exception()
     except Exception as e:
         token = None
@@ -187,7 +205,7 @@ def main():
 
     if(token is not None):
         try:
-            patients = get_patients(token=token)
+            patients = get_patients(token=token, user_id=user_id)
             if (patients is None): raise Exception()
         except Exception as e:
             patients = None
