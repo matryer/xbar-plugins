@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/node
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" node
 
 // Metadata
 // <xbar.title>Carbon Intensity</xbar.title>
