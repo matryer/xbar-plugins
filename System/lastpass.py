@@ -1,11 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3
 import csv
 # <xbar.title>LastPass</xbar.title>
 # <xbar.version>v1.0</xbar.version>
 # <xbar.author>Jason Rauen</xbar.author>
 # <xbar.author.github>badarsebard</xbar.author.github>
 # <xbar.desc>Display your LastPass vault in the menubar. Utilizes the LastPass CLI tool (https://github.com/lastpass/lastpass-cli).</xbar.desc>
-# <xbar.image>https://www.lastpass.com/-/media/43c6c6862a08410a8ef34ab46a3a750b.ico</xbar.image>
+# <xbar.image>https://i.imgur.com/zwTCrNO.png</xbar.image>
 # <xbar.dependencies>python3,lastpass-cli</xbar.dependencies>
 # <xbar.abouturl>https://github.com/badarsebard/xbar-plugins/blob/main/System/lastpass.py</xbar.abouturl>
 # <xbar.var>string(VAR_LASTPASS_EMAIL=""): Email address to login to LastPass</xbar.var>
