@@ -4,10 +4,10 @@
 
 # <xbar.title>LibreLinkUp Status</xbar.title>
 # <xbar.version>v2.0</xbar.version>
-# <xbar.author>Maurici Abad,Florian Schlund</xbar.author>
-# <xbar.author.github>mauriciabad,FloSchl8</xbar.author.github>
+# <xbar.author>Florian Schlund,Maurici Abad</xbar.author>
+# <xbar.author.github>FloSchl8,mauriciabad</xbar.author.github>
 # <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings.</xbar.desc>
-# <xbar.dependencies>python3,python requests</xbar.dependencies>
+# <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/RATfZs3.png</xbar.image>
 # 
 # <xbar.var>string(VAR_MAIL=""): Your LibreLinkUp e-mail.</xbar.var>
@@ -27,8 +27,6 @@
 
 import os
 from datetime import datetime
-
-import hashlib
 
 # your LibreLibkUp login (this is NOT your LibreView Login)
 email = os.environ.get("VAR_MAIL")
@@ -64,9 +62,11 @@ def printError(error_message: str, error: Exception):
     if error is not None: print(error)
 
 try:
-    import requests
+    from urllib.request import Request, urlopen
+    from urllib.error import URLError
+    import json
 except ImportError:
-    printError("Requests module not found. Install it by running 'pip install requests' in the terminal.")
+    printError("Failed to import required built-in modules.", None)
 
 class Patient:
     def __init__(self, patient_id, first_name, last_name):
@@ -75,78 +75,74 @@ class Patient:
         self.last_name = last_name
 
 headers = {
-    "version": "4.12.0",
+    "version": "4.7.0",
     "product": "llu.android",
     "Connection": "keep-alive",
-    #"Pragma": "no-cache",
-    "Accept": "application/json",
+    "Pragma": "no-cache",
     "Cache-Control": "no-cache",
     "Content-Type": "application/json"
     }
 
-def calculate_sha256(input_string):
-    sha256_hash = hashlib.sha256()
-    sha256_hash.update(input_string.encode())
-    hex_hash = sha256_hash.hexdigest()
-    return hex_hash
-
 def get_auth_token():
     authurl = "https://api-" + country + ".libreview.io/llu/auth/login"
 
-    payload = {
-    "email": email,
-    "password": password
-    }
+    payload = json.dumps({
+        "email": email,
+        "password": password
+    }).encode('utf-8')
+
+    req = Request(authurl, data=payload, headers=headers, method='POST')
     
+    try:
+        with urlopen(req) as response:
+            auth = json.loads(response.read().decode('utf-8'))
+            if auth["status"] == 0:
+                return auth["data"]["authTicket"]["token"]
+            elif auth["status"] == 4:
+                raise Exception("Check Terms Of Service agreement")
+            else:
+                raise Exception("Auth error: " + auth["error"]["message"])
+    except URLError as e:
+        raise Exception(f"Connection error: {str(e)}")
 
-    auth = requests.request("POST", authurl, json=payload, headers=headers)
-    if auth.ok:
-        if auth.json()["status"] == 0:
-            token = auth.json()["data"]["authTicket"]["token"]
-            user_id = auth.json()["data"]["user"]["id"]
-            return token, user_id
-        elif auth.json()["status"] == 4:
-            raise Exception("Check Terms Of Service agreement")
-        else:
-            raise Exception("Auth error: " + auth.json()["error"]["message"])
-
-def get_patients(token, user_id):
+def get_patients(token):
     connection_url = "https://api-" + country + ".libreview.io/llu/connections"
 
-    hex_user_id = calculate_sha256(input_string=user_id)
+    headers_with_auth = headers.copy()
+    headers_with_auth["Authorization"] = "Bearer " + token
 
-    payload = ""
-    headers["Authorization"] = "Bearer " + token
-    headers["Account-Id"] = hex_user_id
-
-    #print(headers)
-    #print(connection_url)
-    #print(payload)
-
-    response = requests.request("GET", connection_url, data=payload, headers=headers)
-    response.raise_for_status()
-
-    if response.ok:
-        ids = []
-        for d in response.json()["data"]:
-            ids.append(Patient(d["patientId"], d["firstName"], d["lastName"]))
-        return ids
+    req = Request(connection_url, headers=headers_with_auth)
+    
+    try:
+        with urlopen(req) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            ids = []
+            for d in data["data"]:
+                ids.append(Patient(d["patientId"], d["firstName"], d["lastName"]))
+            return ids
+    except URLError as e:
+        raise Exception(f"Connection error: {str(e)}")
 
 def get_measurment(token, patientId):
     url = "https://api-" + country + ".libreview.io/llu/connections/" + patientId + "/graph"
 
-    payload = ""
-    headers["Authorization"] = "Bearer " + token
+    headers_with_auth = headers.copy()
+    headers_with_auth["Authorization"] = "Bearer " + token
 
-    response = requests.request("GET", url, data=payload, headers=headers)
-    if response.ok:
-        connection = response.json()["data"]["connection"]
-        value = connection["glucoseMeasurement"]["Value"]
-        patient_range_high = connection["targetHigh"]
-        patient_range_low = connection["targetLow"]
-        timestamp_string = connection["glucoseMeasurement"]["Timestamp"]
-        timestamp = datetime.strptime(timestamp_string, "%m/%d/%Y %I:%M:%S %p")
-        return (value, connection["glucoseMeasurement"]["TrendArrow"], patient_range_high, patient_range_low, timestamp)
+    req = Request(url, headers=headers_with_auth)
+    
+    try:
+        with urlopen(req) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            connection = data["data"]["connection"]
+            value = connection["glucoseMeasurement"]["Value"]
+            patient_range_high = connection["targetHigh"]
+            patient_range_low = connection["targetLow"]
+            timestamp_string = connection["glucoseMeasurement"]["Timestamp"]
+            timestamp = datetime.strptime(timestamp_string, "%m/%d/%Y %I:%M:%S %p")
+            return (value, connection["glucoseMeasurement"]["TrendArrow"], patient_range_high, patient_range_low, timestamp)
+    except URLError as e:
+        raise Exception(f"Connection error: {str(e)}")
 
 def get_prefix(patient: Patient):
     return patient.first_name[0] + ". " + patient.last_name[0] + ".: "
@@ -197,7 +193,7 @@ def makeColorString(color: str):
 
 def main():
     try:
-        token, user_id = get_auth_token()
+        token = get_auth_token()
         if (token is None): raise Exception()
     except Exception as e:
         token = None
@@ -205,7 +201,7 @@ def main():
 
     if(token is not None):
         try:
-            patients = get_patients(token=token, user_id=user_id)
+            patients = get_patients(token=token)
             if (patients is None): raise Exception()
         except Exception as e:
             patients = None
