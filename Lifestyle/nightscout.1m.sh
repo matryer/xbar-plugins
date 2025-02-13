@@ -27,15 +27,17 @@ else
     JSONOUT=$(curl --silent "${VAR_NSURL}/api/v1/entries/current.json")
 fi
 
-JSDATE=$(jq '.[0].date' <<< "$JSONOUT")
-#NS Returns date as ms since epoch. BASH likes Seconds since epoch
-EPOCHTS=$((JSDATE / 1000))
+JSDATE=$(jq -r '.[0].date' <<< "$JSONOUT")
+
+# Convert the timestamp to a full integer using awk (handles decimals)
+EPOCH_RAW=$(awk -v ts="$JSDATE" 'BEGIN { printf "%.0f", ts }')
+EPOCHTS=$((EPOCH_RAW / 1000))
 TIMESTRING=$(date -r $EPOCHTS)
 
 EPOCHNOW=$(date +%s) # Convert current time to epoch time
 TIMEDIFF=$(((EPOCHNOW - EPOCHTS)/60)) #calculate the difference
 
-BG=$(jq '.[0].sgv' <<< "$JSONOUT")
+BG=$(jq -r '.[0].sgv' <<< "$JSONOUT")
 
 TRENDSTR=$(jq -r '.[0].direction' <<< "$JSONOUT")
 
