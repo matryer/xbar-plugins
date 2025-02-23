@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
+
 # -*- coding: utf-8 -*-
+
+# frozen_string_literal: true
 
 # <xbar.title>StatusPage.io</xbar.title>
 # <xbar.version>v1.0.0</xbar.version>
@@ -7,10 +10,11 @@
 # <xbar.author.github>stephenyeargin</xbar.author.github>
 # <xbar.desc>Show a StatusPage.io's Status in BitBar</xbar.desc>
 # <xbar.dependencies>ruby</xbar.dependencies>
-# <xbar.image>http://i.imgur.com/FsD4zDD.png</xbar.image>
+# <xbar.image>https://raw.githubusercontent.com/matryer/xbar-plugins/refs/heads/main/Tools/statuspage.1m.png</xbar.image>
 
-require 'open-uri'
 require 'json'
+require 'net/http'
+require 'uri'
 
 # BEGIN Configuration #
 
@@ -39,9 +43,12 @@ status_map = {
 }
 
 begin
-  raise 'Missing configuration.' if statuspage_id == 'YOUR_ID_HERE'
+  # raise if statuspage_id is missing or is set to the default
+  raise 'Missing StatusPage.io ID' if statuspage_id == 'YOUR_ID_HERE' || statuspage_id.empty?
 
-  summary = JSON.parse(open(url).read)
+  uri = URI(url)
+  response = Net::HTTP.get(uri)
+  summary = JSON.parse(response)
 
   puts summary['status']['description']
   puts '---'
@@ -50,6 +57,7 @@ begin
   puts '---'
   summary['components'].each do |component|
     next unless component['status'] != 'operational'
+
     puts "#{status_map[component['status'].to_sym][:name]}: "\
       "#{component['name']}"\
       "|color=#{status_map[component['status'].to_sym][:color]}"
