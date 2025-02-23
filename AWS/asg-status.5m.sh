@@ -11,25 +11,20 @@
 #  If you want to ignore ASGs then add them to the IGNORED_ASGS array.
 #  </xbar.desc>
 #  <xbar.dependencies>zsh,aws cli,jq</xbar.dependencies>
-#  <xbar.var>string(AWS_PROFILE="default"): AWS Profile name.</xbar.var>
-#  <xbar.var>string(REGION="us-east-1"): AWS Region code.</xbar.var>
-#  <xbar.var>array(ORDERED_ASGS=""): List of ASG names in the order to display along with their friendly name after a pipe .</xbar.var>
-#  <xbar.var>array(IGNORED_ASGS=""): List of ASG names not to display.</xbar.var>
+#  <xbar.var>string(VAR_AWS_PROFILE="default"): AWS Profile name.</xbar.var>
+#  <xbar.var>string(VAR_REGION="us-east-1"): AWS Region code.</xbar.var>
+#  <xbar.var>string(VAR_ORDERED_ASGS="production-app-server-asg:Production App Servers"): Comma separated list of ASG names in the order to display along with their friendly name after a pipe .</xbar.var>
+#  <xbar.var>string(VAR_IGNORED_ASGS="asg-to-ignore,other-asg-to-ignore"): Comma separated list of ASG names not to display.</xbar.var>
 
 # AWS CLI Profile & Region
-AWS_PROFILE="default"
-REGION="us-east-1"
+AWS_PROFILE=$VAR_AWS_PROFILE
+REGION=$VAR_REGION
 
 # Define the ordered list of ASGs with their display names
-ORDERED_ASGS=(
-    "production-app-server-asg|Production App Servers"
-)
+ORDERED_ASGS=(${(@s/,/)VAR_ORDERED_ASGS})
 
 # Define ASGs to ignore
-IGNORED_ASGS=(
-    "asg-to-ignore"
-    "other-asg-to-ignore"
-)
+IGNORED_ASGS=(${(@s/,/)VAR_IGNORED_ASGS})
 
 # Fetch Auto Scaling Groups Data
 asg_data=$(/usr/local/bin/aws autoscaling describe-auto-scaling-groups --region "$REGION" --profile "$AWS_PROFILE" --output json)
