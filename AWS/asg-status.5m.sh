@@ -103,7 +103,7 @@ declare -A DISPLAYED_ASGS
 
 # Display ASGs in manual order
 for entry in "${ORDERED_ASGS[@]}"; do
-    IFS='|' read -r asg_key asg_display <<< "$entry"
+    IFS=':' read -r asg_key asg_display <<< "$entry"
     if [[ -n ${ASG_OUTPUT[$asg_key]} ]]; then
         echo -e "${ASG_OUTPUT[$asg_key]/$asg_key/$asg_display}"
         DISPLAYED_ASGS[$asg_key]=1  # Mark this ASG as displayed
