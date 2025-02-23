@@ -13,7 +13,7 @@
 #  <xbar.dependencies>zsh,aws cli,jq</xbar.dependencies>
 #  <xbar.var>string(VAR_AWS_PROFILE="default"): AWS Profile name.</xbar.var>
 #  <xbar.var>string(VAR_REGION="us-east-1"): AWS Region code.</xbar.var>
-#  <xbar.var>string(VAR_ORDERED_ASGS="production-app-server-asg:Production App Servers"): Comma separated list of ASG names in the order to display along with their friendly name after a pipe .</xbar.var>
+#  <xbar.var>string(VAR_ORDERED_ASGS="production-app-server-asg:Production App Servers"): Comma separated list of ASG names in order to display along with their friendly name after a pipe .</xbar.var>
 #  <xbar.var>string(VAR_IGNORED_ASGS="asg-to-ignore,other-asg-to-ignore"): Comma separated list of ASG names not to display.</xbar.var>
 
 # AWS CLI Profile & Region
@@ -27,7 +27,7 @@ ORDERED_ASGS=(${(@s/,/)VAR_ORDERED_ASGS})
 IGNORED_ASGS=(${(@s/,/)VAR_IGNORED_ASGS})
 
 # Fetch Auto Scaling Groups Data
-asg_data=$(/usr/local/bin/aws autoscaling describe-auto-scaling-groups --region "$REGION" --profile "$AWS_PROFILE" --output json)
+asg_data=$(aws autoscaling describe-auto-scaling-groups --region "$REGION" --profile "$AWS_PROFILE" --output json)
 
 # Ensure AWS CLI returned data
 if [ -z "$asg_data" ]; then
