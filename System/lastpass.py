@@ -1,7 +1,7 @@
 #!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3
 
 # <xbar.title>LastPass</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.0.1</xbar.version>
 # <xbar.author>Jason Rauen</xbar.author>
 # <xbar.author.github>badarsebard</xbar.author.github>
 # <xbar.desc>Display your LastPass vault in the menubar. Utilizes the LastPass CLI tool (https://github.com/lastpass/lastpass-cli).</xbar.desc>
