@@ -1,7 +1,7 @@
 #!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3
-import csv
+
 # <xbar.title>LastPass</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v1.0.1</xbar.version>
 # <xbar.author>Jason Rauen</xbar.author>
 # <xbar.author.github>badarsebard</xbar.author.github>
 # <xbar.desc>Display your LastPass vault in the menubar. Utilizes the LastPass CLI tool (https://github.com/lastpass/lastpass-cli).</xbar.desc>
@@ -10,11 +10,13 @@ import csv
 # <xbar.abouturl>https://github.com/badarsebard/xbar-plugins/blob/main/System/lastpass.py</xbar.abouturl>
 # <xbar.var>string(VAR_LASTPASS_EMAIL=""): Email address to login to LastPass</xbar.var>
 # <xbar.var>select(VAR_TERMINAL="Terminal"): Which terminal app to use. This is used during the login process. [Terminal, iTerm2]</xbar.var>
-# <xbar.var>string(VAR_TOP_LEVEL_GROUPS=""): (Optional) Comma separated list of groups/folders to display as the top-level of the menu. Use a backslash (\) for sub-groups. Example: Work\SSH.</xbar.var>
+# <xbar.var>string(VAR_TOP_LEVEL_GROUPS=""): (Optional) Comma separated list of groups/folders to display as the top-level of the menu. Use a slash (/) for sub-groups. Example: Work/SSH.</xbar.var>
 # <xbar.var>string(VAR_LASTPASS_CLI_BIN=""): (Optional) Path to the LastPass CLI binary. Defaults to /usr/local/bin/lpass.</xbar.var>
+# <xbar.var>string(VAR_FAV_IDS=""): (Optional) Comma separated list of IDs that correspond to your favorites.</xbar.var>
 
 import json
 import os
+import re
 import shlex
 import subprocess
 import sys
@@ -26,17 +28,32 @@ class App:
         self.email = os.getenv("VAR_LASTPASS_EMAIL", None)
         self.terminal_choice = os.getenv("VAR_TERMINAL", "Terminal")
         self.top_level_groups = os.getenv("VAR_TOP_LEVEL_GROUPS", "").split(",")
+        self.favs = os.getenv("VAR_FAV_IDS", "").split(",")
         self.vault = []
         if lpass_cli := os.getenv("VAR_LASTPASS_CLI_BIN"):
             global lpass
             lpass = lpass_cli
 
+    def _logged_in(self):
+        status_proc = subprocess.run([lpass, "status"], capture_output=True)
+        status_message = status_proc.stdout.decode('utf-8')
+        if status_message.startswith("Logged in"):
+            return True
+        else:
+            return False
+
     def _load_vault(self):
-        export = subprocess.run([lpass, "export", "--fields=id,url,username,name,fav,grouping"], capture_output=True)
-        all_creds = export.stdout.decode().split("\r\n")
-        cred_reader = csv.DictReader(all_creds)
-        for cred in cred_reader:
-            # display name order of preference: name, url, "id: {id}"
+        if not self._logged_in():
+            return
+        ls = subprocess.run([lpass, "ls"], capture_output=True)
+        id_pat = r"\[id\: (\d+)\]"
+        cred_ids = re.findall(id_pat, ls.stdout.decode())
+        show_args = [lpass, "show", "--all", "--json", *cred_ids]
+        show = subprocess.run(show_args, capture_output=True)
+        creds = json.loads(show.stdout.decode())
+        for cred in creds:
+            if cred["url"] == "http://group":
+                continue
             cred["sort"] = cred["name"].lower() \
                 if cred["name"] \
                 else (cred["url"]
@@ -55,13 +72,15 @@ class App:
                       .replace("www.", "")) \
                 if cred["url"] \
                 else f"id: {cred['id']}"
+            if cred['id'] in self.favs:
+                cred['fav'] = True
             self.vault.append(cred)
-        self.vault.sort(key=lambda x: (x['grouping'], x['sort']))
+        self.vault.sort(key=lambda x: (x['fullname'], x['sort']))
 
     def render_favorites(self):
         rendering = []
         favorites = []
-        fav_creds = [c for c in self.vault if c.get("fav") == "1"]
+        fav_creds = [c for c in self.vault if c.get("fav")]
         for cred in fav_creds:
             id_ = cred["id"]
             display = cred["display_name"]
@@ -74,11 +93,15 @@ class App:
 
     def render_login(self):
         rendering = []
-        status_proc = subprocess.run([lpass, "status"], capture_output=True)
-        status_message = status_proc.stdout.decode('utf-8')
-        if status_message == "Not logged in.\n":
-            rendering.append(f"Login | bash={sys.argv[0]} param1=login param2={self.email} param3={self.terminal_choice} refresh=true")
-        elif status_message == f"Logged in as {self.email}.\n":
+        if not self._logged_in():
+            if self.master_password:
+                my_env = os.environ.copy()
+                my_env["LPASS_DISABLE_PINENTRY"] = "1"
+                subprocess.run([lpass, "login", self.email], input=self.master_password, env=my_env, text=True, capture_output=True)
+                rendering.append(f"Logout | bash={lpass} param1=logout param2=--force refresh=true")
+            else:
+                rendering.append(f"Login | bash={sys.argv[0]} param1=login param2={self.email} param3={self.terminal_choice} refresh=true")
+        else:
             rendering.append(f"Logout | bash={lpass} param1=logout param2=--force refresh=true")
         rendering.append("---")
         return rendering
@@ -101,9 +124,9 @@ class App:
         rendering = []
         credentials = []
         for cred in self.vault:
-            grouping = cred["grouping"].split("\\")
+            grouping = cred["fullname"].split("/")
             group_prefix = ""
-            for group in grouping:
+            for group in grouping[:-1]:
                 group_prefix += "--"
                 if group_prefix+group not in credentials:
                     credentials.append(group_prefix+group)
@@ -114,17 +137,17 @@ class App:
             credentials.append(menu_item)
         top_level_credentials = []
         for top_group in self.top_level_groups:
-            last = top_group.split("\\")[-1]
+            last = top_group.split("/")[-1]
             if last not in top_level_credentials:
                 top_level_credentials.append(last)
                 top_level_credentials.append(f"--{top_group}")
-            top_group_creds = [c for c in self.vault if c["grouping"].startswith(top_group)]
+            top_group_creds = [c for c in self.vault if c["fullname"].startswith(top_group)]
             for cred in top_group_creds:
-                grouping = cred["grouping"].replace(top_group, "")
-                grouping = grouping.lstrip("\\")
-                grouping = grouping.split("\\") if grouping else []
+                grouping = cred["fullname"].replace(top_group, "")
+                grouping = grouping.lstrip("/")
+                grouping = grouping.split("/") if grouping else []
                 group_prefix = ""
-                for group in grouping:
+                for group in grouping[:-1]:
                     group_prefix += "--"
                     if group_prefix+group not in top_level_credentials:
                         top_level_credentials.append(group_prefix+group)
@@ -153,8 +176,9 @@ class App:
         rendering.append("LastPass | refresh=true")
         rendering.append("---")
         rendering.append("Open vault in lastpass.com ⇱| href=https://lastpass.com/vault/")
-        rendering.extend(self.render_favorites())
-        rendering.extend(self.render_vault())
+        if self._logged_in():
+            rendering.extend(self.render_favorites())
+            rendering.extend(self.render_vault())
         rendering.extend(self.render_settings_menu())
         rendering.extend(self.render_login())
         print("\n".join(rendering))
