@@ -1,7 +1,7 @@
 #!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" PYTHONIOENCODING=UTF-8 python3
 
 # <xbar.title>LastPass</xbar.title>
-# <xbar.version>v1.0.1</xbar.version>
+# <xbar.version>v1.0.2</xbar.version>
 # <xbar.author>Jason Rauen</xbar.author>
 # <xbar.author.github>badarsebard</xbar.author.github>
 # <xbar.desc>Display your LastPass vault in the menubar. Utilizes the LastPass CLI tool (https://github.com/lastpass/lastpass-cli).</xbar.desc>
@@ -50,7 +50,17 @@ class App:
         cred_ids = re.findall(id_pat, ls.stdout.decode())
         show_args = [lpass, "show", "--all", "--json", *cred_ids]
         show = subprocess.run(show_args, capture_output=True)
-        creds = json.loads(show.stdout.decode())
+        try:
+            creds = json.loads(show.stdout.decode())
+        except json.JSONDecodeError as e:
+            with open("lastpass.py.error.json", "a") as f:
+                error = {
+                    "exception_type": str(type(e)),
+                    "exception": str(e),
+                    "raw": show.stdout.decode(),
+                }
+                f.write(json.dumps(error, indent=2)+"\n")
+            return
         for cred in creds:
             if cred["url"] == "http://group":
                 continue
