@@ -28,9 +28,9 @@ carbon_intensity_mode = os.environ.get('VAR_CARBON_INTENSITY_MODE', 'Carbon inte
 
 class ElectricityMaps:
 
-    def __init__(self, authToken, countryCode, is_carbon_intensity_mode):
+    def __init__(self, authToken, zoneKey, is_carbon_intensity_mode):
         self.authToken = authToken
-        self.countryCode = countryCode
+        self.zoneKey = zoneKey
         if is_carbon_intensity_mode:
             self.data_type = 'carbon-intensity'
         else:
@@ -38,11 +38,11 @@ class ElectricityMaps:
 
     def request(self):
         url = 'https://api.electricitymap.org/v3/' + self.data_type + '/latest'
-        if self.countryCode:
-            url += '?zone=' + self.countryCode
+        if self.zoneKey:
+            url += '?zone=' + self.zoneKey
         headers = {'auth-token': self.authToken}
-        self.resDict = requests.get(url, params=headers).json()
-        self.countryCode = self.resDict.get('zone', '')
+        self.resDict = requests.get(url, headers=headers).json()
+        self.zoneKey = self.resDict.get('zone', '')
 
     def displayResponse(self):
         if 'error' in self.resDict:
@@ -50,9 +50,9 @@ class ElectricityMaps:
             print('---')
             print('Error: ' + self.resDict['error'] + ' | color=darkred | disabled=true')
             if 'auth-token' in self.resDict['error']:
-                print('Get a free API key | href=https://api-portal.electricitymaps.com/?utm_source=xbar')
+                print('Get a free API key | href=https://portal.electricitymaps.com/?utm_source=xbar')
         else:
-            stringToDisplay = self.countryFlag(self.countryCode) + ' '
+            stringToDisplay = self.countryFlag(self.zoneKey) + ' '
             if self.data_type == 'carbon-intensity':
                 max_value = 1500
                 value = self.resDict['carbonIntensity']
@@ -66,19 +66,19 @@ class ElectricityMaps:
             print('---')
 
         print('---')
-        print('Open Electricity Maps App | href=https://app.electricitymaps.com/zone/' + self.countryCode + '?utm_source=xbar')
+        print('Open Electricity Maps App | href=https://app.electricitymaps.com/zone/' + self.zoneKey + '?utm_source=xbar')
         print('Last refreshed: ' + datetime.now().strftime('%a %d %b %Y %X') + ' | disabled=true')
 
 
-    def countryFlag(self, countryCode=None):
+    def countryFlag(self, zoneKey=None):
         # https://www.unicode.org/charts/PDF/U1F100.pdf
         # see regional indicator symbols
-        if not countryCode:
+        if not zoneKey:
             return '🏳'
         start = 0x1F1E6
         # unicode start for letter 'A' in regional Symbols
-        letterOffset1 = ord(countryCode[0]) - ord('A')
-        letterOffset2 = ord(countryCode[1]) - ord('A')
+        letterOffset1 = ord(zoneKey[0]) - ord('A')
+        letterOffset2 = ord(zoneKey[1]) - ord('A')
         # calculation of number which is added
         # e.g. 'D' as regional letter = 'A' as regional letter + 3
         letter1 = start + letterOffset1
