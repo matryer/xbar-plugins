@@ -57,13 +57,13 @@ ETH_NOW=$(echo "$ETH_JSON_DATA" | jq -r '.payload.last')
 XRP_NOW=$(echo "$XRP_JSON_DATA" | jq -r '.payload.last')
 BCH_NOW=$(echo "$BCH_JSON_DATA" | jq -r '.payload.last')
 
-# Display prices
+# Display BTC price in the menu bar
 printf "BTC: %'.0f %s | color=white \n" "$BTC_NOW" "$CURRENCY"
 
+# BTC data in the dropdown
+
 echo '---'
-
 printf "1 BTC = %'.2f %s  | color=green \n" "$BTC_NOW" "$CURRENCY"
-
 echo '---'
 
 # Display high, low, ask, bid for BTC
@@ -72,10 +72,10 @@ printf "LOW:  \t$ %'.2f %s\n" "$(echo "$BTC_JSON_DATA" | jq -r '.payload.low')" 
 printf "ASK:  \t$ %'.2f %s\n" "$(echo "$BTC_JSON_DATA" | jq -r '.payload.ask')" "$CURRENCY"
 printf "BID:  \t$ %'.2f %s\n" "$(echo "$BTC_JSON_DATA" | jq -r '.payload.bid')" "$CURRENCY"
 
+# LTC data in the dropdown
+
 echo '---'
-
 printf "1 LTC = %'.2f %s  | color=orange \n" "$LTC_NOW" "$CURRENCY"
-
 echo '---'
 
 # Display high, low, ask, bid for LTC
@@ -84,10 +84,10 @@ printf "LOW:  \t$ %'.2f %s\n" "$(echo "$LTC_JSON_DATA" | jq -r '.payload.low')" 
 printf "ASK:  \t$ %'.2f %s\n" "$(echo "$LTC_JSON_DATA" | jq -r '.payload.ask')" "$CURRENCY"
 printf "BID:  \t$ %'.2f %s\n" "$(echo "$LTC_JSON_DATA" | jq -r '.payload.bid')" "$CURRENCY"
 
+# ETH data in the dropdown
+
 echo '---'
-
 printf "1 ETH = %'.2f %s  | color=blue \n" "$ETH_NOW" "$CURRENCY"a
-
 echo '---'
 
 # Display high, low, ask, bid for ETH
@@ -96,10 +96,10 @@ printf "LOW:  \t$ %'.2f %s\n" "$(echo "$ETH_JSON_DATA" | jq -r '.payload.low')" 
 printf "ASK:  \t$ %'.2f %s\n" "$(echo "$ETH_JSON_DATA" | jq -r '.payload.ask')" "$CURRENCY"
 printf "BID:  \t$ %'.2f %s\n" "$(echo "$ETH_JSON_DATA" | jq -r '.payload.bid')" "$CURRENCY"
 
+# XRP data in the dropdown
+
 echo '---'
-
 printf "1 XRP = %'.2f %s  | color=red \n" "$XRP_NOW" "$CURRENCY"
-
 echo '---'
 
 # Display high, low, ask, bid for XRP
@@ -108,10 +108,10 @@ printf "LOW:  \t$ %'.2f %s\n" "$(echo "$XRP_JSON_DATA" | jq -r '.payload.low')" 
 printf "ASK:  \t$ %'.2f %s\n" "$(echo "$XRP_JSON_DATA" | jq -r '.payload.ask')" "$CURRENCY"
 printf "BID:  \t$ %'.2f %s\n" "$(echo "$XRP_JSON_DATA" | jq -r '.payload.bid')" "$CURRENCY"
 
+# BCH data in the dropdown
+
 echo '---'
-
 printf "1 BCH = %'.2f %s  | color=purple \n" "$BCH_NOW" "$CURRENCY"
-
 echo '---'
 
 # Display high, low, ask, bid for BCH
