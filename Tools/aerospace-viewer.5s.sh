@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# <xbar.title>Aerospace Viewer</xbar.title>
+# <xbar.title>AeroSpace Viewer</xbar.title>
 # <xbar.author>Robert Thomas</xbar.author>
 # <xbar.author.github>wolveix</xbar.author.github>
 # <xbar.version>v1.0</xbar.version>
-# <xbar.desc>Shows a list of workspaces and their apps, with clickable options to switch focus.</xbar.desc>
+# <xbar.desc>Shows a list of AeroSpace workspaces and their apps, with clickable options to switch focus.</xbar.desc>
 # <xbar.dependencies>aerospace</xbar.dependencies>
 
-# Use absolute paths for Aerospace
 export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
 AEROSPACE=$(which aerospace)
 
@@ -40,7 +39,7 @@ done
 
 # Build the menu bar text by listing workspace files (sorted lexicographically)
 MENU_TEXT=""
-for ws in $(ls "$WORKSPACE_TEMP_DIR" | sort); do
+while IFS= read -r ws; do
   if [ -s "$WORKSPACE_TEMP_DIR/$ws" ]; then
     [ -n "$MENU_TEXT" ] && MENU_TEXT="$MENU_TEXT "
     if [ "$ws" = "$FOCUSED_WS" ]; then
@@ -49,7 +48,7 @@ for ws in $(ls "$WORKSPACE_TEMP_DIR" | sort); do
       MENU_TEXT="$MENU_TEXT $ws"
     fi
   fi
-done
+done < <(find "$WORKSPACE_TEMP_DIR" -mindepth 1 -maxdepth 1 -exec basename {} \; | sort)
 
 # Output the menu bar text
 echo "$MENU_TEXT"
