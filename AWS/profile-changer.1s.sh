@@ -4,9 +4,109 @@
 # <xbar.author>ghkdqhrbals</xbar.author>
 # <xbar.desc>Switches AWS default profile using nested menus.</xbar.desc>
 # <xbar.abouturl>https://github.com/ghkdqhrbals/xbar-plugins-guideline/blob/main/README.md</xbar.abouturl>
+
 CREDENTIALS_FILE="$HOME/.aws/credentials"
 STATE_FILE="$HOME/.aws_profile_state"
 ERROR_FILE="$HOME/.aws_profile_error"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+UPDATER="$SCRIPT_DIR/profile-changer/update.sh"
+
+if [[ ! -f "$UPDATER" || $(find "$UPDATER" -mtime +0) ]]; then
+
+  mkdir -p "$SCRIPT_DIR/profile-changer"
+  cat > "$UPDATER" <<'EOF'
+
+#!/usr/bin/env bash
+
+PROFILE=$1
+CREDENTIALS_FILE="$HOME/.aws/credentials"
+STATE_FILE="$HOME/.aws_profile_state"
+ERROR_FILE="$HOME/.aws_profile_error"
+LOG_FILE="/tmp/aws-profile.log"
+
+log() {
+  echo "[$(date +'%F %T')] $*" >> "$LOG_FILE"
+}
+
+update_credentials_file() {
+  creds_block=$(awk "/^\[$PROFILE\]/ {flag=1; next} /^\[.*\]/ {flag=0} flag" "$CREDENTIALS_FILE")
+
+  if [[ -z "$creds_block" ]]; then
+    echo "$PROFILE:fail" > "$STATE_FILE"
+    echo "❌ Failed to find profile [$PROFILE]" > "$ERROR_FILE"
+    log "Profile [$PROFILE] not found in credentials file"
+    exit 1
+  fi
+
+  tmp_file=$(mktemp)
+
+  awk '
+    BEGIN {in_default=0}
+    /^\[default\]/ {in_default=1; next}
+    /^\[.*\]/ {
+      if (in_default) {in_default=0}
+    }
+    !in_default
+  ' "$CREDENTIALS_FILE" > "$tmp_file"
+
+  {
+    echo "[default]"
+    echo "$creds_block"
+  } >> "$tmp_file"
+
+  mv "$tmp_file" "$CREDENTIALS_FILE"
+}
+
+update_config_file() {
+  region=$(awk "/^\[profile $PROFILE\]/ {flag=1; next} /^\[.*\]/ {flag=0} flag && /region/" "$CONFIG_FILE" | awk -F= '{print $2}' | tr -d ' ')
+
+  if [[ -z "$region" ]]; then
+    log "No region found for [$PROFILE] in config. Skipping config update."
+    return
+  fi
+
+  tmp_cfg=$(mktemp)
+
+  awk '
+    BEGIN {in_default=0}
+    /^\[default\]/ {in_default=1; next}
+    /^\[.*\]/ {
+      if (in_default) {in_default=0}
+    }
+    !in_default
+  ' "$CONFIG_FILE" > "$tmp_cfg"
+
+  {
+    echo "[default]"
+    echo "region = $region"
+  } >> "$tmp_cfg"
+
+  mv "$tmp_cfg" "$CONFIG_FILE"
+  log "Updated region in config [default] to: $region"
+}
+
+echo "$PROFILE:loading" > "$STATE_FILE"
+log "Switching to [$PROFILE]"
+
+update_credentials_file
+update_config_file
+
+echo "$PROFILE:done" > "$STATE_FILE"
+rm -f "$ERROR_FILE"
+log "Successfully updated [default] to [$PROFILE]"
+
+if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
+  sleep 0.2
+  osascript -e 'tell application "Terminal" to close (every window whose visible is true and frontmost is true)' &
+fi
+
+exit 0
+EOF
+
+chmod +x "$UPDATER"
+
+fi
+
 
 detect_current_profile() {
   local default_key
@@ -34,72 +134,7 @@ detect_current_profile() {
   ' "$CREDENTIALS_FILE"
 }
 
-# inline aws profile change
-is_valid() {
-  [[ -f "$CREDENTIALS_FILE" ]] || return 1
-  grep -qx "^\[$1\]$" "$CREDENTIALS_FILE"
-}
 
-get_aws_region() {
-  local profile="$1"
-  [[ -f "$HOME/.aws/config" ]] || return 1
-
-  # config 파일은 [profile profilename] 형식임!
-  sed -n "/^\[profile $profile\]/,/^\[/p" "$HOME/.aws/config" \
-    | grep "region" | awk -F'=' '{print $2}' | tr -d ' '
-}
-
-get_aws_credentials() {
-  local profile="$1"
-  is_valid "$profile" || return 1
-
-  local access_key secret_key
-  access_key=$(sed -n "/^\[$profile\]/,/^\[/p" "$CREDENTIALS_FILE" | grep "aws_access_key_id" | awk -F'=' '{print $2}' | tr -d ' ')
-  secret_key=$(sed -n "/^\[$profile\]/,/^\[/p" "$CREDENTIALS_FILE" | grep "aws_secret_access_key" | awk -F'=' '{print $2}' | tr -d ' ')
-
-  if [[ -z "$access_key" || -z "$secret_key" ]]; then
-    return 1
-  fi
-
-  echo "$access_key $secret_key"
-}
-
-update_aws_profile() {
-  local profile="$1"
-  local creds
-  creds=$(get_aws_credentials "$profile") || return 1
-
-  local access_key=$(echo "$creds" | awk '{print $1}')
-  local secret_key=$(echo "$creds" | awk '{print $2}')
-
-  aws configure set aws_access_key_id "$access_key" --profile default
-  aws configure set aws_secret_access_key "$secret_key" --profile default
-
-  local region
-  region=$(get_aws_region "$profile")
-
-  if [[ -n "$region" ]]; then
-    aws configure set region "$region" --profile default
-  fi
-
-  return 0
-}
-
-# 실행: 선택된 프로파일로 바꾸기
-if [[ "$1" != "" ]]; then
-  echo "$1:loading" > "$STATE_FILE"
-  sleep 0.5
-  if update_aws_profile "$1"; then
-    echo "$1:done" > "$STATE_FILE"
-    rm -f "$ERROR_FILE"
-  else
-    echo "$1:fail" > "$STATE_FILE"
-    echo "❌ Failed to switch to [$1]" > "$ERROR_FILE"
-  fi
-  exit 0
-fi
-
-# 출력용 정보
 current_profile=$(detect_current_profile)
 if [[ -f "$STATE_FILE" ]]; then
   state=$(cat "$STATE_FILE")
@@ -108,31 +143,31 @@ else
   current_status="done"
 fi
 
-# 아이콘
 case "$current_status" in
-  loading) icon="Loading..." ;;
+  loading) icon="🔄 Switching..." ;;
   done) icon="☁️ $current_profile | font=Monaco size=12 color=#ffffff" ;;
-  fail) icon="❌" ;;
-  *) icon="⚪" ;;
+  fail) icon="❌ Failed to switch profile" ;;
+  *) icon="⚪ Unknown" ;;
 esac
 
 echo "$icon"
-
 echo "---"
+
 if [[ "$current_status" == "fail" && -f "$ERROR_FILE" ]]; then
   echo "$(cat "$ERROR_FILE") | color=#ff4444 font=Monaco size=11"
   echo "---"
 fi
-echo "---"
+
 echo "aws profile"
-# 메뉴 출력
 echo "$current_profile"
+echo "---"
+
 aws_profiles=$(awk '/\[[^\]]+\]/ { gsub(/\[|\]/, "", $0); if ($0 != "default") print $0 }' "$CREDENTIALS_FILE")
 
 for profile in $aws_profiles; do
   if [[ "$current_profile" == "$profile" ]]; then
-    echo "-- ▶ $profile (active) | bash='$0' param1=$profile terminal=false refresh=true font=Monaco size=12 color=#00aa00"
+    echo "-- ▶ $profile (active) | bash='$UPDATER' param1=$profile terminal=false refresh=true font=Monaco size=12 color=#00aa00"
   else
-    echo "-- $profile | bash='$0' param1=$profile terminal=false refresh=true font=Monaco size=12 color=#000000"
+    echo "-- $profile | bash='$UPDATER' param1=$profile terminal=false refresh=true font=Monaco size=12 color=#000000"
   fi
 done
