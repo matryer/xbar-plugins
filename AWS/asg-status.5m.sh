@@ -16,6 +16,9 @@
 #  <xbar.var>string(VAR_ORDERED_ASGS="production-app-server-asg:Production App Servers"): Comma separated list of ASG names in order to display along with their friendly name after a pipe .</xbar.var>
 #  <xbar.var>string(VAR_IGNORED_ASGS="asg-to-ignore,other-asg-to-ignore"): Comma separated list of ASG names not to display.</xbar.var>
 
+# AWS Turn off the Auto Prompt for the duration of this script if it is on by default.
+AWS_CLI_AUTO_PROMPT=off
+
 # AWS CLI Profile & Region
 AWS_PROFILE=$VAR_AWS_PROFILE
 REGION=$VAR_REGION
