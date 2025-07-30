@@ -6,7 +6,7 @@
 # <xbar.author>Ameya Bapat</xbar.author>
 # <xbar.author.github>ameyabap</xbar.author.github>
 # <xbar.desc>Display current time in multiple timezones with easy timezone selection</xbar.desc>
-# <xbar.image>https://github.com/ameyabap/resources/blob/main/960px-World_Time_Zones_Map.svg.png</xbar.image>
+# <xbar.image>https://raw.githubusercontent.com/ameyabap/resources/refs/heads/main/960px-World_Time_Zones_Map.svg.png</xbar.image>
 # <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.abouturl>https://github.com/ameyabap/resources/blob/main/timezone-xbarapp-plugin.md</xbar.abouturl>
 
