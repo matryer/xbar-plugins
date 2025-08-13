@@ -62,7 +62,7 @@ try:
             print(f"{t.name} | color=black")
             print(f"--📈 {progress} | color=blue")
             print(f"--⬇ {dlspeed} ⬆ {upspeed} | color=gray")
-            print(f"--⏳ {remaining_str} restant | color=gray")
+            print(f"--⏳ {remaining_str} | color=gray")
 
 except qbittorrentapi.LoginFailed:
     print("❌ Connection failed | color=red")
