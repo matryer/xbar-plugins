@@ -2,11 +2,11 @@
 # frozen_string_literal: true
 
 # <xbar.title>Brew Services</xbar.title>
-# <xbar.version>v3.1.2</xbar.version>
+# <xbar.version>v3.2.2</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage Homebrew Services</xbar.desc>
-# <xbar.image>https://i.imgur.com/PusYz5W.png</xbar.image>
+# <xbar.image>https://raw.githubusercontent.com/jimeh/dotfiles/70e616332e9cc196d365e5375156b27ce8c9451e/xbar/img/brew-services.png</xbar.image>
 # <xbar.dependencies>ruby</xbar.dependencies>
 # <xbar.abouturl>https://github.com/jimeh/dotfiles/tree/main/xbar</xbar.abouturl>
 #
@@ -14,7 +14,6 @@
 # <xbar.var>string(VAR_BREW_PATH=""): Path to "brew" executable.</xbar.var>
 # <xbar.var>string(VAR_HIDDEN_SERVICES=""): Comma-separated list of services to hide.</xbar.var>
 
-# rubocop:disable Lint/ShadowingOuterLocalVariable
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/BlockLength
 # rubocop:disable Metrics/ClassLength
@@ -23,15 +22,60 @@
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Style/IfUnlessModifier
 
-require 'open3'
+require 'fileutils'
 require 'json'
+require 'open3'
 require 'set'
 
+# Xbar is a tiny helper library for creating Xbar and SwiftBar plugins in Ruby.
 module Xbar
   class CommandError < StandardError; end
   class RPCError < StandardError; end
 
+  module Helpers
+    def plugin_data_path
+      @plugin_data_path ||= swiftbar_data_path || File.dirname(__FILE__)
+    end
+
+    def plugin_file_path
+      @plugin_file_path ||= swiftbar_plugin_path || __FILE__
+    end
+
+    def plugin_filename
+      @plugin_filename ||= File.basename(plugin_file_path)
+    end
+
+    def plugin_name
+      @plugin_name ||= begin
+        parts = plugin_filename.split('.')
+        if parts.size < 3
+          raise "Invalid plugin name: #{plugin_filename}"
+        end
+
+        parts[0..-3].join('.')
+      end
+    end
+
+    def swiftbar?
+      ENV['SWIFTBAR'] == '1'
+    end
+
+    def swiftbar_cache_path
+      @swiftbar_cache_path ||= ENV['SWIFTBAR_PLUGIN_CACHE_PATH'] if swiftbar?
+    end
+
+    def swiftbar_data_path
+      @swiftbar_data_path ||= ENV['SWIFTBAR_PLUGIN_DATA_PATH'] if swiftbar?
+    end
+
+    def swiftbar_plugin_path
+      @swiftbar_plugin_path ||= ENV['SWIFTBAR_PLUGIN_PATH'] if swiftbar?
+    end
+  end
+
   module Service
+    include Helpers
+
     private
 
     def config
@@ -42,8 +86,11 @@ module Xbar
       @printer ||= ::Xbar::Printer.new
     end
 
-    def cmd(*args)
-      out, err, s = Open3.capture3(*args)
+    def cmd(*args, dir: nil)
+      opts = {}
+      opts[:chdir] = File.expand_path(dir) if dir
+
+      out, err, s = Open3.capture3(*args, opts)
       if s.exitstatus != 0
         msg = "Command failed: #{args.join(' ')}"
         msg += ": #{err}" unless err.empty?
@@ -72,7 +119,16 @@ module Xbar
     end
   end
 
+  # Config is a simple wrapper around a JSON file that contains the plugin's
+  # configuration. It is compatible with Xbar's behavior of loading environment
+  # variables from it. We don't rely on that however and directly read the file
+  # ourselves.
+  #
+  # In SwiftBar, we use `SWIFTBAR_PLUGIN_DATA_PATH` to determine where to store
+  # the configuration in a `config.json` file.
   class Config < Hash
+    include Helpers
+
     def initialize
       super
 
@@ -88,15 +144,25 @@ module Xbar
     end
 
     def filename
-      @filename ||= "#{__FILE__}.vars.json"
+      @filename ||= File.join(
+        plugin_data_path,
+        swiftbar? ? 'config.json' : "#{plugin_filename}.vars.json"
+      )
+    end
+
+    def dirname
+      @dirname ||= File.dirname(filename)
     end
 
     def save
+      FileUtils.mkdir_p(dirname)
       File.write(filename, JSON.pretty_generate(self))
     end
   end
 
   class Printer
+    include Helpers
+
     attr_reader :nested_level
 
     SUB_STR = '--'
@@ -140,12 +206,24 @@ module Xbar
     end
 
     def plugin_refresh_uri
-      @plugin_refresh_uri ||= 'xbar://app.xbarapp.com/refreshPlugin' \
-                              "?path=#{File.basename(__FILE__)}"
+      return @plugin_refresh_uri if @plugin_refresh_uri
+
+      @plugin_refresh_uri = if swiftbar?
+                              "swiftbar://refreshplugin?name=#{plugin_name}"
+                            else
+                              'xbar://app.xbarapp.com/refreshPlugin' \
+                                                    "?path=#{plugin_filename}"
+                            end
     end
 
     def normalize_props(props = {})
       props = props.dup
+
+      # Explicitly set terminal to false for SwiftBar, as it seems to default
+      # to true when not specified. At least with SwiftBar 2.0.1.
+      if swiftbar? && !props.key?(:terminal)
+        props[:terminal] = false
+      end
 
       if props[:rpc] && props[:shell].nil?
         props[:shell] = [__FILE__] + props[:rpc]
@@ -160,8 +238,12 @@ module Xbar
         end
       end
 
-      # Refresh Xbar after shell command has run in terminal
-      if props[:terminal] && props[:refresh] && props[:shell]
+      # Always refresh SwiftBar via refresh plugin URI so as to temporarily
+      # disable the menu bar icon while refresh is running.
+      #
+      # For Xbar this does not work when terminal is false, so we only trigger
+      # refresh via the plugin refresh URI when terminal is true.
+      if props[:refresh] && props[:shell] && (swiftbar? || props[:terminal])
         props[:refresh] = false
         i = 1
         i += 1 while props.key?("param#{i}".to_sym)
@@ -587,7 +669,7 @@ rescue StandardError => e
   puts 'exit status 1'
   puts '---'
   puts 'Error:'
-  puts e.message.to_s
+  puts e.message
   e.backtrace.each do |line|
     puts "--#{line}"
   end
@@ -601,4 +683,3 @@ end
 # rubocop:enable Metrics/ClassLength
 # rubocop:enable Metrics/BlockLength
 # rubocop:enable Metrics/AbcSize
-# rubocop:enable Lint/ShadowingOuterLocalVariable
