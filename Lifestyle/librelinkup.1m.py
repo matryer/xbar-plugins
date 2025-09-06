@@ -7,9 +7,9 @@
 # <xbar.author>Florian Schlund,Maurici Abad</xbar.author>
 # <xbar.author.github>FloSchl8,mauriciabad</xbar.author.github>
 # <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings.</xbar.desc>
-# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.dependencies>python3,python requests</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/RATfZs3.png</xbar.image>
-# 
+#
 # <xbar.var>string(VAR_MAIL=""): Your LibreLinkUp e-mail.</xbar.var>
 # <xbar.var>string(VAR_PASSWORD=""): Your LibreLinkUp password.</xbar.var>
 # <xbar.var>select(VAR_COUNTRY="eu"): Your region/country. [us, eu, de, fr, jp, ap, au, ae]</xbar.var>
@@ -25,6 +25,7 @@
 # <xbar.var>string(VAR_RANGE_COLOR_SLIGHTLY_HIGH="yellow"): (optional) Color to display when the value is above the slightly high threshold and below high threshold.</xbar.var>
 # <xbar.var>string(VAR_RANGE_COLOR_LOW="red"): (optional) Color to display when the value is below the low threshold.</xbar.var>
 
+import hashlib
 import os
 from datetime import datetime
 
@@ -34,7 +35,7 @@ password = os.environ.get("VAR_PASSWORD")
 
 # your region/country
 # available: us, eu, de, fr, jp, ap, au, ae
-country = os.environ.get("VAR_COUNTRY")
+country = os.environ.get("VAR_COUNTRY" ,'eu')
 
 # used for ordering multiple patients
 # the value from this id will be displayed in the menu bar first, all others can be seen in the dropdown
@@ -45,28 +46,32 @@ first_patient_id = os.environ.get("VAR_FIRST_PATIENT_ID")
 excessive_time_color = os.environ.get("VAR_EXCESSIVE_TIME_COLOR")
 error_color = os.environ.get("VAR_ERROR_COLOR")
 
-min_seconds_to_show_excessive_time_color = int(os.environ.get("VAR_MIN_SECONDS_TO_SHOW_EXCESSIVE_TIME_COLOR"))
-max_seconds_to_display_data = int(os.environ.get("VAR_MAX_SECONDS_TO_DISPLAY_DATA"))
+min_seconds_to_show_excessive_time_color = int(os.environ.get("VAR_MIN_SECONDS_TO_SHOW_EXCESSIVE_TIME_COLOR", '75'))
+max_seconds_to_display_data = int(os.environ.get("VAR_MAX_SECONDS_TO_DISPLAY_DATA", '28800'))
 
-custom_range_high = int(os.environ.get("VAR_CUSTOM_RANGE_HIGH"))
-custom_range_slightly_high = int(os.environ.get("VAR_CUSTOM_RANGE_SLIGHTLY_HIGH"))
-custom_range_low = int(os.environ.get("VAR_CUSTOM_RANGE_LOW"))
-range_color_high = os.environ.get("VAR_RANGE_COLOR_HIGH")
-range_color_slightly_high = os.environ.get("VAR_RANGE_COLOR_SLIGHTLY_HIGH")
-range_color_low = os.environ.get("VAR_RANGE_COLOR_LOW")
+custom_range_high = int(os.environ.get("VAR_CUSTOM_RANGE_HIGH", 12))
+custom_range_slightly_high = int(os.environ.get("VAR_CUSTOM_RANGE_SLIGHTLY_HIGH", 10))
+custom_range_low = int(os.environ.get("VAR_CUSTOM_RANGE_LOW", 5))
+range_color_high = os.environ.get("VAR_RANGE_COLOR_HIGH", 'red')
+range_color_slightly_high = os.environ.get("VAR_RANGE_COLOR_SLIGHTLY_HIGH", 'yellow')
+range_color_low = os.environ.get("VAR_RANGE_COLOR_LOW", 'red')
+
+
+def makeColorString(color: str):
+    return "color=" + color if color else ""
 
 def printError(error_message: str, error: Exception):
     print("Error | " + makeColorString(error_color))
     print("---")
     print("Error: " + error_message)
-    if error is not None: print(error)
+    if error is not None:
+        print(error)
 
 try:
-    from urllib.request import Request, urlopen
-    from urllib.error import URLError
-    import json
-except ImportError:
-    printError("Failed to import required built-in modules.", None)
+    import requests
+except ImportError as e:
+    printError("Requests module not found. Install it by running 'pip install requests' in the terminal.", e)
+
 
 class Patient:
     def __init__(self, patient_id, first_name, last_name):
@@ -75,7 +80,7 @@ class Patient:
         self.last_name = last_name
 
 headers = {
-    "version": "4.7.0",
+    "version": "4.15.0",
     "product": "llu.android",
     "Connection": "keep-alive",
     "Pragma": "no-cache",
@@ -84,65 +89,52 @@ headers = {
     }
 
 def get_auth_token():
-    authurl = "https://api-" + country + ".libreview.io/llu/auth/login"
+    authurl = f"https://api-{country}.libreview.io/llu/auth/login"
 
-    payload = json.dumps({
+    payload = {
         "email": email,
         "password": password
-    }).encode('utf-8')
+    }
 
-    req = Request(authurl, data=payload, headers=headers, method='POST')
-    
-    try:
-        with urlopen(req) as response:
-            auth = json.loads(response.read().decode('utf-8'))
-            if auth["status"] == 0:
-                return auth["data"]["authTicket"]["token"]
-            elif auth["status"] == 4:
-                raise Exception("Check Terms Of Service agreement")
-            else:
-                raise Exception("Auth error: " + auth["error"]["message"])
-    except URLError as e:
-        raise Exception(f"Connection error: {str(e)}")
+    auth = requests.request("POST", authurl, json=payload, headers=headers)
+    if auth.ok:
+        if auth.json()["status"] == 0:
+            id_hash = hashlib.sha256(auth.json()["data"]["user"]['id'].encode()).hexdigest()
+            return auth.json()["data"]["authTicket"]["token"], id_hash
+        elif auth.json()["status"] == 4:
+            raise Exception("Check Terms Of Service agreement")
+    raise Exception("Auth error: " + auth.json())
 
-def get_patients(token):
-    connection_url = "https://api-" + country + ".libreview.io/llu/connections"
+def get_patients(token, account_id_hash):
+    connection_url = f"https://api-{country}.libreview.io/llu/connections"
 
-    headers_with_auth = headers.copy()
-    headers_with_auth["Authorization"] = "Bearer " + token
+    payload = ""
+    headers["authorization"] = "Bearer " + token
+    headers["account-id"] = account_id_hash
 
-    req = Request(connection_url, headers=headers_with_auth)
-    
-    try:
-        with urlopen(req) as response:
-            data = json.loads(response.read().decode('utf-8'))
-            ids = []
-            for d in data["data"]:
-                ids.append(Patient(d["patientId"], d["firstName"], d["lastName"]))
-            return ids
-    except URLError as e:
-        raise Exception(f"Connection error: {str(e)}")
+    response = requests.request("GET", connection_url, data=payload, headers=headers)
+    response.raise_for_status()
+
+    ids = []
+    for d in response.json()["data"]:
+        ids.append(Patient(d["patientId"], d["firstName"], d["lastName"]))
+    return ids
 
 def get_measurment(token, patientId):
     url = "https://api-" + country + ".libreview.io/llu/connections/" + patientId + "/graph"
 
-    headers_with_auth = headers.copy()
-    headers_with_auth["Authorization"] = "Bearer " + token
+    payload = ""
+    headers["Authorization"] = "Bearer " + token
 
-    req = Request(url, headers=headers_with_auth)
-    
-    try:
-        with urlopen(req) as response:
-            data = json.loads(response.read().decode('utf-8'))
-            connection = data["data"]["connection"]
-            value = connection["glucoseMeasurement"]["Value"]
-            patient_range_high = connection["targetHigh"]
-            patient_range_low = connection["targetLow"]
-            timestamp_string = connection["glucoseMeasurement"]["Timestamp"]
-            timestamp = datetime.strptime(timestamp_string, "%m/%d/%Y %I:%M:%S %p")
-            return (value, connection["glucoseMeasurement"]["TrendArrow"], patient_range_high, patient_range_low, timestamp)
-    except URLError as e:
-        raise Exception(f"Connection error: {str(e)}")
+    response = requests.request("GET", url, data=payload, headers=headers)
+    if response.ok:
+        connection = response.json()["data"]["connection"]
+        value = connection["glucoseMeasurement"]["Value"]
+        patient_range_high = connection["targetHigh"]
+        patient_range_low = connection["targetLow"]
+        timestamp_string = connection["glucoseMeasurement"]["Timestamp"]
+        timestamp = datetime.strptime(timestamp_string, "%m/%d/%Y %I:%M:%S %p")
+        return (value, connection["glucoseMeasurement"]["TrendArrow"], patient_range_high, patient_range_low, timestamp)
 
 def get_prefix(patient: Patient):
     return patient.first_name[0] + ". " + patient.last_name[0] + ".: "
@@ -165,11 +157,11 @@ def get_color_from_range(value: int, patient_range_low: int, patient_range_high:
     else:
         if value > patient_range_high:
             return range_color_high
-    
+
     if custom_range_slightly_high:
         if value > custom_range_slightly_high:
             return range_color_slightly_high
-    
+
     if custom_range_low:
         if value < custom_range_low:
             return range_color_low
@@ -188,25 +180,14 @@ def get_trend_arrow(trend: int):
         5: "↑"
     }.get(trend, "")
 
-def makeColorString(color: str):
-    return "color=" + color if color else ""    
-
 def main():
-    try:
-        token = get_auth_token()
-        if (token is None): raise Exception()
-    except Exception as e:
-        token = None
-        printError("Error getting auth token\nCheck your internet connection or username and password", e)
+    token, id_hash = get_auth_token()
 
-    if(token is not None):
-        try:
-            patients = get_patients(token=token)
-            if (patients is None): raise Exception()
-        except Exception as e:
-            patients = None
-            printError("Error getting patients", e)
-        
+    if token is not None:
+        patients = get_patients(token=token, account_id_hash=id_hash)
+        if patients is None:
+            raise Exception()
+
         if(patients is not None):
             if first_patient_id != "":
                 for i in range(1, len(patients)):
@@ -216,10 +197,10 @@ def main():
 
             for i in range(len(patients)):
                 (
-                    value, 
-                    trend, 
-                    patient_range_high, 
-                    patient_range_low, 
+                    value,
+                    trend,
+                    patient_range_high,
+                    patient_range_low,
                     timestamp
                 ) = get_measurment(token=token, patientId=patients[i].patient_id)
                 prefix = get_prefix(patients[i]) if i else ""
