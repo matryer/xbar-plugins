@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #  <xbar.title>Yet Another DNS Switcher</xbar.title>
-#  <xbar.version>v1.0</xbar.version>
+#  <xbar.version>v1.1</xbar.version>
 #  <xbar.author>The RatMan</xbar.author>
 #  <xbar.author.github>theratman</xbar.author.github>
 #  <xbar.desc>Yet another plugin for the xbar app for macOS that allows you to easily change DNS</xbar.desc>
@@ -60,7 +60,8 @@ get_network_service() {
 
     # Check if we got an interface
     if [[ -z "${interface}" ]]; then
-        error_exit "Could not determine default interface"
+        echo "Error: Could not determine default interface"
+        return
     fi
 
     # Get the network service name for the interface (device)
@@ -95,7 +96,7 @@ get_network_service() {
 
     # Output the result
     if [[ -z "${network_service}" ]]; then
-        error_exit "Could not find network service for interface (device) '${interface}'"
+        echo "Error: Could not find network service for interface (device) '${interface}'"
     else
         echo "${network_service}"
     fi
@@ -109,7 +110,7 @@ get_current_dns_info() {
     current_dns=$(networksetup -getdnsservers "${network_service}" 2>/dev/null || true)
 
     if [[ "${current_dns}" =~ "There aren't any DNS Servers set" ]] || [[ -z "${current_dns}" ]]; then
-        echo "No DNS servers configured"
+        echo "No manual DNS servers configured."
     else
         echo "${current_dns}"
     fi
@@ -193,6 +194,7 @@ main() {
 
     echo "🄳🄽🅂 | refresh=true"
     echo "---"
+    [[ "${network_service}" =~ "Error: Could not " ]] && echo "${network_service} | color=red" && exit 0
     echo "Interface: ${network_service} | color=blue"
     echo "Current DNS:"
     echo "${current_dns_info}"
