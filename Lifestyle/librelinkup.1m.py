@@ -64,8 +64,8 @@ def printError(error_message: str, error: Exception):
 
 try:
     import requests
-except ImportError:
-    printError("Requests module not found. Install it by running 'pip install requests' in the terminal.")
+except ImportError as e:
+    printError("Requests module not found. Install it by running 'pip install requests' in the terminal.", e)
 
 class Patient:
     def __init__(self, patient_id, first_name, last_name):
@@ -91,11 +91,11 @@ def calculate_sha256(input_string):
 
 def get_auth_token():
     global country
-    authurl = "https://api-" + country + ".libreview.io/llu/auth/login"
+    authurl = f"https://api-{country}.libreview.io/llu/auth/login"
 
     payload = {
-    "email": email,
-    "password": password
+        "email": email,
+        "password": password
     }
     
     headers = get_base_headers()
@@ -109,7 +109,7 @@ def get_auth_token():
             if data.get("redirect") and data.get("region"):
                 correct_region = data["region"]
                 country = correct_region
-                authurl = "https://api-" + country + ".libreview.io/llu/auth/login"
+                authurl = f"https://api-{country}.libreview.io/llu/auth/login"
                 headers = get_base_headers()
                 auth = requests.request("POST", authurl, json=payload, headers=headers)
                 if auth.ok:
@@ -135,12 +135,12 @@ def get_auth_token():
         raise Exception(f"HTTP {auth.status_code}: {auth.text}")
 
 def get_patients(token, user_id):
-    connection_url = "https://api-" + country + ".libreview.io/llu/connections"
+    connection_url = f"https://api-{country}.libreview.io/llu/connections"
 
     hex_user_id = calculate_sha256(input_string=user_id)
 
     headers = get_base_headers()
-    headers["Authorization"] = "Bearer " + token
+    headers["Authorization"] = f"Bearer {token}"
     headers["Account-Id"] = hex_user_id
 
     #print(headers)
@@ -157,12 +157,12 @@ def get_patients(token, user_id):
         return ids
 
 def get_measurment(token, user_id, patientId):
-    url = "https://api-" + country + ".libreview.io/llu/connections/" + patientId + "/graph"
+    url = f"https://api-{country}.libreview.io/llu/connections/{patientId}/graph"
 
     hex_user_id = calculate_sha256(input_string=user_id)
     
     headers = get_base_headers()
-    headers["Authorization"] = "Bearer " + token
+    headers["Authorization"] = f"Bearer {token}"
     headers["Account-Id"] = hex_user_id
 
     response = requests.request("GET", url, headers=headers)
