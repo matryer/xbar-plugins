@@ -196,11 +196,11 @@ def get_color_from_range(value: int, patient_range_low: int, patient_range_high:
     else:
         if value > patient_range_high:
             return range_color_high
-    
+
     if custom_range_slightly_high:
         if value > custom_range_slightly_high:
             return range_color_slightly_high
-    
+
     if custom_range_low:
         if value < custom_range_low:
             return range_color_low
