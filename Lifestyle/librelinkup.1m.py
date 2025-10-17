@@ -3,16 +3,16 @@
 # for homebrew installation add '-S PATH="${PATH}:/opt/homebrew/bin/python3"' between /env and python3
 
 # <xbar.title>LibreLinkUp Status</xbar.title>
-# <xbar.version>v2.0</xbar.version>
-# <xbar.author>Florian Schlund,Maurici Abad</xbar.author>
-# <xbar.author.github>FloSchl8,mauriciabad</xbar.author.github>
+# <xbar.version>v2.1</xbar.version>
+# <xbar.author>Maurici Abad,Florian Schlund</xbar.author>
+# <xbar.author.github>mauriciabad,FloSchl8</xbar.author.github>
 # <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings.</xbar.desc>
 # <xbar.dependencies>python3,python requests</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/RATfZs3.png</xbar.image>
-#
+# 
 # <xbar.var>string(VAR_MAIL=""): Your LibreLinkUp e-mail.</xbar.var>
 # <xbar.var>string(VAR_PASSWORD=""): Your LibreLinkUp password.</xbar.var>
-# <xbar.var>select(VAR_COUNTRY="eu"): Your region/country. [us, eu, de, fr, jp, ap, au, ae]</xbar.var>
+# <xbar.var>select(VAR_COUNTRY="eu"): Your region/country. [us, eu, eu2, de, fr, jp, ap, au, ae, ca, worldwide]</xbar.var>
 # <xbar.var>string(VAR_FIRST_PATIENT_ID=""): (optional) Id of the first patient to show. It is useful when you have multiple people linked to the same LibreLinkUp account.</xbar.var>
 # <xbar.var>number(VAR_MAX_SECONDS_TO_DISPLAY_DATA=28800): (optional) Measurements older than this won't be shown. (in seconds, default 8h)</xbar.var>
 # <xbar.var>number(VAR_MIN_SECONDS_TO_SHOW_EXCESSIVE_TIME_COLOR=75): (optional) Measurements older than this will be shown with a different color (Excessive time color).</xbar.var>
@@ -25,17 +25,18 @@
 # <xbar.var>string(VAR_RANGE_COLOR_SLIGHTLY_HIGH="yellow"): (optional) Color to display when the value is above the slightly high threshold and below high threshold.</xbar.var>
 # <xbar.var>string(VAR_RANGE_COLOR_LOW="red"): (optional) Color to display when the value is below the low threshold.</xbar.var>
 
-import hashlib
 import os
 from datetime import datetime
+
+import hashlib
 
 # your LibreLibkUp login (this is NOT your LibreView Login)
 email = os.environ.get("VAR_MAIL")
 password = os.environ.get("VAR_PASSWORD")
 
 # your region/country
-# available: us, eu, de, fr, jp, ap, au, ae
-country = os.environ.get("VAR_COUNTRY" ,'eu')
+# available: us, eu, eu2, de, fr, jp, ap, au, ae, ca, worldwide
+country = os.environ.get("VAR_COUNTRY")
 
 # used for ordering multiple patients
 # the value from this id will be displayed in the menu bar first, all others can be seen in the dropdown
@@ -46,32 +47,26 @@ first_patient_id = os.environ.get("VAR_FIRST_PATIENT_ID")
 excessive_time_color = os.environ.get("VAR_EXCESSIVE_TIME_COLOR")
 error_color = os.environ.get("VAR_ERROR_COLOR")
 
-min_seconds_to_show_excessive_time_color = int(os.environ.get("VAR_MIN_SECONDS_TO_SHOW_EXCESSIVE_TIME_COLOR", '75'))
-max_seconds_to_display_data = int(os.environ.get("VAR_MAX_SECONDS_TO_DISPLAY_DATA", '28800'))
+min_seconds_to_show_excessive_time_color = int(os.environ.get("VAR_MIN_SECONDS_TO_SHOW_EXCESSIVE_TIME_COLOR"))
+max_seconds_to_display_data = int(os.environ.get("VAR_MAX_SECONDS_TO_DISPLAY_DATA"))
 
-custom_range_high = int(os.environ.get("VAR_CUSTOM_RANGE_HIGH", 12))
-custom_range_slightly_high = int(os.environ.get("VAR_CUSTOM_RANGE_SLIGHTLY_HIGH", 10))
-custom_range_low = int(os.environ.get("VAR_CUSTOM_RANGE_LOW", 5))
-range_color_high = os.environ.get("VAR_RANGE_COLOR_HIGH", 'red')
-range_color_slightly_high = os.environ.get("VAR_RANGE_COLOR_SLIGHTLY_HIGH", 'yellow')
-range_color_low = os.environ.get("VAR_RANGE_COLOR_LOW", 'red')
-
-
-def makeColorString(color: str):
-    return "color=" + color if color else ""
+custom_range_high = int(os.environ.get("VAR_CUSTOM_RANGE_HIGH"))
+custom_range_slightly_high = int(os.environ.get("VAR_CUSTOM_RANGE_SLIGHTLY_HIGH"))
+custom_range_low = int(os.environ.get("VAR_CUSTOM_RANGE_LOW"))
+range_color_high = os.environ.get("VAR_RANGE_COLOR_HIGH")
+range_color_slightly_high = os.environ.get("VAR_RANGE_COLOR_SLIGHTLY_HIGH")
+range_color_low = os.environ.get("VAR_RANGE_COLOR_LOW")
 
 def printError(error_message: str, error: Exception):
     print("Error | " + makeColorString(error_color))
     print("---")
     print("Error: " + error_message)
-    if error is not None:
-        print(error)
+    if error is not None: print(error)
 
 try:
     import requests
-except ImportError as e:
-    printError("Requests module not found. Install it by running 'pip install requests' in the terminal.", e)
-
+except ImportError:
+    printError("Requests module not found. Install it by running 'pip install requests' in the terminal.")
 
 class Patient:
     def __init__(self, patient_id, first_name, last_name):
@@ -79,54 +74,99 @@ class Patient:
         self.first_name = first_name
         self.last_name = last_name
 
-headers = {
-    "version": "4.15.0",
-    "product": "llu.android",
-    "Connection": "keep-alive",
-    "Pragma": "no-cache",
-    "Cache-Control": "no-cache",
-    "Content-Type": "application/json"
+def get_base_headers():
+    return {
+        "accept-encoding": "gzip",
+        "cache-control": "no-cache",
+        "connection": "Keep-Alive",
+        "content-type": "application/json",
+        "product": "llu.ios",
+        "version": "4.16.0"
     }
+
+def calculate_sha256(input_string):
+    sha256_hash = hashlib.sha256()
+    sha256_hash.update(input_string.encode())
+    hex_hash = sha256_hash.hexdigest()
+    return hex_hash
 
 def get_auth_token():
-    authurl = f"https://api-{country}.libreview.io/llu/auth/login"
+    global country
+    authurl = "https://api-" + country + ".libreview.io/llu/auth/login"
 
     payload = {
-        "email": email,
-        "password": password
+    "email": email,
+    "password": password
     }
-
+    
+    headers = get_base_headers()
     auth = requests.request("POST", authurl, json=payload, headers=headers)
     if auth.ok:
-        if auth.json()["status"] == 0:
-            id_hash = hashlib.sha256(auth.json()["data"]["user"]['id'].encode()).hexdigest()
-            return auth.json()["data"]["authTicket"]["token"], id_hash
-        elif auth.json()["status"] == 4:
+        auth_data = auth.json()
+        if auth_data.get("status") == 0:
+            data = auth_data.get("data", {})
+            
+            # Check if API is requesting a region redirect
+            if data.get("redirect") and data.get("region"):
+                correct_region = data["region"]
+                country = correct_region
+                authurl = "https://api-" + country + ".libreview.io/llu/auth/login"
+                headers = get_base_headers()
+                auth = requests.request("POST", authurl, json=payload, headers=headers)
+                if auth.ok:
+                    auth_data = auth.json()
+                    data = auth_data.get("data", {})
+                else:
+                    raise Exception(f"HTTP {auth.status_code}: {auth.text}")
+            
+            # Now get the token
+            if "authTicket" in data:
+                token = data["authTicket"]["token"]
+                user_id = data["user"]["id"]
+                return token, user_id
+            else:
+                raise Exception("No authTicket in response")
+                
+        elif auth_data.get("status") == 4:
             raise Exception("Check Terms Of Service agreement")
-    raise Exception("Auth error: " + auth.json())
+        else:
+            error_msg = auth_data.get("error", {}).get("message", "Unknown error")
+            raise Exception("Auth error: " + error_msg)
+    else:
+        raise Exception(f"HTTP {auth.status_code}: {auth.text}")
 
-def get_patients(token, account_id_hash):
-    connection_url = f"https://api-{country}.libreview.io/llu/connections"
+def get_patients(token, user_id):
+    connection_url = "https://api-" + country + ".libreview.io/llu/connections"
 
-    payload = ""
-    headers["authorization"] = "Bearer " + token
-    headers["account-id"] = account_id_hash
+    hex_user_id = calculate_sha256(input_string=user_id)
 
-    response = requests.request("GET", connection_url, data=payload, headers=headers)
+    headers = get_base_headers()
+    headers["Authorization"] = "Bearer " + token
+    headers["Account-Id"] = hex_user_id
+
+    #print(headers)
+    #print(connection_url)
+    #print(payload)
+
+    response = requests.request("GET", connection_url, headers=headers)
     response.raise_for_status()
 
-    ids = []
-    for d in response.json()["data"]:
-        ids.append(Patient(d["patientId"], d["firstName"], d["lastName"]))
-    return ids
+    if response.ok:
+        ids = []
+        for d in response.json()["data"]:
+            ids.append(Patient(d["patientId"], d["firstName"], d["lastName"]))
+        return ids
 
-def get_measurment(token, patientId):
+def get_measurment(token, user_id, patientId):
     url = "https://api-" + country + ".libreview.io/llu/connections/" + patientId + "/graph"
 
-    payload = ""
+    hex_user_id = calculate_sha256(input_string=user_id)
+    
+    headers = get_base_headers()
     headers["Authorization"] = "Bearer " + token
+    headers["Account-Id"] = hex_user_id
 
-    response = requests.request("GET", url, data=payload, headers=headers)
+    response = requests.request("GET", url, headers=headers)
     if response.ok:
         connection = response.json()["data"]["connection"]
         value = connection["glucoseMeasurement"]["Value"]
@@ -157,11 +197,11 @@ def get_color_from_range(value: int, patient_range_low: int, patient_range_high:
     else:
         if value > patient_range_high:
             return range_color_high
-
+    
     if custom_range_slightly_high:
         if value > custom_range_slightly_high:
             return range_color_slightly_high
-
+    
     if custom_range_low:
         if value < custom_range_low:
             return range_color_low
@@ -180,14 +220,25 @@ def get_trend_arrow(trend: int):
         5: "↑"
     }.get(trend, "")
 
+def makeColorString(color: str):
+    return "color=" + color if color else ""    
+
 def main():
-    token, id_hash = get_auth_token()
+    try:
+        token, user_id = get_auth_token()
+        if (token is None): raise Exception()
+    except Exception as e:
+        token = None
+        printError("Error getting auth token\nCheck your internet connection or username and password", e)
 
-    if token is not None:
-        patients = get_patients(token=token, account_id_hash=id_hash)
-        if patients is None:
-            raise Exception()
-
+    if(token is not None):
+        try:
+            patients = get_patients(token=token, user_id=user_id)
+            if (patients is None): raise Exception()
+        except Exception as e:
+            patients = None
+            printError("Error getting patients", e)
+        
         if(patients is not None):
             if first_patient_id != "":
                 for i in range(1, len(patients)):
@@ -197,12 +248,12 @@ def main():
 
             for i in range(len(patients)):
                 (
-                    value,
-                    trend,
-                    patient_range_high,
-                    patient_range_low,
+                    value, 
+                    trend, 
+                    patient_range_high, 
+                    patient_range_low, 
                     timestamp
-                ) = get_measurment(token=token, patientId=patients[i].patient_id)
+                ) = get_measurment(token=token, user_id=user_id, patientId=patients[i].patient_id)
                 prefix = get_prefix(patients[i]) if i else ""
                 trend_arrow = get_trend_arrow(trend)
                 color = get_color_from_range(value, patient_range_low, patient_range_high)
