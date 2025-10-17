@@ -9,7 +9,7 @@
 # <xbar.desc>Display your blood glucose readings and it's trend. The data comes from LibreLinkUp's API: https://librelinkup.com/ so you must have a compatible CGM (any Freestyle Libre), and a user account connected to your main device. Other keywords: Diabetes, blood sugar, monitor values or readings.</xbar.desc>
 # <xbar.dependencies>python3,python requests</xbar.dependencies>
 # <xbar.image>https://i.imgur.com/RATfZs3.png</xbar.image>
-# 
+#
 # <xbar.var>string(VAR_MAIL=""): Your LibreLinkUp e-mail.</xbar.var>
 # <xbar.var>string(VAR_PASSWORD=""): Your LibreLinkUp password.</xbar.var>
 # <xbar.var>select(VAR_COUNTRY="eu"): Your region/country. [us, eu, eu2, de, fr, jp, ap, au, ae, ca, worldwide]</xbar.var>
