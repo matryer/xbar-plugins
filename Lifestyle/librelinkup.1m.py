@@ -25,10 +25,9 @@
 # <xbar.var>string(VAR_RANGE_COLOR_SLIGHTLY_HIGH="yellow"): (optional) Color to display when the value is above the slightly high threshold and below high threshold.</xbar.var>
 # <xbar.var>string(VAR_RANGE_COLOR_LOW="red"): (optional) Color to display when the value is below the low threshold.</xbar.var>
 
+import hashlib
 import os
 from datetime import datetime
-
-import hashlib
 
 # your LibreLibkUp login (this is NOT your LibreView Login)
 email = os.environ.get("VAR_MAIL")
