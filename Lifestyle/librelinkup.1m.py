@@ -247,10 +247,10 @@ def main():
 
             for i in range(len(patients)):
                 (
-                    value, 
-                    trend, 
-                    patient_range_high, 
-                    patient_range_low, 
+                    value,
+                    trend,
+                    patient_range_high,
+                    patient_range_low,
                     timestamp
                 ) = get_measurment(token=token, user_id=user_id, patientId=patients[i].patient_id)
                 prefix = get_prefix(patients[i]) if i else ""
