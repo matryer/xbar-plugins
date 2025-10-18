@@ -10,18 +10,35 @@
 # Based on AirPods Battery CLI, Version 2.3 - https://github.com/duk242/AirPodsBatteryCLI
 
 OUTPUT='🎧'
-BLUETOOTH_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth)
 SYSTEM_PROFILER=$(system_profiler SPBluetoothDataType 2>/dev/null)
-MAC_ADDR=$(grep -b2 "Minor Type: Headphones"<<<"${SYSTEM_PROFILER}"|awk '/Address/{print $3}')
-CONNECTED=$(grep -ia6 "${MAC_ADDR}"<<<"${SYSTEM_PROFILER}"|awk '/Connected: Yes/{print 1}')
-BLUETOOTH_DATA=$(grep -ia6 '"'"${MAC_ADDR}"'"'<<<"${BLUETOOTH_DEFAULTS}")
-BATTERY_LEVELS=("BatteryPercentCombined" "HeadsetBattery" "BatteryPercentSingle" "BatteryPercentCase" "BatteryPercentLeft" "BatteryPercentRight")
 
-if [[ "${CONNECTED}" ]]; then
-    for I in "${BATTERY_LEVELS[@]}"; do
-        declare -x "${I}"="$(awk -v pat="${I}" '$0~pat{gsub (";",""); print $3 }'<<<"${BLUETOOTH_DATA}")"
-        [[ -n "${!I}" ]] && OUTPUT="${OUTPUT} $(awk '/BatteryPercent/{print substr($0,15,1)}'<<<"${I}")${!I}"
-    done
+# Find connected AirPods (look for headphones in the Connected section)
+# We need to get the device block that contains "Minor Type: Headphones"
+CONNECTED_SECTION=$(awk '/Connected:/,/Not Connected:/' <<<"${SYSTEM_PROFILER}")
+# Find the device block containing headphones - get lines from device name (with indent) backwards until we find battery info
+AIRPODS_BLOCK=$(echo "${CONNECTED_SECTION}" | awk '
+    /^          [A-Za-z].*:$/ { device=""; in_device=1 }
+    in_device { device = device "\n" $0 }
+    /Minor Type: Headphones/ && in_device {
+        print device
+        exit
+    }
+')
+
+if [[ -n "${AIRPODS_BLOCK}" ]]; then
+    # Extract battery levels from system_profiler output
+    # Note: Case battery only appears when case is open or was recently opened
+    LEFT=$(echo "${AIRPODS_BLOCK}" | awk '/Left Battery Level:/{gsub(/%/,""); print $NF}')
+    RIGHT=$(echo "${AIRPODS_BLOCK}" | awk '/Right Battery Level:/{gsub(/%/,""); print $NF}')
+    CASE=$(echo "${AIRPODS_BLOCK}" | awk '/Case Battery Level:/{gsub(/%/,""); print $NF}')
+    COMBINED=$(echo "${AIRPODS_BLOCK}" | awk '/Battery Level:/ && !/Left/ && !/Right/ && !/Case/{gsub(/%/,""); print $NF}')
+
+    # Build output string
+    [[ -n "${LEFT}" ]] && OUTPUT="${OUTPUT} L${LEFT}"
+    [[ -n "${RIGHT}" ]] && OUTPUT="${OUTPUT} R${RIGHT}"
+    [[ -n "${CASE}" ]] && OUTPUT="${OUTPUT} C${CASE}"
+    [[ -n "${COMBINED}" && -z "${LEFT}" && -z "${RIGHT}" ]] && OUTPUT="${OUTPUT} ${COMBINED}"
+
     echo "${OUTPUT}"
 else
     printf "%s\n---\nNot connected" "${OUTPUT}"
