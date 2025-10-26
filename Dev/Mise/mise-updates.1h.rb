@@ -4,7 +4,7 @@
 # rubocop:disable Layout/LineLength
 
 # <xbar.title>Mise Updates</xbar.title>
-# <xbar.version>v1.0.1</xbar.version>
+# <xbar.version>v1.1.0</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage outdated tools installed with mise</xbar.desc>
@@ -178,9 +178,22 @@ module Xbar
     end
 
     def item(label = nil, **props)
-      print_item(label, **props) if !label.nil? && !label.empty?
+      return if label.nil? || label.empty?
 
-      yield(sub_printer) if block_given?
+      props = normalize_props(props.dup)
+      alt = props.delete(:alt)
+      nested_items = props.delete(:nested) || :both
+
+      yield_main = block_given? && [:main, :both].include?(nested_items)
+      yield_alt = block_given? && [:alt, :both].include?(nested_items)
+
+      print_item(label, **props)
+      yield(sub_printer) if yield_main
+
+      return if alt.nil? || alt.strip.empty?
+
+      print_item(alt, **props.merge(alternate: true))
+      yield(sub_printer) if yield_alt
     end
 
     def separator
@@ -191,22 +204,14 @@ module Xbar
     private
 
     def print_item(text, **props)
-      props = props.dup
-      alt = props.delete(:alt)
-
       output = [text]
       unless props.empty?
-        props = normalize_props(props)
         output << PARAM_SEP
         output += props.map { |k, v| "#{k}=\"#{v}\"" }
       end
 
       $stdout.print(SUB_STR * nested_level, output.join(' '))
       $stdout.puts
-
-      return if alt.nil? || alt.empty?
-
-      print_item(alt, **props.merge(alternate: true))
     end
 
     def plugin_refresh_uri
@@ -266,6 +271,11 @@ module Xbar
   end
 end
 
+#
+# ------------------------------------------------------------------------------
+#
+
+# Mise module contains classes for managing Mise tools.
 module Mise
   module Helpers
     def relative_path(path)
@@ -621,11 +631,22 @@ module Mise
 
       # Show mise version status and, if outdated, a self-update action.
       if mise_outdated?
-        printer.item(
-          "⬆️ Update mise (#{mise_current_version} → #{mise_latest_version})",
-          terminal: true, refresh: true,
-          shell: [mise_path, 'self-update', '--yes']
-        )
+        printer.item("mise (1)") do |printer|
+          printer.item(
+            "⬆️ Update (#{mise_current_version} → #{mise_latest_version})",
+              terminal: true, refresh: true,
+              shell: [mise_path, 'self-update', '--yes']
+          )
+          printer.sep
+          printer.item(
+            "📝 Changelog (#{mise_latest_version})",
+            href: "https://github.com/jdx/mise/blob/v#{mise_latest_version}/CHANGELOG.md"
+          )
+          printer.item(
+            '📦 Releases',
+            href: "https://github.com/jdx/mise/releases"
+          )
+        end
       end
 
       print_tools(printer)
