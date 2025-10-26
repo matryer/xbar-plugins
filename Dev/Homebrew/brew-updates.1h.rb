@@ -4,7 +4,7 @@
 # rubocop:disable Layout/LineLength
 
 # <xbar.title>Brew Updates</xbar.title>
-# <xbar.version>v2.7.2</xbar.version>
+# <xbar.version>v2.7.3</xbar.version>
 # <xbar.author>Jim Myhrberg</xbar.author>
 # <xbar.author.github>jimeh</xbar.author.github>
 # <xbar.desc>List and manage outdated Homebrew formulas and casks</xbar.desc>
@@ -181,9 +181,22 @@ module Xbar
     end
 
     def item(label = nil, **props)
-      print_item(label, **props) if !label.nil? && !label.empty?
+      return if label.nil? || label.empty?
 
-      yield(sub_printer) if block_given?
+      props = normalize_props(props.dup)
+      alt = props.delete(:alt)
+      nested_items = props.delete(:nested) || :both
+
+      yield_main = block_given? && [:main, :both].include?(nested_items)
+      yield_alt = block_given? && [:alt, :both].include?(nested_items)
+
+      print_item(label, **props)
+      yield(sub_printer) if yield_main
+
+      return if alt.nil? || alt.strip.empty?
+
+      print_item(alt, **props.merge(alternate: true))
+      yield(sub_printer) if yield_alt
     end
 
     def separator
@@ -194,22 +207,14 @@ module Xbar
     private
 
     def print_item(text, **props)
-      props = props.dup
-      alt = props.delete(:alt)
-
       output = [text]
       unless props.empty?
-        props = normalize_props(props)
         output << PARAM_SEP
         output += props.map { |k, v| "#{k}=\"#{v}\"" }
       end
 
       $stdout.print(SUB_STR * nested_level, output.join(' '))
       $stdout.puts
-
-      return if alt.nil? || alt.empty?
-
-      print_item(alt, **props.merge(alternate: true))
     end
 
     def plugin_refresh_uri
@@ -269,6 +274,11 @@ module Xbar
   end
 end
 
+#
+# ------------------------------------------------------------------------------
+#
+
+# Brew module contains classes for managing Homebrew formulas and casks.
 module Brew
   class Common
     include Xbar::Service
