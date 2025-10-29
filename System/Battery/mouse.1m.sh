@@ -11,12 +11,12 @@
 PERCENTAGE=$(ioreg -n BNBMouseDevice | fgrep BatteryPercent | fgrep -v \{ | sed 's/[^[:digit:]]//g')
 # Detect and adjust for M1 Mac
 if [[ $(uname -m) == 'arm64' ]]; then
-  PERCENTAGE=$(ioreg -c AppleDeviceManagementHIDEventService -r -l | grep -i mouse -A 20  | grep BatteryPercent | cut -d = -f2 | cut -d ' ' -f2)
+  PERCENTAGE=$(ioreg -c AppleDeviceManagementHIDEventService -r -l | grep -i mouse -A 100  | grep BatteryPercent | cut -d = -f2 | cut -d ' ' -f2 | tail -n1)
 fi
 
 if [ "$PERCENTAGE" ]; then
-        echo "Mouse: $PERCENTAGE%"
-#else
-#        echo "without bluetooth mouse?"
+        echo "🖱️ $PERCENTAGE%"
+else
+        echo "without bluetooth mouse?"
 fi
 
