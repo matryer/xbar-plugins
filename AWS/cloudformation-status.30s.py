@@ -1,4 +1,4 @@
-#!/usr/bin/env /Users/sergio.pena/.asdf/installs/python/3.13.2/bin/python
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" python3
 
 # -*- coding: utf-8 -*-
 
