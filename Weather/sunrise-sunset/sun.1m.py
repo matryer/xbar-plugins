@@ -21,6 +21,9 @@
 # <xbar.var>number(VAR_HOURS_OFFSET=0): Debug: how many hours to offset?</xbar.var>
 # <xbar.var>boolean(VAR_DRAW_TIME_UNTIL_NEXT_PHASE=false): Display the "time until next phase" indicator?</xbar.var>
 
+#import sys
+#sys.path.append("/opt/homebrew/lib/python3.13/site-packages" )
+
 import os
 import io
 import json
