@@ -411,7 +411,10 @@ def draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height):
 		dotx2 = dotx1 + 1
 		doty2 = doty1 - 1 + 1 - min_left + 0
 
-		draw.rectangle([dotx1, doty1, dotx2, doty2], fill=(0, 0, 0))
+		# TODO FIXME: in some cases, get error, because "y2 shall be >= y1"
+		#draw.rectangle([dotx1, doty1, dotx2, doty2], fill=(0, 0, 0))
+		#log(["inputs", dotx1, doty1, dotx2, doty2])
+		#draw.rectangle([dotx1, doty1, dotx2, max(doty2, doty1)], fill=(0, 0, 0))
 
 def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
 	YEAR_DAYS            = 365
