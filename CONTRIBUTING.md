@@ -292,6 +292,11 @@ Anything that can write to standard out is supported, but here is a list that ha
       - Add shebang `#!/usr/bin/php` 
    - Utilities:
       - xbar PHP Formatter - <https://github.com/SteveEdson/bitbar-php>  
+1. Rust (Compiled via cargo-script)
+   - Status: Working
+   - Output: `pub fn main() { println!("hello"); }`
+   - Notes
+      - Add shebang `#!/usr/bin/env PATH=<put enough PATH to make cargo script work> run-cargo-script`
 
 ## Advanced APIs
 
