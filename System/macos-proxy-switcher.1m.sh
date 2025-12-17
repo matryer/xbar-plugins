@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # <xbar.title>MacOS Proxy Switcher</xbar.title>
-# <xbar.version>v0.1</xbar.version>
+# <xbar.version>v0.2</xbar.version>
 # <xbar.author>glowinthedark</xbar.author>
 # <xbar.author.github>glowinthedark</xbar.author.github>
 # <xbar.desc>Set http and socks5 proxy settings on MacOS.</xbar.desc>
@@ -9,9 +9,27 @@
 # <xbar.dependencies></xbar.dependencies>
 # <xbar.abouturl>https://github.com/glowinthedark/bitbar-plugins/System/macos-proxy-switcher.1m.sh</xbar.abouturl>
 
-# CONFIGURATION
-INTERFACE=Wi-Fi
+#################################
+# get MacOS network device name
+#################################
+get_network_device() {
+  scutil --nwi | awk -F': ' '/Network interfaces/ {print $2;exit;}'
+}
 
+#################################
+# Get macOS network service name from device name
+# Args: $1 - network device name (e.g., en0)
+#################################
+get_service_name() {
+  local device="$1"
+  /usr/sbin/networksetup -listnetworkserviceorder | awk -v DEV="$device" -F': |,' '$0~ DEV  {print $2;exit;}'
+  echo "$network_service"
+}
+
+NETWORK_DEVICE_NAME="$(get_network_device)"
+INTERFACE="$(get_service_name "$NETWORK_DEVICE_NAME")"
+
+# START CONFIGURATION
 SOCKS_PROXY_HOST=localhost
 SOCKS_PROXY_PORT=1080
 
@@ -51,7 +69,6 @@ if [[ "$1" = "enable_pac_proxy" ]]; then
 fi
 
 if [[ "$1" = "disable_pac_proxy" ]]; then
-  # networksetup -setautoproxyurl $INTERFACE ""
   networksetup -setautoproxystate $INTERFACE off
   exit
 fi
@@ -59,37 +76,40 @@ fi
 
 if [[ "$1" = "edit_this_script" ]]; then
   # use default editor for .sh extension
-  # open "$0";
-  # explicitly use sublimetext3
-  open -b com.sublimetext.3 "$0";
+  open "$0";
+  # OR custom editor via bundle name:
+  # open -b com.sublimetext.4 "$0";
   exit
 fi
 
-current_socks5_proxy_status=$(networksetup -getsocksfirewallproxy $INTERFACE | awk 'NR=1{print $2; exit}')
-current_http_proxy_status=$(networksetup -getwebproxy $INTERFACE | awk 'NR=1{print $2; exit}')
-current_pac_proxy_status=$(networksetup -getautoproxyurl $INTERFACE | grep Enabled | awk 'NR=1{print $2; exit}')
+current_socks5_proxy_status=$(networksetup -getsocksfirewallproxy $INTERFACE | awk 'NR==1 {print $2; exit}')
+current_http_proxy_status=$(networksetup -getwebproxy $INTERFACE | awk 'NR==1 {print $2; exit}')
+current_pac_proxy_status=$(networksetup -getautoproxyurl $INTERFACE | grep Enabled | awk 'NR==1 {print $2; exit}')
 
 # SOCK5 PROXY
 if [[ $current_socks5_proxy_status == "Yes" ]] || [[ $current_http_proxy_status == "Yes" ]] || [[ $current_pac_proxy_status == "Yes" ]] ; then
 
   if [[ $current_socks5_proxy_status == "Yes" ]]; then
-    echo '🇬🇧'
+    echo '🧦'
+    # uncomment next line for verbose details
     # networksetup -getsocksfirewallproxy $INTERFACE
   fi
 
   if [[ $current_http_proxy_status == "Yes" ]]; then
     echo '🌍'
+    # uncomment next line for verbose details
     # networksetup -getwebproxy $INTERFACE
   fi
 
   if [[ $current_pac_proxy_status == "Yes" ]]; then
-    echo '📡'
+    echo '🛡️'
+    # uncomment next line for verbose details
     # networksetup -getautoproxyurl $INTERFACE
   fi
   echo '---'
 
 else
-  echo "🇪🇸"
+  echo "🔌"
   echo '---'
 fi
 
