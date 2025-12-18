@@ -94,6 +94,6 @@ if [ -z "$cost" ]; then
     echo "⚠️ Unable to parse cost data | color=red"
     echo "Check AWS Cost Explorer access | color=gray size=11"
 else
-    # Simple cost formatting without external dependencies
-    echo "$cost $prefix"
+    # Display as "AWS $cost" format
+    echo "AWS \$$cost"
 fi
