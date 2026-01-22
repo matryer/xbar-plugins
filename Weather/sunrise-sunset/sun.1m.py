@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "suntime==1.3.2",
+#     "pillow==10.3.0",
+#     "ansicolors>=1.1.8",
+#     "scipy>=1.13.1",
+# ]
+# ///
 
 # Copyright (c) 2024 Kipras Melnikovas
 # MIT License
@@ -21,21 +30,45 @@
 # <xbar.var>number(VAR_HOURS_OFFSET=0): Debug: how many hours to offset?</xbar.var>
 # <xbar.var>boolean(VAR_DRAW_TIME_UNTIL_NEXT_PHASE=false): Display the "time until next phase" indicator?</xbar.var>
 
-#import sys
-#sys.path.append("/opt/homebrew/lib/python3.13/site-packages" )
-
+import sys
 import os
 import io
 import json
 import base64
 from math import ceil, floor
 from datetime import datetime, timezone, timedelta
-
-# deps
-from suntime import Sun
-from PIL import Image, ImageDraw, ImageFont
-from colors import color as ansicolor
+# non-system dependencies imported dynamically in case uv bootstrap is needed.
 # scipy required conditionally below.
+
+### BEGIN UV BOOTSTRAP ###
+# if dependencies aren't available, find uv and re-exec with it
+def _bootstrap_with_uv():
+    uv_paths = [
+        os.path.expanduser("~/.local/bin/uv"),
+        os.path.expanduser("~/.cargo/bin/uv"),
+        "/opt/homebrew/bin/uv",
+        "/usr/local/bin/uv",
+    ]
+    script_path = os.path.realpath(__file__)
+    for uv in uv_paths:
+        if os.path.isfile(uv):
+            os.execv(uv, [uv, "run", script_path])
+    # uv not found
+    print("ERR: dependencies not installed. Tried installing with uv, but uv not found.")
+    print("---")
+    print("Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh")
+    sys.exit(1)
+
+try:
+    from suntime import Sun
+    from PIL import Image, ImageDraw, ImageFont
+    from colors import color as ansicolor
+except ImportError:
+    if __name__ == '__main__':
+        _bootstrap_with_uv()
+    else:
+        raise  # Re-raise ImportError when being imported
+### END UV BOOTSTRAP ###
 
 def main():
 	HOURS = 24
