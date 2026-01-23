@@ -29,6 +29,7 @@
 # <xbar.var>number(VAR_BORDER_WIDTH=1): How big should the borders be?</xbar.var>
 # <xbar.var>number(VAR_HOURS_OFFSET=0): Debug: how many hours to offset?</xbar.var>
 # <xbar.var>boolean(VAR_DRAW_TIME_UNTIL_NEXT_PHASE=false): Display the "time until next phase" indicator?</xbar.var>
+# <xbar.var>select(VAR_DRAW_MINUTE_INDICATOR=only_under_10h): Draw the minute indicator bar? Implies "time until next phase" is enabled. Default depends on that setting. [no, only_under_10h, always]</xbar.var>
 
 import sys
 import os
@@ -88,6 +89,10 @@ def main():
 	border_width = env("VAR_BORDER_WIDTH", "1", int)
 
 	DRAW_TIME_UNTIL_NEXT_PHASE = env("VAR_DRAW_TIME_UNTIL_NEXT_PHASE", "true", boolean)
+
+	# Default minute indicator based on whether time-until-next-phase is enabled
+	_minute_indicator_default = "only_under_10h" if DRAW_TIME_UNTIL_NEXT_PHASE else "no"
+	DRAW_MINUTE_INDICATOR = env("VAR_DRAW_MINUTE_INDICATOR", _minute_indicator_default, str)
 
 	# ---------------- #
 	# end customizable #
@@ -178,7 +183,7 @@ def main():
 
 	# TODO: some other bug?
 	if DRAW_TIME_UNTIL_NEXT_PHASE:
-		draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height)
+		draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height, DRAW_MINUTE_INDICATOR)
 
 	image_base64 = enc_image_base64(image)
 	# main indicator done
@@ -397,7 +402,7 @@ def draw_chevron(draw, image_width, image_height, border_width, chevron_color):
 	draw.polygon(chevron_points, fill=chevron_color)
 	log(f"chevron polygon: {chevron_points}", lvl=2)
 
-def draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height):
+def draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height, minute_indicator_mode="only_under_10h"):
 	# try:
 	# 	# font = ImageFont.load("")
 	# except:
@@ -413,12 +418,18 @@ def draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height):
 	next_phase_in = timedelta(minutes=delta)
 	(next_ph_h, next_ph_m) = parse_hours_mins(next_phase_in)
 
-	will_display_minute_indicator = False
+	# Determine if minute indicator should be displayed based on setting
+	is_showing_hours = next_ph_h > 0
+	if minute_indicator_mode == "no":
+		will_display_minute_indicator = False
+	elif minute_indicator_mode == "always":
+		will_display_minute_indicator = is_showing_hours  # only when showing hours, not minutes
+	elif minute_indicator_mode == "only_under_10h":
+		will_display_minute_indicator = is_showing_hours and next_ph_h < 10
+	else:
+		will_display_minute_indicator = False  # default to off for unknown values
 
-	if next_ph_h > 0:
-		if next_ph_h < 10:
-			will_display_minute_indicator = True
-
+	if is_showing_hours:
 		next_ph_h = str(next_ph_h)
 	else:
 		next_ph_h = str(next_ph_m) + "m"

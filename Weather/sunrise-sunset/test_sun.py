@@ -40,57 +40,63 @@ def test_draw_time_until_next_phase(sun_module):
     """
     Test the draw_time_until_next_phase function with various edge cases.
     
-    The function draws a minute indicator when hours < 10. The main issues were:
+    The function draws a minute indicator based on minute_indicator_mode:
+    - "no": never show
+    - "only_under_10h": only when 1-9 hours remain (default)
+    - "always": always show when displaying hours
+    
+    The main issues fixed were:
     1. Wrong coordinate order (y2 < y1) causing PIL rectangle errors
     2. Negative y coordinates when height is small
     """
     draw_time_until_next_phase = sun_module.draw_time_until_next_phase
     
-    # Test cases: (height, sunrise_in, sunset_in, description)
+    # Test cases: (height, sunrise_in, sunset_in, mode, description)
     # sunrise_in/sunset_in are minutes until sunrise/sunset
     # The function picks whichever is smaller and uses that to determine next_ph_h and next_ph_m
     test_cases = [
-        # (height, sunrise_in, sunset_in, description)
-        # Small height cases - most likely to cause negative y coords
-        (2, 1*60 + 59, 12*60, "height=2, 1h59m to sunrise (max min_left=6)"),
-        (2, 1*60 + 0, 12*60, "height=2, 1h0m to sunrise (min_left=0)"),
-        (2, 1*60 + 30, 12*60, "height=2, 1h30m to sunrise"),
+        # Small height cases with different modes
+        (2, 1*60 + 59, 12*60, "only_under_10h", "height=2, 1h59m, mode=only_under_10h"),
+        (2, 1*60 + 59, 12*60, "always", "height=2, 1h59m, mode=always"),
+        (2, 1*60 + 59, 12*60, "no", "height=2, 1h59m, mode=no"),
         
         # Very small heights
-        (0, 1*60 + 30, 12*60, "height=0 edge case"),
-        (1, 1*60 + 59, 12*60, "height=1, max min_left"),
-        (4, 5*60 + 30, 12*60, "height=4, 5h30m"),
+        (0, 1*60 + 30, 12*60, "only_under_10h", "height=0, mode=only_under_10h"),
+        (1, 1*60 + 59, 12*60, "always", "height=1, mode=always"),
         
-        # Default height (10)
-        (10, 1*60 + 0, 12*60, "height=10, 1h0m (min_left=0)"),
-        (10, 1*60 + 55, 12*60, "height=10, 1h55m (min_left=6)"),
-        (10, 1*60 + 59, 12*60, "height=10, 1h59m (min_left=6)"),
-        (10, 9*60 + 59, 12*60, "height=10, 9h59m (boundary hour)"),
+        # Default height (10) with different modes
+        (10, 1*60 + 0, 12*60, "only_under_10h", "height=10, 1h0m, mode=only_under_10h"),
+        (10, 1*60 + 55, 12*60, "only_under_10h", "height=10, 1h55m, mode=only_under_10h"),
+        (10, 1*60 + 59, 12*60, "always", "height=10, 1h59m, mode=always"),
+        (10, 9*60 + 59, 12*60, "only_under_10h", "height=10, 9h59m, mode=only_under_10h"),
         
-        # Hour >= 10 should NOT display minute indicator
-        (10, 10*60 + 0, 12*60, "height=10, 10h0m (no minute indicator)"),
-        (10, 12*60 + 30, 15*60, "height=10, 12h30m (no minute indicator)"),
+        # Hour >= 10 with different modes
+        (10, 10*60 + 0, 12*60, "only_under_10h", "height=10, 10h0m, mode=only_under_10h (no indicator)"),
+        (10, 10*60 + 0, 12*60, "always", "height=10, 10h0m, mode=always (shows indicator)"),
+        (10, 10*60 + 0, 12*60, "no", "height=10, 10h0m, mode=no"),
+        (10, 12*60 + 30, 15*60, "always", "height=10, 12h30m, mode=always"),
         
         # Large heights
-        (20, 1*60 + 45, 12*60, "height=20, 1h45m"),
-        (50, 1*60 + 59, 12*60, "height=50, 1h59m"),
+        (20, 1*60 + 45, 12*60, "only_under_10h", "height=20, 1h45m, mode=only_under_10h"),
+        (50, 1*60 + 59, 12*60, "always", "height=50, 1h59m, mode=always"),
         
         # Sunset closer than sunrise
-        (10, 12*60, 1*60 + 30, "height=10, sunset in 1h30m"),
-        (2, 12*60, 1*60 + 59, "height=2, sunset in 1h59m"),
+        (10, 12*60, 1*60 + 30, "only_under_10h", "sunset in 1h30m, mode=only_under_10h"),
+        (2, 12*60, 1*60 + 59, "always", "sunset in 1h59m, mode=always"),
         
         # Edge minute values
-        (10, 1*60 + 5, 12*60, "height=10, 1h5m (min_left=1)"),
-        (10, 1*60 + 14, 12*60, "height=10, 1h14m (min_left=1)"),
-        (10, 1*60 + 15, 12*60, "height=10, 1h15m (min_left=2)"),
-        (10, 1*60 + 44, 12*60, "height=10, 1h44m (min_left=4)"),
-        (10, 1*60 + 45, 12*60, "height=10, 1h45m (min_left=5)"),
+        (10, 1*60 + 5, 12*60, "only_under_10h", "1h5m, mode=only_under_10h"),
+        (10, 1*60 + 45, 12*60, "always", "1h45m, mode=always"),
+        
+        # Minutes display (< 1 hour) - minute indicator should never show
+        (10, 30, 12*60, "always", "30m to sunrise, mode=always (no indicator - showing minutes)"),
+        (10, 45, 12*60, "only_under_10h", "45m to sunrise, mode=only_under_10h (no indicator)"),
     ]
     
     passed = 0
     failed = 0
     
-    for height, sunrise_in, sunset_in, description in test_cases:
+    for height, sunrise_in, sunset_in, mode, description in test_cases:
         # Create a fresh image for each test
         # Width needs to be reasonable for the indicator to fit
         width = 72  # Default UNITS value (1440 / 20)
@@ -99,8 +105,8 @@ def test_draw_time_until_next_phase(sun_module):
             image = Image.new("RGB", (width + 10, height + 10), "white")
             draw = ImageDraw.Draw(image)
             
-            # Call the function
-            draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height)
+            # Call the function with the mode parameter
+            draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height, mode)
             
             print(f"  PASS: {description}")
             passed += 1
