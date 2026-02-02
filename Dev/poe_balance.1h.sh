@@ -3,6 +3,7 @@
 #<xbar.version>1.0</xbar.version>
 #<xbar.author>Rodrigo Nemmen da Silva</xbar.author>
 #<xbar.desc>Display remaining Poe API credits</xbar.desc>
+#<xbar.image>https://github.com/rsnemmen/poe-balance/blob/780b20c79f3433f1908353888a6fa59217f3b8f9/images/cover.png</xbar.image>
 #<xbar.dependencies>curl,bc</xbar.dependencies>
 
 # User variables
@@ -15,6 +16,8 @@
 STARTING_DATE=$VAR_STARTING_DATE
 PERCENT=$VAR_PERCENT
 INITIAL_BALANCE=1000000
+
+POE_ICON="iVBORw0KGgoAAAANSUhEUgAAADIAAAAqCAMAAADGZPh1AAAACVBMVEUAAAD///////9zeKVjAAAAA3RSTlP//wDXyg1BAAAACXBIWXMAAC4jAAAuIwF4pT92AAAE9WlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgMTAuMC1jMDAwIDc5LmQwNGNjMTY5OCwgMjAyNS8wNy8wMi0xMjoxODoxMyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI3LjMgKE1hY2ludG9zaCkiIHhtcDpDcmVhdGVEYXRlPSIyMDI2LTAyLTAxVDIwOjEzOjI0LTA4OjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyNi0wMi0wMVQyMTowNTo0Ni0wODowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyNi0wMi0wMVQyMTowNTo0Ni0wODowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ZDA3MjI4ODItYWE3NC00MThjLThhZjYtMmQ0MzJmYjhhMDVkIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOmQwNzIyODgyLWFhNzQtNDE4Yy04YWY2LTJkNDMyZmI4YTA1ZCIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOmQwNzIyODgyLWFhNzQtNDE4Yy04YWY2LTJkNDMyZmI4YTA1ZCI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6ZDA3MjI4ODItYWE3NC00MThjLThhZjYtMmQ0MzJmYjhhMDVkIiBzdEV2dDp3aGVuPSIyMDI2LTAyLTAxVDIwOjEzOjI0LTA4OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgMjcuMyAoTWFjaW50b3NoKSIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7iX8W6AAAA40lEQVRIib1USRIEIQjTFP9/MjXVpdi4sNiHyWlsSAgMWlE6uFiAcWSTsYYQM9YgyjXwmcJ+1hSukE92vSVa0SR8g1NKnQ26xnpOzU1Bc8g2YBlGuQb28nw4SAL/+99Pg9mZiCXGUyA3UWwnHA8K5CgY1oD88suOyfJ7oxthfilRlZcBll7gc6BFEcgrb5JOF4wun6QIgbOU+RmiU+xMk3YoZerJHreLjkquQSQZakexanj6DWIMz83xHoPXAMmPwYjWrSjRiCGp5MucUHWZZi7a1HnIcSObidT7uSXEF0j3ksQPw1c2eLCW14gAAAAASUVORK5CYII="
 
 # === Grabs API key === 
 # (inspired by Dev/openai.30m.sh plugin)
@@ -128,9 +131,9 @@ if [ "$PERCENT" = "true" ]; then
     est_pct=$(round "$ESTIMATED_SPENT / 10000")
     
     # SwiftBar output (header)
-    echo "Poe: ${pct}% (Est.: ${est_pct}%)"
+    echo "${pct}% (Est.: ${est_pct}%) | templateImage=$POE_ICON"
   else
-    echo "Poe: ${pct}%"
+    echo "${pct}% | templateImage=$POE_ICON"
   fi
 else
   if [ -n "$STARTING_DATE" ] && [ $STARTING_DATE -gt 0 ]; then
@@ -153,8 +156,8 @@ else
     ESTIMATED_SPENT=$((INITIAL_BALANCE-DAYS * DAILY_CREDITS))
 
     # === SwiftBar output ===
-    echo "Poe: $formatted (Est.: $(format_number "$ESTIMATED_SPENT"))"
+    echo "$formatted (Est.: $(format_number "$ESTIMATED_SPENT")) | templateImage=$POE_ICON"
   else
-    echo "Poe: $formatted"
+    echo "$formatted | templateImage=$POE_ICON"
   fi
 fi
