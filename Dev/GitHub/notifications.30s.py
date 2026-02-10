@@ -138,9 +138,9 @@ def format_notification(notification):
     # Try to hack a web-viewable URL if the last check failed
     if formatted["href"]:
         formatted["href"] = re.sub(
-            "api\.|api/v3/|repos/",
+            r"api\.|api/v3/|repos/",
             "",
-            re.sub("(pull|commit)s", r"\1", formatted["href"]),
+            re.sub(r"(pull|commit)s", r"\1", formatted["href"]),
         )
     if type == "PullRequest":
         if typejson and typejson["merged"]:
@@ -220,8 +220,8 @@ if len(sys.argv) > 1:
         make_github_request(url=url, method="PATCH", data={}, enterprise=enterprise)
 
 else:
-    is_github_defined = len(github_api_key) == 40
-    is_github_enterprise_defined = len(enterprise_api_key) == 40
+    is_github_defined = bool(github_api_key)
+    is_github_enterprise_defined = bool(enterprise_api_key)
     github_notifications = (
         get_notifications(enterprise=False) if is_github_defined else []
     )
