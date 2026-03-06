@@ -107,7 +107,7 @@ def __produce_pr_output(repo, pr):
     reviewers = requested_reviewers + requested_teams
 
     own_reviews = [
-        r["state"] for r in [re for re in reviews if re["user"]["login"] == USERNAME]
+        r["state"] for r in [re for re in reviews if re["user"] is not None and re["user"]["login"] == USERNAME]
     ]
 
     reviews_status = __get_status_from_reviews(reviews)
