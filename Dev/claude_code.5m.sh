@@ -11,10 +11,12 @@
 #<xbar.var>boolean(VAR_SHOW_7D="false"): Also show 7-day window in title (e.g. 45%/23%).</xbar.var>
 #<xbar.var>boolean(VAR_COLORS="true"): Color-code title at warning (>75%) and critical (>90%) levels.</xbar.var>
 #<xbar.var>boolean(VAR_SHOW_RESET="true"): Show time-until-reset for each window in the dropdown.</xbar.var>
+#<xbar.var>boolean(VAR_SHOW_BARS="true"): Show dynamic dual progress bar icon (5h top, 7d bottom) instead of the Claude logo.</xbar.var>
 
 SHOW_7D="${VAR_SHOW_7D:-false}"
 COLORS="${VAR_COLORS:-true}"
 SHOW_RESET="${VAR_SHOW_RESET:-true}"
+SHOW_BARS="${VAR_SHOW_BARS:-true}"
 
 CLAUDE_ICON="iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAHhlWElmTU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAABAAAARgEoAAMAAAABAAIAAIdpAAQAAAABAAAATgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAABKgAwAEAAAAAQAAABIAAAAAqSaGYgAAAAlwSFlzAAALEwAACxMBAJqcGAAAAdJJREFUOBGV0z1IVWEYB3Cv2ZAVlQUpWDnYJqZBREPU1tISBo1OBkEfWBGNQhTR1iwu2hIENdYUVBRBBjXVUEZRYBLah2CD3X5/O/cQ14vRA7/zPO/Hec857zmnqakuqtVqM11U6ob+r2mBQ3zjYu1MdR/3aKv1/TObvI9ffKqdKA+zwOYsIPewv+FiBrbSWky8oU6cKtrX1C+Kuludi3xkaX65oI4WJnlOLx185TUZmyi0yk9JXGf5Puo8zjzfGeACiSPcJu0xErno+vJO6guDu3hAYpwZnvCY3G1ijp76cxu2TTxP7qwWi0WRlzBCP0OMcou2isMWq43wky/MME0vZ9lELaqKjK0m8/ICHjLW4jDPSzrYQDt9JBb/pPKYua+4zyTvmapUKgvy8nCXnWSPpsjj1GJKcZm7TJN4R3vuqAwd6zSGyfdzh2fkEbrIFkQ3A+Tx+lnLbPkdWGSvjnFWcYJOhhjlMD84wCO2c9QjfZaXorlWyLlCFtrNLJcYZAdznCPfzgcmyLe1U24cBrfxhmOZIednvVrUg+rEHvJzH0x/wzB4hisZlNeQ/+p00c7ncpOTDU/+u9Ok8gWoN/KW7FEZ2n9vSdm/YuGkdrJ/K8ZvZcjUYTq3RuAAAAAASUVORK5CYII="
 
@@ -22,7 +24,7 @@ CLAUDE_ICON="iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAHh
 
 show_error() {
   local message="$1"
-  echo "⚠️ | templateImage=${CLAUDE_ICON}"
+  echo "! | templateImage=${CLAUDE_ICON}"
   echo "---"
   echo "${message}"
   echo "---"
@@ -30,13 +32,27 @@ show_error() {
   exit 0
 }
 
-RAW_CREDS="$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null)"
+USAGE_CACHE="/tmp/.claude_swiftbar_cache"
+TOKEN_CACHE="/tmp/.claude_swiftbar_token"
+CACHE_TTL=300   # 5 minutes — matches poll interval
+TOKEN_TTL=900   # 15 minutes
 
-if [ -z "$RAW_CREDS" ]; then
-  show_error "No Claude Code credentials found in Keychain. Sign in to Claude Code first."
+# === Get token (cached) ===
+
+TOKEN=""
+if [ -f "$TOKEN_CACHE" ]; then
+  cache_age=$(( $(date -u +%s) - $(stat -f %m "$TOKEN_CACHE" 2>/dev/null || echo 0) ))
+  if [ "$cache_age" -lt "$TOKEN_TTL" ]; then
+    TOKEN="$(cat "$TOKEN_CACHE" 2>/dev/null)"
+  fi
 fi
 
-TOKEN="$(printf '%s' "$RAW_CREDS" | python3 -c "
+if [ -z "$TOKEN" ]; then
+  RAW_CREDS="$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null)"
+  if [ -z "$RAW_CREDS" ]; then
+    show_error "No Claude Code credentials found in Keychain. Sign in to Claude Code first."
+  fi
+  TOKEN="$(printf '%s' "$RAW_CREDS" | python3 -c "
 import json, sys
 try:
     d = json.loads(sys.stdin.read().strip())
@@ -49,31 +65,48 @@ try:
 except Exception:
     sys.exit(1)
 " 2>/dev/null)"
-
-if [ -z "$TOKEN" ]; then
-  show_error "Could not parse Claude Code credentials."
+  if [ -z "$TOKEN" ]; then
+    show_error "Could not parse Claude Code credentials."
+  fi
+  printf '%s' "$TOKEN" > "$TOKEN_CACHE"
 fi
 
-# === Fetch usage from API ===
+# === Load usage from cache or fetch from API ===
 
-response="$(curl -s -w "\n%{http_code}" \
-  -H "Authorization: Bearer ${TOKEN}" \
-  -H "anthropic-beta: oauth-2025-04-20" \
-  -H "Accept: application/json" \
-  "https://api.anthropic.com/api/oauth/usage")"
+parsed=""
 
-http_code="$(printf '%s\n' "$response" | tail -n 1)"
-body="$(printf '%s\n' "$response" | sed '$d')"
-
-if [ "$http_code" = "401" ]; then
-  show_error "Token expired. Please sign in to Claude Code again."
-elif [ "$http_code" -lt 200 ] 2>/dev/null || [ "$http_code" -ge 300 ] 2>/dev/null; then
-  show_error "API Error ($http_code). Response: $body"
+if [ -f "$USAGE_CACHE" ]; then
+  cache_age=$(( $(date -u +%s) - $(stat -f %m "$USAGE_CACHE" 2>/dev/null || echo 0) ))
+  if [ "$cache_age" -lt "$CACHE_TTL" ]; then
+    parsed="$(cat "$USAGE_CACHE" 2>/dev/null)"
+  fi
 fi
 
-# === Parse JSON response ===
+if [ -z "$parsed" ]; then
+  response="$(curl -s --connect-timeout 5 --max-time 10 -w "\n%{http_code}" \
+    -H "Authorization: Bearer ${TOKEN}" \
+    -H "anthropic-beta: oauth-2025-04-20" \
+    -H "Accept: application/json" \
+    "https://api.anthropic.com/api/oauth/usage")"
 
-parsed="$(printf '%s' "$body" | python3 -c "
+  http_code="$(printf '%s\n' "$response" | tail -n 1)"
+  body="$(printf '%s\n' "$response" | sed '$d')"
+
+  if [ -z "$http_code" ] || [ "$http_code" = "000" ]; then
+    show_error "No internet connection."
+  fi
+
+  if [ "$http_code" = "401" ]; then
+    # Token may be stale — clear cache so next run re-reads from Keychain
+    rm -f "$TOKEN_CACHE"
+    show_error "Token expired. Please sign in to Claude Code again."
+  elif [ "$http_code" = "429" ]; then
+    show_error "Usage API rate limited. Will retry shortly."
+  elif [ "$http_code" -lt 200 ] || [ "$http_code" -ge 300 ]; then
+    show_error "API error: HTTP $http_code"
+  fi
+
+  parsed="$(printf '%s' "$body" | python3 -c "
 import json, sys
 try:
     d = json.loads(sys.stdin.read())
@@ -97,8 +130,11 @@ except Exception as e:
     sys.exit(1)
 " 2>/dev/null)"
 
-if [ -z "$parsed" ]; then
-  show_error "Could not parse API response: $body"
+  if [ -z "$parsed" ]; then
+    show_error "Could not parse API response"
+  fi
+
+  printf '%s\n' "$parsed" > "$USAGE_CACHE"
 fi
 
 UTIL_5H="$(      printf '%s\n' "$parsed" | sed -n '1p')"
@@ -179,6 +215,58 @@ make_bar() {
   echo "$bar"
 }
 
+# === Helper: dynamic dual progress bar icon ===
+
+make_icon() {
+  local pct5h="${1:-0}" pct7d="${2:-0}"
+  python3 -c "
+import struct, zlib, base64
+
+def color_for(pct):
+    return (0, 0, 0, 255)
+
+def make_png(w, h, rows_rgba):
+    def chunk(tag, data):
+        c = struct.pack('>I', len(data)) + tag + data
+        return c + struct.pack('>I', zlib.crc32(c[4:]) & 0xffffffff)
+    ihdr = struct.pack('>IIBBBBB', w, h, 8, 6, 0, 0, 0)
+    raw = b''
+    for row in rows_rgba:
+        raw += b'\x00'
+        for (r,g,b,a) in row:
+            raw += bytes([r,g,b,a])
+    idat = zlib.compress(raw)
+    return (b'\x89PNG\r\n\x1a\n'
+            + chunk(b'IHDR', ihdr)
+            + chunk(b'IDAT', idat)
+            + chunk(b'IEND', b''))
+
+W, H = 32, 14
+p5 = min(max(int(round(${pct5h})), 0), 100)
+p7 = min(max(int(round(${pct7d})), 0), 100)
+c5 = color_for(p5)
+c7 = color_for(p7)
+fill5 = int(round(p5 * W / 100))
+fill7 = int(round(p7 * W / 100))
+EMPTY = (0, 0, 0, 60)
+CLEAR = (0, 0, 0, 0)
+
+def bar_row(fill, fg):
+    return [fg if x < fill else EMPTY for x in range(W)]
+
+rows = []
+for row_i in range(H):
+    if 1 <= row_i <= 5:
+        rows.append(bar_row(fill5, c5))
+    elif 9 <= row_i <= 13:
+        rows.append(bar_row(fill7, c7))
+    else:
+        rows.append([CLEAR] * W)
+
+print(base64.b64encode(make_png(W, H, rows)).decode())
+" 2>/dev/null
+}
+
 # === Build menu bar title ===
 
 COLOR_5H="$(color_for_pct "$PCT_5H")"
@@ -201,10 +289,19 @@ else
 fi
 
 # Emit menu bar line
-if [ -n "$TITLE_COLOR" ]; then
-  echo "${TITLE} | templateImage=${CLAUDE_ICON} color=${TITLE_COLOR}"
+if [ "$SHOW_BARS" = "true" ]; then
+  BAR_ICON="$(make_icon "$PCT_5H" "$PCT_7D")"
+  if [ -n "$TITLE_COLOR" ]; then
+    echo " | image=${BAR_ICON} color=${TITLE_COLOR}"
+  else
+    echo " | image=${BAR_ICON}"
+  fi
 else
-  echo "${TITLE} | templateImage=${CLAUDE_ICON}"
+  if [ -n "$TITLE_COLOR" ]; then
+    echo "${TITLE} | templateImage=${CLAUDE_ICON} color=${TITLE_COLOR}"
+  else
+    echo "${TITLE} | templateImage=${CLAUDE_ICON}"
+  fi
 fi
 
 # === Dropdown ===
