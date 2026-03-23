@@ -189,8 +189,8 @@ except Exception:
 color_for_pct() {
   local pct=$1
   if [ "$COLORS" = "true" ]; then
-    [ "$pct" -ge 90 ] 2>/dev/null && echo "#FF0000" && return
-    [ "$pct" -ge 75 ] 2>/dev/null && echo "#FFD700" && return
+    [ "$pct" -ge 90 ] 2>/dev/null && echo "#CC0000" && return
+    [ "$pct" -ge 70 ] 2>/dev/null && echo "#CC8800" && return
   fi
   echo ""
 }
@@ -291,11 +291,7 @@ fi
 # Emit menu bar line
 if [ "$SHOW_BARS" = "true" ]; then
   BAR_ICON="$(make_icon "$PCT_5H" "$PCT_7D")"
-  if [ -n "$TITLE_COLOR" ]; then
-    echo " | image=${BAR_ICON} color=${TITLE_COLOR}"
-  else
-    echo " | image=${BAR_ICON}"
-  fi
+  echo " | templateImage=${BAR_ICON}"
 else
   if [ -n "$TITLE_COLOR" ]; then
     echo "${TITLE} | templateImage=${CLAUDE_ICON} color=${TITLE_COLOR}"
