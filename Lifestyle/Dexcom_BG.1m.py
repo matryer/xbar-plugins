@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S PATH="${PATH}:/opt/homebrew/bin:/usr/local/bin" python3
 
 # If the script fails to find Python, you may need to change the first
 # line to give the explicit path to your Python executable, e.g.
