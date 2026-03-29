@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # <xbar.title>Claude Usage</xbar.title>
-# <xbar.version>v2.1</xbar.version>
+# <xbar.version>v2.2</xbar.version>
 # <xbar.author>aggel008</xbar.author>
 # <xbar.author.github>aggel008</xbar.author.github>
 # <xbar.desc>Live Claude.ai session (5h) and weekly usage in your menu bar — no API keys, reads directly from your browser</xbar.desc>
@@ -9,7 +9,7 @@
 # <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.abouturl>https://github.com/aggel008/claude-usage-bar</xbar.abouturl>
 # <swiftbar.title>Claude Usage</swiftbar.title>
-# <swiftbar.version>2.1</swiftbar.version>
+# <swiftbar.version>2.2</swiftbar.version>
 # <swiftbar.author>aggel008</swiftbar.author>
 # <swiftbar.author.github>aggel008</swiftbar.author.github>
 # <swiftbar.desc>Live Claude.ai session (5h) and weekly usage in your menu bar — no API keys, reads directly from your browser</swiftbar.desc>
@@ -111,6 +111,12 @@ def bar(pct, width=22):
     elif pct >= 70: color = YELLOW
     return '█' * n + '░' * (width - n), color
 
+def session_exhausted(pct):
+    return pct is not None and pct >= 100
+
+def join_fields(*parts):
+    return '   '.join(part for part in parts if part)
+
 # ── main ──────────────────────────────────────────────────────────────────────
 cfg    = load_config()
 org_id = cfg.get('ORG_ID')
@@ -142,6 +148,8 @@ except Exception as e:
 # ── menu bar icon ──────────────────────────────────────────────────────────────
 if s_pct is None:
     print('✦')
+elif session_exhausted(s_pct) and s_reset:
+    print(f'✦ ↺ {until(s_reset)} | color={RED}')
 elif s_pct >= 90:
     print(f'✦ {int(s_pct)}% | color={RED}')
 elif s_pct >= 70:
@@ -153,9 +161,9 @@ print('---')
 
 # ── session ────────────────────────────────────────────────────────────────────
 s_bar, s_color = bar(s_pct)
-s_str  = f'{int(s_pct)}%' if s_pct is not None else '?'
+s_str  = '' if session_exhausted(s_pct) else (f'{int(s_pct)}%' if s_pct is not None else '?')
 s_time = f'↺ {until(s_reset)}' if s_reset else ''
-print(f'SESSION  {s_str}   {s_time} | color={WHITE} font=Menlo size=11')
+print(f'{join_fields("SESSION", s_str, s_time)} | color={WHITE} font=Menlo size=11')
 print(f'{s_bar} | color={s_color} font=Menlo size=10')
 
 print('---')
