@@ -5,7 +5,7 @@
 # <xbar.author>Hugo Defrane</xbar.author>
 # <xbar.author.github>koleror</xbar.author.github>
 # <xbar.desc>This plugin will start and stop a memcached and redis server</xbar.desc>
-# <xbar.image>http://oi67.tinypic.com/28u1y1g.jpg</birtbar.image>
+# <xbar.image>http://oi67.tinypic.com/28u1y1g.jpg</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 
 REDIS_PID=$(/usr/bin/pgrep redis-server)
