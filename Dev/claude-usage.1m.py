@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # <xbar.title>Claude Usage</xbar.title>
-# <xbar.version>v2.2</xbar.version>
+# <xbar.version>v2.3</xbar.version>
 # <xbar.author>aggel008</xbar.author>
 # <xbar.author.github>aggel008</xbar.author.github>
 # <xbar.desc>Live Claude.ai session (5h) and weekly usage in your menu bar — no API keys, reads directly from your browser</xbar.desc>
@@ -9,13 +9,13 @@
 # <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.abouturl>https://github.com/aggel008/claude-usage-bar</xbar.abouturl>
 # <swiftbar.title>Claude Usage</swiftbar.title>
-# <swiftbar.version>2.2</swiftbar.version>
+# <swiftbar.version>2.3</swiftbar.version>
 # <swiftbar.author>aggel008</swiftbar.author>
 # <swiftbar.author.github>aggel008</swiftbar.author.github>
 # <swiftbar.desc>Live Claude.ai session (5h) and weekly usage in your menu bar — no API keys, reads directly from your browser</swiftbar.desc>
 # <swiftbar.image>https://raw.githubusercontent.com/aggel008/claude-usage-bar/main/screenshot.png</swiftbar.image>
 # <swiftbar.dependencies>python3</swiftbar.dependencies>
-# <swiftbar.refreshTime>5</swiftbar.refreshTime>
+# <swiftbar.refreshTime>1</swiftbar.refreshTime>
 # <swiftbar.hideAbout>true</swiftbar.hideAbout>
 # <swiftbar.hideRunInTerminal>true</swiftbar.hideRunInTerminal>
 # <swiftbar.hideLastUpdated>true</swiftbar.hideLastUpdated>
