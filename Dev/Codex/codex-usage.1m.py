@@ -4,6 +4,7 @@
 # <xbar.author>Pablo Guil</xbar.author>
 # <xbar.author.github>pabloguil</xbar.author.github>
 # <xbar.desc>Shows Codex usage limits from local Codex session data.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/pabloguil/codex-usage-swiftbar/refs/heads/main/assets/codex-usage-preview.png</xbar.image>
 # <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.abouturl>https://github.com/pabloguil/codex-usage-swiftbar</xbar.abouturl>
 
