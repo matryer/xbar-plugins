@@ -81,7 +81,8 @@ def in_meeting():
     processes = subprocess.Popen(['lsof', '-i', '4UDP'],
                                  stdout=subprocess.PIPE).stdout.readlines()
     for process in processes:
-        if 'zoom' in str(process) and '->' in str(process):
+        line = str(process)
+        if 'zoom' in line and '->' in line and 'localhost' not in line:
             in_meeting = True
             break
     return in_meeting
