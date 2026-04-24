@@ -8,7 +8,7 @@
 # The result will be available in clipboard again. Do not use the result
 # for cryptographic purposes!!
 # It's inspired by the original clipboard-history plugin</xbar.desc>
-# <xbar.image>https://imgur.com/0Ym6xNC</birtbar.image>
+# <xbar.image>https://imgur.com/0Ym6xNC</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 
 # Hack for language not being set properly and unicode support
@@ -36,4 +36,3 @@ echo "🔏"
 echo "---"
 echo "Encode clipboard item with BASE64 | bash='$0' param1=encode terminal=false"
 echo "Decode clipboard item with BASE64 | bash='$0' param1=decode terminal=false"
-

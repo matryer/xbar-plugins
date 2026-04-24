@@ -6,7 +6,7 @@
 # <xbar.author.github>citoki</xbar.author.github>
 # <xbar.desc>This plugin will give some caffeine, with lots of sugar, to your Mac to stay awake.
 # Technically the commandline tool 'caffeinate' is executed.</xbar.desc>
-# <xbar.image>https://i.imgur.com/vsCWLwX.png</birtbar.image>
+# <xbar.image>https://i.imgur.com/vsCWLwX.png</xbar.image>
 # <xbar.dependencies></xbar.dependencies>
 
 if [ "$1" = 'sugar' ]; then
@@ -36,4 +36,3 @@ echo '---'
 echo "Sugar - stay awake w/ AC power| bash='$0' param1=sugar terminal=false"
 echo "Caffeine - stay awake w/o AC power | bash='$0' param1=caffeine terminal=false"
 echo "Stop caffeine dose | bash='$0' param1=stop terminal=false"
-
