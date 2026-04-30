@@ -13,10 +13,11 @@
 # Based on Bitfinex bitbar plugin by Roberto Santacroce Martins and Dash tickers: Coincap.io and Poloniex.com by UdjinM6
 
 # Grab all info beforehand
-fee_info=$(curl -s "https://mempool.space/api/v1/fees/recommended")
-fast=$(curl -s "https://mempool.space/api/v1/fees/recommended" | egrep -o '"fastestFee":[0-9]+(\.)?([0-9]{0,2})?' | sed 's/"fastestFee"://')
-medium=$(curl -s "https://mempool.space/api/v1/fees/recommended" | egrep -o '"halfHourFee":[0-9]+(\.)?([0-9]{0,2})?' | sed 's/"halfHourFee"://')
-slow=$(curl -s "https://mempool.space/api/v1/fees/recommended" | egrep -o '"hourFee":[0-9]+(\.)?([0-9]{0,2})?' | sed 's/"hourFee"://')
+MEMPOOL_FEES_URL="${MEMPOOL_FEES_URL:-https://mempool.space/api/v1/fees/recommended}"
+fee_info=$(curl -s "$MEMPOOL_FEES_URL")
+fast=$(printf "%s" "$fee_info" | egrep -o '"fastestFee":[0-9]+(\.)?([0-9]{0,2})?' | sed 's/"fastestFee"://')
+medium=$(printf "%s" "$fee_info" | egrep -o '"halfHourFee":[0-9]+(\.)?([0-9]{0,2})?' | sed 's/"halfHourFee"://')
+slow=$(printf "%s" "$fee_info" | egrep -o '"hourFee":[0-9]+(\.)?([0-9]{0,2})?' | sed 's/"hourFee"://')
 
 # SET DEFAULT VIEW HERE
 # (Replace with $slow, $medium, or $fast)
@@ -30,3 +31,4 @@ printf "Slow: %ld sat/vB | color=red\n" $slow
 printf "Medium: %ld sat/vB | color=orange\n" $medium
 printf "Fast: %ld sat/vB | color=green\n" $fast
 echo "Visit Mempool | href=\"https://mempool.space\""
+echo "Fee Source | href=\"$MEMPOOL_FEES_URL\""
