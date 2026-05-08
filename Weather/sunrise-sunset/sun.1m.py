@@ -30,6 +30,7 @@
 # <xbar.var>number(VAR_HOURS_OFFSET=0): Debug: how many hours to offset?</xbar.var>
 # <xbar.var>boolean(VAR_DRAW_TIME_UNTIL_NEXT_PHASE=false): Display the "time until next phase" indicator?</xbar.var>
 # <xbar.var>select(VAR_DRAW_MINUTE_INDICATOR=only_under_10h): Draw the minute indicator bar? Implies "time until next phase" is enabled. Default depends on that setting. [no, only_under_10h, always]</xbar.var>
+# <xbar.var>select(VAR_YEAR_VIEW_LAYOUT=sun-ocean): Year-view layout preset. [sun-ocean, ocean-sun, sun-inside, ocean-inside, bigger-top, smaller-top, bigger-inside, smaller-inside]</xbar.var>
 
 import sys
 import os
@@ -93,6 +94,8 @@ def main():
 	# Default minute indicator based on whether time-until-next-phase is enabled
 	_minute_indicator_default = "only_under_10h" if DRAW_TIME_UNTIL_NEXT_PHASE else "no"
 	DRAW_MINUTE_INDICATOR = env("VAR_DRAW_MINUTE_INDICATOR", _minute_indicator_default, str)
+
+	YEAR_VIEW_LAYOUT = env("VAR_YEAR_VIEW_LAYOUT", "sun-ocean", str)
 
 	# ---------------- #
 	# end customizable #
@@ -211,7 +214,7 @@ def main():
 	day_night_ratio_absolute = enc_image_base64(image2)
 	# additional indicator done
 
-	img_b64_sun_percent_thru_year = draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors_year)
+	img_b64_sun_percent_thru_year = draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors_year, YEAR_VIEW_LAYOUT)
 	img_sun_percent_thru_year = f"| image={img_b64_sun_percent_thru_year}"
 	# whole year done
 
@@ -463,7 +466,16 @@ def draw_time_until_next_phase(draw, sunrise_in, sunset_in, width, height, minut
 		if y_bottom > y_top:
 			draw.rectangle([dotx1, y_top, dotx2, y_bottom], fill=(0, 0, 0))
 
-def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
+def year_layout_segments(layout, sun_count, night_count):
+	if layout == "ocean-sun":
+		return [("night", night_count), ("day", sun_count)]
+	if layout == "sun-inside":
+		return [("night", night_count / 2), ("day", sun_count), ("night", night_count / 2)]
+	if layout == "ocean-inside":
+		return [("day", sun_count / 2), ("night", night_count), ("day", sun_count / 2)]
+	return [("day", sun_count), ("night", night_count)]  # sun-ocean default / fallback
+
+def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors, layout="sun-ocean"):
 	YEAR_DAYS            = 365
 	OUR_WIDTH_COMPR_FACT = 12 # factors(1440)
 	OUR_UNITS            = MINUTES // OUR_WIDTH_COMPR_FACT
@@ -503,23 +515,34 @@ def draw_sun_percent_thru_year(now, LATITUDE, LONGITUDE, MINUTES, colors):
 	image      = Image.new("RGB", (YEAR_DAYS , img_height))
 	draw       = ImageDraw.Draw(image)
 
+	# adaptive layouts: pick a fixed layout once, based on whether day or night
+	# is longer today. keeps a single orientation for the whole chart.
+	if layout in ("bigger-top", "smaller-top", "bigger-inside", "smaller-inside"):
+		(now_minute, sunrise_minute, sunset_minute, *_rest) = get_time_info_for_latlon(now, LATITUDE, LONGITUDE, local=False, lvl=2)
+		(colors_by_unit, _sun_minutes, _night_minutes) = classify_units_of_time(now_minute, sunrise_minute, sunset_minute,
+		                                                                        MINUTES, OUR_UNITS, OUR_WIDTH_COMPR_FACT)
+		today_sun = sum([1 for x in colors_by_unit if x == "day"])
+		day_is_bigger = today_sun >= (OUR_UNITS - today_sun)
+		feature_day = day_is_bigger if layout.startswith("bigger") else (not day_is_bigger)
+		if layout.endswith("top"):
+			layout = "sun-ocean" if feature_day else "ocean-sun"
+		else:
+			layout = "sun-inside" if feature_day else "ocean-inside"
+
 	for day_of_year in range(YEAR_DAYS):
 		sun_count = sun_counts_in_year[day_of_year]
 		night_count = night_counts_in_year[day_of_year]
 
 		x1 = day_of_year
 		x2 = day_of_year
-		y1 = 0
-		y2 = sun_count
-		color = "day"
 
-		draw.rectangle([x1, y1, x2, y2], fill=colors[color])
-
-		y1 = y2
-		y2 = sun_count + night_count
-		color = "night"
-
-		draw.rectangle([x1, y1, x2, y2], fill=colors[color])
+		total = sun_count + night_count
+		segments = year_layout_segments(layout, sun_count, night_count)
+		y = 0.0
+		for i, (color, h) in enumerate(segments):
+			y2 = total if i == len(segments) - 1 else y + h
+			draw.rectangle([x1, y, x2, y2], fill=colors[color])
+			y = y2
 
 	return enc_image_base64(image)
 
