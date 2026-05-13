@@ -71,40 +71,60 @@ plugins_dir_for() {
   echo "$home/Library/Application Support/xbar/plugins"
 }
 
-# Ensure xbar can discover the plugin by symlinking this directory (and its
-# main script) into $plugins. Idempotent. Refuses to clobber an existing
-# real directory at the target — symlinks are replaced freely.
+# Make xbar discover the plugin. Only ONE entry goes into $plugins — an
+# absolute symlink to the plugin script. Anything else (subdirectory, helper
+# script, icons, etc.) would cause xbar to try fork/exec it and surface
+# `fork/exec ./<name>: permission denied` in the menubar. Idempotent.
+#
+# Support files live wherever this setup.sh lives (the repo clone for dev
+# installs, or $XBAR_DISABLE_SLEEP_DIR for curl|bash installs) — the script
+# resolves them via $SELF/$DIR, so it doesn't matter where they sit.
 install_symlinks() {
   local plugins="$1"
   mkdir -p "$plugins"
 
-  local src_dir target_dir
-  src_dir="$(resolve_path "$DIR")"
-  target_dir="$plugins/disable-sleep"
-
-  local target_dir_resolved=""
-  if [[ -e "$target_dir" || -L "$target_dir" ]]; then
-    target_dir_resolved="$(resolve_path "$target_dir" 2>/dev/null || echo "")"
+  # Migration: previous versions of setup.sh also placed a `disable-sleep`
+  # symlink (to a directory) right next to the .10s.sh symlink. That's what
+  # made xbar barf. Sweep it (and the old real directory from install.sh)
+  # out of the way.
+  if [[ -L "$plugins/disable-sleep" ]]; then
+    rm -f "$plugins/disable-sleep"
+    info "Removed legacy entry: $plugins/disable-sleep (was the cause of xbar's fork/exec error)"
+  elif [[ -d "$plugins/disable-sleep" ]]; then
+    # Real directory from older install.sh; if it's just our four files,
+    # delete it. Otherwise keep it and warn — the user has put unrelated
+    # stuff in there.
+    local stale="$plugins/disable-sleep"
+    local extras
+    extras="$(/bin/ls -A "$stale" | grep -Ev '^(disable-sleep\.10s\.sh|setup\.sh|bed\.png|bed-no\.png|make-icons\.py)$' || true)"
+    if [[ -z "$extras" ]]; then
+      rm -rf "$stale"
+      info "Removed legacy directory: $stale (was the cause of xbar's fork/exec error)"
+    else
+      err "WARNING: $stale exists with unrelated files:"
+      err "$extras"
+      err "Leaving it in place; xbar may keep erroring until you move/remove it."
+    fi
   fi
 
-  if [[ "$src_dir" == "$target_dir_resolved" ]]; then
-    : # already in place (Flow 1: install.sh downloaded files into $plugins/disable-sleep)
-  elif [[ -L "$target_dir" || ! -e "$target_dir" ]]; then
-    ln -sfn "$src_dir" "$target_dir"
-    info "Linked: $target_dir -> $src_dir"
+  local src target
+  src="$(resolve_path "$DIR/disable-sleep.10s.sh")"
+  target="$plugins/disable-sleep.10s.sh"
+
+  if [[ -L "$target" || ! -e "$target" ]]; then
+    ln -sf "$src" "$target"
+    info "Linked: $target -> $src"
+  elif [[ "$(resolve_path "$target")" == "$src" ]]; then
+    : # already correctly linked
   else
-    err "$target_dir exists and is a real directory with unrelated content; refusing to overwrite."
+    err "$target exists and isn't our symlink; refusing to overwrite."
     err "Move or remove it manually, then re-run."
     exit 1
   fi
-
-  # Top-level entry — relative so it works for both Flow 1 and Flow 2.
-  ln -sf "disable-sleep/disable-sleep.10s.sh" "$plugins/disable-sleep.10s.sh"
 }
 
-# Inverse of install_symlinks. Only removes things that are symlinks, never
-# a real directory — that protects Flow 1's downloaded files until install.sh
-# --uninstall (which rm -rf's the dir) takes care of them.
+# Inverse of install_symlinks. Also sweeps the legacy `disable-sleep` entry
+# if a previous version left one behind.
 uninstall_symlinks() {
   local plugins="$1"
   if [[ -L "$plugins/disable-sleep.10s.sh" ]]; then
@@ -113,13 +133,14 @@ uninstall_symlinks() {
   fi
   if [[ -L "$plugins/disable-sleep" ]]; then
     rm -f "$plugins/disable-sleep"
-    info "Unlinked: $plugins/disable-sleep"
+    info "Removed legacy symlink: $plugins/disable-sleep"
   fi
 }
 
-# Re-exec self as root. From a terminal we use plain sudo (with -p so the
-# user sees *why* we need a password); from xbar's menu (no TTY) we use the
-# macOS GUI dialog via osascript and pass the reason as `with prompt`.
+# Re-exec self as root. From a terminal we print the reason once and let
+# sudo do its own (default) Password: prompt on the next line. From xbar's
+# menu (no TTY) we use the macOS GUI dialog via osascript and pass the
+# reason as `with prompt`.
 #
 # Args: <reason> <remaining setup.sh args...>
 escalate() {
@@ -127,7 +148,7 @@ escalate() {
   if [[ -t 0 ]]; then
     info ""
     info "→ $reason"
-    exec sudo -p "[xbar disable-sleep] $reason — password: " "$SELF" "$@"
+    exec sudo "$SELF" "$@"
   fi
   local sh_cmd
   sh_cmd="$(printf '%q ' "$SELF" "$@")"
@@ -224,28 +245,28 @@ cmd_status() {
 
   local all_ok=0
 
-  printf 'plugins dir: %s\n' "$plugins"
+  printf 'plugins dir : %s\n' "$plugins"
+  printf 'assets dir  : %s\n' "$DIR"
 
-  if [[ -L "$plugins/disable-sleep" ]]; then
-    printf 'plugin dir : symlink -> %s\n' "$(readlink "$plugins/disable-sleep")"
-  elif [[ -d "$plugins/disable-sleep" ]]; then
-    printf 'plugin dir : real directory (installed by install.sh)\n'
+  if [[ -L "$plugins/disable-sleep.10s.sh" ]]; then
+    printf 'plugin link : %s -> %s\n' \
+      "$plugins/disable-sleep.10s.sh" \
+      "$(readlink "$plugins/disable-sleep.10s.sh")"
   else
-    printf 'plugin dir : MISSING\n'
+    printf 'plugin link : MISSING\n'
     all_ok=1
   fi
 
-  if [[ -L "$plugins/disable-sleep.10s.sh" ]]; then
-    printf 'top entry  : symlink -> %s\n' "$(readlink "$plugins/disable-sleep.10s.sh")"
-  else
-    printf 'top entry  : MISSING\n'
+  if [[ -e "$plugins/disable-sleep" || -L "$plugins/disable-sleep" ]]; then
+    printf 'legacy entry: %s present — re-run `setup.sh` to clean it up.\n' \
+      "$plugins/disable-sleep"
     all_ok=1
   fi
 
   if [[ -f "$SUDOERS_FILE" ]]; then
-    printf 'sudoers    : installed at %s\n' "$SUDOERS_FILE"
+    printf 'sudoers     : installed at %s\n' "$SUDOERS_FILE"
   else
-    printf 'sudoers    : MISSING\n'
+    printf 'sudoers     : MISSING\n'
     all_ok=1
   fi
 
