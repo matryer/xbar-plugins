@@ -1,313 +1,40 @@
 #!/usr/bin/env bash
-# setup.sh — local installer for the disable-sleep xbar plugin.
+# setup.sh — symlink the disable-sleep plugin into xbar's plugins folder.
 #
-# Does the whole local hook-up:
-#   1. Symlink this directory into xbar's plugins folder so xbar discovers it.
-#   2. Install a NOPASSWD sudoers rule (/etc/sudoers.d/xbar-disable-sleep) so
-#      `pmset -b disablesleep 0|1` runs without a password prompt.
+# Run: ./setup.sh
+# Env: XBAR_PLUGINS_DIR overrides target (else ~/Library/Application Support/xbar/plugins)
 #
-# Either step is skipped if it's already in the desired state, so re-running
-# `setup.sh` is safe.
-#
-# Usage:
-#   ./setup.sh [install [username]]  # symlinks + sudoers (default; current user)
-#   ./setup.sh uninstall             # remove both symlinks and sudoers
-#   ./setup.sh status                # show what's installed where
-#
-# Env:
-#   XBAR_PLUGINS_DIR=<path>   override xbar plugins folder (else
-#                             ~/Library/Application Support/xbar/plugins)
-#
-# Self-escalates: terminal invocations re-exec via `sudo` for the sudoers
-# step; non-TTY invocations (from xbar's menu) use the system password
-# prompt via `osascript ... with administrator privileges`. Symlinks are
-# created BEFORE escalation, in user-space, so admin powers are limited to
-# touching /etc/sudoers.d only.
+# No sudo, no prompts. For the passwordless toggle (sudoers rule), run
+# ./passwordless.sh — or click the menu item once the plugin is loaded.
 
 set -u
 
-# Resolve absolute path of $0, following symlinks. Portable across macOS
-# versions — does not rely on /usr/bin/realpath, which was missing pre-Big Sur.
-resolve_path() {
-  local target="$1"
-  while [[ -L "$target" ]]; do
-    local link
-    link="$(readlink "$target")"
-    if [[ "$link" = /* ]]; then
-      target="$link"
-    else
-      target="$(cd "$(dirname "$target")" && pwd -P)/$link"
-    fi
-  done
-  echo "$(cd "$(dirname "$target")" && pwd -P)/$(basename "$target")"
-}
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+PLUGINS="${XBAR_PLUGINS_DIR:-$HOME/Library/Application Support/xbar/plugins}"
+SCRIPT="$DIR/disable-sleep.10s.sh"
+LINK="$PLUGINS/disable-sleep.10s.sh"
 
-SELF="$(resolve_path "$0")"
-DIR="$(dirname "$SELF")"
-SUDOERS_FILE="/etc/sudoers.d/xbar-disable-sleep"
+mkdir -p "$PLUGINS"
 
-err()  { printf '%s\n' "$*" >&2; }
-info() { printf '%s\n' "$*"; }
-
-# Look up a user's xbar plugins folder. Honors $XBAR_PLUGINS_DIR if set,
-# otherwise resolves $user's home via dscl (works even when running under
-# `sudo`, where $HOME would otherwise be /var/root).
-plugins_dir_for() {
-  local user="$1"
-  if [[ -n "${XBAR_PLUGINS_DIR:-}" ]]; then
-    echo "$XBAR_PLUGINS_DIR"
-    return
-  fi
-  local home
-  if [[ "$user" == "$USER" && "$EUID" -ne 0 ]]; then
-    home="$HOME"
+# Migration: previous versions left a `disable-sleep` entry (symlink to dir,
+# or real directory from old install.sh) next to the script symlink. xbar
+# tried to fork/exec it and crashed. Sweep it out if safe.
+LEGACY="$PLUGINS/disable-sleep"
+if [[ -L "$LEGACY" ]]; then
+  rm -f "$LEGACY"
+  echo "Removed legacy entry: $LEGACY"
+elif [[ -d "$LEGACY" ]]; then
+  expected='^(disable-sleep\.10s\.sh|setup\.sh|uninstall\.sh|passwordless\.sh|install\.sh|bed\.png|bed-no\.png|make-icons\.py)$'
+  extras="$(/bin/ls -A "$LEGACY" | grep -Ev "$expected" || true)"
+  if [[ -z "$extras" ]]; then
+    rm -rf "$LEGACY"
+    echo "Removed legacy directory: $LEGACY"
   else
-    home="$(/usr/bin/dscl . -read "/Users/$user" NFSHomeDirectory 2>/dev/null | awk '{print $2}')"
+    echo "WARNING: $LEGACY contains unrelated files — leaving it alone:" >&2
+    echo "$extras" >&2
+    echo "(xbar may keep erroring on it until you move/remove it manually.)" >&2
   fi
-  if [[ -z "$home" ]]; then
-    err "Could not resolve home directory for user '$user'."
-    exit 3
-  fi
-  echo "$home/Library/Application Support/xbar/plugins"
-}
+fi
 
-# Make xbar discover the plugin. Only ONE entry goes into $plugins — an
-# absolute symlink to the plugin script. Anything else (subdirectory, helper
-# script, icons, etc.) would cause xbar to try fork/exec it and surface
-# `fork/exec ./<name>: permission denied` in the menubar. Idempotent.
-#
-# Support files live wherever this setup.sh lives (the repo clone for dev
-# installs, or $XBAR_DISABLE_SLEEP_DIR for curl|bash installs) — the script
-# resolves them via $SELF/$DIR, so it doesn't matter where they sit.
-install_symlinks() {
-  local plugins="$1"
-  mkdir -p "$plugins"
-
-  # Migration: previous versions of setup.sh also placed a `disable-sleep`
-  # symlink (to a directory) right next to the .10s.sh symlink. That's what
-  # made xbar barf. Sweep it (and the old real directory from install.sh)
-  # out of the way.
-  if [[ -L "$plugins/disable-sleep" ]]; then
-    rm -f "$plugins/disable-sleep"
-    info "Removed legacy entry: $plugins/disable-sleep (was the cause of xbar's fork/exec error)"
-  elif [[ -d "$plugins/disable-sleep" ]]; then
-    # Real directory from older install.sh; if it's just our four files,
-    # delete it. Otherwise keep it and warn — the user has put unrelated
-    # stuff in there.
-    local stale="$plugins/disable-sleep"
-    local extras
-    extras="$(/bin/ls -A "$stale" | grep -Ev '^(disable-sleep\.10s\.sh|setup\.sh|bed\.png|bed-no\.png|make-icons\.py)$' || true)"
-    if [[ -z "$extras" ]]; then
-      rm -rf "$stale"
-      info "Removed legacy directory: $stale (was the cause of xbar's fork/exec error)"
-    else
-      err "WARNING: $stale exists with unrelated files:"
-      err "$extras"
-      err "Leaving it in place; xbar may keep erroring until you move/remove it."
-    fi
-  fi
-
-  local src target
-  src="$(resolve_path "$DIR/disable-sleep.10s.sh")"
-  target="$plugins/disable-sleep.10s.sh"
-
-  if [[ -L "$target" || ! -e "$target" ]]; then
-    ln -sf "$src" "$target"
-    info "Linked: $target -> $src"
-  elif [[ "$(resolve_path "$target")" == "$src" ]]; then
-    : # already correctly linked
-  else
-    err "$target exists and isn't our symlink; refusing to overwrite."
-    err "Move or remove it manually, then re-run."
-    exit 1
-  fi
-}
-
-# Inverse of install_symlinks. Also sweeps the legacy `disable-sleep` entry
-# if a previous version left one behind.
-uninstall_symlinks() {
-  local plugins="$1"
-  if [[ -L "$plugins/disable-sleep.10s.sh" ]]; then
-    rm -f "$plugins/disable-sleep.10s.sh"
-    info "Unlinked: $plugins/disable-sleep.10s.sh"
-  fi
-  if [[ -L "$plugins/disable-sleep" ]]; then
-    rm -f "$plugins/disable-sleep"
-    info "Removed legacy symlink: $plugins/disable-sleep"
-  fi
-}
-
-# Re-exec self as root. From a terminal we print the reason once and let
-# sudo do its own (default) Password: prompt on the next line. From xbar's
-# menu (no TTY) we use the macOS GUI dialog via osascript and pass the
-# reason as `with prompt`.
-#
-# Args: <reason> <remaining setup.sh args...>
-escalate() {
-  local reason="$1"; shift
-  if [[ -t 0 ]]; then
-    info ""
-    info "→ $reason"
-    exec sudo "$SELF" "$@"
-  fi
-  local sh_cmd
-  sh_cmd="$(printf '%q ' "$SELF" "$@")"
-  local as_str="${sh_cmd//\\/\\\\}"
-  as_str="${as_str//\"/\\\"}"
-  local prompt_str="${reason//\\/\\\\}"
-  prompt_str="${prompt_str//\"/\\\"}"
-  osascript -e "do shell script \"$as_str\" with prompt \"$prompt_str\" with administrator privileges" >/dev/null
-  exit $?
-}
-
-# Write /etc/sudoers.d/xbar-disable-sleep with an exact two-command allow-list,
-# validated by visudo BEFORE the destination is touched.
-install_sudoers() {
-  local target_user="${1:-}"
-  if [[ -z "$target_user" || "$target_user" == "root" ]]; then
-    err "install_sudoers: empty/root username."
-    exit 2
-  fi
-
-  local tmp
-  tmp="$(mktemp)"
-  cat > "$tmp" <<EOF
-# Installed by xbar plugin: disable-sleep.10s.sh
-# See: https://github.com/kiprasmel/xbar-plugins/tree/main/System/disable-sleep
-$target_user ALL=(root) NOPASSWD: /usr/bin/pmset -b disablesleep 0, /usr/bin/pmset -b disablesleep 1
-EOF
-
-  if ! /usr/sbin/visudo -cf "$tmp" >/dev/null 2>&1; then
-    rm -f "$tmp"
-    err "visudo validation failed; sudoers not installed."
-    exit 1
-  fi
-
-  /usr/bin/install -m 0440 -o root -g wheel "$tmp" "$SUDOERS_FILE"
-  rm -f "$tmp"
-  info "Installed: $SUDOERS_FILE (user=$target_user)"
-}
-
-uninstall_sudoers() {
-  if [[ -f "$SUDOERS_FILE" ]]; then
-    rm -f "$SUDOERS_FILE"
-    info "Removed: $SUDOERS_FILE"
-  else
-    info "Already absent: $SUDOERS_FILE"
-  fi
-}
-
-cmd_install() {
-  local target_user="${1:-${SUDO_USER:-$USER}}"
-
-  if [[ -z "$target_user" || "$target_user" == "root" ]]; then
-    err "Refusing to install rule for empty/root user; pass a username explicitly."
-    exit 2
-  fi
-
-  # User-space step: symlinks. Done BEFORE any escalation so admin privileges
-  # are limited strictly to writing /etc/sudoers.d.
-  local plugins
-  plugins="$(plugins_dir_for "$target_user")"
-  install_symlinks "$plugins"
-
-  # Sudoers step needs root.
-  if [[ "$EUID" -ne 0 ]]; then
-    escalate "Install sudoers rule so xbar can toggle sleep without a password." \
-      _install_sudoers "$target_user"
-    exit 1  # unreachable; escalate exec's or exits
-  fi
-
-  install_sudoers "$target_user"
-}
-
-cmd_uninstall() {
-  local target_user="${SUDO_USER:-$USER}"
-
-  if [[ -n "$target_user" && "$target_user" != "root" ]]; then
-    local plugins
-    plugins="$(plugins_dir_for "$target_user")"
-    uninstall_symlinks "$plugins"
-  fi
-
-  if [[ "$EUID" -ne 0 ]]; then
-    escalate "Remove the sudoers rule for xbar's sleep toggle." _uninstall_sudoers
-    exit 1
-  fi
-
-  uninstall_sudoers
-}
-
-cmd_status() {
-  local target_user="${SUDO_USER:-$USER}"
-  local plugins
-  plugins="$(plugins_dir_for "$target_user")"
-
-  local all_ok=0
-
-  printf 'plugins dir : %s\n' "$plugins"
-  printf 'assets dir  : %s\n' "$DIR"
-
-  if [[ -L "$plugins/disable-sleep.10s.sh" ]]; then
-    printf 'plugin link : %s -> %s\n' \
-      "$plugins/disable-sleep.10s.sh" \
-      "$(readlink "$plugins/disable-sleep.10s.sh")"
-  else
-    printf 'plugin link : MISSING\n'
-    all_ok=1
-  fi
-
-  if [[ -e "$plugins/disable-sleep" || -L "$plugins/disable-sleep" ]]; then
-    printf 'legacy entry: %s present — re-run `setup.sh` to clean it up.\n' \
-      "$plugins/disable-sleep"
-    all_ok=1
-  fi
-
-  if [[ -f "$SUDOERS_FILE" ]]; then
-    printf 'sudoers     : installed at %s\n' "$SUDOERS_FILE"
-  else
-    printf 'sudoers     : MISSING\n'
-    all_ok=1
-  fi
-
-  exit "$all_ok"
-}
-
-usage() {
-  cat <<USAGE
-Usage:
-  $0 [install [username]]  # symlinks + sudoers (default; current user)
-  $0 uninstall             # remove both symlinks and sudoers
-  $0 status                # show what's installed where
-
-Env:
-  XBAR_PLUGINS_DIR=<path>  override xbar plugins folder
-USAGE
-}
-
-case "${1:-install}" in
-  install)             shift; cmd_install   "$@" ;;
-  uninstall)           shift; cmd_uninstall "$@" ;;
-  status)              shift; cmd_status    "$@" ;;
-  # internal — called by escalate() so the elevated re-entry only touches
-  # /etc/sudoers.d, never user-owned paths under /var/root.
-  _install_sudoers)
-    shift
-    if [[ "$EUID" -ne 0 ]]; then
-      escalate "Install sudoers rule so xbar can toggle sleep without a password." \
-        _install_sudoers "$@"
-      exit 1
-    fi
-    install_sudoers "$@"
-    ;;
-  _uninstall_sudoers)
-    shift
-    if [[ "$EUID" -ne 0 ]]; then
-      escalate "Remove the sudoers rule for xbar's sleep toggle." _uninstall_sudoers
-      exit 1
-    fi
-    uninstall_sudoers
-    ;;
-  help|-h|--help)      usage ;;
-  *) err "Unknown subcommand: $1"; usage >&2; exit 2 ;;
-esac
+ln -sfn "$SCRIPT" "$LINK"
+echo "Linked: $LINK -> $SCRIPT"

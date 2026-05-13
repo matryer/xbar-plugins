@@ -5,38 +5,44 @@
 #   curl -fsSL https://raw.githubusercontent.com/kiprasmel/xbar-plugins/main/System/disable-sleep/install.sh | bash
 #
 # What it does:
-#   1. Downloads plugin + setup.sh + icons into the ASSETS dir (default
+#   1. Downloads support files into the ASSETS dir (default
 #      ~/Library/Application Support/xbar-disable-sleep) — NOT into xbar's
-#      plugins folder, because xbar treats every entry there as a plugin to
-#      fork/exec and would error on a subdirectory.
-#   2. Delegates to setup.sh install, which places one symlink in xbar's
-#      plugins folder and installs the sudoers rule.
-#   3. Pokes xbar to refresh.
+#      plugins folder, because xbar would try to fork/exec any subdirectory
+#      there and break.
+#   2. Runs setup.sh, which symlinks the plugin script into xbar's plugins
+#      folder.
+#   3. Unless --no-passwordless, runs passwordless.sh to install the sudoers
+#      rule (you'll be prompted for your password — once).
+#   4. Pokes xbar to refresh.
 #
 # For dev / clone-based installs, skip install.sh entirely and run
-# `./setup.sh` from inside your checkout — same result, no download.
+# `./setup.sh` (and optionally `./passwordless.sh`) from your checkout.
 #
 # Flags:
-#   --dir <path>     override xbar plugins folder (else $XBAR_PLUGINS_DIR or
-#                    ~/Library/Application Support/xbar/plugins)
-#   --assets <path>  override where support files live (else
-#                    $XBAR_DISABLE_SLEEP_DIR or
-#                    ~/Library/Application Support/xbar-disable-sleep)
-#   --skip-setup     download files only, don't run setup.sh install (xbar
-#                    won't see the plugin until you do so manually)
-#   --uninstall      reverse: setup.sh uninstall + rm -rf the assets dir
-#   --help, -h       show this help
+#   --dir <path>         override xbar plugins folder (else $XBAR_PLUGINS_DIR
+#                        or ~/Library/Application Support/xbar/plugins)
+#   --assets <path>      override the support-files dir (else
+#                        $XBAR_DISABLE_SLEEP_DIR or
+#                        ~/Library/Application Support/xbar-disable-sleep)
+#   --no-passwordless    skip the sudoers step (no password prompt — handy
+#                        for tests; the plugin still works, just prompts on
+#                        every toggle until you run ./passwordless.sh)
+#   --uninstall          reverse: uninstall.sh + passwordless.sh uninstall +
+#                        rm -rf the assets dir
+#   --help, -h           show this help
 #
 # Environment overrides (for testing the bootstrapper against a fork/branch):
-#   REPO=user/repo      default kiprasmel/xbar-plugins
-#   REF=branch-or-sha   default main
+#   REPO=user/repo       default kiprasmel/xbar-plugins
+#   REF=branch-or-sha    default main
+#   BASE_URL=<url>       override the file-fetch base entirely (overrides
+#                        REPO/REF; useful for local http servers in tests)
 
 set -euo pipefail
 
 REPO="${REPO:-kiprasmel/xbar-plugins}"
 REF="${REF:-main}"
 SUBPATH="System/disable-sleep"
-BASE_URL="https://raw.githubusercontent.com/$REPO/$REF/$SUBPATH"
+BASE_URL="${BASE_URL:-https://raw.githubusercontent.com/$REPO/$REF/$SUBPATH}"
 
 DEFAULT_PLUGINS="$HOME/Library/Application Support/xbar/plugins"
 TARGET="${XBAR_PLUGINS_DIR:-$DEFAULT_PLUGINS}"
@@ -45,7 +51,7 @@ DEFAULT_ASSETS="$HOME/Library/Application Support/xbar-disable-sleep"
 ASSETS="${XBAR_DISABLE_SLEEP_DIR:-$DEFAULT_ASSETS}"
 
 action="install"
-skip_setup=0
+no_passwordless=0
 
 usage() {
   sed -n '2,/^$/p' "$0" | sed 's/^# \?//'
@@ -53,11 +59,11 @@ usage() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --dir)         TARGET="$2"; shift 2 ;;
-    --assets)      ASSETS="$2"; shift 2 ;;
-    --skip-setup)  skip_setup=1; shift ;;
-    --uninstall)   action="uninstall"; shift ;;
-    --help|-h)     usage; exit 0 ;;
+    --dir)              TARGET="$2"; shift 2 ;;
+    --assets)           ASSETS="$2"; shift 2 ;;
+    --no-passwordless)  no_passwordless=1; shift ;;
+    --uninstall)        action="uninstall"; shift ;;
+    --help|-h)          usage; exit 0 ;;
     *) echo "Unknown arg: $1" >&2; usage >&2; exit 2 ;;
   esac
 done
@@ -67,9 +73,8 @@ if [[ "$(uname)" != "Darwin" ]]; then
   exit 1
 fi
 
-# Migration: previous versions of install.sh put everything in
-# $TARGET/disable-sleep/. That subdirectory is what xbar was choking on.
-# Sweep it (and its symlink twin from old setup.sh) out before we go further.
+# Migration: older versions stashed files in $TARGET/disable-sleep/ — xbar
+# choked on that subdirectory. Sweep it (and its symlink twin) out.
 migrate_legacy() {
   if [[ -L "$TARGET/disable-sleep" ]]; then
     rm -f "$TARGET/disable-sleep"
@@ -81,10 +86,12 @@ migrate_legacy() {
 }
 
 if [[ "$action" == "uninstall" ]]; then
-  if [[ -x "$ASSETS/setup.sh" ]]; then
-    XBAR_PLUGINS_DIR="$TARGET" "$ASSETS/setup.sh" uninstall || true
+  if [[ -x "$ASSETS/uninstall.sh" ]]; then
+    XBAR_PLUGINS_DIR="$TARGET" "$ASSETS/uninstall.sh" || true
   fi
-  rm -f  "$TARGET/disable-sleep.10s.sh"
+  if [[ "$no_passwordless" -eq 0 && -x "$ASSETS/passwordless.sh" ]]; then
+    "$ASSETS/passwordless.sh" uninstall || true
+  fi
   rm -rf "$ASSETS"
   migrate_legacy
   echo "Uninstalled disable-sleep."
@@ -97,28 +104,34 @@ mkdir -p "$ASSETS"
 stage="$(mktemp -d)"
 trap 'rm -rf "$stage"' EXIT
 
+files=(disable-sleep.10s.sh setup.sh uninstall.sh passwordless.sh bed.png bed-no.png)
 echo "Downloading from $BASE_URL into $ASSETS/ ..."
-for f in disable-sleep.10s.sh setup.sh bed.png bed-no.png; do
+for f in "${files[@]}"; do
   curl -fsSL --proto '=https' --tlsv1.2 --retry 3 --retry-delay 1 \
     -o "$stage/$f" "$BASE_URL/$f"
 done
 
-chmod +x "$stage/disable-sleep.10s.sh" "$stage/setup.sh"
+chmod +x "$stage/disable-sleep.10s.sh" \
+         "$stage/setup.sh" \
+         "$stage/uninstall.sh" \
+         "$stage/passwordless.sh"
 
-mv "$stage"/disable-sleep.10s.sh "$ASSETS/disable-sleep.10s.sh"
-mv "$stage"/setup.sh             "$ASSETS/setup.sh"
-mv "$stage"/bed.png              "$ASSETS/bed.png"
-mv "$stage"/bed-no.png           "$ASSETS/bed-no.png"
+for f in "${files[@]}"; do
+  mv "$stage/$f" "$ASSETS/$f"
+done
 
-if [[ "$skip_setup" -eq 0 ]]; then
-  echo "Running setup.sh install (links plugin into xbar + installs sudoers rule; you'll be prompted for your password) ..."
-  XBAR_PLUGINS_DIR="$TARGET" "$ASSETS/setup.sh" install || {
-    echo "setup.sh install failed. Re-run manually:"
-    echo "  XBAR_PLUGINS_DIR=$(printf %q "$TARGET") $ASSETS/setup.sh install"
+XBAR_PLUGINS_DIR="$TARGET" "$ASSETS/setup.sh"
+
+if [[ "$no_passwordless" -eq 0 ]]; then
+  echo "Setting up passwordless toggle (sudoers rule; you'll be prompted for your password)..."
+  "$ASSETS/passwordless.sh" install || {
+    echo "passwordless.sh install failed. The plugin still works, but every"
+    echo "toggle will prompt for your password. Re-run later with:"
+    echo "  $ASSETS/passwordless.sh install"
   }
 fi
 
-# Nudge xbar to pick up the new plugin. Best-effort; harmless if xbar isn't running.
+# Best-effort xbar refresh; harmless if xbar isn't running.
 open 'xbar://app.xbarapp.com/refreshAllPlugins' >/dev/null 2>&1 || true
 
 cat <<DONE

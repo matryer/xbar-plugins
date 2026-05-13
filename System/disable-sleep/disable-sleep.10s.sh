@@ -4,7 +4,7 @@
 # <xbar.version>v0.1</xbar.version>
 # <xbar.author>Kipras Melnikovas</xbar.author>
 # <xbar.author.github>kiprasmel</xbar.author.github>
-# <xbar.desc>One-click toggle for `sudo pmset -b disablesleep` with a bed / crossed-out-bed icon. Pair with setup.sh for passwordless toggling so the Mac stays awake on battery while agents work.</xbar.desc>
+# <xbar.desc>One-click toggle for `sudo pmset -b disablesleep` with a bed / crossed-out-bed icon. Pair with passwordless.sh for passwordless toggling so the Mac stays awake on battery while agents work.</xbar.desc>
 # <xbar.dependencies></xbar.dependencies>
 # <xbar.abouturl>https://github.com/kiprasmel/xbar-plugins/tree/main/System/disable-sleep</xbar.abouturl>
 
@@ -28,7 +28,7 @@ resolve_path() {
 
 SELF="$(resolve_path "$0")"
 DIR="$(dirname "$SELF")"
-HELPER="$DIR/setup.sh"
+HELPER="$DIR/passwordless.sh"
 SUDOERS_FILE="/etc/sudoers.d/xbar-disable-sleep"
 
 # Toggle: try passwordless via sudo -n (requires setup.sh install), fall back
@@ -70,7 +70,7 @@ echo "$toggle_label | bash='$SELF' param1=$toggle_param terminal=false refresh=t
 echo "---"
 echo "$status_text | disabled=true"
 if [[ ! -x "$HELPER" ]]; then
-  echo "Passwordless toggle: setup.sh missing | disabled=true"
+  echo "Passwordless toggle: passwordless.sh missing | disabled=true"
 elif [[ "$sudoers_installed" == "1" ]]; then
   echo "Passwordless toggle: enabled | disabled=true"
   echo "Uninstall passwordless toggle | bash='$HELPER' param1=uninstall terminal=false refresh=true"
