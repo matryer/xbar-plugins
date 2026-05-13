@@ -5,21 +5,24 @@
 #   curl -fsSL https://raw.githubusercontent.com/kiprasmel/xbar-plugins/main/System/disable-sleep/install.sh | bash
 #
 # What it does:
-#   1. Downloads plugin + helper + icons into <plugins-dir>/disable-sleep/
-#   2. Symlinks the plugin to the plugins-dir top level so xbar finds it
-#   3. Runs setup.sh install to add the sudoers rule (passwordless toggle)
-#   4. Pokes xbar to refresh
+#   1. Downloads plugin + setup.sh + icons into <plugins-dir>/disable-sleep/
+#   2. Delegates to setup.sh install — which creates the xbar top-level
+#      symlink AND installs the sudoers rule
+#   3. Pokes xbar to refresh
+#
+# For dev / clone-based installs, skip install.sh entirely and run
+# `./setup.sh install` from inside your checkout — same result, no download.
 #
 # Flags:
 #   --dir <path>     override xbar plugins folder (else $XBAR_PLUGINS_DIR or
 #                    ~/Library/Application Support/xbar/plugins)
-#   --skip-setup     don't run setup.sh install (you'll get an admin prompt
-#                    on every toggle until you run it manually)
-#   --uninstall      remove the sudoers rule, the symlink, and the subdir
+#   --skip-setup     download files only, don't run setup.sh install (xbar
+#                    won't see the plugin until you do so manually)
+#   --uninstall      reverse: setup.sh uninstall + rm -rf the downloaded dir
 #   --help, -h       show this help
 #
 # Environment overrides (for testing the bootstrapper against a fork/branch):
-#   REPO=user/repo   default kiprasmel/xbar-plugins
+#   REPO=user/repo      default kiprasmel/xbar-plugins
 #   REF=branch-or-sha   default main
 
 set -euo pipefail
@@ -56,8 +59,11 @@ fi
 
 if [[ "$action" == "uninstall" ]]; then
   if [[ -x "$TARGET/disable-sleep/setup.sh" ]]; then
-    "$TARGET/disable-sleep/setup.sh" uninstall || true
+    XBAR_PLUGINS_DIR="$TARGET" "$TARGET/disable-sleep/setup.sh" uninstall || true
   fi
+  # setup.sh removes the top-level symlink and (when it's a symlink) the
+  # disable-sleep entry. The downloaded real directory we created is its
+  # responsibility to clear.
   rm -f  "$TARGET/disable-sleep.10s.sh"
   rm -rf "$TARGET/disable-sleep"
   echo "Uninstalled disable-sleep from: $TARGET"
@@ -82,16 +88,11 @@ mv "$stage"/setup.sh             "$TARGET/disable-sleep/setup.sh"
 mv "$stage"/bed.png              "$TARGET/disable-sleep/bed.png"
 mv "$stage"/bed-no.png           "$TARGET/disable-sleep/bed-no.png"
 
-# xbar's plugin discovery only looks at the top of its plugins folder, so
-# expose the plugin there as a relative symlink into the subdir.
-ln -sf "disable-sleep/disable-sleep.10s.sh" "$TARGET/disable-sleep.10s.sh"
-
 if [[ "$skip_setup" -eq 0 ]]; then
-  echo "Running setup.sh install (you'll be prompted for your password) ..."
-  "$TARGET/disable-sleep/setup.sh" install || {
-    echo "setup.sh install failed; the plugin still works but will prompt for"
-    echo "your password on every toggle. Re-run manually:"
-    echo "  $TARGET/disable-sleep/setup.sh install"
+  echo "Running setup.sh install (creates xbar symlinks + sudoers rule; you'll be prompted for your password) ..."
+  XBAR_PLUGINS_DIR="$TARGET" "$TARGET/disable-sleep/setup.sh" install || {
+    echo "setup.sh install failed. Re-run manually:"
+    echo "  XBAR_PLUGINS_DIR=$(printf %q "$TARGET") $TARGET/disable-sleep/setup.sh install"
   }
 fi
 

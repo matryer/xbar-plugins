@@ -33,10 +33,13 @@ SUDOERS_FILE="/etc/sudoers.d/xbar-disable-sleep"
 
 # Toggle: try passwordless via sudo -n (requires setup.sh install), fall back
 # to GUI password prompt via osascript so the toggle still works pre-setup.
+# The osascript prompt explains *why* we need admin so it's not a mystery dialog.
 toggle_pmset() {
   local val="$1"
+  local action; [[ "$val" == "1" ]] && action="disable" || action="allow"
+  local reason="Toggle battery sleep (pmset -b disablesleep $val → $action). Install the passwordless toggle from xbar's menu to skip this prompt."
   sudo -n /usr/bin/pmset -b disablesleep "$val" 2>/dev/null \
-    || osascript -e "do shell script \"/usr/bin/pmset -b disablesleep $val\" with administrator privileges" >/dev/null
+    || osascript -e "do shell script \"/usr/bin/pmset -b disablesleep $val\" with prompt \"$reason\" with administrator privileges" >/dev/null
 }
 
 case "${1:-}" in
