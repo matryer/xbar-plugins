@@ -4,7 +4,7 @@
 # <xbar.version>v0.1</xbar.version>
 # <xbar.author>Kipras Melnikovas</xbar.author>
 # <xbar.author.github>kiprasmel</xbar.author.github>
-# <xbar.desc>One-click toggle for `sudo pmset -b disablesleep` with a bed / crossed-out-bed icon. Pair with passwordless.sh for passwordless toggling so the Mac stays awake on battery while agents work.</xbar.desc>
+# <xbar.desc>One-click toggle for `sudo pmset -b disablesleep` with a bed / crossed-out-bed icon. Keeps the Mac awake on battery while agents work.</xbar.desc>
 # <xbar.dependencies></xbar.dependencies>
 # <xbar.abouturl>https://github.com/kiprasmel/xbar-plugins/tree/main/System/disable-sleep</xbar.abouturl>
 
@@ -28,16 +28,14 @@ resolve_path() {
 
 SELF="$(resolve_path "$0")"
 DIR="$(dirname "$SELF")"
-HELPER="$DIR/passwordless.sh"
-SUDOERS_FILE="/etc/sudoers.d/xbar-disable-sleep"
 
-# Toggle: try passwordless via sudo -n (requires setup.sh install), fall back
-# to GUI password prompt via osascript so the toggle still works pre-setup.
-# The osascript prompt explains *why* we need admin so it's not a mystery dialog.
+# Toggle: try passwordless via sudo -n (handy if you have a NOPASSWD rule
+# for `pmset -b disablesleep 0|1`), fall back to a GUI password prompt via
+# osascript with a reason string so it's not a mystery dialog.
 toggle_pmset() {
   local val="$1"
   local action; [[ "$val" == "1" ]] && action="disable" || action="allow"
-  local reason="Toggle battery sleep (pmset -b disablesleep $val → $action). Install the passwordless toggle from xbar's menu to skip this prompt."
+  local reason="Toggle battery sleep (pmset -b disablesleep $val → $action)."
   sudo -n /usr/bin/pmset -b disablesleep "$val" 2>/dev/null \
     || osascript -e "do shell script \"/usr/bin/pmset -b disablesleep $val\" with prompt \"$reason\" with administrator privileges" >/dev/null
 }
@@ -48,8 +46,6 @@ case "${1:-}" in
 esac
 
 sleep_disabled="$(pmset -g | awk '$1~/SleepDisabled/ {print $2}')"
-sudoers_installed=0
-[[ -f "$SUDOERS_FILE" ]] && sudoers_installed=1
 
 if [[ "$sleep_disabled" == "1" ]]; then
   icon_b64="$(base64 < "$DIR/bed-no.png" | tr -d '\n')"
@@ -65,17 +61,7 @@ fi
 
 echo "| templateImage=$icon_b64"
 echo "---"
-# The single prominent toggle button — sized up so it visually dominates the dropdown.
 echo "$toggle_label | bash='$SELF' param1=$toggle_param terminal=false refresh=true size=14"
 echo "---"
 echo "$status_text | disabled=true"
-if [[ ! -x "$HELPER" ]]; then
-  echo "Passwordless toggle: passwordless.sh missing | disabled=true"
-elif [[ "$sudoers_installed" == "1" ]]; then
-  echo "Passwordless toggle: enabled | disabled=true"
-  echo "Uninstall passwordless toggle | bash='$HELPER' param1=uninstall terminal=false refresh=true"
-else
-  echo "Passwordless toggle: not installed | disabled=true"
-  echo "Install passwordless toggle… | bash='$HELPER' param1=install terminal=false refresh=true"
-fi
 echo "Refresh | refresh=true"
