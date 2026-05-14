@@ -58,28 +58,31 @@ def _r(coords):
 
 
 def base_bed(d: "ImageDraw.ImageDraw") -> None:
-    """Side-view bed, ~10% inset from the old layout: centred on (22, 22), no
-    thin frame strip (legs attach under the mattress) so the front edge stays
-    clean after downsample.
-    """
+    """Side-view bed: footprint close to the pre-refresh 44 px icon (~git
+    6ca7318 tall headboard + wide mattress), trimmed ~5 % tighter and lifted
+    so the silhouette is centred vertically on the canvas. No thin frame strip
+    (legs sit under the mattress) so the front edge stays crisp.
+
+    Larger than the 48d9558 inset version so it matches “slightly smaller than
+    the old chunky bed”, not toy-sized."""
     # headboard (left vertical bar)
-    d.rounded_rectangle(_r([12, 15, 15, 28]), radius=1.5 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([8,  10, 11, 21]), radius=1.5 * SS, fill=BLACK)
     # pillow
-    d.rounded_rectangle(_r([16, 18, 23, 22]), radius=1.8 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([14, 14, 22, 19]), radius=2.0 * SS, fill=BLACK)
     # mattress
-    d.rounded_rectangle(_r([14, 22, 30, 26]), radius=1.8 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([11, 19, 37, 27]), radius=2.0 * SS, fill=BLACK)
     # legs — directly under mattress
-    d.rounded_rectangle(_r([16, 26, 18, 30]), radius=1.0 * SS, fill=BLACK)
-    d.rounded_rectangle(_r([26, 26, 28, 30]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([11, 27, 14, 35]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([33, 27, 36, 35]), radius=1.0 * SS, fill=BLACK)
 
 
 def add_slash(img: "Image.Image") -> "Image.Image":
-    """Shorter diagonal through the canvas centre (not corner-to-corner)."""
-    slash_w = 2.5            # output px — thinner than the old 4 px line
+    """Diagonal through (22, 22): not corner-to-corner like the earliest slash,
+    not as stubby as the over-shrunk bed revision — spans the enlarged bed."""
+    slash_w = 3.0
     gap_w = slash_w + 2.0
-    # Line through (22, 22), slope -1, ~9 px half-length along the diagonal
-    x0, y0 = 28.5, 15.5
-    x1, y1 = 15.5, 28.5
+    x0, y0 = 31.5, 12.5
+    x1, y1 = 12.5, 31.5
 
     erase = Image.new("L", img.size, 0)
     ed = ImageDraw.Draw(erase)
