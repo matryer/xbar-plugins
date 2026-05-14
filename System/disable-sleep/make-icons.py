@@ -6,18 +6,19 @@
 
 # Generator for the two menubar templateImages used by disable-sleep.10s.sh.
 #
-# - bed.png      : "sleep allowed" state (plain bed)
-# - bed-no.png   : "sleep denied" state  (bed with diagonal slash)
+# - bed.png      : plain bed
+# - bed-no.png   : bed + slash
 #
-# Drawing matches origin/main bed + slash (corner-to-corner diagonal, same
-# thickness and gap). Before downsample, one rigid `(tx, ty)` is computed from
-# the **alpha bbox of bed ∪ slash** so the crossed-out glyph is centred on the
-# 44² canvas; both PNGs use that same shift so toggling stays aligned.
+# Silhouettes match origin/main rectangles. The UR slash endpoint is eased
+# slightly toward UR–mid (shorter poke into the corner). The whole bed shifts
+# up a hair. Raster bbox of bed ∪ eased-slash defines the geometric centre,
+# plus a tiny extra vertical offset (applied *identically* for both PNGs) so ink
+# weight reads centred — alpha centroid tracked at ~Δy +0.4 vs dead centre vs
+# +3 with bbox-only balancing.
 #
-# Run with:
+# Run:
 #     uv run System/disable-sleep/make-icons.py
-# or, if pillow is already installed:
-#     python3 System/disable-sleep/make-icons.py
+# or: python3 System/disable-sleep/make-icons.py
 
 import os
 import sys
@@ -54,36 +55,51 @@ SS = 8                    # supersampling factor
 W = H = OUT * SS          # supersampled canvas size
 BLACK = (0, 0, 0, 255)
 
+# Canonical diagonal runs (40,4) → (4,40). Slide the UR anchor along the chord
+# toward the segment midpoint (~22,22): 0 keeps full corner poke, ↑ shortens UR.
+_SLASH_PULL_UR_FRACTION = 0.17
+
+# Subtract from every rect *y in output space — nudges the bed glyph upward (~1¼ px).
+_BED_VERTICAL_OFFSET_OUT = -1.25
+
+# Tiny pan after bbox-centring (same for bed + crossed). Supersampled pixels;
+# -13 SS ≈ 1.6 output px ↑ — balances bbox vs heavier bed pixels (inspector).
+_BIAS_TY_SUPER = -13
+
 
 def _r(coords):
     """Scale a list of output-pixel coords up to the supersampled canvas."""
     return [c * SS for c in coords]
 
 
-def base_bed(d: "ImageDraw.ImageDraw") -> None:
-    """Side-view bed silhouette — same rectangles as origin/main.
+def slash_endpoints() -> tuple[float, float, float, float]:
+    """UR→LL slash; UR only is pulled toward midpoint (shorter corner arm)."""
+    mid = OUT / 2.0
+    ur_x, ur_y = float(OUT) - 4.0, 4.0
+    ll_x, ll_y = 4.0, float(OUT) - 4.0
+    t = _SLASH_PULL_UR_FRACTION
+    x0 = ur_x + t * (mid - ur_x)
+    y0 = ur_y + t * (mid - ur_y)
+    return x0, y0, ll_x, ll_y
 
-    Coordinates stay in legacy output space; centre shift applies afterwards.
-    """
+
+def base_bed(d: "ImageDraw.ImageDraw") -> None:
+    """Origin/main rectangles; optional vertical nudge upward."""
+    dy = _BED_VERTICAL_OFFSET_OUT
     # headboard (tall left post)
-    d.rounded_rectangle(_r([5,  13, 10, 33]), radius=1.5 * SS, fill=BLACK)
-    # pillow at the head end of the mattress
-    d.rounded_rectangle(_r([13, 19, 21, 25]), radius=2.0 * SS, fill=BLACK)
-    # mattress
-    d.rounded_rectangle(_r([11, 24, 38, 32]), radius=2.0 * SS, fill=BLACK)
-    # frame (thin bar under mattress, joining headboard to right side)
-    d.rounded_rectangle(_r([5,  32, 40, 35]), radius=1.0 * SS, fill=BLACK)
-    # legs
-    d.rounded_rectangle(_r([7,  34, 10, 38]), radius=1.0 * SS, fill=BLACK)
-    d.rounded_rectangle(_r([35, 34, 38, 38]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([5,  13 + dy, 10, 33 + dy]), radius=1.5 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([13, 19 + dy, 21, 25 + dy]), radius=2.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([11, 24 + dy, 38, 32 + dy]), radius=2.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([5,  32 + dy, 40, 35 + dy]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([7,  34 + dy, 10, 38 + dy]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([35, 34 + dy, 38, 38 + dy]), radius=1.0 * SS, fill=BLACK)
 
 
 def add_slash(img: "Image.Image") -> "Image.Image":
-    """Exactly origin/main: gap + round caps + full-corner diagonal UR↔LL."""
-    slash_w = 4              # output px (line thickness)
-    gap_w = slash_w + 2      # output px (transparent stripe through bed)
-    x0, y0 = 40, 4           # slash start (upper-right)
-    x1, y1 = 4, 40           # slash end   (lower-left)
+    """Same thickness / gap as origin; eased UR anchor only."""
+    slash_w = 4
+    gap_w = slash_w + 2
+    x0, y0, x1, y1 = slash_endpoints()
 
     erase = Image.new("L", img.size, 0)
     ed = ImageDraw.Draw(erase)
@@ -105,11 +121,17 @@ def add_slash(img: "Image.Image") -> "Image.Image":
     return img
 
 
-def rigid_center_shift() -> tuple[int, int]:
-    """Rigid pan so bbox(bed ∪ full slash) is centred on the supersampled tile."""
+def compose_layer(with_slash: bool) -> "Image.Image":
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     base_bed(ImageDraw.Draw(layer))
-    layer = add_slash(layer)
+    if with_slash:
+        layer = add_slash(layer)
+    return layer
+
+
+def rigid_center_shift() -> tuple[int, int]:
+    """Centre bbox(bed ∪ slash) on supersampled canvas (slash = eased UR)."""
+    layer = compose_layer(with_slash=True)
     bbox = layer.getbbox()
     if bbox is None:
         return (0, 0)
@@ -121,12 +143,9 @@ def rigid_center_shift() -> tuple[int, int]:
 
 def render(path: str, *, with_slash: bool) -> None:
     tx, ty = rigid_center_shift()
-    layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    base_bed(ImageDraw.Draw(layer))
-    if with_slash:
-        layer = add_slash(layer)
+    ty += _BIAS_TY_SUPER
     canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    canvas.alpha_composite(layer, (tx, ty))
+    canvas.alpha_composite(compose_layer(with_slash), (tx, ty))
     img = canvas.resize((OUT, OUT), Image.LANCZOS)
     img.save(path, format="PNG", dpi=(144, 144))
 
@@ -136,6 +155,9 @@ def main() -> None:
     render(os.path.join(here, "bed.png"), with_slash=False)
     render(os.path.join(here, "bed-no.png"), with_slash=True)
     print(f"Wrote bed.png and bed-no.png to {here}")
+    print(
+        f"(inspect tweak: UR_pull={_SLASH_PULL_UR_FRACTION} bed_dy_out={_BED_VERTICAL_OFFSET_OUT} bias_ty_SS={_BIAS_TY_SUPER})"
+    )
 
 
 if __name__ == "__main__":
