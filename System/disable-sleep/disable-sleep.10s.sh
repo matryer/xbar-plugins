@@ -47,35 +47,19 @@ esac
 
 sleep_disabled="$(pmset -g | awk '$1~/SleepDisabled/ {print $2}')"
 
-# Appearance: AppleInterfaceStyle is "Dark" only in dark mode; absent in light.
-is_dark=0
-[[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]] && is_dark=1
-
 if [[ "$sleep_disabled" == "1" ]]; then
-  # Denied state uses a red slash, which can't survive templateImage's
-  # auto-recolouring — so we ship two pre-coloured variants and pick the
-  # one matching the current appearance, and emit `image=` (not template).
-  if [[ "$is_dark" == "1" ]]; then
-    icon_src="$DIR/bed-no-dark.png"
-  else
-    icon_src="$DIR/bed-no-light.png"
-  fi
-  icon_key="image"
+  icon_b64="$(base64 < "$DIR/bed-no.png" | tr -d '\n')"
   toggle_label="Allow sleep"
   toggle_param="allow_sleep"
   status_text="Battery sleep: DENIED"
 else
-  # Allowed state is single-colour; let macOS recolour it via templateImage.
-  icon_src="$DIR/bed.png"
-  icon_key="templateImage"
+  icon_b64="$(base64 < "$DIR/bed.png" | tr -d '\n')"
   toggle_label="Disable sleep"
   toggle_param="deny_sleep"
   status_text="Battery sleep: allowed"
 fi
 
-icon_b64="$(base64 < "$icon_src" | tr -d '\n')"
-
-echo "| $icon_key=$icon_b64"
+echo "| templateImage=$icon_b64"
 echo "---"
 echo "$toggle_label | bash='$SELF' param1=$toggle_param terminal=false refresh=true size=14"
 echo "---"
