@@ -43,7 +43,7 @@ mkdir -p "$ASSETS"
 stage="$(mktemp -d)"
 trap 'rm -rf "$stage"' EXIT
 
-files=(disable-sleep.10s.sh setup.sh uninstall.sh bed.png bed-no.png)
+files=(disable-sleep.10s.sh setup.sh uninstall.sh bed.png bed-no-light.png bed-no-dark.png)
 echo "Downloading from $BASE_URL into $ASSETS/ ..."
 for f in "${files[@]}"; do
   curl -fsSL --proto '=https' --tlsv1.2 --retry 3 --retry-delay 1 \

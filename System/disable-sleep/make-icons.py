@@ -4,18 +4,20 @@
 # dependencies = ["pillow==10.3.0"]
 # ///
 
-# Generator for the two menubar templateImages used by disable-sleep.10s.sh.
+# Generator for the three menubar icons used by disable-sleep.10s.sh.
 #
-# - bed.png      : "sleep allowed" state (plain bed)
-# - bed-no.png   : "sleep denied" state  (bed with diagonal slash)
+# - bed.png           : "sleep allowed" state. Black on transparent. Used as
+#                       xbar templateImage so macOS recolours it per
+#                       appearance (white on dark mode, black on light).
+# - bed-no-light.png  : "sleep denied" state in light system appearance.
+#                       Black bed + red slash. Used as xbar image= (NOT
+#                       templateImage) so the red survives.
+# - bed-no-dark.png   : "sleep denied" state in dark system appearance.
+#                       White bed + red slash. Also used as image=.
 #
-# templateImage requirements (per xbar): only black + transparent pixels;
-# macOS recolors based on menubar foreground (white in dark mode, black in
-# light). Output is 44x44 @ 144 DPI -> NSImage natural size 22 pt, matching
-# macOS menubar template image conventions.
-#
-# Rendered at 8x supersampling and downsampled with LANCZOS for clean
-# anti-aliased edges at the small menubar size.
+# Output is 18x18 raw pixels with no DPI metadata, so xbar renders the icon
+# at ~18pt regardless of whether it honours pHYs. Drawn at 16x supersampling
+# and downsampled with LANCZOS for clean anti-aliased edges.
 #
 # Run with:
 #     uv run System/disable-sleep/make-icons.py
@@ -52,10 +54,13 @@ except ImportError:
 ### END UV BOOTSTRAP ###
 
 
-OUT = 44                  # final image size in pixels
-SS = 8                    # supersampling factor
+OUT = 18                  # final image size in pixels (no DPI -> 18pt natural)
+SS = 16                   # supersampling factor
 W = H = OUT * SS          # supersampled canvas size
+
 BLACK = (0, 0, 0, 255)
+WHITE = (255, 255, 255, 255)
+RED = (0xFF, 0x3B, 0x30, 255)   # macOS systemRed / destructive-action red
 
 
 def _r(coords):
@@ -63,37 +68,39 @@ def _r(coords):
     return [c * SS for c in coords]
 
 
-def base_bed(d: "ImageDraw.ImageDraw") -> None:
-    """Side-view bed silhouette, sketched in 44-px output coordinates.
+def base_bed(d: "ImageDraw.ImageDraw", fg) -> None:
+    """Side-view bed silhouette, sketched in 18-px output coordinates.
 
-    All coords pass through _r() so the actual draw happens on the SS-times
-    larger canvas; the final downsample handles anti-aliasing.
+    The bed is vertically centred around y=10 (canvas centre is y=9; the
+    pillow on top of the mattress pulls the visual mass slightly toward
+    the top so we centre the silhouette around 10 to compensate).
+
+    All coords pass through _r() so the draw happens on the supersampled
+    canvas; the final downsample handles anti-aliasing.
     """
-    # headboard (tall left post)
-    d.rounded_rectangle(_r([5,  13, 10, 33]), radius=1.5 * SS, fill=BLACK)
+    # headboard (vertical bar, left, with rounded top)
+    d.rounded_rectangle(_r([2,  5,  4, 13]), radius=0.8 * SS, fill=fg)
     # pillow at the head end of the mattress
-    d.rounded_rectangle(_r([13, 19, 21, 25]), radius=2.0 * SS, fill=BLACK)
-    # mattress
-    d.rounded_rectangle(_r([11, 24, 38, 32]), radius=2.0 * SS, fill=BLACK)
-    # frame (thin bar under mattress, joining headboard to right side)
-    d.rounded_rectangle(_r([5,  32, 40, 35]), radius=1.0 * SS, fill=BLACK)
-    # legs
-    d.rounded_rectangle(_r([7,  34, 10, 38]), radius=1.0 * SS, fill=BLACK)
-    d.rounded_rectangle(_r([35, 34, 38, 38]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([5,  7,  9, 10]), radius=0.6 * SS, fill=fg)
+    # mattress (rounded rect; legs attach to its underside, no separate frame)
+    d.rounded_rectangle(_r([4,  10, 16, 13]), radius=0.8 * SS, fill=fg)
+    # legs (directly under the mattress)
+    d.rounded_rectangle(_r([5,  13,  7, 15]), radius=0.4 * SS, fill=fg)
+    d.rounded_rectangle(_r([13, 13, 15, 15]), radius=0.4 * SS, fill=fg)
 
 
-def add_slash(img: "Image.Image") -> "Image.Image":
+def add_slash(img: "Image.Image", slash_color) -> "Image.Image":
     """Punch a transparent stripe through `img` along the no-slash diagonal,
-    then draw the slash itself. The transparent stripe gives a clean visual
-    gap between the bed silhouette and the slash so both shapes read.
+    then draw the slash itself. The gap keeps the bed and the slash from
+    visually mashing together.
 
     Both stripe and slash carry round end-caps (Pillow's `line` draws butt
     caps by default; we add ellipses to mimic round caps).
     """
-    slash_w = 4              # output px (line thickness)
-    gap_w = slash_w + 2      # output px (transparent stripe through bed)
-    x0, y0 = 40, 4           # slash start (upper-right)
-    x1, y1 = 4, 40           # slash end   (lower-left)
+    slash_w = 3              # output px, slash thickness
+    gap_w = slash_w + 1.5    # output px, transparent gap around the slash
+    x0, y0 = 15.5, 2.5       # slash start (upper-right)
+    x1, y1 = 2.5, 15.5       # slash end   (lower-left)
 
     # Punch out the wider stripe + matching round caps on the alpha channel.
     erase = Image.new("L", img.size, 0)
@@ -109,28 +116,34 @@ def add_slash(img: "Image.Image") -> "Image.Image":
 
     # Draw the slash itself (with matching round caps).
     d = ImageDraw.Draw(img)
-    d.line(_r([x0, y0, x1, y1]), fill=BLACK, width=int(slash_w * SS))
+    d.line(_r([x0, y0, x1, y1]), fill=slash_color, width=int(slash_w * SS))
     sh = slash_w / 2
     for cx, cy in [(x0, y0), (x1, y1)]:
-        d.ellipse(_r([cx - sh, cy - sh, cx + sh, cy + sh]), fill=BLACK)
+        d.ellipse(_r([cx - sh, cy - sh, cx + sh, cy + sh]), fill=slash_color)
 
     return img
 
 
-def render(path: str, *, with_slash: bool) -> None:
+def render(path: str, *, bed_fg, with_slash: bool) -> None:
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    base_bed(ImageDraw.Draw(img))
+    base_bed(ImageDraw.Draw(img), bed_fg)
     if with_slash:
-        img = add_slash(img)
+        img = add_slash(img, RED)
     img = img.resize((OUT, OUT), Image.LANCZOS)
-    img.save(path, format="PNG", dpi=(144, 144))
+    # No DPI passed -> Pillow writes no pHYs chunk; the image renders at
+    # its raw 18-px size no matter how the consumer handles DPI metadata.
+    img.save(path, format="PNG")
 
 
 def main() -> None:
     here = os.path.dirname(os.path.realpath(__file__))
-    render(os.path.join(here, "bed.png"),    with_slash=False)
-    render(os.path.join(here, "bed-no.png"), with_slash=True)
-    print(f"Wrote bed.png and bed-no.png to {here}")
+    # Template image for the "allowed" state — macOS recolours it itself.
+    render(os.path.join(here, "bed.png"),          bed_fg=BLACK, with_slash=False)
+    # Non-template images for the "denied" state — bed colour is baked in
+    # per appearance because non-templates aren't recoloured by macOS.
+    render(os.path.join(here, "bed-no-light.png"), bed_fg=BLACK, with_slash=True)
+    render(os.path.join(here, "bed-no-dark.png"),  bed_fg=WHITE, with_slash=True)
+    print(f"Wrote bed.png, bed-no-light.png, bed-no-dark.png to {here}")
 
 
 if __name__ == "__main__":
