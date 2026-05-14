@@ -49,12 +49,12 @@ sleep_disabled="$(pmset -g | awk '$1~/SleepDisabled/ {print $2}')"
 
 if [[ "$sleep_disabled" == "1" ]]; then
   icon_b64="$(base64 < "$DIR/bed-no.png" | tr -d '\n')"
-  toggle_label="Allow sleep on battery"
+  toggle_label="Allow sleep"
   toggle_param="allow_sleep"
   status_text="Battery sleep: DENIED"
 else
   icon_b64="$(base64 < "$DIR/bed.png" | tr -d '\n')"
-  toggle_label="Disable sleep on battery"
+  toggle_label="Disable sleep"
   toggle_param="deny_sleep"
   status_text="Battery sleep: allowed"
 fi
