@@ -6,16 +6,18 @@
 
 # Generator for the two menubar templateImages used by disable-sleep.10s.sh.
 #
-# - bed.png    : "sleep allowed" state (plain bed)
-# - bed-no.png : "sleep denied" state (bed with diagonal slash)
+# - bed.png      : "sleep allowed" state (plain bed)
+# - bed-no.png   : "sleep denied" state  (bed with diagonal slash)
 #
-# Only black + transparent pixels — macOS recolours templates for the menu bar.
-# Output 44×44 @ 144 DPI (~22 pt natural menubar icon). Drawn at 8× supersampling
-# then LANCZOS downsampled for clean edges.
+# Drawing matches origin/main (`kiprasmel/xbar-plugins` @ 44×44 supersampled
+# layout). Before downsample we rigid-translate bed + slash together so the
+# bed silhouette is centred on the canvas (slash moves with it, so toggle
+# does not jump).
 #
-# Run:
+# Run with:
 #     uv run System/disable-sleep/make-icons.py
-# or: python3 System/disable-sleep/make-icons.py
+# or, if pillow is already installed:
+#     python3 System/disable-sleep/make-icons.py
 
 import os
 import sys
@@ -49,40 +51,52 @@ except ImportError:
 
 OUT = 44                  # final image size in pixels
 SS = 8                    # supersampling factor
-W = H = OUT * SS
+W = H = OUT * SS          # supersampled canvas size
 BLACK = (0, 0, 0, 255)
 
 
 def _r(coords):
+    """Scale a list of output-pixel coords up to the supersampled canvas."""
     return [c * SS for c in coords]
 
 
 def base_bed(d: "ImageDraw.ImageDraw") -> None:
-    """Side-view bed: footprint close to the pre-refresh 44 px icon (~git
-    6ca7318 tall headboard + wide mattress), trimmed ~5 % tighter and lifted
-    so the silhouette is centred vertically on the canvas. No thin frame strip
-    (legs sit under the mattress) so the front edge stays crisp.
+    """Side-view bed silhouette — same rectangles as origin/main.
 
-    Larger than the 48d9558 inset version so it matches “slightly smaller than
-    the old chunky bed”, not toy-sized."""
-    # headboard (left vertical bar)
-    d.rounded_rectangle(_r([8,  10, 11, 21]), radius=1.5 * SS, fill=BLACK)
-    # pillow
-    d.rounded_rectangle(_r([14, 14, 22, 19]), radius=2.0 * SS, fill=BLACK)
+    Coordinates stay in legacy output space; centering applies afterwards.
+    """
+    # headboard (tall left post)
+    d.rounded_rectangle(_r([5,  13, 10, 33]), radius=1.5 * SS, fill=BLACK)
+    # pillow at the head end of the mattress
+    d.rounded_rectangle(_r([13, 19, 21, 25]), radius=2.0 * SS, fill=BLACK)
     # mattress
-    d.rounded_rectangle(_r([11, 19, 37, 27]), radius=2.0 * SS, fill=BLACK)
-    # legs — directly under mattress
-    d.rounded_rectangle(_r([11, 27, 14, 35]), radius=1.0 * SS, fill=BLACK)
-    d.rounded_rectangle(_r([33, 27, 36, 35]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([11, 24, 38, 32]), radius=2.0 * SS, fill=BLACK)
+    # frame (thin bar under mattress, joining headboard to right side)
+    d.rounded_rectangle(_r([5,  32, 40, 35]), radius=1.0 * SS, fill=BLACK)
+    # legs
+    d.rounded_rectangle(_r([7,  34, 10, 38]), radius=1.0 * SS, fill=BLACK)
+    d.rounded_rectangle(_r([35, 34, 38, 38]), radius=1.0 * SS, fill=BLACK)
+
+
+def bed_center_shift() -> tuple[int, int]:
+    """Pixel shift (supersampled) so the alpha bbox of bed-only lands centred."""
+    ref = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    base_bed(ImageDraw.Draw(ref))
+    bbox = ref.getbbox()
+    if bbox is None:
+        return (0, 0)
+    left, upper, right, lower = bbox
+    cx = (left + right) / 2.0
+    cy = (upper + lower) / 2.0
+    return (int(round(W / 2 - cx))), int(round(H / 2 - cy))
 
 
 def add_slash(img: "Image.Image") -> "Image.Image":
-    """Diagonal through (22, 22): not corner-to-corner like the earliest slash,
-    not as stubby as the over-shrunk bed revision — spans the enlarged bed."""
-    slash_w = 3.0
-    gap_w = slash_w + 2.0
-    x0, y0 = 31.5, 12.5
-    x1, y1 = 12.5, 31.5
+    """Same diagonal / gap / widths as origin/main."""
+    slash_w = 4              # output px (line thickness)
+    gap_w = slash_w + 2      # output px (transparent stripe through bed)
+    x0, y0 = 40, 4           # slash start (upper-right)
+    x1, y1 = 4, 40           # slash end   (lower-left)
 
     erase = Image.new("L", img.size, 0)
     ed = ImageDraw.Draw(erase)
@@ -105,11 +119,14 @@ def add_slash(img: "Image.Image") -> "Image.Image":
 
 
 def render(path: str, *, with_slash: bool) -> None:
-    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    base_bed(ImageDraw.Draw(img))
+    layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    base_bed(ImageDraw.Draw(layer))
     if with_slash:
-        img = add_slash(img)
-    img = img.resize((OUT, OUT), Image.LANCZOS)
+        layer = add_slash(layer)
+    canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    tx, ty = bed_center_shift()
+    canvas.alpha_composite(layer, (tx, ty))
+    img = canvas.resize((OUT, OUT), Image.LANCZOS)
     img.save(path, format="PNG", dpi=(144, 144))
 
 
