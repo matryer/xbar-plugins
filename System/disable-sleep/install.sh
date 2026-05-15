@@ -1,30 +1,41 @@
 #!/usr/bin/env bash
-# install.sh — bootstrap the disable-sleep xbar plugin.
+# install.sh — clone xbar-plugins and wire up the disable-sleep plugin.
 #
-# From GitHub:
+# From GitHub (clones into ./xbar-plugins in the current working dir):
 #   curl -fsSL https://raw.githubusercontent.com/kiprasmel/xbar-plugins/main/System/disable-sleep/install.sh | bash
 #
-# Or, from a local clone: just run ./setup.sh instead.
+# Or, from a local clone: just run ./install.sh (or ./setup.sh) — when the
+# script detects it is already inside a clone of this repo, it skips the
+# clone/pull entirely and just runs setup.sh.
 #
-# Env overrides (for testing):
+# Env overrides (for testing / forks):
 #   REPO=user/repo                 default kiprasmel/xbar-plugins
 #   REF=branch-or-sha              default main
-#   BASE_URL=<url>                 override the fetch base entirely
+#   CLONE_DIR=<path>               default $PWD/xbar-plugins
 #   XBAR_PLUGINS_DIR=<path>        default ~/Library/Application Support/xbar/plugins
-#   XBAR_DISABLE_SLEEP_DIR=<path>  default ~/Library/Application Support/xbar-disable-sleep
+#   FORCE_CLONE=1                  bypass the local-execution shortcut
 
 set -euo pipefail
 
 REPO="${REPO:-kiprasmel/xbar-plugins}"
 REF="${REF:-main}"
 SUBPATH="System/disable-sleep"
-BASE_URL="${BASE_URL:-https://raw.githubusercontent.com/$REPO/$REF/$SUBPATH}"
 
 PLUGINS="${XBAR_PLUGINS_DIR:-$HOME/Library/Application Support/xbar/plugins}"
-ASSETS="${XBAR_DISABLE_SLEEP_DIR:-$HOME/Library/Application Support/xbar-disable-sleep}"
+LEGACY_ASSETS="$HOME/Library/Application Support/xbar-disable-sleep"
 
 if [[ "$(uname)" != "Darwin" ]]; then
   echo "macOS only." >&2
+  exit 1
+fi
+
+if ! command -v git >/dev/null 2>&1; then
+  cat >&2 <<EOF
+git is required but not installed.
+Install via:
+  xcode-select --install     # ships Apple's git
+  brew install git           # or via Homebrew
+EOF
   exit 1
 fi
 
@@ -35,41 +46,115 @@ if [[ -e "$PLUGINS/disable-sleep" || -L "$PLUGINS/disable-sleep" ]]; then
   echo "Removed legacy entry: $PLUGINS/disable-sleep"
 fi
 
-# Wipe the assets dir so stale files (e.g. an old passwordless.sh) don't
-# linger after an upgrade.
-rm -rf "$ASSETS"
-mkdir -p "$ASSETS"
+# Migration: previous installer copied loose files into ~/Library/Application
+# Support/xbar-disable-sleep/. With the clone-based flow it's dead weight; reap it.
+if [[ -d "$LEGACY_ASSETS" ]]; then
+  rm -rf "$LEGACY_ASSETS"
+  echo "Removed legacy assets dir: $LEGACY_ASSETS"
+fi
 
-stage="$(mktemp -d)"
-trap 'rm -rf "$stage"' EXIT
+# Local-execution shortcut: if invoked as a real file (not piped from
+# `curl | bash`, where BASH_SOURCE[0] is empty) and the surrounding directory
+# looks like a clone of this repo, skip the network entirely and just run
+# setup.sh in place. Honors FORCE_CLONE=1 to bypass for testing.
+if [[ "${FORCE_CLONE:-}" != "1" && -n "${BASH_SOURCE[0]:-}" ]]; then
+  SELF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+  if [[ -x "$SELF_DIR/setup.sh" && -f "$SELF_DIR/disable-sleep.10s.sh" ]] \
+     && TOPLEVEL="$(git -C "$SELF_DIR" rev-parse --show-toplevel 2>/dev/null)"; then
+    echo "Detected existing clone at: $TOPLEVEL"
+    echo "Skipping git clone (set FORCE_CLONE=1 to bypass)."
 
-files=(disable-sleep.10s.sh setup.sh uninstall.sh bed.png bed-no.png)
-echo "Downloading from $BASE_URL into $ASSETS/ ..."
-for f in "${files[@]}"; do
-  curl -fsSL --proto '=https' --tlsv1.2 --retry 3 --retry-delay 1 \
-    -o "$stage/$f" "$BASE_URL/$f"
-done
+    XBAR_PLUGINS_DIR="$PLUGINS" "$SELF_DIR/setup.sh"
 
-chmod +x "$stage/disable-sleep.10s.sh" "$stage/setup.sh" "$stage/uninstall.sh"
+    open 'xbar://app.xbarapp.com/refreshAllPlugins' >/dev/null 2>&1 || true
 
-for f in "${files[@]}"; do
-  mv "$stage/$f" "$ASSETS/$f"
-done
-
-XBAR_PLUGINS_DIR="$PLUGINS" "$ASSETS/setup.sh"
-
-# Best-effort xbar refresh; harmless if xbar isn't running.
-open 'xbar://app.xbarapp.com/refreshAllPlugins' >/dev/null 2>&1 || true
-
-cat <<DONE
+    cat <<DONE
 Done.
-  assets: $ASSETS/
+  clone:  $TOPLEVEL
   plugin: $PLUGINS/disable-sleep.10s.sh
 
 A bed icon should appear in xbar's menubar shortly. Click it to toggle
 \`pmset -b disablesleep\`. You'll be prompted for your password on each
 toggle unless you configure sudoers manually.
 
+Edit the plugin in place:
+  \$EDITOR "$SELF_DIR/disable-sleep.10s.sh"   # xbar reloads on its 10s tick
+
+Update:
+  cd "$TOPLEVEL" && git pull
+
 To uninstall:
-  curl -fsSL $BASE_URL/uninstall.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/$REPO/$REF/$SUBPATH/uninstall.sh | bash
+DONE
+    exit 0
+  fi
+fi
+
+CLONE_DIR="${CLONE_DIR:-$PWD/xbar-plugins}"
+REMOTE_URL="https://github.com/$REPO.git"
+
+if [[ -d "$CLONE_DIR/.git" ]]; then
+  existing_url="$(git -C "$CLONE_DIR" remote get-url origin 2>/dev/null || echo '')"
+  # Loose match: tolerate https/ssh and trailing .git differences.
+  norm_existing="$(echo "$existing_url" | sed -E 's#(\.git)?/?$##; s#git@github.com:#https://github.com/#')"
+  norm_target="$(echo "$REMOTE_URL"     | sed -E 's#(\.git)?/?$##')"
+  if [[ "$norm_existing" != "$norm_target" ]]; then
+    cat >&2 <<EOF
+$CLONE_DIR is a git repo, but its 'origin' is:
+  $existing_url
+Expected:
+  $REMOTE_URL
+
+Refusing to clobber it. Remove/move it, or set CLONE_DIR=<other-path> and re-run.
+EOF
+    exit 1
+  fi
+
+  echo "Updating existing clone: $CLONE_DIR"
+  git -C "$CLONE_DIR" fetch origin "$REF"
+
+  if [[ -n "$(git -C "$CLONE_DIR" status --porcelain)" ]]; then
+    echo "WARNING: working tree at $CLONE_DIR has local changes — skipping checkout/pull." >&2
+    echo "         Re-running setup.sh against the current state." >&2
+  else
+    git -C "$CLONE_DIR" checkout "$REF"
+    # ff-only is harmless when REF is a SHA/tag (no upstream) — swallow the error.
+    git -C "$CLONE_DIR" pull --ff-only 2>/dev/null || true
+  fi
+elif [[ -e "$CLONE_DIR" ]]; then
+  echo "$CLONE_DIR exists and is not a git repo. Refusing to clobber." >&2
+  echo "Remove/move it, or set CLONE_DIR=<other-path> and re-run." >&2
+  exit 1
+else
+  echo "Cloning $REMOTE_URL (ref: $REF) into $CLONE_DIR ..."
+  # Try shallow-clone-with-branch first (works for branches/tags); on failure
+  # (e.g. REF is a SHA), fall back to full clone + checkout.
+  if ! git clone --depth 1 --branch "$REF" "$REMOTE_URL" "$CLONE_DIR" 2>/dev/null; then
+    git clone "$REMOTE_URL" "$CLONE_DIR"
+    git -C "$CLONE_DIR" checkout "$REF"
+  fi
+fi
+
+XBAR_PLUGINS_DIR="$PLUGINS" "$CLONE_DIR/$SUBPATH/setup.sh"
+
+# Best-effort xbar refresh; harmless if xbar isn't running.
+open 'xbar://app.xbarapp.com/refreshAllPlugins' >/dev/null 2>&1 || true
+
+cat <<DONE
+Done.
+  clone:  $CLONE_DIR
+  plugin: $PLUGINS/disable-sleep.10s.sh
+
+A bed icon should appear in xbar's menubar shortly. Click it to toggle
+\`pmset -b disablesleep\`. You'll be prompted for your password on each
+toggle unless you configure sudoers manually.
+
+Edit the plugin in place:
+  \$EDITOR "$CLONE_DIR/$SUBPATH/disable-sleep.10s.sh"   # xbar reloads on its 10s tick
+
+Update:
+  cd "$CLONE_DIR" && git pull
+
+To uninstall:
+  curl -fsSL https://raw.githubusercontent.com/$REPO/$REF/$SUBPATH/uninstall.sh | bash
 DONE
