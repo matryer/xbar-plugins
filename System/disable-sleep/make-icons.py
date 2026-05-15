@@ -20,7 +20,9 @@
 #     uv run System/disable-sleep/make-icons.py
 # or: python3 System/disable-sleep/make-icons.py
 
+import base64
 import os
+import re
 import sys
 
 ### BEGIN UV BOOTSTRAP ###
@@ -150,14 +152,51 @@ def render(path: str, *, with_slash: bool) -> None:
     img.save(path, format="PNG", dpi=(144, 144))
 
 
+def sync_inlined_icons(script_path: str, bed_png: str, bed_no_png: str) -> None:
+    """Rewrite the BED_B64 / BED_NO_B64 lines in disable-sleep.10s.sh.
+
+    The shell script keeps inlined base64 fallbacks so it works as a single
+    .sh file (xbarapp.com's installer doesn't copy companion PNGs). They live
+    between `# BEGIN INLINED ICONS` and `# END INLINED ICONS` markers.
+    """
+    with open(bed_png, "rb") as f:
+        bed_b64 = base64.b64encode(f.read()).decode("ascii")
+    with open(bed_no_png, "rb") as f:
+        bed_no_b64 = base64.b64encode(f.read()).decode("ascii")
+
+    with open(script_path, "r", encoding="utf-8") as f:
+        src = f.read()
+
+    new_src, n1 = re.subn(r"^BED_B64='[^']*'", f"BED_B64='{bed_b64}'", src, count=1, flags=re.MULTILINE)
+    new_src, n2 = re.subn(r"^BED_NO_B64='[^']*'", f"BED_NO_B64='{bed_no_b64}'", new_src, count=1, flags=re.MULTILINE)
+
+    if n1 != 1 or n2 != 1:
+        print(
+            f"WARN: couldn't find both BED_B64= and BED_NO_B64= lines in {script_path} "
+            f"(BED_B64 matches: {n1}, BED_NO_B64 matches: {n2}). Inlined fallbacks NOT updated."
+        )
+        return
+
+    if new_src != src:
+        with open(script_path, "w", encoding="utf-8") as f:
+            f.write(new_src)
+        print(f"Updated inlined BED_B64 / BED_NO_B64 in {script_path}")
+    else:
+        print(f"Inlined BED_B64 / BED_NO_B64 in {script_path} already up to date")
+
+
 def main() -> None:
     here = os.path.dirname(os.path.realpath(__file__))
-    render(os.path.join(here, "bed.png"), with_slash=False)
-    render(os.path.join(here, "bed-no.png"), with_slash=True)
+    bed_png = os.path.join(here, "bed.png")
+    bed_no_png = os.path.join(here, "bed-no.png")
+    render(bed_png, with_slash=False)
+    render(bed_no_png, with_slash=True)
     print(f"Wrote bed.png and bed-no.png to {here}")
     print(
         f"(inspect tweak: UR_pull={_SLASH_PULL_UR_FRACTION} bed_dy_out={_BED_VERTICAL_OFFSET_OUT} bias_ty_SS={_BIAS_TY_SUPER})"
     )
+
+    sync_inlined_icons(os.path.join(here, "disable-sleep.10s.sh"), bed_png, bed_no_png)
 
 
 if __name__ == "__main__":

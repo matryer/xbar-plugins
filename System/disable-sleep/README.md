@@ -1,5 +1,7 @@
 # Disable sleep
 
+![](./bed.png) ![](./bed-no.png)
+
 Menu bar toggle for disabling/enabling sleep.
 
 ## Setup
