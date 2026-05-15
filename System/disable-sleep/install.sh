@@ -14,6 +14,9 @@
 #   CLONE_DIR=<path>               default $PWD/xbar-plugins
 #   XBAR_PLUGINS_DIR=<path>        default ~/Library/Application Support/xbar/plugins
 #   FORCE_CLONE=1                  bypass the local-execution shortcut
+#   SKIP_SUDOERS_SETUP=1           skip the sudoers-setup step (CI / tests).
+#                                  Toggles will then prompt for a password every
+#                                  click via osascript.
 
 set -euo pipefail
 
@@ -74,8 +77,16 @@ Done.
   plugin: $PLUGINS/disable-sleep.10s.sh
 
 A bed icon should appear in xbar's menubar shortly. Click it to toggle
-\`pmset -b disablesleep\`. You'll be prompted for your password on each
-toggle unless you configure sudoers manually.
+\`pmset -b disablesleep\`.
+
+Sleep toggling needs root. setup.sh installs a NOPASSWD sudoers rule
+(/etc/sudoers.d/xbar-disable-sleep) so toggles run without a prompt — you
+should have been asked once for your sudo password above. If you skipped it
+(SKIP_SUDOERS_SETUP=1) or it failed, every menubar click will pop a
+password dialog instead. To (re)install the rule:
+  "$SELF_DIR/sudoers-setup.sh"
+To remove it:
+  sudo rm /etc/sudoers.d/xbar-disable-sleep
 
 Edit the plugin in place:
   \$EDITOR "$SELF_DIR/disable-sleep.10s.sh"   # xbar reloads on its 10s tick
@@ -146,8 +157,16 @@ Done.
   plugin: $PLUGINS/disable-sleep.10s.sh
 
 A bed icon should appear in xbar's menubar shortly. Click it to toggle
-\`pmset -b disablesleep\`. You'll be prompted for your password on each
-toggle unless you configure sudoers manually.
+\`pmset -b disablesleep\`.
+
+Sleep toggling needs root. setup.sh installs a NOPASSWD sudoers rule
+(/etc/sudoers.d/xbar-disable-sleep) so toggles run without a prompt — you
+should have been asked once for your sudo password above. If you skipped it
+(SKIP_SUDOERS_SETUP=1) or it failed, every menubar click will pop a
+password dialog instead. To (re)install the rule:
+  "$CLONE_DIR/$SUBPATH/sudoers-setup.sh"
+To remove it:
+  sudo rm /etc/sudoers.d/xbar-disable-sleep
 
 Edit the plugin in place:
   \$EDITOR "$CLONE_DIR/$SUBPATH/disable-sleep.10s.sh"   # xbar reloads on its 10s tick
