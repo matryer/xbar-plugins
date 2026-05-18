@@ -53,17 +53,27 @@ LEGACY_ASSETS="$HOME/Library/Application Support/xbar-disable-sleep"
 
 CLONE_CREATED_BY_US=0
 
+# Single source of truth for the files that constitute the plugin install. Used
+# by --clean to populate STANDALONE_DIR; any *.sh entry is also chmod +x'd.
+PLUGIN_FILES=(
+  setup.sh
+  disable-sleep.10s.sh
+  sudoers-setup.sh
+  bed.png
+  bed-no.png
+)
+
 copy_runtime_files() {
-  local src="$1" dest="$2"
+  local src="$1" dest="$2" f
   mkdir -p "$dest"
-  for f in disable-sleep.10s.sh sudoers-setup.sh bed.png bed-no.png; do
+  for f in "${PLUGIN_FILES[@]}"; do
     if [[ ! -e "$src/$f" ]]; then
       echo "Missing runtime file: $src/$f" >&2
       return 1
     fi
     cp -p "$src/$f" "$dest/$f"
+    [[ "$f" == *.sh ]] && chmod +x "$dest/$f"
   done
-  chmod +x "$dest/disable-sleep.10s.sh" "$dest/sudoers-setup.sh"
 }
 
 # Remove $1 (a clone). If install.sh created it in this run, do so silently;
