@@ -1,8 +1,8 @@
 # Disable sleep
 
-![](./bed.png) ![](./bed-no.png)
+Menu bar toggle for disabling/enabling sleep, even when laptop fully closed.
 
-Menu bar toggle for disabling/enabling sleep.
+![](./disable-sleep.png)
 
 ## Setup
 
