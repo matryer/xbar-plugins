@@ -27,7 +27,7 @@ SELF="$SELF_DIR/$(basename "${BASH_SOURCE[0]}")"
 
 action="${1:-install}"
 case "$action" in
-  install)   reason="Install sudoers rule so xbar can toggle sleep without a password." ;;
+  install)   reason="xbar disable-sleep: install passwordless sudoers rule so future toggles don't prompt." ;;
   uninstall) reason="Remove the sudoers rule for xbar's sleep toggle." ;;
   *) echo "Usage: $0 [install|uninstall]" >&2; exit 2 ;;
 esac

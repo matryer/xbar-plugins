@@ -5,8 +5,9 @@
 # Run: ./setup.sh
 # Env:
 #   XBAR_PLUGINS_DIR     overrides symlink target (default ~/Library/Application Support/xbar/plugins)
-#   SKIP_SUDOERS_SETUP=1 skip the sudoers-setup step (CI / tests). Toggles will
-#                        then fall back to a per-click osascript admin prompt.
+#   SKIP_SUDOERS_SETUP=1 skip the sudoers-setup step (CI / tests). The first
+#                        menubar toggle will then offer to install the rule
+#                        via an osascript admin prompt.
 #
 # Prompts once for sudo (via terminal sudo or osascript) the first time
 # sudoers-setup.sh runs; idempotent thereafter.
@@ -47,11 +48,11 @@ echo "Linked: $LINK -> $SCRIPT"
 # Idempotent: sudoers-setup.sh short-circuits if /etc/sudoers.d/xbar-disable-sleep
 # already exists, so re-running setup.sh won't re-prompt.
 # Failure here must not abort: the symlink already succeeded; users can re-run
-# sudoers-setup.sh later. The fallback path in disable-sleep.10s.sh
-# (osascript with administrator privileges) still works without the rule.
+# sudoers-setup.sh later. The toggle script self-heals on first click by
+# invoking sudoers-setup.sh itself if the rule isn't in place.
 if [[ "${SKIP_SUDOERS_SETUP:-}" == "1" ]]; then
-  echo "SKIP_SUDOERS_SETUP=1 set; skipping sudoers rule. You'll be prompted on every toggle."
+  echo "SKIP_SUDOERS_SETUP=1 set; skipping sudoers rule. Your first menubar toggle will offer to install it."
 else
   "$DIR/sudoers-setup.sh" install \
-    || echo "WARNING: sudoers-setup failed; you'll be prompted on every toggle. Re-run later: $DIR/sudoers-setup.sh" >&2
+    || echo "WARNING: sudoers-setup failed; your first menubar toggle will offer to install it. Re-run manually: $DIR/sudoers-setup.sh" >&2
 fi

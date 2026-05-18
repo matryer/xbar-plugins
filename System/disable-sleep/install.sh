@@ -82,8 +82,9 @@ A bed icon should appear in xbar's menubar shortly. Click it to toggle
 Sleep toggling needs root. setup.sh installs a NOPASSWD sudoers rule
 (/etc/sudoers.d/xbar-disable-sleep) so toggles run without a prompt — you
 should have been asked once for your sudo password above. If you skipped it
-(SKIP_SUDOERS_SETUP=1) or it failed, every menubar click will pop a
-password dialog instead. To (re)install the rule:
+(SKIP_SUDOERS_SETUP=1) or it failed, your first menubar click will prompt
+for your password to install the rule — then no more prompts. To (re)install
+the rule manually:
   "$SELF_DIR/sudoers-setup.sh"
 To remove it:
   sudo rm /etc/sudoers.d/xbar-disable-sleep
@@ -162,8 +163,9 @@ A bed icon should appear in xbar's menubar shortly. Click it to toggle
 Sleep toggling needs root. setup.sh installs a NOPASSWD sudoers rule
 (/etc/sudoers.d/xbar-disable-sleep) so toggles run without a prompt — you
 should have been asked once for your sudo password above. If you skipped it
-(SKIP_SUDOERS_SETUP=1) or it failed, every menubar click will pop a
-password dialog instead. To (re)install the rule:
+(SKIP_SUDOERS_SETUP=1) or it failed, your first menubar click will prompt
+for your password to install the rule — then no more prompts. To (re)install
+the rule manually:
   "$CLONE_DIR/$SUBPATH/sudoers-setup.sh"
 To remove it:
   sudo rm /etc/sudoers.d/xbar-disable-sleep

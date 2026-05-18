@@ -30,15 +30,43 @@ resolve_path() {
 SELF="$(resolve_path "$0")"
 DIR="$(dirname "$SELF")"
 
-# Toggle: try passwordless via sudo -n (handy if you have a NOPASSWD rule
-# for `pmset -b disablesleep 0|1`), fall back to a GUI password prompt via
-# osascript with a reason string so it's not a mystery dialog.
+# Surface failures from a menubar click — stderr disappears into xbar's void,
+# so use an osascript dialog instead.
+show_error() {
+  local msg="$1"
+  local esc="${msg//\\/\\\\}"; esc="${esc//\"/\\\"}"
+  osascript \
+    -e "display dialog \"$esc\" with title \"xbar disable-sleep\" buttons {\"OK\"} default button 1 with icon caution" \
+    >/dev/null 2>&1 || true
+}
+
+# Toggle: try passwordless via sudo -n (the NOPASSWD rule installed by
+# sudoers-setup.sh). If that fails, self-heal by running sudoers-setup.sh —
+# it prompts once via osascript admin, installs the rule, then we retry
+# pmset passwordlessly. One prompt total, and future clicks need none.
 toggle_pmset() {
   local val="$1"
-  local action; [[ "$val" == "1" ]] && action="disable" || action="allow"
-  local reason="Toggle battery sleep (pmset -b disablesleep $val → $action)."
-  sudo -n /usr/bin/pmset -b disablesleep "$val" 2>/dev/null \
-    || osascript -e "do shell script \"/usr/bin/pmset -b disablesleep $val\" with prompt \"$reason\" with administrator privileges" >/dev/null
+
+  if sudo -n /usr/bin/pmset -b disablesleep "$val" 2>/dev/null; then
+    return 0
+  fi
+
+  local setup="$DIR/sudoers-setup.sh"
+  if [[ ! -x "$setup" ]]; then
+    show_error "sudoers-setup.sh not found at $setup; cannot self-heal."
+    return 1
+  fi
+
+  if ! "$setup" install >/dev/null 2>&1; then
+    show_error "Couldn't install the sudoers rule. Re-run manually:
+$setup install"
+    return 1
+  fi
+
+  if ! sudo -n /usr/bin/pmset -b disablesleep "$val" 2>/dev/null; then
+    show_error "Installed sudoers rule but pmset still failed. Check /etc/sudoers.d/xbar-disable-sleep."
+    return 1
+  fi
 }
 
 case "${1:-}" in

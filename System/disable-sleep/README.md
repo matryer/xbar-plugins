@@ -26,7 +26,7 @@ curl -fsSLO https://raw.githubusercontent.com/kiprasmel/xbar-plugins/refs/heads/
 bash install.sh
 ```
 
-Note: first time setup will ask for sudo password, to allow running `sudo pmset` (toggle sleep) without password.
+Note: first time setup will ask for sudo password, to allow running `sudo pmset` (toggle sleep) without password. If you skip that prompt, your first menubar click will offer to install it instead.
 
 ## Modify / update
 
