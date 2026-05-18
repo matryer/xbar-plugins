@@ -28,6 +28,8 @@ bash install.sh
 
 Note: first time setup will ask for sudo password, to allow running `sudo pmset` (toggle sleep) without password. If you skip that prompt, your first menubar click will offer to install it instead.
 
+Pass `--clean` to copy the runtime files into `~/Library/Application Support/xbar/disable-sleep-plugin/` and remove the clone afterwards.
+
 ## Modify / update
 
 The plugin script lives at `./xbar-plugins/System/disable-sleep/disable-sleep.10s.sh`. Edit it in place — xbar reloads it on its 10s tick.

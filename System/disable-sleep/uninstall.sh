@@ -13,11 +13,14 @@
 # Env overrides (for testing):
 #   XBAR_PLUGINS_DIR=<path>        default ~/Library/Application Support/xbar/plugins
 #   XBAR_DISABLE_SLEEP_DIR=<path>  default ~/Library/Application Support/xbar-disable-sleep
+#   STANDALONE_DIR=<path>          --clean install dest, default
+#                                  ~/Library/Application Support/xbar/disable-sleep-plugin
 
 set -u
 
 PLUGINS="${XBAR_PLUGINS_DIR:-$HOME/Library/Application Support/xbar/plugins}"
 LEGACY_ASSETS="${XBAR_DISABLE_SLEEP_DIR:-$HOME/Library/Application Support/xbar-disable-sleep}"
+STANDALONE_DIR="${STANDALONE_DIR:-$HOME/Library/Application Support/xbar/disable-sleep-plugin}"
 
 removed_anything=0
 
@@ -41,6 +44,14 @@ if [[ -d "$LEGACY_ASSETS" ]]; then
   removed_anything=1
 fi
 
+# Standalone dir from --clean installs (install.sh --clean copies the 4 runtime
+# files here and symlinks the plugin from it).
+if [[ -d "$STANDALONE_DIR" ]]; then
+  rm -rf "$STANDALONE_DIR"
+  echo "Removed standalone plugin dir: $STANDALONE_DIR"
+  removed_anything=1
+fi
+
 # Best-effort xbar refresh; harmless if xbar isn't running.
 open 'xbar://app.xbarapp.com/refreshAllPlugins' >/dev/null 2>&1 || true
 
@@ -50,7 +61,11 @@ fi
 
 cat <<NOTE
 
-If you installed via install.sh, your git clone is wherever you ran it
-(default ./xbar-plugins). It is left in place — \`rm -rf\` it manually
-if you no longer want it.
+If you installed via install.sh (without --clean), your git clone is wherever
+you ran it (default ./xbar-plugins). It is left in place — \`rm -rf\` it
+manually if you no longer want it.
+
+If you installed via install.sh --clean, the standalone copy at
+$STANDALONE_DIR was also removed above; the clone (if any) was already
+handled at install time.
 NOTE
