@@ -72,7 +72,11 @@ copy_runtime_files() {
       return 1
     fi
     cp -p "$src/$f" "$dest/$f"
-    [[ "$f" == *.sh ]] && chmod +x "$dest/$f"
+    # '[[ ]] && chmod' would return 1 for non-.sh files and, under set -e,
+    # abort install.sh before setup.sh ever runs. Use an explicit if.
+    if [[ "$f" == *.sh ]]; then
+      chmod +x "$dest/$f"
+    fi
   done
 }
 
