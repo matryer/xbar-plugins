@@ -86,14 +86,16 @@ def fetch_name(code6):
 
 # ── 时段判断 ──────────────────────────────────────────────────────────────────
 def trading_status():
-    """weekend | open | closing | closed"""
+    """weekend | open | closing_noon | closing | closed"""
     now = datetime.now()
     if now.weekday() >= 5:   # 5=周六 6=周日
         return "weekend"
     t = now.time()
     def tm(s): return datetime.strptime(s, "%H:%M").time()
-    if (tm("09:30") <= t <= tm("11:30")) or (tm("13:00") <= t < tm("15:00")):
+    if (tm("09:30") <= t < tm("11:30")) or (tm("13:00") <= t < tm("15:00")):
         return "open"
+    if tm("11:30") <= t < tm("11:31"):
+        return "closing_noon"
     if tm("15:00") <= t < tm("15:01"):
         return "closing"
     return "closed"
@@ -256,10 +258,8 @@ def apply_sell(info, entries):
 
         msgs.append(f"{h['name']} 卖出 {sell_lots} 手，操作收益 {fmt(op_pnl)}")
 
-        if h["lots"] <= 0:
-            del hmap[code]
-            if code in qmap:
-                del qmap[code]
+        # 减仓至 0 时保留持仓记录（lots=0），用于当日继续展示收益
+        # 只有收盘结算后才清除，不在此处删除
 
     info["holdings"] = list(hmap.values())
     info["quote"]    = list(qmap.values())
@@ -267,13 +267,15 @@ def apply_sell(info, entries):
     return msgs, errors
 
 # ── 收盘写入 / 次日清空 ───────────────────────────────────────────────────────
-def write_closing_quote(info, quotes):
-    """收盘时把最终行情写入 quote（每天只写一次）"""
+def write_closing_quote(info, quotes, session="afternoon"):
+    """收盘时把最终行情写入 quote；session='noon' 为中午快照，'afternoon' 为收盘定稿"""
     today = date.today().isoformat()
-    # 已有今日收盘数据则跳过
+    # 下午收盘已写则跳过；中午快照只在没有今日数据时写
     existing = info.get("quote", [])
     if existing and existing[0].get("date") == today:
-        return
+        if session == "noon":
+            return  # 已有今日数据（可能是中午或下午），跳过
+        # session == "afternoon"：用下午收盘覆盖中午快照，不跳过
 
     hmap = get_holdings(info)
     rows = []
@@ -301,6 +303,9 @@ def write_closing_quote(info, quotes):
             "date":       today,
         })
     info["quote"] = rows
+    # 收盘结算：清除当天减仓至 0 的持仓记录（仅下午收盘时清理）
+    if session == "afternoon":
+        info["holdings"] = [h for h in info.get("holdings", []) if h.get("lots", 0) > 0]
     save_info(info)
 
 def reset_for_new_day(info):
@@ -831,9 +836,11 @@ def print_menu():
         _print_buttons()
         return
 
-    # 收盘时刻：写入 quote（每天只写一次）
-    if status == "closing":
-        write_closing_quote(info, quotes)
+    # 收盘时刻：写入 quote
+    if status == "closing_noon":
+        write_closing_quote(info, quotes, session="noon")
+    elif status == "closing":
+        write_closing_quote(info, quotes, session="afternoon")
 
     _render(hmap, quotes, info)
     _print_buttons()
@@ -870,7 +877,9 @@ def _render(hmap, quotes, info=None):
         # 总盈亏 = 浮动 + 所有操作盈亏
         all_op_pnl = sum(o["pnl"] for o in info.get("operate", []) if o["code"] == code)
         total_pnl  = (price - cost) * shares + all_op_pnl
-        total_cost = cost * shares
+        # lots=0 时用开盘持仓手数作为成本基准（防止除零）
+        cost_lots  = shares if shares > 0 else open_shares
+        total_cost = cost * cost_lots
         total_pct  = (total_pnl / total_cost * 100) if total_cost else 0
 
         # 行情涨幅
@@ -925,7 +934,9 @@ def _render_static(hmap, qmap, info=None):
 
             all_op_pnl = sum(o["pnl"] for o in info.get("operate", []) if o["code"] == code)
             total_pnl  = q["total_pnl"] + all_op_pnl
-            total_cost = cost * shares
+            # lots=0 时用开盘持仓手数作为成本基准（防止除零）
+            cost_shares = shares if shares > 0 else open_shares
+            total_cost = cost * cost_shares
             total_pct  = (total_pnl / total_cost * 100) if total_cost else q["total_pct"]
 
             price_pct = q.get("day_pct", 0.0)   # 缓存里的行情涨幅
