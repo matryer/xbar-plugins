@@ -86,7 +86,7 @@ def fetch_name(code6):
 
 # ── 时段判断 ──────────────────────────────────────────────────────────────────
 def trading_status():
-    """weekend | open | closing_noon | closing | closed"""
+    """weekend | open | closing_noon | closing | after_close | closed"""
     now = datetime.now()
     if now.weekday() >= 5:   # 5=周六 6=周日
         return "weekend"
@@ -94,10 +94,12 @@ def trading_status():
     def tm(s): return datetime.strptime(s, "%H:%M").time()
     if (tm("09:30") <= t < tm("11:30")) or (tm("13:00") <= t < tm("15:00")):
         return "open"
-    if tm("11:30") <= t < tm("11:31"):
-        return "closing_noon"
-    if tm("15:00") <= t < tm("15:01"):
-        return "closing"
+    if tm("11:30") <= t < tm("13:00"):
+        return "closing_noon"  # 11:30–12:59，首次触发写入，后续读缓存
+    if tm("15:00") <= t < tm("16:00"):
+        return "closing"       # 15:00–15:59，首次触发写入，后续读缓存
+    if t >= tm("16:00"):
+        return "after_close"   # 16:00+ 纯展示缓存
     return "closed"
 
 # ── holdings 操作 ──────────────────────────────────────────────────────────────
@@ -109,9 +111,9 @@ def apply_init(info, entries):
     except Exception:
         quotes = {}
 
-    hmap  = get_holdings(info)
-    qmap  = get_quotes(info)
-    today = date.today().isoformat()
+    hmap    = get_holdings(info)
+    qmap    = get_quotes(info)
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     for e in entries:
         code = e["code"]
@@ -146,7 +148,7 @@ def apply_init(info, entries):
                 "day_pct":    round(day_pct, 2),
                 "total_pnl":  round(total_pnl, 2),
                 "total_pct":  round(total_pct, 2),
-                "date":       today,
+                "date":       now_str,
             }
 
     info["holdings"] = list(hmap.values())
@@ -269,14 +271,7 @@ def apply_sell(info, entries):
 # ── 收盘写入 / 次日清空 ───────────────────────────────────────────────────────
 def write_closing_quote(info, quotes, session="afternoon"):
     """收盘时把最终行情写入 quote；session='noon' 为中午快照，'afternoon' 为收盘定稿"""
-    today = date.today().isoformat()
-    # 下午收盘已写则跳过；中午快照只在没有今日数据时写
-    existing = info.get("quote", [])
-    if existing and existing[0].get("date") == today:
-        if session == "noon":
-            return  # 已有今日数据（可能是中午或下午），跳过
-        # session == "afternoon"：用下午收盘覆盖中午快照，不跳过
-
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     hmap = get_holdings(info)
     rows = []
     for code, h in hmap.items():
@@ -300,7 +295,7 @@ def write_closing_quote(info, quotes, session="afternoon"):
             "day_pct":    round(day_pct, 2),
             "total_pnl":  round(total_pnl, 2),
             "total_pct":  round(total_pct, 2),
-            "date":       today,
+            "date":       now_str,
         })
     info["quote"] = rows
     # 收盘结算：清除当天减仓至 0 的持仓记录（仅下午收盘时清理）
@@ -827,6 +822,47 @@ def print_menu():
         _print_buttons()
         return
 
+    # 午休（11:30–12:59）或收盘时段（15:00–15:59）：检查 quote 是否已有当段数据
+    if status in ("closing_noon", "closing"):
+        today = date.today().isoformat()
+        threshold = today + (" 11:30" if status == "closing_noon" else " 15:00")
+        has_today = bool(qmap) and all(q.get("date", "") >= threshold for q in qmap.values())
+        if has_today:
+            print("Working")
+            print("---")
+            print(f"{HEADER_ROW} | {FONT}")
+            _render_static(hmap, qmap, info)
+            _print_buttons()
+            return
+        # 没有今日数据，拉取实时行情并写入
+        try:
+            quotes = fetch_quotes(list(hmap.keys()))
+        except Exception:
+            print("Err")
+            print("---")
+            _print_buttons()
+            return
+        session = "noon" if status == "closing_noon" else "afternoon"
+        write_closing_quote(info, quotes, session=session)
+        info = load_info()
+        qmap = get_quotes(info)
+        print("Working")
+        print("---")
+        print(f"{HEADER_ROW} | {FONT}")
+        _render_static(hmap, qmap, info)
+        _print_buttons()
+        return
+
+    # 16:00+ 纯展示缓存
+    if status == "after_close":
+        print("Working")
+        print("---")
+        if qmap:
+            print(f"{HEADER_ROW} | {FONT}")
+            _render_static(hmap, qmap, info)
+        _print_buttons()
+        return
+
     # 交易时段（open / closing）：实时拉行情，忽略 quote
     try:
         quotes = fetch_quotes(list(hmap.keys()))
@@ -835,12 +871,6 @@ def print_menu():
         print("---")
         _print_buttons()
         return
-
-    # 收盘时刻：写入 quote
-    if status == "closing_noon":
-        write_closing_quote(info, quotes, session="noon")
-    elif status == "closing":
-        write_closing_quote(info, quotes, session="afternoon")
 
     _render(hmap, quotes, info)
     _print_buttons()
