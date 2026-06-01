@@ -200,6 +200,7 @@ def apply_buy(info, entries):
             new_cost = (old["cost"] * old["lots"] + price * buy_lots) / new_lots
             hmap[code]["cost"] = round(new_cost, 4)
             hmap[code]["lots"] = new_lots
+            hmap[code]["available_lots"] = hmap[code].get("available_lots", 0) + buy_lots
         else:
             name = q.get("name") or code
             hmap[code] = {
@@ -207,7 +208,7 @@ def apply_buy(info, entries):
                 "name":           name,
                 "cost":           round(price, 4),
                 "lots":           buy_lots,
-                "available_lots": 0,
+                "available_lots": buy_lots,
             }
 
         # 加仓操作盈亏：(0轴 - 买入价) * 手数 * 每手股数
