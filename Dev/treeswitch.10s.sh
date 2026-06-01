@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #
 # <xbar.title>treeswitch</xbar.title>
-# <xbar.version>v1.0.0</xbar.version>
+# <xbar.version>v1.1.0</xbar.version>
 # <xbar.author>Sindre Johannessen</xbar.author>
 # <xbar.author.github>sindrej</xbar.author.github>
 # <xbar.desc>Switch your local dev servers between git worktrees, right from the menu bar.</xbar.desc>
