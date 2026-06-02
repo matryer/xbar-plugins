@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # <xbar.title>clawdbar</xbar.title>
-# <xbar.version>v2.0</xbar.version>
+# <xbar.version>v2.1</xbar.version>
 # <xbar.author>chao</xbar.author>
 # <xbar.author.github>sunce764</xbar.author.github>
 # <xbar.desc>Claude Code 5h/7d rate-limit usage as a mini progress bar in the menu bar, in Claude's official colors.</xbar.desc>
@@ -50,8 +50,23 @@ fi
 
 TOKEN=$(printf '%s' "$CRED" | "$PY" -c "import sys,json;print(json.load(sys.stdin)['claudeAiOauth']['accessToken'])" 2>/dev/null)
 
+# --- Honor the macOS system proxy -------------------------------------------
+# SwiftBar runs plugins with a minimal environment and does NOT inherit your
+# shell's http(s)_proxy vars, so curl would connect directly. In regions where
+# Anthropic blocks direct access (the API returns {"type":"forbidden",
+# "message":"Request not allowed"}), that silently fails. So read the system
+# proxy (set by a VPN / Clash / corporate config) and route curl through it,
+# the same way Safari would. No proxy set -> PROXY_ARGS stays empty -> direct.
+PROXY_ARGS=()
+PX=$(/usr/sbin/scutil --proxy 2>/dev/null)
+if printf '%s' "$PX" | grep -q "HTTPSEnable : 1"; then
+  PHOST=$(printf '%s' "$PX" | awk '/HTTPSProxy/{print $3}')
+  PPORT=$(printf '%s' "$PX" | awk '/HTTPSPort/{print $3}')
+  [ -n "$PHOST" ] && [ -n "$PPORT" ] && PROXY_ARGS=(--proxy "http://$PHOST:$PPORT")
+fi
+
 # --- Call the official usage endpoint ---------------------------------------
-RESP=$(/usr/bin/curl -s --max-time 10 https://api.anthropic.com/api/oauth/usage \
+RESP=$(/usr/bin/curl -s --max-time 10 "${PROXY_ARGS[@]}" https://api.anthropic.com/api/oauth/usage \
   -H "Authorization: Bearer $TOKEN" \
   -H "anthropic-beta: oauth-2025-04-20" \
   -H "User-Agent: claude-code/$CC_VER" \
@@ -78,6 +93,8 @@ if "five_hour" not in d or d.get("five_hour") is None:
     err = d.get("error")
     msg = err.get("message") if isinstance(err, dict) else str(d)[:80]
     print("No usage data: " + str(msg)[:80])
+    if "not allowed" in str(msg).lower() or (isinstance(err, dict) and err.get("type") == "forbidden"):
+        print("Direct access may be geo-blocked — check your proxy/VPN is on | size=12 color=gray")
     sys.exit(0)
 
 def parse_reset(iso):
