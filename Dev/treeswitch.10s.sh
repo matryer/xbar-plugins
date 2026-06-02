@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #
 # <xbar.title>treeswitch</xbar.title>
-# <xbar.version>v1.1.0</xbar.version>
+# <xbar.version>v1.1.1</xbar.version>
 # <xbar.author>Sindre Johannessen</xbar.author>
 # <xbar.author.github>sindrej</xbar.author.github>
 # <xbar.desc>Switch your local dev servers between git worktrees, right from the menu bar.</xbar.desc>
@@ -108,15 +108,11 @@ default_branch() {
   print -r -- "$d"
 }
 
-# path of the worktree checked out on the repo's default branch (empty if none)
-main_worktree() {
-  local repo="$1" def
-  def="$(default_branch "$repo")"
-  [[ -n "$def" ]] || return 0
-  git -C "$repo" worktree list --porcelain 2>/dev/null | awk -v b="$def" '
-    /^worktree /            { p = substr($0, 10) }
-    /^branch refs\/heads\// { if ($0 == "branch refs/heads/" b) { print p; exit } }
-  '
+# path of the repo's primary (non-linked) working tree — git lists it first.
+# This is the project's checked-out folder, where "Reset to main" puts the
+# default branch (main lives here, not in a separate worktree).
+primary_worktree() {
+  git -C "$1" worktree list --porcelain 2>/dev/null | awk '/^worktree /{print substr($0,10); exit}'
 }
 
 # ---------------------------------------------------------------------------
@@ -211,20 +207,27 @@ do_restart() {
   do_start "$key" "$wt"
 }
 
-# switch every repo to the worktree on its default (main) branch and start it
+# switch every repo's primary checkout to its default (main) branch and start it
 do_resetmain() {
   if [[ "${CONFIRM_KILL:-0}" == "1" ]]; then
-    confirm "Switch ALL repos to their main worktree (restart on main)?" || return 0
+    confirm "Switch every repo's checkout to its default branch and restart?" || return 0
   fi
   local CONFIRM_KILL=0      # confirmed once above; don't re-prompt per repo
-  local key wt
+  local key primary def cur
   for key in $REPO_KEYS; do
-    wt="$(main_worktree "${REPO[$key]}")"
-    if [[ -n "$wt" ]]; then
-      do_start "$key" "$wt"
-    else
-      notify "${LABEL[$key]}: no worktree on its main branch — skipped"
+    primary="$(primary_worktree "${REPO[$key]}")"
+    [[ -n "$primary" ]] || primary="${REPO[$key]}"
+    def="$(default_branch "${REPO[$key]}")"
+    if [[ -z "$def" ]]; then
+      notify "${LABEL[$key]}: couldn't determine the default branch — skipped"
+      continue
     fi
+    cur="$(git -C "$primary" symbolic-ref --short HEAD 2>/dev/null)"
+    if [[ "$cur" != "$def" ]] && ! git -C "$primary" switch "$def" >/dev/null 2>&1; then
+      notify "${LABEL[$key]}: couldn't switch ${primary:t} to ${def} — uncommitted changes, or ${def} is checked out in another worktree. Skipped."
+      continue
+    fi
+    do_start "$key" "$primary"
   done
 }
 
