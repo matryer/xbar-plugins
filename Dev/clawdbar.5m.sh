@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # <xbar.title>clawdbar</xbar.title>
-# <xbar.version>v2.1</xbar.version>
+# <xbar.version>v2.2</xbar.version>
 # <xbar.author>chao</xbar.author>
 # <xbar.author.github>sunce764</xbar.author.github>
 # <xbar.desc>Claude Code 5h/7d rate-limit usage as a mini progress bar in the menu bar, in Claude's official colors.</xbar.desc>
@@ -65,37 +65,89 @@ if printf '%s' "$PX" | grep -q "HTTPSEnable : 1"; then
   [ -n "$PHOST" ] && [ -n "$PPORT" ] && PROXY_ARGS=(--proxy "http://$PHOST:$PPORT")
 fi
 
-# --- Call the official usage endpoint ---------------------------------------
-RESP=$(/usr/bin/curl -s --max-time 10 "${PROXY_ARGS[@]}" https://api.anthropic.com/api/oauth/usage \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "anthropic-beta: oauth-2025-04-20" \
-  -H "User-Agent: claude-code/$CC_VER" \
-  -H "Accept: application/json")
+# --- Call the official usage endpoint (with retries) ------------------------
+# A single transient hiccup (network blip, proxy not ready right after wake,
+# an occasional 429) shouldn't blank the menu bar. Retry up to 3x; use the
+# first 200; on 429 stop early (don't hammer a rate-limit) and fall back to
+# the cached value below instead of showing an error.
+URL="https://api.anthropic.com/api/oauth/usage"
+BODY="$(mktemp)"
+RESP=""
+for attempt in 1 2 3; do
+  CODE=$(/usr/bin/curl -s -o "$BODY" -w "%{http_code}" --max-time 8 "${PROXY_ARGS[@]}" "$URL" \
+    -H "Authorization: Bearer $TOKEN" \
+    -H "anthropic-beta: oauth-2025-04-20" \
+    -H "User-Agent: claude-code/$CC_VER" \
+    -H "Accept: application/json")
+  if [ "$CODE" = "200" ]; then RESP=$(cat "$BODY"); break; fi
+  [ "$CODE" = "429" ] && break
+  [ "$attempt" != "3" ] && sleep 2
+done
+rm -f "$BODY"
+
+# Cache the last good response so a failed poll falls back to it (dimmed)
+# instead of flipping the menu bar to an error glyph.
+CACHE="$HOME/.cache/clawdbar/last.json"
 
 # --- Render -----------------------------------------------------------------
-RESP="$RESP" "$PY" <<'PYEOF'
+RESP="$RESP" CACHE="$CACHE" "$PY" <<'PYEOF'
 import os, sys, json, io, base64
 from datetime import datetime, timezone
 from PIL import Image, ImageDraw, ImageFont
 
-raw = os.environ.get("RESP", "")
+raw   = os.environ.get("RESP", "")
+cache = os.environ.get("CACHE", "")
+
+def is_valid(d):
+    return isinstance(d, dict) and isinstance(d.get("five_hour"), dict)
+
+# 1) Parse this poll's response.
+d = None
 try:
     d = json.loads(raw)
 except Exception:
+    d = None
+
+err_msg = None
+if not is_valid(d):
+    if isinstance(d, dict):
+        e = d.get("error")
+        err_msg = e.get("message") if isinstance(e, dict) else None
+    d = None
+
+# 2) This poll failed -> fall back to the last good cache (rendered dimmed),
+#    so the menu bar keeps the last known value instead of an error glyph.
+stale_secs = None
+if d is None:
+    try:
+        with open(cache) as f:
+            c = json.load(f)
+        if is_valid(c.get("data")):
+            d = c["data"]
+            stale_secs = max(0, int(datetime.now().timestamp() - c.get("ts", 0)))
+    except Exception:
+        d = None
+
+# 3) No fresh data AND no usable cache -> only now show an error.
+if d is None:
     print("Claude ❓")
     print("---")
-    print("Bad API response (probably rate-limited 429). Will retry.")
+    if err_msg:
+        print("No usage data: " + str(err_msg)[:80])
+        if "not allowed" in str(err_msg).lower():
+            print("Direct access may be geo-blocked — check your proxy/VPN is on | size=12 color=gray")
+    else:
+        print("Fetch failed (network / proxy / rate-limit). Will retry. | size=12 color=gray")
     sys.exit(0)
 
-if "five_hour" not in d or d.get("five_hour") is None:
-    print("Claude ❓")
-    print("---")
-    err = d.get("error")
-    msg = err.get("message") if isinstance(err, dict) else str(d)[:80]
-    print("No usage data: " + str(msg)[:80])
-    if "not allowed" in str(msg).lower() or (isinstance(err, dict) and err.get("type") == "forbidden"):
-        print("Direct access may be geo-blocked — check your proxy/VPN is on | size=12 color=gray")
-    sys.exit(0)
+# 4) Got fresh data -> persist it as the fallback cache for next time.
+if stale_secs is None and cache:
+    try:
+        os.makedirs(os.path.dirname(cache), exist_ok=True)
+        with open(cache, "w") as f:
+            json.dump({"data": d, "ts": datetime.now().timestamp()}, f)
+    except Exception:
+        pass
 
 def parse_reset(iso):
     try:
@@ -124,7 +176,7 @@ def bar_hex(p):
 # Menu-bar icon: white text (matches other menu-bar items) + official-color bars.
 # We draw an image because SwiftBar does NOT support 24-bit truecolor ANSI in titles,
 # so exact colors like #3A6DCB are impossible with plain text.
-def draw_icon(fh, sd):
+def draw_icon(fh, sd, dim=False):
     S = 2                                    # retina 2x
     pad = 5*S; lab_w = 14*S; bar_w = 38*S; gap = 3*S; num_w = 30*S
     group_w = lab_w + gap + bar_w + gap + num_w
@@ -145,6 +197,8 @@ def draw_icon(fh, sd):
         dr.text((bx+bar_w+gap, H/2), "%d%%" % round(p), font=font, fill=WHITE, anchor="lm")
     group(pad, "5h", fh)
     group(pad + group_w + ggap, "7d", sd)
+    if dim:                                  # cached fallback -> dim it so stale data is obvious at a glance
+        img.putalpha(img.split()[3].point(lambda v: int(v * 0.45)))
     buf = io.BytesIO()
     img.save(buf, "PNG", dpi=(144, 144))
     return base64.b64encode(buf.getvalue()).decode()
@@ -152,9 +206,13 @@ def draw_icon(fh, sd):
 fh = d["five_hour"].get("utilization") or 0
 sd = d["seven_day"].get("utilization") or 0
 
-print("| image=%s" % draw_icon(fh, sd))
+print("| image=%s" % draw_icon(fh, sd, dim=(stale_secs is not None)))
 
 print("---")
+if stale_secs is not None:
+    mins = stale_secs // 60
+    ago = "%dm ago" % mins if mins >= 1 else "%ds ago" % stale_secs
+    print("⚠️ This poll failed — showing cached value (from %s) | size=12 color=#D1933C" % ago)
 fh_t, fh_r = parse_reset(d["five_hour"]["resets_at"])
 sd_t, sd_r = parse_reset(d["seven_day"]["resets_at"])
 print("5-hour session: %.0f%% | color=%s" % (fh, bar_hex(fh)))
