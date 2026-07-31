@@ -1,59 +1,49 @@
 #!/usr/bin/env python3
 
-# <xbar.title>CoinCap</xbar.title>
-# <xbar.version>v1.0</xbar.version>
-# <xbar.author>Peter Stenger</xbar.author>
-# <xbar.author.github>reteps</xbar.author.github>
-# <xbar.desc>Retrieves trading information about a coin on cryptocompare and coinmarketcap. High & low not available on CMC.</xbar.desc>
+# <xbar.title>Crypto tickers (CoinPaprika)</xbar.title>
+# <xbar.version>v1.1</xbar.version>
+# <xbar.author>Peter Stenger, Mateusz Sroka</xbar.author>
+# <xbar.author.github>reteps,donbagger</xbar.author.github>
+# <xbar.desc>Retrieves trading information about coins from the free CoinPaprika API, no key needed. Change is over the last 24h, open/high/low are for the current UTC day.</xbar.desc>
 # <xbar.image>https://i.imgur.com/a584lGl.png</xbar.image>
-# <xbar.dependencies>python3,requests</xbar.dependencies>
+# <xbar.dependencies>python3</xbar.dependencies>
+# <xbar.abouturl>https://coinpaprika.com</xbar.abouturl>
 
-coins_usd = ['bitcoin','ethereum','litecoin'] #USD
+# CoinPaprika coin ids, full list at https://api.coinpaprika.com/v1/coins
+coins_usd = ['btc-bitcoin', 'eth-ethereum', 'ltc-litecoin', 'miota-iota'] #USD
 
-coins_btc = ['neo','walton','stellar','monero'] #BTC
-
-coins_cmcbtc = ['raiblocks'] #Coinmarketcap BTC
-
-coins_cmcusd = ['iota'] #CoinmarketCap USD
+coins_btc = ['neo-neo', 'xlm-stellar', 'xmr-monero', 'xno-nano'] #BTC
+# raiblocks is called nano these days; waltonchain no longer trades anywhere,
+# so it was dropped from the defaults
 
 #------------------------------BEGIN CODE------------------------------#
-import requests
+import json
+from urllib.request import Request, urlopen
+
+API = 'https://api.coinpaprika.com/v1'
+
+# the API rejects the default Python-urllib user agent, hence the header
+def fetch(path):
+    request = Request(API + path, headers={'User-Agent': 'xbar-plugin'})
+    with urlopen(request, timeout=15) as response:
+        return json.load(response)
+
 print('Ƀ')
 print('---')
-coin_data_usd = {}
-coin_data_btc = {}
-standard = "|href='https://coinmarketcap.com/currencies/{}' font='Menlo'"
+standard = "|href='https://coinpaprika.com/coin/{}/' font='Menlo'"
 usd = "{: <5} {:0<9.3f} {:0<+6.2f}% {:0<9.3f} {:0<9.3f} {:0<9.3f}  {:0>3}" + standard
 btc = "{: <5} {:0<9.7f} {:0<+6.2f}% {:0<9.7f} {:0<9.7f} {:0<9.7f}  {:0>3}" + standard
-#----DATA----#
-for coin in coins_usd:
-    data = requests.get("https://api.coinmarketcap.com/v1/ticker/{}".format(coin)).json()[0]
-    coin_data_usd[data["symbol"]] = data['rank']
-for coin in coins_btc:
-    data = requests.get("https://api.coinmarketcap.com/v1/ticker/{}".format(coin)).json()[0]
-    coin_data_btc[data["symbol"]] = data['rank'] 
-raw_usd = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=USD'.format(','.join(coin_data_usd.keys()))).json()['RAW']
-raw_btc = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=BTC'.format(','.join(coin_data_btc.keys()))).json()['RAW']
-raw_cmcbtc = [requests.get('https://api.coinmarketcap.com/v1/ticker/{}'.format(coin)).json()[0] for coin in coins_cmcbtc]
-raw_cmcusd = [requests.get('https://api.coinmarketcap.com/v1/ticker/{}'.format(coin)).json()[0] for coin in coins_cmcusd]
-#---HELPER---#
-def f(x):
-    return float(x)
 
 #----DISPLAY----#
+def print_rows(coins, quote, fmt):
+    for coin in coins:
+        ticker = fetch('/tickers/{}?quotes={}'.format(coin, quote))
+        ohlcv = fetch('/coins/{}/ohlcv/today?quote={}'.format(coin, quote.lower()))[0]
+        data = ticker['quotes'][quote]
+        print(fmt.format(ticker['symbol'], data['price'], data['percent_change_24h'],
+                         ohlcv['open'], ohlcv['high'], ohlcv['low'], ticker['rank'], coin))
+
 print('COIN     USD     CHANGE   OPEN      HIGH       LOW    RANK|font="Menlo"')
-#---USD---#
-for i, coin in enumerate(coin_data_usd.keys()):
-    data = raw_usd[coin]["USD"]
-    print(usd.format(coin,data["PRICE"],data['CHANGEPCT24HOUR'],data['OPEN24HOUR'],data['HIGH24HOUR'],data['LOW24HOUR'],coin_data_usd[coin],coins_usd[i]))
-for i, coin in enumerate(coins_cmcusd):
-    data = raw_cmcusd[i]
-    print(usd.format(data["symbol"],f(data["price_usd"]),f(data['percent_change_24h']),f(data["price_usd"])*((100-f(data['percent_change_24h']))/100),0.000,0.000,data['rank'],coin))
-#---BTC---#
+print_rows(coins_usd, 'USD', usd)
 print('COIN     BTC     CHANGE   OPEN      HIGH       LOW    RANK|font="Menlo"')
-for i, coin in enumerate(coin_data_btc.keys()):
-    data = raw_btc[coin]["BTC"]
-    print(btc.format(coin,data["PRICE"],data['CHANGEPCT24HOUR'],data['OPEN24HOUR'],data['HIGH24HOUR'],data['LOW24HOUR'],coin_data_btc[coin],coins_btc[i]))
-for i, coin in enumerate(coins_cmcbtc):
-    data = raw_cmcbtc[i]
-    print(btc.format(data["symbol"],f(data["price_btc"]),f(data['percent_change_24h']),f(data["price_btc"])*((100-f(data['percent_change_24h']))/100),0.000,0.000,data['rank'],coin))
+print_rows(coins_btc, 'BTC', btc)
