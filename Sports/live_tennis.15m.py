@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 # <xbar.title>Live Tennis Scores</xbar.title>
-# <xbar.version>v3.0</xbar.version>
+# <xbar.version>v3.1</xbar.version>
 # <xbar.author>Ben, Anup Sam Abraham</xbar.author>
 # <xbar.author.github>bensynapse,anupsabraham</xbar.author.github>
-# <xbar.desc>Live tennis scores (ATP / WTA / Challenger / ITF) in your menu bar, powered by the official Live Tennis API. Shows sets, games, current-game points and who is serving. Free API key at livetennisapi.com (1,000 requests/day — the 2m refresh uses ~720).</xbar.desc>
+# <xbar.desc>Live tennis scores (ATP / WTA / Challenger / ITF) in your menu bar, powered by the official Live Tennis API. Shows sets, games, current-game points and who is serving. Free API key at livetennisapi.com (free tier: 100 requests/day — the 15m refresh uses ~96).</xbar.desc>
 # <xbar.image>https://i.postimg.cc/BQq9CSgv/SCR-20231231-mlck.png</xbar.image>
 # <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.abouturl>https://livetennisapi.com</xbar.abouturl>
@@ -12,11 +12,15 @@
 # <xbar.var>string(VAR_LIVETENNIS_API_KEY=""): Live Tennis API key. Get a free one at https://livetennisapi.com/subscribe/free</xbar.var>
 # <xbar.var>select(VAR_TOUR_FILTER="all"): Which tour to show. [all, atp, wta, challenger, itf]</xbar.var>
 
+# v3.1 (2026): refresh cadence moved from 2m to 15m to fit the API's
+# actual free tier. The free tier is 100 requests/day (v3.0 wrongly said
+# 1,000): at 2m the plugin made ~720 calls/day and a free key ran out of
+# quota in ~3.5 hours; at 15m it makes ~96 calls/day and runs all day.
+#
 # v3.0 (2026): rewritten to use the official Live Tennis API
 # (https://livetennisapi.com). The previous version scraped an internal
 # atptour.com endpoint which is now behind a Cloudflare challenge and
-# returns 403, so the plugin had stopped working. Refresh cadence moved
-# from 1m to 2m to stay inside the free tier's 1,000 requests/day.
+# returns 403, so the plugin had stopped working.
 
 import json
 import os
@@ -45,7 +49,7 @@ def fail(bar_suffix, *dropdown_lines):
 def fetch_matches(api_key):
     # The API's edge blocks the default Python-urllib User-Agent, so
     # identify ourselves as the plugin instead.
-    headers = {"x-api-key": api_key, "User-Agent": "xbar-live-tennis/3.0"}
+    headers = {"x-api-key": api_key, "User-Agent": "xbar-live-tennis/3.1"}
     req = urllib.request.Request(API_URL, headers=headers)
     with urllib.request.urlopen(req, timeout=15) as resp:
         return json.loads(resp.read().decode("utf-8"))
@@ -100,7 +104,7 @@ def main():
         fail(
             "⚙︎",
             "No API key set — open the plugin settings in xbar | color=red",
-            "Get a free API key (1,000 requests/day) | href=" + SIGNUP_URL,
+            "Get a free API key (100 requests/day) | href=" + SIGNUP_URL,
         )
         return
 
@@ -118,7 +122,7 @@ def main():
             fail(
                 "⏳",
                 "API quota exceeded (HTTP 429) | color=red",
-                "Free tier is 1,000 requests/day — scores resume when the quota resets",
+                "Free tier is 100 requests/day — scores resume when the quota resets",
                 "Manage your plan | href=" + SITE_URL,
             )
         else:
