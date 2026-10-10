@@ -45,7 +45,23 @@ IFS= read -r -d '' FT_JS <<'FT_JS_END' || true
 // ---- Flying Tulip menu bar: JXA core. Pure logic + render; I/O lives in jxaIO() --------------------
 
 var API = "https://api.flyingtulip.com";
-var STATS_URL = "https://flyingtulip.com/statistics/";
+var SITE = "https://flyingtulip.com/";
+var STATS_URL = SITE + "statistics/";
+// Public flyingtulip.com pages every dropdown line links to.
+var PAGES = {
+  fees: SITE + "statistics/",
+  health: SITE + "lend/dashboard/",
+  portfolio: SITE + "trade/portfolio/",
+  rewards: SITE + "rewards/",
+  points: SITE + "rewards/leaderboard/",
+  put: SITE + "allocation/positions/"
+};
+// Spot market page for a symbol such as "FT-ftUSD" on a chain id.
+function marketUrl(symbol, chainId) {
+  var c = Number(chainId), q = "symbol=" + encodeURIComponent(String(symbol || "FT-ftUSD"));
+  if (isFinite(c) && c > 0) q += "&chainId=" + Math.floor(c);
+  return SITE + "trade/?" + q + "&marketType=spot";
+}
 var DEFAULT_LIQ_HF = 1.25;
 var HF_CHAINS = { 146: "Sonic", 1: "Ethereum", 56: "BNB", 143: "Monad" };
 var HF_CHAIN_IDS = [146, 1, 56, 143];
@@ -305,6 +321,7 @@ function parsePositions(body) {
     if (!isFinite(size) || size <= 0) continue;
     out.push({
       network: p.network || HF_CHAINS[Number(p.chainId)] || String(p.chainId),
+      chainId: Number(p.chainId), market: String(p.symbol || ""),
       symbol: String(p.sizeCurrency || String(p.symbol || "").split("-")[0] || "?"),
       side: String(p.side || "").toLowerCase() === "short" ? "short" : "long",
       size: size, mark: mark, pnlUsd: num(p.pnlAmount), pnlPct: num(p.pnlPct),
@@ -670,6 +687,13 @@ function line(text, params) {
   }
   return parts.length ? out + " | " + parts.join(" ") : out;
 }
+// Give every line from index `from` on a link to `url`, unless it already has a link or an action.
+function linkFrom(L, from, url) {
+  for (var i = from; i < L.length; i++) {
+    if (L[i] === "---" || /(^| )(href|shell|bash|refresh)=/.test(L[i].replace(/^[^|]*\|/, " "))) continue;
+    L[i] += (L[i].indexOf(" | ") < 0 ? " | " : " ") + "href=" + url;
+  }
+}
 function padR(s, n) { s = String(s); while (s.length < n) s += " "; return s; }
 function mono(extra) {
   var o = { font: "Menlo", size: 12 };
@@ -677,7 +701,7 @@ function mono(extra) {
   return o;
 }
 function row(label, value, extra) { return line(padR(label, 12) + value, mono(extra)); }
-function head(text) { return line(text, { color: C_FAINT, size: 10 }); }
+function head(text, url) { return line(text, { color: C_FAINT, size: 10, href: url || SITE }); }
 function deltaColor(v) { return !isFinite(v) || Math.abs(v) < 0.005 ? undefined : (v > 0 ? C_GREEN : C_RED); }
 function ageText(sec) { return sec < 90 ? sec + "s" : (sec < 5400 ? Math.round(sec / 60) + "m" : Math.round(sec / 3600) + "h"); }
 
@@ -706,19 +730,23 @@ function render(d, age, cfg, nowMs, selfPath) {
     L.push(line("FT offline", { image: LOGO_B64, color: C_FAINT }));
   } else L.push(titleLine(d, age, cfg, v));
   L.push("---");
-  L.push(line("Flying Tulip", { color: C_TULIP, size: 14 }));
-  L.push(line("Open dashboard", { href: STATS_URL }));
+  L.push(line("Flying Tulip", { color: C_TULIP, size: 14, href: SITE }));
+  L.push(line("Open flyingtulip.com", { href: SITE }));
   L.push(line("Refresh now", { refresh: true }));
   L.push("---");
 
   // market
-  L.push(head("MARKET"));
+  var mkt = marketUrl("FT-ftUSD", cfg.priceChain);
+  L.push(head("MARKET", mkt));
+  var mk0 = L.length;
   if (d.price) {
     var ch = d.price.changePct24h;
     L.push(row("FT price", fmtPrice(d.price.price) + (isFinite(ch) ? "  " + fmtPct(ch) + " 24h" : ""), { color: deltaColor(ch) }));
     L.push(line("--FT-ftUSD market price (the traded mark, not the NAV used for accounting)", { size: 11 }));
     if (d.price.sampledAt) L.push(line("--sampled " + d.price.sampledAt, { size: 11, color: C_FAINT }));
   } else L.push(row("FT price", "— unavailable"));
+  linkFrom(L, mk0, mkt);
+  mk0 = L.length;
   if (d.fees) {
     var dod = feesDayOverDay(d.feesSeries, nowMs);
     L.push(row("Fees 24h", fmtUsd(d.fees.period24h) + (isFinite(dod) ? "  " + fmtPct(dod) + " d/d" : ""), { color: deltaColor(dod) }));
@@ -727,24 +755,30 @@ function render(d, age, cfg, nowMs, selfPath) {
     for (var i = 0; i < d.fees.products.length; i++)
       L.push(line("--" + d.fees.products[i].name + "  " + fmtUsd(d.fees.products[i].usd), { size: 11, font: "Menlo" }));
   } else L.push(row("Fees 24h", "— unavailable"));
+  linkFrom(L, mk0, PAGES.fees);
+  mk0 = L.length;
   if (d.feesSeries && d.feesSeries.length > 1) {
     var fv = d.feesSeries.map(function (x) { return x.total; });
     L.push(line("Fees, last " + fv.length + " days (today so far in light purple)", { size: 10, color: C_FAINT }));
-    L.push(line(" ", { image: barChartPng(fv), href: STATS_URL }));
+    L.push(line(" ", { image: barChartPng(fv), href: PAGES.fees }));
   }
+  linkFrom(L, mk0, PAGES.fees);
+  mk0 = L.length;
   if (d.klines && d.klines.length > 1) {
     var kv = d.klines.map(function (x) { return x.close; });
     L.push(line("FT market price, last " + kv.length + " days", { size: 10, color: C_FAINT }));
-    L.push(line(" ", { image: lineChartPng(kv), href: STATS_URL }));
+    L.push(line(" ", { image: lineChartPng(kv), href: mkt }));
   }
+  linkFrom(L, mk0, mkt);
   L.push("---");
 
   // account
   if (v.walletBad) {
     L.push(head("ACCOUNT"));
-    L.push(line("Wallet is not a valid address (0x + 40 hex characters)", { color: C_RED }));
+    L.push(line("Wallet is not a valid address (0x + 40 hex characters)", { color: C_RED, href: SITE }));
   } else if (v.hasWallet) {
-    L.push(head("ACCOUNT  " + shortAddr(cfg.wallet)));
+    L.push(head("ACCOUNT  " + shortAddr(cfg.wallet), PAGES.portfolio));
+    var ac0 = L.length;
     if (d.lend) {
       if (v.lowest) {
         var lvc = v.hfLevel === 2 ? C_RED : (v.hfLevel === 1 ? C_AMBER : C_GREEN);
@@ -759,16 +793,24 @@ function render(d, age, cfg, nowMs, selfPath) {
           (isFinite(ce.equityUsd) ? "  equity " + fmtUsd(ce.equityUsd) : ""), { size: 11, font: "Menlo" }));
       }
     } else L.push(row("Health", "— unavailable"));
+    linkFrom(L, ac0, PAGES.health);
+    ac0 = L.length;
     if (d.pnl) L.push(row("PnL", fmtSignedUsd(d.pnl.totalUsd) + "  unrealized", { color: deltaColor(d.pnl.totalUsd) }));
     else L.push(row("PnL", "— unavailable"));
+    linkFrom(L, ac0, PAGES.portfolio);
+    ac0 = L.length;
     if (d.rewards) {
       L.push(row("FT earned", fmtFt(d.rewards.totalFt) + " FT"));
       if (d.rewards.claimableFt > 0) L.push(line("--" + fmtFt(d.rewards.claimableFt) + " FT claimable (sftUSD yield)", { size: 11 }));
     } else L.push(row("FT earned", "— unavailable"));
+    linkFrom(L, ac0, PAGES.rewards);
+    ac0 = L.length;
     if (d.points) {
       var rk = d.rank;
       L.push(row("Points", fmtPoints(d.points.total) + (rk ? "  rank #" + thousands(rk.rank) + " of " + thousands(rk.total) : "")));
     } else L.push(row("Points", "— unavailable"));
+    linkFrom(L, ac0, PAGES.points);
+    ac0 = L.length;
     if (d.puts) {
       var pg = putGain(d.puts, d.price ? d.price.price : NaN);
       if (pg) L.push(row("ftPUT", fmtPct(pg.gainPct) + "  " + fmtSignedUsd(pg.gainUsd), { color: deltaColor(pg.gainUsd) }));
@@ -778,6 +820,8 @@ function render(d, age, cfg, nowMs, selfPath) {
         L.push(line("--#" + d.puts.rows[q].nft + "  " + d.puts.rows[q].symbol + "  cost " + fmtUsd(d.puts.rows[q].costUsd) +
           "  " + fmtFt(d.puts.rows[q].ft) + " FT", { size: 11, font: "Menlo" }));
     }
+    linkFrom(L, ac0, PAGES.put);
+    ac0 = L.length;
     if (d.positions) {
       if (d.positions.length) {
         L.push(row("Positions", d.positions.length + " open"));
@@ -785,24 +829,26 @@ function render(d, age, cfg, nowMs, selfPath) {
           var ps = d.positions[k];
           var lev = isFinite(ps.leverage) && ps.leverage > 0 ? " " + ps.leverage.toFixed(ps.leverage >= 10 ? 0 : 1) + "x" : "";
           L.push(line("--" + padR(ps.symbol + " " + ps.side + lev, 14) + padR(ps.network, 10) + "mark " + fmtPrice(ps.mark) +
-            "  " + fmtSignedUsd(ps.pnlUsd), { size: 11, font: "Menlo", color: deltaColor(ps.pnlUsd) }));
+            "  " + fmtSignedUsd(ps.pnlUsd), { size: 11, font: "Menlo", color: deltaColor(ps.pnlUsd), href: marketUrl(ps.market || (ps.symbol + "-ftUSD"), ps.chainId) }));
         }
       } else L.push(row("Positions", "none open"));
     }
+    linkFrom(L, ac0, PAGES.portfolio);
   } else {
     L.push(head("ACCOUNT"));
-    L.push(line("Add your wallet to see health factor, PnL, FT earned, points, ftPUT and positions", { size: 12 }));
+    L.push(line("Add your wallet to see health factor, PnL, FT earned, points, ftPUT and positions", { size: 12, href: SITE }));
   }
   L.push("---");
 
   // footer
-  var t = new Date(nowMs);
+  var ft0 = L.length, t = new Date(nowMs);
   L.push(line("Updated " + pad2(t.getHours()) + ":" + pad2(t.getMinutes()) + (cfg.wallet && !cfg.notify ? "  (notifications off)" : ""), { size: 10, color: C_FAINT }));
   var oldest = 0, k2;
   for (k2 in age) if (!(d.__fetched && d.__fetched[k2]) && age[k2] > STALE_AFTER) oldest = Math.max(oldest, age[k2]);
   if (oldest > 0) L.push(line("Some sources are showing data up to " + ageText(oldest) + " old", { size: 10, color: C_AMBER }));
   if (selfPath) L.push(line(cfg.wallet ? "Change wallet…" : "Set wallet…", { shell: selfPath, param1: "wallet", terminal: false, refresh: true, size: 12 }));
   L.push(line("Public API only, no keys. Not financial advice.", { size: 10, color: C_FAINT, href: "https://flyingtulip.com" }));
+  linkFrom(L, ft0, SITE);
   return L.join("\n");
 }
 
@@ -925,7 +971,7 @@ function run(argv) {
     cooldownMin: argv[5], priceChain: argv[6], stateDir: argv[7], walletFile: argv[8], self: argv[9]
   };
   try { return main(jxaIO(), a, Date.now()); }
-  catch (e) { return line("FT ⚠", { image: LOGO_B64, color: C_AMBER }) + "\n---\n" + line("Plugin error: " + e, { color: C_RED }) + "\n" + line("Open dashboard", { href: STATS_URL }); }
+  catch (e) { return line("FT ⚠", { image: LOGO_B64, color: C_AMBER }) + "\n---\n" + line("Plugin error: " + e, { color: C_RED }) + "\n" + line("Open flyingtulip.com", { href: SITE }); }
 }
 
 if (typeof module !== "undefined" && module.exports) {
