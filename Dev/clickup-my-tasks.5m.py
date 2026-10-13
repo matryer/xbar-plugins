@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # <xbar.title>ClickUp My Tasks</xbar.title>
-# <xbar.version>v0.1.0</xbar.version>
+# <xbar.version>v0.2.0</xbar.version>
 # <xbar.author>Alexander Wansiedler</xbar.author>
 # <xbar.author.github>wansiedler</xbar.author.github>
 # <xbar.desc>Your open ClickUp tasks grouped as overdue, due today, upcoming and undated, plus the running time tracker with a stop button. Click a task to open it.</xbar.desc>
@@ -37,6 +37,7 @@ API = "https://api.clickup.com/api/v2/"
 APP_URL = "https://app.clickup.com/"
 KEYCHAIN_SERVICE = "clickup-widget"
 MAX_PAGES = 5
+MAX_PARENT_LOOKUPS = 15
 PER_SECTION = 15
 PRIORITY_RANK = {"urgent": 1, "high": 2, "normal": 3, "low": 4}
 RED = "#e5484d"
@@ -124,6 +125,21 @@ def fetch_timer(token: str, team_id: str) -> dict | None:
     return data if data and data.get("id") else None
 
 
+def fetch_parent_names(token: str, tasks: list[dict]) -> dict[str, str]:
+    """Names of parent tasks that are not assigned to me; failures are skipped."""
+    ids = {t["id"] for t in tasks}
+    missing = sorted({t["parent"] for t in tasks if t.get("parent")} - ids)[:MAX_PARENT_LOOKUPS]
+    names: dict[str, str] = {}
+    for tid in missing:
+        try:
+            name = request(token, f"task/{tid}").get("name")
+        except ClickUpError:
+            continue
+        if name:
+            names[tid] = name
+    return names
+
+
 def due_of(task: dict) -> dt.datetime | None:
     raw = task.get("due_date")
     if not raw:
@@ -140,7 +156,38 @@ def urgency_key(task: dict) -> tuple:
     return (due is None, due or dt.datetime.max, PRIORITY_RANK.get(prio, 5))
 
 
-def bucket(tasks: list[dict], now: dt.datetime) -> dict[str, list[dict]]:
+Row = tuple  # (task, depth, parent_name or None)
+
+
+def tree(tasks: list[dict], names: dict[str, str]) -> list[Row]:
+    """Children follow their parent when both sit in the same bucket; the rest
+    stay at depth 0 with a parent breadcrumb. Input order is kept per level."""
+    ids = {t["id"] for t in tasks}
+    children: dict[str, list[dict]] = {}
+    roots: list[dict] = []
+    for task in tasks:
+        parent = task.get("parent")
+        if parent and parent in ids:
+            children.setdefault(parent, []).append(task)
+        else:
+            roots.append(task)
+    rows: list[Row] = []
+
+    def walk(task: dict, depth: int) -> None:
+        parent = task.get("parent")
+        rows.append((task, depth, names.get(parent) if depth == 0 and parent else None))
+        if depth < 4:
+            for child in children.get(task["id"], []):
+                walk(child, depth + 1)
+
+    for root in roots:
+        walk(root, 0)
+    return rows
+
+
+def bucket(tasks: list[dict], now: dt.datetime, parent_names: dict[str, str] | None = None) -> dict[str, list[Row]]:
+    names = {t["id"]: t.get("name", "") for t in tasks}
+    names.update(parent_names or {})
     today = now.date()
     out: dict[str, list[dict]] = {"overdue": [], "today": [], "upcoming": [], "nodate": []}
     for task in sorted(tasks, key=urgency_key):
@@ -153,7 +200,7 @@ def bucket(tasks: list[dict], now: dt.datetime) -> dict[str, list[dict]]:
             out["today"].append(task)
         else:
             out["upcoming"].append(task)
-    return out
+    return {key: tree(tasks, names) for key, tasks in out.items()}
 
 
 def clean(text: str) -> str:
@@ -170,11 +217,24 @@ def elapsed(start_ms: str | int | None, now: dt.datetime) -> str:
     return f"{minutes // 60}:{minutes % 60:02d}"
 
 
-def task_lines(task: dict, prefix: str, color: str | None) -> list[str]:
+def ticket(task: dict) -> str:
+    return task.get("custom_id") or f"#{task['id']}"
+
+
+def task_lines(row: Row, prefix: str) -> list[str]:
+    task, depth, parent_name = row
+    label = f"{ticket(task)}  "
+    if parent_name:
+        label += f"{clean(parent_name)} › "
+    label += clean(task.get("name", ""))
     params = f"href={task.get('url') or APP_URL}"
+    color = (task.get("status") or {}).get("color")
     if color:
         params += f" color={color}"
-    lines = [f"{prefix}{clean(task.get('name', ''))} | {params}"]
+    if depth:
+        label = "    " * (depth - 1) + "  ↳ " + label
+        params += " trim=false"
+    lines = [f"{prefix}{label} | {params}"]
     details = [clean((task.get("list") or {}).get("name", "")), clean((task.get("status") or {}).get("status", ""))]
     due = due_of(task)
     if due:
@@ -183,7 +243,7 @@ def task_lines(task: dict, prefix: str, color: str | None) -> list[str]:
     return lines
 
 
-def render(buckets: dict[str, list[dict]], timer: dict | None, now: dt.datetime, script: str) -> list[str]:
+def render(buckets: dict[str, list[Row]], timer: dict | None, now: dt.datetime, script: str) -> list[str]:
     due_now = len(buckets["overdue"]) + len(buckets["today"])
     title = str(due_now)
     if timer:
@@ -204,8 +264,8 @@ def render(buckets: dict[str, list[dict]], timer: dict | None, now: dt.datetime,
     for key, label, color in (("overdue", "Overdue", RED), ("today", "Today", ORANGE)):
         if buckets[key]:
             lines.append(f"{label} ({len(buckets[key])}) | color={color}")
-            for task in buckets[key][:PER_SECTION]:
-                lines += task_lines(task, "", None)
+            for row in buckets[key][:PER_SECTION]:
+                lines += task_lines(row, "")
             lines.append("---")
     if due_now == 0:
         lines += ["Nothing due today", "---"]
@@ -213,8 +273,8 @@ def render(buckets: dict[str, list[dict]], timer: dict | None, now: dt.datetime,
     for key, label in (("upcoming", "Upcoming"), ("nodate", "No due date")):
         if buckets[key]:
             lines.append(f"{label} ({len(buckets[key])})")
-            for task in buckets[key][:PER_SECTION]:
-                lines += task_lines(task, "--", None)
+            for row in buckets[key][:PER_SECTION]:
+                lines += task_lines(row, "--")
 
     lines += [
         "---",
@@ -245,6 +305,7 @@ def main(argv: list[str]) -> int:
         user_id = request(token, "user")["user"]["id"]
         tasks = fetch_tasks(token, team_id, user_id)
         timer = fetch_timer(token, team_id)
+        parent_names = fetch_parent_names(token, tasks)
     except (ClickUpError, KeyError) as e:
         print("ClickUp ! | sfimage=exclamationmark.triangle")
         print("---")
@@ -253,7 +314,7 @@ def main(argv: list[str]) -> int:
         return 0
 
     now = dt.datetime.now()
-    print("\n".join(render(bucket(tasks, now), timer, now, script)))
+    print("\n".join(render(bucket(tasks, now, parent_names), timer, now, script)))
     return 0
 
 
