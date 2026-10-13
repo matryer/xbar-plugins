@@ -5,7 +5,7 @@
 # <xbar.author.github>wansiedler</xbar.author.github>
 # <xbar.desc>Your open ClickUp tasks grouped as overdue, due today, upcoming and undated, plus the running time tracker with a stop button. Click a task to open it.</xbar.desc>
 # <xbar.dependencies>python3</xbar.dependencies>
-# <xbar.abouturl>https://clickup.com/api</xbar.abouturl>
+# <xbar.abouturl>https://github.com/wansiedler/clickup-mac-widget</xbar.abouturl>
 #
 # <xbar.var>string(CLICKUP_TOKEN=""): Personal API token (pk_...). Leave empty to read it from the keychain instead</xbar.var>
 # <xbar.var>string(CLICKUP_TEAM_ID=""): Workspace id; empty = first workspace</xbar.var>
