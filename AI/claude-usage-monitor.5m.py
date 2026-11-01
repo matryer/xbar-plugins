@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # <xbar.title>Claude Usage Monitor</xbar.title>
-# <xbar.version>v1.1</xbar.version>
+# <xbar.version>v1.3</xbar.version>
 # <xbar.author>David Chou</xbar.author>
 # <xbar.author.github>davidchou821</xbar.author.github>
-# <xbar.desc>Monitor your Claude subscription usage in the menu bar: 5-hour window & weekly limits (shared across claude.ai web / desktop / Claude Code), local token & API-equivalent cost stats, multi-account switching, and a system notification at 90%. Reads Claude Code's OAuth token from Keychain (macOS asks for permission); token is only sent to api.anthropic.com. Designed for SwiftBar.</xbar.desc>
+# <xbar.desc>Monitor your Claude subscription usage in the menu bar: your current plan (Pro / Max 5x / Max 20x), 5-hour window & weekly limits (shared across claude.ai web / desktop / Claude Code), local token & API-equivalent cost stats, multi-account switching, and a system notification at 90%. Reads Claude Code's OAuth token from Keychain (macOS asks for permission); token is only sent to api.anthropic.com. Designed for SwiftBar.</xbar.desc>
 # <xbar.image>https://raw.githubusercontent.com/davidchou821/claude-usage-widget/main/docs/screenshot.png</xbar.image>
 # <xbar.dependencies>python3, Claude Code (logged in), ccusage (token/cost section)</xbar.dependencies>
 # <xbar.abouturl>https://github.com/davidchou821/claude-usage-widget</xbar.abouturl>
@@ -30,6 +30,7 @@ from datetime import datetime, timezone
 PLUGIN = os.path.abspath(__file__)
 STATE_FILE = os.path.expanduser("~/.config/claude-usage-widget/state.json")
 KC_PREFIX = "claude-usage-widget:"  # 自存帳號的 Keychain service 前綴
+PLAN_TTL = 6 * 3600  # 訂閱方案的快取秒數
 # 以下兩項是 xbar 變數（SwiftBar／xbar 的外掛設定裡可改），沒設就用預設值
 try:
     NOTIFY_AT = float(os.environ.get("VAR_NOTIFY_AT") or 90)  # 用量 ≥ 此 % 發系統通知，每個重置窗口只提醒一次
@@ -121,10 +122,25 @@ def resolve_client_id():
     raise RuntimeError("找不到 Claude Code 的 OAuth client ID，請在外掛設定填 VAR_CLIENT_ID")
 
 
-def get_access_token(account):
+def read_cred(account):
+    """Keychain 裡的 claudeAiOauth（目前登入）或自存帳號的副本"""
     if not account:
-        return json.loads(kc_read("Claude Code-credentials"))["claudeAiOauth"]["accessToken"]
-    cred = json.loads(kc_read(KC_PREFIX + account))
+        return json.loads(kc_read("Claude Code-credentials"))["claudeAiOauth"]
+    return json.loads(kc_read(KC_PREFIX + account))
+
+
+def plan_name(sub, tier):
+    """方案（pro/max/team…）＋ rate limit tier 裡的倍數（分 Max 5x/20x）；讀不到回空字串"""
+    sub = re.sub(r"^claude_", "", str(sub or ""))
+    if not sub:
+        return ""
+    m = re.search(r"(\d+)x", str(tier or ""))
+    return re.sub(r"[|\s]+", "", sub.capitalize())[:20] + (f" {m.group(1)}x" if m else "")
+
+
+def get_access_token(account, cred):
+    if not account:
+        return cred["accessToken"]
     if cred.get("expiresAt", 0) / 1000 < time.time() + 60:  # 快過期就用 refresh token 續期
         client_id = resolve_client_id()
         try:
@@ -175,6 +191,7 @@ def handle_action(args, st):
             st["accounts"].append(name)
         emails = st.setdefault("account_emails", {})
         emails.pop(name, None)
+        st.get("plan_cache", {}).pop(name, None)
         email = current_email()
         if email:
             emails[name] = email
@@ -185,6 +202,7 @@ def handle_action(args, st):
         kc_delete(KC_PREFIX + name)
         st["accounts"] = [a for a in st.get("accounts", []) if a != name]
         st.get("account_emails", {}).pop(name, None)
+        st.get("plan_cache", {}).pop(name, None)
         if st.get("account") == name:
             st["account"] = ""
         save_state(st)
@@ -251,6 +269,17 @@ def fetch_usage(tok):
     return code, int(retry.group(1)) if retry else 0, data
 
 
+def fetch_plan(tok):
+    """api/oauth/profile 的目前方案。Keychain 的 subscriptionType 只在登入時寫入，升降級後不會更新"""
+    out = sh([
+        "curl", "-s", "-m", "15", "https://api.anthropic.com/api/oauth/profile",
+        "-H", "@-",
+        "-H", "anthropic-beta: oauth-2025-04-20",
+    ], stdin=f"Authorization: Bearer {tok}")
+    org = (json.loads(out).get("organization") or {}) if out else {}
+    return plan_name(org.get("organization_type"), org.get("rate_limit_tier"))
+
+
 def live(pct, iso):
     """快取裡已經過了重置時間的窗口，數字不準了，改回 None（顯示 ?%）"""
     try:
@@ -259,31 +288,55 @@ def live(pct, iso):
         return pct
 
 
-plan_lines, metrics, five, scoped = [], [], None, None
+plan_lines, metrics, five, scoped, plan = [], [], None, None, ""
 # 上次成功的回應與限流截止時間；被 429 時照 retry-after 暫停呼叫，先顯示快取
+# 目前登入帳號的 token 由 Claude Code 自己續期（widget 續期會換掉它的 refresh token），過期時也先顯示快取
 usage_cache = st.setdefault("usage_cache", {})
 cached = usage_cache.get(account or "__current__") or {}
+plan_cache = st.setdefault("plan_cache", {})
 try:
+    cred = read_cred(account)
     usage, now = None, time.time()
-    if now >= cached.get("retry_at", 0):
-        code, retry, resp = fetch_usage(get_access_token(account))
+    expired = not account and cred.get("expiresAt", now * 1000) / 1000 < now
+    # 方案很少變動，profile 每 PLAN_TTL 秒查一次；查不到就 30 分鐘後再試，先用快取；
+    # 不退回 Keychain 的 subscriptionType，那是登入當下的值，升降級後會顯示錯的方案，寧可不顯示
+    # 目前登入帳號以 email 區分，Claude Code 換帳號登入時不會沿用舊方案
+    plan_key = account or "__current__:" + current_email()
+    pc = plan_cache.get(plan_key) or {}
+    if not expired and now >= pc.get("next", 0):
+        try:
+            p = fetch_plan(get_access_token(account, cred))
+        except Exception:
+            p = ""
+        pc = {"plan": p or pc.get("plan", ""), "next": now + (PLAN_TTL if p else 1800)}
+        plan_cache[plan_key] = pc
+        save_state(st)
+    plan = pc.get("plan", "")
+    if not expired and now >= cached.get("retry_at", 0):
+        code, retry, resp = fetch_usage(get_access_token(account, cred))
         # 錯誤格式有 {"type":"error","error":{...}} 與只有 {"error":{...}} 兩種
         err = resp.get("error") if isinstance(resp.get("error"), dict) else {}
         if code == 429 or err.get("type") == "rate_limit_error":
             cached["retry_at"] = now + max(retry, 300)
+        elif not account and (code == 401 or err.get("type") == "authentication_error"):
+            expired = True
         elif err or resp.get("type") == "error" or code >= 400:
             raise RuntimeError(err.get("message") or f"HTTP {code}")
         else:
             usage, cached = resp, {"at": now, "data": resp}
         usage_cache[account or "__current__"] = cached
         save_state(st)
-    if usage is None:  # 限流中
-        wait = max(1, round((cached["retry_at"] - now) / 60))
+    if usage is None:  # 登入過期或限流中
+        if expired:
+            reason, hint = "Claude Code 登入已過期", "開一下 Claude Code 就會自動續期"
+        else:
+            reason, hint = "API 限流中", f"約 {max(1, round((cached['retry_at'] - now) / 60))} 分鐘後重試"
         if not cached.get("data"):
-            raise RuntimeError(f"API 限流中，約 {wait} 分鐘後重試")
+            raise RuntimeError(f"{reason}，{hint}")
         usage = cached["data"]
         ago = round((now - cached["at"]) / 60)
-        plan_lines.append(f"API 限流中：顯示 {ago} 分鐘前的資料（約 {wait} 分鐘後重試）| color=gray")
+        ago_txt = f"{ago} 分鐘" if ago < 120 else f"{ago // 60} 小時"
+        plan_lines.append(f"{reason}：顯示 {ago_txt}前的資料（{hint}）| color=gray")
     fh = usage.get("five_hour") or {}
     sd = usage.get("seven_day") or {}
     five = live(fh.get("utilization"), fh.get("resets_at", ""))
@@ -335,7 +388,8 @@ try:
             )
     m = json.loads(sh([CCUSAGE, "daily", "--json", "--since", month_start], timeout=60))
     mcost = sum(x.get("totalCost", 0) for x in m.get("daily", []))
-    cc_lines.append(f"本月累計：${mcost:.2f}（API 等值價，非實際帳單）")
+    cc_lines.append(f"本月累計：API 等值 ${mcost:.2f}")
+    cc_lines.append("僅供參考：只計本機 Claude Code 紀錄，依 API 牌價換算，非實際帳單 | size=11 color=gray")
 except Exception as e:
     cc_lines.append(f"ccusage 讀取失敗：{type(e).__name__} | color=gray")
 
@@ -360,7 +414,8 @@ def with_email(name, fmt="{name}（{email}）"):
     return fmt.format(name=name, email=email) if email else name
 
 
-print(f"方案額度（{with_email(account, '{name}：{email}') if account else cur_email or '目前登入帳號'}）| size=12 color=gray")
+plan_txt = f"・{plan}" if plan else ""
+print(f"方案額度{plan_txt}（{with_email(account, '{name}：{email}') if account else cur_email or '目前登入帳號'}）| size=12 color=gray")
 for l in plan_lines:
     print(l)
 print("---")
