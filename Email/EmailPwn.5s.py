@@ -365,20 +365,23 @@ def generateEmail():
         subtitle=f"Address: {email}",
         text="Expires in 2 minutes.\n\nEmails received will send notifications",
     )
-    time.sleep(5)
     try:
         runEmailChecker()
     finally:
         releaseInstance()
 
+current_email = readCurrentEmail()
 print("EmailPwn")
 print("---")
-print(f"Generate Email | bash='{sys.argv[0]}' param1='--copy' terminal=false")
-current_email = readCurrentEmail()
+if current_email:
+    print(f"Current Email: {current_email}")
+else:
+    print(f"Generate New Email | bash='{sys.argv[0]}' param1='--copy' terminal=false | color=#40ff53 | refresh=true | disabled=false")
 if current_email:
     print(
-        f"Remove current email {current_email} | "
-        f"bash='{sys.argv[0]}' param1='--remove' terminal=false"
+        f"Delete current email | color=#fc2b2b | "
+        f"bash='{sys.argv[0]}' param1='--remove' terminal=false | "
+        f"refresh=true"
     )
 
 if __name__ == "__main__":
