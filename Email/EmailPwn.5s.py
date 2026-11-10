@@ -375,14 +375,17 @@ print("EmailPwn")
 print("---")
 if current_email:
     print(f"Current Email: {current_email}")
-else:
-    print(f"Generate New Email | bash='{sys.argv[0]}' param1='--copy' terminal=false | color=#40ff53 | refresh=true | disabled=false")
-if current_email:
+    print("---")
     print(
         f"Delete current email | color=#fc2b2b | "
         f"bash='{sys.argv[0]}' param1='--remove' terminal=false | "
         f"refresh=true"
     )
+else:
+    if os.environ.get('XBARDarkMode') == "true":
+        print(f"Generate New Email | bash='{sys.argv[0]}' param1='--copy' terminal=false | color=#40ff53 | refresh=true | disabled=false")
+    elif os.environ.get('XBARDarkMode') == "false":
+        print(f"Generate New Email | bash='{sys.argv[0]}' param1='--copy' terminal=false | color=#46b840 | refresh=true | disabled=false")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == '--copy':
