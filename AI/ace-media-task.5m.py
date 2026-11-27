@@ -138,7 +138,7 @@ def menu(task_id, service):
             "Name: " + service + " xbar",
             "Account: your macOS short username",
             "Password: a key authorized for task lookup for this service",
-            "Get an application key | href=https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen",
+            "Get an application key | href=https://platform.acedata.cloud/console/applications?utm_source=xbar&utm_medium=referral&utm_campaign=evergreen",
         ]
     try:
         return render(retrieve(task_id, token, service), task_id, service)
