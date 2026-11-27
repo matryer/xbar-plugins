@@ -4,7 +4,7 @@
 # <xbar.author>Ace Data Cloud</xbar.author>
 # <xbar.author.github>acedatacloud-dev</xbar.author.github>
 # <xbar.desc>Follow an existing image, music or video generation task and open completed output from the menu bar.</xbar.desc>
-# <xbar.image>https://cdn.acedata.cloud/acemusic-icon-52deddfc87b9.png</xbar.image>
+# <xbar.image>https://cdn.acedata.cloud/uploads/ecosystem-xbar-media-task-menu-dcb10e7f7e08d0f7.png</xbar.image>
 # <xbar.dependencies>python3</xbar.dependencies>
 # <xbar.abouturl>https://docs.acedata.cloud/</xbar.abouturl>
 # <xbar.var>select(VAR_SERVICE="ACE Music"): Service that created the task. [ACE Music, Suno, Nano Banana, GPT Image, Seedream, FLUX, Seedance, Kling, Veo, Hailuo]</xbar.var>
@@ -138,7 +138,7 @@ def menu(task_id, service):
             "Name: " + service + " xbar",
             "Account: your macOS short username",
             "Password: a key authorized for task lookup for this service",
-            "Get an application key | href=https://platform.acedata.cloud/console/applications",
+            "Get an application key | href=https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen",
         ]
     try:
         return render(retrieve(task_id, token, service), task_id, service)
